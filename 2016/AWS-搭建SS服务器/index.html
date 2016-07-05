@@ -1,0 +1,748 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="AWS,EC2,亚马逊云服务,Linux," />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="Panmax" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="今天看到亚马逊云服务的广告，说现在开通AWS可以免费用一年。然后我爱占小便宜心又犯了，所以绑定信用卡，开通了AWS，在这过程中，不知道为什么扣了我两笔6.59的钱，想联系客服也找不到人。。
+进入AWS主页后看到有很多服务可以用，实在眼花缭乱，先一个一个来，我猜测EC2的意思就和阿里云主机是一个意思，所以就开通了一个，选择的是新加坡节点，果然开通时提示我可以免费用一年。既然这样的话，不如拿来搭一个s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS 搭建SS服务器">
+<meta property="og:url" content="http://panmax.love/2016/AWS-搭建SS服务器/index.html">
+<meta property="og:site_name" content="Panmax">
+<meta property="og:description" content="今天看到亚马逊云服务的广告，说现在开通AWS可以免费用一年。然后我爱占小便宜心又犯了，所以绑定信用卡，开通了AWS，在这过程中，不知道为什么扣了我两笔6.59的钱，想联系客服也找不到人。。
+进入AWS主页后看到有很多服务可以用，实在眼花缭乱，先一个一个来，我猜测EC2的意思就和阿里云主机是一个意思，所以就开通了一个，选择的是新加坡节点，果然开通时提示我可以免费用一年。既然这样的话，不如拿来搭一个s">
+<meta property="og:updated_time" content="2016-02-27T04:54:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AWS 搭建SS服务器">
+<meta name="twitter:description" content="今天看到亚马逊云服务的广告，说现在开通AWS可以免费用一年。然后我爱占小便宜心又犯了，所以绑定信用卡，开通了AWS，在这过程中，不知道为什么扣了我两笔6.59的钱，想联系客服也找不到人。。
+进入AWS主页后看到有很多服务可以用，实在眼花缭乱，先一个一个来，我猜测EC2的意思就和阿里云主机是一个意思，所以就开通了一个，选择的是新加坡节点，果然开通时提示我可以免费用一年。既然这样的话，不如拿来搭一个s">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://panmax.love/2016/AWS-搭建SS服务器/"/>
+
+  <title> AWS 搭建SS服务器 | Panmax </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Panmax</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Panmax's Blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AWS 搭建SS服务器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-02T13:21:37+08:00" content="2016-02-02">
+              2016-02-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/折腾/" itemprop="url" rel="index">
+                    <span itemprop="name">折腾</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天看到亚马逊云服务的广告，说现在开通AWS可以免费用一年。然后我爱占小便宜心又犯了，所以绑定信用卡，开通了AWS，在这过程中，不知道为什么扣了我两笔6.59的钱，想联系客服也找不到人。。</p>
+<p>进入AWS主页后看到有很多服务可以用，实在眼花缭乱，先一个一个来，我猜测EC2的意思就和阿里云主机是一个意思，所以就开通了一个，选择的是新加坡节点，果然开通时提示我可以免费用一年。既然这样的话，不如拿来搭一个ss服务器吧，哈哈哈~（因为其他暂时没想到做什么用，也许以后我会在这上边部署一个爬虫之类的）</p>
+<p>在此过程中，让我下载了一个<code>pem</code>格式的私钥文件，用来登录。</p>
+<p>登录命令：<code>ssh -i &quot;aws-for-panmax.pem&quot; ubuntu@ec2-54-169-92-35.ap-southeast-1.compute.amazonaws.com</code> 进来之后，我使用<code>sudo adduser panmax</code>创建了新的账户。</p>
+<p>我ping了一下twitter，延迟200+，有些略失望~</p>
+<a id="more"></a>
+<p>更新和安装需要用到的包:</p>
+<p><code>sudo apt-get update</code></p>
+<p><code>sudo apt-get install nginx</code></p>
+<p><code>sudo apt-get install mysql-client-5.5 mysql-server-5.5</code></p>
+<p><code>sudo apt-get install php5 php5-fpm php5-cli php5-cgi php5-mysql php5-gd</code></p>
+<p>以上这些如果没有报错，就证明安装成功了。安装mysql过程中需要创建root密码。</p>
+<p>接下来创建数据库：</p>
+<p><code>mysql -u root -p</code> 输入安装mysql时设置的root密码。</p>
+<p>创建shadowsocks数据库：</p>
+<p><code>create database shadowsocks</code></p>
+<p>然后建立一个名为ss，密码为ss的MySQL用户，因为这个用户只能本地登录，所以密码简单点也无所谓:</p>
+<p><code>grant all privileges on shadowsocks.* to ss@localhost identified by &#39;ss&#39;;</code></p>
+<p>到这步，我们的数据库已经完成了，，下面我们来安装shadowsocks ss-panel supervisor，一次执行下面的命令：</p>
+<p><code>sudo apt-get install python-pip git python-m2crypto</code></p>
+<p><code>sudo pip install cymysql</code></p>
+<p><code>git clone -b manyuser https://github.com/mengskysama/shadowsocks.git</code></p>
+<p><code>cd shadowsocks/shadowsocks/</code></p>
+<p>然后我们来修改配置文件/root/shadowsocks/shadowsocks/Config.py</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#Config</span></div><div class="line"><span class="attr">MYSQL_HOST</span> = <span class="string">'localhost'</span>  </div><div class="line"><span class="attr">MYSQL_PORT</span> = <span class="number">3306</span>  </div><div class="line"><span class="attr">MYSQL_USER</span> = <span class="string">'ss'</span>  </div><div class="line"><span class="attr">MYSQL_PASS</span> = <span class="string">'ss'</span>  </div><div class="line"><span class="attr">MYSQL_DB</span> = <span class="string">'shadowsocks'</span>  </div><div class="line"><span class="attr">MANAGE_PASS</span> = <span class="string">'ss233333333'</span>  </div><div class="line"><span class="comment">#if you want manage in other server you should set this value to global ip</span></div><div class="line"><span class="attr">MANAGE_BIND_IP</span> = <span class="string">'127.0.0.1'</span>  </div><div class="line"><span class="comment">#make sure this port is idle</span></div><div class="line"><span class="attr">MANAGE_PORT</span> = <span class="number">23333</span></div></pre></td></tr></table></figure>
+<p>然后我们还要修改这个文件/root/shadowsocks/shadowsocks/config.json</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</div><div class="line"><span class="attr">"server_ipv6"</span>: <span class="string">"[::]"</span>,</div><div class="line"><span class="attr">"server_port"</span>:<span class="number">8388</span>,</div><div class="line"><span class="attr">"local_address"</span>: <span class="string">"127.0.0.1"</span>,</div><div class="line"><span class="attr">"local_port"</span>:<span class="number">1080</span>,</div><div class="line"><span class="attr">"password"</span>:<span class="string">"m"</span>,</div><div class="line"><span class="attr">"timeout"</span>:<span class="number">300</span>,</div><div class="line"><span class="attr">"method"</span>:<span class="string">"aes-256-cfb"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后我们来导入数据库。进入MySQL：</p>
+<p><code>mysql -u root -p</code></p>
+<p><code>use shadowsocks;</code></p>
+<p><code>source ~/shadowsocks/shadowsocks/shadowsocks.sql;</code></p>
+<p><code>exit</code></p>
+<p>导入数据库之后，我们在shadowsocks目录下运行一下server.py，<code>python server.py</code></p>
+<p>没有error的话，ctrl + c结束进程，我们进行下一步,安装守护进程，这样重启以后或者程序崩了还能自己重启。</p>
+<p><code>sudo apt-get install python-pip python-m2crypto supervisor</code></p>
+<p>然后我们需要新建两个文件，具体如下：</p>
+<p><code>sudo vim /etc/supervisor/conf.d/shadowsocks.conf</code></p>
+<p>内容：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">[program:shadowsocks]</span></div><div class="line"><span class="attr">command</span>=python /home/panmax/shadowsocks/shadowsocks/server.py -c /home/panmax/shadowsocks/shadowsocks/config.json</div><div class="line"><span class="attr">autorestart</span>=<span class="literal">true</span></div><div class="line"><span class="attr">user</span>=root</div></pre></td></tr></table></figure>
+<p>再创建一个文件：</p>
+<p><code>sudo vim /etc/supervisor/conf.d/cgi.conf</code></p>
+<p>内容：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">[program:cgi]</span></div><div class="line"><span class="attr">command</span>=php5-cgi -b localhost:<span class="number">9000</span></div><div class="line"><span class="attr">autorestart</span>=<span class="literal">true</span></div><div class="line"><span class="attr">user</span>=root</div></pre></td></tr></table></figure>
+<p>然后命令：</p>
+<p><code>cd shadowsocks/shadowsocks</code></p>
+<p><code>service supervisor start</code></p>
+<p><code>supervisorctl reload</code></p>
+<p>在以下两个文件/etc/profile和 /etc/default/supervisor结尾添加如下代码(/etc/default/supervisor不存在，直接sudo vi /etc/default/supervisor 即可)：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">ulimit</span> -n 51200  </div><div class="line"><span class="built_in">ulimit</span> -Sn 4096  </div><div class="line"><span class="built_in">ulimit</span> -Hn 8192</div></pre></td></tr></table></figure>
+<p>至此ss的后端服务已经搞定了，现在我们来整前端界面：</p>
+<p><code>cd /usr/share/nginx/</code></p>
+<p><code>wget -b v2 https://github.com/orvice/ss-panel/archive/master.zip</code></p>
+<p>安装解压软件：</p>
+<p><code>sudo apt-get install unzip</code></p>
+<p>解压文件：</p>
+<p><code>sudo unzip master.zip</code></p>
+<p>然后重命名文件夹,</p>
+<p><code>mv ss-panel-master ss</code></p>
+<p>现在来修改文件夹权限,</p>
+<p><code>cd /usr/share/nginx/</code></p>
+<p><code>sudo chmod 777 * -R /usr/share/nginx/html</code></p>
+<p><code>sudo chmod 777 * -R /usr/share/nginx/ss</code></p>
+<p><code>sudo chown -R www-data:www-data /usr/share/nginx/html</code></p>
+<p><code>sudo chown -R www-data:www-data /usr/share/nginx/ss</code></p>
+<p>然后我们需要将ss-pane中的数据库导入我们刚刚创建的数据库中，还是进入MySQL：</p>
+<p><code>mysql -u root -p</code></p>
+<p><code>use shadowsocks;</code></p>
+<p><code>source /usr/share/nginx/ss/sql/invite_code.sql;</code></p>
+<p>然后我们需要将ss-pane中的数据库导入我们刚刚创建的数据库中，查看/usr/share/nginx/ss/sql下的内容，把里边的文件导入：</p>
+<p>例如：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">use shadowsocks;</div><div class="line"><span class="keyword">source</span> <span class="regexp">/usr/</span>share<span class="regexp">/nginx/</span>ss<span class="regexp">/sql/i</span>nvite_code.sql;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>然后我们来修改配置文件</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /usr/share/nginx </div><div class="line">mv /usr/share/nginx/ss/<span class="class"><span class="keyword">lib</span>/<span class="title">config</span>-<span class="title">simple</span>.<span class="title">php</span> /<span class="title">usr</span>/<span class="title">share</span>/<span class="title">nginx</span>/<span class="title">ss</span>/<span class="title">lib</span>/<span class="title">config</span>.<span class="title">php</span></span></div></pre></td></tr></table></figure>
+<p>修改<code>congfig.php</code>里边的数据库相关配置信息</p>
+<p>到此，ss-panel前端界面也安装完毕，然后我们需要修改一下Nginx配置文件</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd <span class="regexp">/etc/</span>nginx<span class="regexp">/sites-available/</span></div><div class="line">sudo vim <span class="keyword">default</span></div></pre></td></tr></table></figure>
+<p>修改为<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="section">server</span> &#123;  </div><div class="line"><span class="attribute">listen</span> <span class="number">443</span>;  </div><div class="line"><span class="attribute">server_name</span> localhost;  </div><div class="line"><span class="attribute">server_name_in_redirect</span> <span class="literal">off</span>;  </div><div class="line"><span class="attribute">root</span> /usr/share/nginx/ss;  </div><div class="line"><span class="attribute">index</span> index.php index.html index.htm;</div><div class="line"></div><div class="line"><span class="attribute">location</span> / &#123;  </div><div class="line"><span class="attribute">try_files</span> <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.php?q=<span class="variable">$uri</span>&amp;<span class="variable">$args</span>;  </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="attribute">location</span> <span class="regexp">~ \.php$</span> &#123;  </div><div class="line"><span class="attribute">include</span> /etc/nginx/fastcgi_params;  </div><div class="line"><span class="attribute">fastcgi_pass</span> <span class="number">127.0.0.1:9000</span>;  </div><div class="line"><span class="attribute">fastcgi_index</span> index.php;  </div><div class="line"><span class="attribute">fastcgi_param</span> SCRIPT_FILENAME /usr/share/nginx/ss<span class="variable">$fastcgi_script_name</span>;  </div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后重启一下</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root<span class="variable">@ubuntu-512mb-sfo1-01:</span>~# shutdown -r now</div></pre></td></tr></table></figure>
+<p>完成。</p>
+<p>/admin 进入管理员界面。</p>
+<p>默认帐号：first@blood.com</p>
+<p>默认密码：1993</p>
+<p>绑定域名:</p>
+<p>新增CNAME,主机记录ss，记录值为AWS EC2的<code>公有 DNS</code>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AWS/" rel="tag">#AWS</a>
+          
+            <a href="/tags/EC2/" rel="tag">#EC2</a>
+          
+            <a href="/tags/亚马逊云服务/" rel="tag">#亚马逊云服务</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/随机从一个数组中取出n个元素并打乱顺序构成新的数组/" rel="next" title="随机从一个数组中取出n个元素打乱顺序构成新的数组">
+                <i class="fa fa-chevron-left"></i> 随机从一个数组中取出n个元素打乱顺序构成新的数组
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/GitHub使用SSH模式不能用sudo/" rel="prev" title="GitHub使用SSH模式不能用sudo">
+                GitHub使用SSH模式不能用sudo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg"
+               alt="Panmax" />
+          <p class="site-author-name" itemprop="name">Panmax</p>
+          <p class="site-description motion-element" itemprop="description">Hello,I am Panmax</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://panmax.love/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Panmax" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/q967168" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/itsxs" target="_blank" title="ZhiHu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  ZhiHu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

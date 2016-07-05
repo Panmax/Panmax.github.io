@@ -1,0 +1,677 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="GitHub," />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="Panmax" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="第一步：创建一个仓库这需要登录到GitHub并且穿件一个仓库。你可以选择是否初始化一个README。这不重要，因为你将会覆盖在这个远程仓库里的所有东西。
+第二步：在项目目录初始化Git通过你的终端并且确保Git已经安装在你的电脑上，导航到你想要添加的目录后运行下边的命令。
+初始化git仓库1git init
+增加文件到Git索引1git add -A
+提交增加过的文件1git commit -m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何将一个已存在的项目push到GitHub">
+<meta property="og:url" content="http://panmax.love/2016/如何将一个已存在的项目push到GitHub/index.html">
+<meta property="og:site_name" content="Panmax">
+<meta property="og:description" content="第一步：创建一个仓库这需要登录到GitHub并且穿件一个仓库。你可以选择是否初始化一个README。这不重要，因为你将会覆盖在这个远程仓库里的所有东西。
+第二步：在项目目录初始化Git通过你的终端并且确保Git已经安装在你的电脑上，导航到你想要添加的目录后运行下边的命令。
+初始化git仓库1git init
+增加文件到Git索引1git add -A
+提交增加过的文件1git commit -m">
+<meta property="og:updated_time" content="2016-02-23T03:28:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何将一个已存在的项目push到GitHub">
+<meta name="twitter:description" content="第一步：创建一个仓库这需要登录到GitHub并且穿件一个仓库。你可以选择是否初始化一个README。这不重要，因为你将会覆盖在这个远程仓库里的所有东西。
+第二步：在项目目录初始化Git通过你的终端并且确保Git已经安装在你的电脑上，导航到你想要添加的目录后运行下边的命令。
+初始化git仓库1git init
+增加文件到Git索引1git add -A
+提交增加过的文件1git commit -m">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://panmax.love/2016/如何将一个已存在的项目push到GitHub/"/>
+
+  <title> 如何将一个已存在的项目push到GitHub | Panmax </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Panmax</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Panmax's Blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                如何将一个已存在的项目push到GitHub
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-23T10:56:21+08:00" content="2016-02-23">
+              2016-02-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/GitHub/" itemprop="url" rel="index">
+                    <span itemprop="name">GitHub</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="第一步：创建一个仓库"><a href="#第一步：创建一个仓库" class="headerlink" title="第一步：创建一个仓库"></a>第一步：创建一个仓库</h3><p>这需要登录到GitHub并且穿件一个仓库。你可以选择是否初始化一个README。这不重要，因为你将会覆盖在这个远程仓库里的所有东西。</p>
+<h3 id="第二步：在项目目录初始化Git"><a href="#第二步：在项目目录初始化Git" class="headerlink" title="第二步：在项目目录初始化Git"></a>第二步：在项目目录初始化Git</h3><p>通过你的终端并且确保<a href="http://git-scm.com/" target="_blank" rel="external">Git</a>已经安装在你的电脑上，导航到你想要添加的目录后运行下边的命令。</p>
+<h4 id="初始化git仓库"><a href="#初始化git仓库" class="headerlink" title="初始化git仓库"></a>初始化git仓库</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">git</span> init</div></pre></td></tr></table></figure>
+<h4 id="增加文件到Git索引"><a href="#增加文件到Git索引" class="headerlink" title="增加文件到Git索引"></a>增加文件到Git索引</h4><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">git</span> <span class="keyword">add </span>-A</div></pre></td></tr></table></figure>
+<h4 id="提交增加过的文件"><a href="#提交增加过的文件" class="headerlink" title="提交增加过的文件"></a>提交增加过的文件</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">git</span> commit -m <span class="string">"Added my project"</span></div></pre></td></tr></table></figure>
+<h4 id="增加新的远程源（在这里是GitHub）"><a href="#增加新的远程源（在这里是GitHub）" class="headerlink" title="增加新的远程源（在这里是GitHub）"></a>增加新的远程源（在这里是GitHub）</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote add git<span class="meta">@github</span>.<span class="string">com:</span>Panmax/playground.git</div></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote <span class="built_in">add</span> http<span class="variable">s:</span>//github.<span class="keyword">com</span>/Panmax/playground.git</div></pre></td></tr></table></figure>
+<h4 id="Push到GitHub"><a href="#Push到GitHub" class="headerlink" title="Push到GitHub"></a>Push到GitHub</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">push</span> -u -f <span class="built_in">origin</span> master</div></pre></td></tr></table></figure>
+<p>到这里有些事情需要注意，<code>-f</code>标记代表<code>force</code>，这将会自动的覆盖远程目录中所有的东西。我们只是用来覆盖GitHub自动初始化README。如果你跳过了，那么<code>-f</code>标记就不是必须的了。</p>
+<p><code>-u</code>标记将远程源设置为默认，这让你以后容易的使用<code>git push</code>和<code>git pull</code>而不用指定一个源。在这种情况下，我们总是想要的GitHub。</p>
+<h4 id="总起来"><a href="#总起来" class="headerlink" title="总起来"></a>总起来</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git init</div><div class="line">git add -A</div><div class="line">git commit -m <span class="string">'Added my project'</span></div><div class="line">git remote add origin git@github<span class="selector-class">.com</span>:Panmax/playground<span class="selector-class">.git</span></div><div class="line">git push -u -f origin master</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GitHub/" rel="tag">#GitHub</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/getattr-和-getattribute-方法的区别/" rel="next" title="__getattr__() 和 __getattribute__() 方法的区别">
+                <i class="fa fa-chevron-left"></i> __getattr__() 和 __getattribute__() 方法的区别
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/MySQL创建utf-8格式数据库/" rel="prev" title="MySQL创建utf-8格式数据库">
+                MySQL创建utf-8格式数据库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg"
+               alt="Panmax" />
+          <p class="site-author-name" itemprop="name">Panmax</p>
+          <p class="site-description motion-element" itemprop="description">Hello,I am Panmax</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://panmax.love/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Panmax" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/q967168" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/itsxs" target="_blank" title="ZhiHu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  ZhiHu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步：创建一个仓库"><span class="nav-number">1.</span> <span class="nav-text">第一步：创建一个仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步：在项目目录初始化Git"><span class="nav-number">2.</span> <span class="nav-text">第二步：在项目目录初始化Git</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化git仓库"><span class="nav-number">2.1.</span> <span class="nav-text">初始化git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增加文件到Git索引"><span class="nav-number">2.2.</span> <span class="nav-text">增加文件到Git索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交增加过的文件"><span class="nav-number">2.3.</span> <span class="nav-text">提交增加过的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增加新的远程源（在这里是GitHub）"><span class="nav-number">2.4.</span> <span class="nav-text">增加新的远程源（在这里是GitHub）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Push到GitHub"><span class="nav-number">2.5.</span> <span class="nav-text">Push到GitHub</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总起来"><span class="nav-number">2.6.</span> <span class="nav-text">总起来</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

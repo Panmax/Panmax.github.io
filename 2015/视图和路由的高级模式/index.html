@@ -1,0 +1,755 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="flask," />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="Panmax" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="视图和路由的高级模式
+视图装饰器Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。
+123@decorator_functiondef decorated():	pass
+如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。@app.routeFl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="视图和路由的高级模式">
+<meta property="og:url" content="http://panmax.love/2015/视图和路由的高级模式/index.html">
+<meta property="og:site_name" content="Panmax">
+<meta property="og:description" content="视图和路由的高级模式
+视图装饰器Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。
+123@decorator_functiondef decorated():	pass
+如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。@app.routeFl">
+<meta property="og:image" content="https://exploreflask.com/_images/views.png">
+<meta property="og:updated_time" content="2015-12-21T03:50:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="视图和路由的高级模式">
+<meta name="twitter:description" content="视图和路由的高级模式
+视图装饰器Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。
+123@decorator_functiondef decorated():	pass
+如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。@app.routeFl">
+<meta name="twitter:image" content="https://exploreflask.com/_images/views.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://panmax.love/2015/视图和路由的高级模式/"/>
+
+  <title> 视图和路由的高级模式 | Panmax </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Panmax</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Panmax's Blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                视图和路由的高级模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-03T22:15:16+08:00" content="2015-10-03">
+              2015-10-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/exploreflask/" itemprop="url" rel="index">
+                    <span itemprop="name">exploreflask</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="视图和路由的高级模式"><a href="#视图和路由的高级模式" class="headerlink" title="视图和路由的高级模式"></a>视图和路由的高级模式</h2><p><img src="https://exploreflask.com/_images/views.png" alt=""></p>
+<h3 id="视图装饰器"><a href="#视图装饰器" class="headerlink" title="视图装饰器"></a>视图装饰器</h3><p>Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@decorator_function</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">decorated</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<p>如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。<code>@app.route</code>Flask应用中是用来匹配URL到视图函数的装饰器。</p>
+<p>来看一些其他你能够在你的Flask应用中使用的装饰器。</p>
+<a id="more"></a>
+<h4 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h4><p>Flask-Login扩展使可以很容易的实现一个登录系统。出了处理用户认证的细节，Flask-Login给了我们一个装饰器用来限制某些视图给已经认证的用户：<code>@login_required</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># app.py</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template</div><div class="line"><span class="keyword">from</span> flask.ext.login <span class="keyword">import</span> login_required, current_user</div><div class="line"></div><div class="line"><span class="meta">@app.route('/')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> render_template(<span class="string">"index.html"</span>)</div><div class="line"></div><div class="line"><span class="meta">@app.route('/dashboard')</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">account</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> render_template(<span class="string">"account.html"</span>)</div></pre></td></tr></table></figure>
+<h5 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h5><p>@app.route应该永远是最远的视图装饰器。</p>
+<hr>
+<p>只有被认证的用户将能够访问<em>/dashboard</em>路由。我们能配置Flask-Login让没有认证的用户跳转到登录页面，返回一个HTTP 401状态或者任何其他我们希望他们做的。</p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><p>在<a href="http://flask-login.readthedocs.org/en/latest/" target="_blank" rel="external">官方文档</a>阅读更多关于Flask-Login的使用。</p>
+<hr>
+<h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h4><p>想象一篇提及到我们应用的文章刚刚发表在CNN和其他新闻站点。我们每秒钟获得成千上万的请求。我们的主页为每个请求前往数据库多次，所以这一切注意力都放慢下来到爬行。我们如何让速度快速加快，因此所有这些访问者就不会错过我们的站点。</p>
+<p>这里有很多好的回答，但是这个部分是关于缓存的，所以我们将要谈谈关于缓存的东西。明确来说，我们将要使用<a href="http://pythonhosted.org/Flask-Cache/" target="_blank" rel="external">Flask-Cache</a>扩展。这个扩展提供给我们一个装饰器，我们可以用在我们的主页视图上用来在一段时间内缓存响应。</p>
+<p>Flask-Cache 能够被配置和很多不同的缓存后端一起工作。一个流行的选择是<a href="http://redis.io/" target="_blank" rel="external">Redis</a>，这个我们可以简答设置和使用。假定Flask-Cache已经被配置完成，这段代码块展示我们的装饰器视图是什么样子的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># app.py</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> flask.ext.cache <span class="keyword">import</span> Cache</div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</div><div class="line"></div><div class="line">app = Flask()</div><div class="line"></div><div class="line"><span class="comment"># We'd normally include configuration settings in this call</span></div><div class="line">cache = Cache(app)</div><div class="line"></div><div class="line"><span class="meta">@app.route('/')</span></div><div class="line"><span class="meta">@cache.cached(timeout=60)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">	[...] <span class="comment"># Make a few database calls to get the information we need</span></div><div class="line">	<span class="keyword">return</span> render_template(</div><div class="line">		<span class="string">'index.html'</span>,</div><div class="line">		latest_posts=latest_posts,</div><div class="line">		recent_users=recent_users,</div><div class="line">		recent_photos=recent_photos</div><div class="line">	)</div></pre></td></tr></table></figure>
+<p>现在这个函数将会每60秒只运行一次，这时候缓存过期。这个响应将会被保存在我们的缓存中并且为任何有障碍的请求从这里获取响应。</p>
+<h5 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h5><p>Flask-Cache 也让我们<strong>memoize</strong>函数或者缓存用确定参数调用的函数的结果。我们甚至能够缓存计算昂贵的Jinja2模板片段。</p>
+<hr>
+<h4 id="自定义装饰器"><a href="#自定义装饰器" class="headerlink" title="自定义装饰器"></a>自定义装饰器</h4><p>在这部分，让我们想象我们有一个应用来让我们的用户每个月付费，如果一个用户的账户到期了，我们将会跳转他们到结账页面并且告诉他们去升级。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># myapp/util.py</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</div><div class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> flash, redirect, url_for</div><div class="line"></div><div class="line"><span class="keyword">from</span> flask.ext.login <span class="keyword">import</span> current_user</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_expired</span><span class="params">(func)</span>:</span></div><div class="line"><span class="meta">	@wraps(func)</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">decorated_function</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">		<span class="keyword">if</span> datetime.utcnow() &gt; current_user.account_expires:</div><div class="line">			flash(<span class="string">"Your account has expired. Update your billing info."</span>)</div><div class="line">			<span class="keyword">return</span> redirect(url_for(<span class="string">'account_billing'</span>))</div><div class="line">		<span class="keyword">return</span> func(*args, **kwargs)</div><div class="line"></div><div class="line">	<span class="keyword">return</span> decorated_function</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>行数</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>当一个函数被<code>@check_expried</code>装饰，<code>check_expried()</code>被调用并且被装饰的函数被作为参数传递。</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>@warps</code>是一个装饰器用来做一些簿记，使<code>被装饰的函数()</code>显示为<code>func()</code>的文档和调试的目的。这使这个函数的行为更正常一点。</td>
+</tr>
+<tr>
+<td>12</td>
+<td>。。。</td>
+</tr>
+<tr>
+<td>16</td>
+<td>。。。</td>
+</tr>
+</tbody>
+</table>
+<p>当我们把装饰器叠在一起时，最上边的装饰器将会第一个运行，然后调用下一行的函数：视图函数或者下一个装饰器之一。装饰器语法只是一点点语法糖。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># This code:</span></div><div class="line"><span class="meta">@foo</span></div><div class="line"><span class="meta">@bar</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">one</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">pass</span></div><div class="line"></div><div class="line">r1 = one()</div><div class="line"></div><div class="line"><span class="comment"># is the same as this code:</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">two</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">pass</span></div><div class="line"></div><div class="line">two = foo(bar(two))</div><div class="line">r2 = two()</div><div class="line"></div><div class="line">r1 == r2 <span class="comment"># True</span></div></pre></td></tr></table></figure>
+<p>这个代码块使用我们自定义装饰器和来自Flask-Login扩展的<code>@login_required</code>装饰器展示一个例子。我们能使用多个装饰器通过把他们叠在一起。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># myapp/views.py</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template</div><div class="line"></div><div class="line"><span class="keyword">from</span> flask.ext.login <span class="keyword">import</span> login_required</div><div class="line"></div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> app</div><div class="line"><span class="keyword">from</span> .util <span class="keyword">import</span> check_expired</div><div class="line"></div><div class="line"><span class="meta">@app.route('/use_app')</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="meta">@check_expired</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">use_app</span><span class="params">()</span>:</span></div><div class="line">	<span class="string">"""Use our amazing app."""</span></div><div class="line">	<span class="comment"># [...]</span></div><div class="line">	<span class="keyword">return</span> render_template(<span class="string">'use_app.html'</span>)</div><div class="line"></div><div class="line"><span class="meta">@app.route('/account/billing')</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">account_billing</span><span class="params">()</span>:</span></div><div class="line">	<span class="string">"""Update your billing info."""</span></div><div class="line">	<span class="comment"># [...]</span></div><div class="line">	<span class="keyword">return</span> render_template(<span class="string">'account/billing.html'</span>)</div></pre></td></tr></table></figure>
+<p>现在当一个用户尝试访问 /<em>user_app</em>，<code>check_expired()</code>将会在运行这个视图函数前确定他们的账户没有过期。</p>
+<h5 id="注意-2"><a href="#注意-2" class="headerlink" title="注意"></a>注意</h5><p>在<a href="http://docs.python.org/2/library/functools.html#functools.wraps" target="_blank" rel="external">Python docs</a>了解更多关于<code>warps()</code>函数的作用。</p>
+<hr>
+<h3 id="URL转换器"><a href="#URL转换器" class="headerlink" title="URL转换器"></a>URL转换器</h3><h4 id="内置转换器"><a href="#内置转换器" class="headerlink" title="内置转换器"></a>内置转换器</h4><p>当你在Flask里定义一个路由，你能够指定它的一部分转换成Python变量并且传递给视图函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/user/&lt;username&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">profile</span><span class="params">(username)</span>:</span></div><div class="line">	<span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<p>无论。。URL标签<code>&lt;username&gt;</code>将会被传递到视图作为username参数。你也能够指定一个转换器在变量被传到视图前过滤它。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/user/id/&lt;int:user_id&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">profile</span><span class="params">(user_id)</span>:</span></div><div class="line">	<span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<p>在这个代码块，这个URL <em><a href="http://myapp.com/user/id/Q29kZUxlc3NvbiEh" target="_blank" rel="external">http://myapp.com/user/id/Q29kZUxlc3NvbiEh</a></em> 将会返回404代码-未找到。这是因为这个URL的部分被支持变成整型实际上是一个字符串。</p>
+<p>我们还可以有第二个视图来查找字符串。这会被<em>/user/id/Q29kZUxlc3NvbiEh/</em>调用，与此同时第一个会被<em>/user/id/124</em>调用。</p>
+<p>这个表展示Flask的内置URL转换器。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>。。。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>。。。</td>
+</tr>
+<tr>
+<td>float</td>
+<td>。。。</td>
+</tr>
+<tr>
+<td>path</td>
+<td>。。。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="自定义转换器"><a href="#自定义转换器" class="headerlink" title="自定义转换器"></a>自定义转换器</h4><p>我们同样可以自定义转换器来满足我们度需要。在Reddit上（一个流行的连接分享站点），用户创建和主持主题讨论型社区和链接分享。一些例子是<em>/r/python</em>和<em>/r/flask</em>，被表示为URL的路径：分别是<em>reddit.com/r/python</em>和<em>reddit.com/r/flask</em>。一个Reddit有意思的功能是你能够观看来自多个子reddits的文章通过加号作为连接多个名字，例如<em>reddit.com/r/python+flask</em>。</p>
+<p>我们可以在我们自己的Flask应用中使用自定义转换器实线这个功能。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/flask/" rel="tag">#flask</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/组织你的项目/" rel="next" title="组织你的项目">
+                <i class="fa fa-chevron-left"></i> 组织你的项目
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/记录第一次玩阿里云/" rel="prev" title="记录第一次玩阿里云">
+                记录第一次玩阿里云 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg"
+               alt="Panmax" />
+          <p class="site-author-name" itemprop="name">Panmax</p>
+          <p class="site-description motion-element" itemprop="description">Hello,I am Panmax</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://panmax.love/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Panmax" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/q967168" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/itsxs" target="_blank" title="ZhiHu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  ZhiHu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#视图和路由的高级模式"><span class="nav-number">1.</span> <span class="nav-text">视图和路由的高级模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#视图装饰器"><span class="nav-number">1.1.</span> <span class="nav-text">视图装饰器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#认证"><span class="nav-number">1.1.1.</span> <span class="nav-text">认证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#警告"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">警告</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注意"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存"><span class="nav-number">1.1.2.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义装饰器"><span class="nav-number">1.1.3.</span> <span class="nav-text">自定义装饰器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意-2"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL转换器"><span class="nav-number">1.2.</span> <span class="nav-text">URL转换器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内置转换器"><span class="nav-number">1.2.1.</span> <span class="nav-text">内置转换器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义转换器"><span class="nav-number">1.2.2.</span> <span class="nav-text">自定义转换器</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
