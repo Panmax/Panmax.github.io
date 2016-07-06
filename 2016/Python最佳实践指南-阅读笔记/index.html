@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Python,读书笔记," />
 
 
 
@@ -86,16 +86,19 @@
 
 
 
-<meta name="description" content="a">
+<meta name="description" content="创建将0到19连接起来的字符串12345678nums = []for n in range(20):  nums.append(str(n))print &quot;&quot;.join(nums)# 更好的写法nums = [str(n) for n in range(20)]print &quot;&quot;.join(nums)
+拼接多个已有的字符串1234567foo = &apos;foo&apos;bar = &apos;bar&apos;foobar =">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python最佳实践指南 阅读笔记">
 <meta property="og:url" content="http://panmax.love/2016/Python最佳实践指南-阅读笔记/index.html">
 <meta property="og:site_name" content="Panmax">
-<meta property="og:description" content="a">
-<meta property="og:updated_time" content="2016-07-05T10:43:08.000Z">
+<meta property="og:description" content="创建将0到19连接起来的字符串12345678nums = []for n in range(20):  nums.append(str(n))print &quot;&quot;.join(nums)# 更好的写法nums = [str(n) for n in range(20)]print &quot;&quot;.join(nums)
+拼接多个已有的字符串1234567foo = &apos;foo&apos;bar = &apos;bar&apos;foobar =">
+<meta property="og:updated_time" content="2016-07-06T02:25:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python最佳实践指南 阅读笔记">
-<meta name="twitter:description" content="a">
+<meta name="twitter:description" content="创建将0到19连接起来的字符串12345678nums = []for n in range(20):  nums.append(str(n))print &quot;&quot;.join(nums)# 更好的写法nums = [str(n) for n in range(20)]print &quot;&quot;.join(nums)
+拼接多个已有的字符串1234567foo = &apos;foo&apos;bar = &apos;bar&apos;foobar =">
 
 
 
@@ -276,6 +279,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Code/" itemprop="url" rel="index">
+                    <span itemprop="name">Code</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -298,7 +320,14 @@
       
 
       
-        <p>a</p>
+        <h3 id="创建将0到19连接起来的字符串"><a href="#创建将0到19连接起来的字符串" class="headerlink" title="创建将0到19连接起来的字符串"></a>创建将0到19连接起来的字符串</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">nums = []</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>):</div><div class="line">  nums.<span class="built_in">append</span>(str(n))</div><div class="line"><span class="built_in">print</span> <span class="string">""</span>.<span class="built_in">join</span>(nums)</div><div class="line"></div><div class="line"># 更好的写法</div><div class="line">nums = [str(n) <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>)]</div><div class="line"><span class="built_in">print</span> <span class="string">""</span>.<span class="built_in">join</span>(nums)</div></pre></td></tr></table></figure>
+<h3 id="拼接多个已有的字符串"><a href="#拼接多个已有的字符串" class="headerlink" title="拼接多个已有的字符串"></a>拼接多个已有的字符串</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">foo = <span class="string">'foo'</span></div><div class="line">bar = <span class="string">'bar'</span></div><div class="line"></div><div class="line">foobar = foo + bar  <span class="meta"># 好的做法</span></div><div class="line"></div><div class="line">foo += <span class="string">'ooo'</span>  <span class="meta"># 不好的做法, 应该这么做:</span></div><div class="line">foo = <span class="string">''</span>.<span class="keyword">join</span>([foo, <span class="string">'ooo'</span>])</div></pre></td></tr></table></figure>
+<h3 id="也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。"><a href="#也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。" class="headerlink" title="也可以使用 % 格式运算符来连接确定数量的字符串，但 PEP 3101 建议使用 str.format() 替代 % 操作符。"></a>也可以使用 <a href="http://docs.python.org/library/stdtypes.html#string-formatting" target="_blank" rel="external">%</a> 格式运算符来连接确定数量的字符串，但 <a href="https://www.python.org/dev/peps/pep-3101" target="_blank" rel="external">PEP 3101</a> 建议使用 <a href="http://docs.python.org/library/stdtypes.html#str.format" target="_blank" rel="external">str.format()</a> 替代 % 操作符。</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="attr">foo</span> = <span class="string">'foo'</span></div><div class="line"><span class="attr">bar</span> = <span class="string">'bar'</span></div><div class="line"></div><div class="line"><span class="attr">foobar</span> = <span class="string">'%s%s'</span> % (foo, bar) # 可行</div><div class="line"><span class="attr">foobar</span> = <span class="string">'&#123;0&#125;&#123;1&#125;'</span>.format(foo, bar) # 更好</div><div class="line"><span class="attr">foobar</span> = <span class="string">'&#123;foo&#125;&#123;bar&#125;'</span>.format(foo=foo, bar=bar) # 最好</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="不要重复使用命名"><a href="#不要重复使用命名" class="headerlink" title="不要重复使用命名"></a>不要重复使用命名</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">items</span> = <span class="string">'a b c d'</span>  <span class="comment"># 首先指向字符串...</span></div><div class="line"><span class="keyword">items</span> = <span class="keyword">items</span>.<span class="built_in">split</span>(<span class="string">' '</span>)  <span class="comment"># ...变为列表</span></div><div class="line"><span class="keyword">items</span> = <span class="built_in">set</span>(<span class="keyword">items</span>)  <span class="comment"># ...再变为集合</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>重复使用命名对效率并没有提升：赋值时无论如何都要创建新的对象。然而随着复杂度的 提升，赋值语句被其他代码包括 ‘if’ 分支和循环分开，使得更难查明指定变量的类型。 在某些代码的做法中，例如函数编程，推荐的是从不重复对同一个变量命名赋值。Java 内的实现方式是使用 ‘final’ 关键字。Python并没有 ‘final’ 关键字而且这与它的哲学 相悖。尽管如此，避免给同一个变量命名重复赋值仍是是个好的做法，并且有助于掌握 可变与不可变类型的概念。</p>
+</blockquote>
 
       
     </div>
@@ -317,6 +346,14 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+            <a href="/tags/读书笔记/" rel="tag">#读书笔记</a>
+          
+        </div>
       
 
       
@@ -418,7 +455,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -497,7 +534,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建将0到19连接起来的字符串"><span class="nav-number">1.</span> <span class="nav-text">创建将0到19连接起来的字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拼接多个已有的字符串"><span class="nav-number">2.</span> <span class="nav-text">拼接多个已有的字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。"><span class="nav-number">3.</span> <span class="nav-text">也可以使用 % 格式运算符来连接确定数量的字符串，但 PEP 3101 建议使用 str.format() 替代 % 操作符。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不要重复使用命名"><span class="nav-number">4.</span> <span class="nav-text">不要重复使用命名</span></a></li></ol></div>
             
           </div>
         </section>
