@@ -321,7 +321,15 @@
       
 
       
+      <!-- 
+        
+          
+            <figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">datetime = datetime.datetime.now()</div><div class="line">timestamp = <span class="built_in">time</span>.<span class="built_in">time</span>()</div><div class="line">datetime_format = %Y-%m-%d %H:%M:%S</div><div class="line"></div><div class="line"># <span class="function"><span class="title">str</span> -&gt;</span> datetime</div><div class="line">datetime.datetime.strptime(string, datetime_format)</div><div class="line"></div><div class="line"># <span class="function"><span class="title">datetime</span> -&gt;</span> str</div><div class="line">datetime.datetime.strftime(datetime_format)</div><div class="line"><span class="function"><span class="title">type</span>(a) -&gt;</span> datetime.datetime</div><div class="line">a.strftime(datetime_format)</div><div class="line"></div><div class="line"># <span class="function"><span class="title">datetime</span> -&gt;</span> timestamp</div><div class="line"><span class="built_in">time</span>.mktime(datetime.datetime.timetuple())</div><div class="line"></div><div class="line"># <span class="function"><span class="title">timestamp</span> -&gt;</span> datetime</div><div class="line">datetime.datetime.fromtimestamp(timestamp)</div><div class="line">datetime.datetime.fromtimestamp(timestamp).strftime(datetime_format)</div><div class="line"></div><div class="line"># <span class="function"><span class="title">timestamp</span> -&gt;</span> <span class="built_in">time</span></div><div class="line"><span class="built_in">time</span>.localtime(timestamp)</div></pre></td></tr></table></figure>
+<p><img src="http://7xl02c.com1.z0.glb.clouddn.com/d9717d34-2891-48e6-aec7-c6e481558d21.png" alt=""></p>
 
+          
+        
+      -->
       
     </div>
 
@@ -429,7 +437,24 @@
       
 
       
+      <!-- 
+        
+          
+            <p>一直以为Python里两个datetime类型相减然后获取seconds拿到的是两个时间相差的总秒数，其实并不是。。。</p>
+<p>正确的获取方法应该是用total_seconds()</p>
+<p>示例：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">first_time = datetime.datetime(<span class="number">2013</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>)</div><div class="line">last_time =  datetime.datetime(<span class="number">2014</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>)</div><div class="line">delta = last_time - first_time</div><div class="line">print delta.total_seconds()</div></pre></td></tr></table></figure></p>
+<p><code>timedelta</code> 相关的文档中这样写到：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Only days, <span class="built_in">seconds</span> <span class="keyword">and</span> microseconds are stored internally. Arguments are converted <span class="built_in">to</span> those units:</div><div class="line"></div><div class="line">A <span class="built_in">millisecond</span> is converted <span class="built_in">to</span> <span class="number">1000</span> microseconds.</div><div class="line">A minute is converted <span class="built_in">to</span> <span class="number">60</span> <span class="built_in">seconds</span>.</div><div class="line">An hour is converted <span class="built_in">to</span> <span class="number">3600</span> <span class="built_in">seconds</span>.</div><div class="line">A week is converted <span class="built_in">to</span> <span class="number">7</span> days.</div><div class="line"></div><div class="line"><span class="keyword">and</span> days, <span class="built_in">seconds</span> <span class="keyword">and</span> microseconds are <span class="keyword">then</span> normalized so that <span class="keyword">the</span> representation is unique, <span class="keyword">with</span></div><div class="line"></div><div class="line"><span class="number">0</span> &lt;= microseconds &lt; <span class="number">1000000</span></div><div class="line"><span class="number">0</span> &lt;= <span class="built_in">seconds</span> &lt; <span class="number">3600</span>*<span class="number">24</span> (<span class="keyword">the</span> <span class="built_in">number</span> <span class="keyword">of</span> <span class="built_in">seconds</span> <span class="keyword">in</span> <span class="literal">one</span> day)</div><div class="line"><span class="number">-999999999</span> &lt;= days &lt;= <span class="number">999999999</span></div></pre></td></tr></table></figure></p>
+<p>在Python2.7中加入了<code>timedelta.total_seconds()</code>方法：</p>
+<p>timedelta.<strong>total_seconds()</strong></p>
+<blockquote>
+<p>Return the total number of seconds contained in the duration. Equivalent to (td.microseconds + (td.seconds + td.days <em> 24 </em> 3600) <em> 10<em>*6) / 10</em></em>6 computed with true division enabled.</p>
+<p>Note that for very large time intervals (greater than 270 years on most platforms) this method will lose microsecond accuracy.</p>
+</blockquote>
+<p><code>timedelta</code>官方示例：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from datetime import timedelta</div><div class="line">&gt;&gt;&gt; year = timedelta(days=<span class="number">365</span>)</div><div class="line">&gt;&gt;&gt; another_year = timedelta(weeks=<span class="number">40</span>, days=<span class="number">84</span>, hours=<span class="number">23</span>,</div><div class="line">...                          minutes=<span class="number">50</span>, seconds=<span class="number">600</span>)  # adds up to <span class="number">365</span> days</div><div class="line">&gt;&gt;&gt; year.total_seconds()</div><div class="line"><span class="number">31536000.0</span></div><div class="line">&gt;&gt;&gt; year == another_year</div><div class="line">True</div><div class="line">&gt;&gt;&gt; ten_years = <span class="number">10</span> * year</div><div class="line">&gt;&gt;&gt; ten_years, ten_years.days <span class="comment">// 365</span></div><div class="line">(datetime.timedelta(<span class="number">3650</span>), <span class="number">10</span>)</div><div class="line">&gt;&gt;&gt; nine_years = ten_years - year</div><div class="line">&gt;&gt;&gt; nine_years, nine_years.days <span class="comment">// 365</span></div><div class="line">(datetime.timedelta(<span class="number">3285</span>), <span class="number">9</span>)</div><div class="line">&gt;&gt;&gt; three_years = nine_years <span class="comment">// 3;</span></div><div class="line">&gt;&gt;&gt; three_years, three_years.days <span class="comment">// 365</span></div><div class="line">(datetime.timedelta(<span class="number">1095</span>), <span class="number">3</span>)</div><div class="line">&gt;&gt;&gt; abs(three_years - ten_years) == <span class="number">2</span> * three_years + year</div><div class="line">True</div></pre></td></tr></table></figure></p>
 
+          
+        
+      -->
       
     </div>
 
@@ -537,7 +562,18 @@
       
 
       
-
+      <!-- 
+        
+          <p>我们之前新鲜的逻辑是这样的：每个用户在redis中有一个自己的队列，队列中记录的照片的ID，当有新照片产生的时候，不区分性别，往每个人队列最前边插入<code>(lpush)</code>这条数据，每个人的队列最大值为1000，超出部分被截断，当用户看过队列中某张照片后，这张照片会从队列中移除<code>(lrem)</code>。</p>
+<p>这种模式刚开始没有问题，后来新鲜增加了可以筛选性别的需求。因为队列中所有性别都是混在一起的，所以每次从队列中取出数据后，需要把Photo实体取出来，然后进行性别过滤，把过滤出来的结果再返回给客户端。如果筛选结果后发现数量不足(通常是20)，就重新从库中重新查询，拿出前2000张，过滤掉我要的性别（因为我们用的leancloud平台，他们不支持关联查询，我们的photo不记录性别，需要先取出后再通过user才能知道性别），再过滤掉我看过的，能找到就返回，找不到就算了。假如我把筛选改为女，然后我看啊看，看啊看，早晚我会把队列中的女性照片看完。因为我们只查询前2000张，所以后边的照片我根本看不到，除非等着有女性用户新发照片。而且看的照片越多，查询速度越慢。</p>
+<p>下边讲一下优化的方法</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/记一次业务逻辑优化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -645,7 +681,26 @@
       
 
       
-
+      <!-- 
+        
+          <ul>
+<li><p>推模式：被关注者产生一条news，会给所有的关注者每人生成一条feed数据。</p>
+<ul>
+<li>优点：查询速度快，性能高</li>
+<li><p>缺点：产生数据条目多，写入量大</p>
+</li>
+<li><p>最严重缺点：这种模式类似朋友圈，只有关注时开始，才给关注者产生feed数据，之前的被关注者发布的news是收不到feed的（其实也可以收到，不过相当麻烦，假如之前被关注者已经发布了很多news了，需要逐个为之前的news生成feed）</p>
+</li>
+</ul>
+</li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/自己总结feed流的产生/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -753,7 +808,20 @@
       
 
       
+      <!-- 
+        
+          
+            <ul>
+<li>学会IOS开发(Swift)</li>
+<li>做一款自己的IOS APP上架到Apple Store</li>
+<li>学会尤克里里</li>
+<li>每月至少读一本书</li>
+<li>Marry</li>
+</ul>
 
+          
+        
+      -->
       
     </div>
 
@@ -861,7 +929,32 @@
       
 
       
-
+      <!-- 
+        
+          <h1 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h1><ul>
+<li>手机：133<strong><em>**</em></strong></li>
+<li>Email：jiapan.china@gmail.com <code>据说HR喜欢这个？</code></li>
+<li>QQ/微信号：967168</li>
+</ul>
+<hr>
+<h1 id="个人信息"><a href="#个人信息" class="headerlink" title="个人信息"></a>个人信息</h1><ul>
+<li>贾攀/男/1992</li>
+<li>本科/河北工程大学计算机科学与技术</li>
+<li>工作年限：?年</li>
+<li>开发经验：?年</li>
+<li>微博：<a href="http://weibo.com/q967168">@挨踢实习生</a></li>
+<li>Github：<a href="http://github.com/China-jp">China-jp</a></li>
+<li>期望职位：Python后端开发</li>
+<li>期望薪资：税前月薪??K~??k，特别喜欢的公司可例外</li>
+<li>期望城市：北京</li>
+</ul>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/求带走/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -969,7 +1062,19 @@
       
 
       
-
+      <!-- 
+        
+          <p>看到阿里云的美国硅谷区的ECS正在高活动，而且最近正好想学习学习Linux服务器相关的只是，所以就购入了一部。</p>
+<p>我选择的是1G内存，1G CPU，按流量计费。</p>
+<p>支付宝付完款后，居然没有自动进入完成付款页面。。。</p>
+<p>首先进入系统后，我先更改了root密码，因为初始化设置root密码时候要求有大小写。命令：<code>sudo passwd root</code>，然后按照要求输入两遍密码就好了。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/记录第一次玩阿里云/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -1077,7 +1182,20 @@
       
 
       
-
+      <!-- 
+        
+          <h2 id="视图和路由的高级模式"><a href="#视图和路由的高级模式" class="headerlink" title="视图和路由的高级模式"></a>视图和路由的高级模式</h2><p><img src="https://exploreflask.com/_images/views.png" alt=""></p>
+<h3 id="视图装饰器"><a href="#视图装饰器" class="headerlink" title="视图装饰器"></a>视图装饰器</h3><p>Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@decorator_function</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">decorated</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<p>如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。<code>@app.route</code>Flask应用中是用来匹配URL到视图函数的装饰器。</p>
+<p>来看一些其他你能够在你的Flask应用中使用的装饰器。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/视图和路由的高级模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -1185,7 +1303,17 @@
       
 
       
-
+      <!-- 
+        
+          <h2 id="组织你的项目"><a href="#组织你的项目" class="headerlink" title="组织你的项目"></a>组织你的项目</h2><p><img src="https://exploreflask.com/_images/organizing.png" alt=""></p>
+<p>Flask将你的应用的组织工作有你来决定。这也是我像初学者一样喜欢Flask的原因之一，但是这确实意味着你必须对如何构建你的代码做一番思考。你可以把你整个应用放在一个文件中，或者把它分散在多个包中。这里有一些你可以遵循的组织模式，可以更轻松的开发和部署。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/组织你的项目/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -1293,7 +1421,19 @@
       
 
       
-
+      <!-- 
+        
+          <p>原文地址:<a href="http://www.ruanyifeng.com/blog/2006/12/why_i_keep_blogging.html">http://www.ruanyifeng.com/blog/2006/12/why_i_keep_blogging.html</a></p>
+<p>到今年12月为止，我写Blog已经满3年了，一共写了接近600篇，平均每2天写一篇。今后应该还会继续写下去。</p>
+<p>3年前，我开始写的时候，并没有想过自己会坚持这么久。3年中，也遇见过几次有人问我”为什么要写Blog？”</p>
+<p>是啊，为什么要写Blog？毕竟这里没有人支付稿酬，也看不出有任何明显的物质性收益。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/为什么要写Blog？/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 

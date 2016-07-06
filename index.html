@@ -321,7 +321,16 @@
       
 
       
-
+      <!-- 
+        
+          <p>之前在 <code>2016 心愿单</code> 里写过一条愿望是： <strong>每月至少阅读一本书</strong>，所以在这里做个记录。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/2016-书单/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -429,7 +438,57 @@
       
 
       
+      <!-- 
+        
+          
+            <h3 id="创建将0到19连接起来的字符串"><a href="#创建将0到19连接起来的字符串" class="headerlink" title="创建将0到19连接起来的字符串"></a>创建将0到19连接起来的字符串</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">nums = []</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>):</div><div class="line">  nums.<span class="built_in">append</span>(str(n))</div><div class="line"><span class="built_in">print</span> <span class="string">""</span>.<span class="built_in">join</span>(nums)</div><div class="line"></div><div class="line"># 更好的写法</div><div class="line">nums = [str(n) <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>)]</div><div class="line"><span class="built_in">print</span> <span class="string">""</span>.<span class="built_in">join</span>(nums)</div></pre></td></tr></table></figure>
+<h3 id="拼接多个已有的字符串"><a href="#拼接多个已有的字符串" class="headerlink" title="拼接多个已有的字符串"></a>拼接多个已有的字符串</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">foo = <span class="string">'foo'</span></div><div class="line">bar = <span class="string">'bar'</span></div><div class="line"></div><div class="line">foobar = foo + bar  <span class="meta"># 好的做法</span></div><div class="line"></div><div class="line">foo += <span class="string">'ooo'</span>  <span class="meta"># 不好的做法, 应该这么做:</span></div><div class="line">foo = <span class="string">''</span>.<span class="keyword">join</span>([foo, <span class="string">'ooo'</span>])</div></pre></td></tr></table></figure>
+<h3 id="也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。"><a href="#也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。" class="headerlink" title="也可以使用 % 格式运算符来连接确定数量的字符串，但 PEP 3101 建议使用 str.format() 替代 % 操作符。"></a>也可以使用 <a href="http://docs.python.org/library/stdtypes.html#string-formatting" target="_blank" rel="external">%</a> 格式运算符来连接确定数量的字符串，但 <a href="https://www.python.org/dev/peps/pep-3101" target="_blank" rel="external">PEP 3101</a> 建议使用 <a href="http://docs.python.org/library/stdtypes.html#str.format" target="_blank" rel="external">str.format()</a> 替代 % 操作符。</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="attr">foo</span> = <span class="string">'foo'</span></div><div class="line"><span class="attr">bar</span> = <span class="string">'bar'</span></div><div class="line"></div><div class="line"><span class="attr">foobar</span> = <span class="string">'%s%s'</span> % (foo, bar) # 可行</div><div class="line"><span class="attr">foobar</span> = <span class="string">'&#123;0&#125;&#123;1&#125;'</span>.format(foo, bar) # 更好</div><div class="line"><span class="attr">foobar</span> = <span class="string">'&#123;foo&#125;&#123;bar&#125;'</span>.format(foo=foo, bar=bar) # 最好</div></pre></td></tr></table></figure>
+<h3 id="不要重复使用命名"><a href="#不要重复使用命名" class="headerlink" title="不要重复使用命名"></a>不要重复使用命名</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">items</span> = <span class="string">'a b c d'</span>  <span class="comment"># 首先指向字符串...</span></div><div class="line"><span class="keyword">items</span> = <span class="keyword">items</span>.<span class="built_in">split</span>(<span class="string">' '</span>)  <span class="comment"># ...变为列表</span></div><div class="line"><span class="keyword">items</span> = <span class="built_in">set</span>(<span class="keyword">items</span>)  <span class="comment"># ...再变为集合</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>重复使用命名对效率并没有提升：赋值时无论如何都要创建新的对象。然而随着复杂度的 提升，赋值语句被其他代码包括 ‘if’ 分支和循环分开，使得更难查明指定变量的类型。 在某些代码的做法中，例如函数编程，推荐的是从不重复对同一个变量命名赋值。Java 内的实现方式是使用 ‘final’ 关键字。Python并没有 ‘final’ 关键字而且这与它的哲学 相悖。尽管如此，避免给同一个变量命名重复赋值仍是是个好的做法，并且有助于掌握 可变与不可变类型的概念。</p>
+</blockquote>
+<h3 id="考虑该不该用任意参数列表-args"><a href="#考虑该不该用任意参数列表-args" class="headerlink" title="考虑该不该用任意参数列表(*args)"></a>考虑该不该用任意参数列表(*args)</h3><blockquote>
+<p>如果一个函数接受的参数列表具有 相同的性质，通常把它定义成一个参数，这个参数是一个列表或者其他任何序列会更清晰。</p>
+</blockquote>
+<h3 id="函数单个出口可能更好"><a href="#函数单个出口可能更好" class="headerlink" title="函数单个出口可能更好"></a>函数单个出口可能更好</h3><blockquote>
+<p>当一个函数在其正常过程中有多个主要出口点时，它会变得难以调试和返回其 结果，所以保持单个出口点可能会更好。这也将有助于提取某些代码路径，而且多个出口点 很有可能意味着这里需要重构。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">complex_function</span><span class="params">(a, b, c)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> a:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># 抛出一个异常可能会更好</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> b:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># 抛出一个异常可能会更好</span></div><div class="line"></div><div class="line">    <span class="comment"># 一些复杂的代码试着用a,b,c来计算x</span></div><div class="line">    <span class="comment"># 如果成功了，抵制住返回x的诱惑</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> x:</div><div class="line">        <span class="comment"># 一些关于x的计算的Plan-B</span></div><div class="line">    <span class="keyword">return</span> x</div></pre></td></tr></table></figure>
+<h3 id="常见Python习语"><a href="#常见Python习语" class="headerlink" title="常见Python习语"></a>常见Python习语</h3><ul>
+<li>解包</li>
+</ul>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> index, <span class="keyword">item</span> <span class="keyword">in</span> enumerate(some_list):</div><div class="line">    <span class="comment"># 使用index和item做一些工作</span></div><div class="line">    </div><div class="line"><span class="keyword">a</span>, b = b, <span class="keyword">a</span></div><div class="line"></div><div class="line"><span class="keyword">a</span>, (b, c) = <span class="number">1</span>, (<span class="number">2</span>, <span class="number">3</span>)</div></pre></td></tr></table></figure>
+<ul>
+<li>创建一个被忽略的变量</li>
+</ul>
+<figure class="highlight tcl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">filename</span> = <span class="string">'foobar.txt'</span></div><div class="line">basename, __, ext = <span class="keyword">filename</span>.rpartition(<span class="string">'.'</span>)</div></pre></td></tr></table></figure>
+<ul>
+<li>创建一个含N个对象的列表</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">four_nones</span> = [None] * <span class="number">4</span></div></pre></td></tr></table></figure>
+<ul>
+<li>创建一个含N个列表的列表</li>
+</ul>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">four_lists = [[] <span class="keyword">for</span> <span class="symbol">__</span> <span class="keyword">in</span> <span class="built_in">xrange</span>(<span class="number">4</span>)]</div></pre></td></tr></table></figure>
+<ul>
+<li>根据列表来创建字符串</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">letters</span> = [<span class="string">'s'</span>, <span class="string">'p'</span>, <span class="string">'a'</span>, <span class="string">'m'</span>]</div><div class="line"><span class="attr">word</span> = <span class="string">''</span>.join(letters)</div></pre></td></tr></table></figure>
+<ul>
+<li>在集合体（collection）中查找一个项</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">s = set([<span class="string">'s'</span>, <span class="string">'p'</span>, <span class="string">'a'</span>, <span class="string">'m'</span>])</div><div class="line">l = [<span class="string">'s'</span>, <span class="string">'p'</span>, <span class="string">'a'</span>, <span class="string">'m'</span>]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">lookup_set</span><span class="params">(s)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">'s'</span> <span class="keyword">in</span> s</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">lookup_list</span><span class="params">(l)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">'s'</span> <span class="keyword">in</span> l</div></pre></td></tr></table></figure>
+<p>在下列场合在使用集合或者字典而不是列表，通常会是个好主意：</p>
+<p>集合体中包含大量的项<br>你将在集合体中重复地查找项<br>你没有重复的项</p>
+<h3 id="你不需要明确地比较一个值是True，或者None，或者0"><a href="#你不需要明确地比较一个值是True，或者None，或者0" class="headerlink" title="你不需要明确地比较一个值是True，或者None，或者0"></a>你不需要明确地比较一个值是True，或者None，或者0</h3><h4 id="糟糕"><a href="#糟糕" class="headerlink" title="糟糕"></a>糟糕</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> attr == <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'True!'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> attr == <span class="keyword">None</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'attr is None!'</span></div></pre></td></tr></table></figure>
+<h4 id="优雅"><a href="#优雅" class="headerlink" title="优雅"></a>优雅</h4><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 检查值</div><div class="line"><span class="keyword">if</span> attr:</div><div class="line">    print <span class="symbol">'attr</span> <span class="keyword">is</span> truthy!'</div><div class="line"></div><div class="line"># 或者做相反的检查</div><div class="line"><span class="keyword">if</span> <span class="keyword">not</span> attr:</div><div class="line">    print <span class="symbol">'attr</span> <span class="keyword">is</span> falsey!'</div><div class="line"></div><div class="line"># <span class="keyword">or</span>, since None <span class="keyword">is</span> considered <span class="literal">false</span>, explicitly check <span class="keyword">for</span> it</div><div class="line"><span class="keyword">if</span> attr <span class="keyword">is</span> None:</div><div class="line">    print <span class="symbol">'attr</span> <span class="keyword">is</span> None!'</div></pre></td></tr></table></figure>
+<h3 id="访问字典元素"><a href="#访问字典元素" class="headerlink" title="访问字典元素"></a>访问字典元素</h3><h4 id="糟糕-1"><a href="#糟糕-1" class="headerlink" title="糟糕"></a>糟糕</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">d = &#123;<span class="string">'hello'</span>: <span class="string">'world'</span>&#125;</div><div class="line"><span class="keyword">if</span> d.<span class="built_in">has_key</span>(<span class="string">'hello'</span>):</div><div class="line">    <span class="keyword">print</span> d[<span class="string">'hello'</span>]    # 打印 <span class="string">'world'</span></div><div class="line"><span class="keyword">else</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'default_value'</span></div></pre></td></tr></table></figure>
+<h4 id="优雅-1"><a href="#优雅-1" class="headerlink" title="优雅"></a>优雅</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">d = &#123;<span class="string">'hello'</span>: <span class="string">'world'</span>&#125;</div><div class="line"></div><div class="line"><span class="built_in">print</span> d.<span class="keyword">get</span>(<span class="string">'hello'</span>, <span class="string">'default_value'</span>) # 打印 <span class="string">'world'</span></div><div class="line"><span class="built_in">print</span> d.<span class="keyword">get</span>(<span class="string">'thingy'</span>, <span class="string">'default_value'</span>) # 打印 <span class="string">'default_value'</span></div><div class="line"></div><div class="line"># Or:</div><div class="line"><span class="keyword">if</span> <span class="string">'hello'</span> <span class="keyword">in</span> d:</div><div class="line">    <span class="built_in">print</span> d[<span class="string">'hello'</span>]</div></pre></td></tr></table></figure>
 
+          
+        
+      -->
       
     </div>
 
@@ -537,7 +596,38 @@
       
 
       
-
+      <!-- 
+        
+          <p>实际上，JavaScript允许对任意数据类型做比较：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">false</span> == <span class="number">0</span>; <span class="regexp">//</span> <span class="keyword">true</span></div><div class="line"><span class="keyword">false</span> === <span class="number">0</span>; <span class="regexp">//</span> <span class="keyword">false</span></div></pre></td></tr></table></figure>
+<p>要特别注意相等运算符<code>==</code>。JavaScript在设计时，有两种比较运算符：</p>
+<p>第一种是<code>==</code>比较，它会自动转换数据类型再比较，很多时候，会得到非常诡异的结果；</p>
+<p>第二种是<code>===</code>比较，它不会自动转换数据类型，如果数据类型不一致，返回false，如果一致，再比较。</p>
+<p>由于JavaScript这个设计缺陷，不要使用<code>==</code>比较，始终坚持使用<code>===</code>比较。</p>
+<p>另一个例外是<code>NaN</code>这个特殊的Number与所有其他值都不相等，包括它自己：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">NaN</span> === NaN; // <span class="literal">false</span></div></pre></td></tr></table></figure>
+<p>唯一能判断NaN的方法是通过isNaN()函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">isNaN</span>(<span class="literal">NaN</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<hr>
+<p>在其他语言中，也有类似JavaScript的<code>null</code>的表示，例如Java也用<code>null</code>，Swift用<code>nil</code>，Python用<code>None</code>表示。但是，在JavaScript中，还有一个和<code>null</code>类似的<code>undefined</code>，它表示“未定义”。</p>
+<p>JavaScript的设计者希望用<code>null</code>表示一个空的值，而<code>undefined</code>表示值未定义。事实证明，这并没有什么卵用，区分两者的意义不大。大多数情况下，我们都应该用<code>null</code>。<code>undefined</code>仅仅在判断函数参数是否传递的情况下有用。</p>
+<hr>
+<p>strict模式</p>
+<p>JavaScript在设计之初，为了方便初学者学习，并不强制要求用var申明变量。这个设计错误带来了严重的后果：如果一个变量没有通过var申明就被使用，那么该变量就自动被申明为全局变量：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">i</span> = <span class="number">10</span>; // i现在是全局变量</div></pre></td></tr></table></figure>
+<p>在同一个页面的不同的JavaScript文件中，如果都不用<code>var</code>申明，恰好都使用了变量<code>i</code>，将造成变量i互相影响，产生难以调试的错误结果。</p>
+<p>使用<code>var</code>申明的变量则不是全局变量，它的范围被限制在该变量被申明的函数体内（函数的概念将稍后讲解），同名变量在不同的函数体内互不冲突。</p>
+<p>为了修补JavaScript这一严重设计缺陷，ECMA在后续规范中推出了strict模式，在strict模式下运行的JavaScript代码，强制通过<code>var</code>申明变量，未使用<code>var</code>申明变量就使用的，将导致运行错误。</p>
+<p>启用strict模式的方法是在JavaScript代码的第一行写上：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div></pre></td></tr></table></figure>
+<p>这是一个字符串，不支持strict模式的浏览器会把它当做一个字符串语句执行，支持strict模式的浏览器将开启strict模式运行JavaScript。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/JavaScript-查漏补缺/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -645,7 +735,31 @@
       
 
       
-
+      <!-- 
+        
+          <p>在Python中当函数被定义时，默认参数只会运算一次，而不是每次被调用时都会重新运算。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_to</span><span class="params">(num, target=[])</span>:</span></div><div class="line">    target.append(num)</div><div class="line">    <span class="keyword">return</span> target</div><div class="line"></div><div class="line">add_to(<span class="number">1</span>)</div><div class="line"><span class="comment"># Output: [1]</span></div><div class="line"></div><div class="line">add_to(<span class="number">2</span>)</div><div class="line"><span class="comment"># Output: [1, 2]</span></div><div class="line"></div><div class="line">add_to(<span class="number">3</span>)</div><div class="line"><span class="comment"># Output: [1, 2, 3]</span></div></pre></td></tr></table></figure>
+<p>你应该永远不要定义可变类型的默认参数，除非你知道你正在做什么。你应该像这样做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_to</span><span class="params">(element, target=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> target <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        target = []</div><div class="line">    target.append(element)</div><div class="line">    <span class="keyword">return</span> target</div></pre></td></tr></table></figure>
+<hr>
+<p>另一种三元运算符：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#(返回假，返回真)[真或假]</span></div><div class="line">(<span class="keyword">if</span>_<span class="built_in">test</span>_is_<span class="literal">false</span>, <span class="keyword">if</span>_<span class="built_in">test</span>_is_<span class="literal">true</span>)[<span class="built_in">test</span>]</div></pre></td></tr></table></figure>
+<p>例子：</p>
+<figure class="highlight monkey"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fat = <span class="literal">True</span></div><div class="line">fitness = (<span class="string">"skinny"</span>, <span class="string">"fat"</span>)[fat]</div><div class="line"><span class="built_in">print</span>(<span class="string">"Ali is "</span>, fitness)<span class="meta"></div><div class="line">#输出: Ali is fat</span></div></pre></td></tr></table></figure>
+<p>这之所以能正常工作，是因为在Python中，True等于1，而False等于0，这就相当于在元组中使用0和1来选取数据。</p>
+<p>上面的例子没有被广泛使用，而且Python玩家一般不喜欢那样，因为没有Python味儿(Pythonic)。这样的用法很容易把真正的数据与true/false弄混。</p>
+<p>另外一个不使用元组条件表达式的缘故是因为在元组中会把两个条件都执行，而 if-else 的条件表达式不会这样。</p>
+<p>例如：</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">condition</span> = True</div><div class="line"><span class="keyword">print</span>(<span class="number">2</span> <span class="keyword">if</span> <span class="keyword">condition</span> <span class="keyword">else</span> <span class="number">1</span>/<span class="number">0</span>)</div><div class="line">#输出: <span class="number">2</span></div><div class="line"></div><div class="line"><span class="keyword">print</span>((<span class="number">1</span>/<span class="number">0</span>, <span class="number">2</span>)[<span class="keyword">condition</span>])</div><div class="line">#输出ZeroDivisionError异常</div></pre></td></tr></table></figure>
+<p>这是因为在元组中是先建数据，然后用True(1)/False(0)来索引到数据。 而if-else条件表达式遵循普通的if-else逻辑树， 因此，如果逻辑中的条件异常，或者是重计算型（计算较久）的情况下，最好尽量避免使用元组条件表达式。</p>
+<hr>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/Python-查漏补缺/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      -->
       
     </div>
 
@@ -753,7 +867,81 @@
       
 
       
+      <!-- 
+        
+          
+            <p>原文地址：<a href="http://keeganlee.me/post/architecture/20160107" target="_blank" rel="external">http://keeganlee.me/post/architecture/20160107</a></p>
+<p>App与服务器的通信接口如何设计得好，需要考虑的地方挺多的，在此根据我的一些经验做一些总结分享，旨在抛砖引玉。</p>
+<h3 id="安全机制的设计"><a href="#安全机制的设计" class="headerlink" title="安全机制的设计"></a>安全机制的设计</h3><p>现在，大部分App的接口都采用RESTful架构，RESTFul最重要的一个设计原则就是，客户端与服务器的交互在请求之间是无状态的，也就是说，当涉及到用户状态时，每次请求都要带上身份验证信息。实现上，大部分都采用token的认证方式，一般流程是：</p>
+<ol>
+<li>用户用密码登录成功后，服务器返回token给客户端；</li>
+<li>客户端将token保存在本地，发起后续的相关请求时，将token发回给服务器；</li>
+<li>服务器检查token的有效性，有效则返回数据，若无效，分两种情况：<ul>
+<li>token错误，这时需要用户重新登录，获取正确的token</li>
+<li>token过期，这时客户端需要再发起一次认证请求，获取新的token</li>
+</ul>
+</li>
+</ol>
+<p>然而，此种验证方式存在一个安全性问题：当登录接口被劫持时，黑客就获取到了用户密码和token，后续则可以对该用户做任何事情了。用户只有修改密码才能夺回控制权。</p>
+<p>如何优化呢？第一种解决方案是采用HTTPS。HTTPS在HTTP的基础上添加了SSL安全协议，自动对数据进行了压缩加密，在一定程序可以防止监听、防止劫持、防止重发，安全性可以提高很多。不过，SSL也不是绝对安全的，也存在被劫持的可能。另外，服务器对HTTPS的配置相对有点复杂，还需要到CA申请证书，而且一般还是收费的。而且，HTTPS效率也比较低。一般，只有安全要求比较高的系统才会采用HTTPS，比如银行。而大部分对安全要求没那么高的App还是采用HTTP的方式。</p>
+<p>我们目前的做法是给每个接口都添加签名。给客户端分配一个密钥，每次请求接口时，将密钥和所有参数组合成源串，根据签名算法生成签名值，发送请求时将签名一起发送给服务器验证。类似的实现可参考OAuth1.0的签名算法。这样，黑客不知道密钥，不知道签名算法，就算拦截到登录接口，后续请求也无法成功操作。不过，因为签名算法比较麻烦，而且容易出错，只适合对内的接口。如果你们的接口属于开放的API，则不太适合这种签名认证的方式了，建议还是使用OAuth2.0的认证机制。</p>
+<p>我们也给每个端分配一个appKey，比如Android、iOS、微信三端，每个端分别分配一个appKey和一个密钥。没有传appKey的请求将报错，传错了appKey的请求也将报错。这样，安全性方面又加多了一层防御，同时也方便对不同端做一些不同的处理策略。</p>
+<p>另外，现在越来越多App取消了密码登录，而采用手机号+短信验证码的登录方式，我在当前的项目中也采用了这种登录方式。这种登录方式有几种好处：</p>
+<ol>
+<li>不需要注册，不需要修改密码，也不需要因为忘记密码而重置密码的操作了；</li>
+<li>用户不再需要记住密码了，也不怕密码泄露的问题了；</li>
+<li>相对于密码登录其安全性明显提高了。</li>
+</ol>
+<h3 id="接口数据的设计"><a href="#接口数据的设计" class="headerlink" title="接口数据的设计"></a>接口数据的设计</h3><p>接口的数据一般都采用JSON格式进行传输，不过，需要注意的是，JSON的值只有六种数据类型：</p>
+<ul>
+<li>Number：整数或浮点数</li>
+<li>String：字符串</li>
+<li>Boolean：true 或 false</li>
+<li>Array：数组包含在方括号[]中</li>
+<li>Object：对象包含在大括号{}中</li>
+<li>Null：空类型</li>
+</ul>
+<p>所以，传输的数据类型不能超过这六种数据类型。以前，我们曾经试过传输Date类型，它会转为类似于”2016年1月7日 09时17分42秒 GMT+08:00”这样的字符串，这在转换时会产生问题，不同的解析库解析方式可能不同，有的可能会转乱，有的可能直接异常了。要避免出错，必须做特殊处理，自己手动去做解析。为了根除这种问题，最好的解决方案是用毫秒数表示日期。</p>
+<p>另外，以前的项目中还出现过字符串的”true”和”false”，或者字符串的数字，甚至还出现过字符串的”null”，导致解析错误，尤其是”null”，导致App奔溃，后来查了好久才查出来是该问题导致的。这都是因为服务端对数据没处理好，导致有些数据转为了字符串。所以，在客户端，也不能完全信任服务端传回的数据都是对的，需要对所有异常情况都做相应处理。</p>
+<p>服务器返回的数据结构，一般为：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    code：<span class="number">0</span></div><div class="line">    message: <span class="string">"success"</span></div><div class="line">    <span class="class"><span class="keyword">data</span>: &#123; <span class="title">key1</span>: <span class="title">value1</span>, <span class="title">key2</span>: <span class="title">value2</span>, ... &#125;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>code: 状态码，0表示成功，非0表示各种不同的错误</li>
+<li>message: 描述信息，成功时为”success”，错误时则是错误信息</li>
+<li>data: 成功时返回的数据，类型为对象或数组</li>
+</ul>
+<p>不同错误需要定义不同的状态码，属于客户端的错误和服务端的错误也要区分，比如1XX表示客户端的错误，2XX表示服务端的错误。这里举几个例子：</p>
+<ul>
+<li>0：成功</li>
+<li>100：请求错误</li>
+<li>101：缺少appKey</li>
+<li>102：缺少签名</li>
+<li>103：缺少参数</li>
+<li>200：服务器出错</li>
+<li>201：服务不可用</li>
+<li>202：服务器正在重启</li>
+</ul>
+<p>错误信息一般有两种用途：一是客户端开发人员调试时看具体是什么错误；二是作为App错误提示直接展示给用户看。主要还是作为App错误提示，直接展示给用户看的。所以，大部分都是简短的提示信息。</p>
+<p>data字段只在请求成功时才会有数据返回的。数据类型限定为对象或数组，当请求需要的数据为单个对象时则传回对象，当请求需要的数据是列表时，则为某个对象的数组。这里需要注意的就是，不要将data传入字符串或数字，即使请求需要的数据只有一个，比如token，那返回的data应该为：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 正确</span></div><div class="line"><span class="string">data:</span> &#123; <span class="string">token:</span> <span class="number">123456</span> &#125;</div><div class="line"></div><div class="line"><span class="comment">// 错误</span></div><div class="line"><span class="string">data:</span> <span class="number">123456</span></div></pre></td></tr></table></figure>
+<h3 id="接口版本的设计"><a href="#接口版本的设计" class="headerlink" title="接口版本的设计"></a>接口版本的设计</h3><p>接口不可能一成不变，在不停迭代中，总会发生变化。接口的变化一般会有几种：</p>
+<ul>
+<li>数据的变化，比如增加了旧版本不支持的数据类型</li>
+<li>参数的变化，比如新增了参数</li>
+<li>接口的废弃，不再使用该接口了</li>
+</ul>
+<p>为了适应这些变化，必须得做接口版本的设计。实现上，一般有两种做法：</p>
+<ol>
+<li>每个接口有各自的版本，一般为接口添加个version的参数。</li>
+<li>整个接口系统有统一的版本，一般在URL中添加版本号，比如<a href="http://api.domain.com/v2。" target="_blank" rel="external">http://api.domain.com/v2。</a></li>
+</ol>
+<p>大部分情况下会采用第一种方式，当某一个接口有变动时，在这个接口上叠加版本号，并兼容旧版本。App的新版本开发传参时则将传入新版本的version。</p>
+<p>如果整个接口系统的根基都发生变动的话，比如微博API，从OAuth1.0升级到OAuth2.0，整个API都进行了升级。</p>
+<p>有时候，一个接口的变动还会影响到其他接口，但做的时候不一定能发现。因此，最好还要有一套完善的测试机制保证每次接口变更都能测试到所有相关层面。</p>
 
+          
+        
+      -->
       
     </div>
 
@@ -861,7 +1049,158 @@
       
 
       
+      <!-- 
+        
+          
+            <p>英文原文地址： <a href="https://github.com/airbnb/javascript/tree/master/react" target="_blank" rel="external">Airbnb React/JSX Style Guide</a></p>
+<h2 id="Airbnb-React-JSX-Style-Guide"><a href="#Airbnb-React-JSX-Style-Guide" class="headerlink" title="Airbnb React/JSX Style Guide"></a>Airbnb React/JSX Style Guide</h2><blockquote>
+<p>用更合理的方式书写 React 和 JSX</p>
+</blockquote>
+<h3 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h3><ul>
+<li><p>一个文件内只包含一个 React 组件。</p>
+<ul>
+<li>然而，允许再每个文件中有多个 <a href="https://facebook.github.io/react/docs/reusable-components.html#stateless-functions" target="_blank" rel="external">Stateless 或者 Pure 和 组件</a>。eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md#ignorestateless" target="_blank" rel="external">react/no-multi-comp</a>。</li>
+</ul>
+</li>
+<li><p>总是使用 JSX 语法。</p>
+</li>
+<li>不要使用 <code>React.createElement</code>，除非你从一个不是 JSX 的文件初始化你的应用。</li>
+</ul>
+<h3 id="Class-vs-React-createClass-vs-stateless"><a href="#Class-vs-React-createClass-vs-stateless" class="headerlink" title="Class vs React.createClass vs stateless"></a>Class vs <code>React.createClass</code> vs stateless</h3><ul>
+<li>如果有内部 state 或者 refs 时，最好使用 <code>class extends React.Component</code>，除非你有一个非常好的理由要使用 mixins。 eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-es6-class.md" target="_blank" rel="external">react/prefer-es6-class</a> <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md" target="_blank" rel="external">react/prefer-stateless-function</a></li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">const <span class="type">Listing</span> = <span class="type">React</span>.createClass(&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> &lt;div&gt;&#123;<span class="keyword">this</span>.state.hello&#125;&lt;/div&gt;;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Listing</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> &lt;div&gt;&#123;<span class="keyword">this</span>.state.hello&#125;&lt;/div&gt;;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>如果没有内部 state 或者 refs，那么普通函数 (非箭头函数) 比类的写法更好：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Listing</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;this.props.hello&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// bad (since arrow functions do not have a "name" property)</span></div><div class="line"><span class="keyword">const</span> Listing = (&#123; hello &#125;) =&gt; (</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;hello&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Listing</span>(<span class="params">&#123; hello &#125;</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;hello&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h3><ul>
+<li><strong>扩展名</strong>：React 组件使用.jsx扩展名</li>
+<li><strong>文件名</strong>：文件名使用帕斯卡命名。 例如： ReservationCard.jsx</li>
+<li><strong>引用命名</strong>：React 组件使用帕斯卡命名，引用实例采用骆驼命名。 eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md" target="_blank" rel="external">react/jsx-pascal-case</a></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">import</span> reservationCard <span class="keyword">from</span> <span class="string">'./ReservationCard'</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">import</span> ReservationCard <span class="keyword">from</span> <span class="string">'./ReservationCard'</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">const</span> ReservationItem = <span class="xml"><span class="tag">&lt;<span class="name">ReservationCard</span> /&gt;</span>;</span></div><div class="line"></div><div class="line">// good</div><div class="line">const reservationItem = <span class="tag">&lt;<span class="name">ReservationCard</span> /&gt;</span>;</div></pre></td></tr></table></figure>
+<h3 id="命名-1"><a href="#命名-1" class="headerlink" title="命名"></a>命名</h3><ul>
+<li><strong>扩展</strong>： 使用 <code>.jsx</code> React 组件的扩展名。</li>
+<li><strong>文件名</strong>： 为文件使用帕斯卡命名方式（PascalCase）。 例如： <code>ReservationCard.jsx</code></li>
+<li><strong>引用命名</strong>：为 React组件 使用帕斯卡命名方式（PascalCase），为他们的实例使用驼峰方式命名（camelCase）。eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md" target="_blank" rel="external">react/jsx-pascal-case</a></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">import</span> reservationCard <span class="keyword">from</span> <span class="string">'./ReservationCard'</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">import</span> ReservationCard <span class="keyword">from</span> <span class="string">'./ReservationCard'</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">const</span> ReservationItem = <span class="xml"><span class="tag">&lt;<span class="name">ReservationCard</span> /&gt;</span>;</span></div><div class="line"></div><div class="line">// good</div><div class="line">const reservationItem = <span class="tag">&lt;<span class="name">ReservationCard</span> /&gt;</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>组件命名</strong>：组件名称应该和文件名一致。例如： <code>ReservationCard.jsx</code> 应该有一个 ReservationCard 的引用名称。 然而，如果是在目录中的组件， 应该使用 <code>index.jsx</code> 作为文件名并且使用目录名称作为组件名：</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">import</span> Footer <span class="keyword">from</span> <span class="string">'./Footer/Footer'</span>;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="keyword">import</span> Footer <span class="keyword">from</span> <span class="string">'./Footer/index'</span>;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="keyword">import</span> Footer <span class="keyword">from</span> <span class="string">'./Footer'</span>;</div></pre></td></tr></table></figure>
+<h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><ul>
+<li>不要使用 <code>displayName</code> 属性来命名组件，应该使用类的引用名称。</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">export <span class="keyword">default</span> <span class="type">React</span>.createClass(&#123;</div><div class="line">  displayName: <span class="symbol">'ReservationCar</span>d',</div><div class="line">  <span class="comment">// stuff goes here</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">export <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">ReservationCard</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h3><ul>
+<li>为 JSX 语法使用下列的对其方式。eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md" target="_blank" rel="external">react/jsx-closing-bracket-location</a></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">&lt;Foo superLongParam=<span class="string">"bar"</span></div><div class="line">     anotherSuperLongParam=<span class="string">"baz"</span> /&gt;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">&lt;Foo</div><div class="line">  superLongParam=<span class="string">"bar"</span></div><div class="line">  anotherSuperLongParam=<span class="string">"baz"</span></div><div class="line">/&gt;</div><div class="line"></div><div class="line"><span class="comment">// if props fit in one line then keep it on the same line</span></div><div class="line">&lt;Foo bar=<span class="string">"bar"</span> /&gt;</div><div class="line"></div><div class="line"><span class="comment">// children get indented normally</span></div><div class="line">&lt;Foo</div><div class="line">  superLongParam=<span class="string">"bar"</span></div><div class="line">  anotherSuperLongParam=<span class="string">"baz"</span></div><div class="line">&gt;</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">Quux</span> /&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">Foo</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="引号"><a href="#引号" class="headerlink" title="引号"></a>引号</h3><ul>
+<li><code>JSX</code> 的属性都采用双引号（<code>&quot;</code>），其他的 <code>JS</code> 都使用单引号。eslint: <a href="http://eslint.org/docs/rules/jsx-quotes" target="_blank" rel="external">jsx-quotes</a></li>
+</ul>
+<blockquote>
+<p>为什么这样做？<code>JSX</code> 属性 <a href="http://eslint.org/docs/rules/jsx-quotes" target="_blank" rel="external">不能包含转义的引号</a>, 所以当输入 <code>&quot;don&#39;t&quot;</code> 这类的缩写的时候用双引号会更方便。标准的 HTML 属性通常也会使用双引号替代单引号，所以 JSX 属性也会遵守这样的约定。</p>
+</blockquote>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">&lt;Foo bar=<span class="string">'bar'</span> /&gt;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">&lt;Foo bar=<span class="string">"bar"</span> /&gt;</div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line">&lt;Foo style=&#123;&#123; <span class="string">left:</span> <span class="string">"20px"</span> &#125;&#125; /&gt;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">&lt;Foo style=&#123;&#123; <span class="string">left:</span> <span class="string">'20px'</span> &#125;&#125; /&gt;</div></pre></td></tr></table></figure>
+<h3 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h3><ul>
+<li>总是在你的自闭标签内包含一个空格。</li>
+</ul>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="params">&lt;Foo/&gt;</span></div><div class="line"></div><div class="line"><span class="comment">// very bad</span></div><div class="line"><span class="params">&lt;Foo                 /&gt;</span></div><div class="line"></div><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="params">&lt;Foo</span></div><div class="line"> /&gt;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="params">&lt;Foo /&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ul>
+<li>总是为你的属性名使用驼峰命名（camelCase）。</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line"><span class="tag">&lt;<span class="name">Foo</span></span></div><div class="line">  <span class="attr">UserName</span>=<span class="string">"hello"</span></div><div class="line">  <span class="attr">phone_number</span>=<span class="string">&#123;12345678&#125;</span></div><div class="line">/&gt;</div><div class="line"></div><div class="line">// good</div><div class="line"><span class="tag">&lt;<span class="name">Foo</span></span></div><div class="line">  <span class="attr">userName</span>=<span class="string">"hello"</span></div><div class="line">  <span class="attr">phoneNumber</span>=<span class="string">&#123;12345678&#125;</span></div><div class="line">/&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>当属性值明确为 <code>true</code> 的时候，忽略它的值。 eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md" target="_blank" rel="external">react/jsx-boolean-value</a></li>
+</ul>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="params">&lt;Foo</span></div><div class="line">  hidden=&#123;true&#125;</div><div class="line">/&gt;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="params">&lt;Foo</span></div><div class="line">  hidden</div><div class="line">/&gt;</div></pre></td></tr></table></figure>
+<h3 id="大括号"><a href="#大括号" class="headerlink" title="大括号"></a>大括号</h3><ul>
+<li>用括号包裹多行 JSX 标签。 eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/wrap-multilines.md" target="_blank" rel="external">react/wrap-multilines</a></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">render() &#123;</div><div class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">MyComponent</span> <span class="attr">className</span>=<span class="string">"long body"</span> <span class="attr">foo</span>=<span class="string">"bar"</span>&gt;</span></span></div><div class="line">           <span class="tag">&lt;<span class="name">MyChild</span> /&gt;</span></div><div class="line">         <span class="tag">&lt;/<span class="name">MyComponent</span>&gt;</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">render() &#123;</div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">MyComponent</span> <span class="attr">className</span>=<span class="string">"long body"</span> <span class="attr">foo</span>=<span class="string">"bar"</span>&gt;</span></span></div><div class="line">      <span class="tag">&lt;<span class="name">MyChild</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">MyComponent</span>&gt;</span></div><div class="line">  );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good, when single line</span></div><div class="line">render() &#123;</div><div class="line">  <span class="keyword">const</span> body = <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</div><div class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">MyComponent</span>&gt;</span>&#123;body&#125;<span class="tag">&lt;/<span class="name">MyComponent</span>&gt;</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><ul>
+<li>没有子元素时，总是使用自闭标签。 eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md" target="_blank" rel="external">react/self-closing-comp</a></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">&lt;Foo className=<span class="string">"stuff"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">Foo</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">&lt;Foo className=<span class="string">"stuff"</span> /&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>如果控件有多行属性，关闭标签要另起一行。 eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md" target="_blank" rel="external">react/jsx-closing-bracket-location</a></li>
+</ul>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line">&lt;Foo</div><div class="line">  <span class="built_in">bar</span>=<span class="string">"bar"</span></div><div class="line">  baz=<span class="string">"baz"</span> /&gt;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line">&lt;Foo</div><div class="line">  <span class="built_in">bar</span>=<span class="string">"bar"</span></div><div class="line">  baz=<span class="string">"baz"</span></div><div class="line">/&gt;</div></pre></td></tr></table></figure>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><ul>
+<li>使用箭头函数关闭本地变量。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ItemList</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></div><div class="line">      &#123;props.items.map((item, index) =&gt; (</div><div class="line">        <span class="tag">&lt;<span class="name">Item</span></span></div><div class="line">          <span class="attr">key</span>=<span class="string">&#123;item.key&#125;</span></div><div class="line">          <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt; doSomethingWith(item.name, index)&#125;</div><div class="line">        /&gt;</div><div class="line">      ))&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>为 render 方法的处理事件在构造函数中进行绑定。 eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md" target="_blank" rel="external">react/jsx-no-bind</a></li>
+</ul>
+<blockquote>
+<p>为什么这样做? 在 render 方法中的 bind 调用每次调用 render 的时候都会创建一个全新的函数。</p>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  onClickDiv() &#123;</div><div class="line">    <span class="comment">// do stuff</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> &lt;div onClick=&#123;<span class="keyword">this</span>.onClickDiv.bind(<span class="keyword">this</span>)&#125; /&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    <span class="keyword">super</span>(props);</div><div class="line"></div><div class="line">    <span class="keyword">this</span>.onClickDiv = <span class="keyword">this</span>.onClickDiv.bind(<span class="keyword">this</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  onClickDiv() &#123;</div><div class="line">    <span class="comment">// do stuff</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> &lt;div onClick=&#123;<span class="keyword">this</span>.onClickDiv&#125; /&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>不要使用下划线前缀为 React 组件的内部方法命名。</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// bad</span></div><div class="line"><span class="type">React</span>.createClass(&#123;</div><div class="line">  _onClickSubmit() &#123;</div><div class="line">    <span class="comment">// do stuff</span></div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="comment">// other stuff</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// good</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  onClickSubmit() &#123;</div><div class="line">    <span class="comment">// do stuff</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// other stuff</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><ul>
+<li>class extends React.Component 的顺序：</li>
+</ul>
+<ol>
+<li>可选的 <code>static</code> 方法</li>
+<li><code>constructor</code></li>
+<li><code>getChildContext</code></li>
+<li><code>componentWillMount</code></li>
+<li><code>componentDidMount</code></li>
+<li><code>componentWillReceiveProps</code></li>
+<li><code>shouldComponentUpdate</code></li>
+<li><code>componentWillUpdate</code></li>
+<li><code>componentDidUpdate</code></li>
+<li><code>componentWillUnmount</code></li>
+<li>点击回调或者事件回调 比如 <code>onClickSubmit()</code> 或者 <code>onChangeDescription()</code></li>
+<li><code>render</code> 函数中的 getter 方法 比如 <code>getSelectReason()</code> 或者 <code>getFooterContent()</code></li>
+<li>可选的 render 方法 比如 <code>renderNavigation()</code> 或者 <code>renderProfilePicture()</code></li>
+<li><code>render</code></li>
+</ol>
+<ul>
+<li>怎样定义 <code>propTypes</code>, <code>defaultProps</code>, <code>contextTypes</code>等……</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="type">React</span>, &#123; <span class="type">PropTypes</span> &#125; from <span class="symbol">'reac</span>t';</div><div class="line"></div><div class="line">const propTypes = &#123;</div><div class="line">  id: <span class="type">PropTypes</span>.number.isRequired,</div><div class="line">  url: <span class="type">PropTypes</span>.string.isRequired,</div><div class="line">  text: <span class="type">PropTypes</span>.string,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">const defaultProps = &#123;</div><div class="line">  text: <span class="symbol">'Hello</span> <span class="type">World</span>',</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Link</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  static methodsAreOk() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> &lt;a href=&#123;<span class="keyword">this</span>.props.url&#125; data-id=&#123;<span class="keyword">this</span>.props.id&#125;&gt;&#123;<span class="keyword">this</span>.props.text&#125;&lt;/a&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="type">Link</span>.propTypes = propTypes;</div><div class="line"><span class="type">Link</span>.defaultProps = defaultProps;</div><div class="line"></div><div class="line">export <span class="keyword">default</span> <span class="type">Link</span>;</div></pre></td></tr></table></figure>
+<p>React.createClass的排序：eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md" target="_blank" rel="external">react/sort-comp</a></p>
+<ol>
+<li><code>displayName</code></li>
+<li><code>propTypes</code></li>
+<li><code>contextTypes</code></li>
+<li><code>childContextTypes</code></li>
+<li><code>mixins</code></li>
+<li><code>statics</code></li>
+<li><code>defaultProps</code></li>
+<li><code>getDefaultProps</code></li>
+<li><code>getInitialState</code></li>
+<li><code>getChildContext</code></li>
+<li><code>componentWillMount</code></li>
+<li><code>componentDidMount</code></li>
+<li><code>componentWillReceiveProps</code></li>
+<li><code>shouldComponentUpdate</code></li>
+<li><code>componentWillUpdate</code></li>
+<li><code>componentDidUpdate</code></li>
+<li><code>componentWillUnmount</code></li>
+<li>点击回调或者事件回调 比如 <code>onClickSubmit()</code> or <code>onChangeDescription()</code></li>
+<li>getter methods for render like <code>getSelectReason()</code> or <code>getFooterContent()</code></li>
+<li>Optional render methods like <code>renderNavigation()</code>or <code>renderProfilePicture()</code></li>
+<li><code>render</code></li>
+</ol>
+<h3 id="isMounted"><a href="#isMounted" class="headerlink" title="isMounted"></a>isMounted</h3><ul>
+<li>不要使用 isMounted. eslint: <a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-is-mounted.md" target="_blank" rel="external">react/no-is-mounted</a></li>
+</ul>
+<blockquote>
+<p>为什么? <a href="isMounted is an anti-pattern">isMounted是一种反模式</a>，当使用 ES6 类风格声明 React 组件时该属性不可用，并且即将被官方弃用。</p>
+</blockquote>
 
+          
+        
+      -->
       
     </div>
 
@@ -969,7 +1308,18 @@
       
 
       
-
+      <!-- 
+        
+          
+            <p>写这篇博客的原因是，我刚用 Mac 的时候 <code>MySQL</code> 是在官网下载的安装包进行的安装，那时候不知道有 <code>Homebrew</code> 这个神器。用官方的包安装好后又做何很多的配置最终才能正常使用。但还是有不少问题，比如无法在终端启动MySQL，只能在系统偏好里，通过官方的启动器启动。</p>
+<p>后来有很长一段时间没有用过MySQL，今天再用的时候发现无法启动了，于是就把之前的进行了卸载，重新用Homebrew安装了一遍。</p>
+<h3 id="卸载过程："><a href="#卸载过程：" class="headerlink" title="卸载过程："></a>卸载过程：</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">rm</span> /usr/<span class="keyword">local</span>/mysql</div><div class="line">sudo <span class="keyword">rm</span> -rf /usr/<span class="keyword">local</span>/mysql*</div><div class="line">sudo <span class="keyword">rm</span> -rf /Library/StartupItems/MySQLCOM</div><div class="line">sudo <span class="keyword">rm</span> -rf /Library/PreferencePanes/My*</div><div class="line">sudo vim /etc/hostconfig 按a进入编辑模式 然后手动删除 MYSQLCOM=-YES- 然后按Esc退出编辑模式 输入：wq！保存并退出</div><div class="line"><span class="keyword">rm</span> -rf ~/Library/PreferencePanes/My*</div><div class="line">sudo <span class="keyword">rm</span> -rf /Library/Receipts/mysql*</div><div class="line">sudo <span class="keyword">rm</span> -rf /Library/Receipts/MySQL*</div><div class="line">sudo <span class="keyword">rm</span> -rf /<span class="keyword">var</span>/<span class="keyword">db</span>/receipts/com.mysql.*</div></pre></td></tr></table></figure>
+<h3 id="安装过程："><a href="#安装过程：" class="headerlink" title="安装过程："></a>安装过程：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew install mysql</div><div class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/mysql/bin</span></div></pre></td></tr></table></figure>
+<h3 id="启动："><a href="#启动：" class="headerlink" title="启动："></a>启动：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/mysql/bin</span></div><div class="line">mysql.server start</div></pre></td></tr></table></figure>
+<h3 id="首次登录："><a href="#首次登录：" class="headerlink" title="首次登录："></a>首次登录：</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">mysql</span> -uroot</div></pre></td></tr></table></figure>
+          
+        
+      -->
       
     </div>
 
@@ -1077,7 +1427,32 @@
       
 
       
+      <!-- 
+        
+          
+            <p>无限上拉，说起来很高端，实际就是 APP 里边的上拉加载更多。</p>
+<p>现在做的一个小 Web 项目里刚好有这个需求，之前我做的 Web 应用都是通过翻页来查看其他内容的，没有做过这种加载更多的功能，所以刚好借这个机会接触下。</p>
+<p>在没做之前，想的是加载更多可能就跟手机 APP 那样，通过 <code>js</code> 异步加载 <code>json</code> 数据，然后更改 DOM 来完成这个操作。于是我就昂首阔步开始做了，刚开始想通过 <code>vue.js</code> 来完成，整个页面都是通过 json 数据来渲染，后来遇到各种问题，（比如，通过url来过滤数据，<code>/tag/xxx</code> 过滤出 tag 为 xxx 的数据，但是没有找到非常便捷的方法来传递这个值给接口）所以放弃，再然后想要不就第一页通过 <code>jinja</code> 来渲染出来，剩下的页通过 <code>jQuery</code> 来加载，然后还是感觉各种麻烦。</p>
+<p>这时候想到了谷歌，查找资料后发现一个 <code>jQuery</code> 插件是专门来实现这个需求的，而且实现方法跟我设想的完全不一样，大致原理是：就像做普通翻页那样，告诉它下一页的地址，再告诉它需要加载更多部分的节点，这个插件会异步请求那个页面，然后把相应部分取出，加载到当前页面的底部。</p>
+<p>我了个擦，我居然没有想到这种方法，我之前设想方法，还要单独去写个用来翻页的接口，增加了很多工作量，这种方法简直是棒呆了！</p>
+<p>下边来介绍一下这个插件的使用：</p>
+<p>插件名称：infinite-scroll</p>
+<p>项目地址： <a href="http://www.infinite-scroll.com/infinite-scroll-jquery-plugin/" target="_blank" rel="external">Infinite Scroll jQuery Plugin</a></p>
+<p>参考地址： <a href="http://ifxoxo.com/jquery-infinite-scroll.html" target="_blank" rel="external">http://ifxoxo.com/jquery-infinite-scroll.html</a></p>
+<p>首先要在页面底部新增一个类似于下一页按钮的部分，这个部分用什么包裹都可以，但最里边需要有个a标签，href对应的是下一页的地址。例如： <code>&lt;a id=&quot;next&quot; href=&quot;?page=2&quot;&gt;&lt;/a&gt;</code> 我这里什么也没有包裹，而且 <code>a</code> 标签里也没加文字，这样翻到底部时看不到任何提示信息。这里可以自行写个 <code>div</code> 什么的，里边写着上拉加载更多这样的提示信息。当加载更多被触发时，这个部分会自动隐藏掉。</p>
+<p>下边来看看 <code>js</code> 代码部分：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    $(<span class="string">"#masonny-div"</span>).infinitescroll(&#123;</div><div class="line">        navSelector: <span class="string">"#next:last"</span>,   <span class="comment">// 页面分页元素(成功后会被隐藏)</span></div><div class="line">        nextSelector: <span class="string">"a#next:last"</span>, <span class="comment">// 需要点击的下一页链接</span></div><div class="line">        itemSelector: <span class="string">"div.section"</span>, <span class="comment">// ajax回来之后，每一项的selecter</span></div><div class="line">        animate: <span class="literal">true</span>,      <span class="comment">//加载完毕是否采用动态效果</span></div><div class="line">        extraScrollPx: <span class="number">100</span>,       <span class="comment">//向下滚动的像素，必须开启动态效果</span></div><div class="line">        debug: <span class="literal">true</span>,      <span class="comment">//调试的时候，可以打开,</span></div><div class="line">        path: <span class="function"><span class="keyword">function</span> (<span class="params">index</span>) </span>&#123;</div><div class="line"></div><div class="line">            <span class="keyword">return</span> <span class="string">"?page="</span> + index;</div><div class="line">        &#125;,</div><div class="line">        loading: &#123;</div><div class="line">            finished: <span class="literal">undefined</span>,</div><div class="line">            finishedMsg: <span class="string">'没有更多内容了'</span>, <span class="comment">//当加载失败，或者加载不出内容之后的提示语</span></div><div class="line">            img: <span class="string">'/static/pic/loading-new.gif'</span>,   <span class="comment">//自定义loadding的动画图</span></div><div class="line">            msgText: <span class="string">'正在加载中...'</span>,    <span class="comment">//加载时的提示语</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">&#125;)</div><div class="line">;</div></pre></td></tr></table></figure>
+<p>因为我这里需要提取出来加载更多的部分是这样的：</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-12 section"</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"location.href='</span></span><span class="template-variable">&#123;&#123; artcle.url &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">'"</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">h4</span>&gt;</span><span class="tag">&lt;<span class="name">a</span>&gt;</span><span class="template-variable">&#123;&#123; artcle.title &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h4</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span><span class="template-variable">&#123;&#123; artcle.abstract &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row tag"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span> <span class="attr">style</span>=<span class="string">"white-space:nowrap;"</span>&gt;</span></div><div class="line">                <span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> tag <span class="keyword">in</span> artcle._tags[:3] %&#125;</span><span class="xml"></span></div><div class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-4"</span> <span class="attr">onclick</span>=<span class="string">"location.href='/tag/</span></span><span class="template-variable">&#123;&#123; tag.tag_id &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">'"</span>&gt;</span>#</span><span class="template-variable">&#123;&#123; tag.name &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">                <span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span><span class="xml"></span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-4 col-xs-offset-2"</span></span></div><div class="line">             <span class="attr">style</span>=<span class="string">"text-align: end"</span>&gt;<span class="template-variable">&#123;&#123; artcle.publish_date | datetime('date') &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>所以我的 <code>itemSelector</code> 的值为 <code>div.section</code>。</p>
+<p>还有一点，我这个用这个插件的时候，刚开始的时候一直有问题，是因为没有给 <code>path</code> 写值， <code>path</code> 的作用是每次加载下一页的时候所对应的地址。</p>
+<p>还可以给加载更多时候的 loading 编写样式，例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#infscr-loading</span> &#123;</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">z-index</span>: <span class="number">100</span>;</div><div class="line">    <span class="attribute">position</span>: fixed;</div><div class="line">    <span class="attribute">left</span>: <span class="number">45%</span>;</div><div class="line">    <span class="attribute">bottom</span>: <span class="number">40px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#000</span>;</div><div class="line">    <span class="attribute">opacity</span>: <span class="number">0.8</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#FFF</span>;</div><div class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>至此，我又 get 到一个新技能。</p>
 
+          
+        
+      -->
       
     </div>
 
@@ -1185,7 +1560,18 @@
       
 
       
+      <!-- 
+        
+          
+            <p>今天有同事说自己的CSDN博客被盗了，我才隐约想起我以前好像也在CSDN写过东西。找了好久才找到<a href="http://blog.csdn.net/china_jp" target="_blank" rel="external">当年的博客</a>，都是那时候学C++时候的笔记，如果我到现在还在坚持用C++的话，也许也已经能和「轮子哥」谈笑风生了吧。</p>
+<p><img src="http://7xj0sd.com1.z0.glb.clouddn.com/images%2F1.pic_hd.jpg" alt="csdn"></p>
+<p>C++让我懂了很多直接学习动态语言和其他高级语言（比如Java，我并没有黑Java）所接触不到的和更底层的东西，比如指针、内存动态分配、构造函数和析构函数的作用等等。<br>那时候还亲自动手写过各种数据结构和算法的C++实现，也走过很多很多的弯路。</p>
+<p>翻到这个东西还能证明一点，我已经符合至少三年开发经验的要求了😂</p>
+<p>还有，不要报有在达X培训3个月就能成大牛的想法，我都鼓捣快四年了也才刚刚入门。。。</p>
 
+          
+        
+      -->
       
     </div>
 
@@ -1293,7 +1679,52 @@
       
 
       
-
+      <!-- 
+        
+          
+            <p><code>Counter</code> 的 <code>elements()</code> 方法返回一个迭代器。元素被重复了多少次，在该迭代器中就包含多少个该元素。所有元素按照字母序排序，个数小于1的元素不被包含。</p>
+<p>举例：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(<span class="string">'ABCABC'</span>)</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; sorted(c.elements())</div><div class="line">[<span class="string">'A'</span>, <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'C'</span>]</div></pre></td></tr></table></figure>
+<p>源码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">elements</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">return</span> _chain.from_iterable(_starmap(_repeat, self.iteritems()))</div></pre></td></tr></table></figure>
+<p><strong>好！！！精！！！简！！！</strong></p>
+<p>从里往外看这行代码吧：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">_starmap(<span class="name">_repeat</span>, self.iteritems())</div></pre></td></tr></table></figure>
+<p><code>_starmap</code> 是 <code>itertools</code> 模块中的一个实现了 <code>__iter__</code> 方法的类，构造器接收两个参数：一个函数（function）和一个序列（sequence），作用是创建一个迭代器，生成值function(*item),其中item来自sequence，只有当sequence生成的项适用于这种调用函数的方式时，此函数才有效。</p>
+<p><code>itertools.starmap(function, iterable)</code> 等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">starmap</span><span class="params">(function, iterable)</span>:</span></div><div class="line">    <span class="keyword">for</span> args <span class="keyword">in</span> iterable:</div><div class="line">        <span class="keyword">yield</span> function(*args)</div></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> starmap</div><div class="line"></div><div class="line">values = [(<span class="number">0</span>, <span class="number">5</span>), (<span class="number">1</span>, <span class="number">6</span>), (<span class="number">2</span>, <span class="number">7</span>), (<span class="number">3</span>, <span class="number">8</span>), (<span class="number">4</span>, <span class="number">9</span>)]</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> starmap(<span class="keyword">lambda</span> x,y:(x, y, x*y), values):</div><div class="line">    <span class="keyword">print</span> <span class="string">'%d * %d = %d'</span> % i</div><div class="line"></div><div class="line"><span class="number">0</span> * <span class="number">5</span> = <span class="number">0</span></div><div class="line"><span class="number">1</span> * <span class="number">6</span> = <span class="number">6</span></div><div class="line"><span class="number">2</span> * <span class="number">7</span> = <span class="number">14</span></div><div class="line"><span class="number">3</span> * <span class="number">8</span> = <span class="number">24</span></div><div class="line"><span class="number">4</span> * <span class="number">9</span> = <span class="number">36</span></div></pre></td></tr></table></figure>
+<p>所以 <code>_starmap(_repeat, self.iteritems())</code> 等价于下边的代码：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="keyword">self</span>.iteritems():</div><div class="line">    <span class="keyword">yield</span> _repeat(*item)</div></pre></td></tr></table></figure>
+<p>也就是返回一个迭代器，迭代器的每一项是使用<code>item</code> 解包作为参数来调用 <code>_repeat</code>  的结果。</p>
+<p>下边再来看<code>_repeat</code>：<code>itertools.repeat(object[, times])</code>，同样也是实现了<code>__iter__</code>方法的类，作用是创建一个迭代器，重复生成object，times（如果已提供）指定重复计数，如果未提供times，将无止尽返回该对象。</p>
+<p>等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">repeat</span><span class="params">(object, times=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> times <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            <span class="keyword">yield</span> object</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(times):</div><div class="line">            <span class="keyword">yield</span> object</div></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> itertools import *</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="keyword">repeat</span>('<span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span>', <span class="number">5</span>):</div><div class="line">    print i</div><div class="line"></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div></pre></td></tr></table></figure>
+<p><code>repeat</code> 很容易理解就不用解释了。</p>
+<p>下边我们返回去看<code>_starmap(_repeat, self.iteritems())</code>， 这些完这些，得到的结果是一个迭代器里边每一项依然是个迭代器，每个内层迭代器迭代出的结果是重复生成的项。</p>
+<p>可以想象成这样：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; _starmap(_repeat, [&#123;<span class="string">'A'</span>: <span class="number">2</span>, <span class="string">'B'</span>: <span class="number">3</span>, <span class="string">'C'</span>: <span class="number">4</span>&#125;])</div><div class="line"></div><div class="line">[<span class="string">'AA'</span>, <span class="string">'BBB'</span>, <span class="string">'CCCC'</span>]</div></pre></td></tr></table></figure>
+<p>再来看一下<code>chain</code>：<code>itertools.chain(*iterables)</code>, 将多个迭代器作为参数, 但只返回单个迭代器, 它产生所有参数迭代器的内容, 就好像他们是来自于一个单一的序列。</p>
+<p>等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">chain</span><span class="params">(*iterables)</span>:</span></div><div class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> iterables:</div><div class="line">        <span class="keyword">for</span> element <span class="keyword">in</span> it:</div><div class="line">            <span class="keyword">yield</span> element</div></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> chain([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]):</div><div class="line">    print <span class="selector-tag">i</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="selector-tag">a</span></div><div class="line"><span class="selector-tag">b</span></div><div class="line">c</div></pre></td></tr></table></figure>
+<p><code>chain</code> 的 类函数 <code>from_iterable</code> 可以理解成接收一个参数，然后将这个参数解包后调用构造器。</p>
+<p>以上例子也可以写成：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> chain.from_iterable([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]]):</div><div class="line">    print <span class="selector-tag">i</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="selector-tag">a</span></div><div class="line"><span class="selector-tag">b</span></div><div class="line">c</div></pre></td></tr></table></figure>
+<p>所以，用 <code>chain</code> 来合并 <code>_starmap(_repeat, self.iteritems())</code> 得到的嵌套迭代器后得到的就是我们需要的结果了！</p>
+<p><strong>最后再次感叹下Python代码的精简！</strong></p>
+<hr>
+<p>更正前几篇中的出现过的一个错误：</p>
+<p>字典调用 <code>iteritems</code> 方法得到的并不是一个列表，而是一个迭代器。</p>
+<p>之前把 <code>iteritems</code> 一直当成 <code>items</code> 了。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; x = &#123;<span class="string">'title'</span><span class="symbol">:<span class="string">'python web site'</span></span>,<span class="string">'url'</span><span class="symbol">:<span class="string">'www.iplaypython.com'</span></span>&#125;</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; x.items()</div><div class="line"></div><div class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; a</div><div class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; type(a)</div><div class="line">&lt;type <span class="string">'list'</span>&gt;</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; f = x.iteritems()</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; f</div><div class="line">&lt;dictionary-itemiterator object at <span class="number">0xb74d5e3c</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; type(f)</div><div class="line">&lt;type <span class="string">'dictionary-itemiterator'</span>&gt;    <span class="comment">#字典项的迭代器</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; list(f)</div><div class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</div></pre></td></tr></table></figure>
+          
+        
+      -->
       
     </div>
 
