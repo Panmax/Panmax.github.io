@@ -90,7 +90,7 @@
 这种模式刚开始没有问题，后来新鲜增加了可以筛选性别的需求。因为队列中所有性别都是混在一起的，所以每次从队列中取出数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记一次业务逻辑优化">
-<meta property="og:url" content="http://panmax.love/2015/记一次业务逻辑优化/index.html">
+<meta property="og:url" content="http://panmax.love/archives/2015/记一次业务逻辑优化/index.html">
 <meta property="og:site_name" content="Panmax">
 <meta property="og:description" content="我们之前新鲜的逻辑是这样的：每个用户在redis中有一个自己的队列，队列中记录的照片的ID，当有新照片产生的时候，不区分性别，往每个人队列最前边插入(lpush)这条数据，每个人的队列最大值为1000，超出部分被截断，当用户看过队列中某张照片后，这张照片会从队列中移除(lrem)。
 这种模式刚开始没有问题，后来新鲜增加了可以筛选性别的需求。因为队列中所有性别都是混在一起的，所以每次从队列中取出数据">
@@ -119,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://panmax.love/2015/记一次业务逻辑优化/"/>
+  <link rel="canonical" href="http://panmax.love/archives/2015/记一次业务逻辑优化/"/>
 
   <title> 记一次业务逻辑优化 | Panmax </title>
 </head>
