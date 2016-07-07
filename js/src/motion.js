@@ -269,7 +269,7 @@ $(document).ready(function () {
 
       function postMotion () {
         var postMotionOptions = window.postMotionOptions || {
-            stagger: 100,
+            stagger: 0,
             drag: true
           };
         postMotionOptions.complete = function () {
