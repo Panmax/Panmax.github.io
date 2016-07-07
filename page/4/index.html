@@ -260,6 +260,134 @@
             
               
                 
+                <a class="post-title-link" href="/2015/flask-bootstrap默认使用国外cdn解决方案/" itemprop="url">
+                  flask-bootstrap默认使用国外cdn解决方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-29T18:38:09+08:00" content="2015-12-29">
+              2015-12-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/flask/" itemprop="url" rel="index">
+                    <span itemprop="name">flask</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+      <!-- 
+        
+          
+            <p><code>flask-bootstrap</code> 默认走的是国外CDN，所以在天朝使用起来速度奇慢。</p>
+<p>解决办法:</p>
+<ul>
+<li>找到在包管理目录中找到<code>flask-bootstrap</code>的<code>__init__.py</code>文件，将里边控制CDN部分的代码修改为：</li>
+</ul>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">bootstrap = lwrap(</div><div class="line">    <span class="name">WebCDN</span>('//cdn.bootcss.com/bootstrap/%s/'</div><div class="line">           % BOOTSTRAP_VERSION),</div><div class="line">    local)</div><div class="line"></div><div class="line">jquery = lwrap(</div><div class="line">    <span class="name">WebCDN</span>('//cdn.bootcss.com/jquery/%s/'</div><div class="line">           % JQUERY_VERSION),</div><div class="line">    local)</div></pre></td></tr></table></figure>
+<p>只修改这两段即可。</p>
+<ul>
+<li>直接用我fork的分支进行安装<code>flask-bootstrap</code>，源码我已修改为使用国内CDN：</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install git+<span class="string">https:</span><span class="comment">//github.com/Panmax/flask-bootstrap.git</span></div></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git+<span class="string">https:</span><span class="comment">//github.com/Panmax/flask-bootstrap.git</span></div></pre></td></tr></table></figure>
+<p>将此写在<code>requirements.txt</code>文件中</p>
+
+          
+        
+      -->
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/时间戳转换方法/" itemprop="url">
                   时间戳转换方法
                 </a>
@@ -1339,126 +1467,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/为什么要写Blog？/" itemprop="url">
-                  为什么要写Blog？
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-02T21:46:12+08:00" content="2015-10-02">
-              2015-10-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/转载/" itemprop="url" rel="index">
-                    <span itemprop="name">转载</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-      <!-- 
-        
-          <p>原文地址:<a href="http://www.ruanyifeng.com/blog/2006/12/why_i_keep_blogging.html">http://www.ruanyifeng.com/blog/2006/12/why_i_keep_blogging.html</a></p>
-<p>到今年12月为止，我写Blog已经满3年了，一共写了接近600篇，平均每2天写一篇。今后应该还会继续写下去。</p>
-<p>3年前，我开始写的时候，并没有想过自己会坚持这么久。3年中，也遇见过几次有人问我”为什么要写Blog？”</p>
-<p>是啊，为什么要写Blog？毕竟这里没有人支付稿酬，也看不出有任何明显的物质性收益。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/为什么要写Blog？/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      -->
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1504,7 +1512,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1512,7 +1520,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1521,7 +1529,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

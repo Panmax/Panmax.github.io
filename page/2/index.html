@@ -260,6 +260,159 @@
             
               
                 
+                <a class="post-title-link" href="/2016/Counter的elements-源码阅读笔记/" itemprop="url">
+                  Counter的elements()源码阅读笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-07T19:32:30+08:00" content="2016-03-07">
+              2016-03-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+      <!-- 
+        
+          
+            <p><code>Counter</code> 的 <code>elements()</code> 方法返回一个迭代器。元素被重复了多少次，在该迭代器中就包含多少个该元素。所有元素按照字母序排序，个数小于1的元素不被包含。</p>
+<p>举例：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(<span class="string">'ABCABC'</span>)</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; sorted(c.elements())</div><div class="line">[<span class="string">'A'</span>, <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'C'</span>]</div></pre></td></tr></table></figure>
+<p>源码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">elements</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">return</span> _chain.from_iterable(_starmap(_repeat, self.iteritems()))</div></pre></td></tr></table></figure>
+<p><strong>好！！！精！！！简！！！</strong></p>
+<p>从里往外看这行代码吧：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">_starmap(<span class="name">_repeat</span>, self.iteritems())</div></pre></td></tr></table></figure>
+<p><code>_starmap</code> 是 <code>itertools</code> 模块中的一个实现了 <code>__iter__</code> 方法的类，构造器接收两个参数：一个函数（function）和一个序列（sequence），作用是创建一个迭代器，生成值function(*item),其中item来自sequence，只有当sequence生成的项适用于这种调用函数的方式时，此函数才有效。</p>
+<p><code>itertools.starmap(function, iterable)</code> 等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">starmap</span><span class="params">(function, iterable)</span>:</span></div><div class="line">    <span class="keyword">for</span> args <span class="keyword">in</span> iterable:</div><div class="line">        <span class="keyword">yield</span> function(*args)</div></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> starmap</div><div class="line"></div><div class="line">values = [(<span class="number">0</span>, <span class="number">5</span>), (<span class="number">1</span>, <span class="number">6</span>), (<span class="number">2</span>, <span class="number">7</span>), (<span class="number">3</span>, <span class="number">8</span>), (<span class="number">4</span>, <span class="number">9</span>)]</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> starmap(<span class="keyword">lambda</span> x,y:(x, y, x*y), values):</div><div class="line">    <span class="keyword">print</span> <span class="string">'%d * %d = %d'</span> % i</div><div class="line"></div><div class="line"><span class="number">0</span> * <span class="number">5</span> = <span class="number">0</span></div><div class="line"><span class="number">1</span> * <span class="number">6</span> = <span class="number">6</span></div><div class="line"><span class="number">2</span> * <span class="number">7</span> = <span class="number">14</span></div><div class="line"><span class="number">3</span> * <span class="number">8</span> = <span class="number">24</span></div><div class="line"><span class="number">4</span> * <span class="number">9</span> = <span class="number">36</span></div></pre></td></tr></table></figure>
+<p>所以 <code>_starmap(_repeat, self.iteritems())</code> 等价于下边的代码：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="keyword">self</span>.iteritems():</div><div class="line">    <span class="keyword">yield</span> _repeat(*item)</div></pre></td></tr></table></figure>
+<p>也就是返回一个迭代器，迭代器的每一项是使用<code>item</code> 解包作为参数来调用 <code>_repeat</code>  的结果。</p>
+<p>下边再来看<code>_repeat</code>：<code>itertools.repeat(object[, times])</code>，同样也是实现了<code>__iter__</code>方法的类，作用是创建一个迭代器，重复生成object，times（如果已提供）指定重复计数，如果未提供times，将无止尽返回该对象。</p>
+<p>等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">repeat</span><span class="params">(object, times=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> times <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            <span class="keyword">yield</span> object</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(times):</div><div class="line">            <span class="keyword">yield</span> object</div></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> itertools import *</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="keyword">repeat</span>('<span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span>', <span class="number">5</span>):</div><div class="line">    print i</div><div class="line"></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div><div class="line"><span class="keyword">over</span>-<span class="keyword">and</span>-<span class="keyword">over</span></div></pre></td></tr></table></figure>
+<p><code>repeat</code> 很容易理解就不用解释了。</p>
+<p>下边我们返回去看<code>_starmap(_repeat, self.iteritems())</code>， 这些完这些，得到的结果是一个迭代器里边每一项依然是个迭代器，每个内层迭代器迭代出的结果是重复生成的项。</p>
+<p>可以想象成这样：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; _starmap(_repeat, [&#123;<span class="string">'A'</span>: <span class="number">2</span>, <span class="string">'B'</span>: <span class="number">3</span>, <span class="string">'C'</span>: <span class="number">4</span>&#125;])</div><div class="line"></div><div class="line">[<span class="string">'AA'</span>, <span class="string">'BBB'</span>, <span class="string">'CCCC'</span>]</div></pre></td></tr></table></figure>
+<p>再来看一下<code>chain</code>：<code>itertools.chain(*iterables)</code>, 将多个迭代器作为参数, 但只返回单个迭代器, 它产生所有参数迭代器的内容, 就好像他们是来自于一个单一的序列。</p>
+<p>等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">chain</span><span class="params">(*iterables)</span>:</span></div><div class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> iterables:</div><div class="line">        <span class="keyword">for</span> element <span class="keyword">in</span> it:</div><div class="line">            <span class="keyword">yield</span> element</div></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> chain([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]):</div><div class="line">    print <span class="selector-tag">i</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="selector-tag">a</span></div><div class="line"><span class="selector-tag">b</span></div><div class="line">c</div></pre></td></tr></table></figure>
+<p><code>chain</code> 的 类函数 <code>from_iterable</code> 可以理解成接收一个参数，然后将这个参数解包后调用构造器。</p>
+<p>以上例子也可以写成：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> chain.from_iterable([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]]):</div><div class="line">    print <span class="selector-tag">i</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="selector-tag">a</span></div><div class="line"><span class="selector-tag">b</span></div><div class="line">c</div></pre></td></tr></table></figure>
+<p>所以，用 <code>chain</code> 来合并 <code>_starmap(_repeat, self.iteritems())</code> 得到的嵌套迭代器后得到的就是我们需要的结果了！</p>
+<p><strong>最后再次感叹下Python代码的精简！</strong></p>
+<hr>
+<p>更正前几篇中的出现过的一个错误：</p>
+<p>字典调用 <code>iteritems</code> 方法得到的并不是一个列表，而是一个迭代器。</p>
+<p>之前把 <code>iteritems</code> 一直当成 <code>items</code> 了。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; x = &#123;<span class="string">'title'</span><span class="symbol">:<span class="string">'python web site'</span></span>,<span class="string">'url'</span><span class="symbol">:<span class="string">'www.iplaypython.com'</span></span>&#125;</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; x.items()</div><div class="line"></div><div class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; a</div><div class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; type(a)</div><div class="line">&lt;type <span class="string">'list'</span>&gt;</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; f = x.iteritems()</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; f</div><div class="line">&lt;dictionary-itemiterator object at <span class="number">0xb74d5e3c</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;</span>&gt; type(f)</div><div class="line">&lt;type <span class="string">'dictionary-itemiterator'</span>&gt;    <span class="comment">#字典项的迭代器</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; list(f)</div><div class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</div></pre></td></tr></table></figure>
+          
+        
+      -->
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/简明-Python-编程规范/" itemprop="url">
                   简明 Python 编程规范
                 </a>
@@ -1548,121 +1701,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/MySQL创建utf-8格式数据库/" itemprop="url">
-                  MySQL创建utf-8格式数据库
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-24T21:45:52+08:00" content="2016-02-24">
-              2016-02-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/MySql/" itemprop="url" rel="index">
-                    <span itemprop="name">MySql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-      <!-- 
-        
-          
-            <h3 id="UTF8"><a href="#UTF8" class="headerlink" title="UTF8:"></a>UTF8:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> <span class="string">`test2`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</div></pre></td></tr></table></figure>
-<h3 id="GBK"><a href="#GBK" class="headerlink" title="GBK:"></a>GBK:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">database</span> test2 <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> gbk <span class="keyword">COLLATE</span> gbk_chinese_ci;</div></pre></td></tr></table></figure>
-          
-        
-      -->
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1708,7 +1746,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1716,7 +1754,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1725,7 +1763,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

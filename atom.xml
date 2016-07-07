@@ -93,6 +93,208 @@
   </entry>
   
   <entry>
+    <title>七牛直播文档阅读笔记</title>
+    <link href="http://panmax.love/2016/%E4%B8%83%E7%89%9B%E7%9B%B4%E6%92%AD%E6%96%87%E6%A1%A3%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    <id>http://panmax.love/2016/七牛直播文档阅读笔记/</id>
+    <published>2016-07-07T05:08:29.000Z</published>
+    <updated>2016-07-07T05:14:16.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;关键字&quot;&gt;&lt;a href=&quot;#关键字&quot; class=&quot;headerlink&quot; title=&quot;关键字&quot;&gt;&lt;/a&gt;关键字&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;直播推流&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;指主播通过业务服务端从直播云平台获取到的推流地址，将采集的流媒体通过推流地址实时的推送至直播云接收端&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;推流地址&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;业务服务端从直播云平台获取到RTMP协议的URL地址&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直播封面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;指在主播进行直播时，观众在未打开播放器时，在直播客户端为用户展示正在直播的某一个截图&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;活跃流&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;目前正在直播的流，指正在推流状态的流&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;播放地址&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;指观众在观看直播时，播放器使用的播放地址，亦指播放端拉流地址&lt;/p&gt;
+&lt;h2 id=&quot;主要功能&quot;&gt;&lt;a href=&quot;#主要功能&quot; class=&quot;headerlink&quot; title=&quot;主要功能&quot;&gt;&lt;/a&gt;主要功能&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;直播存储回放&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;周期性存储&lt;/p&gt;
+&lt;p&gt;支持直播数据的周期性存储于对象存储中，有效提高直播数据的利用率。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;实时回放&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持将当前直播或直播历史中的热点数据永久存储，方便用户回放和点播。&lt;/li&gt;
+&lt;li&gt;支持对回放视频的下载、删除和播放&lt;/li&gt;
+&lt;li&gt;支持 m3u8 和 MP4 格式的回放视频文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;直播封面&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;直播时客户端封面的截图。支持自定义时间，自动更新截图文件，使直播封面随直播内容而动态变化。可通过WEB控制台或调用API的方式开启/关闭直播封面。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直播状态通知&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;支持直播状态通知，当开始直播或结束直播时，主动发送状态消息给企业指定的URL地址或接口，使企业更方便快捷的管理直播业务。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;推流断点续传&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;支持推流断点续传，当主播推流过程中，因网络延迟导致推流突然中断时，会根据推流超时时间继续保持推流会话的连接，直至超过推流超时时间，系统会触发中断推流会话；若在推流超时时间内，主播再次上线并进行推流时，会继续中断时的推流状态。&lt;/p&gt;
+&lt;h2 id=&quot;应用场景&quot;&gt;&lt;a href=&quot;#应用场景&quot; class=&quot;headerlink&quot; title=&quot;应用场景&quot;&gt;&lt;/a&gt;应用场景&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;社交直播&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;提供多元化、适应各种录制直播平台和录制设备的 SDK，并提供美颜、水印等丰富的图像处理插件，完美解决社交直播源场景复杂及即时直播的接入和处理；&lt;/p&gt;
+&lt;p&gt;借助实时流网络 (LiveNet) 智能调度系统及分布在各地的分发节点，可快速覆盖各地所有用户，并提供移动端和网页端的播放 SDK 和直播实时转码，帮助地域广、终端繁多、带宽复杂的观众极速的观看到清晰的视频内容；&lt;/p&gt;
+&lt;p&gt;对社交直播内容进行实时监控，提供丰富的数据统计信息，可鉴别黄色、暴力等内容，并可自由灵活的对直播进行禁播，提高直播服务的质量；&lt;/p&gt;
+&lt;p&gt;基于直播内容而变化的直播封面，为直播服务提供宣传和引导，增强主播的魅力值和点击率；&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;游戏直播&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;强大且覆盖广泛的实时流网络 (LiveNet) 加速分发节点，可快速的将游戏直播内容进行分发，同时强大的实时转码和码流自适应，强力解决游戏直播高并发、低延迟的场景；&lt;/p&gt;
+&lt;p&gt;提供丰富的播放器接入 SDK，方便游戏爱好者通过任何设备和终端观看游戏直播，同时对直播进行详细的数据统计和分析，帮助游戏平台快速掌握玩家和爱好者的行为特征；&lt;/p&gt;
+&lt;p&gt;可对游戏直播中热点内容进行录制保存，帮助游戏平台打造完善回放服务，为游戏爱好者提供热点内容的反复播放；&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;教育直播&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;提供完善的直播云管理系统及实时流网络 (LiveNet) 智能调度系统，为教学提供稳定且实时的直播服务，提高教育服务质量；&lt;/p&gt;
+&lt;p&gt;基于AK/SK的认证及限制时间的直播鉴权，保证教学课程的直实性和安全性，防止教学视频被盗链或非法篡改，提升教学质量；&lt;/p&gt;
+&lt;p&gt;完善的数据统计信息和分析信息，帮助教学平台快速掌握感兴趣用户的信息和行为特征，用来调整课程时长或内容；&lt;/p&gt;
+&lt;p&gt;支持对教学中的重要内容进行录制保存，帮助教学平台和学生对重要的教学素材进行反复学习；&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;事件直播&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;多元化、多功能、适应多平台的推流 SDK，支持各种视频采集端，为突发性的事件、活动、赛事等直播提供即时直播、即时播放等便利；&lt;/p&gt;
+&lt;p&gt;覆盖广泛的实时流网络 (LiveNet) 智能调度系统，可支持海外事件的直播接入，在国内即时播放，且智能调度让用户从最佳节点观看视频，完美应对大事件的高并发观看，降低事件直播的卡顿率；&lt;/p&gt;
+&lt;p&gt;支持对热点事件直播内容进行录制转存，并可根据需求转存为不同的格式，满足不同用户对事件内容回放和点播的需求；&lt;/p&gt;
+&lt;p&gt;提供安全且有保证的直播鉴权，保证事件直播内容的非法推流和分发；&lt;/p&gt;
+&lt;h2 id=&quot;流程介绍&quot;&gt;&lt;a href=&quot;#流程介绍&quot; class=&quot;headerlink&quot; title=&quot;流程介绍&quot;&gt;&lt;/a&gt;流程介绍&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;推流程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Client (iOS/Android/PC/Camera) 向 Server (业务逻辑服务器) 请求推流授权&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Server 颁发带授权信息的 Stream 给 Client&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Client 通过 RTMP 推流 给 Pili Streaming Cloud&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;拉流程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Client 向 Server 请求播放授权&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Server 向 Client 颁发播放地址&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Client 调用 播放器 SDK 打开播放地址进行播放&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xj0sd.com1.z0.glb.clouddn.com/2016-07-07-14678681803037.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;服务端 SDK 用于对直播流（Live Streaming）进行增删查改等管理，以及颁发带授权凭证的 RTMP 推流地址，RTMP/HTTP-FLV/HLS 的播放地址给客户端。&lt;/p&gt;
+&lt;h3 id=&quot;推流-SDK&quot;&gt;&lt;a href=&quot;#推流-SDK&quot; class=&quot;headerlink&quot; title=&quot;推流 SDK&quot;&gt;&lt;/a&gt;推流 SDK&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;提供IOS、Android、IP Camera及PC OBS推流SDK；&lt;/li&gt;
+&lt;li&gt;支持音视频采集、编码及推流等功能；&lt;/li&gt;
+&lt;li&gt;支持丰富的音视频处理插件，如水印、美颜等；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;服务端SDK&quot;&gt;&lt;a href=&quot;#服务端SDK&quot; class=&quot;headerlink&quot; title=&quot;服务端SDK&quot;&gt;&lt;/a&gt;服务端SDK&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;提供RUBY 、PHP 、Python及Golang等多语言环的服务端SDK ；&lt;/li&gt;
+&lt;li&gt;提供推流地址、播放地址、直播流、回放及信息统计等功能；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;播放端SDK&quot;&gt;&lt;a href=&quot;#播放端SDK&quot; class=&quot;headerlink&quot; title=&quot;播放端SDK&quot;&gt;&lt;/a&gt;播放端SDK&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;提供Android、IOS、HTML5多终端播放SDK；&lt;/li&gt;
+&lt;li&gt;支持RTMP、HLS、FLV多协议播放；&lt;/li&gt;
+&lt;li&gt;支持音频后台播放、首屏秒开、累积延迟消除等多种特性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;服务端-SDK-详细功能&quot;&gt;&lt;a href=&quot;#服务端-SDK-详细功能&quot; class=&quot;headerlink&quot; title=&quot;服务端 SDK 详细功能&quot;&gt;&lt;/a&gt;服务端 SDK 详细功能&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;hub.create_stream()         #创建流&lt;/li&gt;
+&lt;li&gt;hub.get_stream()            #查询流&lt;/li&gt;
+&lt;li&gt;hub.list_streams()          #流列表&lt;/li&gt;
+&lt;li&gt;stream.update()             #更新流&lt;/li&gt;
+&lt;li&gt;stream.delete()             #删除流&lt;/li&gt;
+&lt;li&gt;stream.disable()            #禁止流（禁推、禁播）&lt;/li&gt;
+&lt;li&gt;stream.enable()             #激活流&lt;/li&gt;
+&lt;li&gt;stream.rtmp_publish_url()   #生成带授权凭证的 RTMP 推流地址&lt;/li&gt;
+&lt;li&gt;stream.rtmp_live_urls()     #生成 RTMP 直播播放地址&lt;/li&gt;
+&lt;li&gt;stream.hls_live_urls()      #生成 HLS 直播播放地址&lt;/li&gt;
+&lt;li&gt;stream.http_flv_live_urls() #生成 HTTP-FLV 直播播放地址&lt;/li&gt;
+&lt;li&gt;stream.hls_playback_urls()  #生成 HLS 回看在线点播地址&lt;/li&gt;
+&lt;li&gt;stream.status()             #查询主播推流实时状态信息&lt;/li&gt;
+&lt;li&gt;stream.segments()           #查询直播推流和断流的详细记录&lt;/li&gt;
+&lt;li&gt;stream.snapshot()           #直播抽帧截图&lt;/li&gt;
+&lt;li&gt;stream.save_as()            #直播录制转码（例如转存mp4）&lt;/li&gt;
+&lt;li&gt;stream.to_json()            #将 Stream 对象转成 JSON 下发给客户端 SDK&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;客户端拿服务端提供的推流信息，通过SDK往接收端推视频直播数据。&lt;/p&gt;
+&lt;h3 id=&quot;客户端-SDK-详细功能（以-Android-为例）&quot;&gt;&lt;a href=&quot;#客户端-SDK-详细功能（以-Android-为例）&quot; class=&quot;headerlink&quot; title=&quot;客户端 SDK 详细功能（以 Android 为例）&quot;&gt;&lt;/a&gt;客户端 SDK 详细功能（以 Android 为例）&lt;/h3&gt;&lt;p&gt;PLDroidCameraStreaming 是一个适用于 Android 的 RTMP 直播推流 SDK，可高度定制化和二次开发。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;H.264 和 AAC 软编&lt;/li&gt;
+&lt;li&gt;H.264 和 AAC 硬编&lt;/li&gt;
+&lt;li&gt;RTMP 封包及推流&lt;/li&gt;
+&lt;li&gt;数据源回调接口，可自定义 Filter (滤镜) 特效处理&lt;/li&gt;
+&lt;li&gt;前后置摄像头，以及动态切换&lt;/li&gt;
+&lt;li&gt;自动手动对焦&lt;/li&gt;
+&lt;li&gt;手动对焦&lt;/li&gt;
+&lt;li&gt;支持美颜&lt;/li&gt;
+&lt;li&gt;Zoom 操作&lt;/li&gt;
+&lt;li&gt;Mute/Unmute&lt;/li&gt;
+&lt;li&gt;闪光灯操作&lt;/li&gt;
+&lt;li&gt;纯音频推流，以及后台运行&lt;/li&gt;
+&lt;li&gt;截帧&lt;/li&gt;
+&lt;li&gt;动态更改&lt;/li&gt;
+&lt;li&gt;动态切换横竖屏&lt;/li&gt;
+&lt;li&gt;ARMv7a 芯片体系架构    &lt;/li&gt;
+&lt;li&gt;ARM, ARM64v8a, X86 主流芯片体系架构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;功能使用&quot;&gt;&lt;a href=&quot;#功能使用&quot; class=&quot;headerlink&quot; title=&quot;功能使用&quot;&gt;&lt;/a&gt;功能使用&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;摄像头参数配置&lt;/li&gt;
+&lt;li&gt;麦克风参数配置&lt;/li&gt;
+&lt;li&gt;推流参数设置&lt;/li&gt;
+&lt;li&gt;水印设置&lt;/li&gt;
+&lt;li&gt;自定义滤镜&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;常见协议&quot;&gt;&lt;a href=&quot;#常见协议&quot; class=&quot;headerlink&quot; title=&quot;常见协议&quot;&gt;&lt;/a&gt;常见协议&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;RTMP协议：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;是Adobe的专利协议，现在大部分国外的CDN已不支持。在国内流行度很高。原因有几个方面：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;开源软件和开源库的支持稳定完整。如斗鱼主播常用的OBS软件，开源的librtmp库，服务端有nginx-rtmp插件。&lt;/li&gt;
+&lt;li&gt;播放端安装率高。只要浏览器支持FlashPlayer就能非常简易的播放RTMP的直播，协议详解可以Google了解。相对其他协议而言，RTMP协议初次建立连接的时候握手过程过于复杂（底层基于TCP，这里说的是RTMP协议本身的交互），视不同的网络状况会带来给首开带来100ms以上的延迟。基于RTMP的直播一般内容延迟在2~5秒。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP-FLV协议：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;即使用HTTP协议流式的传输媒体内容。相对于RTMP，HTTP更简单和广为人知，而且不担心被Adobe的专利绑架。内容延迟同样可以做到2~5秒，打开速度更快，因为HTTP本身没有复杂的状态交互。所以从延迟角度来看，HTTP-FLV要优于RTMP。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HLS 协议：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;即Http Live Streaming，是由苹果提出基于HTTP的流媒体传输协议。HLS有一个非常大的优点：HTML5可以直接打开播放；这个意味着可以把一个直播链接通过微信等转发分享，不需要安装任何独立的APP，有浏览器即可，所以流行度很高。社交直播APP，HLS可以说是刚需。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;关键字&quot;&gt;&lt;a href=&quot;#关键字&quot; class=&quot;headerlink&quot; title=&quot;关键字&quot;&gt;&lt;/a&gt;关键字&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;直播推流&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;指主播通过业务服务端从直播云平台获取到的推流地址，将采集的流媒体通过推流地址实时的
+    
+    </summary>
+    
+      <category term="直播" scheme="http://panmax.love/categories/%E7%9B%B4%E6%92%AD/"/>
+    
+    
+      <category term="直播" scheme="http://panmax.love/tags/%E7%9B%B4%E6%92%AD/"/>
+    
+      <category term="笔记" scheme="http://panmax.love/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Python最佳实践指南 阅读笔记</title>
     <link href="http://panmax.love/2016/Python%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%8C%87%E5%8D%97-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
     <id>http://panmax.love/2016/Python最佳实践指南-阅读笔记/</id>
@@ -1247,29 +1449,6 @@
       <category term="Linux" scheme="http://panmax.love/tags/Linux/"/>
     
       <category term="VIM" scheme="http://panmax.love/tags/VIM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL创建utf-8格式数据库</title>
-    <link href="http://panmax.love/2016/MySQL%E5%88%9B%E5%BB%BAutf-8%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>http://panmax.love/2016/MySQL创建utf-8格式数据库/</id>
-    <published>2016-02-24T13:45:52.000Z</published>
-    <updated>2016-02-24T13:48:02.000Z</updated>
-    
-    <content type="html">&lt;h3 id=&quot;UTF8&quot;&gt;&lt;a href=&quot;#UTF8&quot; class=&quot;headerlink&quot; title=&quot;UTF8:&quot;&gt;&lt;/a&gt;UTF8:&lt;/h3&gt;&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;`test2`&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;CHARACTER&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;SET&lt;/span&gt; utf8 &lt;span class=&quot;keyword&quot;&gt;COLLATE&lt;/span&gt; utf8_general_ci;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h3 id=&quot;GBK&quot;&gt;&lt;a href=&quot;#GBK&quot; class=&quot;headerlink&quot; title=&quot;GBK:&quot;&gt;&lt;/a&gt;GBK:&lt;/h3&gt;&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;database&lt;/span&gt; test2 &lt;span class=&quot;keyword&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;CHARACTER&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;SET&lt;/span&gt; gbk &lt;span class=&quot;keyword&quot;&gt;COLLATE&lt;/span&gt; gbk_chinese_ci;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;UTF8&quot;&gt;&lt;a href=&quot;#UTF8&quot; class=&quot;headerlink&quot; title=&quot;UTF8:&quot;&gt;&lt;/a&gt;UTF8:&lt;/h3&gt;&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
-    
-    </summary>
-    
-      <category term="MySql" scheme="http://panmax.love/categories/MySql/"/>
-    
-    
-      <category term="MySql" scheme="http://panmax.love/tags/MySql/"/>
     
   </entry>
   
