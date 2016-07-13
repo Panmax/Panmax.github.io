@@ -96,6 +96,40 @@
   </entry>
   
   <entry>
+    <title>functools.wraps 的作用</title>
+    <link href="http://panmax.love/2016/functools-wraps-%E7%9A%84%E4%BD%9C%E7%94%A8/"/>
+    <id>http://panmax.love/2016/functools-wraps-的作用/</id>
+    <published>2016-07-13T06:34:42.000Z</published>
+    <updated>2016-07-13T07:02:10.000Z</updated>
+    
+    <content type="html">&lt;p&gt;本文翻译自Stackoverflow：&lt;a href=&quot;http://stackoverflow.com/questions/308999/what-does-functools-wraps-do&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;What does functools.wraps do?&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;当你使用一个装饰器，就是用另一个函数替换当前函数。换一种说法，如果你有一个装饰器：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;logged&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(func)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;with_logging&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(*args, **kwargs)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt; func.__name__ + &lt;span class=&quot;string&quot;&gt;&quot; was called&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; func(*args, **kwargs)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; with_logging&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;你这样使用它：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@logged&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(x)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   &lt;span class=&quot;string&quot;&gt;&quot;&quot;&quot;does some math&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; x + x * x&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;实际上和这种用法相同：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(x)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;&quot;&quot;does some math&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; x + x * x&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;f = logged(f)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;而且你的函数 &lt;code&gt;f&lt;/code&gt; 被 &lt;code&gt;with_loging&lt;/code&gt; 替换。不幸的是，这意味着当你使用：&lt;/p&gt;
+&lt;figure class=&quot;highlight arduino&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;print&lt;/span&gt; f.__name___&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;它会打印出 &lt;code&gt;with_logging&lt;/code&gt; 因为这是你新函数的名字。事实上，如果你查看 &lt;code&gt;f&lt;/code&gt; 的 文档字符串，它将是空的，因为 &lt;code&gt;with_logging&lt;/code&gt; 没有文档字符串所以你写的文档字符串不会在这里出现。并且，如果你查看这个函数使用 &lt;code&gt;pydoc&lt;/code&gt; 生成结果，他的参数列表不是一个参数 &lt;code&gt;x&lt;/code&gt;，取而代之的是 &lt;code&gt;*args&lt;/code&gt; 和 &lt;code&gt;**kwargs&lt;/code&gt;因为这是 &lt;code&gt;with_logging&lt;/code&gt; 所持有的。&lt;/p&gt;
+&lt;p&gt;如果使用装饰器总是意味着丢失这个函数的信息，这将是个严重的问题。这就是为什么我们有 &lt;code&gt;functools.wraps&lt;/code&gt; 的原因。给函数使用一个装饰器并且给函数增加复制名字、文档字符串、参数列表等功能性(This takes a function used in a decorator and adds the functionality of copying over the function name, docstring, arguments list, etc)。当 &lt;code&gt;wraps&lt;/code&gt; 是它自己的装饰器，下边的代码将会做正确的事情。&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; functools &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; wraps&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;logged&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(func)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;    @wraps(func)&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;with_logging&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(*args, **kwargs)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt; func.__name__ + &lt;span class=&quot;string&quot;&gt;&quot; was called&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; func(*args, **kwargs)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; with_logging&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@logged&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(x)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   &lt;span class=&quot;string&quot;&gt;&quot;&quot;&quot;does some math&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; x + x * x&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt; f.__name__  &lt;span class=&quot;comment&quot;&gt;# prints &#39;f&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt; f.__doc__   &lt;span class=&quot;comment&quot;&gt;# prints &#39;does some math&#39;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文翻译自Stackoverflow：&lt;a href=&quot;http://stackoverflow.com/questions/308999/what-does-functools-wraps-do&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;What d
+    
+    </summary>
+    
+      <category term="Code" scheme="http://panmax.love/categories/Code/"/>
+    
+    
+      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Python最佳实践指南 阅读笔记</title>
     <link href="http://panmax.love/2016/Python%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%8C%87%E5%8D%97-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
     <id>http://panmax.love/2016/Python最佳实践指南-阅读笔记/</id>
@@ -1270,29 +1304,6 @@
       <category term="Linux" scheme="http://panmax.love/tags/Linux/"/>
     
       <category term="VIM" scheme="http://panmax.love/tags/VIM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL创建utf-8格式数据库</title>
-    <link href="http://panmax.love/2016/MySQL%E5%88%9B%E5%BB%BAutf-8%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>http://panmax.love/2016/MySQL创建utf-8格式数据库/</id>
-    <published>2016-02-24T13:45:52.000Z</published>
-    <updated>2016-02-24T13:48:02.000Z</updated>
-    
-    <content type="html">&lt;h3 id=&quot;UTF8&quot;&gt;&lt;a href=&quot;#UTF8&quot; class=&quot;headerlink&quot; title=&quot;UTF8:&quot;&gt;&lt;/a&gt;UTF8:&lt;/h3&gt;&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;`test2`&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;CHARACTER&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;SET&lt;/span&gt; utf8 &lt;span class=&quot;keyword&quot;&gt;COLLATE&lt;/span&gt; utf8_general_ci;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h3 id=&quot;GBK&quot;&gt;&lt;a href=&quot;#GBK&quot; class=&quot;headerlink&quot; title=&quot;GBK:&quot;&gt;&lt;/a&gt;GBK:&lt;/h3&gt;&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;database&lt;/span&gt; test2 &lt;span class=&quot;keyword&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;CHARACTER&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;SET&lt;/span&gt; gbk &lt;span class=&quot;keyword&quot;&gt;COLLATE&lt;/span&gt; gbk_chinese_ci;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;UTF8&quot;&gt;&lt;a href=&quot;#UTF8&quot; class=&quot;headerlink&quot; title=&quot;UTF8:&quot;&gt;&lt;/a&gt;UTF8:&lt;/h3&gt;&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
-    
-    </summary>
-    
-      <category term="MySql" scheme="http://panmax.love/categories/MySql/"/>
-    
-    
-      <category term="MySql" scheme="http://panmax.love/tags/MySql/"/>
     
   </entry>
   
