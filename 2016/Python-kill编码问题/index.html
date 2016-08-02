@@ -1,0 +1,438 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,编码,decode,encode," />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="/" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 decode 和 encode 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！
+
+Python 内部字符串编码为 unicode，因此在编码转换时，通常使用 unicode 作为中间编码， 先将其他编码的字符串解码(decode)成 unicode，再从 unicode 编码(encode)成另一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python kill编码问题">
+<meta property="og:url" content="http://panmax.love/2016/Python-kill编码问题/index.html">
+<meta property="og:site_name" content="/">
+<meta property="og:description" content="之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 decode 和 encode 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！
+
+Python 内部字符串编码为 unicode，因此在编码转换时，通常使用 unicode 作为中间编码， 先将其他编码的字符串解码(decode)成 unicode，再从 unicode 编码(encode)成另一">
+<meta property="og:updated_time" content="2016-08-02T10:18:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python kill编码问题">
+<meta name="twitter:description" content="之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 decode 和 encode 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！
+
+Python 内部字符串编码为 unicode，因此在编码转换时，通常使用 unicode 作为中间编码， 先将其他编码的字符串解码(decode)成 unicode，再从 unicode 编码(encode)成另一">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://panmax.love/2016/Python-kill编码问题/"/>
+
+  <title> Python kill编码问题 | / </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-meta ">
+  <div class="custom-logo-site-title">
+    <a href="/archives"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">/</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+</div>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python kill编码问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-02T17:40:33+08:00" content="2016-08-02">
+              2016-08-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Code/" itemprop="url" rel="index">
+                    <span itemprop="name">Code</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 <code>decode</code> 和 <code>encode</code> 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！</p>
+</blockquote>
+<p>Python 内部字符串编码为 <code>unicode</code>，因此在编码转换时，通常使用 <code>unicode</code> 作为中间编码， 先将其他编码的字符串解码(decode)成 <code>unicode</code>，再从 <code>unicode</code> 编码(encode)成另一种编码。</p>
+<h2 id="decode"><a href="#decode" class="headerlink" title="decode"></a>decode</h2><p><code>decode</code> 的作用是将其他编码的字符串解码成 <code>unicode</code> 编码。</p>
+<p>如 <code>str.decode(&#39;gbk&#39;)</code>，表示将 <code>gbk</code> 编码的字符串解码成 <code>unicode</code> 编码。</p>
+<h2 id="encode"><a href="#encode" class="headerlink" title="encode"></a>encode</h2><p><code>encode</code> 的作用是将 <code>unicode</code> 字符串编码成其他编码的字符串。</p>
+<p>如 <code>str.encode(&#39;gbk&#39;)</code>， 表示将 <code>unicode</code> 编码的字符串编码成 <code>gbk</code> 编码。</p>
+<blockquote>
+<p>因此转码的时候一定先搞明白，字符串是什么编码，然后 <code>decode</code> 成 <code>unicode</code>，再然后 <code>encode</code> 成其他编码。</p>
+</blockquote>
+<h2 id="代码中字符串的编码与代码文件的编码一致"><a href="#代码中字符串的编码与代码文件的编码一致" class="headerlink" title="代码中字符串的编码与代码文件的编码一致"></a>代码中字符串的编码与代码文件的编码一致</h2><p>如果这样写 <code>s = u&#39;中国&#39;</code> ，该字符串的编码就被指定为了 <code>unicode</code> 了，即 <code>Python</code> 的内部编码，而与代码文件本身编码无关，因此对于这种情况做编码转换，只需直接使用 <code>encode</code> 方法将其转换成指定编码即刻。</p>
+<p>如果对一个 <code>unicode</code> 字符串进行解码将会报错，所以可以使用 <code>isinstance(s, unicode)</code> 来判断是否为 <code>unicode</code>。</p>
+<p>非 <code>unicode</code> 编码的字符串使用 <code>encode</code> 会报错。</p>
+<p><code>unicode(str, &#39;gbk&#39;)</code> 和 <code>str.decode(&#39;gbk&#39;)</code> 是一样的，都是将 <code>gbk</code> 编码的字符串转为 <code>unicode</code> 编码。</p>
+<hr>
+<p>唉，想起来之前有个非常耻辱的事，就是有次面试的时候对方问我 Python 中默认字符编码是什么，我回答的是： ascii </p>
+<p>还问我Python中如何进行编码和解码，其实我知道是用 <code>decode</code> 和 <code>encode</code> 但当时真的分不清楚哪个是做什么用的，所以忘了当时回答的对不对了。</p>
+<p>为了让自己把 <code>decode</code> 和 <code>encode</code> 分清楚，我想了个办法， <code>decode</code> 开头发音是 <code>弟(di)</code>，所以弟就应该有个姐姐，所以 <code>decode</code> 就是解码，另外一个 <code>encode</code> 就自然是编码了。哈哈哈。</p>
+<p>对方还问了我，<code>utf8</code> 和 <code>unicode</code> 有什么区别，后来查了下资料，结论是： <strong>UTF-8是Unicode的实现方式之一。</strong> 详情见<a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="external">阮一峰老师的博客</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+            <a href="/tags/编码/" rel="tag">#编码</a>
+          
+            <a href="/tags/decode/" rel="tag">#decode</a>
+          
+            <a href="/tags/encode/" rel="tag">#encode</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/functools-wraps-的作用/" rel="next" title="functools.wraps 的作用">
+                <i class="fa fa-chevron-left"></i> functools.wraps 的作用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/2016-书单/" rel="prev" title="2016 书单">
+                2016 书单 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

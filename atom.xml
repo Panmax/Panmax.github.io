@@ -97,6 +97,56 @@
   </entry>
   
   <entry>
+    <title>Python kill编码问题</title>
+    <link href="http://panmax.love/2016/Python-kill%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/"/>
+    <id>http://panmax.love/2016/Python-kill编码问题/</id>
+    <published>2016-08-02T09:40:33.000Z</published>
+    <updated>2016-08-02T10:18:36.000Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 &lt;code&gt;decode&lt;/code&gt; 和 &lt;code&gt;encode&lt;/code&gt; 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Python 内部字符串编码为 &lt;code&gt;unicode&lt;/code&gt;，因此在编码转换时，通常使用 &lt;code&gt;unicode&lt;/code&gt; 作为中间编码， 先将其他编码的字符串解码(decode)成 &lt;code&gt;unicode&lt;/code&gt;，再从 &lt;code&gt;unicode&lt;/code&gt; 编码(encode)成另一种编码。&lt;/p&gt;
+&lt;h2 id=&quot;decode&quot;&gt;&lt;a href=&quot;#decode&quot; class=&quot;headerlink&quot; title=&quot;decode&quot;&gt;&lt;/a&gt;decode&lt;/h2&gt;&lt;p&gt;&lt;code&gt;decode&lt;/code&gt; 的作用是将其他编码的字符串解码成 &lt;code&gt;unicode&lt;/code&gt; 编码。&lt;/p&gt;
+&lt;p&gt;如 &lt;code&gt;str.decode(&amp;#39;gbk&amp;#39;)&lt;/code&gt;，表示将 &lt;code&gt;gbk&lt;/code&gt; 编码的字符串解码成 &lt;code&gt;unicode&lt;/code&gt; 编码。&lt;/p&gt;
+&lt;h2 id=&quot;encode&quot;&gt;&lt;a href=&quot;#encode&quot; class=&quot;headerlink&quot; title=&quot;encode&quot;&gt;&lt;/a&gt;encode&lt;/h2&gt;&lt;p&gt;&lt;code&gt;encode&lt;/code&gt; 的作用是将 &lt;code&gt;unicode&lt;/code&gt; 字符串编码成其他编码的字符串。&lt;/p&gt;
+&lt;p&gt;如 &lt;code&gt;str.encode(&amp;#39;gbk&amp;#39;)&lt;/code&gt;， 表示将 &lt;code&gt;unicode&lt;/code&gt; 编码的字符串编码成 &lt;code&gt;gbk&lt;/code&gt; 编码。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;因此转码的时候一定先搞明白，字符串是什么编码，然后 &lt;code&gt;decode&lt;/code&gt; 成 &lt;code&gt;unicode&lt;/code&gt;，再然后 &lt;code&gt;encode&lt;/code&gt; 成其他编码。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;代码中字符串的编码与代码文件的编码一致&quot;&gt;&lt;a href=&quot;#代码中字符串的编码与代码文件的编码一致&quot; class=&quot;headerlink&quot; title=&quot;代码中字符串的编码与代码文件的编码一致&quot;&gt;&lt;/a&gt;代码中字符串的编码与代码文件的编码一致&lt;/h2&gt;&lt;p&gt;如果这样写 &lt;code&gt;s = u&amp;#39;中国&amp;#39;&lt;/code&gt; ，该字符串的编码就被指定为了 &lt;code&gt;unicode&lt;/code&gt; 了，即 &lt;code&gt;Python&lt;/code&gt; 的内部编码，而与代码文件本身编码无关，因此对于这种情况做编码转换，只需直接使用 &lt;code&gt;encode&lt;/code&gt; 方法将其转换成指定编码即刻。&lt;/p&gt;
+&lt;p&gt;如果对一个 &lt;code&gt;unicode&lt;/code&gt; 字符串进行解码将会报错，所以可以使用 &lt;code&gt;isinstance(s, unicode)&lt;/code&gt; 来判断是否为 &lt;code&gt;unicode&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;非 &lt;code&gt;unicode&lt;/code&gt; 编码的字符串使用 &lt;code&gt;encode&lt;/code&gt; 会报错。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;unicode(str, &amp;#39;gbk&amp;#39;)&lt;/code&gt; 和 &lt;code&gt;str.decode(&amp;#39;gbk&amp;#39;)&lt;/code&gt; 是一样的，都是将 &lt;code&gt;gbk&lt;/code&gt; 编码的字符串转为 &lt;code&gt;unicode&lt;/code&gt; 编码。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;唉，想起来之前有个非常耻辱的事，就是有次面试的时候对方问我 Python 中默认字符编码是什么，我回答的是： ascii &lt;/p&gt;
+&lt;p&gt;还问我Python中如何进行编码和解码，其实我知道是用 &lt;code&gt;decode&lt;/code&gt; 和 &lt;code&gt;encode&lt;/code&gt; 但当时真的分不清楚哪个是做什么用的，所以忘了当时回答的对不对了。&lt;/p&gt;
+&lt;p&gt;为了让自己把 &lt;code&gt;decode&lt;/code&gt; 和 &lt;code&gt;encode&lt;/code&gt; 分清楚，我想了个办法， &lt;code&gt;decode&lt;/code&gt; 开头发音是 &lt;code&gt;弟(di)&lt;/code&gt;，所以弟就应该有个姐姐，所以 &lt;code&gt;decode&lt;/code&gt; 就是解码，另外一个 &lt;code&gt;encode&lt;/code&gt; 就自然是编码了。哈哈哈。&lt;/p&gt;
+&lt;p&gt;对方还问了我，&lt;code&gt;utf8&lt;/code&gt; 和 &lt;code&gt;unicode&lt;/code&gt; 有什么区别，后来查了下资料，结论是： &lt;strong&gt;UTF-8是Unicode的实现方式之一。&lt;/strong&gt; 详情见&lt;a href=&quot;http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;阮一峰老师的博客&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 &lt;code&gt;decode&lt;/code&gt; 和 &lt;code&gt;encode&lt;/code&gt; 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！&lt;/p&gt;
+&lt;/bl
+    
+    </summary>
+    
+      <category term="Code" scheme="http://panmax.love/categories/Code/"/>
+    
+    
+      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
+    
+      <category term="编码" scheme="http://panmax.love/tags/%E7%BC%96%E7%A0%81/"/>
+    
+      <category term="decode" scheme="http://panmax.love/tags/decode/"/>
+    
+      <category term="encode" scheme="http://panmax.love/tags/encode/"/>
+    
+  </entry>
+  
+  <entry>
     <title>functools.wraps 的作用</title>
     <link href="http://panmax.love/2016/functools-wraps-%E7%9A%84%E4%BD%9C%E7%94%A8/"/>
     <id>http://panmax.love/2016/functools-wraps-的作用/</id>
@@ -1275,36 +1325,6 @@
       <category term="关键字参数" scheme="http://panmax.love/tags/%E5%85%B3%E9%94%AE%E5%AD%97%E5%8F%82%E6%95%B0/"/>
     
       <category term="Effective Python" scheme="http://panmax.love/tags/Effective-Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>解决Linux下VIM中文乱码</title>
-    <link href="http://panmax.love/2016/%E8%A7%A3%E5%86%B3Linux%E4%B8%8BVIM%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/"/>
-    <id>http://panmax.love/2016/解决Linux下VIM中文乱码/</id>
-    <published>2016-02-24T13:48:41.000Z</published>
-    <updated>2016-02-24T13:50:09.000Z</updated>
-    
-    <content type="html">&lt;p&gt;编辑~/.vimrc文件，加上如下几行：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;set termencoding=utf-8&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;set encoding=utf-8&lt;/code&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;编辑~/.vimrc文件，加上如下几行：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;set termencoding=utf-8&lt;/co
-    
-    </summary>
-    
-      <category term="VIM" scheme="http://panmax.love/categories/VIM/"/>
-    
-    
-      <category term="Linux" scheme="http://panmax.love/tags/Linux/"/>
-    
-      <category term="VIM" scheme="http://panmax.love/tags/VIM/"/>
     
   </entry>
   
