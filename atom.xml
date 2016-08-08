@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://panmax.love/"/>
-  <updated>2016-07-28T04:48:29.000Z</updated>
+  <updated>2016-08-08T05:23:46.000Z</updated>
   <id>http://panmax.love/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://panmax.love/2016/2016-%E4%B9%A6%E5%8D%95/"/>
     <id>http://panmax.love/2016/2016-书单/</id>
     <published>2016-12-30T16:00:00.000Z</published>
-    <updated>2016-07-28T04:48:29.000Z</updated>
+    <updated>2016-08-08T05:23:46.000Z</updated>
     
     <content type="html">&lt;p&gt;之前在 &lt;code&gt;2016 心愿单&lt;/code&gt; 里写过一条愿望是： &lt;strong&gt;每月至少阅读一本书&lt;/strong&gt;，所以在这里做个记录。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -29,7 +29,6 @@
 &lt;li&gt;必然（KK三部曲·展望）&lt;/li&gt;
 &lt;li&gt;把时间当做朋友（李笑来）&lt;/li&gt;
 &lt;li&gt;知乎周刊.入职第一年&lt;/li&gt;
-&lt;li&gt;解忧杂货店&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&quot;想读&quot;&gt;&lt;a href=&quot;#想读&quot; class=&quot;headerlink&quot; title=&quot;想读&quot;&gt;&lt;/a&gt;想读&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;时间的朋友2015 罗振宇&lt;/li&gt;
@@ -60,6 +59,9 @@
 &lt;h4 id=&quot;7月&quot;&gt;&lt;a href=&quot;#7月&quot; class=&quot;headerlink&quot; title=&quot;7月&quot;&gt;&lt;/a&gt;7月&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;代码的未来&lt;/li&gt;
 &lt;li&gt;白银时代&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;8月&quot;&gt;&lt;a href=&quot;#8月&quot; class=&quot;headerlink&quot; title=&quot;8月&quot;&gt;&lt;/a&gt;8月&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;解忧杂货店&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&quot;更早已读&quot;&gt;&lt;a href=&quot;#更早已读&quot; class=&quot;headerlink&quot; title=&quot;更早已读&quot;&gt;&lt;/a&gt;更早已读&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;小王子&lt;/li&gt;
@@ -101,12 +103,14 @@
     <link href="http://panmax.love/2016/Python-kill%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/"/>
     <id>http://panmax.love/2016/Python-kill编码问题/</id>
     <published>2016-08-02T09:40:33.000Z</published>
-    <updated>2016-08-02T10:18:36.000Z</updated>
+    <updated>2016-08-02T10:35:26.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 &lt;code&gt;decode&lt;/code&gt; 和 &lt;code&gt;encode&lt;/code&gt; 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Python 内部字符串编码为 &lt;code&gt;unicode&lt;/code&gt;，因此在编码转换时，通常使用 &lt;code&gt;unicode&lt;/code&gt; 作为中间编码， 先将其他编码的字符串解码(decode)成 &lt;code&gt;unicode&lt;/code&gt;，再从 &lt;code&gt;unicode&lt;/code&gt; 编码(encode)成另一种编码。&lt;/p&gt;
+&lt;h2 id=&quot;unicode&quot;&gt;&lt;a href=&quot;#unicode&quot; class=&quot;headerlink&quot; title=&quot;unicode&quot;&gt;&lt;/a&gt;unicode&lt;/h2&gt;&lt;p&gt;世界上存在着多种编码方式，同一个二进制数字可以被解释成不同的符号。因此，要想打开一个文本文件，就必须知道它的编码方式，否则用错误的编码方式解读，就会出现乱码。为什么电子邮件常常出现乱码？就是因为发信人和收信人使用的编码方式不一样。&lt;/p&gt;
+&lt;p&gt;可以想象，如果有一种编码，将世界上所有的符号都纳入其中。每一个符号都给予一个独一无二的编码，那么乱码问题就会消失。这就是&lt;code&gt;unicode&lt;/code&gt;，就像它的名字都表示的，这是一种所有符号的编码。&lt;/p&gt;
 &lt;h2 id=&quot;decode&quot;&gt;&lt;a href=&quot;#decode&quot; class=&quot;headerlink&quot; title=&quot;decode&quot;&gt;&lt;/a&gt;decode&lt;/h2&gt;&lt;p&gt;&lt;code&gt;decode&lt;/code&gt; 的作用是将其他编码的字符串解码成 &lt;code&gt;unicode&lt;/code&gt; 编码。&lt;/p&gt;
 &lt;p&gt;如 &lt;code&gt;str.decode(&amp;#39;gbk&amp;#39;)&lt;/code&gt;，表示将 &lt;code&gt;gbk&lt;/code&gt; 编码的字符串解码成 &lt;code&gt;unicode&lt;/code&gt; 编码。&lt;/p&gt;
 &lt;h2 id=&quot;encode&quot;&gt;&lt;a href=&quot;#encode&quot; class=&quot;headerlink&quot; title=&quot;encode&quot;&gt;&lt;/a&gt;encode&lt;/h2&gt;&lt;p&gt;&lt;code&gt;encode&lt;/code&gt; 的作用是将 &lt;code&gt;unicode&lt;/code&gt; 字符串编码成其他编码的字符串。&lt;/p&gt;
