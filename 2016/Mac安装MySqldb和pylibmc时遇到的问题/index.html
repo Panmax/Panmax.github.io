@@ -1,0 +1,422 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="/" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="今天在 Mac 上安装 MySqldb 和 pylibmc 的时候遇到两个问题，在这里记录一下。
+安装 MySqldb 时，报：
+123456789101112131415161718192021222324252627282930313233343536373839Failed building wheel for MySQL-python  Running setup.py clean for">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac安装MySqldb和pylibmc时遇到的问题">
+<meta property="og:url" content="http://panmax.love/2016/Mac安装MySqldb和pylibmc时遇到的问题/index.html">
+<meta property="og:site_name" content="/">
+<meta property="og:description" content="今天在 Mac 上安装 MySqldb 和 pylibmc 的时候遇到两个问题，在这里记录一下。
+安装 MySqldb 时，报：
+123456789101112131415161718192021222324252627282930313233343536373839Failed building wheel for MySQL-python  Running setup.py clean for">
+<meta property="og:updated_time" content="2016-10-27T10:23:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac安装MySqldb和pylibmc时遇到的问题">
+<meta name="twitter:description" content="今天在 Mac 上安装 MySqldb 和 pylibmc 的时候遇到两个问题，在这里记录一下。
+安装 MySqldb 时，报：
+123456789101112131415161718192021222324252627282930313233343536373839Failed building wheel for MySQL-python  Running setup.py clean for">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://panmax.love/2016/Mac安装MySqldb和pylibmc时遇到的问题/"/>
+
+  <title> Mac安装MySqldb和pylibmc时遇到的问题 | / </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-meta ">
+  <div class="custom-logo-site-title">
+    <a href="/archives"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">/</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+</div>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Mac安装MySqldb和pylibmc时遇到的问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-27T18:17:32+08:00" content="2016-10-27">
+              2016-10-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Code/" itemprop="url" rel="index">
+                    <span itemprop="name">Code</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天在 Mac 上安装 MySqldb 和 pylibmc 的时候遇到两个问题，在这里记录一下。</p>
+<p>安装 MySqldb 时，报：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">Failed building wheel <span class="keyword">for</span> MySQL-python</div><div class="line">  Running setup.py clean <span class="keyword">for</span> MySQL-python</div><div class="line">Failed to build MySQL-python</div><div class="line">Installing collected <span class="symbol">packages:</span> MySQL-python</div><div class="line">  Running setup.py install <span class="keyword">for</span> MySQL-python ... error</div><div class="line">    Complete output from command /Users/jiapan/PycharmProjects/hodoor/venv/bin/python -u -c <span class="string">"import setuptools, tokenize;__file__='/private/var/folders/9j/c68zmjy53fq4t0j5y82wphr40000gn/T/pip-build-HrfNXN/MySQL-python/setup.py';exec(compile(getattr(tokenize, 'open', open)(__file__).read().replace('\r\n', '\n'), __file__, 'exec'))"</span> install --record /var/folders/<span class="number">9</span>j/c68zmjy53fq4t0j5y82wphr40000gn/T/pip-DdwCnb-record/install-record.txt --single-version-externally-managed --compile --install-headers /Users/jiapan/PycharmProjects/hodoor/venv/bin/../<span class="keyword">include</span>/site/python2.<span class="number">7</span>/MySQL-<span class="symbol">python:</span></div><div class="line">    running install</div><div class="line">    running build</div><div class="line">    running build_py</div><div class="line">    creating build</div><div class="line">    creating build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7</span></div><div class="line">    copying _mysql_exceptions.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7</span></div><div class="line">    creating build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span></span></div><div class="line">    copying MySQLdb/__init__.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span></span></div><div class="line">    copying MySQLdb/converters.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span></span></div><div class="line">    copying MySQLdb/connections.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span></span></div><div class="line">    copying MySQLdb/cursors.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span></span></div><div class="line">    copying MySQLdb/release.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span></span></div><div class="line">    copying MySQLdb/times.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span></span></div><div class="line">    creating build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span>/<span class="title">constants</span></span></div><div class="line">    copying MySQLdb/constants/__init__.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span>/<span class="title">constants</span></span></div><div class="line">    copying MySQLdb/constants/CR.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span>/<span class="title">constants</span></span></div><div class="line">    copying MySQLdb/constants/FIELD_TYPE.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span>/<span class="title">constants</span></span></div><div class="line">    copying MySQLdb/constants/ER.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span>/<span class="title">constants</span></span></div><div class="line">    copying MySQLdb/constants/FLAG.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span>/<span class="title">constants</span></span></div><div class="line">    copying MySQLdb/constants/REFRESH.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span>/<span class="title">constants</span></span></div><div class="line">    copying MySQLdb/constants/CLIENT.py -&gt; build/<span class="class"><span class="keyword">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">MySQLdb</span>/<span class="title">constants</span></span></div><div class="line">    running build_ext</div><div class="line">    building <span class="string">'_mysql'</span> extension</div><div class="line">    creating build/temp.macosx-<span class="number">10.11</span>-x86_64-<span class="number">2.7</span></div><div class="line">    clang -fno-strict-aliasing -fno-common -dynamic -g -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -Dversion_info=(<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="string">'final'</span>,<span class="number">1</span>) -D__version__=<span class="number">1.2</span>.<span class="number">5</span> -I/usr/local/Cellar/mysql/<span class="number">5.7</span>.<span class="number">12</span>/<span class="keyword">include</span>/mysql -I/usr/local/Cellar/python/<span class="number">2.7</span>.<span class="number">11</span>/Frameworks/Python.framework/Versions/<span class="number">2.7</span>/<span class="keyword">include</span>/python2.<span class="number">7</span> -c _mysql.c -o build/temp.macosx-<span class="number">10.11</span>-x86_64-<span class="number">2.7</span>/_mysql.o -fno-omit-frame-pointer</div><div class="line">    _mysql.<span class="symbol">c:</span><span class="number">1589</span>:<span class="number">10</span>: <span class="symbol">warning:</span> comparison <span class="keyword">of</span> unsigned expression &lt; <span class="number">0</span> is always <span class="literal">false</span> [-Wtautological-compare]</div><div class="line">            <span class="keyword">if</span> (how &lt; <span class="number">0</span> || how &gt;= <span class="keyword">sizeof</span>(row_converters)) &#123;</div><div class="line">                ~~~ ^ ~</div><div class="line">    <span class="number">1</span> warning generated.</div><div class="line">    clang -bundle -undefined dynamic_lookup build/temp.macosx-<span class="number">10.11</span>-x86_64-<span class="number">2.7</span>/_mysql.o -L/usr/local/Cellar/mysql/<span class="number">5.7</span>.<span class="number">12</span>/<span class="class"><span class="keyword">lib</span> -<span class="title">lmysqlclient</span> -<span class="title">lssl</span> -<span class="title">lcrypto</span> -<span class="title">o</span> <span class="title">build</span>/<span class="title">lib</span>.<span class="title">macosx</span>-10.11-<span class="title">x86_64</span>-2.7/<span class="title">_mysql</span>.<span class="title">so</span></span></div><div class="line">    <span class="symbol">ld:</span> library not found <span class="keyword">for</span> -lssl</div><div class="line">    <span class="symbol">clang:</span> <span class="symbol">error:</span> linker command failed <span class="keyword">with</span> exit code <span class="number">1</span> (use -v to see invocation)</div><div class="line">    <span class="symbol">error:</span> command <span class="string">'clang'</span> failed <span class="keyword">with</span> exit status <span class="number">1</span></div></pre></td></tr></table></figure>
+<p>产生原因，升级了Xcode，但是Xcode还没有启动过，里边的一些插件还没有升级。</p>
+<p>解决方法，启动Xcode，让Xcode完成升级。</p>
+<p>然后执行 <code>xcode-select --install</code> 等待完成后即可。</p>
+<p>第二个问题是再安装 pylibmc 的时候报</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">./_pylibmcmodule.h:<span class="number">42</span>:<span class="number">10</span>: fatal error: <span class="string">'libmemcached/memcached.h'</span> file <span class="literal">not</span> found</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;libmemcached/memcached.h&gt;</span></span></div><div class="line"></div><div class="line">         ^</div><div class="line"></div><div class="line"><span class="number">1</span> error generated.</div><div class="line"></div><div class="line">error: command <span class="string">'clang'</span> failed <span class="keyword">with</span> <span class="keyword">exit</span> status <span class="number">1</span></div></pre></td></tr></table></figure>
+<p>产生原因，Mac 使用 brew 安装的 memcached 的路径和 pylibmc 认为的默认路径不一致，所以需要指定一下路径。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">which</span> memcached</div><div class="line">/usr/<span class="built_in">local</span>/bin/memcached</div><div class="line"></div><div class="line">$ <span class="built_in">export</span> LIBMEMCACHED=/usr/<span class="built_in">local</span></div><div class="line">$ pip install pylibmc</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/Python-kill编码问题/" rel="next" title="Python kill编码问题">
+                <i class="fa fa-chevron-left"></i> Python kill编码问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/2016-书单/" rel="prev" title="2016 书单">
+                2016 书单 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
