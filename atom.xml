@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://panmax.love/"/>
-  <updated>2017-01-01T12:21:06.000Z</updated>
+  <updated>2017-01-12T04:27:04.000Z</updated>
   <id>http://panmax.love/</id>
   
   <author>
@@ -14,6 +14,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2017 书单</title>
+    <link href="http://panmax.love/2017/2017-%E4%B9%A6%E5%8D%95/"/>
+    <id>http://panmax.love/2017/2017-书单/</id>
+    <published>2017-12-30T16:00:00.000Z</published>
+    <updated>2017-01-12T04:27:04.000Z</updated>
+    
+    <content type="html">&lt;h3 id=&quot;1月&quot;&gt;&lt;a href=&quot;#1月&quot; class=&quot;headerlink&quot; title=&quot;1月&quot;&gt;&lt;/a&gt;1月&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;摆渡人&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1月&quot;&gt;&lt;a href=&quot;#1月&quot; class=&quot;headerlink&quot; title=&quot;1月&quot;&gt;&lt;/a&gt;1月&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;摆渡人&lt;/li&gt;
+&lt;/ul&gt;
+
+    
+    </summary>
+    
+      <category term="小攀说" scheme="http://panmax.love/categories/%E5%B0%8F%E6%94%80%E8%AF%B4/"/>
+    
+    
+      <category term="读书" scheme="http://panmax.love/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>解决Pycharm中总是不小心拖拽代码的问题</title>
@@ -49,7 +77,7 @@
     <link href="http://panmax.love/2016/2016-%E4%B9%A6%E5%8D%95/"/>
     <id>http://panmax.love/2016/2016-书单/</id>
     <published>2016-12-30T16:00:00.000Z</published>
-    <updated>2017-01-01T11:56:03.000Z</updated>
+    <updated>2017-01-12T04:26:14.000Z</updated>
     
     <content type="html">&lt;p&gt;之前在 &lt;code&gt;2016 心愿单&lt;/code&gt; 里写过一条愿望是： &lt;strong&gt;每月至少阅读一本书&lt;/strong&gt;，所以在这里做个记录。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -60,10 +88,8 @@
 &lt;/ul&gt;
 &lt;h3 id=&quot;想读&quot;&gt;&lt;a href=&quot;#想读&quot; class=&quot;headerlink&quot; title=&quot;想读&quot;&gt;&lt;/a&gt;想读&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;时间的朋友2015 罗振宇&lt;/li&gt;
-&lt;li&gt;挪威的森林（村上春树）&lt;/li&gt;
 &lt;li&gt;月亮和六便士（毛姆）&lt;/li&gt;
 &lt;li&gt;基督山伯爵（大仲马）&lt;/li&gt;
-&lt;li&gt;北京折叠&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&quot;已读&quot;&gt;&lt;a href=&quot;#已读&quot; class=&quot;headerlink&quot; title=&quot;已读&quot;&gt;&lt;/a&gt;已读&lt;/h3&gt;&lt;h4 id=&quot;1月&quot;&gt;&lt;a href=&quot;#1月&quot; class=&quot;headerlink&quot; title=&quot;1月&quot;&gt;&lt;/a&gt;1月&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;Redis 入门指南（第2版）&lt;/li&gt;
@@ -1293,48 +1319,6 @@
       <category term="Python" scheme="http://panmax.love/tags/Python/"/>
     
       <category term="魔镜" scheme="http://panmax.love/tags/%E9%AD%94%E9%95%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python中合并两个字典</title>
-    <link href="http://panmax.love/2016/Python%E4%B8%AD%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%AD%97%E5%85%B8/"/>
-    <id>http://panmax.love/2016/Python中合并两个字典/</id>
-    <published>2016-02-29T10:14:11.000Z</published>
-    <updated>2016-02-29T10:23:14.000Z</updated>
-    
-    <content type="html">&lt;p&gt;有两个字典：&lt;/p&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;user&lt;/span&gt; = &amp;#123;&lt;span class=&quot;string&quot;&gt;&#39;name&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;Trey&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;website&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;http://treyhunner.com&quot;&lt;/span&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;defaults&lt;/span&gt; = &amp;#123;&lt;span class=&quot;string&quot;&gt;&#39;name&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;Anonymous User&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;page_name&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;Profile Page&quot;&lt;/span&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;现在想合并两个字典，得到一个新的字典，要求：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;如果存在重复的键，user字典中的值应覆盖defaults字典中的值；&lt;/li&gt;
-&lt;li&gt;defaults和user中的键可以是任意合法的键；&lt;/li&gt;
-&lt;li&gt;defaults和user中的值可以是任意值；&lt;/li&gt;
-&lt;li&gt;在创建context字典时，defaults和user的元素不能出现变化；&lt;/li&gt;
-&lt;li&gt;更新context字典时，不能更改defaults或user字典。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;以上两个字典合并结果为：&lt;/p&gt;
-&lt;figure class=&quot;highlight xquery&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&amp;#123;&lt;span class=&quot;string&quot;&gt;&#39;website&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&#39;http://treyhunner.com&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;name&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&#39;Trey&#39;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;page_name&#39;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&#39;Profile Page&#39;&lt;/span&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;Python 3 中最优雅的实现方法：&lt;/p&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;context&lt;/span&gt; = &amp;#123;**defaults, **user&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;hr&gt;
-&lt;p&gt;Python 2 中：&lt;/p&gt;
-&lt;h5 id=&quot;多次更新&quot;&gt;&lt;a href=&quot;#多次更新&quot; class=&quot;headerlink&quot; title=&quot;多次更新&quot;&gt;&lt;/a&gt;多次更新&lt;/h5&gt;&lt;figure class=&quot;highlight maxima&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;context&lt;/span&gt; = &amp;#123;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;context&lt;/span&gt;.update(defaults)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;context&lt;/span&gt;.update(user)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这里我们创建了一个新的空字典，并使用其update方法从其他字典中添加元素。请注意，我们首先添加的是defaults字典中的元素，以保证user字典中的重复键会覆盖掉defaults中的键。&lt;/p&gt;
-&lt;h5 id=&quot;复制，然后更新&quot;&gt;&lt;a href=&quot;#复制，然后更新&quot; class=&quot;headerlink&quot; title=&quot;复制，然后更新&quot;&gt;&lt;/a&gt;复制，然后更新&lt;/h5&gt;&lt;figure class=&quot;highlight maxima&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;context&lt;/span&gt; = defaults.&lt;span class=&quot;built_in&quot;&gt;copy&lt;/span&gt;()&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;context&lt;/span&gt;.update(user)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h5 id=&quot;ChainMap转换成字典&quot;&gt;&lt;a href=&quot;#ChainMap转换成字典&quot; class=&quot;headerlink&quot; title=&quot;ChainMap转换成字典&quot;&gt;&lt;/a&gt;ChainMap转换成字典&lt;/h5&gt;&lt;figure class=&quot;highlight lisp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;context = dict(&lt;span class=&quot;name&quot;&gt;ChainMap&lt;/span&gt;(&lt;span class=&quot;name&quot;&gt;user&lt;/span&gt;, defaults))&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;有两个字典：&lt;/p&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=
-    
-    </summary>
-    
-      <category term="Code" scheme="http://panmax.love/categories/Code/"/>
-    
-    
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
     
   </entry>
   
