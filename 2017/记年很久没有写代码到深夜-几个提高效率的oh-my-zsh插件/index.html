@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://panmax.love/2017/记年很久没有写代码到深夜-几个提高效率的oh-my-zsh插件/index.html">
 <meta property="og:site_name" content="/">
 <meta property="og:description" content="昨晚写代码时遇到一个坑，导致12点半左右才合上电脑。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致，或者有事务没有提交导致，然后各种查资料，尝试关闭 mysql 缓">
-<meta property="og:updated_time" content="2017-02-09T03:56:56.000Z">
+<meta property="og:updated_time" content="2017-02-09T03:58:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记年很久没有写代码到深夜 && 几个提高效率的oh-my-zsh插件">
 <meta name="twitter:description" content="昨晚写代码时遇到一个坑，导致12点半左右才合上电脑。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致，或者有事务没有提交导致，然后各种查资料，尝试关闭 mysql 缓">
@@ -228,27 +228,12 @@
 <p>今天白天在打开终端时，我的 oh-my-zsh 例行提示我是否要检查更新，我进行了更新工作后，饶有兴趣的查了查 oh-my-zsh 的常用插件，自己也收入囊肿几个。在此做下记录：</p>
 <p>先说下如何配置插件，打开 ~/.zshrc 里边有个 </p>
 <p><code>plugins=(...)</code> 编辑括号中的内容就可以了</p>
-<ol>
-<li>d</li>
-</ol>
-<p>这个插件可以记录我本次窗口进入过的目录历史记录，当在几个目录之间来回穿梭时，可以输入 d 回车，按照提示的数字直接进入之前进入过的目录。</p>
-<ol>
-<li>sublime</li>
-</ol>
-<p>之前在命令行下，为了快速编辑一个文件，我通常使用 vi, 或者做复杂编辑的时候使用 atom，其实我更喜欢用 sublime 一些，但是一直找不到如何让 终端 调起它的方法，今天终于知道到了。常用命令如下</p>
+<h3 id="d"><a href="#d" class="headerlink" title="d"></a>d</h3><p>这个插件可以记录我本次窗口进入过的目录历史记录，当在几个目录之间来回穿梭时，可以输入 d 回车，按照提示的数字直接进入之前进入过的目录。</p>
+<h3 id="sublime"><a href="#sublime" class="headerlink" title="sublime"></a>sublime</h3><p>之前在命令行下，为了快速编辑一个文件，我通常使用 vi, 或者做复杂编辑的时候使用 atom，其实我更喜欢用 sublime 一些，但是一直找不到如何让 终端 调起它的方法，今天终于知道到了。常用命令如下</p>
 <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">st</span>          <span class="meta"># 直接打开sublime</span></div><div class="line"><span class="keyword">st</span> file_a   <span class="meta"># 用sublime打开文件 file</span></div><div class="line"><span class="keyword">st</span> dir_a    <span class="meta"># 用sublime打开目录 dir</span></div><div class="line">stt         <span class="meta"># 在sublime打开当前目录，相当于 st .</span></div></pre></td></tr></table></figure>
-<ol>
-<li>extract</li>
-</ol>
-<p>我觉得这个插件真的解决了我的痛点，之前每次解压文件，都需要先去网上查下命令，比如解 gz.tar 需要用什么命令 解压 tar 需要什么命令，解压 zip 需要什么命令，现在好了，需要解压文件时直接 <code>x file_name</code> 就完成了。</p>
-<ol>
-<li>z</li>
-</ol>
-<p>作用和 autojump 相同，autojump 是使用 <code>j</code> 作为启动键，z 是用 <code>z</code> 作为启动键，但是查阅资料后解释 z 的速度更快一些，z 是使用 shell 直接编写的，而 autojump 则是用 Python 编写（又黑 Python ）。。。</p>
-<ol>
-<li>web-search</li>
-</ol>
-<p>这个是用来在终端中启用搜索的命令，比如 输入 <code>google Python</code> 会自动用默认浏览器打开 google 并用 Python 作为关键字进行查询。同时也支持 baidu、bing。</p>
+<h3 id="extract"><a href="#extract" class="headerlink" title="extract"></a>extract</h3><p>我觉得这个插件真的解决了我的痛点，之前每次解压文件，都需要先去网上查下命令，比如解 gz.tar 需要用什么命令 解压 tar 需要什么命令，解压 zip 需要什么命令，现在好了，需要解压文件时直接 <code>x file_name</code> 就完成了。</p>
+<h3 id="z"><a href="#z" class="headerlink" title="z"></a>z</h3><p>作用和 autojump 相同，autojump 是使用 <code>j</code> 作为启动键，z 是用 <code>z</code> 作为启动键，但是查阅资料后解释 z 的速度更快一些，z 是使用 shell 直接编写的，而 autojump 则是用 Python 编写（又黑 Python ）。。。</p>
+<h3 id="web-search"><a href="#web-search" class="headerlink" title="web-search"></a>web-search</h3><p>这个是用来在终端中启用搜索的命令，比如 输入 <code>google Python</code> 会自动用默认浏览器打开 google 并用 Python 作为关键字进行查询。同时也支持 baidu、bing。</p>
 <p>我现在的插件列表如下：</p>
 <p><code>plugins=(git d sublime extract z web-search)</code></p>
 <p>git 的 Aliases 见： <code>https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git</code></p>
