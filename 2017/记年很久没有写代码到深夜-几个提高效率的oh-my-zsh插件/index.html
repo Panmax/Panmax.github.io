@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="昨晚写代码时遇到一个坑，导致12点半左右才睡觉。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致的，或者又事务没有提交导致，然后各种查阅资料，关闭 mysql 缓存啥">
+<meta name="description" content="昨晚写代码时遇到一个坑，导致12点半左右才合上电脑。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致，或者有事务没有提交导致，然后各种查资料，尝试关闭 mysql 缓">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记年很久没有写代码到深夜 && 几个提高效率的oh-my-zsh插件">
 <meta property="og:url" content="http://panmax.love/2017/记年很久没有写代码到深夜-几个提高效率的oh-my-zsh插件/index.html">
 <meta property="og:site_name" content="/">
-<meta property="og:description" content="昨晚写代码时遇到一个坑，导致12点半左右才睡觉。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致的，或者又事务没有提交导致，然后各种查阅资料，关闭 mysql 缓存啥">
-<meta property="og:updated_time" content="2017-02-09T03:49:38.000Z">
+<meta property="og:description" content="昨晚写代码时遇到一个坑，导致12点半左右才合上电脑。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致，或者有事务没有提交导致，然后各种查资料，尝试关闭 mysql 缓">
+<meta property="og:updated_time" content="2017-02-09T03:56:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记年很久没有写代码到深夜 && 几个提高效率的oh-my-zsh插件">
-<meta name="twitter:description" content="昨晚写代码时遇到一个坑，导致12点半左右才睡觉。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致的，或者又事务没有提交导致，然后各种查阅资料，关闭 mysql 缓存啥">
+<meta name="twitter:description" content="昨晚写代码时遇到一个坑，导致12点半左右才合上电脑。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致，或者有事务没有提交导致，然后各种查资料，尝试关闭 mysql 缓">
 
 
 
@@ -223,8 +223,8 @@
       
 
       
-        <p>昨晚写代码时遇到一个坑，导致12点半左右才睡觉。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致的，或者又事务没有提交导致，然后各种查阅资料，关闭 mysql 缓存啥的，到时返现用不通参数调用时，有时又能得到正确的数据，是我不禁开始怀疑人生。</p>
-<p>眼看到了0点，我静下新来，一行一行检查代码运行路径，最终捉住了这只虫子。。。在我印象中，自从去年7、8月份后，就没有写代码到这么晚了，因为之前每次写代码都会兴奋，导致休息不好，所以就改掉了深夜写代码的习惯。</p>
+        <p>昨晚写代码时遇到一个坑，导致12点半左右才合上电脑。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致，或者有事务没有提交导致，然后各种查资料，尝试关闭 mysql 缓存啥的，都没有解决问题，但是后来发现用不同参数调用时，有时又能得到正确的数据，使我不禁开始怀疑人生。</p>
+<p>眼看到了0点，我静下心来，一行一行检查代码运行路径，最终捉住了这只虫子。。。在我印象中，自从去年7、8月份后，就没有写代码到这么晚了，因为之前每次写代码都会兴奋，导致休息不好，所以就改掉了深夜写代码的习惯。</p>
 <p>今天白天在打开终端时，我的 oh-my-zsh 例行提示我是否要检查更新，我进行了更新工作后，饶有兴趣的查了查 oh-my-zsh 的常用插件，自己也收入囊肿几个。在此做下记录：</p>
 <p>先说下如何配置插件，打开 ~/.zshrc 里边有个 </p>
 <p><code>plugins=(...)</code> 编辑括号中的内容就可以了</p>
@@ -244,11 +244,11 @@
 <ol>
 <li>z</li>
 </ol>
-<p>作用和 autojump 相同，autojump 是使用 j 作为启动键，z 是用z作为启动键，但是查阅资料后解释 z 的速度更快一些，z是使用shell直接编写的，而autojump则是用Python编写（又黑Python）。。。</p>
+<p>作用和 autojump 相同，autojump 是使用 <code>j</code> 作为启动键，z 是用 <code>z</code> 作为启动键，但是查阅资料后解释 z 的速度更快一些，z 是使用 shell 直接编写的，而 autojump 则是用 Python 编写（又黑 Python ）。。。</p>
 <ol>
 <li>web-search</li>
 </ol>
-<p>这个是用来在终端中启用搜索的命令，比如 输入 google Python 会自动用默认浏览器打开google 并用Python作为关键字进行查询。同时也支持 baidu、bing</p>
+<p>这个是用来在终端中启用搜索的命令，比如 输入 <code>google Python</code> 会自动用默认浏览器打开 google 并用 Python 作为关键字进行查询。同时也支持 baidu、bing。</p>
 <p>我现在的插件列表如下：</p>
 <p><code>plugins=(git d sublime extract z web-search)</code></p>
 <p>git 的 Aliases 见： <code>https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git</code></p>
