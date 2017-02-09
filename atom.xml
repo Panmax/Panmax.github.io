@@ -46,6 +46,53 @@
   </entry>
   
   <entry>
+    <title>记年很久没有写代码到深夜 &amp;&amp; 几个提高效率的oh-my-zsh插件</title>
+    <link href="http://panmax.love/2017/%E8%AE%B0%E5%B9%B4%E5%BE%88%E4%B9%85%E6%B2%A1%E6%9C%89%E5%86%99%E4%BB%A3%E7%A0%81%E5%88%B0%E6%B7%B1%E5%A4%9C-%E5%87%A0%E4%B8%AA%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87%E7%9A%84oh-my-zsh%E6%8F%92%E4%BB%B6/"/>
+    <id>http://panmax.love/2017/记年很久没有写代码到深夜-几个提高效率的oh-my-zsh插件/</id>
+    <published>2017-02-09T03:28:06.000Z</published>
+    <updated>2017-02-09T03:49:38.000Z</updated>
+    
+    <content type="html">&lt;p&gt;昨晚写代码时遇到一个坑，导致12点半左右才睡觉。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致的，或者又事务没有提交导致，然后各种查阅资料，关闭 mysql 缓存啥的，到时返现用不通参数调用时，有时又能得到正确的数据，是我不禁开始怀疑人生。&lt;/p&gt;
+&lt;p&gt;眼看到了0点，我静下新来，一行一行检查代码运行路径，最终捉住了这只虫子。。。在我印象中，自从去年7、8月份后，就没有写代码到这么晚了，因为之前每次写代码都会兴奋，导致休息不好，所以就改掉了深夜写代码的习惯。&lt;/p&gt;
+&lt;p&gt;今天白天在打开终端时，我的 oh-my-zsh 例行提示我是否要检查更新，我进行了更新工作后，饶有兴趣的查了查 oh-my-zsh 的常用插件，自己也收入囊肿几个。在此做下记录：&lt;/p&gt;
+&lt;p&gt;先说下如何配置插件，打开 ~/.zshrc 里边有个 &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;plugins=(...)&lt;/code&gt; 编辑括号中的内容就可以了&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;d&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这个插件可以记录我本次窗口进入过的目录历史记录，当在几个目录之间来回穿梭时，可以输入 d 回车，按照提示的数字直接进入之前进入过的目录。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;sublime&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;之前在命令行下，为了快速编辑一个文件，我通常使用 vi, 或者做复杂编辑的时候使用 atom，其实我更喜欢用 sublime 一些，但是一直找不到如何让 终端 调起它的方法，今天终于知道到了。常用命令如下&lt;/p&gt;
+&lt;figure class=&quot;highlight avrasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;st&lt;/span&gt;          &lt;span class=&quot;meta&quot;&gt;# 直接打开sublime&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;st&lt;/span&gt; file_a   &lt;span class=&quot;meta&quot;&gt;# 用sublime打开文件 file&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;st&lt;/span&gt; dir_a    &lt;span class=&quot;meta&quot;&gt;# 用sublime打开目录 dir&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;stt         &lt;span class=&quot;meta&quot;&gt;# 在sublime打开当前目录，相当于 st .&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ol&gt;
+&lt;li&gt;extract&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;我觉得这个插件真的解决了我的痛点，之前每次解压文件，都需要先去网上查下命令，比如解 gz.tar 需要用什么命令 解压 tar 需要什么命令，解压 zip 需要什么命令，现在好了，需要解压文件时直接 &lt;code&gt;x file_name&lt;/code&gt; 就完成了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;z&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;作用和 autojump 相同，autojump 是使用 j 作为启动键，z 是用z作为启动键，但是查阅资料后解释 z 的速度更快一些，z是使用shell直接编写的，而autojump则是用Python编写（又黑Python）。。。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;web-search&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这个是用来在终端中启用搜索的命令，比如 输入 google Python 会自动用默认浏览器打开google 并用Python作为关键字进行查询。同时也支持 baidu、bing&lt;/p&gt;
+&lt;p&gt;我现在的插件列表如下：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;plugins=(git d sublime extract z web-search)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;git 的 Aliases 见： &lt;code&gt;https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git&lt;/code&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;昨晚写代码时遇到一个坑，导致12点半左右才睡觉。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>解决Pycharm中总是不小心拖拽代码的问题</title>
     <link href="http://panmax.love/2017/%E8%A7%A3%E5%86%B3Pycharm%E4%B8%AD%E6%80%BB%E6%98%AF%E4%B8%8D%E5%B0%8F%E5%BF%83%E6%8B%96%E6%8B%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>http://panmax.love/2017/解决Pycharm中总是不小心拖拽代码的问题/</id>
@@ -1271,56 +1318,6 @@
     
     
       <category term="有趣" scheme="http://panmax.love/tags/%E6%9C%89%E8%B6%A3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>collections.Counter的使用</title>
-    <link href="http://panmax.love/2016/collections-Counter%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-    <id>http://panmax.love/2016/collections-Counter的使用/</id>
-    <published>2016-03-02T11:30:09.000Z</published>
-    <updated>2016-03-02T11:44:16.000Z</updated>
-    
-    <content type="html">&lt;p&gt;有一个需求是获取所有存在愿望的城市，并且找出热门城市。&lt;/p&gt;
-&lt;p&gt;刚好前几天看到了Python的计数器：&lt;code&gt;collections.Counter&lt;/code&gt;， 于是就拿来用了用。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;首先导入 &lt;code&gt;Counter&lt;/code&gt;:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight capnproto&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; collections &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Counter&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;通过查询数据库获取到所有满足条件的愿望放在&lt;code&gt;wishes&lt;/code&gt;数组中，然后遍历所有数据，把所有城市的adcode存在一个数组中：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;cities = [wish&lt;span class=&quot;selector-class&quot;&gt;.adcode&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; wish &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; wishes]&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;blockquote&gt;
-&lt;p&gt;(我发现我最近越来越用推导式了。。。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;然后使用Counter进行操作：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;c&lt;/span&gt; = Counter(cities).most_common()&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这样得到的结果是一个数组，每个元素是一个长度为2的元组，元组第0位保存的是数据，第1位保存的是这个数据出现的次数，整个数组是按照元素出现次数排序的，&lt;code&gt;most_common()&lt;/code&gt;还可以带int型的参数，表示获取排名前n个的结果。不带参数表示获取所有结果。&lt;/p&gt;
-&lt;p&gt;以上得到的结果为：&lt;/p&gt;
-&lt;figure class=&quot;highlight lsl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;[(&lt;span class=&quot;number&quot;&gt;110000&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;), (&lt;span class=&quot;number&quot;&gt;510800&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;)],...&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;获取热门城市只需拿前4个数据就行（需求是4个热门城市），其他城市拿剩下的数据即可(注意，&lt;code&gt;c&lt;/code&gt; 里每个元素是一个元组，元组的一个0位才是我们要的数据)：&lt;/p&gt;
-&lt;figure class=&quot;highlight coq&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;top4 = [&lt;span class=&quot;keyword&quot;&gt;_&lt;/span&gt;[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;in&lt;/span&gt; c[:&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;]]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;others = [&lt;span class=&quot;keyword&quot;&gt;_&lt;/span&gt;[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;in&lt;/span&gt; c[&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;:]]&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;现在 &lt;code&gt;top4&lt;/code&gt; 里存放的就是排名前四的城市adcode，&lt;code&gt;others&lt;/code&gt; 里存放的是其他有愿望地区的城市adcode按照愿望数量排序的数组。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;有一个需求是获取所有存在愿望的城市，并且找出热门城市。&lt;/p&gt;
-&lt;p&gt;刚好前几天看到了Python的计数器：&lt;code&gt;collections.Counter&lt;/code&gt;， 于是就拿来用了用。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;首先导入 &lt;code&gt;Counter&lt;/code&gt;:
-    
-    </summary>
-    
-      <category term="Code" scheme="http://panmax.love/categories/Code/"/>
-    
-    
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
-      <category term="魔镜" scheme="http://panmax.love/tags/%E9%AD%94%E9%95%9C/"/>
     
   </entry>
   
