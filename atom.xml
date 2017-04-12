@@ -60,6 +60,46 @@
   </entry>
   
   <entry>
+    <title>《大话数据结构》阅读笔记</title>
+    <link href="http://panmax.love/2017/%E3%80%8A%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    <id>http://panmax.love/2017/《大话数据结构》阅读笔记/</id>
+    <published>2017-04-11T16:00:00.000Z</published>
+    <updated>2017-04-12T04:00:16.000Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;update at 2017-04-12&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;逻辑结构：指数据对象中数据元素之间的相互关系&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. 集合结构
+2. 线性结构
+3. 树形结构
+4. 图形结构
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;物理结构：指数据的逻辑结构在计算机中的存储形式&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. 顺序存储结构
+2. 链式存储结构
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;update at 2017-04-12&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;逻辑结构：指数据对象中数据元素之间的相互关系&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. 集合结构
+2. 线性结构
+3. 树形结构
+4. 图形结构
+&lt;/code&gt;&lt;/pre
+    
+    </summary>
+    
+    
+      <category term="读书" scheme="http://panmax.love/tags/%E8%AF%BB%E4%B9%A6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>纪念很久没有写代码到深夜 &amp;&amp; 几个提高效率的oh-my-zsh插件</title>
     <link href="http://panmax.love/2017/%E7%BA%AA%E5%BF%B5%E5%BE%88%E4%B9%85%E6%B2%A1%E6%9C%89%E5%86%99%E4%BB%A3%E7%A0%81%E5%88%B0%E6%B7%B1%E5%A4%9C-%E5%87%A0%E4%B8%AA%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87%E7%9A%84oh-my-zsh%E6%8F%92%E4%BB%B6/"/>
     <id>http://panmax.love/2017/纪念很久没有写代码到深夜-几个提高效率的oh-my-zsh插件/</id>
@@ -998,9 +1038,9 @@
       <category term="源码" scheme="http://panmax.love/categories/%E6%BA%90%E7%A0%81/"/>
     
     
-      <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
-    
       <category term="Python" scheme="http://panmax.love/tags/Python/"/>
+    
+      <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
@@ -1239,9 +1279,9 @@
       <category term="源码" scheme="http://panmax.love/categories/%E6%BA%90%E7%A0%81/"/>
     
     
-      <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
-    
       <category term="Python" scheme="http://panmax.love/tags/Python/"/>
+    
+      <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
@@ -1288,38 +1328,9 @@
       <category term="源码" scheme="http://panmax.love/categories/%E6%BA%90%E7%A0%81/"/>
     
     
-      <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
-    
       <category term="Python" scheme="http://panmax.love/tags/Python/"/>
     
-  </entry>
-  
-  <entry>
-    <title>WakaTime</title>
-    <link href="http://panmax.love/2016/WakaTime/"/>
-    <id>http://panmax.love/2016/WakaTime/</id>
-    <published>2016-03-03T13:27:01.000Z</published>
-    <updated>2016-03-03T13:35:16.000Z</updated>
-    
-    <content type="html">&lt;p&gt;今天没啥好写的，记一个我刚刚发现的新东西吧。&lt;/p&gt;
-&lt;h2 id=&quot;WakaTime&quot;&gt;&lt;a href=&quot;#WakaTime&quot; class=&quot;headerlink&quot; title=&quot;WakaTime&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://wakatime.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WakaTime&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;网站宣传语是：Quantify your coding - Metrics, insights, and time tracking automatically generated from your programming activity&lt;/p&gt;
-&lt;p&gt;用来量化工作量，我用的PyCharm，只要安装官方提供的插件后，就能统计我当天为每个项目敲代码的时间，而且能统计我都谢了那些代码，比如JS占10%，Python占90%&lt;/p&gt;
-&lt;p&gt;看一眼我的Dashboard&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xj0sd.com1.z0.glb.clouddn.com/images%2FQQ20160303-0.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;具体有什么高端功能还没研究。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天没啥好写的，记一个我刚刚发现的新东西吧。&lt;/p&gt;
-&lt;h2 id=&quot;WakaTime&quot;&gt;&lt;a href=&quot;#WakaTime&quot; class=&quot;headerlink&quot; title=&quot;WakaTime&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://wakatime.com&quot; t
-    
-    </summary>
-    
-      <category term="有趣" scheme="http://panmax.love/categories/%E6%9C%89%E8%B6%A3/"/>
-    
-    
-      <category term="有趣" scheme="http://panmax.love/tags/%E6%9C%89%E8%B6%A3/"/>
+      <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
