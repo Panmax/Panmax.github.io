@@ -60,6 +60,27 @@
   </entry>
   
   <entry>
+    <title>Local Storage vs Session Storage</title>
+    <link href="http://panmax.love/2017/Local-Storage-vs-Session-Storage/"/>
+    <id>http://panmax.love/2017/Local-Storage-vs-Session-Storage/</id>
+    <published>2017-04-12T09:07:40.000Z</published>
+    <updated>2017-04-12T09:31:03.000Z</updated>
+    
+    <content type="html">&lt;p&gt;&lt;code&gt;localStorage&lt;/code&gt; 和 &lt;code&gt;sessionStorage&lt;/code&gt; 都继承自 &lt;code&gt;Storage&lt;/code&gt;。除了 &lt;code&gt;sessionStorage&lt;/code&gt; 是为了做非持久化的意图，这两个没有区别。&lt;/p&gt;
+&lt;p&gt;意思是，数据会一直存储在 &lt;code&gt;localStorage&lt;/code&gt; 中直到被明确删除。所做的修改将被保存并且对于当前和未来所有的访问都是有效的。&lt;/p&gt;
+&lt;p&gt;对于 &lt;code&gt;sessionStorage&lt;/code&gt;， 修改在每个窗口（或者 Chrome 和 Firefox 的 tab 中）下有效。所做的修改将被保存并且在当前页下有效，以及未来可以在当前窗口下访问。当窗口被关闭，存储就会被删除。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;localStorage&lt;/code&gt; 和 &lt;code&gt;sessionStorage&lt;/code&gt; 都继承自 &lt;code&gt;Storage&lt;/code&gt;。除了 &lt;code&gt;sessionStorage&lt;/code&gt; 是为了做非持久化的意图，这两个没有区别。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>《大话数据结构》阅读笔记</title>
     <link href="http://panmax.love/2017/%E3%80%8A%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
     <id>http://panmax.love/2017/《大话数据结构》阅读笔记/</id>
@@ -1038,9 +1059,9 @@
       <category term="源码" scheme="http://panmax.love/categories/%E6%BA%90%E7%A0%81/"/>
     
     
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
       <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
     
   </entry>
   
@@ -1279,58 +1300,9 @@
       <category term="源码" scheme="http://panmax.love/categories/%E6%BA%90%E7%A0%81/"/>
     
     
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
       <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
     
-  </entry>
-  
-  <entry>
-    <title>collections.Counter源码阅读笔记</title>
-    <link href="http://panmax.love/2016/collections-Counter%E6%BA%90%E7%A0%81/"/>
-    <id>http://panmax.love/2016/collections-Counter源码/</id>
-    <published>2016-03-04T12:03:52.000Z</published>
-    <updated>2016-03-05T09:31:04.000Z</updated>
-    
-    <content type="html">&lt;p&gt;这几天用到 &lt;code&gt;collections.Counter&lt;/code&gt; 的次数挺多的（比如热门标签、热门愿望、热门城市），看文档的时候就很好奇，这个类初始化的时候是如何实现既可以不传参数，可以传一个可迭代的值，可以传字典，而且还可以传关键字。&lt;/p&gt;
-&lt;p&gt;文档范例：&lt;/p&gt;
-&lt;figure class=&quot;highlight ruby&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&amp;gt; c = Counter()                           &lt;span class=&quot;comment&quot;&gt;# a new, empty counter&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&amp;gt; c = Counter(&lt;span class=&quot;string&quot;&gt;&#39;gallahad&#39;&lt;/span&gt;)                 &lt;span class=&quot;comment&quot;&gt;# a new counter from an iterable&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&amp;gt; c = Counter(&amp;#123;&lt;span class=&quot;string&quot;&gt;&#39;a&#39;&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;b&#39;&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;&amp;#125;)           &lt;span class=&quot;comment&quot;&gt;# a new counter from a mapping&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt;&amp;gt; c = Counter(a=&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;, b=&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;)                   &lt;span class=&quot;comment&quot;&gt;# a new counter from keyword args&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;先来看他的 &lt;code&gt;__init__方法&lt;/code&gt;：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(*args, **kwds)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; args:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;raise&lt;/span&gt; TypeError(&lt;span class=&quot;string&quot;&gt;&quot;descriptor &#39;__init__&#39; of &#39;Counter&#39; object &quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                        &lt;span class=&quot;string&quot;&gt;&quot;needs an argument&quot;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    self = args[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    args = args[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;:]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; len(args) &amp;gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;raise&lt;/span&gt; TypeError(&lt;span class=&quot;string&quot;&gt;&#39;expected at most 1 arguments, got %d&#39;&lt;/span&gt; % len(args))&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    super(Counter, self).__init__()&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    self.update(*args, **kwds)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;刚开始不明白，明明判断了 &lt;code&gt;args&lt;/code&gt; 不存在的话就抛出异常，但是却可以是使用无参来初始化这个类，后来想明白了，类初始化的时候会默认给一个参数，我们通常把这个参数命名为 &lt;code&gt;self&lt;/code&gt;，所以才有了下边的语句，将 &lt;code&gt;self&lt;/code&gt; 从 &lt;code&gt;args[0]&lt;/code&gt; 中取出。所以 &lt;code&gt;args[1:]&lt;/code&gt; 就是剩下的参数，注意这时候 &lt;code&gt;args&lt;/code&gt; 还是一个元组，现在来判断 &lt;code&gt;args&lt;/code&gt; 的长度，因为除了关键字参数外，只能使用一个可迭代的值或者一个字典来初始化，所以如果args长度大于1，说明除了关键字参数外，给了超过一个以上的参数，这时候程序抛出异常。&lt;/p&gt;
-&lt;p&gt;这时候我就想既然是一个参数，为什么不直接给个固定值，比如像这样：&lt;/p&gt;
-&lt;p&gt; &lt;code&gt;__init(self, iterable_or_mapping, **kwds)__&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt; 而是非要作为一个可变参数传入，然后再判断长度，后来想到因为还需要接受无参调用，所以不能用这样写。&lt;/p&gt;
-&lt;p&gt;这时候又想到能不能这样写呢： &lt;/p&gt;
-&lt;p&gt;&lt;code&gt;__init(self, iterable_or_mapping=None, **kwds)__&lt;/code&gt; &lt;/p&gt;
-&lt;p&gt;答案是不能，因为你不知道调用者在调用时关键字参数要传什么，万一调用者要传 &lt;code&gt;iterable_or_mapping&lt;/code&gt; 作为关键字参数怎么办。&lt;/p&gt;
-&lt;p&gt;最后想到能不能这样：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;__init(self, *args, **kwds)__&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;觉得好像没什么问题。。。不知道阅读者有没有看出来问题，如果看出这样写有什么问题麻烦告诉我，我把评论关闭了，可以通过邮箱： &lt;code&gt;jiapan.china@gmail.com&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;接下来然后调用他的 &lt;code&gt;update&lt;/code&gt; 方法:&lt;/p&gt;
-&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;21&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;22&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;23&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;def &lt;span class=&quot;keyword&quot;&gt;update&lt;/span&gt;(*args, **kwds):&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; args:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;raise&lt;/span&gt; TypeError(&lt;span class=&quot;string&quot;&gt;&quot;descriptor &#39;update&#39; of &#39;Counter&#39; object &quot;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                        &lt;span class=&quot;string&quot;&gt;&quot;needs an argument&quot;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; = args[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    args = args[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;:]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;len&lt;/span&gt;(args) &amp;gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;raise&lt;/span&gt; TypeError(&lt;span class=&quot;string&quot;&gt;&#39;expected at most 1 arguments, got %d&#39;&lt;/span&gt; % &lt;span class=&quot;keyword&quot;&gt;len&lt;/span&gt;(args))&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    iterable = args[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; args &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;None&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; iterable &lt;span class=&quot;keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;None&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; isinstance(iterable, &lt;span class=&quot;keyword&quot;&gt;Mapping&lt;/span&gt;):&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                self_get = self.get&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; elem, &lt;span class=&quot;keyword&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; iterable.iteritems():&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                    &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;[elem] = self_get(elem, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) + &lt;span class=&quot;keyword&quot;&gt;count&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                super(Counter, &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;).update(iterable) # &lt;span class=&quot;keyword&quot;&gt;fast&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;when&lt;/span&gt; counter &lt;span class=&quot;keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;empty&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            self_get = self.get&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; elem &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; iterable:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;[elem] = self_get(elem, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) + &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; kwds:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        self.update(kwds)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;刚开始和 &lt;code&gt;__init__&lt;/code&gt; 一样，就不说了，从 &lt;code&gt;iterable = args[0] if args else None&lt;/code&gt; 开始说。&lt;/p&gt;
-&lt;p&gt;因为此时 &lt;code&gt;args&lt;/code&gt; 是一个长度小于1的元组，所以 &lt;code&gt;args[0]&lt;/code&gt;可能是一个值也可能是 &lt;code&gt;None&lt;/code&gt;，如果不是 &lt;code&gt;None&lt;/code&gt;的话，就进入 &lt;code&gt;if&lt;/code&gt;， 首先判断这个值类型是不是 &lt;code&gt;Mapping&lt;/code&gt;，我猜测这里的 &lt;code&gt;Mapping&lt;/code&gt; 就是 &lt;code&gt;dict&lt;/code&gt; 的原始实现类，只是在注册为了&lt;code&gt;dict&lt;/code&gt;（如有误请更正），如果是字典类型的，就把键值对迭代出来。因为这个类继承自 &lt;code&gt;dict&lt;/code&gt;,所以继承了 &lt;code&gt;get&lt;/code&gt; 方法, Python可以将方法作为参数传递，所以就有了这样的写法 &lt;code&gt;self_get = self.get&lt;/code&gt; ，这时候 &lt;code&gt;self_get&lt;/code&gt; 实际上还带有这个类的实例（这么说有点别扭。。。），然后 &lt;code&gt;self[elem] = self_get(elem, 0) + count&lt;/code&gt; 从 &lt;code&gt;self&lt;/code&gt; 中尝试获取 &lt;code&gt;elem&lt;/code&gt; 的数量，如果没有就初始化为0然后加上字典的值，这样写而不是直接 &lt;code&gt;self[elem] = count&lt;/code&gt;是有原因的，因为我们还可能给关键字参数，这样写的好处是，一会用关键字参数再递归调用一下这个方法，就能把关键字参数的值也更新上去啦。 &lt;/p&gt;
-&lt;p&gt;当 &lt;code&gt;iterable&lt;/code&gt; 不是字典的时候，就会把这个值进行迭代取出每个元素计算出现的次数，具体代码就不解释了。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;最后的疑惑：我不明白的是为什么要判断 &lt;code&gt;self&lt;/code&gt; 存不存在，在什么情况下初始化一个类会没有 &lt;code&gt;self&lt;/code&gt; ？&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;下一篇准备写写 &lt;code&gt;Counter&lt;/code&gt; 中两个常用方法 &lt;code&gt;most_common&lt;/code&gt; 和 &lt;code&gt;elements&lt;/code&gt;。因为现在我还没看。。。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这几天用到 &lt;code&gt;collections.Counter&lt;/code&gt; 的次数挺多的（比如热门标签、热门愿望、热门城市），看文档的时候就很好奇，这个类初始化的时候是如何实现既可以不传参数，可以传一个可迭代的值，可以传字典，而且还可以传关键字。&lt;/p&gt;
-&lt;p&gt;文档范例：
-    
-    </summary>
-    
-      <category term="源码" scheme="http://panmax.love/categories/%E6%BA%90%E7%A0%81/"/>
-    
-    
       <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
-      <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
