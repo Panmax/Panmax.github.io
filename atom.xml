@@ -86,7 +86,7 @@
     <link href="http://panmax.love/2017/%E3%80%8A%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
     <id>http://panmax.love/2017/《大话数据结构》阅读笔记/</id>
     <published>2017-04-11T16:00:00.000Z</published>
-    <updated>2017-04-12T04:00:16.000Z</updated>
+    <updated>2017-04-18T07:28:55.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;update at 2017-04-12&lt;/p&gt;
@@ -100,6 +100,43 @@
 &lt;pre&gt;&lt;code&gt;1. 顺序存储结构
 2. 链式存储结构
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;update at 2017-04-13&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;算法具有五个基本特性：输入、输出、有穷性、确定性和可行性&lt;/p&gt;
+&lt;p&gt;好的算法应该具有正确性、可读性、健壮性、高效率和低存储量的特征&lt;/p&gt;
+&lt;p&gt;判断一个算法的效率时，函数中的常数和其他次要项常常可以忽略，而更应该关注主项（最高阶项）的阶数&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;update at 2017-04-17&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;推到大 O 阶：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;用常数 1 取代运行时间中的所有加法常数。&lt;/li&gt;
+&lt;li&gt;在修改后的运行次数函数中，只保留最高阶项。&lt;/li&gt;
+&lt;li&gt;如果最高阶项存在且不是 1，则去除与这个项相乘的常数。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;得到的结果就是大 O 阶。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;update at 2017-04-18&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;线性表顺序存储结构需要三个属性：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;存储空间的起始位置&lt;/li&gt;
+&lt;li&gt;线性表的最大存储容量&lt;/li&gt;
+&lt;li&gt;线性表的当前长度&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;线性表顺序存储结构的优缺点：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;优点：&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;无需为表示表中元素之间的逻辑关系而增加额外的存储空间&lt;/li&gt;
+&lt;li&gt;可以快速地存取表中任一位置的元素&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;缺点：&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;插入和删除操作需要移动大量元素&lt;/li&gt;
+&lt;li&gt;当线性表长度变化较大时，难以确定存储空间的容量&lt;/li&gt;
+&lt;li&gt;造成存储空间的碎片&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     
     <summary type="html">
