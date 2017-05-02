@@ -64,16 +64,15 @@
     <link href="http://panmax.love/2017/%E8%A2%AB-Chrome-%E5%9D%91%E4%BA%86%E4%B8%80%E6%AC%A1/"/>
     <id>http://panmax.love/2017/被-Chrome-坑了一次/</id>
     <published>2017-05-02T08:51:32.000Z</published>
-    <updated>2017-05-02T08:57:18.000Z</updated>
+    <updated>2017-05-02T09:01:26.000Z</updated>
     
-    <content type="html">&lt;pre&gt;&lt;code&gt;今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 的操作，但是浏览器中却没有保存这个Cookies，折腾了小一天的时候，后来我抱着没啥希望的态度，用safari浏览器试了下，居然没有任何问题，然后用 Firefox 试了下，也没有问题。。。接着我尝试清除 Chrome 中的Cookies，发现问题解决了。
-
-恩，写流水账好开心。
-&lt;/code&gt;&lt;/pre&gt;</content>
+    <content type="html">&lt;p&gt;今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 的操作，但是浏览器中却没有保存这个Cookies，折腾了小一天的时候，后来我抱着没啥希望的态度，用safari浏览器试了下，居然没有任何问题，然后用 Firefox 试了下，也没有问题。。。接着我尝试清除 Chrome 中的Cookies，发现问题解决了。&lt;/p&gt;
+&lt;p&gt;恩，写流水账好开心。&lt;/p&gt;
+</content>
     
     <summary type="html">
     
-      &lt;pre&gt;&lt;code&gt;今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 
+      &lt;p&gt;今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 
     
     </summary>
     

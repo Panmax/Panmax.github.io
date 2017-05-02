@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://panmax.love/2017/被-Chrome-坑了一次/index.html">
 <meta property="og:site_name" content="/">
 <meta property="og:description" content="今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 的操作，但是浏览器中却没有保存这个Cookies，折腾了小一天的时候，后来我抱着没啥希望的态度，用safari浏览器试了下，居">
-<meta property="og:updated_time" content="2017-05-02T08:57:18.000Z">
+<meta property="og:updated_time" content="2017-05-02T09:01:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="被 Chrome 坑了一次">
 <meta name="twitter:description" content="今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 的操作，但是浏览器中却没有保存这个Cookies，折腾了小一天的时候，后来我抱着没啥希望的态度，用safari浏览器试了下，居">
@@ -223,10 +223,9 @@
       
 
       
-        <pre><code>今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 的操作，但是浏览器中却没有保存这个Cookies，折腾了小一天的时候，后来我抱着没啥希望的态度，用safari浏览器试了下，居然没有任何问题，然后用 Firefox 试了下，也没有问题。。。接着我尝试清除 Chrome 中的Cookies，发现问题解决了。
+        <p>今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 的操作，但是浏览器中却没有保存这个Cookies，折腾了小一天的时候，后来我抱着没啥希望的态度，用safari浏览器试了下，居然没有任何问题，然后用 Firefox 试了下，也没有问题。。。接着我尝试清除 Chrome 中的Cookies，发现问题解决了。</p>
+<p>恩，写流水账好开心。</p>
 
-恩，写流水账好开心。
-</code></pre>
       
     </div>
 
