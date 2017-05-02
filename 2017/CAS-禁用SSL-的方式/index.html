@@ -86,22 +86,25 @@
 
 
 
-<meta name="description" content="localStorage 和 sessionStorage 都继承自 Storage。除了 sessionStorage 是为了做非持久化的目的，两者没有区别。
-意思是，数据会一直存储在 localStorage 中直到被明确删除。所做的修改将被保存并且对于当前和未来所有的访问都是有效的。
-对于 sessionStorage， 修改在每个窗口（或者 Chrome 和 Firefox 的 tab 中">
+<meta name="description" content="由于要内部使用，所以不需要配置 https 链接。
+本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：
+我使用 overlay 的方式进行的部署，只需在 etc/cas/config/cas.properties 中配置如下三项即可
+123server.ssl.enabled=falsecas.tgc.secure=falsecas.warningCookie.secure=false">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Local Storage vs Session Storage">
-<meta property="og:url" content="http://panmax.love/2017/Local-Storage-vs-Session-Storage/index.html">
+<meta property="og:title" content="CAS 禁用SSL 的方式">
+<meta property="og:url" content="http://panmax.love/2017/CAS-禁用SSL-的方式/index.html">
 <meta property="og:site_name" content="/">
-<meta property="og:description" content="localStorage 和 sessionStorage 都继承自 Storage。除了 sessionStorage 是为了做非持久化的目的，两者没有区别。
-意思是，数据会一直存储在 localStorage 中直到被明确删除。所做的修改将被保存并且对于当前和未来所有的访问都是有效的。
-对于 sessionStorage， 修改在每个窗口（或者 Chrome 和 Firefox 的 tab 中">
-<meta property="og:updated_time" content="2017-04-12T09:34:34.000Z">
+<meta property="og:description" content="由于要内部使用，所以不需要配置 https 链接。
+本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：
+我使用 overlay 的方式进行的部署，只需在 etc/cas/config/cas.properties 中配置如下三项即可
+123server.ssl.enabled=falsecas.tgc.secure=falsecas.warningCookie.secure=false">
+<meta property="og:updated_time" content="2017-05-02T06:01:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Local Storage vs Session Storage">
-<meta name="twitter:description" content="localStorage 和 sessionStorage 都继承自 Storage。除了 sessionStorage 是为了做非持久化的目的，两者没有区别。
-意思是，数据会一直存储在 localStorage 中直到被明确删除。所做的修改将被保存并且对于当前和未来所有的访问都是有效的。
-对于 sessionStorage， 修改在每个窗口（或者 Chrome 和 Firefox 的 tab 中">
+<meta name="twitter:title" content="CAS 禁用SSL 的方式">
+<meta name="twitter:description" content="由于要内部使用，所以不需要配置 https 链接。
+本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：
+我使用 overlay 的方式进行的部署，只需在 etc/cas/config/cas.properties 中配置如下三项即可
+123server.ssl.enabled=falsecas.tgc.secure=falsecas.warningCookie.secure=false">
 
 
 
@@ -122,9 +125,9 @@
 
 
 
-  <link rel="canonical" href="http://panmax.love/2017/Local-Storage-vs-Session-Storage/"/>
+  <link rel="canonical" href="http://panmax.love/2017/CAS-禁用SSL-的方式/"/>
 
-  <title> Local Storage vs Session Storage | / </title>
+  <title> CAS 禁用SSL 的方式 | / </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -189,7 +192,7 @@
             
             
               
-                Local Storage vs Session Storage
+                CAS 禁用SSL 的方式
               
             
           </h1>
@@ -201,8 +204,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-04-12T17:07:40+08:00" content="2017-04-12">
-              2017-04-12
+            <time itemprop="dateCreated" datetime="2017-05-02T13:56:22+08:00" content="2017-05-02">
+              2017-05-02
             </time>
           </span>
 
@@ -229,9 +232,11 @@
       
 
       
-        <p><code>localStorage</code> 和 <code>sessionStorage</code> 都继承自 <code>Storage</code>。除了 <code>sessionStorage</code> 是为了做非持久化的目的，两者没有区别。</p>
-<p>意思是，数据会一直存储在 <code>localStorage</code> 中直到被明确删除。所做的修改将被保存并且对于当前和未来所有的访问都是有效的。</p>
-<p>对于 <code>sessionStorage</code>， 修改在每个窗口（或者 Chrome 和 Firefox 的 tab 中）下有效。所做的修改将被保存并且在当前页下有效，以及未来可以在当前窗口下访问。当窗口被关闭，存储就会被删除。</p>
+        <p>由于要内部使用，所以不需要配置 https 链接。</p>
+<p>本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：</p>
+<p>我使用 overlay 的方式进行的部署，只需在 <code>etc/cas/config/cas.properties</code> 中配置如下三项即可</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server<span class="selector-class">.ssl</span><span class="selector-class">.enabled</span>=false</div><div class="line">cas<span class="selector-class">.tgc</span><span class="selector-class">.secure</span>=false</div><div class="line">cas<span class="selector-class">.warningCookie</span><span class="selector-class">.secure</span>=false</div></pre></td></tr></table></figure>
+<p>但是现在还有一个问题时，几遍将 <code>server.port</code> 改为其他端口，http 的端口号也还是 8080，也就是说这里修改的 <code>server.port</code> 是修改的 https 的方式。</p>
 
       
     </div>
@@ -256,16 +261,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/《大话数据结构》阅读笔记/" rel="next" title="《大话数据结构》阅读笔记">
-                <i class="fa fa-chevron-left"></i> 《大话数据结构》阅读笔记
+              <a href="/2017/Panmax-的-Mac-使用指北/" rel="next" title="Panmax 的 Mac 使用指北">
+                <i class="fa fa-chevron-left"></i> Panmax 的 Mac 使用指北
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/Panmax-的-Mac-使用指北/" rel="prev" title="Panmax 的 Mac 使用指北">
-                Panmax 的 Mac 使用指北 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/2017-书单/" rel="prev" title="2017 书单">
+                2017 书单 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

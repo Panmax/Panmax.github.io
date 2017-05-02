@@ -120,7 +120,7 @@ update at 2017-04-13
 update at 2017-04-13
 
 算法具有五">
-<meta property="og:updated_time" content="2017-04-19T02:30:25.000Z">
+<meta property="og:updated_time" content="2017-04-20T03:11:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《大话数据结构》阅读笔记">
 <meta name="twitter:description" content="update at 2017-04-12
@@ -332,6 +332,35 @@ update at 2017-04-13
 <li>头结点是为了操作的统一和方便而设立的，放在第一元素的结点之前，其数据域一般无意义（也可以存放链表的长度）</li>
 <li>有了头结点，对在第一元素结点前插入结点和删除第一节点，其操作与其他节点的操作就统一了</li>
 <li>头结点不一定是链表必须要素</li>
+</ul>
+<blockquote>
+<p>update at 2017-04-20</p>
+</blockquote>
+<h4 id="单链表结构与顺序结构优缺点"><a href="#单链表结构与顺序结构优缺点" class="headerlink" title="单链表结构与顺序结构优缺点"></a>单链表结构与顺序结构优缺点</h4><p><strong>存储分配方式</strong></p>
+<ul>
+<li>顺序存储结构用一段连续的存储单元依次存储线性表的数据元素</li>
+<li>单链表采用链式存储结构，用一组任意的存储单元存放线性表的元素</li>
+</ul>
+<p><strong>时间性能</strong></p>
+<p><strong>查找</strong></p>
+<ul>
+<li>顺序存储结构O(1)</li>
+<li>单链表O(n)</li>
+</ul>
+<p><strong>插入和删除</strong></p>
+<ul>
+<li>顺序存储结构需要平均移动表长一半的元素，时间为O(n)</li>
+<li>单链表在找出某位置的指针后，插入和删除时间为O(1)</li>
+</ul>
+<p><strong>空间性能</strong></p>
+<ul>
+<li>顺序存储结构需预分配存储空间，分大了浪费，分小了容易发生上溢</li>
+<li>单链表不需要分配存储空间，只要有就可以分配，元素个数也不受限制</li>
+</ul>
+<p><strong>结论</strong></p>
+<ul>
+<li>若线性表需要频繁查找，很少进行插入和删除操作时，宜采用顺序存储结构。若需要频繁插入和删除时，宜采用单链表结构。</li>
+<li>当线性表中的元素个数变化较大或者根本不知道有多大时，最好用单链表结构，这样可以不需要考虑存储空间的大小问题。而如果事先知道线性表的大致长度，用顺序存储结构效率会高很多</li>
 </ul>
 
       

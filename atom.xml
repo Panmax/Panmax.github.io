@@ -60,6 +60,53 @@
   </entry>
   
   <entry>
+    <title>CAS 禁用SSL 的方式</title>
+    <link href="http://panmax.love/2017/CAS-%E7%A6%81%E7%94%A8SSL-%E7%9A%84%E6%96%B9%E5%BC%8F/"/>
+    <id>http://panmax.love/2017/CAS-禁用SSL-的方式/</id>
+    <published>2017-05-02T05:56:22.000Z</published>
+    <updated>2017-05-02T06:01:06.000Z</updated>
+    
+    <content type="html">&lt;p&gt;由于要内部使用，所以不需要配置 https 链接。&lt;/p&gt;
+&lt;p&gt;本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：&lt;/p&gt;
+&lt;p&gt;我使用 overlay 的方式进行的部署，只需在 &lt;code&gt;etc/cas/config/cas.properties&lt;/code&gt; 中配置如下三项即可&lt;/p&gt;
+&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;server&lt;span class=&quot;selector-class&quot;&gt;.ssl&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.enabled&lt;/span&gt;=false&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;cas&lt;span class=&quot;selector-class&quot;&gt;.tgc&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.secure&lt;/span&gt;=false&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;cas&lt;span class=&quot;selector-class&quot;&gt;.warningCookie&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.secure&lt;/span&gt;=false&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;但是现在还有一个问题时，几遍将 &lt;code&gt;server.port&lt;/code&gt; 改为其他端口，http 的端口号也还是 8080，也就是说这里修改的 &lt;code&gt;server.port&lt;/code&gt; 是修改的 https 的方式。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;由于要内部使用，所以不需要配置 https 链接。&lt;/p&gt;
+&lt;p&gt;本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：&lt;/p&gt;
+&lt;p&gt;我使用 overlay 的方式进行的部署，只需在 &lt;code&gt;etc/cas/config/cas.properties&lt;/code
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Panmax 的 Mac 使用指北</title>
+    <link href="http://panmax.love/2017/Panmax-%E7%9A%84-Mac-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/"/>
+    <id>http://panmax.love/2017/Panmax-的-Mac-使用指北/</id>
+    <published>2017-04-27T02:00:33.000Z</published>
+    <updated>2017-05-02T06:01:55.000Z</updated>
+    
+    <content type="html">&lt;p&gt;算起来我用 Mac 也有两年半的时间了，中间由于一次工作原因，开发环境一直有问题，次重装了一次系统，也只是仅仅这一次，而且其实那次重装真的是冤枉系统了，&lt;/p&gt;
+&lt;p&gt;挖坑。。。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;算起来我用 Mac 也有两年半的时间了，中间由于一次工作原因，开发环境一直有问题，次重装了一次系统，也只是仅仅这一次，而且其实那次重装真的是冤枉系统了，&lt;/p&gt;
+&lt;p&gt;挖坑。。。&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Local Storage vs Session Storage</title>
     <link href="http://panmax.love/2017/Local-Storage-vs-Session-Storage/"/>
     <id>http://panmax.love/2017/Local-Storage-vs-Session-Storage/</id>
@@ -86,7 +133,7 @@
     <link href="http://panmax.love/2017/%E3%80%8A%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
     <id>http://panmax.love/2017/《大话数据结构》阅读笔记/</id>
     <published>2017-04-11T16:00:00.000Z</published>
-    <updated>2017-04-19T02:30:25.000Z</updated>
+    <updated>2017-04-20T03:11:51.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;update at 2017-04-12&lt;/p&gt;
@@ -155,6 +202,35 @@
 &lt;li&gt;头结点是为了操作的统一和方便而设立的，放在第一元素的结点之前，其数据域一般无意义（也可以存放链表的长度）&lt;/li&gt;
 &lt;li&gt;有了头结点，对在第一元素结点前插入结点和删除第一节点，其操作与其他节点的操作就统一了&lt;/li&gt;
 &lt;li&gt;头结点不一定是链表必须要素&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;update at 2017-04-20&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;单链表结构与顺序结构优缺点&quot;&gt;&lt;a href=&quot;#单链表结构与顺序结构优缺点&quot; class=&quot;headerlink&quot; title=&quot;单链表结构与顺序结构优缺点&quot;&gt;&lt;/a&gt;单链表结构与顺序结构优缺点&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;存储分配方式&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;顺序存储结构用一段连续的存储单元依次存储线性表的数据元素&lt;/li&gt;
+&lt;li&gt;单链表采用链式存储结构，用一组任意的存储单元存放线性表的元素&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;时间性能&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;查找&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;顺序存储结构O(1)&lt;/li&gt;
+&lt;li&gt;单链表O(n)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;插入和删除&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;顺序存储结构需要平均移动表长一半的元素，时间为O(n)&lt;/li&gt;
+&lt;li&gt;单链表在找出某位置的指针后，插入和删除时间为O(1)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;空间性能&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;顺序存储结构需预分配存储空间，分大了浪费，分小了容易发生上溢&lt;/li&gt;
+&lt;li&gt;单链表不需要分配存储空间，只要有就可以分配，元素个数也不受限制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;结论&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;若线性表需要频繁查找，很少进行插入和删除操作时，宜采用顺序存储结构。若需要频繁插入和删除时，宜采用单链表结构。&lt;/li&gt;
+&lt;li&gt;当线性表中的元素个数变化较大或者根本不知道有多大时，最好用单链表结构，这样可以不需要考虑存储空间的大小问题。而如果事先知道线性表的大致长度，用顺序存储结构效率会高很多&lt;/li&gt;
 &lt;/ul&gt;
 </content>
     
@@ -1110,247 +1186,6 @@
       &lt;p&gt;&lt;code&gt;Counter&lt;/code&gt; 的 &lt;code&gt;elements()&lt;/code&gt; 方法返回一个迭代器。元素被重复了多少次，在该迭代器中就包含多少个该元素。所有元素按照字母序排序，个数小于1的元素不被包含。&lt;/p&gt;
 &lt;p&gt;举例：&lt;/p&gt;
 &lt;figure class
-    
-    </summary>
-    
-      <category term="源码" scheme="http://panmax.love/categories/%E6%BA%90%E7%A0%81/"/>
-    
-    
-      <category term="源码" scheme="http://panmax.love/tags/%E6%BA%90%E7%A0%81/"/>
-    
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>简明 Python 编程规范</title>
-    <link href="http://panmax.love/2016/%E7%AE%80%E6%98%8E-Python-%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/"/>
-    <id>http://panmax.love/2016/简明-Python-编程规范/</id>
-    <published>2016-03-07T10:43:53.000Z</published>
-    <updated>2016-03-07T10:28:15.000Z</updated>
-    
-    <content type="html">&lt;p&gt;原文地址：&lt;a href=&quot;http://blog.csdn.net/gzlaiyonghao/article/details/6601123&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/gzlaiyonghao/article/details/6601123&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;编码&quot;&gt;&lt;a href=&quot;#编码&quot; class=&quot;headerlink&quot; title=&quot;编码&quot;&gt;&lt;/a&gt;编码&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;所有的 Python 脚本文件都应在文件头标上如下标识或其兼容格式的标识：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight vala&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;# -*- coding:utf-8 -*-&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;设置编辑器，默认保存为 utf-8 格式。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;注释&quot;&gt;&lt;a href=&quot;#注释&quot; class=&quot;headerlink&quot; title=&quot;注释&quot;&gt;&lt;/a&gt;注释&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;业界普遍认同 Python 的注释分为两种的概念，一种是由 # 开头的“真正的”注释，另一种是 docstrings。前者表明为何选择当前实现以及这种实现的原理和难点，后者表明如何使用这个包、模块、类、函数（方法），甚至包括使用示例和单元测试。&lt;/li&gt;
-&lt;li&gt;坚持适当注释原则。对不存在技术难点的代码坚持不注释，对存在技术难点的代码必须注释。但与注释不同，推荐对每一个包、模块、类、函数（方法）写 docstrings，除非代码一目了然，非常简单。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;格式&quot;&gt;&lt;a href=&quot;#格式&quot; class=&quot;headerlink&quot; title=&quot;格式&quot;&gt;&lt;/a&gt;格式&lt;/h3&gt;&lt;h4 id=&quot;缩进&quot;&gt;&lt;a href=&quot;#缩进&quot; class=&quot;headerlink&quot; title=&quot;缩进&quot;&gt;&lt;/a&gt;缩进&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;Python 依赖缩进来确定代码块的层次，行首空白符主要有两种：tab 和空格，但严禁两者混用。&lt;/li&gt;
-&lt;li&gt;公司内部使用 4 个空格的 tab 进行缩进。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;(此处修改为我自己的规范，原文是使用2个空格)&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h4 id=&quot;空格&quot;&gt;&lt;a href=&quot;#空格&quot; class=&quot;headerlink&quot; title=&quot;空格&quot;&gt;&lt;/a&gt;空格&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;空格在 Python 代码中是有意义的，因为 Python 的语法依赖于缩进，在行首的空格称为前导空格。在这一节不讨论前导空格相关的内容，只讨论非前导空格。非前导空格在 Python 代码中没有意义，但适当地加入非前导空格可以增进代码的可读性。&lt;/li&gt;
-&lt;li&gt;在二元算术、逻辑运算符前后加空格，如：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;a&lt;/span&gt; = &lt;span class=&quot;selector-tag&quot;&gt;b&lt;/span&gt; + c&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;“:”用在行尾时前后皆不加空格，如分枝、循环、函数和类定义语言；用在非行尾时两端加空格，如 dict 对象的定义：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;d&lt;/span&gt; = &amp;#123;&lt;span class=&quot;string&quot;&gt;&#39;key&#39;&lt;/span&gt; : &lt;span class=&quot;string&quot;&gt;&#39;value&#39;&lt;/span&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;括号（含圆括号、方括号和花括号）前后不加空格，如：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;do_something&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(arg1, arg2)&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;而不是&lt;/p&gt;
-&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;do_something&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;( arg1, arg2 )&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;逗号后面加一个空格，前面不加空格。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;空行&quot;&gt;&lt;a href=&quot;#空行&quot; class=&quot;headerlink&quot; title=&quot;空行&quot;&gt;&lt;/a&gt;空行&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;适当的空行有利于增加代码的可读性，加空行可以参考如下几个准则：&lt;ul&gt;
-&lt;li&gt;在类、函数的定义间加空行；&lt;/li&gt;
-&lt;li&gt;在 import 不同种类的模块间加空行；&lt;/li&gt;
-&lt;li&gt;在函数中的逻辑段落间加空行，即把相关的代码紧凑写在一起，作为一个逻辑段落，段落间以空行分隔&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;断行&quot;&gt;&lt;a href=&quot;#断行&quot; class=&quot;headerlink&quot; title=&quot;断行&quot;&gt;&lt;/a&gt;断行&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;尽管现在的宽屏显示器已经可以单屏显示超过 256 列字符，但本规范仍然坚持行的最大长度不得超过 78 个字符的标准。折叠长行的方法有以下几种方法：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;为长变量名换一个短名，如：&lt;/p&gt;
-&lt;figure class=&quot;highlight stylus&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;this._is&lt;span class=&quot;selector-class&quot;&gt;.a&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.very&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.long&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.variable_name&lt;/span&gt; = this._is&lt;span class=&quot;selector-class&quot;&gt;.another&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.long&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.variable_name&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;- 应改为：
-
-&lt;figure class=&quot;highlight ceylon&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;variable&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;_n&lt;/span&gt;ame&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;is&lt;/span&gt;.a.very.long.&lt;span class=&quot;keyword&quot;&gt;variable&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;_n&lt;/span&gt;ame  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;variable&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;_n&lt;/span&gt;ame&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;is&lt;/span&gt;.another.&lt;span class=&quot;keyword&quot;&gt;variable&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;_n&lt;/span&gt;ame  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;variable&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;_n&lt;/span&gt;ame&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;variable&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;_n&lt;/span&gt;ame&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;s&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-
-- 在括号（包括圆括号、方括号和花括号）内换行，如：
-
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Edit&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(Widget)&lt;/span&gt;:&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt; &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, parent, width,  &lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;     font = FONT, color = BLACK, pos = POS, style = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;): &lt;span class=&quot;comment&quot;&gt;# 注意：多一层缩进  &lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   &lt;span class=&quot;keyword&quot;&gt;pass&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-
-或
-
-&lt;figure class=&quot;highlight hsp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;very_very_very_long_variable_name = Edit(parent,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;width&lt;/span&gt;,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;font&lt;/span&gt;,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;color&lt;/span&gt;,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;pos&lt;/span&gt;) &lt;span class=&quot;meta&quot;&gt;# 注意：多一层缩进  &lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;do_sth_with(very_very_very_long_variable_name)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-
-- 如果行长到连第一个括号内的参数都放不下，则每个元素都单独占一行：
-
-&lt;figure class=&quot;highlight hsp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;very_very_very_long_variable_name = ui.widgets.Edit(  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  panrent,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;width&lt;/span&gt;,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;font&lt;/span&gt;,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;color&lt;/span&gt;,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;pos&lt;/span&gt;) &lt;span class=&quot;meta&quot;&gt;# 注意：多一层缩进  &lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;do_sth_with(very_very_very_long_variable_name)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-
-- 在长行加入续行符强行断行，断行的位置应在操作符前，且换行后多一个缩进，以使维护人员看代码的时候看到代码行首即可判定这里存在换行，如：
-
-&lt;figure class=&quot;highlight hsp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;color&lt;/span&gt; == WHITE &lt;span class=&quot;keyword&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;color&lt;/span&gt; == BLACK \  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;color&lt;/span&gt; == BLUE: &lt;span class=&quot;meta&quot;&gt;# 注意 or 操作符在新行的行首而不是旧行的行尾，上一行的续行符不可省略  &lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  do_something(&lt;span class=&quot;keyword&quot;&gt;color&lt;/span&gt;)&lt;span class=&quot;comment&quot;&gt;;  &lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt;:  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  do_something(DEFAULT_COLOR)&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;命名&quot;&gt;&lt;a href=&quot;#命名&quot; class=&quot;headerlink&quot; title=&quot;命名&quot;&gt;&lt;/a&gt;命名&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;一致的命名可以给开发人员减少许多麻烦，而恰如其分的命名则可以大幅提高代码的可读性，降低维护成本。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;常量&quot;&gt;&lt;a href=&quot;#常量&quot; class=&quot;headerlink&quot; title=&quot;常量&quot;&gt;&lt;/a&gt;常量&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;常量名所有字母大写，由下划线连接各个单词，如：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;WHITE&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;xffffffff  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;THIS_IS_A_CONSTANT&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h4 id=&quot;变量&quot;&gt;&lt;a href=&quot;#变量&quot; class=&quot;headerlink&quot; title=&quot;变量&quot;&gt;&lt;/a&gt;变量&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;变量名全部小写，由下划线连接各个单词，如：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;color&lt;/span&gt; = WHITE  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;this_is_a_variable&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;不论是类成员变量还是全局变量，均不使用 m 或 g 前缀。私有类成员使用单一下划线前缀标识，多定义公开成员，少定义私有成员。&lt;/li&gt;
-&lt;li&gt;变量名不应带有类型信息，因为 Python 是动态类型语言。如 iValue、names_list、dict_obj 等都是不好的命名。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;函数&quot;&gt;&lt;a href=&quot;#函数&quot; class=&quot;headerlink&quot; title=&quot;函数&quot;&gt;&lt;/a&gt;函数&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;函数名的命名规则与变量名相同。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;类&quot;&gt;&lt;a href=&quot;#类&quot; class=&quot;headerlink&quot; title=&quot;类&quot;&gt;&lt;/a&gt;类&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;类名单词首字母大写，不使用下划线连接单词，也不加入 C、T 等前缀。如：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;ThisIsAClass&lt;/span&gt;&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;object&lt;/span&gt;):  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  passs&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h4 id=&quot;模块&quot;&gt;&lt;a href=&quot;#模块&quot; class=&quot;headerlink&quot; title=&quot;模块&quot;&gt;&lt;/a&gt;模块&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;模块名全部小写，对于包内使用的模块，可以加一个下划线前缀，如：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight crystal&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;module&lt;/span&gt;.&lt;span class=&quot;title&quot;&gt;py&lt;/span&gt;  &lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;_internal_module.py&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h4 id=&quot;包&quot;&gt;&lt;a href=&quot;#包&quot; class=&quot;headerlink&quot; title=&quot;包&quot;&gt;&lt;/a&gt;包&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;包的命名规范与模块相同。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;缩写&quot;&gt;&lt;a href=&quot;#缩写&quot; class=&quot;headerlink&quot; title=&quot;缩写&quot;&gt;&lt;/a&gt;缩写&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;命名应当尽量使用全拼写的单词，缩写的情况有如下两种：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;常用的缩写，如 XML、ID等，在命名时也应只大写首字母，如：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;XmlParser&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(object)&lt;/span&gt;:&lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;pass&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;- 命名中含有长单词，对某个单词进行缩写。这时应使用约定成俗的缩写方式，如去除元音、包含辅音的首字符等方式，例如：
-    - function 缩写为 fn
-    - text 缩写为 txt
-    - object 缩写为 obj
-    - count 缩写为 cnt
-    - number 缩写为 num，等。
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;特定命名方式&quot;&gt;&lt;a href=&quot;#特定命名方式&quot; class=&quot;headerlink&quot; title=&quot;特定命名方式&quot;&gt;&lt;/a&gt;特定命名方式&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;主要是指 &lt;code&gt;__xxx__&lt;/code&gt; 形式的系统保留字命名法。项目中也可以使用这种命名，它的意义在于这种形式的变量是只读的，这种形式的类成员函数尽量不要重载。如：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Base&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(object)&lt;/span&gt;:&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, id, parent = None)&lt;/span&gt;:&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    self.__id__ = id  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    self.__parent__ = parent  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;__message__&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, msgid)&lt;/span&gt;:&lt;/span&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;# …略&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;其中 &lt;code&gt;__id__&lt;/code&gt;、&lt;code&gt;__parent__&lt;/code&gt; 和 &lt;code&gt;__message__&lt;/code&gt; 都采用了系统保留字命名法。&lt;/p&gt;
-&lt;h3 id=&quot;语句&quot;&gt;&lt;a href=&quot;#语句&quot; class=&quot;headerlink&quot; title=&quot;语句&quot;&gt;&lt;/a&gt;语句&lt;/h3&gt;&lt;h4 id=&quot;import&quot;&gt;&lt;a href=&quot;#import&quot; class=&quot;headerlink&quot; title=&quot;import&quot;&gt;&lt;/a&gt;import&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;import 语句有以下几个原则需要遵守：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;import 的次序，先 import Python 内置模块，再 import 第三方模块，最后 import 自己开发的项目中的其它模块；这几种模块中用空行分隔开来。&lt;/li&gt;
-&lt;li&gt;一条 import 语句 import 一个模块。&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;当从模块中 import 多个对象且超过一行时，使用如下断行法（此语法 py2.5 以上版本才支持）：&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; (obj1, obj2, obj3, obj4,  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;       obj5, obj6)&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;- 不要使用 from module import *，除非是 import 常量定义模块或其它你确保不会出现命名空间冲突的模块。
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;赋值&quot;&gt;&lt;a href=&quot;#赋值&quot; class=&quot;headerlink&quot; title=&quot;赋值&quot;&gt;&lt;/a&gt;赋值&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;对于赋值语句，主要是不要做无谓的对齐，如：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;a&lt;/span&gt;        = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;                  # 这是一个行注释  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;variable&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;                  # 另一个行注释  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;fn&lt;/span&gt;       = callback_function  # 还是行注释&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;没有必要做这种对齐，原因有两点：一是这种对齐会打乱编程时的注意力，大脑要同时处理两件事（编程和对齐）；二是以后阅读和维护都很困难，因为人眼的横向视野很窄，把三个字段看成一行很困难，而且维护时要增加一个更长的变量名也会破坏对齐。直接这样写为佳：&lt;/p&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;a&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; # 这是一个行注释  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;variable&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt; # 另一个行注释  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;fn&lt;/span&gt; = callback_function # 还是行注释&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h4 id=&quot;分枝和循环&quot;&gt;&lt;a href=&quot;#分枝和循环&quot; class=&quot;headerlink&quot; title=&quot;分枝和循环&quot;&gt;&lt;/a&gt;分枝和循环&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;对于分枝和循环，有如下几点需要注意的：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;不要写成一行，如：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; flg: &lt;span class=&quot;keyword&quot;&gt;pass&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;和
-
-&lt;figure class=&quot;highlight maxima&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;xrange&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;): &lt;span class=&quot;built_in&quot;&gt;print&lt;/span&gt; i&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-
-都不是好代码，应写成
-
-&lt;figure class=&quot;highlight maxima&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; flg:  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  pass  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;xrange&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;):  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;built_in&quot;&gt;print&lt;/span&gt; i&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-
-注：本文档中出现写成一行的例子是因为排版的原因，不得作为编码中不断行的依据。
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;条件表达式的编写应该足够 pythonic，如以下形式的条件表达式是拙劣的：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; len(alist) != 0: &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;_something()  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; alist != []: &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;_something()  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; s != &lt;span class=&quot;string&quot;&gt;&quot;&quot;&lt;/span&gt;: &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;_something()  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; var != None: &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;_something()  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; var != False: &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;_something()&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;上面的语句应该写成：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; seq: &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;_somethin() &lt;span class=&quot;comment&quot;&gt;# 注意，这里命名也更改了  &lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; var: &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;_something()&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;用得着的时候多使用循环语句的 else 分句，以简化代码。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;已有代码&quot;&gt;&lt;a href=&quot;#已有代码&quot; class=&quot;headerlink&quot; title=&quot;已有代码&quot;&gt;&lt;/a&gt;已有代码&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;对于项目中已有的代码，可能因为历史遗留原因不符合本规范，应当看作可以容忍的特例，允许存在；但不应在新的代码中延续旧的风格。&lt;/li&gt;
-&lt;li&gt;对于第三方模块，可能不符合本规范，也应看作可以容忍的特例，允许存在；但不应在新的代码中使用第三方模块的风格。&lt;/li&gt;
-&lt;li&gt;tab 与空格混用的缩进是’’’不可容忍’’’的，在运行项目时应使用 -t 或 -tt 选项排查这种可能性存在。出现混用的情况时，如果是公司开发的基础类库代码，应当通知类库维护人员修改；第三方模块则可以通过提交 patch 等方式敦促开发者修正问题。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;已有风格&quot;&gt;&lt;a href=&quot;#已有风格&quot; class=&quot;headerlink&quot; title=&quot;已有风格&quot;&gt;&lt;/a&gt;已有风格&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;开发人员往往在加入项目之前已经形成自有的编码风格，加入项目后应以本规范为准编写代码。特别是匈牙利命名法，因为带有类型信息，并不适合 Python 编程，不应在 Python 项目中应用。&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;原文地址：&lt;a href=&quot;http://blog.csdn.net/gzlaiyonghao/article/details/6601123&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/gzlaiyonghao
-    
-    </summary>
-    
-      <category term="转载" scheme="http://panmax.love/categories/%E8%BD%AC%E8%BD%BD/"/>
-    
-    
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Counter的most_common()源码阅读笔记</title>
-    <link href="http://panmax.love/2016/Counter%E7%9A%84most-common-%E5%92%8Celements-%E6%BA%90%E7%A0%81/"/>
-    <id>http://panmax.love/2016/Counter的most-common-和elements-源码/</id>
-    <published>2016-03-05T09:07:00.000Z</published>
-    <updated>2016-03-07T07:36:45.000Z</updated>
-    
-    <content type="html">&lt;p&gt;这个方法可以传一个可选参数 &lt;code&gt;n&lt;/code&gt;， 代表获取数量最多的前 &lt;code&gt;n&lt;/code&gt; 个元素。如果不传参数，则返回所有结果。&lt;/p&gt;
-&lt;p&gt;反回的结果是一个列表，里边的元素是一个元组，元组第0位是被计数的具体元素，元组第1位是出现的次数。如：&lt;code&gt;[(&amp;#39;a&amp;#39;, 5), (&amp;#39;b&amp;#39;, 4), (&amp;#39;c&amp;#39;, 3)]&lt;/code&gt;，当多个元素计数值相同时，按照字母序排列。&lt;/p&gt;
-&lt;p&gt;下边是 &lt;code&gt;most_common&lt;/code&gt; 的源码：&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;most_common&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self, n=None)&lt;/span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; n &lt;span class=&quot;keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;None&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; sorted(self.iteritems(), key=_itemgetter(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;), reverse=&lt;span class=&quot;keyword&quot;&gt;True&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; _heapq.nlargest(n, self.iteritems(), key=_itemgetter(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;))&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;先来看n是None的情况，因为Counter类继承自dict，所以 &lt;code&gt;self.iteritems&lt;/code&gt; 得到的是键值对元组的列表，用 &lt;code&gt;sorted&lt;/code&gt;对这个列表进行排序，因为是要按照元组的第1位的数字从大到小的顺序来排序，所以key应该是元组的第1位。代码中用 &lt;code&gt;_itemgetter(1)&lt;/code&gt;来取出元组的第1位，&lt;code&gt;_itemgetter&lt;/code&gt;是 &lt;code&gt;operator&lt;/code&gt; 模块里的 &lt;code&gt;itemgetter&lt;/code&gt; 类，这个类重写了 &lt;code&gt;__call__&lt;/code&gt; 方法，所以这个类的实例可以当做函数来调用。 具体用法如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight lsl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;After f = itemgetter(&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;), the call f(r) returns r[&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;].&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;After g = itemgetter(&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;), the call g(r) returns (r[&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;], r[&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;], r[&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;])&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;现在 &lt;code&gt;key=itemgetter(1)&lt;/code&gt;， 即 &lt;code&gt;key(r)&lt;/code&gt; 就是 &lt;code&gt;r[1]&lt;/code&gt; 这样就可以取到我们想要的那个值了，如果换作之前，我可能会重新定义一个函数，然后赋值给key，最多写一个lambda表达式： &lt;code&gt;lambda x:x[1]&lt;/code&gt;赋值给key，这些都是重造轮子的例子。。。不好不好。。。&lt;/p&gt;
-&lt;p&gt;此时我们实际要进行的是整数之间的比较，就不用再给 &lt;code&gt;sorted&lt;/code&gt; 的 &lt;code&gt;cmp&lt;/code&gt; 参数赋值了，因为我们要得到一个从大到小排列的结果，所以最后 &lt;code&gt;reverse=True&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;如果 &lt;code&gt;n&lt;/code&gt; 不为 &lt;code&gt;None&lt;/code&gt; ，调用了 &lt;code&gt;heapq&lt;/code&gt;(最上边导入时将&lt;code&gt;heapq&lt;/code&gt; as 重命名成了 &lt;code&gt;_heapq&lt;/code&gt;) 模块中的 &lt;code&gt;nlargest&lt;/code&gt; 函数，这个函数的实现有些略微复杂，等以后有时间再去看，直接看下函数的介绍：&lt;/p&gt;
-&lt;figure class=&quot;highlight sqf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;Find&lt;/span&gt; the n largest elements &lt;span class=&quot;built_in&quot;&gt;in&lt;/span&gt; a dataset.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;Equivalent &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt;:  sorted(iterable, key=key, &lt;span class=&quot;built_in&quot;&gt;reverse&lt;/span&gt;=&lt;span class=&quot;literal&quot;&gt;True&lt;/span&gt;)[:n]&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这个函数的调用结果和用 &lt;code&gt;sorted&lt;/code&gt; 排序后再取出前n个结果等价。&lt;/p&gt;
-&lt;p&gt;也就是 &lt;code&gt;sorted(self.iteritems(), key=_itemgetter(1), reverse=True)[:n]&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;下一篇写Counter的elements()方法&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这个方法可以传一个可选参数 &lt;code&gt;n&lt;/code&gt;， 代表获取数量最多的前 &lt;code&gt;n&lt;/code&gt; 个元素。如果不传参数，则返回所有结果。&lt;/p&gt;
-&lt;p&gt;反回的结果是一个列表，里边的元素是一个元组，元组第0位是被计数的具体元素，元组第1位是出现的次数。如：&lt;co
     
     </summary>
     
