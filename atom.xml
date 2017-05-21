@@ -64,24 +64,24 @@
     <link href="http://panmax.love/2017/%E4%BD%BF%E7%94%A8-KM-%E5%A4%84%E7%90%86-HHKB-%E6%96%B9%E5%90%91%E9%94%AE/"/>
     <id>http://panmax.love/2017/使用-KM-处理-HHKB-方向键/</id>
     <published>2017-05-21T00:53:02.000Z</published>
-    <updated>2017-05-21T01:13:40.000Z</updated>
+    <updated>2017-05-21T01:18:49.000Z</updated>
     
     <content type="html">&lt;p&gt;对于上了 HHKB 这条贼船的人来说，刚开始使用起来最大的别扭可能就是没有方向键的问题了。&lt;/p&gt;
-&lt;p&gt;我最早的时候使用 &lt;a href=&quot;https://pqrs.org/osx/karabiner/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Karabiner&lt;/a&gt; 来解决，里边有内置的一些组合可以替代方向键，我用 control + hjkl（同vi） 替代四个方向键，因为 HHKB 的 control 在 caps lock 的位置，所以使用起来还是挺舒服的，But 当系统升级 macOS Sierra 后，Karabiner 就不能工作了，作者也在官网中写了：&lt;/p&gt;
+&lt;p&gt;最早的我使用 &lt;a href=&quot;https://pqrs.org/osx/karabiner/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Karabiner&lt;/a&gt; 来解决，里边有一些内置的组合可以替代方向键，我用 &lt;code&gt;control + hjkl&lt;/code&gt;（同vi） 替代四个方向键，因为 HHKB 的 control 在 caps lock 的位置，所以使用起来还是很舒服的，But 当系统升级到 macOS Sierra 后，Karabiner 就不能工作了，作者也在官网中写了：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Karabiner does not work on macOS Sierra at the moment.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;同时也给出了替代方案，使用 Karabiner-Elements，但是新版的 Karabiner 并不支持这样的组合，所以我就又走上了寻找解决方向键之路。&lt;/p&gt;
 &lt;p&gt;后来找到了 Keyboard Maestro（简称 KM） 这个神器，这个软功能非常多，不过我只用了里边的设置组合键的功能，我自定义了 5 个组合，用来解决 HHKB 中的不方便的方向键问题。&lt;/p&gt;
-&lt;p&gt;分别是 control + hjkl 来操作方向和 control + delete 来反向删除（也就是删除光标后边的内容），但是用起来有些问题：不能连击（按住 control + h 光标不可以一直前移），然鹅就在我将就用了小一年后，今天尝试将触发方式的 &lt;code&gt;is pressed&lt;/code&gt; 改成了 &lt;code&gt;is down&lt;/code&gt;，成功解决了不能连击的问题，所以 方向键 的问题现在可以说是完美解决了。&lt;/p&gt;
-&lt;p&gt;最后上一张截图（我将 KM 中自带的其他组合全都关闭了，只留下 5 个我自己写的组合）： &lt;/p&gt;
+&lt;p&gt;分别是 &lt;code&gt;control + hjkl&lt;/code&gt; 来操作方向和 &lt;code&gt;control + delete&lt;/code&gt; 来反向删除（也就是删除光标后边的内容），但是用起来有些问题：不能连击（比如按住 control + h 光标不可以一直前移，需要手动点击），然鹅就在我将就用了小一年后，今天尝试将触发方式 &lt;code&gt;is pressed&lt;/code&gt; 改成了 &lt;code&gt;is down&lt;/code&gt;，成功解决了不能连击的问题，所以 &lt;strong&gt;HHKB 方向键&lt;/strong&gt; 的问题现在可以说是完美解决了。&lt;/p&gt;
+&lt;p&gt;最后上一张设置截图（我将 KM 中自带的其他组合全都关闭了，只留下 5 个我自己写的组合）： &lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://7xj0sd.com1.z0.glb.clouddn.com/WX20170521-091250@2x.png&quot; alt=&quot;http://7xj0sd.com1.z0.glb.clouddn.com/WX20170521-091250@2x.png&quot;&gt;&lt;/p&gt;
 </content>
     
     <summary type="html">
     
       &lt;p&gt;对于上了 HHKB 这条贼船的人来说，刚开始使用起来最大的别扭可能就是没有方向键的问题了。&lt;/p&gt;
-&lt;p&gt;我最早的时候使用 &lt;a href=&quot;https://pqrs.org/osx/karabiner/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Ka
+&lt;p&gt;最早的我使用 &lt;a href=&quot;https://pqrs.org/osx/karabiner/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Kara
     
     </summary>
     
