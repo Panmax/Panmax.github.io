@@ -86,18 +86,16 @@
 
 
 
-<meta name="description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 123456l = [1, 2, 3, 4, 5]l.insert(1, 6)l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连续的内存数组">
+<meta name="description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 1234567l = [1, 2, 3, 4, 5]l.insert(1, 6)和l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章原文地址，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对 Python 列表常见操作的理解">
 <meta property="og:url" content="http://panmax.love/2017/对 Python 列表常见操作的理解/index.html">
 <meta property="og:site_name" content="&#x2F;">
-<meta property="og:description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 123456l = [1, 2, 3, 4, 5]l.insert(1, 6)l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连续的内存数组">
-<meta property="og:image" content="http://python.jobbole.com/82549/">
-<meta property="og:updated_time" content="2017-05-27T03:21:20.000Z">
+<meta property="og:description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 1234567l = [1, 2, 3, 4, 5]l.insert(1, 6)和l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章原文地址，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连">
+<meta property="og:updated_time" content="2017-05-27T03:28:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对 Python 列表常见操作的理解">
-<meta name="twitter:description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 123456l = [1, 2, 3, 4, 5]l.insert(1, 6)l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连续的内存数组">
-<meta name="twitter:image" content="http://python.jobbole.com/82549/">
+<meta name="twitter:description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 1234567l = [1, 2, 3, 4, 5]l.insert(1, 6)和l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章原文地址，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连">
 
 
 
@@ -226,8 +224,8 @@
 
       
         <p>写这篇文章的原因是前几天做了一道面试题，问题大致是这样的：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</div><div class="line"></div><div class="line">l.insert(<span class="number">1</span>, <span class="number">6</span>)</div><div class="line">l.append(<span class="number">6</span>)</div><div class="line"> </div><div class="line">的时间复杂度分表是什么</div></pre></td></tr></table></figure>
-<p>我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 <code>O(1)</code>，但今天看到一篇文章<img src="http://python.jobbole.com/82549/" alt="原文地址">，发现并不是我认为的那样。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</div><div class="line"></div><div class="line">l.insert(<span class="number">1</span>, <span class="number">6</span>)</div><div class="line">和</div><div class="line">l.append(<span class="number">6</span>)</div><div class="line"> </div><div class="line">的时间复杂度分表是什么</div></pre></td></tr></table></figure>
+<p>我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 <code>O(1)</code>，但今天看到一篇文章<a href="http://python.jobbole.com/82549/" target="_blank" rel="external">原文地址</a>，发现并不是我认为的那样。</p>
 <p>Python 在 C 实现中，存储数据的部分是一块连续的内存数组，不过这个数组里存放的也是指针，指向具体的元素，并且会在 结构体 中记录元素的实际个数，结构体如下。</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">typedef struct &#123;</div><div class="line">    <span class="comment"># 列表元素的长度</span></div><div class="line">    int ob_size<span class="comment">; </span></div><div class="line">    <span class="comment"># 真正存放列表元素容器的指针，list[0] 就是 ob_item[0]</span></div><div class="line">    PyObject **ob_item<span class="comment">;</span></div><div class="line">    <span class="comment"># 当前列表可容纳的元素大小</span></div><div class="line">    Py_ssize_t allocated<span class="comment">;</span></div><div class="line">&#125; PyListObject<span class="comment">;</span></div></pre></td></tr></table></figure>
 <p>当追加新元素的时候，可以直接通过 <code>ob_item[ob_size]=n</code> 来完成，所以时间复杂度为 <code>O(1)</code>。</p>
