@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://panmax.love/2017/对 Python 列表常见操作的理解/index.html">
 <meta property="og:site_name" content="&#x2F;">
 <meta property="og:description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 1234567l = [1, 2, 3, 4, 5]l.insert(1, 6)和l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章原文地址，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连">
-<meta property="og:updated_time" content="2017-05-27T03:28:27.000Z">
+<meta property="og:updated_time" content="2017-05-27T03:30:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对 Python 列表常见操作的理解">
 <meta name="twitter:description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 1234567l = [1, 2, 3, 4, 5]l.insert(1, 6)和l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章原文地址，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连">
@@ -232,7 +232,7 @@
 <p>在插入元素时，操作如下，将要插入位置下方的所有元素向下移动一个位置，然后将要插入位置指向我们插入的元素即可。所以时间复杂度其实是 <code>O(n)</code>。</p>
 <p>（以上都没有考虑 <code>allocated</code> 分配的情况）</p>
 <p>再来看下 <code>pop</code> 这个操作，<code>pop</code> 时只需将 <code>ob_size</code> 减一即可，所以时间复杂的也是 <code>O(1)</code>。</p>
-<p><code>remove</code> 就没这么简单了，需要先通过遍历的方式找到要移除的元素，然后将找到的位置到最后一个有效位置这这间的指针都指向其 <code>next</code> 指向的元素（也就是 <code>ob_item[i]=ob_item[i+1]</code>），然后 <code>ob_size-1</code>，所以时间复杂度也为 <code>O(n)</code></p>
+<p><code>remove</code> 就没这么简单了，需要先通过遍历的方式找到要移除的元素，然后将找到的位置到最后一个有效位置这之间的指针都指向其 <code>next</code> 指向的元素（也就是 <code>ob_item[i]=ob_item[i+1]</code>），然后 <code>ob_size-1</code>，所以时间复杂度也为 <code>O(n)</code></p>
 <p>这就是我对 <code>list</code> 几个常见操作的理解，如有错误之处请通过邮件方式指出: <code>jiapan.china#gmail.com</code></p>
 
       
