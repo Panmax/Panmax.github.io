@@ -1,0 +1,394 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hi Panmax" />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="/" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 123456l = [1, 2, 3, 4, 5]l.insert(1, 6)l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连续的内存数组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对 Python 列表常见操作的理解">
+<meta property="og:url" content="http://panmax.love/2017/对 Python 列表常见操作的理解/index.html">
+<meta property="og:site_name" content="&#x2F;">
+<meta property="og:description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 123456l = [1, 2, 3, 4, 5]l.insert(1, 6)l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连续的内存数组">
+<meta property="og:image" content="http://python.jobbole.com/82549/">
+<meta property="og:updated_time" content="2017-05-27T03:21:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对 Python 列表常见操作的理解">
+<meta name="twitter:description" content="写这篇文章的原因是前几天做了一道面试题，问题大致是这样的： 123456l = [1, 2, 3, 4, 5]l.insert(1, 6)l.append(6) 的时间复杂度分表是什么 我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 O(1)，但今天看到一篇文章，发现并不是我认为的那样。 Python 在 C 实现中，存储数据的部分是一块连续的内存数组">
+<meta name="twitter:image" content="http://python.jobbole.com/82549/">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://panmax.love/2017/对 Python 列表常见操作的理解/"/>
+
+  <title> 对 Python 列表常见操作的理解 | / </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-meta ">
+  <div class="custom-logo-site-title">
+    <a href="/archives"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">/</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+</div>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                对 Python 列表常见操作的理解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-27T10:52:10+08:00" content="2017-05-27">
+              2017-05-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>写这篇文章的原因是前几天做了一道面试题，问题大致是这样的：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</div><div class="line"></div><div class="line">l.insert(<span class="number">1</span>, <span class="number">6</span>)</div><div class="line">l.append(<span class="number">6</span>)</div><div class="line"> </div><div class="line">的时间复杂度分表是什么</div></pre></td></tr></table></figure>
+<p>我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 <code>O(1)</code>，但今天看到一篇文章<img src="http://python.jobbole.com/82549/" alt="原文地址">，发现并不是我认为的那样。</p>
+<p>Python 在 C 实现中，存储数据的部分是一块连续的内存数组，不过这个数组里存放的也是指针，指向具体的元素，并且会在 结构体 中记录元素的实际个数，结构体如下。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">typedef struct &#123;</div><div class="line">    <span class="comment"># 列表元素的长度</span></div><div class="line">    int ob_size<span class="comment">; </span></div><div class="line">    <span class="comment"># 真正存放列表元素容器的指针，list[0] 就是 ob_item[0]</span></div><div class="line">    PyObject **ob_item<span class="comment">;</span></div><div class="line">    <span class="comment"># 当前列表可容纳的元素大小</span></div><div class="line">    Py_ssize_t allocated<span class="comment">;</span></div><div class="line">&#125; PyListObject<span class="comment">;</span></div></pre></td></tr></table></figure>
+<p>当追加新元素的时候，可以直接通过 <code>ob_item[ob_size]=n</code> 来完成，所以时间复杂度为 <code>O(1)</code>。</p>
+<p>在插入元素时，操作如下，将要插入位置下方的所有元素向下移动一个位置，然后将要插入位置指向我们插入的元素即可。所以时间复杂度其实是 <code>O(n)</code>。</p>
+<p>（以上都没有考虑 <code>allocated</code> 分配的情况）</p>
+<p>再来看下 <code>pop</code> 这个操作，<code>pop</code> 时只需将 <code>ob_size</code> 减一即可，所以时间复杂的也是 <code>O(1)</code>。</p>
+<p><code>remove</code> 就没这么简单了，需要先通过遍历的方式找到要移除的元素，然后将找到的位置到最后一个有效位置这这间的指针都指向其 <code>next</code> 指向的元素（也就是 <code>ob_item[i]=ob_item[i+1]</code>），然后 <code>ob_size-1</code>，所以时间复杂度也为 <code>O(n)</code></p>
+<p>这就是我对 <code>list</code> 几个常见操作的理解，如有错误之处请通过邮件方式指出: <code>jiapan.china#gmail.com</code></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/使用-KM-处理-HHKB-方向键/" rel="next" title="使用 KM 处理 HHKB 方向键">
+                <i class="fa fa-chevron-left"></i> 使用 KM 处理 HHKB 方向键
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/2017-书单/" rel="prev" title="2017 书单">
+                2017 书单 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

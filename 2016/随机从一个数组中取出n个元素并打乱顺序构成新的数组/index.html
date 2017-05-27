@@ -248,7 +248,7 @@
 <p>所有被推荐用户的列表为:<code>recommend_users</code>，已经确定的是，这个列表的长度一定大于n。</p>
 <p>我们需要将结果保存在<code>recommend_user_list</code>中。</p>
 <p>首先，从这个列表中随机取出n个元素：</p>
-<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="built_in">random</span></div><div class="line">recommend_user_list = <span class="built_in">random</span>.sample(recommend_users, n)</div></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="built_in">random</span></div><div class="line">recommend_user_list = <span class="built_in">random</span>.sample(recommend_users, n)</div></pre></td></tr></table></figure>
 <p>这个方法是从<code>recommend_users</code>列表中按顺序随机取出n个元素，因为我们需要打乱顺序，所以还需要调用另一个方法。</p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># 将这个数组打乱顺序</span></div><div class="line"><span class="built_in">random</span>.shuffle(recommend_user_list)</div></pre></td></tr></table></figure>
 <p>搞定！~</p>

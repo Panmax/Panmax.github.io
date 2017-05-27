@@ -247,7 +247,7 @@
 <h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><ul>
 <li>所有的 Python 脚本文件都应在文件头标上如下标识或其兼容格式的标识：</li>
 </ul>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta"># -*- coding:utf-8 -*-</span></div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> -*- coding:utf-8 -*-</span></div></pre></td></tr></table></figure>
 <ul>
 <li>设置编辑器，默认保存为 utf-8 格式。</li>
 </ul>
@@ -367,7 +367,7 @@
 </code></pre><h4 id="特定命名方式"><a href="#特定命名方式" class="headerlink" title="特定命名方式"></a>特定命名方式</h4><ul>
 <li>主要是指 <code>__xxx__</code> 形式的系统保留字命名法。项目中也可以使用这种命名，它的意义在于这种形式的变量是只读的，这种形式的类成员函数尽量不要重载。如：</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span><span class="params">(object)</span>:</span>  </div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, id, parent = None)</span>:</span>  </div><div class="line">    self.__id__ = id  </div><div class="line">    self.__parent__ = parent  </div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__message__</span><span class="params">(self, msgid)</span>:</span>  </div><div class="line">    <span class="comment"># …略</span></div></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>(<span class="title">object</span>):  </span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>, id, parent = None)</span></span>:  </div><div class="line">    <span class="keyword">self</span>.__id_<span class="number">_</span> = id  </div><div class="line">    <span class="keyword">self</span>.__parent_<span class="number">_</span> = parent  </div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__message__</span><span class="params">(<span class="keyword">self</span>, msgid)</span></span>:  </div><div class="line">    <span class="comment"># …略</span></div></pre></td></tr></table></figure>
 <p>其中 <code>__id__</code>、<code>__parent__</code> 和 <code>__message__</code> 都采用了系统保留字命名法。</p>
 <h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><h4 id="import"><a href="#import" class="headerlink" title="import"></a>import</h4><ul>
 <li><p>import 语句有以下几个原则需要遵守：</p>
@@ -375,7 +375,7 @@
 <li>import 的次序，先 import Python 内置模块，再 import 第三方模块，最后 import 自己开发的项目中的其它模块；这几种模块中用空行分隔开来。</li>
 <li>一条 import 语句 import 一个模块。</li>
 <li><p>当从模块中 import 多个对象且超过一行时，使用如下断行法（此语法 py2.5 以上版本才支持）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> <span class="built_in">module</span> <span class="keyword">import</span> (obj1, obj2, obj3, obj4,  </div><div class="line">       obj5, obj6)</div></pre></td></tr></table></figure>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> <span class="keyword">module</span> <span class="keyword">import</span> (obj1, obj2, obj3, obj4,  </div><div class="line">       obj5, obj6)</div></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -384,9 +384,9 @@
 </code></pre><h4 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h4><ul>
 <li>对于赋值语句，主要是不要做无谓的对齐，如：</li>
 </ul>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">a</span>        = <span class="number">1</span>                  # 这是一个行注释  </div><div class="line"><span class="attr">variable</span> = <span class="number">2</span>                  # 另一个行注释  </div><div class="line"><span class="attr">fn</span>       = callback_function  # 还是行注释</div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a        = 1                  <span class="comment"># 这是一个行注释  </span></div><div class="line">variable = 2                  <span class="comment"># 另一个行注释  </span></div><div class="line">fn       = callback_function  <span class="comment"># 还是行注释</span></div></pre></td></tr></table></figure>
 <p>没有必要做这种对齐，原因有两点：一是这种对齐会打乱编程时的注意力，大脑要同时处理两件事（编程和对齐）；二是以后阅读和维护都很困难，因为人眼的横向视野很窄，把三个字段看成一行很困难，而且维护时要增加一个更长的变量名也会破坏对齐。直接这样写为佳：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">a</span> = <span class="number">1</span> # 这是一个行注释  </div><div class="line"><span class="attr">variable</span> = <span class="number">2</span> # 另一个行注释  </div><div class="line"><span class="attr">fn</span> = callback_function # 还是行注释</div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a = 1 <span class="comment"># 这是一个行注释  </span></div><div class="line">variable = 2 <span class="comment"># 另一个行注释  </span></div><div class="line">fn = callback_function <span class="comment"># 还是行注释</span></div></pre></td></tr></table></figure>
 <h4 id="分枝和循环"><a href="#分枝和循环" class="headerlink" title="分枝和循环"></a>分枝和循环</h4><ul>
 <li><p>对于分枝和循环，有如下几点需要注意的：</p>
 <ul>
@@ -410,9 +410,9 @@
 </code></pre><ul>
 <li>条件表达式的编写应该足够 pythonic，如以下形式的条件表达式是拙劣的：</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> len(alist) != 0: <span class="keyword">do</span>_something()  </div><div class="line"><span class="keyword">if</span> alist != []: <span class="keyword">do</span>_something()  </div><div class="line"><span class="keyword">if</span> s != <span class="string">""</span>: <span class="keyword">do</span>_something()  </div><div class="line"><span class="keyword">if</span> var != None: <span class="keyword">do</span>_something()  </div><div class="line"><span class="keyword">if</span> var != False: <span class="keyword">do</span>_something()</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> len(alist) != <span class="number">0</span>: do_something()  </div><div class="line"><span class="keyword">if</span> alist != []: do_something()  </div><div class="line"><span class="keyword">if</span> s != <span class="string">""</span>: do_something()  </div><div class="line"><span class="keyword">if</span> <span class="selector-tag">var</span> != None: do_something()  </div><div class="line"><span class="keyword">if</span> <span class="selector-tag">var</span> != False: do_something()</div></pre></td></tr></table></figure>
 <p>上面的语句应该写成：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">if</span> seq: <span class="keyword">do</span>_somethin() <span class="comment"># 注意，这里命名也更改了  </span></div><div class="line"><span class="keyword">if</span> var: <span class="keyword">do</span>_something()</div></pre></td></tr></table></figure>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">if</span> <span class="built_in">seq</span>: do_somethin() <span class="comment"># 注意，这里命名也更改了  </span></div><div class="line"><span class="keyword">if</span> <span class="keyword">var</span>: do_something()</div></pre></td></tr></table></figure>
 <ul>
 <li>用得着的时候多使用循环语句的 else 分句，以简化代码。</li>
 </ul>
