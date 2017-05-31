@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且真的相当便宜，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW V">
+<meta name="description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且降低了成本，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW VA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题">
 <meta property="og:url" content="http://panmax.love/2017/解决在-SAE-中使用-Flask-SQLAlchemy-出现-MySQL-server-has-gone-away-的问题/index.html">
 <meta property="og:site_name" content="&#x2F;">
-<meta property="og:description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且真的相当便宜，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW V">
-<meta property="og:updated_time" content="2017-05-31T09:18:51.000Z">
+<meta property="og:description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且降低了成本，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW VA">
+<meta property="og:updated_time" content="2017-05-31T09:20:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题">
-<meta name="twitter:description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且真的相当便宜，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW V">
+<meta name="twitter:description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且降低了成本，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW VA">
 
 
 
@@ -223,7 +223,7 @@
       
 
       
-        <p>这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且真的相当便宜，我现在暂时只用到了一个最基础的容器+一个最低配置的 <code>MySQL</code> 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。</p>
+        <p>这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且降低了成本，我现在暂时只用到了一个最基础的容器+一个最低配置的 <code>MySQL</code> 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。</p>
 <p>但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 <code>MySQL server has gone away</code> 的错误，在 SAE 提供的数据库中用 <code>SHOW VARIABLES;</code> 检查了下，SAE 给数据库配置的 <code>wait_timeout</code> 是300秒，我之前阿里云上的数据库没有改配置，所以默认为 8 小时，而且 SAE 数据库 的这个值是不允许修改的，所以既然<strong>无法改变环境，就来适应环境吧</strong>。</p>
 <p>尝试了很多解决办法，比如 配置<code>SQLALCHEMY_COMMIT_ON_TEARDOWN=True</code> 和 在每次请求完成后关闭 db 的 <code>session</code> 都没有解决问题，再次阅读文档时看到了这个参数：<code>SQLALCHEMY_POOL_RECYCLE</code>，作用是设置多少秒后回收连接，在使用 <code>MySQL</code> 时是必须设置的。如果不提供值，默认为 2 小时，而我之前的数据库默认 <code>wait_timeout</code> 为 8 小时，所以一直没有出过问题。我在我的配置文件中，将这个值设置为 280 秒（小于 300 秒），最终解决了问题。</p>
 <p>最后帖一下<code>SQLALCHEMY_POOL_RECYCLE</code>参数的原文解释：</p>
