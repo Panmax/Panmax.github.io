@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="读书," />
+  <meta name="keywords" content="Hi Panmax" />
 
 
 
@@ -86,17 +86,16 @@
 
 
 
-<meta name="description" content="1月 摆渡人 了不起的盖茨比  2月 偷影子的人 Python 高手之路 (The Hacker’s Guide to Python) 富爸爸，穷爸爸  3月 小狗钱钱 岛上书店 嫌疑人X的献身  4月 无声告白   2016 书单">
-<meta name="keywords" content="读书">
+<meta name="description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且真的相当便宜，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW V">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2017 书单">
-<meta property="og:url" content="http://panmax.love/2017/2017-书单/index.html">
+<meta property="og:title" content="解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题">
+<meta property="og:url" content="http://panmax.love/2017/解决在-SAE-中使用-Flask-SQLAlchemy-出现-MySQL-server-has-gone-away-的问题/index.html">
 <meta property="og:site_name" content="&#x2F;">
-<meta property="og:description" content="1月 摆渡人 了不起的盖茨比  2月 偷影子的人 Python 高手之路 (The Hacker’s Guide to Python) 富爸爸，穷爸爸  3月 小狗钱钱 岛上书店 嫌疑人X的献身  4月 无声告白   2016 书单">
-<meta property="og:updated_time" content="2017-04-09T14:35:31.000Z">
+<meta property="og:description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且真的相当便宜，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW V">
+<meta property="og:updated_time" content="2017-05-31T09:17:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2017 书单">
-<meta name="twitter:description" content="1月 摆渡人 了不起的盖茨比  2月 偷影子的人 Python 高手之路 (The Hacker’s Guide to Python) 富爸爸，穷爸爸  3月 小狗钱钱 岛上书店 嫌疑人X的献身  4月 无声告白   2016 书单">
+<meta name="twitter:title" content="解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题">
+<meta name="twitter:description" content="这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且真的相当便宜，我现在暂时只用到了一个最基础的容器+一个最低配置的 MySQL 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。 但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 MySQL server has gone away 的错误，在 SAE 提供的数据库中用 SHOW V">
 
 
 
@@ -117,9 +116,9 @@
 
 
 
-  <link rel="canonical" href="http://panmax.love/2017/2017-书单/"/>
+  <link rel="canonical" href="http://panmax.love/2017/解决在-SAE-中使用-Flask-SQLAlchemy-出现-MySQL-server-has-gone-away-的问题/"/>
 
-  <title> 2017 书单 | / </title>
+  <title> 解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题 | / </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -184,7 +183,7 @@
             
             
               
-                2017 书单
+                解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题
               
             
           </h1>
@@ -196,30 +195,11 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-12-31T00:00:00+08:00" content="2017-12-31">
-              2017-12-31
+            <time itemprop="dateCreated" datetime="2017-05-31T17:01:32+08:00" content="2017-05-31">
+              2017-05-31
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/小攀说/" itemprop="url" rel="index">
-                    <span itemprop="name">小攀说</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -243,25 +223,10 @@
       
 
       
-        <h3 id="1月"><a href="#1月" class="headerlink" title="1月"></a>1月</h3><ul>
-<li>摆渡人</li>
-<li>了不起的盖茨比</li>
-</ul>
-<h3 id="2月"><a href="#2月" class="headerlink" title="2月"></a>2月</h3><ul>
-<li>偷影子的人</li>
-<li>Python 高手之路 (The Hacker’s Guide to Python)</li>
-<li>富爸爸，穷爸爸</li>
-</ul>
-<h3 id="3月"><a href="#3月" class="headerlink" title="3月"></a>3月</h3><ul>
-<li>小狗钱钱</li>
-<li>岛上书店</li>
-<li>嫌疑人X的献身</li>
-</ul>
-<h3 id="4月"><a href="#4月" class="headerlink" title="4月"></a>4月</h3><ul>
-<li>无声告白</li>
-</ul>
-<hr>
-<h2 id="2016-书单"><a href="#2016-书单" class="headerlink" title="2016 书单"></a><a href="http://panmax.love/2016/2016-%E4%B9%A6%E5%8D%95/">2016 书单</a></h2>
+        <p>这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且真的相当便宜，我现在暂时只用到了一个最基础的容器+一个最低配置的 <code>MySQL</code> 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。</p>
+<p>但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 <code>MySQL server has gone away</code> 的错误，在 SAE 提供的数据库中用 <code>SHOW VARIABLES;</code> 检查了下，SAE 给数据库配置的 <code>wait_timeout</code> 是300秒，我之前阿里云上的数据库没有改配置，所以默认为 8 小时，而且 SAE 数据库 的这个值是不允许修改的，所以既然<strong>无法改变环境，就来适应环境吧</strong>。</p>
+<p>尝试了很多解决办法，比如 配置<code>SQLALCHEMY_COMMIT_ON_TEARDOWN=True</code> 和 在每次请求完成后关闭 db 的 <code>session</code> 都没有解决问题，再次阅读文档时看到了这个参数：<code>SQLALCHEMY_POOL_RECYCLE</code>，作用是设置多少秒后回收连接，在使用 <code>MySQL</code> 时是必须设置的。如果不提供值，默认为 2 小时，而我之前的数据库默认 <code>wait_timeout</code> 为 8 小时，所以一直没有出过问题。我在我的配置文件中，将这个值设置为 280 秒（小于 300 秒），最终解决了问题。</p>
+
       
     </div>
 
@@ -280,24 +245,22 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/读书/" rel="tag">#读书</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/解决在-SAE-中使用-Flask-SQLAlchemy-出现-MySQL-server-has-gone-away-的问题/" rel="next" title="解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题">
-                <i class="fa fa-chevron-left"></i> 解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题
+              <a href="/2017/SQLAlchemy-分表实践/" rel="next" title="SQLAlchemy 分表实践">
+                <i class="fa fa-chevron-left"></i> SQLAlchemy 分表实践
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/2017-书单/" rel="prev" title="2017 书单">
+                2017 书单 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
