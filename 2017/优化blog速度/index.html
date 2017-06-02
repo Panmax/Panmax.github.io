@@ -1,0 +1,392 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hi Panmax" />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="/" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优化 blog 速度">
+<meta property="og:url" content="http://panmax.love/2017/优化blog速度/index.html">
+<meta property="og:site_name" content="&#x2F;">
+<meta property="og:description" content="之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
+<meta property="og:updated_time" content="2017-06-02T07:40:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="优化 blog 速度">
+<meta name="twitter:description" content="之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://panmax.love/2017/优化blog速度/"/>
+
+  <title> 优化 blog 速度 | / </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-meta ">
+  <div class="custom-logo-site-title">
+    <a href="/archives"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">/</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+</div>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                优化 blog 速度
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-06-02T15:28:42+08:00" content="2017-06-02">
+              2017-06-02
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。</p>
+<p>我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 <code>fonts.gstatic.com</code>，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。</p>
+<p>这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自己修改的 Next 模板，所以我在 <code>themes/next</code> 目录下查找带 <code>fonts.gstatic.com</code> 关键字的文件竟然没有找到，很是费解。后来我又看那条请求，发下他的 <code>referer</code>是 <code>fonts.googleapis.com</code>，所以我又尝试用这个关键字进行查找，最后在 <code>themes/next/layout/_partials/head/external-fonts.swig</code> 找到了它。</p>
+<figure class="highlight twig"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name"><span class="keyword">if</span></span> font_families !== '' %&#125;</span><span class="xml"></span></div><div class="line">  <span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_families += '&amp;subset=latin,latin-ext' %&#125;</span><span class="xml"></span></div><div class="line">  <span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_host = font_config.host | default('//fonts.googleapis.com') %&#125;</span><span class="xml"></span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"</span></span><span class="template-variable">&#123;&#123; font_host &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">/css?family=</span></span></span><span class="template-variable">&#123;&#123; font_families &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span></div><div class="line"><span class="template-tag">&#123;% <span class="name"><span class="keyword">endif</span></span> %&#125;</span><span class="xml"></span></div></pre></td></tr></table></figure>
+<p>然后我在网上找了找 fonts.googleapis.com 国内镜像，有两个用的比较多的：360网站卫士 和 中科大。但是一些地方写到 360网站卫士 提供的源不支持 HTTPS，虽然我的博客现在并不是 HTTPS 的，但保不齐以后我要改呢。所以我选择时使用中科大镜像。只需用 <code>fonts.lug.ustc.edu.cn</code> 替代之即可。然后在 <code>hexo g</code> 重新生成下站点就可以了。</p>
+<p>下边是几个常用的替代镜像：</p>
+<ol>
+<li>ajax.googleapis.com =&gt; ajax.lug.ustc.edu.cn</li>
+<li>fonts.googleapis.com =&gt; fonts.lug.ustc.edu.cn</li>
+<li>themes.googleusercontent.com =&gt; google-themes.lug.ustc.edu.cn</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/解决在-SAE-中使用-Flask-SQLAlchemy-出现-MySQL-server-has-gone-away-的问题/" rel="next" title="解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题">
+                <i class="fa fa-chevron-left"></i> 解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/2017-书单/" rel="prev" title="2017 书单">
+                2017 书单 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -60,6 +60,36 @@
   </entry>
   
   <entry>
+    <title>优化 blog 速度</title>
+    <link href="http://panmax.love/2017/%E4%BC%98%E5%8C%96blog%E9%80%9F%E5%BA%A6/"/>
+    <id>http://panmax.love/2017/优化blog速度/</id>
+    <published>2017-06-02T07:28:42.000Z</published>
+    <updated>2017-06-02T07:40:47.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。</p>
+<p>我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 <code>fonts.gstatic.com</code>，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。</p>
+<p>这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自己修改的 Next 模板，所以我在 <code>themes/next</code> 目录下查找带 <code>fonts.gstatic.com</code> 关键字的文件竟然没有找到，很是费解。后来我又看那条请求，发下他的 <code>referer</code>是 <code>fonts.googleapis.com</code>，所以我又尝试用这个关键字进行查找，最后在 <code>themes/next/layout/_partials/head/external-fonts.swig</code> 找到了它。</p>
+<figure class="highlight twig"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name"><span class="keyword">if</span></span> font_families !== '' %&#125;</span><span class="xml"></span></div><div class="line">  <span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_families += '&amp;subset=latin,latin-ext' %&#125;</span><span class="xml"></span></div><div class="line">  <span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_host = font_config.host | default('//fonts.googleapis.com') %&#125;</span><span class="xml"></span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"</span></span><span class="template-variable">&#123;&#123; font_host &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">/css?family=</span></span></span><span class="template-variable">&#123;&#123; font_families &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span></div><div class="line"><span class="template-tag">&#123;% <span class="name"><span class="keyword">endif</span></span> %&#125;</span><span class="xml"></span></div></pre></td></tr></table></figure>
+<p>然后我在网上找了找 fonts.googleapis.com 国内镜像，有两个用的比较多的：360网站卫士 和 中科大。但是一些地方写到 360网站卫士 提供的源不支持 HTTPS，虽然我的博客现在并不是 HTTPS 的，但保不齐以后我要改呢。所以我选择时使用中科大镜像。只需用 <code>fonts.lug.ustc.edu.cn</code> 替代之即可。然后在 <code>hexo g</code> 重新生成下站点就可以了。</p>
+<p>下边是几个常用的替代镜像：</p>
+<ol>
+<li>ajax.googleapis.com =&gt; ajax.lug.ustc.edu.cn</li>
+<li>fonts.googleapis.com =&gt; fonts.lug.ustc.edu.cn</li>
+<li>themes.googleusercontent.com =&gt; google-themes.lug.ustc.edu.cn</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。&lt;/p&gt;
+&lt;p&gt;我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 &lt;code&gt;fonts.gstatic.com&lt;/code&gt;，这个请求应该是
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题</title>
     <link href="http://panmax.love/2017/%E8%A7%A3%E5%86%B3%E5%9C%A8-SAE-%E4%B8%AD%E4%BD%BF%E7%94%A8-Flask-SQLAlchemy-%E5%87%BA%E7%8E%B0-MySQL-server-has-gone-away-%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>http://panmax.love/2017/解决在-SAE-中使用-Flask-SQLAlchemy-出现-MySQL-server-has-gone-away-的问题/</id>
@@ -874,71 +904,6 @@
     
     
       <category term="JavaScript" scheme="http://panmax.love/tags/JavaScript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python 查漏补缺</title>
-    <link href="http://panmax.love/2016/Python-%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA/"/>
-    <id>http://panmax.love/2016/Python-查漏补缺/</id>
-    <published>2016-04-05T11:43:10.000Z</published>
-    <updated>2016-04-11T06:33:45.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>在Python中当函数被定义时，默认参数只会运算一次，而不是每次被调用时都会重新运算。</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">def</span> <span class="selector-tag">add_to</span>(num, target=[]):</div><div class="line">    <span class="selector-tag">target</span><span class="selector-class">.append</span>(num)</div><div class="line">    <span class="selector-tag">return</span> <span class="selector-tag">target</span></div><div class="line"></div><div class="line"><span class="selector-tag">add_to</span>(<span class="number">1</span>)</div><div class="line"># <span class="selector-tag">Output</span>: <span class="selector-attr">[1]</span></div><div class="line"></div><div class="line"><span class="selector-tag">add_to</span>(<span class="number">2</span>)</div><div class="line"># <span class="selector-tag">Output</span>: <span class="selector-attr">[1, 2]</span></div><div class="line"></div><div class="line"><span class="selector-tag">add_to</span>(<span class="number">3</span>)</div><div class="line"># <span class="selector-tag">Output</span>: <span class="selector-attr">[1, 2, 3]</span></div></pre></td></tr></table></figure>
-<p>你应该永远不要定义可变类型的默认参数，除非你知道你正在做什么。你应该像这样做：</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def add_to(element, <span class="keyword">target</span>=<span class="keyword">None</span>):</div><div class="line">    <span class="keyword">if</span> <span class="keyword">target</span> is <span class="keyword">None</span>:</div><div class="line">        <span class="keyword">target</span> = []</div><div class="line">    <span class="keyword">target</span>.append(element)</div><div class="line">    <span class="keyword">return</span> <span class="keyword">target</span></div></pre></td></tr></table></figure>
-<hr>
-<p>另一种三元运算符：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#(返回假，返回真)<span class="selector-attr">[真或假]</span></div><div class="line">(if_test_is_false, if_test_is_true)<span class="selector-attr">[test]</span></div></pre></td></tr></table></figure>
-<p>例子：</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fat = True</div><div class="line">fitness = (<span class="string">"skinny"</span>, <span class="string">"fat"</span>)[fat]</div><div class="line">print(<span class="string">"Ali is "</span>, fitness)</div><div class="line"><span class="comment">#输出: Ali is fat</span></div></pre></td></tr></table></figure>
-<p>这之所以能正常工作，是因为在Python中，True等于1，而False等于0，这就相当于在元组中使用0和1来选取数据。</p>
-<p>上面的例子没有被广泛使用，而且Python玩家一般不喜欢那样，因为没有Python味儿(Pythonic)。这样的用法很容易把真正的数据与true/false弄混。</p>
-<p>另外一个不使用元组条件表达式的缘故是因为在元组中会把两个条件都执行，而 if-else 的条件表达式不会这样。</p>
-<p>例如：</p>
-<figure class="highlight mel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">condition</span> = True</div><div class="line"><span class="keyword">print</span>(<span class="number">2</span> <span class="keyword">if</span> <span class="keyword">condition</span> <span class="keyword">else</span> <span class="number">1</span>/<span class="number">0</span>)</div><div class="line">#输出: <span class="number">2</span></div><div class="line"></div><div class="line"><span class="keyword">print</span>((<span class="number">1</span>/<span class="number">0</span>, <span class="number">2</span>)[<span class="keyword">condition</span>])</div><div class="line">#输出ZeroDivisionError异常</div></pre></td></tr></table></figure>
-<p>这是因为在元组中是先建数据，然后用True(1)/False(0)来索引到数据。 而if-else条件表达式遵循普通的if-else逻辑树， 因此，如果逻辑中的条件异常，或者是重计算型（计算较久）的情况下，最好尽量避免使用元组条件表达式。</p>
-<hr>
-<a id="more"></a>
-<p>当你在一个字典中对一个键进行嵌套赋值时，如果这个键不存在，会触发<code>keyError</code>异常。 <code>defaultdict</code>允许我们用一个聪明的方式绕过这个问题。 首先我分享一个使用<code>dict</code>触发<code>KeyError</code>的例子，然后提供一个使用<code>defaultdict</code>的解决方案。</p>
-<p>问题：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">some_dict = &#123;&#125;</div><div class="line">some_dict[<span class="string">'colours'</span>][<span class="symbol">'favourite'</span>] = "yellow"</div><div class="line"></div><div class="line"><span class="section">## 异常输出：KeyError: 'colours'</span></div></pre></td></tr></table></figure>
-<p>解决方案：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">import collections</div><div class="line">tree = lambda: collections.defaultdict(tree)</div><div class="line">some_dict = tree()</div><div class="line">some_dict[<span class="string">'colours'</span>][<span class="symbol">'favourite'</span>] = "yellow"</div><div class="line"></div><div class="line"><span class="section">## 运行正常</span></div></pre></td></tr></table></figure>
-<p>你可以用json.dumps打印出some_dict，例如：</p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json</div><div class="line">print(json.dumps(some_dict))</div><div class="line"></div><div class="line">## 输出: &#123;<span class="string">"colours"</span>: &#123;<span class="string">"favourite"</span>: <span class="string">"yellow"</span>&#125;&#125;</div></pre></td></tr></table></figure>
-<hr>
-<p>列表辗平</p>
-<p>您可以通过使用itertools包中的itertools.chain.from_iterable轻松快速的辗平一个列表。下面是一个简单的例子：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">a_list = <span class="string">[[1, 2], [3, 4], [5, 6]]</span></div><div class="line">    <span class="built_in">print</span>(list(itertools.chain.from_iterable(a_list)))</div><div class="line"># Output: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</div><div class="line"></div><div class="line"># <span class="keyword">or</span></div><div class="line"><span class="built_in">print</span>(list(itertools.chain(*a_list)))</div><div class="line"># Output: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</div></pre></td></tr></table></figure>
-<h1 id="待续"><a href="#待续" class="headerlink" title="待续"></a>待续</h1>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在Python中当函数被定义时，默认参数只会运算一次，而不是每次被调用时都会重新运算。&lt;/p&gt;
-&lt;figure class=&quot;highlight less&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;selector-tag&quot;&gt;add_to&lt;/span&gt;(num, target=[]):&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;selector-tag&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;selector-class&quot;&gt;.append&lt;/span&gt;(num)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;selector-tag&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;selector-tag&quot;&gt;target&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;add_to&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# &lt;span class=&quot;selector-tag&quot;&gt;Output&lt;/span&gt;: &lt;span class=&quot;selector-attr&quot;&gt;[1]&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;add_to&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# &lt;span class=&quot;selector-tag&quot;&gt;Output&lt;/span&gt;: &lt;span class=&quot;selector-attr&quot;&gt;[1, 2]&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;add_to&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# &lt;span class=&quot;selector-tag&quot;&gt;Output&lt;/span&gt;: &lt;span class=&quot;selector-attr&quot;&gt;[1, 2, 3]&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;你应该永远不要定义可变类型的默认参数，除非你知道你正在做什么。你应该像这样做：&lt;/p&gt;
-&lt;figure class=&quot;highlight fortran&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;def add_to(element, &lt;span class=&quot;keyword&quot;&gt;target&lt;/span&gt;=&lt;span class=&quot;keyword&quot;&gt;None&lt;/span&gt;):&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;target&lt;/span&gt; is &lt;span class=&quot;keyword&quot;&gt;None&lt;/span&gt;:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;target&lt;/span&gt; = []&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;target&lt;/span&gt;.append(element)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;target&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;hr&gt;
-&lt;p&gt;另一种三元运算符：&lt;/p&gt;
-&lt;figure class=&quot;highlight less&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;#(返回假，返回真)&lt;span class=&quot;selector-attr&quot;&gt;[真或假]&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;(if_test_is_false, if_test_is_true)&lt;span class=&quot;selector-attr&quot;&gt;[test]&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;例子：&lt;/p&gt;
-&lt;figure class=&quot;highlight makefile&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;fat = True&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;fitness = (&lt;span class=&quot;string&quot;&gt;&quot;skinny&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;fat&quot;&lt;/span&gt;)[fat]&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;print(&lt;span class=&quot;string&quot;&gt;&quot;Ali is &quot;&lt;/span&gt;, fitness)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#输出: Ali is fat&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这之所以能正常工作，是因为在Python中，True等于1，而False等于0，这就相当于在元组中使用0和1来选取数据。&lt;/p&gt;
-&lt;p&gt;上面的例子没有被广泛使用，而且Python玩家一般不喜欢那样，因为没有Python味儿(Pythonic)。这样的用法很容易把真正的数据与true/false弄混。&lt;/p&gt;
-&lt;p&gt;另外一个不使用元组条件表达式的缘故是因为在元组中会把两个条件都执行，而 if-else 的条件表达式不会这样。&lt;/p&gt;
-&lt;p&gt;例如：&lt;/p&gt;
-&lt;figure class=&quot;highlight mel&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;condition&lt;/span&gt; = True&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;condition&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;#输出: &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt;((&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;)[&lt;span class=&quot;keyword&quot;&gt;condition&lt;/span&gt;])&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;#输出ZeroDivisionError异常&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这是因为在元组中是先建数据，然后用True(1)/False(0)来索引到数据。 而if-else条件表达式遵循普通的if-else逻辑树， 因此，如果逻辑中的条件异常，或者是重计算型（计算较久）的情况下，最好尽量避免使用元组条件表达式。&lt;/p&gt;
-&lt;hr&gt;
-    
-    </summary>
-    
-      <category term="笔记" scheme="http://panmax.love/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
     
   </entry>
   
