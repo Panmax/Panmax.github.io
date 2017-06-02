@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
+<meta name="description" content="之前已经做过对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
 <meta property="og:type" content="article">
 <meta property="og:title" content="优化 blog 速度">
 <meta property="og:url" content="http://panmax.love/2017/优化blog速度/index.html">
 <meta property="og:site_name" content="&#x2F;">
-<meta property="og:description" content="之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
-<meta property="og:updated_time" content="2017-06-02T07:40:47.000Z">
+<meta property="og:description" content="之前已经做过对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
+<meta property="og:updated_time" content="2017-06-02T07:42:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优化 blog 速度">
-<meta name="twitter:description" content="之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
+<meta name="twitter:description" content="之前已经做过对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。 我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 fonts.gstatic.com，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。 这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自">
 
 
 
@@ -223,7 +223,7 @@
       
 
       
-        <p>之前已经做个对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。</p>
+        <p>之前已经做过对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。</p>
 <p>我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 <code>fonts.gstatic.com</code>，这个请求应该是访问的 谷歌 的CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。</p>
 <p>这个应该是在由主题渲染成静态站点是插入进来的，因为用的是自己修改的 Next 模板，所以我在 <code>themes/next</code> 目录下查找带 <code>fonts.gstatic.com</code> 关键字的文件竟然没有找到，很是费解。后来我又看那条请求，发下他的 <code>referer</code>是 <code>fonts.googleapis.com</code>，所以我又尝试用这个关键字进行查找，最后在 <code>themes/next/layout/_partials/head/external-fonts.swig</code> 找到了它。</p>
 <figure class="highlight twig"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name"><span class="keyword">if</span></span> font_families !== '' %&#125;</span><span class="xml"></span></div><div class="line">  <span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_families += '&amp;subset=latin,latin-ext' %&#125;</span><span class="xml"></span></div><div class="line">  <span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_host = font_config.host | default('//fonts.googleapis.com') %&#125;</span><span class="xml"></span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"</span></span><span class="template-variable">&#123;&#123; font_host &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">/css?family=</span></span></span><span class="template-variable">&#123;&#123; font_families &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span></div><div class="line"><span class="template-tag">&#123;% <span class="name"><span class="keyword">endif</span></span> %&#125;</span><span class="xml"></span></div></pre></td></tr></table></figure>
