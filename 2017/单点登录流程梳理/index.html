@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://panmax.love/2017/单点登录流程梳理/2.png">
 <meta property="og:image" content="http://panmax.love/2017/单点登录流程梳理/3.png">
 <meta property="og:image" content="http://panmax.love/2017/单点登录流程梳理/4.png">
-<meta property="og:updated_time" content="2017-06-15T03:47:37.000Z">
+<meta property="og:updated_time" content="2017-06-15T03:53:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单点登录流程梳理">
 <meta name="twitter:description" content="之前研究了一段时间的单点登录系统，在这里做一下流程上的总结吧。 先说下我对几个词的认识：我觉得 统一认证、单点登录、集中认证、统一登录 这几个词的想表达的目的都是一样的，都是提供一个登录中心或者叫认证中心的地方，当某个系统需要用户进行登录时，统一跳转到这里来进行处理。 进入正文： 假定一个场景，现在有系统A(a.com)、系统B(b.com)、和认证中心(sso.com)。我们想实现的效果是，其中">
@@ -243,21 +243,23 @@
 <li>重定向到系统A，同时把 ticket 放在 url 中： <code>www.a.com/pageA?ticket=T123</code> 与此同时之前建立 session 对应的 cookie 也会发送给浏览器，比如： <code>Set cookie : ssoid=1234, sso.com</code></li>
 </ol>
 <p>到这里会产生一个疑惑，为什么认证中心要写一个 <code>cookie</code>，其他系统由于跨域的限制根本读不到它啊。</p>
-<p>对于这个问题的回答是， <code>sso.com</code> 产生的 cookies 不是给其他系统用的（至于是给谁用的一会会说明），注意那个 ticket，这个东西是个重要标示，系统拿到以后需要再次向认证中心验证。所以 ticket 才是系统们要用到的东西。</p>
+<p>对于这个问题的回答是， <code>sso.com</code> 产生的 <code>cookie</code> 不是给其他系统用的（至于是给谁用的一会会说明），注意那个 <code>ticket</code>，这个东西是个重要标识，系统拿到以后需要再次向认证中心验证。所以 <code>ticket</code> 才是系统们要用到的东西。</p>
 <p><img src="1.png" alt=""></p>
-<p>系统A拿着这个 ticket，去问下认证中心：这是您签发的 ticket 吗，如果认证中心确认无误后，系统A就可以认为用户在认证中心登录过了。这时候系统A应该为这个用户建立 session 然后返回 <code>pageA</code> 的资源。也就是说，系统A也需要给浏览器发一个属于自己的 cookie：<code>Set cookie : sessionid=xxxx, a.com</code>。这时候浏览器实际上有两个 cookie，一个是系统A发的，一个是认证中心发的。</p>
-<p>当用户再次访问系统A的另一个需要登录的页面时，因为系统A已经在浏览器中放入的自己的cookie，就知道它登录过了，就不需要再次到认证中心去了。</p>
+<p>系统A拿着这个 <code>ticket</code>，去问下认证中心：这是您签发的 <code>ticket</code> 吗，认证中心确认无误后，系统A就可以认为用户在认证中心登录过了。这时候系统A应该为这个用户建立 <code>session</code> 然后返回 <code>pageA</code> 的资源。也就是说，系统A也需要给浏览器发一个属于自己的 cookie：<code>Set cookie : sessionid=xxxx, a.com</code>。这时候浏览器实际上有两个 cookie，一个是系统A发的，一个是认证中心发的。</p>
+<p>当用户再次访问系统A的另一个需要登录的页面时，因为系统A已经在浏览器中放入了自己的cookie，就知道它登录过了，不需要再次到认证中心去了。</p>
 <p><img src="2.png" alt=""></p>
-<p>接下来看看，当用户访问系统A时已经通过认证中心登录了，在访问系统B<code>www.b.com/pageB</code>时是什么样的情况。</p>
-<p>其实和首次访问 <code>www.a.com/pageA</code> 非常类似，唯一不同就是不需要用户输入用户名密码来登录了，因为浏览器已经有了认证中心的cookie，直接发送给 <code>www.sso.com</code> 就可以了。这里解释了我上边提到的认证中心写入浏览器 cookie 的用途。</p>
+<p>接下来看看，当用户访问系统A时已经通过认证中心登录了，再访问系统B <code>www.b.com/pageB</code> 时是什么样的情况。</p>
+<p>其实和首次访问 <code>www.a.com/pageA</code> 非常类似，<strong>唯一不同就是不需要用户输入用户名密码来登录了</strong>，因为浏览器已经有了认证中心的 cookie，直接发送给 <code>www.sso.com</code> 就可以了。这里解释了我上边提到的认证中心写入浏览器 cookie 的用途。</p>
 <p><img src="3.png" alt=""></p>
-<p>同样，认证中心会返回 ticket，系统B需要做验证。</p>
+<p>同样，认证中心会返回 <code>ticket</code>，系统B需要做验证。</p>
 <p><img src="4.png" alt=""></p>
 <p>整个流程的本质是一个认证中心的 <code>cookie</code>，加上多个子系统的 <code>cookie</code> 而已。</p>
-<p>下边来说下单点退出的原理。</p>
-<p>单点退出的作用是用户在一个地方退出，所有系统都要进行退出。这怎么来实现呢。还记得我前边提到的注册服务吗？没错，就是使用之前登录时给认证中心传的 service 参数，认证中心记录了下来都有哪些系统进行过登录，当用户访问认证中心的 <code>/logout</code> 需要退出的时候，认证中心需要把自己的会话和cookie干掉，然后会给之前注册过那些服务的地址发送退出登录的请求，默认是对根路径发一个POST请求，<code>body</code> 中携带一些字段，比如比如之前登录时用到的ticket，这时候各个子系统根据传过来的这个 ticket 来将对应的用户 session 干掉即可。</p>
-<p>所以用户在系统A点击退出登录后，系统A取消本地会话然后重定向到认证中心的退出登录地址，剩下的交给认证中心来处理就好了。这里也可以传一个回跳地址，当认证中心完成退出后，可以再跳会到设置的地址。</p>
+<p>下边来说说单点退出的原理。</p>
+<p>单点退出的作用是用户在一个地方退出，所有系统都要进行退出。这怎么来实现呢。还记得我前边提到的注册服务吗？没错，就是使用之前登录时给认证中心传的 <code>service</code> 参数，认证中心记录下来都有哪些系统进行过登录，当用户访问认证中心的 <code>/logout</code> 需要退出的时候，认证中心需要把自己的会话和 cookie 干掉，然后给之前注册过那些服务的地址发送退出登录的请求，默认是对根路径发一个 <code>POST</code> 请求，<code>Body</code> 中携带一些字段，比如比如之前登录时用到的<code>ticket</code>，这时候各个子系统根据传过来的这个 <code>ticket</code> 来将对应的用户 <code>session</code> 干掉即可。</p>
+<p>所以用户在系统A点击退出登录后，系统A取消本地会话然后重定向到认证中心的退出登录地址，剩下的交给认证中心来处理就好了。这里也可以传一个回跳地址参数，当认证中心完成退出后，可以再跳会到设置的地址。</p>
+<blockquote>
 <p>我觉得用户在一个系统中退出登录时，系统此时结不结束会话其实都可以，因为最终还是要被认证中心调用一次退出。</p>
+</blockquote>
 <p>说一个我做单点退出时遇到的坑，由于我把 CAS Server 部署在了机房中的一台设备上，然后在我本地启了一个 WEB 服务，这个时候登录填的 <code>service</code> 是 <code>127.0.0.1:8081/xxx</code> 登录完之后的重定向是没有问题的，但是当我访问 CAS Logout 页面后，再访问我的系统，发现并没有退出登录，也没有访问退出登录的记录。原因是我注册服务时的 <code>127.0.0.1</code> 这个url认证中心根本访问不到。</p>
 <p>后来我在本地起了一个 CAS Server 再次验证后没有问题。</p>
 <p>还有人问道那个 <code>ticket</code> 如果被其他人截获了，岂不是就可以冒充我来登录了？并不会。</p>
