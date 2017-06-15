@@ -60,11 +60,64 @@
   </entry>
   
   <entry>
+    <title>单点登录流程梳理</title>
+    <link href="http://panmax.love/2017/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/"/>
+    <id>http://panmax.love/2017/单点登录流程梳理/</id>
+    <published>2017-06-15T01:47:02.000Z</published>
+    <updated>2017-06-15T03:24:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前时间研究了一段时间的单点登录系统，在这里做一下流程上的总结吧。</p>
+<p>先说下我对几个词的认识：我觉得 <em>统一认证、单点登录、集中认证、统一登录</em> 这几个词的想表达的目的都是一样的，都是提供一个登录中心或者叫认证中心，当某个系统需要用户进行登录时，统一跳转到这里来进行处理。</p>
+<p>进入正文：</p>
+<p>假定一个场景，现在有系统A(a.com)、系统B(b.com)、和认证中心(sso.com)。我们想实现的效果是，其中一个系统登录一次后，访问其他系统需要登录时无需再次手动提交帐号密码。</p>
+<p>注意：我这里说的是无需再次输入帐号密码，内部认证流程还是要执行的，只是不需要用户的参与。</p>
+<p>下边是基于 CAS 的 SSO 的流程介绍：</p>
+<p>用户通过浏览器访问系统A<code>www.a.com/pageA</code>，这个 <code>pageA</code> 是个需要登录才能访问的页面，系统A发现用户没有登录，这时候系统A需要做一件额外的操作，就是重定向到认证中心:<code>www.sso.com/login?service=www.a.com/pageA</code>。</p>
+<p>这个 <code>service</code> 参数的作用其实可以认为是一个回跳的 <code>url</code>，将来通过认证后，还要重定向到系统A，所以其实用 <code>redirect</code> 可能更合适一些，但是在这里还有一个作用就是注册服务，简单来说注册服务为的是让我们的认证中心能够知道有哪些系统在我们这里完成过统一登录，其中一个重要目的是为了完成单点退出的功能，单点退出的一会我再来介绍。</p>
+<p>接下来浏览器会用 <code>www.sso.com/login?service=www.a.com/pageA</code> 访问认证中心，认证中心一看没登录过，就会展示一个登录框让用户去登录，登录成功以后，认证中心要做几件重要的事情：</p>
+<ol>
+<li>建立一个 session</li>
+<li>创建一个 ticket （可以认为是个随机字符串）</li>
+<li>重定向到系统A，同时把 ticket 放在 url 中： <code>www.a.com/pageA?ticket=T123</code> 与此同时之前建立 session 对应的 cookie 也会发送给浏览器，比如： <code>Set cookie : ssoid=1234, sso.com</code></li>
+</ol>
+<p>到这里会产生一个疑惑，为什么认证中心要写一个 cookies，其他系统由于跨域的限制根本读不到它啊。</p>
+<p>对于这个问题的回答是， <code>sso.com</code> 产生的 cookies 不是给其他系统用的（至于是给谁用的一会会说明），注意那个 ticket，这个东西是个重要标示，系统拿到以后需要再次向认证中心验证。所以 ticket 才是系统们要用到的东西。</p>
+<p><img src="1.png" alt=""></p>
+<p>系统A拿着这个 ticket，去问下认证中心：这是您签发的 ticket 吗，如果认证中心确认无误后，系统A就可以认为用户在认证中心登录过了。这时候系统A应该为这个用户建立 session 然后返回 <code>pageA</code> 的资源。也就是说，系统A也需要给浏览器发一个属于自己的 cookie：<code>Set cookie : sessionid=xxxx, a.com</code>。这时候浏览器实际上有两个 cookie，一个是系统A发的，一个是认证中心发的。</p>
+<p>当用户再次访问系统A的另一个需要登录的页面时，因为系统A已经在浏览器中放入的自己的cookie，就知道它登录过了，就不需要再次到认证中心去了。</p>
+<p><img src="2.png" alt=""></p>
+<p>接下来看看，当用户访问系统A时已经通过认证中心登录了，在访问系统B<code>www.b.com/pageB</code>时是什么样的情况。</p>
+<p>其实和首次访问 <code>www.a.com/pageA</code> 非常类似，唯一不同就是不需要用户输入用户名密码来登录了，因为浏览器已经有了认证中心的cookie，直接发送给 <code>www.sso.com</code> 就可以了。这里解释了我上边提到的认证中心写入浏览器 cookie 的用途。</p>
+<p><img src="3.png" alt=""></p>
+<p>同样，认证中心会返回 ticket，系统B需要做验证。</p>
+<p><img src="4.png" alt=""></p>
+<p>整个流程的本质是一个认证中心的 <code>cookie</code>，加上多个子系统的 <code>cookie</code> 而已。</p>
+<p>下边来说下单点退出的原理。</p>
+<p>单点退出的作用是用户在一个地方退出，所有系统都要进行退出。这怎么来实现呢。还记得我前边提到的注册服务吗？没错，就是使用之前登录时给认证中心传的 service 参数，认证中心记录了下来都有哪些系统进行过登录，当用户访问认证中心的 <code>/logout</code> 需要退出的时候，认证中心需要把自己的会话和cookie干掉，然后会给之前注册过那些服务的地址发送退出登录的请求，默认是对根路径发一个POST请求，<code>body</code> 中携带一些字段，比如比如之前登录时用到的ticket，这时候各个子系统根据传过来的这个 ticket 来将对应的用户 session 干掉即可。</p>
+<p>所以用户在系统A点击退出登录后，系统A取消本地会话然后重定向到认证中心的退出登录地址，剩下的交给认证中心来处理就好了。这里也可以传一个回跳地址，当认证中心完成退出后，可以再跳会到设置的地址。</p>
+<p>我觉得用户在一个系统中退出登录时，系统此时结不结束会话其实都可以，因为最终还是要被认证中心调用一次退出。</p>
+<p>说一个我做单点退出时遇到的坑，由于我把 CAS Server 部署在了机房中的一台设备上，然后在我本地启了一个 WEB 服务，这个时候登录填的 <code>service</code> 是 <code>127.0.0.1:8081/xxx</code> 登录完之后的重定向是没有问题的，但是当我访问 CAS Logout 页面后，再访问我的系统，发现并没有退出登录，也没有访问退出登录的记录。原因是我注册服务时的 <code>127.0.0.1</code> 这个url认证中心根本访问不到。</p>
+<p>后来我在本地起了一个 CAS Server 再次验证后没有问题。</p>
+<p>还有人问道那个 <code>ticket</code> 如果被其他人截获了，岂不是就可以冒充我来登录了？并不会。</p>
+<p>首先来说，默认情况下，CAS 要求子系统和它之间的通讯为 https ，再有就是这个 ticket 的只有一次有效性，验证一次后即失效，而且有效期还很短，默认我记得只有5秒。最重要的是即便这个 ticket 被其他人获取了也没啥用，验证这个 ticket 时，还需要带上申请这个 ticket 时的 url 信息，而且 认证中心鉴定 ticket 为真后也只是返回用户的用户名等最基本的信息，所以对于子系统来说，你还是没有登录的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前时间研究了一段时间的单点登录系统，在这里做一下流程上的总结吧。&lt;/p&gt;
+&lt;p&gt;先说下我对几个词的认识：我觉得 &lt;em&gt;统一认证、单点登录、集中认证、统一登录&lt;/em&gt; 这几个词的想表达的目的都是一样的，都是提供一个登录中心或者叫认证中心，当某个系统需要用户进行登录时，统
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>优化 blog 速度</title>
     <link href="http://panmax.love/2017/%E4%BC%98%E5%8C%96blog%E9%80%9F%E5%BA%A6/"/>
     <id>http://panmax.love/2017/优化blog速度/</id>
     <published>2017-06-02T07:28:42.000Z</published>
-    <updated>2017-06-02T07:46:06.000Z</updated>
+    <updated>2017-06-06T07:29:21.000Z</updated>
     
     <content type="html"><![CDATA[<p>之前已经做过对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。</p>
 <p>我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 <code>fonts.gstatic.com</code>，这个请求应该是访问的 谷歌 CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。</p>
@@ -188,7 +241,7 @@
     <link href="http://panmax.love/2017/%E4%BD%BF%E7%94%A8-KM-%E5%A4%84%E7%90%86-HHKB-%E6%96%B9%E5%90%91%E9%94%AE/"/>
     <id>http://panmax.love/2017/使用-KM-处理-HHKB-方向键/</id>
     <published>2017-05-21T00:53:02.000Z</published>
-    <updated>2017-05-21T06:48:22.000Z</updated>
+    <updated>2017-06-14T07:03:46.000Z</updated>
     
     <content type="html"><![CDATA[<p>对于上了 HHKB 这条贼船的人来说，刚开始使用起来最大的别扭可能就是没有方向键的问题了。</p>
 <p>最早的我使用 <a href="https://pqrs.org/osx/karabiner/" target="_blank" rel="external">Karabiner</a> 来解决，里边有一些内置的组合可以替代方向键，我用 <code>control + hjkl</code>（同vi） 替代四个方向键，因为 HHKB 的 control 在 caps lock 的位置，所以使用起来还是很舒服的，But 当系统升级到 macOS Sierra 后，Karabiner 就不能工作了，作者也在官网中写了：</p>
@@ -200,7 +253,7 @@
 <p>分别是 <code>control + hjkl</code> 来操作方向和 <code>control + delete</code> 来反向删除（也就是删除光标后边的内容），但是用起来有些问题：不能连击（比如按住 <code>control + h</code> 光标不可以一直前移，需要手动敲击多次），然鹅就在我将就用了小一年后，今天尝试将触发方式 <code>is pressed</code> 改成了 <code>is down</code>，成功解决了不能连击的问题，所以 <strong>HHKB 方向键</strong> 的问题现在可以说是完美解决了。</p>
 <p>不过我现在并没有将 Karabiner-Elements 删掉，因为里边有一个比较实用的功能：可以在插入外置键盘时禁用内置键盘的功能，防止意外点击。因为我之前是把 HHKB 垫到 Mac 上用的，经常不小心按住了某个键，现在我把 Mac 放在了支架上，已经不会再出现这个问题了，不过我还是留下了它。</p>
 <p>最后上一张设置截图（我将 KM 中自带的其他组合全都关闭了，只留下 5 个我自己写的组合）： </p>
-<p><img src="http://7xj0sd.com1.z0.glb.clouddn.com/WX20170521-091250@2x.png" alt="http://7xj0sd.com1.z0.glb.clouddn.com/WX20170521-091250@2x.png"></p>
+<p><img src="1.png" alt=""></p>
 ]]></content>
     
     <summary type="html">
@@ -808,102 +861,6 @@
       <category term="Python" scheme="http://panmax.love/tags/Python/"/>
     
       <category term="读书笔记" scheme="http://panmax.love/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JavaScript 查漏补缺</title>
-    <link href="http://panmax.love/2016/JavaScript-%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA/"/>
-    <id>http://panmax.love/2016/JavaScript-查漏补缺/</id>
-    <published>2016-04-05T11:43:32.000Z</published>
-    <updated>2016-04-06T12:47:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>实际上，JavaScript允许对任意数据类型做比较：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="literal">false</span> <span class="string">==</span> <span class="number">0</span><span class="string">;</span> <span class="string">//</span> <span class="literal">true</span></div><div class="line"><span class="literal">false</span> <span class="string">===</span> <span class="number">0</span><span class="string">;</span> <span class="string">//</span> <span class="literal">false</span></div></pre></td></tr></table></figure>
-<p>要特别注意相等运算符<code>==</code>。JavaScript在设计时，有两种比较运算符：</p>
-<p>第一种是<code>==</code>比较，它会自动转换数据类型再比较，很多时候，会得到非常诡异的结果；</p>
-<p>第二种是<code>===</code>比较，它不会自动转换数据类型，如果数据类型不一致，返回false，如果一致，再比较。</p>
-<p>由于JavaScript这个设计缺陷，不要使用<code>==</code>比较，始终坚持使用<code>===</code>比较。</p>
-<p>另一个例外是<code>NaN</code>这个特殊的Number与所有其他值都不相等，包括它自己：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">NaN</span> === NaN; // <span class="literal">false</span></div></pre></td></tr></table></figure>
-<p>唯一能判断NaN的方法是通过isNaN()函数：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">isNaN</span>(<span class="literal">NaN</span>); <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<hr>
-<p>在其他语言中，也有类似JavaScript的<code>null</code>的表示，例如Java也用<code>null</code>，Swift用<code>nil</code>，Python用<code>None</code>表示。但是，在JavaScript中，还有一个和<code>null</code>类似的<code>undefined</code>，它表示“未定义”。</p>
-<p>JavaScript的设计者希望用<code>null</code>表示一个空的值，而<code>undefined</code>表示值未定义。事实证明，这并没有什么卵用，区分两者的意义不大。大多数情况下，我们都应该用<code>null</code>。<code>undefined</code>仅仅在判断函数参数是否传递的情况下有用。</p>
-<hr>
-<p>strict模式</p>
-<p>JavaScript在设计之初，为了方便初学者学习，并不强制要求用var申明变量。这个设计错误带来了严重的后果：如果一个变量没有通过var申明就被使用，那么该变量就自动被申明为全局变量：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">i</span> = <span class="number">10</span><span class="comment">; // i现在是全局变量</span></div></pre></td></tr></table></figure>
-<p>在同一个页面的不同的JavaScript文件中，如果都不用<code>var</code>申明，恰好都使用了变量<code>i</code>，将造成变量i互相影响，产生难以调试的错误结果。</p>
-<p>使用<code>var</code>申明的变量则不是全局变量，它的范围被限制在该变量被申明的函数体内（函数的概念将稍后讲解），同名变量在不同的函数体内互不冲突。</p>
-<p>为了修补JavaScript这一严重设计缺陷，ECMA在后续规范中推出了strict模式，在strict模式下运行的JavaScript代码，强制通过<code>var</code>申明变量，未使用<code>var</code>申明变量就使用的，将导致运行错误。</p>
-<p>启用strict模式的方法是在JavaScript代码的第一行写上：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div></pre></td></tr></table></figure>
-<p>这是一个字符串，不支持strict模式的浏览器会把它当做一个字符串语句执行，支持strict模式的浏览器将开启strict模式运行JavaScript。</p>
-<a id="more"></a>
-<hr>
-<p><code>unshift</code>和<code>shift</code></p>
-<p>如果要往<code>Array</code>的头部添加若干元素，使用<code>unshift()</code>方法，<code>shift()</code>方法则把<code>Array</code>的第一个元素删掉：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var arr = [<span class="number">1</span>, <span class="number">2</span>];</div><div class="line">arr.unshift(<span class="string">'A'</span>, <span class="string">'B'</span>); <span class="regexp">//</span> 返回Array新的长度: <span class="number">4</span></div><div class="line">arr; <span class="regexp">//</span> [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="number">1</span>, <span class="number">2</span>]</div><div class="line">arr.shift(); <span class="regexp">//</span> <span class="string">'A'</span></div><div class="line">arr; <span class="regexp">//</span> [<span class="string">'B'</span>, <span class="number">1</span>, <span class="number">2</span>]</div><div class="line">arr.shift(); arr.shift(); arr.shift(); <span class="regexp">//</span> 连续shift <span class="number">3</span>次</div><div class="line">arr; <span class="regexp">//</span> []</div><div class="line">arr.shift(); <span class="regexp">//</span> 空数组继续shift不会报错，而是返回undefined</div><div class="line">arr; <span class="regexp">//</span> []</div></pre></td></tr></table></figure>
-<hr>
-<p><code>splice()</code>方法是修改<code>Array</code>的“万能方法”，它可以从指定的索引开始删除若干元素，然后再从该位置添加若干元素：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var arr = [<span class="string">'Microsoft'</span>, <span class="string">'Apple'</span>, <span class="string">'Yahoo'</span>, <span class="string">'AOL'</span>, <span class="string">'Excite'</span>, <span class="string">'Oracle'</span>];</div><div class="line"><span class="regexp">//</span> 从索引<span class="number">2</span>开始删除<span class="number">3</span>个元素,然后再添加两个元素:</div><div class="line">arr.splice(<span class="number">2</span>, <span class="number">3</span>, <span class="string">'Google'</span>, <span class="string">'Facebook'</span>); <span class="regexp">//</span> 返回删除的元素 [<span class="string">'Yahoo'</span>, <span class="string">'AOL'</span>, <span class="string">'Excite'</span>]</div><div class="line">arr; <span class="regexp">//</span> [<span class="string">'Microsoft'</span>, <span class="string">'Apple'</span>, <span class="string">'Google'</span>, <span class="string">'Facebook'</span>, <span class="string">'Oracle'</span>]</div><div class="line"><span class="regexp">//</span> 只删除,不添加:</div><div class="line">arr.splice(<span class="number">2</span>, <span class="number">2</span>); <span class="regexp">//</span> [<span class="string">'Google'</span>, <span class="string">'Facebook'</span>]</div><div class="line">arr; <span class="regexp">//</span> [<span class="string">'Microsoft'</span>, <span class="string">'Apple'</span>, <span class="string">'Oracle'</span>]</div><div class="line"><span class="regexp">//</span> 只添加,不删除:</div><div class="line">arr.splice(<span class="number">2</span>, <span class="number">0</span>, <span class="string">'Google'</span>, <span class="string">'Facebook'</span>); <span class="regexp">//</span> 返回[],因为没有删除任何元素</div><div class="line">arr; <span class="regexp">//</span> [<span class="string">'Microsoft'</span>, <span class="string">'Apple'</span>, <span class="string">'Google'</span>, <span class="string">'Facebook'</span>, <span class="string">'Oracle'</span>]</div></pre></td></tr></table></figure>
-<hr>
-<p>由于多行字符串用\n写起来比较费事，所以最新的ES6标准新增了一种多行字符串的表示方法，用<code>...</code>表示：</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">`这是一个</div><div class="line">多行</div><div class="line">字符串`;</div></pre></td></tr></table></figure>
-<hr>
-<p>for … in</p>
-<p><code>for</code>循环的一个变体是<code>for ... in</code>循环，它可以把一个对象的所有属性依次循环出来：</p>
-<figure class="highlight cal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">    name: <span class="string">'Jack'</span>,</div><div class="line">    age: <span class="number">20</span>,</div><div class="line">    city: <span class="string">'Beijing'</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> o) &#123;</div><div class="line">    alert(key); // <span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'city'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>要过滤掉对象继承的属性，用<code>hasOwnProperty()</code>来实现：</p>
-<figure class="highlight cal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">    name: <span class="string">'Jack'</span>,</div><div class="line">    age: <span class="number">20</span>,</div><div class="line">    city: <span class="string">'Beijing'</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> o) &#123;</div><div class="line">    <span class="keyword">if</span> (o.hasOwnProperty(key)) &#123;</div><div class="line">        alert(key); // <span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'city'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>由于<code>Array</code>也是对象，而它的每个元素的索引被视为对象的属性，因此，<code>for ... in</code>循环可以直接循环出<code>Array</code>的索引：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</div><div class="line"><span class="keyword">for</span> (var i <span class="keyword">in</span> a) &#123;</div><div class="line">    alert(i); <span class="regexp">//</span> <span class="string">'0'</span>, <span class="string">'1'</span>, <span class="string">'2'</span></div><div class="line">    alert(a[i]); <span class="regexp">//</span> <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><em>请注意，<code>for ... in</code>对<code>Array</code>的循环得到的是<code>String</code>而不是<code>Number</code>。</em></p>
-<hr>
-<p><code>iterable</code>内置的<code>forEach</code>方法，它接收一个函数，每次迭代就自动回调该函数。以<code>Array</code>为例：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</div><div class="line">a.<span class="keyword">forEach</span>(<span class="function"><span class="keyword">function</span> <span class="params">(element, index, array)</span> </span>&#123;</div><div class="line">    <span class="comment">// element: 指向当前元素的值</span></div><div class="line">    <span class="comment">// index: 指向当前索引</span></div><div class="line">    <span class="comment">// array: 指向Array对象本身</span></div><div class="line">    alert(element);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p><code>Set</code>与<code>Array</code>类似，但<code>Set</code>没有索引，因此回调函数的前两个参数都是元素本身：</p>
-<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> s = <span class="keyword">new</span> <span class="keyword">Set</span>([<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>]);</div><div class="line">s.forEach(<span class="function"><span class="keyword">function</span> <span class="params">(element, sameElement, <span class="keyword">set</span>)</span> <span class="comment">&#123;</span></span></div><div class="line">    alert(element);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p><code>Map</code>的回调函数参数依次为<code>value</code>、<code>key</code>和<code>map</code>本身：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> <span class="built_in">Map</span>([[<span class="number">1</span>, <span class="string">'x'</span>], [<span class="number">2</span>, <span class="string">'y'</span>], [<span class="number">3</span>, <span class="string">'z'</span>]]);</div><div class="line">m.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">value, key, map</span>) </span>&#123;</div><div class="line">    alert(value);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>如果对某些参数不感兴趣，由于JavaScript的函数调用不要求参数必须一致，因此可以忽略它们。例如，只需要获得<code>Array</code>的<code>element</code>：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>];</div><div class="line">a.<span class="keyword">forEach</span>(<span class="function"><span class="keyword">function</span> <span class="params">(element)</span> </span>&#123;</div><div class="line">    alert(element);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h1 id="待续"><a href="#待续" class="headerlink" title="待续"></a>待续</h1>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;实际上，JavaScript允许对任意数据类型做比较：&lt;/p&gt;
-&lt;figure class=&quot;highlight yaml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;string&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;string&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;要特别注意相等运算符&lt;code&gt;==&lt;/code&gt;。JavaScript在设计时，有两种比较运算符：&lt;/p&gt;
-&lt;p&gt;第一种是&lt;code&gt;==&lt;/code&gt;比较，它会自动转换数据类型再比较，很多时候，会得到非常诡异的结果；&lt;/p&gt;
-&lt;p&gt;第二种是&lt;code&gt;===&lt;/code&gt;比较，它不会自动转换数据类型，如果数据类型不一致，返回false，如果一致，再比较。&lt;/p&gt;
-&lt;p&gt;由于JavaScript这个设计缺陷，不要使用&lt;code&gt;==&lt;/code&gt;比较，始终坚持使用&lt;code&gt;===&lt;/code&gt;比较。&lt;/p&gt;
-&lt;p&gt;另一个例外是&lt;code&gt;NaN&lt;/code&gt;这个特殊的Number与所有其他值都不相等，包括它自己：&lt;/p&gt;
-&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;NaN&lt;/span&gt; === NaN; // &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;唯一能判断NaN的方法是通过isNaN()函数：&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;isNaN&lt;/span&gt;(&lt;span class=&quot;literal&quot;&gt;NaN&lt;/span&gt;); &lt;span class=&quot;comment&quot;&gt;// true&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;hr&gt;
-&lt;p&gt;在其他语言中，也有类似JavaScript的&lt;code&gt;null&lt;/code&gt;的表示，例如Java也用&lt;code&gt;null&lt;/code&gt;，Swift用&lt;code&gt;nil&lt;/code&gt;，Python用&lt;code&gt;None&lt;/code&gt;表示。但是，在JavaScript中，还有一个和&lt;code&gt;null&lt;/code&gt;类似的&lt;code&gt;undefined&lt;/code&gt;，它表示“未定义”。&lt;/p&gt;
-&lt;p&gt;JavaScript的设计者希望用&lt;code&gt;null&lt;/code&gt;表示一个空的值，而&lt;code&gt;undefined&lt;/code&gt;表示值未定义。事实证明，这并没有什么卵用，区分两者的意义不大。大多数情况下，我们都应该用&lt;code&gt;null&lt;/code&gt;。&lt;code&gt;undefined&lt;/code&gt;仅仅在判断函数参数是否传递的情况下有用。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;strict模式&lt;/p&gt;
-&lt;p&gt;JavaScript在设计之初，为了方便初学者学习，并不强制要求用var申明变量。这个设计错误带来了严重的后果：如果一个变量没有通过var申明就被使用，那么该变量就自动被申明为全局变量：&lt;/p&gt;
-&lt;figure class=&quot;highlight abnf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;i&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;; // i现在是全局变量&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;在同一个页面的不同的JavaScript文件中，如果都不用&lt;code&gt;var&lt;/code&gt;申明，恰好都使用了变量&lt;code&gt;i&lt;/code&gt;，将造成变量i互相影响，产生难以调试的错误结果。&lt;/p&gt;
-&lt;p&gt;使用&lt;code&gt;var&lt;/code&gt;申明的变量则不是全局变量，它的范围被限制在该变量被申明的函数体内（函数的概念将稍后讲解），同名变量在不同的函数体内互不冲突。&lt;/p&gt;
-&lt;p&gt;为了修补JavaScript这一严重设计缺陷，ECMA在后续规范中推出了strict模式，在strict模式下运行的JavaScript代码，强制通过&lt;code&gt;var&lt;/code&gt;申明变量，未使用&lt;code&gt;var&lt;/code&gt;申明变量就使用的，将导致运行错误。&lt;/p&gt;
-&lt;p&gt;启用strict模式的方法是在JavaScript代码的第一行写上：&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;&#39;use strict&#39;&lt;/span&gt;;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;这是一个字符串，不支持strict模式的浏览器会把它当做一个字符串语句执行，支持strict模式的浏览器将开启strict模式运行JavaScript。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="笔记" scheme="http://panmax.love/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="JavaScript" scheme="http://panmax.love/tags/JavaScript/"/>
     
   </entry>
   
