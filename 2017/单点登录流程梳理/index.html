@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://panmax.love/2017/单点登录流程梳理/2.png">
 <meta property="og:image" content="http://panmax.love/2017/单点登录流程梳理/3.png">
 <meta property="og:image" content="http://panmax.love/2017/单点登录流程梳理/4.png">
-<meta property="og:updated_time" content="2017-06-15T03:45:31.000Z">
+<meta property="og:updated_time" content="2017-06-15T03:47:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单点登录流程梳理">
 <meta name="twitter:description" content="之前研究了一段时间的单点登录系统，在这里做一下流程上的总结吧。 先说下我对几个词的认识：我觉得 统一认证、单点登录、集中认证、统一登录 这几个词的想表达的目的都是一样的，都是提供一个登录中心或者叫认证中心的地方，当某个系统需要用户进行登录时，统一跳转到这里来进行处理。 进入正文： 假定一个场景，现在有系统A(a.com)、系统B(b.com)、和认证中心(sso.com)。我们想实现的效果是，其中">
@@ -238,11 +238,11 @@
 <p>这个 <code>service</code> 参数的作用其实可以认为是一个回跳的 <code>url</code>，将来通过认证后，还要重定向到系统A，所以其实用 <code>redirect</code> 可能更合适一些，但是在这里还有一个作用就是注册服务，简单来说注册服务为的是让我们的认证中心能够知道有哪些系统在我们这里完成过登录，其中一个重要目的是为了完成单点退出的功能，单点退出的一会我再来介绍。</p>
 <p>接下来浏览器会用 <code>www.sso.com/login?service=www.a.com/pageA</code> 访问认证中心，认证中心一看没登录过，就会展示一个登录框让用户去登录，登录成功以后，认证中心要做几件重要的事情：</p>
 <ol>
-<li>建立一个 session</li>
-<li>创建一个 ticket （可以认为是个随机字符串）</li>
+<li>建立一个 <code>session</code></li>
+<li>创建一个 <code>ticket</code> （可以认为是个随机字符串）</li>
 <li>重定向到系统A，同时把 ticket 放在 url 中： <code>www.a.com/pageA?ticket=T123</code> 与此同时之前建立 session 对应的 cookie 也会发送给浏览器，比如： <code>Set cookie : ssoid=1234, sso.com</code></li>
 </ol>
-<p>到这里会产生一个疑惑，为什么认证中心要写一个 cookies，其他系统由于跨域的限制根本读不到它啊。</p>
+<p>到这里会产生一个疑惑，为什么认证中心要写一个 <code>cookie</code>，其他系统由于跨域的限制根本读不到它啊。</p>
 <p>对于这个问题的回答是， <code>sso.com</code> 产生的 cookies 不是给其他系统用的（至于是给谁用的一会会说明），注意那个 ticket，这个东西是个重要标示，系统拿到以后需要再次向认证中心验证。所以 ticket 才是系统们要用到的东西。</p>
 <p><img src="1.png" alt=""></p>
 <p>系统A拿着这个 ticket，去问下认证中心：这是您签发的 ticket 吗，如果认证中心确认无误后，系统A就可以认为用户在认证中心登录过了。这时候系统A应该为这个用户建立 session 然后返回 <code>pageA</code> 的资源。也就是说，系统A也需要给浏览器发一个属于自己的 cookie：<code>Set cookie : sessionid=xxxx, a.com</code>。这时候浏览器实际上有两个 cookie，一个是系统A发的，一个是认证中心发的。</p>
