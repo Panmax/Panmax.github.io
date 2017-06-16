@@ -60,6 +60,38 @@
   </entry>
   
   <entry>
+    <title>将博客部署到七牛</title>
+    <link href="http://panmax.love/2017/%E5%B0%86%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2%E5%88%B0%E4%B8%83%E7%89%9B/"/>
+    <id>http://panmax.love/2017/将博客部署到七牛/</id>
+    <published>2017-06-16T03:38:47.000Z</published>
+    <updated>2017-06-16T03:57:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>我觉得我是不折腾就会死的人，现在的博客部署在 Github Pages 上，访问速度一直令我非常不爽，所以准备迁移到七牛。</p>
+<p>七牛新建 bucket 后，在空间设置，把默认首页设置改成启动就完成了。</p>
+<p>还有一个就是一定要绑定自己的独立域名，否则站内数据改变后，用七牛提供的临时域名来访问的话，缓存一时半会是不会刷新的，独立域名可以设置缓存刷新时间，但前提是那个域名需要在国内进行备案。</p>
+<p>缓存策略可以根据不同类型的数据有不同的策略，但是我为了省事，直接将所有配置改为了 0，也就是不进行缓存，因为不是什么大流量站点，再加上七牛的CDN优化，所以几遍不缓存速度也非常快，这样可以保证我每次在发布或者修改内容后能够及时更新。其实完全可以把非 HTML 类型的数据设置一些缓存时间。</p>
+<p>可以<a href="http://blog.npyzdf.com/" target="_blank" rel="external">点这里</a>试一试部署在七牛上的速度，只是我之前的一个备案过的域名，但我没打算用这个域名来做我的国内博客地址，新地址正在备案中： <code>jpanj.com</code> 贾攀家。</p>
+<p>接下来就是把博客生成出来的静态站按照目录结构完整上传到七牛就行了，但是这个工作非常麻烦，每次上传时如果有二级目录的话，需要自己填写前缀，而且每次生成后都需要自己登录到七牛上传一下。身为程序员的我，这不是在侮辱我的智商吗？所以我写了一个 Python 脚本，可以帮我自动完成这个工作。</p>
+<p>我之前是使用的 hexo 的 github 插件来进行发布的，其实也非常简单，只需要执行: <code>hexo d -g</code> 即可完成生成静态站和部署的工作。（g=Generate static files. d=Deploy your website.），现在只需要在执行玩这个操作后，再执行下发不到七牛的脚本，就可以完成双发布了。</p>
+<p>我是配合 Alfred 来用的，如果没装 Alfred Workflow 的话，直接执行脚本也是可以的，把脚本简单修改下就行了。</p>
+<p>上效果图：</p>
+<p><img src="1.png" alt=""></p>
+<p><img src="2.png" alt=""></p>
+<p>代码已上传到 <a href="https://github.com/Panmax/qiniu-blog-deploy" target="_blank" rel="external">Github：https://github.com/Panmax/qiniu-blog-deploy</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我觉得我是不折腾就会死的人，现在的博客部署在 Github Pages 上，访问速度一直令我非常不爽，所以准备迁移到七牛。&lt;/p&gt;
+&lt;p&gt;七牛新建 bucket 后，在空间设置，把默认首页设置改成启动就完成了。&lt;/p&gt;
+&lt;p&gt;还有一个就是一定要绑定自己的独立域名，否则站内数
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>单点登录流程梳理</title>
     <link href="http://panmax.love/2017/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86/"/>
     <id>http://panmax.love/2017/单点登录流程梳理/</id>
@@ -780,94 +812,6 @@
     
     
       <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python最佳实践指南 阅读笔记</title>
-    <link href="http://panmax.love/2016/Python%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%8C%87%E5%8D%97-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
-    <id>http://panmax.love/2016/Python最佳实践指南-阅读笔记/</id>
-    <published>2016-07-05T08:58:24.000Z</published>
-    <updated>2016-07-13T03:56:07.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="创建将0到19连接起来的字符串"><a href="#创建将0到19连接起来的字符串" class="headerlink" title="创建将0到19连接起来的字符串"></a>创建将0到19连接起来的字符串</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">nums = []</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>):</div><div class="line">  nums.<span class="built_in">append</span>(str(n))</div><div class="line"><span class="built_in">print</span> <span class="string">""</span>.<span class="built_in">join</span>(nums)</div><div class="line"></div><div class="line"># 更好的写法</div><div class="line">nums = [str(n) <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">20</span>)]</div><div class="line"><span class="built_in">print</span> <span class="string">""</span>.<span class="built_in">join</span>(nums)</div></pre></td></tr></table></figure>
-<h3 id="拼接多个已有的字符串"><a href="#拼接多个已有的字符串" class="headerlink" title="拼接多个已有的字符串"></a>拼接多个已有的字符串</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">foo = 'foo'</div><div class="line">bar = 'bar'</div><div class="line"></div><div class="line">foobar = foo + bar  <span class="comment"># 好的做法</span></div><div class="line"></div><div class="line">foo += 'ooo'  <span class="comment"># 不好的做法, 应该这么做:</span></div><div class="line">foo = ''.join([foo, 'ooo'])</div></pre></td></tr></table></figure>
-<h3 id="也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。"><a href="#也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。" class="headerlink" title="也可以使用 % 格式运算符来连接确定数量的字符串，但 PEP 3101 建议使用 str.format() 替代 % 操作符。"></a>也可以使用 <a href="http://docs.python.org/library/stdtypes.html#string-formatting" target="_blank" rel="external">%</a> 格式运算符来连接确定数量的字符串，但 <a href="https://www.python.org/dev/peps/pep-3101" target="_blank" rel="external">PEP 3101</a> 建议使用 <a href="http://docs.python.org/library/stdtypes.html#str.format" target="_blank" rel="external">str.format()</a> 替代 % 操作符。</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="attr">foo</span> = <span class="string">'foo'</span></div><div class="line"><span class="attr">bar</span> = <span class="string">'bar'</span></div><div class="line"></div><div class="line"><span class="attr">foobar</span> = <span class="string">'%s%s'</span> % (foo, bar) # 可行</div><div class="line"><span class="attr">foobar</span> = <span class="string">'&#123;0&#125;&#123;1&#125;'</span>.format(foo, bar) # 更好</div><div class="line"><span class="attr">foobar</span> = <span class="string">'&#123;foo&#125;&#123;bar&#125;'</span>.format(foo=foo, bar=bar) # 最好</div></pre></td></tr></table></figure>
-<h3 id="不要重复使用命名"><a href="#不要重复使用命名" class="headerlink" title="不要重复使用命名"></a>不要重复使用命名</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">items</span> = <span class="string">'a b c d'</span>  <span class="comment"># 首先指向字符串...</span></div><div class="line"><span class="keyword">items</span> = <span class="keyword">items</span>.<span class="built_in">split</span>(<span class="string">' '</span>)  <span class="comment"># ...变为列表</span></div><div class="line"><span class="keyword">items</span> = <span class="built_in">set</span>(<span class="keyword">items</span>)  <span class="comment"># ...再变为集合</span></div></pre></td></tr></table></figure>
-<blockquote>
-<p>重复使用命名对效率并没有提升：赋值时无论如何都要创建新的对象。然而随着复杂度的 提升，赋值语句被其他代码包括 ‘if’ 分支和循环分开，使得更难查明指定变量的类型。 在某些代码的做法中，例如函数编程，推荐的是从不重复对同一个变量命名赋值。Java 内的实现方式是使用 ‘final’ 关键字。Python并没有 ‘final’ 关键字而且这与它的哲学 相悖。尽管如此，避免给同一个变量命名重复赋值仍是是个好的做法，并且有助于掌握 可变与不可变类型的概念。</p>
-</blockquote>
-<h3 id="考虑该不该用任意参数列表-args"><a href="#考虑该不该用任意参数列表-args" class="headerlink" title="考虑该不该用任意参数列表(*args)"></a>考虑该不该用任意参数列表(*args)</h3><blockquote>
-<p>如果一个函数接受的参数列表具有 相同的性质，通常把它定义成一个参数，这个参数是一个列表或者其他任何序列会更清晰。</p>
-</blockquote>
-<h3 id="函数单个出口可能更好"><a href="#函数单个出口可能更好" class="headerlink" title="函数单个出口可能更好"></a>函数单个出口可能更好</h3><blockquote>
-<p>当一个函数在其正常过程中有多个主要出口点时，它会变得难以调试和返回其 结果，所以保持单个出口点可能会更好。这也将有助于提取某些代码路径，而且多个出口点 很有可能意味着这里需要重构。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">complex_function</span><span class="params">(a, b, c)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> a:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># 抛出一个异常可能会更好</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> b:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># 抛出一个异常可能会更好</span></div><div class="line"></div><div class="line">    <span class="comment"># 一些复杂的代码试着用a,b,c来计算x</span></div><div class="line">    <span class="comment"># 如果成功了，抵制住返回x的诱惑</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> x:</div><div class="line">        <span class="comment"># 一些关于x的计算的Plan-B</span></div><div class="line">    <span class="keyword">return</span> x</div></pre></td></tr></table></figure>
-<h3 id="常见Python习语"><a href="#常见Python习语" class="headerlink" title="常见Python习语"></a>常见Python习语</h3><ul>
-<li>解包</li>
-</ul>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> index, <span class="keyword">item</span> <span class="keyword">in</span> enumerate(some_list):</div><div class="line">    <span class="comment"># 使用index和item做一些工作</span></div><div class="line">    </div><div class="line"><span class="keyword">a</span>, b = b, <span class="keyword">a</span></div><div class="line"></div><div class="line"><span class="keyword">a</span>, (b, c) = <span class="number">1</span>, (<span class="number">2</span>, <span class="number">3</span>)</div></pre></td></tr></table></figure>
-<ul>
-<li>创建一个被忽略的变量</li>
-</ul>
-<figure class="highlight tcl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">filename</span> = <span class="string">'foobar.txt'</span></div><div class="line">basename, __, ext = <span class="keyword">filename</span>.rpartition(<span class="string">'.'</span>)</div></pre></td></tr></table></figure>
-<ul>
-<li>创建一个含N个对象的列表</li>
-</ul>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">four_nones</span> = [None] * <span class="number">4</span></div></pre></td></tr></table></figure>
-<ul>
-<li>创建一个含N个列表的列表</li>
-</ul>
-<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">four_lists = [[] <span class="keyword">for</span> <span class="symbol">__</span> <span class="keyword">in</span> <span class="built_in">xrange</span>(<span class="number">4</span>)]</div></pre></td></tr></table></figure>
-<ul>
-<li>根据列表来创建字符串</li>
-</ul>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">letters</span> = [<span class="string">'s'</span>, <span class="string">'p'</span>, <span class="string">'a'</span>, <span class="string">'m'</span>]</div><div class="line"><span class="attr">word</span> = <span class="string">''</span>.join(letters)</div></pre></td></tr></table></figure>
-<ul>
-<li>在集合体（collection）中查找一个项</li>
-</ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">s = set([<span class="string">'s'</span>, <span class="string">'p'</span>, <span class="string">'a'</span>, <span class="string">'m'</span>])</div><div class="line">l = [<span class="string">'s'</span>, <span class="string">'p'</span>, <span class="string">'a'</span>, <span class="string">'m'</span>]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">lookup_set</span><span class="params">(s)</span></span>:</div><div class="line">    <span class="keyword">return</span> <span class="string">'s'</span> <span class="keyword">in</span> s</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">lookup_list</span><span class="params">(l)</span></span>:</div><div class="line">    <span class="keyword">return</span> <span class="string">'s'</span> <span class="keyword">in</span> l</div></pre></td></tr></table></figure>
-<p>在下列场合在使用集合或者字典而不是列表，通常会是个好主意：</p>
-<p>集合体中包含大量的项<br>你将在集合体中重复地查找项<br>你没有重复的项</p>
-<h3 id="你不需要明确地比较一个值是True，或者None，或者0"><a href="#你不需要明确地比较一个值是True，或者None，或者0" class="headerlink" title="你不需要明确地比较一个值是True，或者None，或者0"></a>你不需要明确地比较一个值是True，或者None，或者0</h3><h4 id="糟糕"><a href="#糟糕" class="headerlink" title="糟糕"></a>糟糕</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> attr == <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'True!'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> attr == <span class="keyword">None</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'attr is None!'</span></div></pre></td></tr></table></figure>
-<h4 id="优雅"><a href="#优雅" class="headerlink" title="优雅"></a>优雅</h4><figure class="highlight ada"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 检查值</div><div class="line"><span class="keyword">if</span> attr:</div><div class="line">    print <span class="symbol">'attr</span> <span class="keyword">is</span> truthy!'</div><div class="line"></div><div class="line"># 或者做相反的检查</div><div class="line"><span class="keyword">if</span> <span class="keyword">not</span> attr:</div><div class="line">    print <span class="symbol">'attr</span> <span class="keyword">is</span> falsey!'</div><div class="line"></div><div class="line"># <span class="keyword">or</span>, since None <span class="keyword">is</span> considered <span class="literal">false</span>, explicitly check <span class="keyword">for</span> it</div><div class="line"><span class="keyword">if</span> attr <span class="keyword">is</span> None:</div><div class="line">    print <span class="symbol">'attr</span> <span class="keyword">is</span> None!'</div></pre></td></tr></table></figure>
-<h3 id="访问字典元素"><a href="#访问字典元素" class="headerlink" title="访问字典元素"></a>访问字典元素</h3><h4 id="糟糕-1"><a href="#糟糕-1" class="headerlink" title="糟糕"></a>糟糕</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">d = &#123;<span class="string">'hello'</span>: <span class="string">'world'</span>&#125;</div><div class="line"><span class="keyword">if</span> d.<span class="built_in">has_key</span>(<span class="string">'hello'</span>):</div><div class="line">    <span class="keyword">print</span> d[<span class="string">'hello'</span>]    # 打印 <span class="string">'world'</span></div><div class="line"><span class="keyword">else</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'default_value'</span></div></pre></td></tr></table></figure>
-<h4 id="优雅-1"><a href="#优雅-1" class="headerlink" title="优雅"></a>优雅</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">d = &#123;<span class="string">'hello'</span>: <span class="string">'world'</span>&#125;</div><div class="line"></div><div class="line"><span class="built_in">print</span> d.<span class="keyword">get</span>(<span class="string">'hello'</span>, <span class="string">'default_value'</span>) # 打印 <span class="string">'world'</span></div><div class="line"><span class="built_in">print</span> d.<span class="keyword">get</span>(<span class="string">'thingy'</span>, <span class="string">'default_value'</span>) # 打印 <span class="string">'default_value'</span></div><div class="line"></div><div class="line"># Or:</div><div class="line"><span class="keyword">if</span> <span class="string">'hello'</span> <span class="keyword">in</span> d:</div><div class="line">    <span class="built_in">print</span> d[<span class="string">'hello'</span>]</div></pre></td></tr></table></figure>
-<h3 id="在每次函数调用中，通过使用指示没有提供参数的默认参数-None-通常是-个好选择），来创建一个新的对象。"><a href="#在每次函数调用中，通过使用指示没有提供参数的默认参数-None-通常是-个好选择），来创建一个新的对象。" class="headerlink" title="在每次函数调用中，通过使用指示没有提供参数的默认参数 None 通常是 个好选择），来创建一个新的对象。"></a>在每次函数调用中，通过使用指示没有提供参数的默认参数 <a href="http://docs.python.org/library/constants.html#None" target="_blank" rel="external">None</a> 通常是 个好选择），来创建一个新的对象。</h3><h4 id="举例："><a href="#举例：" class="headerlink" title="举例："></a>举例：</h4><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def append_to(<span class="keyword">element</span>, <span class="built_in">to</span>=[]):</div><div class="line">    <span class="built_in">to</span>.append(<span class="keyword">element</span>)</div><div class="line">    <span class="literal">return</span> <span class="built_in">to</span></div></pre></td></tr></table></figure>
-<p>你可能认为</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">my_list = append_to(12)</div><div class="line">print my_list  <span class="comment"># [12]</span></div><div class="line"></div><div class="line">my_other_list = append_to(42)</div><div class="line">print my_other_list  <span class="comment"># [42]</span></div></pre></td></tr></table></figure>
-<p>实际结果为</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> [12]</span></div><div class="line"><span class="meta"></span></div><div class="line">#<span class="bash"> [12, 42]</span></div></pre></td></tr></table></figure>
-<p>当函数被定义时，一个新的列表就被创建一次 ，而且同一个列表在每次成功的调用中都被使用。</p>
-<p>当函数被定义时，Python的默认参数就被创建 一次，而不是每次调用函数的时候创建。 这意味着，如果你使用一个可变默认参数并改变了它，你 将会 在未来所有对此函数的 调用中改变这个对象。</p>
-<h3 id="迟绑定闭包"><a href="#迟绑定闭包" class="headerlink" title="迟绑定闭包"></a>迟绑定闭包</h3><h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_multipliers</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> [<span class="keyword">lambda</span> x : i * x <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>)]</div><div class="line">    </div><div class="line"><span class="keyword">for</span> multiplier <span class="keyword">in</span> create_multipliers():</div><div class="line">    <span class="keyword">print</span> multiplier(<span class="number">2</span>)</div></pre></td></tr></table></figure>
-<p>你期望的结果</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="number">0</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">6</span></div><div class="line"><span class="number">8</span></div></pre></td></tr></table></figure>
-<p>实际结果</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="number">8</span></div><div class="line"><span class="number">8</span></div><div class="line"><span class="number">8</span></div><div class="line"><span class="number">8</span></div><div class="line"><span class="number">8</span></div></pre></td></tr></table></figure>
-<p>五个函数被创建了，它们全都用4乘以 x 。</p>
-<p>Python的闭包是 迟绑定 。 这意味着闭包中用到的变量的值，是在内部函数被调用时查询得到的。</p>
-<p>这里，不论 任何 返回的函数是如何被调用的， i 的值是调用时在周围作用域中查询到的。 接着，循环完成， i 的值最终变成了4。</p>
-<h4 id="这个陷阱并不和-lambda-有关，不通定义也会这样"><a href="#这个陷阱并不和-lambda-有关，不通定义也会这样" class="headerlink" title="这个陷阱并不和 lambda 有关，不通定义也会这样"></a>这个陷阱并不和 lambda 有关，不通定义也会这样</h4><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_multipliers</span><span class="params">()</span></span>:</div><div class="line">    multipliers = []</div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">multiplier</span><span class="params">(x)</span></span>:</div><div class="line">            <span class="keyword">return</span> i * x</div><div class="line">        multipliers.append(multiplier)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> multipliers</div></pre></td></tr></table></figure>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>最一般的解决方案可以说是有点取巧（hack）。由于 Python 拥有为函数默认参数 赋值的行为,你可以创建一个立即绑定参数的闭包,像下面这样：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_multipliers</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> [<span class="keyword">lambda</span> x, i=i : i * x <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>)]</div></pre></td></tr></table></figure>
-<p>或者，可以使用 <code>function.partial</code> 函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> mul</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_multipliers</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> [partial(mul, i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>)]</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;创建将0到19连接起来的字符串&quot;&gt;&lt;a href=&quot;#创建将0到19连接起来的字符串&quot; class=&quot;headerlink&quot; title=&quot;创建将0到19连接起来的字符串&quot;&gt;&lt;/a&gt;创建将0到19连接起来的字符串&lt;/h3&gt;&lt;figure class=&quot;highli
-    
-    </summary>
-    
-      <category term="Code" scheme="http://panmax.love/categories/Code/"/>
-    
-    
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
-      <category term="读书笔记" scheme="http://panmax.love/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
