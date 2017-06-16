@@ -95,16 +95,20 @@
 
 
 
-<meta name="description" content="今天装了3个命令行下的神器，分别是 mycli fzf thefuck，都是通过 Homebrew 装的。 thefuck 装完后在 .zshrc 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 sudo 时，只需要双击 esc 就可以了。 mycli 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主要">
+<meta name="description" content="今天装了3个命令行下的神器，分别是 mycli fzf thefuck，都是通过 Homebrew 装的。 thefuck 装完后在 .zshrc 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 sudo 时，只需要双击 esc 就可以了。  mycli 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mycli fzf thefuck">
 <meta property="og:url" content="http://panmax.love/2017/mycli-fzf-thefuck/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="今天装了3个命令行下的神器，分别是 mycli fzf thefuck，都是通过 Homebrew 装的。 thefuck 装完后在 .zshrc 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 sudo 时，只需要双击 esc 就可以了。 mycli 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主要">
-<meta property="og:updated_time" content="2017-05-05T07:40:10.000Z">
+<meta property="og:description" content="今天装了3个命令行下的神器，分别是 mycli fzf thefuck，都是通过 Homebrew 装的。 thefuck 装完后在 .zshrc 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 sudo 时，只需要双击 esc 就可以了。  mycli 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主">
+<meta property="og:image" content="http://panmax.love/2017/mycli-fzf-thefuck/2.png">
+<meta property="og:image" content="http://panmax.love/2017/mycli-fzf-thefuck/1.png">
+<meta property="og:image" content="http://panmax.love/2017/mycli-fzf-thefuck/3.png">
+<meta property="og:updated_time" content="2017-06-16T02:56:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mycli fzf thefuck">
-<meta name="twitter:description" content="今天装了3个命令行下的神器，分别是 mycli fzf thefuck，都是通过 Homebrew 装的。 thefuck 装完后在 .zshrc 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 sudo 时，只需要双击 esc 就可以了。 mycli 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主要">
+<meta name="twitter:description" content="今天装了3个命令行下的神器，分别是 mycli fzf thefuck，都是通过 Homebrew 装的。 thefuck 装完后在 .zshrc 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 sudo 时，只需要双击 esc 就可以了。  mycli 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主">
+<meta name="twitter:image" content="http://panmax.love/2017/mycli-fzf-thefuck/2.png">
 
 
 
@@ -263,8 +267,11 @@
       
         <p>今天装了3个命令行下的神器，分别是 <code>mycli</code> <code>fzf</code> <code>thefuck</code>，都是通过 <code>Homebrew</code> 装的。</p>
 <p><code>thefuck</code> 装完后在 <code>.zshrc</code> 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 <code>sudo</code> 时，只需要双击 esc 就可以了。</p>
+<p><img src="2.png" alt=""></p>
 <p><code>mycli</code> 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主要是中间安装 <code>Pyhton 2.7.13</code> 占用了很长时间。装完后直接 <code>mycli -uroot</code> 就进入数据库的交互状态了。有一个地方不太习惯，没执行一个命令出来结果后，需要再按一下 <code>q</code> 才能返回交互状态。</p>
+<p><img src="1.png" alt=""></p>
 <p><code>fzf</code> 是命令行下模糊搜索工具。通过 <code>brew install fzf</code> 安装完后，还需要执行 <code>/usr/local/opt/fzf/install</code> 安装 shell 扩展，之后 <code>Control+r</code> 时出来的就不是之前那种很简单的历史命令搜索结果了，而是交互性很棒的结果。输入 <code>kill -9 + &lt;TAB&gt;</code> 能通过模糊搜索的方式搜到需要杀掉的进程，再也不用先 <code>ps -ef | grep xxx</code> 找到对应的进程然后在执行 <code>kill</code> 或者 通过管道 + <code>xargs</code> 的方式来杀进程了。</p>
+<p><img src="3.png" alt=""></p>
 <p><code>fzf</code> 还有几种用法我感觉没多少用： </p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> **<span class="symbol">&lt;TAB&gt;</span></div><div class="line"><span class="keyword">vim</span> **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">ssh **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">telnet **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">unset **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">export **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">unalias **<span class="symbol">&lt;TAB&gt;</span></div></pre></td></tr></table></figure>
 
