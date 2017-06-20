@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://panmax.love/2017/将博客部署到七牛/1.png">
 <meta property="og:image" content="http://panmax.love/2017/将博客部署到七牛/2.png">
 <meta property="og:image" content="http://panmax.love/2017/将博客部署到七牛/4.png">
-<meta property="og:updated_time" content="2017-06-20T07:31:14.000Z">
+<meta property="og:updated_time" content="2017-06-20T07:40:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="将博客部署到七牛">
 <meta name="twitter:description" content="我觉得我是不折腾就会死的人，现在的博客部署在 Github Pages 上，访问速度一直令我非常不爽，所以准备迁移到七牛。 七牛新建 bucket 后，在空间设置，把默认首页设置改成启动就完成了。 还有一个就是一定要绑定自己的独立域名，否则站内数据改变后，用七牛提供的临时域名来访问的话，缓存一时半会是不会刷新的，独立域名可以设置缓存刷新时间，前提是那个域名需要在国内进行备案。 缓存可以根据不同类型">
@@ -280,7 +280,7 @@
 <p><img src="2.png" alt=""></p>
 <p>代码已上传到 <a href="https://github.com/Panmax/qiniu-blog-deploy" target="_blank" rel="external">Github：https://github.com/Panmax/qiniu-blog-deploy</a></p>
 <hr>
-<h3 id="updateAt-2017-06-20"><a href="#updateAt-2017-06-20" class="headerlink" title="updateAt 2017-06-20"></a>updateAt 2017-06-20</h3><p>我把缓存策略改为了如下所示</p>
+<h3 id="updateAt-2017-06-20"><a href="#updateAt-2017-06-20" class="headerlink" title="updateAt: 2017-06-20"></a>updateAt: 2017-06-20</h3><p>我把缓存策略改为了如下所示</p>
 <p><img src="4.png" alt=""></p>
 <p>图片和样式文件进行缓存，<code>html</code> 等文本文件不缓存。因为七牛会自动寻找 <code>index.html</code>，所以在真正访问时，不带 <code>/index.html</code> 后缀的页面也可以打开，所以我把全局配置设为了不缓存，也就是说不在这个配置中的文件也不进行缓存。</p>
 
