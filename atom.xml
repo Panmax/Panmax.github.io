@@ -86,7 +86,7 @@
     <link href="http://panmax.love/2017/%E5%B0%86%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2%E5%88%B0%E4%B8%83%E7%89%9B/"/>
     <id>http://panmax.love/2017/将博客部署到七牛/</id>
     <published>2017-06-16T03:38:47.000Z</published>
-    <updated>2017-06-20T06:23:48.000Z</updated>
+    <updated>2017-06-20T06:26:39.000Z</updated>
     
     <content type="html"><![CDATA[<p>我觉得我是不折腾就会死的人，现在的博客部署在 Github Pages 上，访问速度一直令我非常不爽，所以准备迁移到七牛。</p>
 <p>七牛新建 bucket 后，在空间设置，把默认首页设置改成启动就完成了。</p>
@@ -101,8 +101,8 @@
 <p><img src="1.png" alt=""></p>
 <p><img src="2.png" alt=""></p>
 <p>代码已上传到 <a href="https://github.com/Panmax/qiniu-blog-deploy" target="_blank" rel="external">Github：https://github.com/Panmax/qiniu-blog-deploy</a></p>
-<p>updateAt 2017-06-20</p>
-<p>我把缓存策略改为了如下所示</p>
+<hr>
+<h3 id="updateAt-2017-06-20"><a href="#updateAt-2017-06-20" class="headerlink" title="updateAt 2017-06-20"></a>updateAt 2017-06-20</h3><p>我把缓存策略改为了如下所示</p>
 <p><img src="4.png" alt=""></p>
 <p>图片和样式文件进行缓存，<code>html</code> 等文本文件不缓存。</p>
 ]]></content>
