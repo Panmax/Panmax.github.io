@@ -180,7 +180,7 @@
     <link href="http://panmax.love/2017/%E4%BC%98%E5%8C%96blog%E9%80%9F%E5%BA%A6/"/>
     <id>http://panmax.love/2017/优化blog速度/</id>
     <published>2017-06-02T07:28:42.000Z</published>
-    <updated>2017-06-20T07:40:37.000Z</updated>
+    <updated>2017-06-20T07:51:18.000Z</updated>
     
     <content type="html"><![CDATA[<p>之前已经做过对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。</p>
 <p>我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 <code>fonts.gstatic.com</code>，这个请求应该是访问的 谷歌 CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。</p>
@@ -193,7 +193,12 @@
 <li>fonts.googleapis.com =&gt; fonts.lug.ustc.edu.cn</li>
 <li>themes.googleusercontent.com =&gt; google-themes.lug.ustc.edu.cn</li>
 </ol>
-<p>updateAt: 2017-06-20</p>
+<hr>
+<h3 id="updateAt-2017-06-20"><a href="#updateAt-2017-06-20" class="headerlink" title="updateAt: 2017-06-20"></a>updateAt: 2017-06-20</h3><p>然鹅，在我用了一段时间后，发现中科大的源速度我也不满意，最终将那个 <code>css</code> 文件包括 <code>css</code> 文件里边用到的 <code>ttf</code> 文件都下载到了本地，使用本地路径来路由，这样的话我部署到七牛后的速度比之前快了很多。</p>
+<p><img src="1.png" alt=""></p>
+<p>在 <code>themes/next/source/css</code> 下新建 <code>fontes</code> 目录，把 <code>https://fonts.proxy.ustclug.org/css?family=Lato:300,300italic,400,400italic,700,700italic&amp;subset=latin,latin-ext</code> 下载到 <code>fonts</code> 目录并重命名为 <code>fonts.css</code>，然后把里边的 url 对应的 ttf 文件也都下载到此目录，并修改 <code>fonts.css</code> 内的 url 地址为本地地址:</p>
+<p><img src="2.png" alt=""></p>
+<p>最后将之前修改的 <code>themes/next/layout/_partials/head/external-fonts.swig</code> 文件中的地址改为：<code>/css/fonts.css</code></p>
 ]]></content>
     
     <summary type="html">
