@@ -97,16 +97,16 @@
 
 <meta name="description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于 Eureka 的服务治理调研">
-<meta property="og:url" content="http://panmax.love/2017/基于-Eureka-的服务治理调研/index.html">
+<meta property="og:title" content="基于 Eureka 的服务注册与发现调研">
+<meta property="og:url" content="http://panmax.love/2017/基于-Eureka-的服务注册与发现调研/index.html">
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
-<meta property="og:image" content="http://panmax.love/2017/基于-Eureka-的服务治理调研/1.png">
-<meta property="og:updated_time" content="2017-06-21T06:46:13.000Z">
+<meta property="og:image" content="http://panmax.love/2017/基于-Eureka-的服务注册与发现调研/1.png">
+<meta property="og:updated_time" content="2017-06-21T06:51:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于 Eureka 的服务治理调研">
+<meta name="twitter:title" content="基于 Eureka 的服务注册与发现调研">
 <meta name="twitter:description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
-<meta name="twitter:image" content="http://panmax.love/2017/基于-Eureka-的服务治理调研/1.png">
+<meta name="twitter:image" content="http://panmax.love/2017/基于-Eureka-的服务注册与发现调研/1.png">
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://panmax.love/2017/基于-Eureka-的服务治理调研/"/>
+  <link rel="canonical" href="http://panmax.love/2017/基于-Eureka-的服务注册与发现调研/"/>
 
 
 
 
 
-  <title>基于 Eureka 的服务治理调研 | 贾攀家</title>
+  <title>基于 Eureka 的服务注册与发现调研 | 贾攀家</title>
   
 
 
@@ -199,7 +199,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://panmax.love/2017/基于-Eureka-的服务治理调研/">
+    <link itemprop="mainEntityOfPage" href="http://panmax.love/2017/基于-Eureka-的服务注册与发现调研/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -216,7 +216,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">基于 Eureka 的服务治理调研</h1>
+          <h1 class="post-title" itemprop="name headline">基于 Eureka 的服务注册与发现调研</h1>
         
 
         <div class="post-meta">
@@ -289,7 +289,7 @@
 <p>需要指明 <code>spring.application.name</code>，这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个 name。</p>
 <p>启动上边两个程序后，访问 <code>http://localhost:8761/</code> 可以看到下边的页面，同时看到我们的 <code>service-hi</code> 也注册上来了。</p>
 <p><img src="1.png" alt=""></p>
-
+<h3 id="竞品比较与介绍"><a href="#竞品比较与介绍" class="headerlink" title="竞品比较与介绍"></a>竞品比较与介绍</h3>
       
     </div>
 

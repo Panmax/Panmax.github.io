@@ -60,11 +60,11 @@
   </entry>
   
   <entry>
-    <title>基于 Eureka 的服务治理调研</title>
-    <link href="http://panmax.love/2017/%E5%9F%BA%E4%BA%8E-Eureka-%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E8%B0%83%E7%A0%94/"/>
-    <id>http://panmax.love/2017/基于-Eureka-的服务治理调研/</id>
+    <title>基于 Eureka 的服务注册与发现调研</title>
+    <link href="http://panmax.love/2017/%E5%9F%BA%E4%BA%8E-Eureka-%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0%E8%B0%83%E7%A0%94/"/>
+    <id>http://panmax.love/2017/基于-Eureka-的服务注册与发现调研/</id>
     <published>2017-06-21T03:31:40.000Z</published>
-    <updated>2017-06-21T06:46:13.000Z</updated>
+    <updated>2017-06-21T06:51:06.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。"><a href="#Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。" class="headerlink" title="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。"></a><a href="https://github.com/Netflix/eureka" target="_blank" rel="external">Eureka</a> 是 Netflix 开源的一款提供服务注册和发现的产品。</h2><p>Eureka 由两个组件组成： <strong>Eureka 服务器</strong> 和 <strong>Eureka 客户端</strong>。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。</p>
 <h3 id="官方对自己的定义是："><a href="#官方对自己的定义是：" class="headerlink" title="官方对自己的定义是："></a>官方对自己的定义是：</h3><blockquote>
@@ -92,7 +92,7 @@
 <p>需要指明 <code>spring.application.name</code>，这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个 name。</p>
 <p>启动上边两个程序后，访问 <code>http://localhost:8761/</code> 可以看到下边的页面，同时看到我们的 <code>service-hi</code> 也注册上来了。</p>
 <p><img src="1.png" alt=""></p>
-]]></content>
+<h3 id="竞品比较与介绍"><a href="#竞品比较与介绍" class="headerlink" title="竞品比较与介绍"></a>竞品比较与介绍</h3>]]></content>
     
     <summary type="html">
     
