@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
 <meta property="og:image" content="http://panmax.love/2017/基于-Eureka-的服务注册与发现调研/1.png">
-<meta property="og:updated_time" content="2017-06-21T07:09:36.000Z">
+<meta property="og:updated_time" content="2017-06-21T07:11:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于 Eureka 的服务注册与发现调研">
 <meta name="twitter:description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
@@ -287,8 +287,10 @@
 <p>需要指明 <code>spring.application.name</code>，这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个 name。</p>
 <p>启动上边两个程序后，访问 <code>http://localhost:8761/</code> 可以看到下边的页面，同时看到我们的 <code>service-hi</code> 也注册上来了。</p>
 <p><img src="1.png" alt=""></p>
-<p>在本地调试时出现了这样的问题，如上图所示，中间部分有一行红色大字：<strong>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.</strong>，原因是 Eureka 的自我保护机制</p>
+<p>在本地调试时出现了这样的问题，如上图所示，中间部分有一行红色大字 <strong>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.</strong>，原因是 Eureka 的自我保护机制:</p>
+<blockquote>
 <p>Eureka Server 在运行期间，会统计心跳成功率在 15分钟 之内是否低于85%，如果出现低于的情况（在单机调试的时候很容易满足，实际在生产环境上通常是由于网络不稳定导致），Eureka Server 会将当前的实例注册信息保护起来，同时提示这个警告。至于为什么需要有这个自我保护机制，官方的解释是：Service 不是强一致的，所以会有部分情况下没发现新服务导致请求出错，对于Service 发现服务而言，宁可返回某服务 5分钟 之前在哪几个服务器上可用的信息，也不能因为暂时的网络故障而找不到可用的服务器，而不返回任何结果。</p>
+</blockquote>
 <h3 id="其他实现方式比较"><a href="#其他实现方式比较" class="headerlink" title="其他实现方式比较"></a>其他实现方式比较</h3><p>DNS 可以算是最为原始的服务发现系统，但是在服务变更较为频繁，即服务的动态性很强的时候，DNS 记录的传播速度可能会跟不上服务的变更速度，这将导致在一定的时间窗口内无法提供正确的服务位置信息，所以这种方案只适合在比较静态的环境中使用，不适用于微服务。</p>
 <p>基于 ZooKeeper、Etcd 等分布式键值对存储服务来建立服务发现系统在现在看起来 也不是一种很好的方案，一方面是因为它们只能提供基本的数据存储功能，还需要在外围做大量的开发才能形成完整的服务发现方案。另一方面是因为它们都是强一致性系统，在集群发生分区时会优先保证一致性、放弃可用性，而服务发现方案更注重可用性，为了保证可用性可以选择最终一致性，这两方面原因共同导致了 ZooKeeper、Etcd 这类系统越来越远离服务发现方案的备选清单，像 SmartStack 这种依赖 ZooKeeper 的服务发现方案也逐渐发觉 ZooKeeper 成了它的薄弱环节。与 ZooKeeper、Etcd 或者依赖它们的方案不同，Eureka 是个专门为服务发现从零开始开发的项目，Eureka 以可用性为先，可以在多种故障期间保持服务发现和服务注册功能可用，虽然此时会存在一些数据错误，但是 Eureka 的设计原则是“<strong>存在少量的错误数据，总比完全不可用要好</strong>”，并且可以在故障恢复之后按最终一致性进行状态合并，清理掉错误数据。</p>
 <p>Eureka 有个强大的对手 Consul。Consul 是 HashiCorp 公司的商业产品，它有一个开源的基础版本，这个版本在基本的服务发现功能之外，还提供了多数据中心部署能力，包括内存、存储使用情况在内的细粒度服务状态检测能力，和用于服务配置的键值对存储能力（这是一把双刃剑，使用它可以带来便捷，但是也意味着和 Consul 的较强耦合性），这几个能力 Eureka 目前都没有。但是 Consul 对业务的侵入性较大，在与 SpringBoot 项目对接时没有那么方便，而且 Consul 由一家商业软件公司提供，那么必然或多或少的存在商业软件的某些弊端。</p>
