@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
 <meta property="og:image" content="http://panmax.love/2017/基于-Eureka-的服务注册与发现调研/1.png">
-<meta property="og:updated_time" content="2017-06-21T06:51:06.000Z">
+<meta property="og:updated_time" content="2017-06-21T07:03:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于 Eureka 的服务注册与发现调研">
 <meta name="twitter:description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
@@ -275,9 +275,7 @@
 <li>同时，Eureka Server 本身也是 Eureka Client，多个 Eureka Server 通过复制注册表的方法来完成服务注册表的同步从而达到集群的效果。</li>
 </ol>
 <h3 id="为什么选择-Eureka"><a href="#为什么选择-Eureka" class="headerlink" title="为什么选择 Eureka"></a>为什么选择 Eureka</h3><h4 id="1-它提供了完整的-Service-Registry-和-Service-Discovery-实现"><a href="#1-它提供了完整的-Service-Registry-和-Service-Discovery-实现" class="headerlink" title="1) 它提供了完整的 Service Registry 和 Service Discovery 实现"></a>1) 它提供了完整的 <code>Service Registry</code> 和 <code>Service Discovery</code> 实现</h4><p>首先是提供了完整的实现，并且也经受住了 Netflix 自己的生产环境考验，相对使用起来会比较省心。</p>
-<h4 id="2-和-Spring-Cloud-无缝集成"><a href="#2-和-Spring-Cloud-无缝集成" class="headerlink" title="2) 和 Spring Cloud 无缝集成"></a>2) 和 <code>Spring Cloud</code> 无缝集成</h4><p>我们的项目本身就使用了 <code>Spring Cloud</code>和 <code>Spring Boot</code>，同时 <code>Spring Cloud</code> 还有一套非常完善的开源代码来整合 Eureka，所以使用起来非常方便。</p>
-<p>另外，Eureka 还支持在我们应用自身的容器中启动，也就是说我们的应用启动完之后，既充当了 Eureka 的角色，同时也是服务的提供者。这样就极大的提高了服务的可用性。</p>
-<p>这一点是我们选择 Eureka 而不是 zk 、etcd 等的主要原因，为了提高配置中心的可用性和降低部署复杂度，我们需要尽可能地减少外部依赖。</p>
+<h4 id="2-和-Spring-Cloud-无缝集成"><a href="#2-和-Spring-Cloud-无缝集成" class="headerlink" title="2) 和 Spring Cloud 无缝集成"></a>2) 和 <code>Spring Cloud</code> 无缝集成</h4><p>服务端和客户端都是 Java 编写的，针对微服务场景，并且和 Netflix 的其他开源项目以及 Spring Cloud 都有着非常好的整合，具备良好的生态。</p>
 <h4 id="3-Open-Source"><a href="#3-Open-Source" class="headerlink" title="3) Open Source"></a>3) Open Source</h4><p>最后一点是开源，由于代码是开源的，所以非常便于我们了解它的实现原理和排查问题。</p>
 <h3 id="Eureka-Server-使用介绍"><a href="#Eureka-Server-使用介绍" class="headerlink" title="Eureka Server 使用介绍"></a>Eureka Server 使用介绍</h3><h4 id="在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server"><a href="#在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server" class="headerlink" title="在 Spring Boot 项目的 pom.xml 中加入 spring-cloud-starter-eureka-server"></a>在 Spring Boot 项目的 pom.xml 中加入 <code>spring-cloud-starter-eureka-server</code></h4><p>使用 Spring Cloud 需要在 pom.xml 中加入 Spring Cloud 的父级引用，让 Spring 帮我们管理依赖版本。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
@@ -289,7 +287,10 @@
 <p>需要指明 <code>spring.application.name</code>，这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个 name。</p>
 <p>启动上边两个程序后，访问 <code>http://localhost:8761/</code> 可以看到下边的页面，同时看到我们的 <code>service-hi</code> 也注册上来了。</p>
 <p><img src="1.png" alt=""></p>
-<h3 id="竞品比较与介绍"><a href="#竞品比较与介绍" class="headerlink" title="竞品比较与介绍"></a>竞品比较与介绍</h3>
+<h3 id="其他实现方式比较"><a href="#其他实现方式比较" class="headerlink" title="其他实现方式比较"></a>其他实现方式比较</h3><p>DNS 可以算是最为原始的服务发现系统，但是在服务变更较为频繁，即服务的动态性很强的时候，DNS 记录的传播速度可能会跟不上服务的变更速度，这将导致在一定的时间窗口内无法提供正确的服务位置信息，所以这种方案只适合在比较静态的环境中使用，不适用于微服务。</p>
+<p>基于 ZooKeeper、Etcd 等分布式键值对存储服务来建立服务发现系统在现在看起来 也不是一种很好的方案，一方面是因为它们只能提供基本的数据存储功能，还需要在外围做大量的开发才能形成完整的服务发现方案。另一方面是因为它们都是强一致性系统，在集群发生分区时会优先保证一致性、放弃可用性，而服务发现方案更注重可用性，为了保证可用性可以选择最终一致性，这两方面原因共同导致了 ZooKeeper、Etcd 这类系统越来越远离服务发现方案的备选清单，像 SmartStack 这种依赖 ZooKeeper 的服务发现方案也逐渐发觉 ZooKeeper 成了它的薄弱环节。与 ZooKeeper、Etcd 或者依赖它们的方案不同，Eureka 是个专门为服务发现从零开始开发的项目，Eureka 以可用性为先，可以在多种故障期间保持服务发现和服务注册功能可用，虽然此时会存在一些数据错误，但是 Eureka 的设计原则是“<strong>存在少量的错误数据，总比完全不可用要好</strong>”，并且可以在故障恢复之后按最终一致性进行状态合并，清理掉错误数据。</p>
+<p>Eureka 有个强大的对手 Consul。Consul 是 HashiCorp 公司的商业产品，它有一个开源的基础版本，这个版本在基本的服务发现功能之外，还提供了多数据中心部署能力，包括内存、存储使用情况在内的细粒度服务状态检测能力，和用于服务配置的键值对存储能力（这是一把双刃剑，使用它可以带来便捷，但是也意味着和 Consul 的较强耦合性），这几个能力 Eureka 目前都没有。但是 Consul 对业务的侵入性较大，在与 SpringBoot 项目对接时没有那么方便，而且 Consul 由一家商业软件公司提供，那么必然或多或少的存在商业软件的某些弊端。</p>
+
       
     </div>
 
