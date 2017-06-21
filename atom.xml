@@ -60,6 +60,50 @@
   </entry>
   
   <entry>
+    <title>基于 Eureka 的服务治理调研</title>
+    <link href="http://panmax.love/2017/%E5%9F%BA%E4%BA%8E-Eureka-%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86%E8%B0%83%E7%A0%94/"/>
+    <id>http://panmax.love/2017/基于-Eureka-的服务治理调研/</id>
+    <published>2017-06-21T03:31:40.000Z</published>
+    <updated>2017-06-21T06:38:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。"><a href="#Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。" class="headerlink" title="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。"></a><a href="https://github.com/Netflix/eureka" target="_blank" rel="external">Eureka</a> 是 Netflix 开源的一款提供服务注册和发现的产品。</h2><p>Eureka 由两个组件组成： <strong>Eureka 服务器</strong> 和 <strong>Eureka 客户端</strong>。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。</p>
+<h3 id="官方对自己的定义是："><a href="#官方对自己的定义是：" class="headerlink" title="官方对自己的定义是："></a>官方对自己的定义是：</h3><blockquote>
+<p>Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of load balancing and failover of middle-tier servers.</p>
+</blockquote>
+<h3 id="通俗点讲什么是服务注册发现？"><a href="#通俗点讲什么是服务注册发现？" class="headerlink" title="通俗点讲什么是服务注册发现？"></a>通俗点讲什么是服务注册发现？</h3><p>服务注册与发现就像是在一个聊天室，每个用户来的时候去服务器上注册，这样你的好友们就能看到你，你同时也将获取好友的上线列表。在微服务中，服务就相当于聊天室的用户，而服务注册中心就像聊天室服务器一样。</p>
+<h3 id="Eureka特性"><a href="#Eureka特性" class="headerlink" title="Eureka特性"></a>Eureka特性</h3><ol>
+<li>Eureka Server 具有服务定位/发现的能力，在各个微服务启动时，会通过 Eureka Client 向Eureka Server 进行注册自己的信息（例如网络信息）。 </li>
+<li>一般情况下，微服务启动后，Eureka Client 会周期性向 Eureka Server 发送心跳检测(默认周期为30秒)以注册/更新自己的信息。 </li>
+<li>如果 Eureka Server 在一定时间内(默认90秒)没有收到 Eureka Client 的心跳检测，就会注销掉该微服务点。 </li>
+<li>同时，Eureka Server 本身也是 Eureka Client，多个 Eureka Server 通过复制注册表的方法来完成服务注册表的同步从而达到集群的效果。</li>
+</ol>
+<h3 id="为什么选择-Eureka"><a href="#为什么选择-Eureka" class="headerlink" title="为什么选择 Eureka"></a>为什么选择 Eureka</h3><h4 id="1-它提供了完整的-Service-Registry-和-Service-Discovery-实现"><a href="#1-它提供了完整的-Service-Registry-和-Service-Discovery-实现" class="headerlink" title="1) 它提供了完整的 Service Registry 和 Service Discovery 实现"></a>1) 它提供了完整的 <code>Service Registry</code> 和 <code>Service Discovery</code> 实现</h4><p>首先是提供了完整的实现，并且也经受住了 Netflix 自己的生产环境考验，相对使用起来会比较省心。</p>
+<h4 id="2-和-Spring-Cloud-无缝集成"><a href="#2-和-Spring-Cloud-无缝集成" class="headerlink" title="2) 和 Spring Cloud 无缝集成"></a>2) 和 <code>Spring Cloud</code> 无缝集成</h4><p>我们的项目本身就使用了 <code>Spring Cloud</code>和 <code>Spring Boot</code>，同时 <code>Spring Cloud</code> 还有一套非常完善的开源代码来整合 Eureka，所以使用起来非常方便。</p>
+<p>另外，Eureka 还支持在我们应用自身的容器中启动，也就是说我们的应用启动完之后，既充当了 Eureka 的角色，同时也是服务的提供者。这样就极大的提高了服务的可用性。</p>
+<p>这一点是我们选择 Eureka 而不是 zk 、etcd 等的主要原因，为了提高配置中心的可用性和降低部署复杂度，我们需要尽可能地减少外部依赖。</p>
+<h4 id="3-Open-Source"><a href="#3-Open-Source" class="headerlink" title="3) Open Source"></a>3) Open Source</h4><p>最后一点是开源，由于代码是开源的，所以非常便于我们了解它的实现原理和排查问题。</p>
+<h3 id="Eureka-Server-使用介绍"><a href="#Eureka-Server-使用介绍" class="headerlink" title="Eureka Server 使用介绍"></a>Eureka Server 使用介绍</h3><h4 id="在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server"><a href="#在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server" class="headerlink" title="在 Spring Boot 项目的 pom.xml 中加入 spring-cloud-starter-eureka-server"></a>在 Spring Boot 项目的 pom.xml 中加入 <code>spring-cloud-starter-eureka-server</code></h4><p>使用 Spring Cloud 需要在 pom.xml 中加入 Spring Cloud 的父级引用，让Spring帮我们管理依赖版本。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="在application-yml中配置"><a href="#在application-yml中配置" class="headerlink" title="在application.yml中配置"></a>在application.yml中配置</h4><p>Eureka 是一个高可用的组件，它没有后端缓存，每一个实例注册之后需要向注册中心发送心跳（因此可以在内存中完成），在默认情况下 Erureka Server 也是一个 Eureka Client，必须要指定一个 Server。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">8761</span></div><div class="line"></div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  instance:</span></div><div class="line"><span class="attr">    hostname:</span> <span class="string">localhost</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    register-with-eureka:</span> <span class="literal">false</span>  <span class="comment"># 不用将自己注册到Eureka</span></div><div class="line"><span class="attr">    fetch-registry:</span> <span class="literal">false</span>  <span class="comment"># 不用发现Eureka中的服务</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      default-zone:</span> <span class="attr">http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span></div></pre></td></tr></table></figure>
+<h4 id="添加-Application-java-启动类-添加-EnableEurekaServer-注解"><a href="#添加-Application-java-启动类-添加-EnableEurekaServer-注解" class="headerlink" title="添加 Application.java 启动类 添加 @EnableEurekaServer 注解"></a>添加 Application.java 启动类 添加 <code>@EnableEurekaServer</code> 注解</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@SpringBootApplication</span></div><div class="line"><span class="variable">@EnableEurekaServer</span></div><div class="line">public class Application &#123;</div><div class="line">    <span class="selector-tag">public</span> <span class="selector-tag">static</span> <span class="selector-tag">void</span> <span class="selector-tag">main</span>(String[] args) &#123;</div><div class="line">        <span class="selector-tag">SpringApplication</span><span class="selector-class">.run</span>(Application.class, args);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Eureka-Client-使用介绍"><a href="#Eureka-Client-使用介绍" class="headerlink" title="Eureka Client 使用介绍"></a>Eureka Client 使用介绍</h3><h4 id="服务注册与服务发现都是使用-Eureka-Client，所以在-Spring-Boot-项目的-pom-xml-中加入"><a href="#服务注册与服务发现都是使用-Eureka-Client，所以在-Spring-Boot-项目的-pom-xml-中加入" class="headerlink" title="服务注册与服务发现都是使用 Eureka Client，所以在 Spring Boot 项目的 pom.xml 中加入"></a>服务注册与服务发现都是使用 Eureka Client，所以在 Spring Boot 项目的 pom.xml 中加入</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="在-application-yml-中加入-Eureka-的-Server-配置"><a href="#在-application-yml-中加入-Eureka-的-Server-配置" class="headerlink" title="在 application.yml 中加入 Eureka 的 Server 配置"></a>在 application.yml 中加入 Eureka 的 Server 配置</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">server</span>:</div><div class="line">  <span class="attribute">port</span>: <span class="number">8762</span></div><div class="line"></div><div class="line"><span class="attribute">spring</span>:</div><div class="line">  <span class="attribute">application</span>:</div><div class="line">    <span class="attribute">name</span>: service-hi</div><div class="line"></div><div class="line"><span class="attribute">eureka</span>:</div><div class="line">  <span class="attribute">client</span>:</div><div class="line">    <span class="attribute">serviceUrl</span>:</div><div class="line">      <span class="attribute">defaultZone</span>: <span class="attribute">http</span>:<span class="comment">//localhost:8761/eureka/</span></div></pre></td></tr></table></figure>
+<p>需要指明 <code>spring.application.name</code>，这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name。</p>
+<p>启动上边两个程序后，访问 <code>http://localhost:8761/</code> 可以看到下边的页面，同时看到我们的 <code>service-hi</code> 一用也注册上来了。</p>
+<p><img src="1.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。&quot;&gt;&lt;a href=&quot;#Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。&quot; class=&quot;headerlink&quot; title=&quot;Eureka 是 Netflix 开源的一款
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>接入 sentry 时遇到的坑</title>
     <link href="http://panmax.love/2017/%E6%8E%A5%E5%85%A5sentry%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
     <id>http://panmax.love/2017/接入sentry时遇到的坑/</id>
@@ -759,58 +803,6 @@
     
     
       <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python kill编码问题</title>
-    <link href="http://panmax.love/2016/Python-kill%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/"/>
-    <id>http://panmax.love/2016/Python-kill编码问题/</id>
-    <published>2016-08-02T09:40:33.000Z</published>
-    <updated>2016-08-02T10:35:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 <code>decode</code> 和 <code>encode</code> 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！</p>
-</blockquote>
-<p>Python 内部字符串编码为 <code>unicode</code>，因此在编码转换时，通常使用 <code>unicode</code> 作为中间编码， 先将其他编码的字符串解码(decode)成 <code>unicode</code>，再从 <code>unicode</code> 编码(encode)成另一种编码。</p>
-<h2 id="unicode"><a href="#unicode" class="headerlink" title="unicode"></a>unicode</h2><p>世界上存在着多种编码方式，同一个二进制数字可以被解释成不同的符号。因此，要想打开一个文本文件，就必须知道它的编码方式，否则用错误的编码方式解读，就会出现乱码。为什么电子邮件常常出现乱码？就是因为发信人和收信人使用的编码方式不一样。</p>
-<p>可以想象，如果有一种编码，将世界上所有的符号都纳入其中。每一个符号都给予一个独一无二的编码，那么乱码问题就会消失。这就是<code>unicode</code>，就像它的名字都表示的，这是一种所有符号的编码。</p>
-<h2 id="decode"><a href="#decode" class="headerlink" title="decode"></a>decode</h2><p><code>decode</code> 的作用是将其他编码的字符串解码成 <code>unicode</code> 编码。</p>
-<p>如 <code>str.decode(&#39;gbk&#39;)</code>，表示将 <code>gbk</code> 编码的字符串解码成 <code>unicode</code> 编码。</p>
-<h2 id="encode"><a href="#encode" class="headerlink" title="encode"></a>encode</h2><p><code>encode</code> 的作用是将 <code>unicode</code> 字符串编码成其他编码的字符串。</p>
-<p>如 <code>str.encode(&#39;gbk&#39;)</code>， 表示将 <code>unicode</code> 编码的字符串编码成 <code>gbk</code> 编码。</p>
-<blockquote>
-<p>因此转码的时候一定先搞明白，字符串是什么编码，然后 <code>decode</code> 成 <code>unicode</code>，再然后 <code>encode</code> 成其他编码。</p>
-</blockquote>
-<h2 id="代码中字符串的编码与代码文件的编码一致"><a href="#代码中字符串的编码与代码文件的编码一致" class="headerlink" title="代码中字符串的编码与代码文件的编码一致"></a>代码中字符串的编码与代码文件的编码一致</h2><p>如果这样写 <code>s = u&#39;中国&#39;</code> ，该字符串的编码就被指定为了 <code>unicode</code> 了，即 <code>Python</code> 的内部编码，而与代码文件本身编码无关，因此对于这种情况做编码转换，只需直接使用 <code>encode</code> 方法将其转换成指定编码即刻。</p>
-<p>如果对一个 <code>unicode</code> 字符串进行解码将会报错，所以可以使用 <code>isinstance(s, unicode)</code> 来判断是否为 <code>unicode</code>。</p>
-<p>非 <code>unicode</code> 编码的字符串使用 <code>encode</code> 会报错。</p>
-<p><code>unicode(str, &#39;gbk&#39;)</code> 和 <code>str.decode(&#39;gbk&#39;)</code> 是一样的，都是将 <code>gbk</code> 编码的字符串转为 <code>unicode</code> 编码。</p>
-<hr>
-<p>唉，想起来之前有个非常耻辱的事，就是有次面试的时候对方问我 Python 中默认字符编码是什么，我回答的是： ascii </p>
-<p>还问我Python中如何进行编码和解码，其实我知道是用 <code>decode</code> 和 <code>encode</code> 但当时真的分不清楚哪个是做什么用的，所以忘了当时回答的对不对了。</p>
-<p>为了让自己把 <code>decode</code> 和 <code>encode</code> 分清楚，我想了个办法， <code>decode</code> 开头发音是 <code>弟(di)</code>，所以弟就应该有个姐姐，所以 <code>decode</code> 就是解码，另外一个 <code>encode</code> 就自然是编码了。哈哈哈。</p>
-<p>对方还问了我，<code>utf8</code> 和 <code>unicode</code> 有什么区别，后来查了下资料，结论是： <strong>UTF-8是Unicode的实现方式之一。</strong> 详情见<a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="external">阮一峰老师的博客</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;之前在遇到字符串编码问题的时候都是跑到网上现去查资料，而且一直分不清 &lt;code&gt;decode&lt;/code&gt; 和 &lt;code&gt;encode&lt;/code&gt; 到底那个是解码，那个是编码，每次用的时候还要查一下文档，本次就做一个了断吧！&lt;/p&gt;
-&lt;/bl
-    
-    </summary>
-    
-      <category term="Code" scheme="http://panmax.love/categories/Code/"/>
-    
-    
-      <category term="Python" scheme="http://panmax.love/tags/Python/"/>
-    
-      <category term="编码" scheme="http://panmax.love/tags/%E7%BC%96%E7%A0%81/"/>
-    
-      <category term="decode" scheme="http://panmax.love/tags/decode/"/>
-    
-      <category term="encode" scheme="http://panmax.love/tags/encode/"/>
     
   </entry>
   
