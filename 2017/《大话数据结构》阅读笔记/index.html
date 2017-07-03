@@ -95,17 +95,17 @@
 
 
 
-<meta name="description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。  update at 2017-04-13  算法具有五">
+<meta name="description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。   update at 2017-04-13  算法具有">
 <meta name="keywords" content="读书">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《大话数据结构》阅读笔记">
 <meta property="og:url" content="http://panmax.love/2017/《大话数据结构》阅读笔记/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。  update at 2017-04-13  算法具有五">
-<meta property="og:updated_time" content="2017-04-20T03:11:51.000Z">
+<meta property="og:description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。   update at 2017-04-13  算法具有">
+<meta property="og:updated_time" content="2017-07-03T01:57:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《大话数据结构》阅读笔记">
-<meta name="twitter:description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。  update at 2017-04-13  算法具有五">
+<meta name="twitter:description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。   update at 2017-04-13  算法具有">
 
 
 
@@ -274,12 +274,14 @@
 <pre><code>1. 顺序存储结构
 2. 链式存储结构
 </code></pre><p>逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。</p>
+<hr>
 <blockquote>
 <p>update at 2017-04-13</p>
 </blockquote>
 <p>算法具有五个基本特性：输入、输出、有穷性、确定性和可行性</p>
 <p>好的算法应该具有正确性、可读性、健壮性、高效率和低存储量的特征</p>
 <p>判断一个算法的效率时，函数中的常数和其他次要项常常可以忽略，而更应该关注主项（最高阶项）的阶数</p>
+<hr>
 <blockquote>
 <p>update at 2017-04-17</p>
 </blockquote>
@@ -290,6 +292,7 @@
 <li>如果最高阶项存在且不是 1，则去除与这个项相乘的常数。</li>
 </ol>
 <p>得到的结果就是大 O 阶。</p>
+<hr>
 <blockquote>
 <p>update at 2017-04-18</p>
 </blockquote>
@@ -311,6 +314,7 @@
 <li>当线性表长度变化较大时，难以确定存储空间的容量</li>
 <li>造成存储空间的碎片</li>
 </ul>
+<hr>
 <blockquote>
 <p>update at 2017-04-19</p>
 </blockquote>
@@ -330,10 +334,11 @@
 <li>有了头结点，对在第一元素结点前插入结点和删除第一节点，其操作与其他节点的操作就统一了</li>
 <li>头结点不一定是链表必须要素</li>
 </ul>
+<hr>
 <blockquote>
 <p>update at 2017-04-20</p>
 </blockquote>
-<h4 id="单链表结构与顺序结构优缺点"><a href="#单链表结构与顺序结构优缺点" class="headerlink" title="单链表结构与顺序结构优缺点"></a>单链表结构与顺序结构优缺点</h4><p><strong>存储分配方式</strong></p>
+<h4 id="顺序结构与单链表结构优缺点"><a href="#顺序结构与单链表结构优缺点" class="headerlink" title="顺序结构与单链表结构优缺点"></a>顺序结构与单链表结构优缺点</h4><p><strong>存储分配方式</strong></p>
 <ul>
 <li>顺序存储结构用一段连续的存储单元依次存储线性表的数据元素</li>
 <li>单链表采用链式存储结构，用一组任意的存储单元存放线性表的元素</li>
