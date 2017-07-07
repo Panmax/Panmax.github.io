@@ -102,10 +102,14 @@
 <meta property="og:url" content="http://panmax.love/2017/《大话数据结构》阅读笔记/index.html">
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。   update at 2017-04-13  算法具有">
-<meta property="og:updated_time" content="2017-07-03T01:57:52.000Z">
+<meta property="og:image" content="http://panmax.love/2017/《大话数据结构》阅读笔记/1.png">
+<meta property="og:image" content="http://panmax.love/2017/《大话数据结构》阅读笔记/2.png">
+<meta property="og:image" content="http://panmax.love/2017/《大话数据结构》阅读笔记/3.png">
+<meta property="og:updated_time" content="2017-07-07T02:33:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《大话数据结构》阅读笔记">
 <meta name="twitter:description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。   update at 2017-04-13  算法具有">
+<meta name="twitter:image" content="http://panmax.love/2017/《大话数据结构》阅读笔记/1.png">
 
 
 
@@ -338,7 +342,7 @@
 <blockquote>
 <p>update at 2017-04-20</p>
 </blockquote>
-<h4 id="顺序结构与单链表结构优缺点"><a href="#顺序结构与单链表结构优缺点" class="headerlink" title="顺序结构与单链表结构优缺点"></a>顺序结构与单链表结构优缺点</h4><p><strong>存储分配方式</strong></p>
+<h4 id="3-11-顺序结构与单链表结构优缺点"><a href="#3-11-顺序结构与单链表结构优缺点" class="headerlink" title="3.11 顺序结构与单链表结构优缺点"></a>3.11 顺序结构与单链表结构优缺点</h4><p><strong>存储分配方式</strong></p>
 <ul>
 <li>顺序存储结构用一段连续的存储单元依次存储线性表的数据元素</li>
 <li>单链表采用链式存储结构，用一组任意的存储单元存放线性表的元素</li>
@@ -361,9 +365,19 @@
 </ul>
 <p><strong>结论</strong></p>
 <ul>
-<li>若线性表需要频繁查找，很少进行插入和删除操作时，宜采用顺序存储结构。若需要频繁插入和删除时，宜采用单链表结构。</li>
+<li>若线性表需要频繁查找，很少进行插入和删除操作时，宜采用顺序存储结构。若需要频繁插入和删除时，宜采用单链表结构</li>
 <li>当线性表中的元素个数变化较大或者根本不知道有多大时，最好用单链表结构，这样可以不需要考虑存储空间的大小问题。而如果事先知道线性表的大致长度，用顺序存储结构效率会高很多</li>
 </ul>
+<h4 id="3-14-双向链表"><a href="#3-14-双向链表" class="headerlink" title="3.14 双向链表"></a>3.14 双向链表</h4><p><strong>线性表的双向链表存储结构</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">DulNode</span></span></div><div class="line">&#123;</div><div class="line">    ElemType data;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">DuLNode</span> *<span class="title">prior</span>;</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">DuLNode</span> *<span class="title">next</span>;</span></div><div class="line">&#125; DulNode, *DuLinkList;</div></pre></td></tr></table></figure>
+<p><strong>双向链表插入元素</strong></p>
+<p><img src="1.png" alt=""></p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">s</span> -&gt;</span> prior = p</div><div class="line"><span class="function"><span class="title">s</span> -&gt;</span> <span class="function"><span class="title">next</span> = p -&gt;</span> next</div><div class="line"><span class="function"><span class="title">p</span> -&gt;</span> <span class="function"><span class="title">next</span> -&gt;</span> prior = s</div><div class="line"><span class="function"><span class="title">p</span> -&gt;</span> next = s</div></pre></td></tr></table></figure>
+<p><strong>双向链表删除元素</strong></p>
+<p><img src="2.png" alt=""></p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">p</span> -&gt;</span> <span class="function"><span class="title">prior</span> -&gt;</span> <span class="function"><span class="title">next</span> = p -&gt;</span> next;</div><div class="line"><span class="function"><span class="title">p</span> -&gt;</span> <span class="function"><span class="title">next</span> -&gt;</span> <span class="function"><span class="title">prior</span> = p -&gt;</span> prior</div><div class="line">free(p);</div></pre></td></tr></table></figure>
+<h4 id="3-15-回顾总结"><a href="#3-15-回顾总结" class="headerlink" title="3.15 回顾总结"></a>3.15 回顾总结</h4><p><strong>线性表的两种结构</strong></p>
+<p><img src="3.png" alt=""></p>
 
       
     </div>
