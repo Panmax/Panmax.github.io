@@ -95,16 +95,16 @@
 
 
 
-<meta name="description" content="test">
+<meta name="description" content="这篇文章完全是要写两件事：  安装 virtualenvwrapper 后如何配置 在 Python 2 上安装 iPython  如果用分成两篇文章来写的话，每篇文章就会非常的短，所以直接合成一篇来写。  配置 virtualenvwrapper安装 virtualenvwrapper 的过程就不再讲解了，直接 pip install 就可以完成，主要是安装完成后的配置，因为每次我装完都需要问一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="virtualenvwrapper 安装 与 iPython">
+<meta property="og:title" content="virtualenvwrapper 安装 与 iPython for Python2">
 <meta property="og:url" content="http://panmax.love/2017/virtualenvwrapper-安装-与-iPython/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="test">
-<meta property="og:updated_time" content="2017-07-12T03:43:22.000Z">
+<meta property="og:description" content="这篇文章完全是要写两件事：  安装 virtualenvwrapper 后如何配置 在 Python 2 上安装 iPython  如果用分成两篇文章来写的话，每篇文章就会非常的短，所以直接合成一篇来写。  配置 virtualenvwrapper安装 virtualenvwrapper 的过程就不再讲解了，直接 pip install 就可以完成，主要是安装完成后的配置，因为每次我装完都需要问一">
+<meta property="og:updated_time" content="2017-07-12T04:36:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="virtualenvwrapper 安装 与 iPython">
-<meta name="twitter:description" content="test">
+<meta name="twitter:title" content="virtualenvwrapper 安装 与 iPython for Python2">
+<meta name="twitter:description" content="这篇文章完全是要写两件事：  安装 virtualenvwrapper 后如何配置 在 Python 2 上安装 iPython  如果用分成两篇文章来写的话，每篇文章就会非常的短，所以直接合成一篇来写。  配置 virtualenvwrapper安装 virtualenvwrapper 的过程就不再讲解了，直接 pip install 就可以完成，主要是安装完成后的配置，因为每次我装完都需要问一">
 
 
 
@@ -138,7 +138,7 @@
 
 
 
-  <title>virtualenvwrapper 安装 与 iPython | 贾攀家</title>
+  <title>virtualenvwrapper 安装 与 iPython for Python2 | 贾攀家</title>
   
 
 
@@ -214,7 +214,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">virtualenvwrapper 安装 与 iPython</h1>
+          <h1 class="post-title" itemprop="name headline">virtualenvwrapper 安装 与 iPython for Python2</h1>
         
 
         <div class="post-meta">
@@ -261,7 +261,25 @@
       
 
       
-        <p>test</p>
+        <p>这篇文章完全是要写两件事：</p>
+<ol>
+<li>安装 <code>virtualenvwrapper</code> 后如何配置</li>
+<li>在 <code>Python 2</code> 上安装 <code>iPython</code></li>
+</ol>
+<p>如果用分成两篇文章来写的话，每篇文章就会非常的短，所以直接合成一篇来写。</p>
+<hr>
+<h2 id="配置-virtualenvwrapper"><a href="#配置-virtualenvwrapper" class="headerlink" title="配置 virtualenvwrapper"></a>配置 virtualenvwrapper</h2><p>安装 <code>virtualenvwrapper</code> 的过程就不再讲解了，直接 <code>pip install</code> 就可以完成，主要是安装完成后的配置，因为每次我装完都需要问一下谷歌然后才能继续，所以不如记到自己的 Blog 下，即便下次再忘了也能快速找到解决方法。</p>
+<p>安装完 <code>virtualenvwrapper</code> 后，要根据自己使用的 <code>shell</code> 来配置不同的文件，比如 <code>bash</code> 需要配置 <code>.bashrc</code>、<code>zsh</code> 配置 <code>.zshrc</code>。</p>
+<p>配置如下：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="builtin-name">export</span> <span class="attribute">WORKON_HOME</span>=<span class="variable">$HOME</span>/.virtualenvs</div><div class="line">source /usr/local/bin/virtualenvwrapper.sh</div></pre></td></tr></table></figure>
+<p>第一行是给定一个虚拟环境保存的目录，第二行是执行 <code>virtualenvwrapper</code> 的脚本。</p>
+<p>大多数问题都出在第二个命令上，因为不通发行版的机器 <code>virtualenvwrapper.sh</code> 所在位置不同，所以需要通过:</p>
+<p><code>find / -name virtualenvwrapper.sh</code> </p>
+<p>找到 <code>virtualenvwrapper.sh</code> 所在的位置后，根据自己机器上的位置来写那一行脚本。</p>
+<p>修改完成后保存退出，重新启动一个命令窗口，检查有没有配置成功。</p>
+<hr>
+<h2 id="在-Python-2-上安装-iPython"><a href="#在-Python-2-上安装-iPython" class="headerlink" title="在 Python 2 上安装 iPython"></a>在 Python 2 上安装 iPython</h2><p>最新版的 <code>iPython</code> 已经不支持 Py2 了，所以直接用 <code>pip</code> 安装 <code>iPython</code> 时，会提示安装失败，所以要手动指定安装版本。</p>
+<p>最后一个支持 Py2 的版本是 <code>5.3.0</code>，所以用 <code>pip install ipython==5.3.0</code> 就行了。</p>
 
       
     </div>
