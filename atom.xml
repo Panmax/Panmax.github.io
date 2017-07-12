@@ -60,6 +60,26 @@
   </entry>
   
   <entry>
+    <title>virtualenvwrapper 安装 与 iPython</title>
+    <link href="http://panmax.love/2017/virtualenvwrapper-%E5%AE%89%E8%A3%85-%E4%B8%8E-iPython/"/>
+    <id>http://panmax.love/2017/virtualenvwrapper-安装-与-iPython/</id>
+    <published>2017-07-12T03:43:12.000Z</published>
+    <updated>2017-07-12T03:43:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>test</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;test&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>基于 Hystrix 的熔断器调研</title>
     <link href="http://panmax.love/2017/%E5%9F%BA%E4%BA%8E-Hystrix-%E7%9A%84%E7%86%94%E6%96%AD%E5%99%A8%E8%B0%83%E7%A0%94/"/>
     <id>http://panmax.love/2017/基于-Hystrix-的熔断器调研/</id>
@@ -742,38 +762,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>解决Pycharm中总是不小心拖拽代码的问题</title>
-    <link href="http://panmax.love/2017/%E8%A7%A3%E5%86%B3Pycharm%E4%B8%AD%E6%80%BB%E6%98%AF%E4%B8%8D%E5%B0%8F%E5%BF%83%E6%8B%96%E6%8B%BD%E4%BB%A3%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>http://panmax.love/2017/解决Pycharm中总是不小心拖拽代码的问题/</id>
-    <published>2017-01-01T12:11:30.000Z</published>
-    <updated>2017-04-08T03:36:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>我一直想转 VIM 党，但转了好多次了都没转成功，后来就放弃了，给了一个安慰自己的说法：「某些事情，键盘就是没有鼠标快。」所以依旧在使用 Pycharm 作为我的主要开发工具。</p>
-<p>但是。。</p>
-<p>因为我是鼠标党或者触摸板党，所以经常不小心在用鼠标的时候拖拽代码，尤其是升级完 Sierra 后（其实我也不太清楚是因为换了Magic Mouse2 以后还是升级导致的），就经常不小心拖拽代码，将代码弄乱，每次都要按 command + z 撤销，然后还要反复检查是不是搞乱了，大大影响我的工作效率，今天突然想到，设置中是不是能关闭代码拖拽的功能，于是通过关键词 drag 找了找，果然，没有找到。</p>
-<p>然而我并没有放弃，在 Editor –&gt; General 中看到一项叫 Enable Drag’n’Drop functionality in Editor ，把这个项前边的勾勾去掉后，发现奇迹般的貌似成功了，好吧，运气不错。。</p>
-<p>开门红~</p>
-<hr>
-<p>2017-04-08 UPDATE:</p>
-<p>由于最近的工作需要，要读一些 Java 代码，默认 IDEA 配置中会自动将 import 和单行函数折叠，为了取消这个限制，需要在 Preferences &gt; Editor &gt; General &gt; Code Folding在右侧窗口选择哪些要折叠，哪些不需要折叠。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我一直想转 VIM 党，但转了好多次了都没转成功，后来就放弃了，给了一个安慰自己的说法：「某些事情，键盘就是没有鼠标快。」所以依旧在使用 Pycharm 作为我的主要开发工具。&lt;/p&gt;
-&lt;p&gt;但是。。&lt;/p&gt;
-&lt;p&gt;因为我是鼠标党或者触摸板党，所以经常不小心在用鼠标的时候拖
-    
-    </summary>
-    
-      <category term="Code" scheme="http://panmax.love/categories/Code/"/>
-    
-    
-      <category term="IDE" scheme="http://panmax.love/tags/IDE/"/>
     
   </entry>
   
