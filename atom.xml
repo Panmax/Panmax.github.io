@@ -60,6 +60,32 @@
   </entry>
   
   <entry>
+    <title>gradle 编译时强制刷新依赖</title>
+    <link href="http://panmax.love/2017/gradle-%E7%BC%96%E8%AF%91%E6%97%B6%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0%E4%BE%9D%E8%B5%96/"/>
+    <id>http://panmax.love/2017/gradle-编译时强制刷新依赖/</id>
+    <published>2017-07-17T08:40:35.000Z</published>
+    <updated>2017-07-17T08:51:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近团队封装了个 <code>springboot</code> 的 <code>starter</code>，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 <code>profile</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">cloud:</span></div><div class="line"><span class="attr">    config:</span></div><div class="line"><span class="attr">      discovery:</span></div><div class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">        service-id:</span> <span class="string">config-server</span></div><div class="line"><span class="attr">      label:</span> <span class="string">master</span></div><div class="line"><span class="attr">      profile:</span> <span class="string">$&#123;spring.profiles.active:dev&#125;</span></div></pre></td></tr></table></figure>
+<p>所以理所当然的认为不需要指定 <code>spring</code> 的 active 了，就把 <code>active</code> 给删掉了（如下）：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> dev</div></pre></td></tr></table></figure>
+<p>发布到 maven 仓库后测试，后发现没啥问题，结果过了个周末来了再编译，发现程序无法启动了，找了很多原因才发现是上边的操作导致的。</p>
+<p>后来将配置改了回来，发现还是不行，又鼓捣了好久发现这次的问题是 gradle 编译缓存的问题，通过这个网站： <a href="https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html" target="_blank" rel="external">https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html</a> 找到了解决办法，编译的时候在后边加上 <code>--refresh-dependencies</code> 可以强制刷新缓存。</p>
+<p>虽然问题解决了，但是我还有个疑问，我们的 <code>starter</code> 明明已经指定版本号为 <code>0.0.1-SNAPSHOT</code> 了，按理说应该在 <code>build</code> 的时候无条件的重新拉取最新的依赖，但是这个时候为什么没有生效？</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近团队封装了个 &lt;code&gt;springboot&lt;/code&gt; 的 &lt;code&gt;starter&lt;/code&gt;，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 &lt;code&gt;profile&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight y
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>virtualenvwrapper 安装 与 iPython for Python2</title>
     <link href="http://panmax.love/2017/virtualenvwrapper-%E5%AE%89%E8%A3%85-%E4%B8%8E-iPython/"/>
     <id>http://panmax.love/2017/virtualenvwrapper-安装-与-iPython/</id>
@@ -762,38 +788,6 @@
     
     
       <category term="读书" scheme="http://panmax.love/tags/%E8%AF%BB%E4%B9%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>纪念很久没有写代码到深夜 &amp;&amp; 几个提高效率的oh-my-zsh插件</title>
-    <link href="http://panmax.love/2017/%E7%BA%AA%E5%BF%B5%E5%BE%88%E4%B9%85%E6%B2%A1%E6%9C%89%E5%86%99%E4%BB%A3%E7%A0%81%E5%88%B0%E6%B7%B1%E5%A4%9C-%E5%87%A0%E4%B8%AA%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87%E7%9A%84oh-my-zsh%E6%8F%92%E4%BB%B6/"/>
-    <id>http://panmax.love/2017/纪念很久没有写代码到深夜-几个提高效率的oh-my-zsh插件/</id>
-    <published>2017-02-09T03:28:06.000Z</published>
-    <updated>2017-03-13T05:51:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>昨晚写代码时遇到一个坑，导致12点半左右才合上电脑。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一度怀疑是 sqlalchemy 或者 mysql 的缓存导致，或者有事务没有提交导致，然后各种查资料，尝试关闭 mysql 缓存啥的，都没有解决问题，但是后来发现用不同参数调用时，有时又能得到正确的数据，使我不禁开始怀疑人生。</p>
-<p>眼看到了0点，我静下心来，一行一行检查代码运行路径，最终捉住了这只虫子。。。在我印象中，自从去年7、8月份后，就没有写代码到这么晚了，因为之前每次写代码都会兴奋，导致休息不好，所以就改掉了深夜写代码的习惯。</p>
-<p>今天白天在打开终端时，我的 oh-my-zsh 例行提示我是否要检查更新，我进行了更新工作后，饶有兴趣的查了查 oh-my-zsh 的常用插件，自己也收入囊肿几个。在此做下记录：</p>
-<p>先说下如何配置插件，打开 ~/.zshrc 里边有个 </p>
-<p><code>plugins=(...)</code> 编辑括号中的内容就可以了</p>
-<h3 id="d"><a href="#d" class="headerlink" title="d"></a>d</h3><p>这个插件可以记录我本次窗口进入过的目录历史记录，当在几个目录之间来回穿梭时，可以输入 d 回车，按照提示的数字直接进入之前进入过的目录。</p>
-<h3 id="sublime"><a href="#sublime" class="headerlink" title="sublime"></a>sublime</h3><p>之前在命令行下，为了快速编辑一个文件，我通常使用 vi, 或者做复杂编辑的时候使用 atom，其实我更喜欢用 sublime 一些，但是一直找不到如何让 终端 调起它的方法，今天终于知道到了。常用命令如下</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">st</span>          <span class="meta"># 直接打开sublime</span></div><div class="line"><span class="keyword">st</span> file_a   <span class="meta"># 用sublime打开文件 file</span></div><div class="line"><span class="keyword">st</span> dir_a    <span class="meta"># 用sublime打开目录 dir</span></div><div class="line">stt         <span class="meta"># 在sublime打开当前目录，相当于 st .</span></div></pre></td></tr></table></figure>
-<h3 id="extract"><a href="#extract" class="headerlink" title="extract"></a>extract</h3><p>我觉得这个插件真的解决了我的痛点，之前每次解压文件，都需要先去网上查下命令，比如解 gz.tar 需要用什么命令 解压 tar 需要什么命令，解压 zip 需要什么命令，现在好了，需要解压文件时直接 <code>x file_name</code> 就完成了。</p>
-<h3 id="z"><a href="#z" class="headerlink" title="z"></a>z</h3><p>作用和 autojump 相同，autojump 是使用 <code>j</code> 作为启动键，z 是用 <code>z</code> 作为启动键，但是查阅资料后解释 z 的速度更快一些，z 是使用 shell 直接编写的，而 autojump 则是用 Python 编写（又黑 Python ）。。。</p>
-<h3 id="web-search"><a href="#web-search" class="headerlink" title="web-search"></a>web-search</h3><p>这个是用来在终端中启用搜索的命令，比如 输入 <code>google Python</code> 会自动用默认浏览器打开 google 并用 Python 作为关键字进行查询。同时也支持 baidu、bing。</p>
-<p>我现在的插件列表如下：</p>
-<p><code>plugins=(git d sublime extract z web-search)</code></p>
-<p>git 的 Aliases 见： <code>https://github.com/robbyrussell/oh-my-zsh/wiki/Plugin:git</code></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;昨晚写代码时遇到一个坑，导致12点半左右才合上电脑。这个坑是自己挖出来的，大致原因是在使用 sqlalchemy 读取一个数据前，给这个数据进行了操作，导致每次读出来的值都不准。之前没想到是因为前边的代码操作了数据，恰好我在这之前为了验证一些逻辑，手动改了下表数据，所以我一
-    
-    </summary>
-    
     
   </entry>
   

@@ -95,16 +95,16 @@
 
 
 
-<meta name="description" content="这篇文章完全是要写两件事：  安装 virtualenvwrapper 后如何配置 在 Python 2 上安装 iPython  如果分成两篇文章来写的话，每篇文章就会非常短，不值当的，所以直接合成一篇来写。  配置 virtualenvwrapper安装 virtualenvwrapper 的过程就不再讲解了，直接 pip install 就可以完成，主要是安装完成后的配置，因为每次我装完都需">
+<meta name="description" content="最近团队封装了个 springboot 的 starter，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 profile 1234567cloud:    config:      discovery:        enabled: true        service-id: config-server      label: master      profile: $&amp;#1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="virtualenvwrapper 安装 与 iPython for Python2">
-<meta property="og:url" content="http://panmax.love/2017/virtualenvwrapper-安装-与-iPython/index.html">
+<meta property="og:title" content="gradle 编译时强制刷新依赖">
+<meta property="og:url" content="http://panmax.love/2017/gradle-编译时强制刷新依赖/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="这篇文章完全是要写两件事：  安装 virtualenvwrapper 后如何配置 在 Python 2 上安装 iPython  如果分成两篇文章来写的话，每篇文章就会非常短，不值当的，所以直接合成一篇来写。  配置 virtualenvwrapper安装 virtualenvwrapper 的过程就不再讲解了，直接 pip install 就可以完成，主要是安装完成后的配置，因为每次我装完都需">
-<meta property="og:updated_time" content="2017-07-12T04:42:35.000Z">
+<meta property="og:description" content="最近团队封装了个 springboot 的 starter，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 profile 1234567cloud:    config:      discovery:        enabled: true        service-id: config-server      label: master      profile: $&amp;#1">
+<meta property="og:updated_time" content="2017-07-17T08:51:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="virtualenvwrapper 安装 与 iPython for Python2">
-<meta name="twitter:description" content="这篇文章完全是要写两件事：  安装 virtualenvwrapper 后如何配置 在 Python 2 上安装 iPython  如果分成两篇文章来写的话，每篇文章就会非常短，不值当的，所以直接合成一篇来写。  配置 virtualenvwrapper安装 virtualenvwrapper 的过程就不再讲解了，直接 pip install 就可以完成，主要是安装完成后的配置，因为每次我装完都需">
+<meta name="twitter:title" content="gradle 编译时强制刷新依赖">
+<meta name="twitter:description" content="最近团队封装了个 springboot 的 starter，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 profile 1234567cloud:    config:      discovery:        enabled: true        service-id: config-server      label: master      profile: $&amp;#1">
 
 
 
@@ -132,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://panmax.love/2017/virtualenvwrapper-安装-与-iPython/"/>
+  <link rel="canonical" href="http://panmax.love/2017/gradle-编译时强制刷新依赖/"/>
 
 
 
 
 
-  <title>virtualenvwrapper 安装 与 iPython for Python2 | 贾攀家</title>
+  <title>gradle 编译时强制刷新依赖 | 贾攀家</title>
   
 
 
@@ -197,7 +197,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://panmax.love/2017/virtualenvwrapper-安装-与-iPython/">
+    <link itemprop="mainEntityOfPage" href="http://panmax.love/2017/gradle-编译时强制刷新依赖/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -214,7 +214,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">virtualenvwrapper 安装 与 iPython for Python2</h1>
+          <h1 class="post-title" itemprop="name headline">gradle 编译时强制刷新依赖</h1>
         
 
         <div class="post-meta">
@@ -226,8 +226,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T11:43:12+08:00">
-                2017-07-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-17T16:40:35+08:00">
+                2017-07-17
               </time>
             
 
@@ -261,25 +261,13 @@
       
 
       
-        <p>这篇文章完全是要写两件事：</p>
-<ol>
-<li>安装 <code>virtualenvwrapper</code> 后如何配置</li>
-<li>在 <code>Python 2</code> 上安装 <code>iPython</code></li>
-</ol>
-<p>如果分成两篇文章来写的话，每篇文章就会非常短，不值当的，所以直接合成一篇来写。</p>
-<hr>
-<h2 id="配置-virtualenvwrapper"><a href="#配置-virtualenvwrapper" class="headerlink" title="配置 virtualenvwrapper"></a>配置 virtualenvwrapper</h2><p>安装 <code>virtualenvwrapper</code> 的过程就不再讲解了，直接 <code>pip install</code> 就可以完成，主要是安装完成后的配置，因为每次我装完都需要问一下谷歌然后才能继续，所以不如记到自己的 Blog 下，即便下次再忘了也能快速找到解决方法。</p>
-<p>安装完 <code>virtualenvwrapper</code> 后，要根据自己使用的 <code>shell</code> 来配置不同的文件，比如 <code>bash</code> 需要配置 <code>.bashrc</code>、<code>zsh</code> 配置 <code>.zshrc</code>。</p>
-<p>配置如下：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="builtin-name">export</span> <span class="attribute">WORKON_HOME</span>=<span class="variable">$HOME</span>/.virtualenvs</div><div class="line">source /usr/local/bin/virtualenvwrapper.sh</div></pre></td></tr></table></figure>
-<p>第一行是给定一个虚拟环境保存的目录，第二行是执行 <code>virtualenvwrapper</code> 的脚本使 <code>workon</code>, <code>mkvirtualenv</code> 等命令生效。</p>
-<p>大多数时候都卡在第二行那个命令上，因为不同发行版的机器 <code>virtualenvwrapper.sh</code> 所在位置不同，所以需要通过:</p>
-<p><code>find / -name virtualenvwrapper.sh</code> </p>
-<p>找到 <code>virtualenvwrapper.sh</code> 所在的位置后，根据自己机器上的实际位置来写那一行脚本。</p>
-<p>修改完成后保存退出，重新启动一个命令窗口，检查有没有配置成功。</p>
-<hr>
-<h2 id="在-Python-2-上安装-iPython"><a href="#在-Python-2-上安装-iPython" class="headerlink" title="在 Python 2 上安装 iPython"></a>在 Python 2 上安装 iPython</h2><p>最新版的 <code>iPython</code> 已经不支持 Py2 了，所以直接用 <code>pip</code> 安装 <code>iPython</code> 时，会提示安装失败，所以要手动指定安装版本。</p>
-<p>最后一个支持 Py2 的版本是 <code>5.3.0</code>，所以用 <code>pip install ipython==5.3.0</code> 就行了。</p>
+        <p>最近团队封装了个 <code>springboot</code> 的 <code>starter</code>，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 <code>profile</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">cloud:</span></div><div class="line"><span class="attr">    config:</span></div><div class="line"><span class="attr">      discovery:</span></div><div class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">        service-id:</span> <span class="string">config-server</span></div><div class="line"><span class="attr">      label:</span> <span class="string">master</span></div><div class="line"><span class="attr">      profile:</span> <span class="string">$&#123;spring.profiles.active:dev&#125;</span></div></pre></td></tr></table></figure>
+<p>所以理所当然的认为不需要指定 <code>spring</code> 的 active 了，就把 <code>active</code> 给删掉了（如下）：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> dev</div></pre></td></tr></table></figure>
+<p>发布到 maven 仓库后测试，后发现没啥问题，结果过了个周末来了再编译，发现程序无法启动了，找了很多原因才发现是上边的操作导致的。</p>
+<p>后来将配置改了回来，发现还是不行，又鼓捣了好久发现这次的问题是 gradle 编译缓存的问题，通过这个网站： <a href="https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html" target="_blank" rel="external">https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html</a> 找到了解决办法，编译的时候在后边加上 <code>--refresh-dependencies</code> 可以强制刷新缓存。</p>
+<p>虽然问题解决了，但是我还有个疑问，我们的 <code>starter</code> 明明已经指定版本号为 <code>0.0.1-SNAPSHOT</code> 了，按理说应该在 <code>build</code> 的时候无条件的重新拉取最新的依赖，但是这个时候为什么没有生效？</p>
 
       
     </div>
@@ -316,8 +304,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/基于-Hystrix-的熔断器调研/" rel="next" title="基于 Hystrix 的熔断器调研">
-                <i class="fa fa-chevron-left"></i> 基于 Hystrix 的熔断器调研
+              <a href="/2017/virtualenvwrapper-安装-与-iPython/" rel="next" title="virtualenvwrapper 安装 与 iPython for Python2">
+                <i class="fa fa-chevron-left"></i> virtualenvwrapper 安装 与 iPython for Python2
               </a>
             
           </div>
@@ -326,8 +314,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/gradle-编译时强制刷新依赖/" rel="prev" title="gradle 编译时强制刷新依赖">
-                gradle 编译时强制刷新依赖 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/2017-书单/" rel="prev" title="2017 书单">
+                2017 书单 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
