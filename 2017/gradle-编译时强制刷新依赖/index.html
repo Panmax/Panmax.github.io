@@ -101,7 +101,7 @@
 <meta property="og:url" content="http://panmax.love/2017/gradle-编译时强制刷新依赖/index.html">
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="最近团队封装了个 springboot 的 starter，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 profile 1234567cloud:    config:      discovery:        enabled: true        service-id: config-server      label: master      profile: $&amp;#1">
-<meta property="og:updated_time" content="2017-07-17T08:51:02.000Z">
+<meta property="og:updated_time" content="2017-07-17T08:54:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gradle 编译时强制刷新依赖">
 <meta name="twitter:description" content="最近团队封装了个 springboot 的 starter，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 profile 1234567cloud:    config:      discovery:        enabled: true        service-id: config-server      label: master      profile: $&amp;#1">
@@ -265,7 +265,7 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">cloud:</span></div><div class="line"><span class="attr">    config:</span></div><div class="line"><span class="attr">      discovery:</span></div><div class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">        service-id:</span> <span class="string">config-server</span></div><div class="line"><span class="attr">      label:</span> <span class="string">master</span></div><div class="line"><span class="attr">      profile:</span> <span class="string">$&#123;spring.profiles.active:dev&#125;</span></div></pre></td></tr></table></figure>
 <p>所以理所当然的认为不需要指定 <code>spring</code> 的 active 了，就把 <code>active</code> 给删掉了（如下）：</p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> dev</div></pre></td></tr></table></figure>
-<p>发布到 maven 仓库后测试，后发现没啥问题，结果过了个周末来了再编译，发现程序无法启动了，找了很多原因才发现是上边的操作导致的。</p>
+<p>发布到 maven 仓库后，重新测试没啥问题。结果过了个周末来了再编译，发现程序无法启动了，找了很多原因才发现是上边的操作导致的。</p>
 <p>后来将配置改了回来，发现还是不行，又鼓捣了好久发现这次的问题是 gradle 编译缓存的问题，通过这个网站： <a href="https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html" target="_blank" rel="external">https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html</a> 找到了解决办法，编译的时候在后边加上 <code>--refresh-dependencies</code> 可以强制刷新缓存。</p>
 <p>虽然问题解决了，但是我还有个疑问，我们的 <code>starter</code> 明明已经指定版本号为 <code>0.0.1-SNAPSHOT</code> 了，按理说应该在 <code>build</code> 的时候无条件的重新拉取最新的依赖，但是这个时候为什么没有生效？</p>
 
