@@ -110,6 +110,33 @@
   </entry>
   
   <entry>
+    <title>Spring 常用注解</title>
+    <link href="http://panmax.love/2017/spring-chang-yong-zhu-jie/"/>
+    <id>http://panmax.love/2017/spring-chang-yong-zhu-jie/</id>
+    <published>2017-07-19T02:44:33.000Z</published>
+    <updated>2017-07-19T02:48:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>@Controller</code></p>
+<ul>
+<li>用于标注控制层组件</li>
+<li><code>@Controller</code> 用于标记在一个类上，使用它标记的类就是一个 <code>SpringMVC Controller</code> 对象，分发处理器将会扫描使用了该注解的类方法，并检测该方法是否使用了 <code>@RequestMapping</code> 注解</li>
+<li>可以把 <code>Request</code> 请求 header 部分的值绑定到方法参数上</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;@Controller&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用于标注控制层组件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;@Controller&lt;/code&gt; 用于标记在一个类上，使用它标记的类就是一个 &lt;code&gt;SpringMVC Controller&lt;/code&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>gradle 编译时强制刷新依赖</title>
     <link href="http://panmax.love/2017/gradle-%E7%BC%96%E8%AF%91%E6%97%B6%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0%E4%BE%9D%E8%B5%96/"/>
     <id>http://panmax.love/2017/gradle-编译时强制刷新依赖/</id>
@@ -688,156 +715,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>《大话数据结构》阅读笔记</title>
-    <link href="http://panmax.love/2017/%E3%80%8A%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
-    <id>http://panmax.love/2017/《大话数据结构》阅读笔记/</id>
-    <published>2017-04-11T16:00:00.000Z</published>
-    <updated>2017-07-13T03:46:40.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>update at 2017-04-12</p>
-</blockquote>
-<p>逻辑结构：指数据对象中数据元素之间的相互关系</p>
-<pre><code>1. 集合结构
-2. 线性结构
-3. 树形结构
-4. 图形结构
-</code></pre><p>物理结构：指数据的逻辑结构在计算机中的存储形式</p>
-<pre><code>1. 顺序存储结构
-2. 链式存储结构
-</code></pre><p>逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。</p>
-<hr>
-<blockquote>
-<p>update at 2017-04-13</p>
-</blockquote>
-<p>算法具有五个基本特性：输入、输出、有穷性、确定性和可行性</p>
-<p>好的算法应该具有正确性、可读性、健壮性、高效率和低存储量的特征</p>
-<p>判断一个算法的效率时，函数中的常数和其他次要项常常可以忽略，而更应该关注主项（最高阶项）的阶数</p>
-<hr>
-<blockquote>
-<p>update at 2017-04-17</p>
-</blockquote>
-<p>推到大 O 阶：</p>
-<ol>
-<li>用常数 1 取代运行时间中的所有加法常数。</li>
-<li>在修改后的运行次数函数中，只保留最高阶项。</li>
-<li>如果最高阶项存在且不是 1，则去除与这个项相乘的常数。</li>
-</ol>
-<p>得到的结果就是大 O 阶。</p>
-<hr>
-<blockquote>
-<p>update at 2017-04-18</p>
-</blockquote>
-<p><strong>线性表顺序存储结构需要三个属性：</strong></p>
-<ol>
-<li>存储空间的起始位置</li>
-<li>线性表的最大存储容量</li>
-<li>线性表的当前长度</li>
-</ol>
-<p><strong>线性表顺序存储结构的优缺点：</strong></p>
-<p><em>优点：</em></p>
-<ul>
-<li>无需为表示表中元素之间的逻辑关系而增加额外的存储空间</li>
-<li>可以快速地存取表中任一位置的元素</li>
-</ul>
-<p><em>缺点：</em></p>
-<ul>
-<li>插入和删除操作需要移动大量元素</li>
-<li>当线性表长度变化较大时，难以确定存储空间的容量</li>
-<li>造成存储空间的碎片</li>
-</ul>
-<hr>
-<blockquote>
-<p>update at 2017-04-19</p>
-</blockquote>
-<p><strong>链式结构</strong></p>
-<p>为了表示每个数据元素 <code>ai</code> 与其直接后继数据元素 <code>ai+1</code> 之间的逻辑关系，对数据元素 <code>ai</code> 来说，除了存储其本身的信息之外，还需存储一个指示其直接后继的信息（即直接后继的存储位置）</p>
-<p>把存储数据元素信息的域称为数据域，把存储直接后继位置的域成为指针域。指针域中存储的信息称做指针或链。这两部分信息组成数据元素 <code>ai</code> 的存储映像，称为结点（Node）</p>
-<p>链表中第一个节点的存储位置叫做头指针</p>
-<p><strong>头指针</strong></p>
-<ul>
-<li>头指针是指链表指向第一个节点的指针，若链表有头结点，则是指向投结点的指针</li>
-<li>头指针具有标识作用，所以常用头指针冠以链表的名字</li>
-<li>无论链表是否为空，头指针均不为空。头指针是链表的必要元素</li>
-</ul>
-<p><strong>头结点</strong></p>
-<ul>
-<li>头结点是为了操作的统一和方便而设立的，放在第一元素的结点之前，其数据域一般无意义（也可以存放链表的长度）</li>
-<li>有了头结点，对在第一元素结点前插入结点和删除第一节点，其操作与其他节点的操作就统一了</li>
-<li>头结点不一定是链表必须要素</li>
-</ul>
-<hr>
-<blockquote>
-<p>update at 2017-04-20</p>
-</blockquote>
-<h4 id="3-11-顺序结构与单链表结构优缺点"><a href="#3-11-顺序结构与单链表结构优缺点" class="headerlink" title="3.11 顺序结构与单链表结构优缺点"></a>3.11 顺序结构与单链表结构优缺点</h4><p><strong>存储分配方式</strong></p>
-<ul>
-<li>顺序存储结构用一段连续的存储单元依次存储线性表的数据元素</li>
-<li>单链表采用链式存储结构，用一组任意的存储单元存放线性表的元素</li>
-</ul>
-<p><strong>时间性能</strong></p>
-<p><strong>查找</strong></p>
-<ul>
-<li>顺序存储结构O(1)</li>
-<li>单链表O(n)</li>
-</ul>
-<p><strong>插入和删除</strong></p>
-<ul>
-<li>顺序存储结构需要平均移动表长一半的元素，时间为O(n)</li>
-<li>单链表在找出某位置的指针后，插入和删除时间为O(1)</li>
-</ul>
-<p><strong>空间性能</strong></p>
-<ul>
-<li>顺序存储结构需预分配存储空间，分大了浪费，分小了容易发生上溢</li>
-<li>单链表不需要分配存储空间，只要有就可以分配，元素个数也不受限制</li>
-</ul>
-<p><strong>结论</strong></p>
-<ul>
-<li>若线性表需要频繁查找，很少进行插入和删除操作时，宜采用顺序存储结构。若需要频繁插入和删除时，宜采用单链表结构</li>
-<li>当线性表中的元素个数变化较大或者根本不知道有多大时，最好用单链表结构，这样可以不需要考虑存储空间的大小问题。而如果事先知道线性表的大致长度，用顺序存储结构效率会高很多</li>
-</ul>
-<h4 id="3-14-双向链表"><a href="#3-14-双向链表" class="headerlink" title="3.14 双向链表"></a>3.14 双向链表</h4><p><strong>线性表的双向链表存储结构</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">DulNode</span></span></div><div class="line">&#123;</div><div class="line">    ElemType data;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">DuLNode</span> *<span class="title">prior</span>;</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">DuLNode</span> *<span class="title">next</span>;</span></div><div class="line">&#125; DulNode, *DuLinkList;</div></pre></td></tr></table></figure>
-<p><strong>双向链表插入元素</strong></p>
-<p><img src="1.png" alt=""></p>
-<figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">s</span> -&gt;</span> prior = p</div><div class="line"><span class="function"><span class="title">s</span> -&gt;</span> <span class="function"><span class="title">next</span> = p -&gt;</span> next</div><div class="line"><span class="function"><span class="title">p</span> -&gt;</span> <span class="function"><span class="title">next</span> -&gt;</span> prior = s</div><div class="line"><span class="function"><span class="title">p</span> -&gt;</span> next = s</div></pre></td></tr></table></figure>
-<p><strong>双向链表删除元素</strong></p>
-<p><img src="2.png" alt=""></p>
-<figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">p</span> -&gt;</span> <span class="function"><span class="title">prior</span> -&gt;</span> <span class="function"><span class="title">next</span> = p -&gt;</span> next;</div><div class="line"><span class="function"><span class="title">p</span> -&gt;</span> <span class="function"><span class="title">next</span> -&gt;</span> <span class="function"><span class="title">prior</span> = p -&gt;</span> prior</div><div class="line">free(p);</div></pre></td></tr></table></figure>
-<h4 id="3-15-回顾总结"><a href="#3-15-回顾总结" class="headerlink" title="3.15 回顾总结"></a>3.15 回顾总结</h4><p><strong>线性表的两种结构</strong></p>
-<p><img src="3.png" alt=""></p>
-<h4 id="4-2-栈的定义"><a href="#4-2-栈的定义" class="headerlink" title="4.2 栈的定义"></a>4.2 栈的定义</h4><blockquote>
-<p>栈（stack）是限定仅在表尾进行插入和删除操作的线性表。</p>
-</blockquote>
-<p>把允许插入和删除的一端称为栈顶（top），另一端称为栈底（bottom）</p>
-<p>不含任何数据元素的栈称为空栈，栈又称为后进先出（Last In First Out）的线性表，简称 FIFO 结构。</p>
-<p>栈的插入操作叫作进栈，也称压栈、入栈。</p>
-<p>栈的删除操作叫做出栈。</p>
-<h4 id="4-9-栈的应用-–-四则运算表达式求值"><a href="#4-9-栈的应用-–-四则运算表达式求值" class="headerlink" title="4.9 栈的应用 – 四则运算表达式求值"></a>4.9 栈的应用 – 四则运算表达式求值</h4><p>中缀表达式转后缀表达式:</p>
-<p>如：9+(3-1)<em>3+10/2   -&gt;   9 3 1 - 3 </em> + 10 2 / +</p>
-<p>规则：从左到右遍历中缀表达式的每个数字和符号，若是数字就输出，即成为后缀表达式的一部分；若是符号，则判断其与栈顶符号的优先级，是有括号或优先级低于栈顶符号（乘除优先加减）则栈顶元素依次出栈并输出，并将当前符号进栈，一直到最终输出后缀表达式为止。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;update at 2017-04-12&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;逻辑结构：指数据对象中数据元素之间的相互关系&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;1. 集合结构
-2. 线性结构
-3. 树形结构
-4. 图形结构
-&lt;/code&gt;&lt;/pre
-    
-    </summary>
-    
-    
-      <category term="读书" scheme="http://panmax.love/tags/%E8%AF%BB%E4%B9%A6/"/>
     
   </entry>
   
