@@ -102,6 +102,7 @@
 <meta property="og:url" content="https://jpanj.com/2015/记一次业务逻辑优化/index.html">
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="我们之前新鲜的逻辑是这样的：每个用户在redis中有一个自己的队列，队列中记录的照片的ID，当有新照片产生的时候，不区分性别，往每个人队列最前边插入(lpush)这条数据，每个人的队列最大值为1000，超出部分被截断，当用户看过队列中某张照片后，这张照片会从队列中移除(lrem)。 这种模式刚开始没有问题，后来新鲜增加了可以筛选性别的需求。因为队列中所有性别都是混在一起的，所以每次从队列中取出数据">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-12-22T09:00:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次业务逻辑优化">
