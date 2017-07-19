@@ -165,7 +165,7 @@
     <link href="http://panmax.love/2017/virtualenvwrapper-%E5%AE%89%E8%A3%85-%E4%B8%8E-iPython/"/>
     <id>http://panmax.love/2017/virtualenvwrapper-安装-与-iPython/</id>
     <published>2017-07-12T03:43:12.000Z</published>
-    <updated>2017-07-12T04:42:35.000Z</updated>
+    <updated>2017-07-19T05:28:54.000Z</updated>
     
     <content type="html"><![CDATA[<p>这篇文章完全是要写两件事：</p>
 <ol>
@@ -185,7 +185,16 @@
 <p>修改完成后保存退出，重新启动一个命令窗口，检查有没有配置成功。</p>
 <hr>
 <h2 id="在-Python-2-上安装-iPython"><a href="#在-Python-2-上安装-iPython" class="headerlink" title="在 Python 2 上安装 iPython"></a>在 Python 2 上安装 iPython</h2><p>最新版的 <code>iPython</code> 已经不支持 Py2 了，所以直接用 <code>pip</code> 安装 <code>iPython</code> 时，会提示安装失败，所以要手动指定安装版本。</p>
-<p>最后一个支持 Py2 的版本是 <code>5.3.0</code>，所以用 <code>pip install ipython==5.3.0</code> 就行了。</p>
+<p>最后一个支持 Py2 的版本是 <code>5.4.0</code>，所以用 <code>pip install ipython==5.4.0</code> 就行了。</p>
+<blockquote>
+<p>UPDATE AT 2017-07-19</p>
+</blockquote>
+<p>今天在一台服务器上将 pip 改为了<strong>阿里源</strong>后发现安装 <code>ipython==5.4.0</code> 时会报错：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Running setup.py egg_info <span class="keyword">for</span> package ipython</div><div class="line">    error <span class="keyword">in</span> ipython setup <span class="keyword">command</span>: <span class="title">Invalid</span> <span class="title">environment</span> <span class="title">marker</span>: <span class="title">sys_platform</span> == <span class="string">"win32"</span> <span class="title">and</span> <span class="title">python_version</span> &lt; <span class="string">"3.6"</span></div><div class="line">    Complete output <span class="built_in">from</span> <span class="keyword">command</span> <span class="title">python</span> <span class="title">setup</span>.<span class="title">py</span> <span class="title">egg_info</span>:</div><div class="line">    error <span class="keyword">in</span> ipython setup <span class="keyword">command</span>: <span class="title">Invalid</span> <span class="title">environment</span> <span class="title">marker</span>: <span class="title">sys_platform</span> == <span class="string">"win32"</span> <span class="title">and</span> <span class="title">python_version</span> &lt; <span class="string">"3.6"</span></div></pre></td></tr></table></figure>
+<p>这个问题使用 <code>pip install pip --upgrade</code> 将 pip 更新为最新版本就可以解决了。</p>
+<p>顺便再记一下 pip 源的地址，虽然知道修改方法，但每次还要去网上搜一下源地址</p>
+<p><code>vi ~/.pip/pip.conf</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"><span class="attr">trusted-host</span> =  mirrors.aliyun.com</div><div class="line"><span class="attr">index-url</span> = http://mirrors.aliyun.com/pypi/simple</div></pre></td></tr></table></figure>
 ]]></content>
     
     <summary type="html">
