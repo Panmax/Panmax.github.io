@@ -110,6 +110,31 @@
   </entry>
   
   <entry>
+    <title>解决 CentOS 安装 MySQL-python 报错</title>
+    <link href="https://jpanj.com/2017/centos-fix-python-mysql/"/>
+    <id>https://jpanj.com/2017/centos-fix-python-mysql/</id>
+    <published>2017-07-20T02:54:42.000Z</published>
+    <updated>2017-07-20T02:56:47.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天在服务器上用 pip 安装 MySQL-python 时报错，虽然之前处理过很多次，但都没有记录，这次记录一下。</p>
+<p>报错如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">Downloading/unpacking MySQL-python</div><div class="line">  Downloading MySQL-python-1.2.5.zip (108kB): 108kB downloaded</div><div class="line">  Running setup.py egg_info for package MySQL-python</div><div class="line">    sh: mysql_config: command not found</div><div class="line">    Traceback (most recent <span class="keyword">call</span> <span class="keyword">last</span>):</div><div class="line">      <span class="keyword">File</span> <span class="string">"&lt;string&gt;"</span>, line <span class="number">16</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">      <span class="keyword">File</span> <span class="string">"/home/jiapan/.virtualenvs/appstore-crawler/build/MySQL-python/setup.py"</span>, line <span class="number">17</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line">        metadata, options = get_config()</div><div class="line">      <span class="keyword">File</span> <span class="string">"setup_posix.py"</span>, line <span class="number">43</span>, <span class="keyword">in</span> get_config</div><div class="line">        libs = mysql_config(<span class="string">"libs_r"</span>)</div><div class="line">      <span class="keyword">File</span> <span class="string">"setup_posix.py"</span>, line <span class="number">25</span>, <span class="keyword">in</span> mysql_config</div><div class="line">        <span class="keyword">raise</span> EnvironmentError(<span class="string">"%s not found"</span> % (mysql_config.path,))</div><div class="line">    EnvironmentError: mysql_config <span class="keyword">not</span> <span class="keyword">found</span></div><div class="line">    <span class="keyword">Complete</span> <span class="keyword">output</span> <span class="keyword">from</span> command python setup.py egg_info:</div><div class="line">    sh: mysql_config: command <span class="keyword">not</span> <span class="keyword">found</span></div><div class="line"></div><div class="line">Traceback (most recent <span class="keyword">call</span> <span class="keyword">last</span>):</div><div class="line"></div><div class="line">  <span class="keyword">File</span> <span class="string">"&lt;string&gt;"</span>, line <span class="number">16</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line"></div><div class="line">  <span class="keyword">File</span> <span class="string">"/home/jiapan/.virtualenvs/appstore-crawler/build/MySQL-python/setup.py"</span>, line <span class="number">17</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</div><div class="line"></div><div class="line">    metadata, options = get_config()</div><div class="line"></div><div class="line">  <span class="keyword">File</span> <span class="string">"setup_posix.py"</span>, line <span class="number">43</span>, <span class="keyword">in</span> get_config</div><div class="line"></div><div class="line">    libs = mysql_config(<span class="string">"libs_r"</span>)</div><div class="line"></div><div class="line">  <span class="keyword">File</span> <span class="string">"setup_posix.py"</span>, line <span class="number">25</span>, <span class="keyword">in</span> mysql_config</div><div class="line"></div><div class="line">    <span class="keyword">raise</span> EnvironmentError(<span class="string">"%s not found"</span> % (mysql_config.path,))</div><div class="line"></div><div class="line">EnvironmentError: mysql_config <span class="keyword">not</span> <span class="keyword">found</span></div></pre></td></tr></table></figure>
+<p>解决方法：</p>
+<p><code>sudo yum install python-devel mysql-devel</code></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天在服务器上用 pip 安装 MySQL-python 时报错，虽然之前处理过很多次，但都没有记录，这次记录一下。&lt;/p&gt;
+&lt;p&gt;报错如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>SpringMVC 常用注解</title>
     <link href="https://jpanj.com/2017/spring-chang-yong-zhu-jie/"/>
     <id>https://jpanj.com/2017/spring-chang-yong-zhu-jie/</id>
@@ -709,28 +734,6 @@
     
       &lt;p&gt;算起来我用 Mac 也有两年半的时间了，中间由于一次工作原因，开发环境一直有问题，次重装了一次系统，也只是仅仅这一次，而且其实那次重装真的是冤枉系统了，&lt;/p&gt;
 &lt;p&gt;挖坑。。。&lt;/p&gt;
-
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Local Storage vs Session Storage</title>
-    <link href="https://jpanj.com/2017/Local-Storage-vs-Session-Storage/"/>
-    <id>https://jpanj.com/2017/Local-Storage-vs-Session-Storage/</id>
-    <published>2017-04-12T09:07:40.000Z</published>
-    <updated>2017-04-12T09:34:34.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><code>localStorage</code> 和 <code>sessionStorage</code> 都继承自 <code>Storage</code>。除了 <code>sessionStorage</code> 是为了做非持久化的目的，两者没有区别。</p>
-<p>意思是，数据会一直存储在 <code>localStorage</code> 中直到被明确删除。所做的修改将被保存并且对于当前和未来所有的访问都是有效的。</p>
-<p>对于 <code>sessionStorage</code>， 修改在每个窗口（或者 Chrome 和 Firefox 的 tab 中）下有效。所做的修改将被保存并且在当前页下有效，以及未来可以在当前窗口下访问。当窗口被关闭，存储就会被删除。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;code&gt;localStorage&lt;/code&gt; 和 &lt;code&gt;sessionStorage&lt;/code&gt; 都继承自 &lt;code&gt;Storage&lt;/code&gt;。除了 &lt;code&gt;sessionStorage&lt;/code&gt; 是为了做非持久化的目的，两者没有区别。&lt;/p&gt;
 
     
     </summary>
