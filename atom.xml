@@ -110,6 +110,29 @@
   </entry>
   
   <entry>
+    <title>山丘 - 李宗盛</title>
+    <link href="https://jpanj.com/2333/shangqiu-video/"/>
+    <id>https://jpanj.com/2333/shangqiu-video/</id>
+    <published>2333-07-21T10:42:59.000Z</published>
+    <updated>2017-07-21T10:46:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<video width="720" height="480" controls><br><source src="http://otfsjju04.bkt.clouddn.com/Jonathan%20Lee%E6%9D%8E%E5%AE%97%E7%9B%9B%20%5B%20%E5%B1%B1%E4%B8%98%20%5D%20Official%20Music%20Video-rVEMTxg_LrU.mp4"><br></video>
+
+<blockquote>
+<p>想说却还没说的 还很多<br>攒着是因为想写成歌<br>让人轻轻地唱着 淡淡地记着<br>就算终于忘了 也值了<br>说不定我一生涓滴意念<br>侥幸汇成河<br>然后我俩各自一端<br>望着大河弯弯 终于敢放胆<br>嘻皮笑脸 面对 人生的难<br>也许我们从未成熟<br>还没能晓得 就快要老了<br>尽管心里活着的还是那个<br>年轻人<br>因为不安而频频回首<br>无知地索求 羞耻于求救<br>不知疲倦地翻越 每一个山丘<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>我没有刻意隐藏 也无意让你感伤<br>多少次我们无醉不欢<br>咒骂人生太短 唏嘘相见恨晚<br>让女人把妆哭花了 也不管<br>遗憾我们从未成熟<br>还没能晓得 就已经老了<br>尽力却仍不明白<br>身边的年轻人<br>给自己随便找个理由<br>向情爱的挑逗 命运的左右<br>不自量力地还手 直至死方休<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回了温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回了温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>喋喋不休 时不我予的哀愁<br>向情爱的挑逗 命运的左右<br>不自量力地还手 直至死方休<br>为何记不得上一次是谁给的拥抱<br>在什么时候</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;video width=&quot;720&quot; height=&quot;480&quot; controls&gt;&lt;br&gt;&lt;source src=&quot;http://otfsjju04.bkt.clouddn.com/Jonathan%20Lee%E6%9D%8E%E5%AE%97%E7%9B%9B%20%5B%2
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>解决 CentOS 安装 MySQL-python 报错</title>
     <link href="https://jpanj.com/2017/centos-fix-python-mysql/"/>
     <id>https://jpanj.com/2017/centos-fix-python-mysql/</id>
@@ -713,28 +736,6 @@
       &lt;p&gt;由于要内部使用，所以不需要配置 https 链接。&lt;/p&gt;
 &lt;p&gt;本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：&lt;/p&gt;
 &lt;p&gt;我使用 overlay 的方式进行的部署，只需在 &lt;code&gt;etc/cas/config/cas.properties&lt;/code
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Panmax 的 Mac 使用指北</title>
-    <link href="https://jpanj.com/2017/Panmax-%E7%9A%84-Mac-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8C%97/"/>
-    <id>https://jpanj.com/2017/Panmax-的-Mac-使用指北/</id>
-    <published>2017-04-27T02:00:33.000Z</published>
-    <updated>2017-05-02T06:01:55.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>算起来我用 Mac 也有两年半的时间了，中间由于一次工作原因，开发环境一直有问题，次重装了一次系统，也只是仅仅这一次，而且其实那次重装真的是冤枉系统了，</p>
-<p>挖坑。。。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;算起来我用 Mac 也有两年半的时间了，中间由于一次工作原因，开发环境一直有问题，次重装了一次系统，也只是仅仅这一次，而且其实那次重装真的是冤枉系统了，&lt;/p&gt;
-&lt;p&gt;挖坑。。。&lt;/p&gt;
-
     
     </summary>
     
