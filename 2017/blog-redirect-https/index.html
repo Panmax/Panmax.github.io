@@ -108,7 +108,7 @@
 <meta property="og:description" content="前段时间将博客在七牛上部署了一份，并且为新的域名 jpanj.com 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https，我想有没有什么办法能在用 http 访问时重定向到 https。 所以我开了个工单请教七牛的工作人员，得到的结果是他们也无法做强制跳转。  之前让 http 请求重定向到 https 的方">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2017/blog-redirect-https/1.png">
-<meta property="og:updated_time" content="2017-07-25T02:40:19.000Z">
+<meta property="og:updated_time" content="2017-07-25T02:42:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="让博客重定向到 https 的方法">
 <meta name="twitter:description" content="前段时间将博客在七牛上部署了一份，并且为新的域名 jpanj.com 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https，我想有没有什么办法能在用 http 访问时重定向到 https。 所以我开了个工单请教七牛的工作人员，得到的结果是他们也无法做强制跳转。  之前让 http 请求重定向到 https 的方">
@@ -269,13 +269,13 @@
       
 
       
-        <p>前段时间将博客在七牛上部署了一份，并且为新的域名 <a href="jpanj.com">jpanj.com</a> 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https，我想有没有什么办法能在用 http 访问时重定向到 https。</p>
+        <p>前段时间将博客在七牛上部署了一份，并且为新的域名 <a href="https://jpanj.com">jpanj.com</a> 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https，我想有没有什么办法能在用 http 访问时重定向到 https。</p>
 <p>所以我开了个工单请教七牛的工作人员，得到的结果是他们也无法做强制跳转。</p>
 <p><img src="1.png" alt=""></p>
 <p>之前让 http 请求重定向到 https 的方法是通过 Nginx 的 rewrite 完成的，但是我现在的博客是一个纯静态站点，而且并没有托管在自己的服务器上，所以无法这样操作。</p>
 <p>今天得到了一个解决方法，是通过修改主题源码来实现的，就我现在用的这个主题来说，<code>layout</code> 目录下所有模板都会继承 <code>_layout.swig</code>，所以我只要在 <code>&lt;head&gt;</code> 标签中加入以下代码即可：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> host = <span class="string">"jpanj.com"</span>;</div><div class="line">  <span class="keyword">if</span> ((host == <span class="built_in">window</span>.location.host) &amp;&amp; (<span class="built_in">window</span>.location.protocol != <span class="string">"https:"</span>))</div><div class="line">    <span class="built_in">window</span>.location.protocol = <span class="string">"https"</span>;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>我只需要判断 <a href="jpanj.com">jpanj.com</a> 就可以了，之前的 <a href="panmax.love">panmax.love</a> 不做修改。</p>
+<p>我只需要判断 <a href="https://jpanj.com">jpanj.com</a> 就可以了，之前的 <a href="http://panmax.love" target="_blank" rel="external">panmax.love</a> 不做修改。</p>
 
       
     </div>
