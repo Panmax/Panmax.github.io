@@ -133,6 +133,31 @@
   </entry>
   
   <entry>
+    <title>让博客重定向到 https 的方法</title>
+    <link href="https://jpanj.com/2017/blog-redirect-https/"/>
+    <id>https://jpanj.com/2017/blog-redirect-https/</id>
+    <published>2017-07-25T02:21:24.000Z</published>
+    <updated>2017-07-25T02:40:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>前段时间将博客在七牛上部署了一份，并且为新的域名 <a href="jpanj.com">jpanj.com</a> 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https，我想有没有什么办法能在用 http 访问时重定向到 https。</p>
+<p>所以我开了个工单请教七牛的工作人员，得到的结果是他们也无法做强制跳转。</p>
+<p><img src="1.png" alt=""></p>
+<p>之前让 http 请求重定向到 https 的方法是通过 Nginx 的 rewrite 完成的，但是我现在的博客是一个纯静态站点，而且并没有托管在自己的服务器上，所以无法这样操作。</p>
+<p>今天得到了一个解决方法，是通过修改主题源码来实现的，就我现在用的这个主题来说，<code>layout</code> 目录下所有模板都会继承 <code>_layout.swig</code>，所以我只要在 <code>&lt;head&gt;</code> 标签中加入以下代码即可：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> host = <span class="string">"jpanj.com"</span>;</div><div class="line">  <span class="keyword">if</span> ((host == <span class="built_in">window</span>.location.host) &amp;&amp; (<span class="built_in">window</span>.location.protocol != <span class="string">"https:"</span>))</div><div class="line">    <span class="built_in">window</span>.location.protocol = <span class="string">"https"</span>;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>我只需要判断 <a href="jpanj.com">jpanj.com</a> 就可以了，之前的 <a href="panmax.love">panmax.love</a> 不做修改。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前段时间将博客在七牛上部署了一份，并且为新的域名 &lt;a href=&quot;jpanj.com&quot;&gt;jpanj.com&lt;/a&gt; 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https，我想有没有什么
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>解决 CentOS 安装 MySQL-python 报错</title>
     <link href="https://jpanj.com/2017/centos-fix-python-mysql/"/>
     <id>https://jpanj.com/2017/centos-fix-python-mysql/</id>
@@ -711,31 +736,6 @@
     <summary type="html">
     
       &lt;p&gt;今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>CAS 禁用SSL 的方式</title>
-    <link href="https://jpanj.com/2017/CAS-%E7%A6%81%E7%94%A8SSL-%E7%9A%84%E6%96%B9%E5%BC%8F/"/>
-    <id>https://jpanj.com/2017/CAS-禁用SSL-的方式/</id>
-    <published>2017-05-02T05:56:22.000Z</published>
-    <updated>2017-05-02T06:01:06.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>由于要内部使用，所以不需要配置 https 链接。</p>
-<p>本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：</p>
-<p>我使用 overlay 的方式进行的部署，只需在 <code>etc/cas/config/cas.properties</code> 中配置如下三项即可</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server<span class="selector-class">.ssl</span><span class="selector-class">.enabled</span>=false</div><div class="line">cas<span class="selector-class">.tgc</span><span class="selector-class">.secure</span>=false</div><div class="line">cas<span class="selector-class">.warningCookie</span><span class="selector-class">.secure</span>=false</div></pre></td></tr></table></figure>
-<p>但是现在还有一个问题时，几遍将 <code>server.port</code> 改为其他端口，http 的端口号也还是 8080，也就是说这里修改的 <code>server.port</code> 是修改的 https 的方式。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;由于要内部使用，所以不需要配置 https 链接。&lt;/p&gt;
-&lt;p&gt;本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：&lt;/p&gt;
-&lt;p&gt;我使用 overlay 的方式进行的部署，只需在 &lt;code&gt;etc/cas/config/cas.properties&lt;/code
     
     </summary>
     
