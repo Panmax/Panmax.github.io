@@ -158,6 +158,38 @@
   </entry>
   
   <entry>
+    <title>spring.profiles.active-chuan-tou-xing</title>
+    <link href="https://jpanj.com/2017/spring-profiles-active-chuan-tou-xing/"/>
+    <id>https://jpanj.com/2017/spring-profiles-active-chuan-tou-xing/</id>
+    <published>2017-07-20T08:00:08.000Z</published>
+    <updated>2017-07-25T08:08:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天在帮助 datamaster 接入配置中心时发现一个问题，就是如果在应用的 <code>application.yml</code> 像这样：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  application:</span></div><div class="line"><span class="symbol">    name:</span> datamaster-scheduler</div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> lc10</div></pre></td></tr></table></figure>
+<p>指定环境的话，在启动时会自动寻找 <code>datamaster-scheduler-lc10.yml</code> 这个配置文件，不论使用 <code>bootrun</code> 启动或者打成 <code>jar</code> 包都没有问题。</p>
+<p>但是如果不在 <code>application.yml</code> 中指定 <code>spring.profiles.active</code>，而是打成 <code>jar</code> 包，使用 <code>--spring.profiles.active=lc10</code> 参数启动的话，就注册不上 Eureka，所以也就没办法正常拉取配置文件了。</p>
+<p>出现这个问题可以理解，因为我们在封装微服务接入的 starter 时，只定义了两个 active：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">---</span></div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  profiles:</span> <span class="string">dev</span></div><div class="line"><span class="attr">  rabbitmq:</span></div><div class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></div><div class="line"><span class="attr">    port:</span> <span class="number">5672</span></div><div class="line"><span class="attr">    username:</span> <span class="string">admin</span></div><div class="line"><span class="attr">    password:</span> <span class="string">admin</span></div><div class="line"><span class="attr">  zipkin:</span></div><div class="line"><span class="attr">    base-url:</span> <span class="attr">http://172.24.8.100:7030</span></div><div class="line"></div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://172.24.8.100:7011/eureka/,http://172.24.8.100:7012/eureka/,http://172.24.8.100:7013/eureka/</span></div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  profiles:</span> <span class="string">beta</span></div><div class="line"><span class="attr">  rabbitmq:</span></div><div class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></div><div class="line"><span class="attr">    port:</span> <span class="number">5672</span></div><div class="line"><span class="attr">    username:</span> <span class="string">admin</span></div><div class="line"><span class="attr">    password:</span> <span class="string">admin</span></div><div class="line"><span class="attr">  zipkin:</span></div><div class="line"><span class="attr">    base-url:</span> <span class="attr">http://172.24.8.100:7030</span></div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://172.24.8.100:7011/eureka/,http://172.24.8.100:7012/eureka/,http://172.24.8.100:7013/eureka/</span></div></pre></td></tr></table></figure>
+<p>所以使用这两种之外的环境是找不到配置中心的地址的，但是之前那种方式所得到的行为就不太理解了。</p>
+<p>这个问题我得到的结论是这样的：在应用系统的 <code>application.yml</code> 中定义的 <code>active</code> 是不具有穿透性的，所以我们的 微服务 starter 是不会得到这里定义的 <code>active</code> 的，而且 微服务starter 中的 <code>bootstrap.yml</code> 中定义了：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> dev</div></pre></td></tr></table></figure>
+<p>所以在没有指定时会使用 dev，没有任何问题。</p>
+<p>使用 <code>--spring.profiles.active=lc10</code> 指定的 active 具有穿透性，会让这个应用系统依赖的其他组件也使用指定的 <code>active</code>，所以这个时候 微服务 starter 也会切换到 lc10 的 <code>active</code>，因为我们没有在 starter 中配 lc10 对应的 <code>active</code>，也就就相当于没有指定 eureka 的注册地址，所以接下来的所有流程就都跑不通了。</p>
+<p>为了解决这个问题，我在 微服务 starter 的 <code>bootstrap.yml</code> 中加上了默认的 eureka 注册地址和其他需要用到的配置，这样即便是指定的环境不存在的话也没有任何问题。</p>
+<p>之后在为客户部署时，只需要在 微服务 starter 中增加一个客户所对应的环境，然后启动应用时指定客户的 <code>active</code> 就可以了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天在帮助 datamaster 接入配置中心时发现一个问题，就是如果在应用的 &lt;code&gt;application.yml&lt;/code&gt; 像这样：&lt;/p&gt;
+&lt;figure class=&quot;highlight dts&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>解决 CentOS 安装 MySQL-python 报错</title>
     <link href="https://jpanj.com/2017/centos-fix-python-mysql/"/>
     <id>https://jpanj.com/2017/centos-fix-python-mysql/</id>
@@ -716,26 +748,6 @@
     
       &lt;p&gt;今天装了3个命令行下的神器，分别是 &lt;code&gt;mycli&lt;/code&gt; &lt;code&gt;fzf&lt;/code&gt; &lt;code&gt;thefuck&lt;/code&gt;，都是通过 &lt;code&gt;Homebrew&lt;/code&gt; 装的。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;thefuck&lt;/code&gt; 装完后
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>被 Chrome 坑了一次</title>
-    <link href="https://jpanj.com/2017/%E8%A2%AB-Chrome-%E5%9D%91%E4%BA%86%E4%B8%80%E6%AC%A1/"/>
-    <id>https://jpanj.com/2017/被-Chrome-坑了一次/</id>
-    <published>2017-05-02T08:51:32.000Z</published>
-    <updated>2017-05-02T09:01:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 的操作，但是浏览器中却没有保存这个Cookies，折腾了小一天的时候，后来我抱着没啥希望的态度，用safari浏览器试了下，居然没有任何问题，然后用 Firefox 试了下，也没有问题。。。接着我尝试清除 Chrome 中的Cookies，发现问题解决了。</p>
-<p>恩，写流水账好开心。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天继续研究单点登录，正常来说完成登录回跳到 client 端后，业务系统本身应该写一个自己的session，为了测试，我搭了个很简单的 client 端，但是发现 session 一直写不进去，用 Chrome 的调试工具看到 response 确实有写 Cookies 
     
     </summary>
     
