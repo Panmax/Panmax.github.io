@@ -133,6 +133,81 @@
   </entry>
   
   <entry>
+    <title>Spring Boot 与 Docker 结合</title>
+    <link href="https://jpanj.com/2017/spring-boot-docker/"/>
+    <id>https://jpanj.com/2017/spring-boot-docker/</id>
+    <published>2017-07-26T05:17:46.000Z</published>
+    <updated>2017-07-26T05:26:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Docker 是一个具有社交倾向的 Linux 容器管理工具包，允许用户发布容器镜像，其他用户可以使用这些镜像。Docker 镜像是运行容器化进程的基础，本文将介绍如何编译一个简单的 <code>Spring Boot</code> 应用的镜像。</p>
+</blockquote>
+<p>Docker 的安装和基本使用不在本文中介绍，之后可以单独拿出来写一写。</p>
+<p>本文将使用 <strong>Gradle</strong> 作为编译工具，基础项目工程直接使用 IDEA 的 <code>Spring Initializr</code> 生成，如下图：</p>
+<p><img src="1.png" alt=""></p>
+<p>直接下一步，<strong>注意</strong>这里的 Type 修改为 <code>Gradle Project</code>，然再下一步</p>
+<p><img src="2.png" alt=""></p>
+<p>然后只需要勾选 Web 即可</p>
+<p>3.png</p>
+<p>我们来简单调整一下 build.gradle，新增：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">jar</span> &#123;</div><div class="line">    <span class="attribute">baseName</span> = <span class="string">'my-spring-boot-docker'</span></div><div class="line">    version =  <span class="string">'0.1.0'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它的作用是让编译出来的 jar 包文件名为：<code>my-spring-boot-docker-0.1.0.jar</code></p>
+<p>此时 <code>build.gradle</code> 如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    ext &#123;</div><div class="line">        springBootVersion = <span class="string">'1.5.4.RELEASE'</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">repositories</span> &#123;</div><div class="line">        mavenCentral()</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">classpath</span>(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">apply plugin: <span class="string">'java'</span></div><div class="line">apply plugin: <span class="string">'eclipse'</span></div><div class="line">apply plugin: <span class="string">'org.springframework.boot'</span></div><div class="line"></div><div class="line"></div><div class="line">jar &#123;</div><div class="line">    baseName = <span class="string">'my-spring-boot-docker'</span></div><div class="line">    version =  <span class="string">'0.1.0'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">version = <span class="string">'0.0.1-SNAPSHOT'</span></div><div class="line"><span class="keyword">sourceCompatibility</span> = <span class="number">1.8</span></div><div class="line"></div><div class="line"><span class="keyword">repositories</span> &#123;</div><div class="line">    mavenCentral()</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</div><div class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后我们写一个最简单的 <code>Controller</code>，为了方便直接写在 <code>main</code> 方法的类中：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.jpanj;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.<span class="keyword">annotation</span>.RequestMapping;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.<span class="keyword">annotation</span>.RestController;</div><div class="line"></div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringBootDockerApplication</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@RequestMapping(<span class="meta-string">"/"</span>)</span></div><div class="line">	<span class="keyword">public</span> String home() &#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"Hello Docker World"</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(SpringBootDockerApplication.<span class="keyword">class</span>, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在我们在不使用 Docker 容器 的情况下运行这个应用：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./gradlew build</div><div class="line">java -jar build/libs/gs-spring-boot-docker<span class="number">-0.1</span><span class="number">.0</span>.jar</div></pre></td></tr></table></figure>
+<p>然后访问 <a href="localhost:8080" target="_blank" rel="external">localhost:8080</a> 可以看到 <code>Hello Docker World</code> 的返回结果。</p>
+<h3 id="接下来让我们把它容器化吧"><a href="#接下来让我们把它容器化吧" class="headerlink" title="接下来让我们把它容器化吧"></a>接下来让我们把它容器化吧</h3><p>Docker 有一个简单的 Dockerfile 文件格式用来指定生成镜像的层次，所以我们在 <code>Spring Boot</code> 项目中创建一个 Dockerfile，将这个文件放在项目根目录下即可，现在这个项目结构是这个样的：</p>
+<p><img src="4.png" alt=""></p>
+<p>Dockerfile 内容如下：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> frolvlad/alpine-oraclejdk8:slim</div><div class="line"><span class="keyword">VOLUME</span><span class="bash"> /tmp</span></div><div class="line"><span class="keyword">ADD</span><span class="bash"> target/my-spring-boot-docker-0.1.0.jar app.jar</span></div><div class="line"><span class="keyword">ENV</span> JAVA_OPTS=<span class="string">""</span></div><div class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [ <span class="string">"sh"</span>, <span class="string">"-c"</span>, <span class="string">"java <span class="variable">$JAVA_OPTS</span> -Djava.security.egd=file:/dev/./urandom -jar /app.jar"</span> ]</span></div></pre></td></tr></table></figure>
+<p>这个 Dockerfile 非常简单，不过这就是你运行一个 <code>Spring Boot</code> 应用的全部了，只需要 <code>Java</code> 和 <code>JAR</code> 文件就够了。这个项目 <code>JAR</code> 文件被作为 <code>app.jar</code> 加入到容器中，然后通过 <code>ENTRYPOINT</code> 来执行它。</p>
+<p>Docker容器 运行时应该尽量保持容器存储层不发生写操作，在这里我们添加一个 <code>VOLUME</code> 指向 <code>/tmp</code> 是因为 <code>Spring Boot</code> 应用在默认情况下会为 <code>Tomcat</code> 创建工作目录。这里的 <code>/tmp</code> 目录就会在运行时自动挂载为匿名卷，任何向 <code>/tmp</code> 中写入的信息都不会记录进容器存储层，从而保证了容器存储层的无状态化。</p>
+<p>当然，也可以在运行时可以覆盖这个挂载设置 </p>
+<p><code>docker run -d -v mytmp:/tmp xxxx</code></p>
+<p>在这行命令中，就使用了 <code>mytmp</code> 这个命名卷挂载到了 <code>/tmp</code> 这个位置，替代了 Dockerfile 中定义的匿名卷的挂载配置。</p>
+<p>不过此步骤在这个简单的应用中是可选的，但是在其他会写入文件系统的 <code>Spring Boot</code> 应用中是必须的。</p>
+<p>接下来就是把这个项目编译成一个可以到处运行的 Docker 镜像了，在 <code>build.gradle</code> 中我们添加一些新的插件：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        ...</div><div class="line">        <span class="keyword">classpath</span>(<span class="string">'se.transmode.gradle:gradle-docker:1.2'</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">...</div><div class="line">apply plugin: <span class="string">'docker'</span></div><div class="line"></div><div class="line"><span class="keyword">task</span> buildDocker(type: Docker, dependsOn: build) &#123;</div><div class="line">  applicationName = jar.baseName</div><div class="line">  dockerfile = <span class="keyword">file</span>(<span class="string">'Dockerfile'</span>)</div><div class="line">  <span class="keyword">doFirst</span> &#123;</div><div class="line">    <span class="keyword">copy</span> &#123;</div><div class="line">      <span class="keyword">from</span> jar</div><div class="line">      <span class="keyword">into</span> <span class="string">"$&#123;stageDir&#125;/target"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上边的配置做了这 3 件事：</p>
+<ul>
+<li>镜像的名字和 tag 被设置为 jar 配置的 baseName 属性</li>
+<li>确定 Dockerfile 的位置</li>
+</ul>
+<p>将 <code>jar</code> 文件从编译目录复制到 <code>docker</code> 编译目录的 <code>target</code> 目录下，这就是我们在 Dockerfile 中看到的 <code>ADD target/my-spring-boot-docker-0.1.0.jar app.jar</code> 为什么会生效的原因。</p>
+<p>此时完整的 <code>build.gradle</code> 如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    ext &#123;</div><div class="line">        springBootVersion = <span class="string">'1.5.4.RELEASE'</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">repositories</span> &#123;</div><div class="line">        mavenCentral()</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">classpath</span>(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;"</span>)</div><div class="line">        <span class="keyword">classpath</span>(<span class="string">'se.transmode.gradle:gradle-docker:1.2'</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">apply plugin: <span class="string">'java'</span></div><div class="line">apply plugin: <span class="string">'eclipse'</span></div><div class="line">apply plugin: <span class="string">'org.springframework.boot'</span></div><div class="line">apply plugin: <span class="string">'docker'</span></div><div class="line"></div><div class="line"></div><div class="line">jar &#123;</div><div class="line">    baseName = <span class="string">'my-spring-boot-docker'</span></div><div class="line">    version =  <span class="string">'0.1.0'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">task</span> buildDocker(type: Docker, dependsOn: build) &#123;</div><div class="line">    applicationName = jar.baseName</div><div class="line">    dockerfile = <span class="keyword">file</span>(<span class="string">'Dockerfile'</span>)</div><div class="line">    <span class="keyword">doFirst</span> &#123;</div><div class="line">        <span class="keyword">copy</span> &#123;</div><div class="line">            <span class="keyword">from</span> jar</div><div class="line">            <span class="keyword">into</span> <span class="string">"$&#123;stageDir&#125;/target"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">version = <span class="string">'0.0.1-SNAPSHOT'</span></div><div class="line"><span class="keyword">sourceCompatibility</span> = <span class="number">1.8</span></div><div class="line"></div><div class="line"><span class="keyword">repositories</span> &#123;</div><div class="line">    mavenCentral()</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</div><div class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在你可以使用下边的命令编译这个 docker 镜像，然后将它推送到远端仓库中分享给其他用户使用（本教程不介绍推送远端仓库的方法）。</p>
+<p><code>./gradlew build buildDocker</code></p>
+<p>执行上边命令后，可以在本地的 docker 镜像仓库中看到，已经有了我们自己编译出来的 <code>my-spring-boot-docker</code> 镜像：</p>
+<p><img src="5.png" alt=""></p>
+<p>然后你就可以像这样来运行它了：</p>
+<p><code>docker run -p 8080:8080 -t my-spring-boot-docker:0.0.1-SNAPSHOT</code></p>
+<blockquote>
+<p>这里说明一下 -p 的用途， -p 8080:8080 的意思是将本地的 8080 端口映射到容器的 8080 端口，因为容器相对于主机来说是完全隔离的，所以必须要有此设置，不然外部是无法访问到 8080 端口的。</p>
+</blockquote>
+<p>现在再次访问 <a href="localhost:8080" target="_blank" rel="external">localhost:8080</a> 就可以看到 Hello Docker World 啦。</p>
+<p>当容器运行时你可以通过 <code>docker ps</code> 的命令看到正在运行的容器列表：</p>
+<p><img src="6.png" alt=""></p>
+<p>而且可以通过 <code>docker stop</code> 加上这个容器的 ID 来停掉它：</p>
+<p><img src="7.png" alt=""></p>
+<p>如果你想删掉这个容器，可以使用 <code>docker rm + 容器 ID</code>。</p>
+<p>到此你已经为 <code>Spring Boot</code> 应用创建了一个 docker 容器，默认运行在容器内的 8080 端口上，我们在命令行中使用 <code>-p</code> 参数将它映射到主机的相同端口上。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Docker 是一个具有社交倾向的 Linux 容器管理工具包，允许用户发布容器镜像，其他用户可以使用这些镜像。Docker 镜像是运行容器化进程的基础，本文将介绍如何编译一个简单的 &lt;code&gt;Spring Boot&lt;/code&gt; 应用的镜像。&lt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>让博客重定向到 https 的方法</title>
     <link href="https://jpanj.com/2017/blog-redirect-https/"/>
     <id>https://jpanj.com/2017/blog-redirect-https/</id>
@@ -720,34 +795,6 @@
     
       &lt;p&gt;对于上了 HHKB 这条贼船的人来说，刚开始使用起来最大的别扭可能就是没有方向键的问题了。&lt;/p&gt;
 &lt;p&gt;最早的我使用 &lt;a href=&quot;https://pqrs.org/osx/karabiner/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Kara
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>mycli fzf thefuck</title>
-    <link href="https://jpanj.com/2017/mycli-fzf-thefuck/"/>
-    <id>https://jpanj.com/2017/mycli-fzf-thefuck/</id>
-    <published>2017-05-05T07:15:12.000Z</published>
-    <updated>2017-06-16T02:56:16.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天装了3个命令行下的神器，分别是 <code>mycli</code> <code>fzf</code> <code>thefuck</code>，都是通过 <code>Homebrew</code> 装的。</p>
-<p><code>thefuck</code> 装完后在 <code>.zshrc</code> 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 <code>sudo</code> 时，只需要双击 esc 就可以了。</p>
-<p><img src="2.png" alt=""></p>
-<p><code>mycli</code> 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主要是中间安装 <code>Pyhton 2.7.13</code> 占用了很长时间。装完后直接 <code>mycli -uroot</code> 就进入数据库的交互状态了。有一个地方不太习惯，没执行一个命令出来结果后，需要再按一下 <code>q</code> 才能返回交互状态。</p>
-<p><img src="1.png" alt=""></p>
-<p><code>fzf</code> 是命令行下模糊搜索工具。通过 <code>brew install fzf</code> 安装完后，还需要执行 <code>/usr/local/opt/fzf/install</code> 安装 shell 扩展，之后 <code>Control+r</code> 时出来的就不是之前那种很简单的历史命令搜索结果了，而是交互性很棒的结果。输入 <code>kill -9 + &lt;TAB&gt;</code> 能通过模糊搜索的方式搜到需要杀掉的进程，再也不用先 <code>ps -ef | grep xxx</code> 找到对应的进程然后在执行 <code>kill</code> 或者 通过管道 + <code>xargs</code> 的方式来杀进程了。</p>
-<p><img src="3.png" alt=""></p>
-<p><code>fzf</code> 还有几种用法我感觉没多少用： </p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> **<span class="symbol">&lt;TAB&gt;</span></div><div class="line"><span class="keyword">vim</span> **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">ssh **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">telnet **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">unset **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">export **<span class="symbol">&lt;TAB&gt;</span></div><div class="line">unalias **<span class="symbol">&lt;TAB&gt;</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天装了3个命令行下的神器，分别是 &lt;code&gt;mycli&lt;/code&gt; &lt;code&gt;fzf&lt;/code&gt; &lt;code&gt;thefuck&lt;/code&gt;，都是通过 &lt;code&gt;Homebrew&lt;/code&gt; 装的。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;thefuck&lt;/code&gt; 装完后
     
     </summary>
     
