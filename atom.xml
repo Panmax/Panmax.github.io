@@ -137,7 +137,7 @@
     <link href="https://jpanj.com/2017/spring-boot-docker/"/>
     <id>https://jpanj.com/2017/spring-boot-docker/</id>
     <published>2017-07-26T05:17:46.000Z</published>
-    <updated>2017-07-26T05:26:18.000Z</updated>
+    <updated>2017-07-26T05:31:21.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Docker 是一个具有社交倾向的 Linux 容器管理工具包，允许用户发布容器镜像，其他用户可以使用这些镜像。Docker 镜像是运行容器化进程的基础，本文将介绍如何编译一个简单的 <code>Spring Boot</code> 应用的镜像。</p>
@@ -148,7 +148,7 @@
 <p>直接下一步，<strong>注意</strong>这里的 Type 修改为 <code>Gradle Project</code>，然再下一步</p>
 <p><img src="2.png" alt=""></p>
 <p>然后只需要勾选 Web 即可</p>
-<p>3.png</p>
+<p><img src="3.png" alt=""></p>
 <p>我们来简单调整一下 build.gradle，新增：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">jar</span> &#123;</div><div class="line">    <span class="attribute">baseName</span> = <span class="string">'my-spring-boot-docker'</span></div><div class="line">    version =  <span class="string">'0.1.0'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>它的作用是让编译出来的 jar 包文件名为：<code>my-spring-boot-docker-0.1.0.jar</code></p>
