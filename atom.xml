@@ -287,7 +287,7 @@
     <link href="https://jpanj.com/2017/spring-chang-yong-zhu-jie/"/>
     <id>https://jpanj.com/2017/spring-chang-yong-zhu-jie/</id>
     <published>2017-07-19T02:44:33.000Z</published>
-    <updated>2017-07-19T07:29:11.000Z</updated>
+    <updated>2017-07-26T06:10:20.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="Controller"><a href="#Controller" class="headerlink" title="@Controller"></a>@Controller</h3><ul>
 <li>用于标注控制层组件</li>
@@ -307,7 +307,27 @@
 <li>用于注解业务组件</li>
 </ul>
 <hr>
-<h3 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h3>]]></content>
+<h3 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h3><ul>
+<li>异步请求</li>
+<li>该注解用于将 <code>Controller</code> 的方法返回的对象通过适当的 <code>HttpMessageConverter</code> 转换为指定格式后，写入到 <code>Response</code> 对象的 <code>body</code> 数据区</li>
+<li>返回的数据不是 html 标签的页面，而是其他某种格式的数据时（如json、xml）使用</li>
+</ul>
+<h3 id="RequestMapping"><a href="#RequestMapping" class="headerlink" title="@RequestMapping"></a>@RequestMapping</h3><ul>
+<li>一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类的所有响应请求的方法都是以该地址作为父路径</li>
+</ul>
+<h3 id="Autowired"><a href="#Autowired" class="headerlink" title="@Autowired"></a>@Autowired</h3><ul>
+<li>它可以对类成员变量、方法及构造函数进行标注，完成自动装配的工作。通过 <code>@Autowired</code> 的使用来消除 <code>set</code>、<code>get</code> 方法</li>
+</ul>
+<h3 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a>@PathVariable</h3><ul>
+<li>用于将请求 URL 中的模板变量映射到功能处理方法的参数上，即取出 URL 模板中的变量作为参数</li>
+</ul>
+<h3 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a>@RequestParam</h3><ul>
+<li>主要用于在 <code>Spring MVC</code> 后台控制层获取参数，类似的一种做法是： <code>request.getParamter(&quot;name&quot;)</code></li>
+</ul>
+<h3 id="RequestHeader"><a href="#RequestHeader" class="headerlink" title="@RequestHeader"></a>@RequestHeader</h3><ul>
+<li>可以把 request 请求 header 部分的值绑定到方法参数上</li>
+</ul>
+]]></content>
     
     <summary type="html">
     
