@@ -110,7 +110,7 @@
 <meta property="og:image" content="https://jpanj.com/2017/optimization-config-server/1.png">
 <meta property="og:image" content="https://jpanj.com/2017/optimization-config-server/2.png">
 <meta property="og:image" content="https://jpanj.com/2017/optimization-config-server/3.png">
-<meta property="og:updated_time" content="2017-07-27T06:35:16.000Z">
+<meta property="og:updated_time" content="2017-07-27T06:41:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对配置中心进行优化">
 <meta name="twitter:description" content="现在我们的配置中心使用 Spring Cloud Bus 与 Spring Cloud Config 的整合，并以 RabbitMQ 作为消息代理，实现了应用配置的动态更新。 架构如下图所示：  但是，现在的架构有个很大的缺陷，就是每次在修改配置文件后，需要手动地触发下应用的 /bus/refresh 接口，才能完成更新操作。假如我们后端有上百个不同的服务在运行的话，手动去更新简直就是灾难，更新某">
@@ -279,7 +279,7 @@
 <p>进入我们 GitLab 的 <code>config-repo/app-a</code> 仓库，在 Settings - Integrations 中可以对 <code>Webhook</code> 进行设置：URL 填写我们刷新配置的地址，触发器选择 <code>Push events</code> 就够了，然后直接保存。</p>
 <p><img src="2.png" alt=""></p>
 <p>现在可以测试一下，修改配置后，不需要再手动访问 <code>/bus/refresh</code> 也能完成更新操作了。</p>
-<p>初步优化到这里就结束了，已经可以省去很多人力成本，简单来说就是服务的配置更新需要 GitLab 的 <code>Webhook</code> 通过向具体服务中的某个实例发送请求，再触发对整个服务集群的配置更新，不过这样做还是有问题的：首先一个问题是，我们在配每个服务 <code>Webhook</code> 的时候，其实也需要根据自己在线上不同的 <code>IP + 端口号</code> 来配置，另一个更严重一些的问题是，虽然我们现在的方式可以依赖消息总线，通过更新一个实例达到更新所有实例的目的，但这样做有个前提是，接受 <code>/bus/refresh</code> 的那个实例要保证没有宕掉，如果它挂了，配置依然不会被修改。比如我们的 app-a 服务有很多实例，我们分别取名叫 <code>app-a-1</code>,<code>app-a-2</code>,<code>app-a-3</code>…，现在我们在 <code>Webhook</code> 中设置的地址是 <code>app-a-1</code> 实例的 <code>/bus/refresh</code> 地址，假如在我们更新完 GitLab 上的配置文件后，<code>app-a-1</code> 那台机器刚好出了问题，这个时候其他的实例也就得不到更新了。</p>
+<p>初步优化到这里就结束了，已经可以省去很多人力成本，简单来说就是服务的配置更新需要 GitLab 的 <code>Webhook</code> 通过向具体服务中的某个实例发送请求，再触发对整个服务集群的配置更新，不过这样做还是有问题的：首先一个问题是，我们在配每个服务 <code>Webhook</code> 的时候，其实也需要根据自己在线上不同的 <code>IP + 端口号</code> 来配置，另一个更严重一些的问题是，虽然我们现在的方式可以依赖消息总线，通过更新一个实例达到更新所有实例的目的，但这样做有个前提是，接受 <code>/bus/refresh</code> 的那个实例要保证没有宕掉，如果它挂了，配置依然不会被修改。比如我们的 <code>app-a</code> 服务有很多实例，我们分别取名叫 <code>app-a-1</code>,<code>app-a-2</code>,<code>app-a-3</code>…，现在我们在 <code>Webhook</code> 中设置的地址是 <code>app-a-1</code> 实例的 <code>/bus/refresh</code> 地址，假如在我们更新完 GitLab 上的配置文件后，<code>app-a-1</code> 那台机器刚好出了问题，这个时候其他的实例也就得不到更新了。</p>
 <p>其实这个时候依赖哪个节点都不合适，谁也不知道哪个节点在什么时候会挂掉，可能有人会想到，我可以给所有节点都发一遍请求，我来分析一下这样做的缺点：</p>
 <ul>
 <li>第一点是节点很多的时候，你需要配很多 <code>Webhook</code></li>
@@ -288,7 +288,7 @@
 <li>第四如果我们需要对服务实例进行迁移，那么我们还要修改 <code>Webhook</code> 中的配置</li>
 </ul>
 <p>所以我们需要做一些调整，让服务集群中的各个节点是对等的：我们在 <code>Config Server</code> 中也引入 <code>Spring Cloud Bus</code>，将配置服务端也加入到消息总线中来。<code>/bus/refresh</code> 请求不再发送到具体实例上，而是发送给 <code>Config Server</code>，并通过 <code>destination</code> 参数来指定需要更新配置的服务或实例。</p>
-<p>在 Config Server 项目的 build.gradle 中加入消息总线的依赖：</p>
+<p>在 <code>Config Server</code> 项目的 <code>build.gradle</code> 中加入消息总线的依赖：</p>
 <p><code>compile(&#39;org.springframework.cloud:spring-cloud-starter-bus-amqp&#39;)</code></p>
 <p>然后修改 <code>application.yml</code>，加入</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">management:</span></div><div class="line"><span class="attr">  security:</span></div><div class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="attr">spring:</span></div><div class="line">  <span class="string">...</span></div><div class="line"><span class="attr">  rabbitmq:</span></div><div class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></div><div class="line"><span class="attr">    port:</span> <span class="number">5672</span></div><div class="line"><span class="attr">    username:</span> <span class="string">admin</span></div><div class="line"><span class="attr">    password:</span> <span class="string">admin</span></div></pre></td></tr></table></figure>
