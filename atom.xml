@@ -133,6 +133,49 @@
   </entry>
   
   <entry>
+    <title>我的 IDEA 配置指南</title>
+    <link href="https://jpanj.com/2017/my-idea-settings/"/>
+    <id>https://jpanj.com/2017/my-idea-settings/</id>
+    <published>2017-07-28T05:53:55.000Z</published>
+    <updated>2017-07-28T06:10:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>本指南理论上适用于 IntelliJ 家的所有产品。</p>
+</blockquote>
+<h3 id="首先来介绍下我自己定义的一些快捷键"><a href="#首先来介绍下我自己定义的一些快捷键" class="headerlink" title="首先来介绍下我自己定义的一些快捷键"></a>首先来介绍下我自己定义的一些快捷键</h3><h4 id="左右分屏-Alt-w"><a href="#左右分屏-Alt-w" class="headerlink" title="左右分屏 Alt + w"></a>左右分屏 <code>Alt + w</code></h4><blockquote>
+<p>Extend Selection</p>
+</blockquote>
+<p>写代码时，有时候需要同时打开多份文件，在 IDEA 中有两种分屏方式，一种是上下分，一种是左右分，我觉得上下的方式基本上看不了几行代码，所以我都是使用左右分。默认的快捷键需要用到方向键，但在 HHKB 中使用方向键还需要其他按键组合。</p>
+<p><img src="1.png" alt=""></p>
+<h4 id="代码补全-Control"><a href="#代码补全-Control" class="headerlink" title="代码补全 Control + ,"></a>代码补全 <code>Control + ,</code></h4><blockquote>
+<p>Basic</p>
+</blockquote>
+<p>默认的代码补全快捷键为 <code>Control + Space</code>，但是这个组合被我的 iTerm2 的弹出栏占用了，所以我改为了：<code>Control + ,</code>，</p>
+<h4 id="合并-Git-的修改-Alt-m"><a href="#合并-Git-的修改-Alt-m" class="headerlink" title="合并 Git 的修改 Alt + m"></a>合并 Git 的修改 <code>Alt + m</code></h4><blockquote>
+<p>Merge Changes</p>
+</blockquote>
+<h4 id="Fetch-代码-Alt-f"><a href="#Fetch-代码-Alt-f" class="headerlink" title="Fetch 代码 Alt + f"></a>Fetch 代码 <code>Alt + f</code></h4><blockquote>
+<p>Fetch</p>
+</blockquote>
+<h4 id="git-pull-Shift-Conmmand-p"><a href="#git-pull-Shift-Conmmand-p" class="headerlink" title="git pull Shift + Conmmand + p"></a>git pull <code>Shift + Conmmand + p</code></h4><blockquote>
+<p>Pull</p>
+</blockquote>
+<p>因为 push 默认快捷键为 <code>Shift + Command + k</code>，但是 pull 没有默认快捷键，所以我用了这样的组合。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;本指南理论上适用于 IntelliJ 家的所有产品。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;首先来介绍下我自己定义的一些快捷键&quot;&gt;&lt;a href=&quot;#首先来介绍下我自己定义的一些快捷键&quot; class=&quot;headerlink&quot; titl
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>对配置中心进行优化</title>
     <link href="https://jpanj.com/2017/optimization-config-server/"/>
     <id>https://jpanj.com/2017/optimization-config-server/</id>
@@ -803,36 +846,6 @@
     
       &lt;p&gt;去年年底利用工作之余开发了一个进销存相关的 SAAS 项目，ORM 用的 &lt;code&gt;SQLAlchemy&lt;/code&gt;，并且进行了一些分表操作，这里来做个简单的记录（也只能是简单记录了，我是小半年前进行的分表调研）。&lt;/p&gt;
 &lt;p&gt;我没有直接使用 继承自 &lt;code&gt;db
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>对 Python 列表常见操作的理解</title>
-    <link href="https://jpanj.com/2017/%E5%AF%B9%20Python%20%E5%88%97%E8%A1%A8%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C%E7%9A%84%E7%90%86%E8%A7%A3/"/>
-    <id>https://jpanj.com/2017/对 Python 列表常见操作的理解/</id>
-    <published>2017-05-27T02:52:10.000Z</published>
-    <updated>2017-05-27T03:30:39.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>写这篇文章的原因是前几天做了一道面试题，问题大致是这样的：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</div><div class="line"></div><div class="line">l.insert(<span class="number">1</span>, <span class="number">6</span>)</div><div class="line">和</div><div class="line">l.append(<span class="number">6</span>)</div><div class="line"> </div><div class="line">的时间复杂度分表是什么</div></pre></td></tr></table></figure>
-<p>我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 <code>O(1)</code>，但今天看到一篇文章<a href="http://python.jobbole.com/82549/" target="_blank" rel="external">原文地址</a>，发现并不是我认为的那样。</p>
-<p>Python 在 C 实现中，存储数据的部分是一块连续的内存数组，不过这个数组里存放的也是指针，指向具体的元素，并且会在 结构体 中记录元素的实际个数，结构体如下。</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">typedef struct &#123;</div><div class="line">    <span class="comment"># 列表元素的长度</span></div><div class="line">    int ob_size<span class="comment">; </span></div><div class="line">    <span class="comment"># 真正存放列表元素容器的指针，list[0] 就是 ob_item[0]</span></div><div class="line">    PyObject **ob_item<span class="comment">;</span></div><div class="line">    <span class="comment"># 当前列表可容纳的元素大小</span></div><div class="line">    Py_ssize_t allocated<span class="comment">;</span></div><div class="line">&#125; PyListObject<span class="comment">;</span></div></pre></td></tr></table></figure>
-<p>当追加新元素的时候，可以直接通过 <code>ob_item[ob_size]=n</code> 来完成，所以时间复杂度为 <code>O(1)</code>。</p>
-<p>在插入元素时，操作如下，将要插入位置下方的所有元素向下移动一个位置，然后将要插入位置指向我们插入的元素即可。所以时间复杂度其实是 <code>O(n)</code>。</p>
-<p>（以上都没有考虑 <code>allocated</code> 分配的情况）</p>
-<p>再来看下 <code>pop</code> 这个操作，<code>pop</code> 时只需将 <code>ob_size</code> 减一即可，所以时间复杂的也是 <code>O(1)</code>。</p>
-<p><code>remove</code> 就没这么简单了，需要先通过遍历的方式找到要移除的元素，然后将找到的位置到最后一个有效位置这之间的指针都指向其 <code>next</code> 指向的元素（也就是 <code>ob_item[i]=ob_item[i+1]</code>），然后 <code>ob_size-1</code>，所以时间复杂度也为 <code>O(n)</code></p>
-<p>这就是我对 <code>list</code> 几个常见操作的理解，如有错误之处请通过邮件方式指出: <code>jiapan.china#gmail.com</code></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;写这篇文章的原因是前几天做了一道面试题，问题大致是这样的：&lt;/p&gt;
-&lt;figure class=&quot;highlight lsl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;l
     
     </summary>
     
