@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="添加用户在添加用户时，最好用 adduser，虽然 adduser 和 useradd 这两个命令在其他发行版的 Linux 系统下一样，但是在 Ubuntu 下是有区别的：adduser 会自动创建用户的 home 目录，并且创建用户同名的组，而 useradd 不会。 如果不小心将用户 home 目录删除了，可以使用下边的方法来重建： 123sudo mkdir /home/user   #">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-01T06:35:55.000Z">
+<meta property="og:updated_time" content="2017-08-01T06:48:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 笔记">
 <meta name="twitter:description" content="添加用户在添加用户时，最好用 adduser，虽然 adduser 和 useradd 这两个命令在其他发行版的 Linux 系统下一样，但是在 Ubuntu 下是有区别的：adduser 会自动创建用户的 home 目录，并且创建用户同名的组，而 useradd 不会。 如果不小心将用户 home 目录删除了，可以使用下边的方法来重建： 123sudo mkdir /home/user   #">
@@ -284,7 +284,7 @@
 <h4 id="安装-zsh、git-和-wget"><a href="#安装-zsh、git-和-wget" class="headerlink" title="安装 zsh、git 和 wget"></a>安装 zsh、git 和 wget</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install zsh git wget</div><div class="line"></div><div class="line">wget --no-check-certificate https:<span class="regexp">//gi</span>thub.com<span class="regexp">/robbyrussell/</span>oh-my-zsh<span class="regexp">/raw/m</span>aster<span class="regexp">/tools/i</span>nstall.sh -O - | sh</div><div class="line"></div><div class="line">chsh -s <span class="regexp">/bin/</span>zsh  <span class="comment"># 替换 bash 为 zsh</span></div></pre></td></tr></table></figure>
 <h3 id="Ubuntu-下安装官方-JDK"><a href="#Ubuntu-下安装官方-JDK" class="headerlink" title="Ubuntu 下安装官方 JDK"></a>Ubuntu 下安装官方 JDK</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo<span class="built_in"> add-apt-repository </span>ppa:webupd8team/java  <span class="comment"># 添加仓库源</span></div><div class="line">sudo apt-get update <span class="comment"># 更新软件包列表</span></div><div class="line">sudo apt-get install oracle-java8-installer</div></pre></td></tr></table></figure>
 <p>安装过程中需要接受协议，选择 <code>Yes</code>。</p>
-<p>查看java版本： <code>java -version</code> (我每次都输成 <code>--version</code>…)</p>
+<p>查看 Java 版本： <code>java -version</code> (我每次都输成 <code>--version</code>)</p>
 
       
     </div>
