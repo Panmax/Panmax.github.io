@@ -137,7 +137,7 @@
     <link href="https://jpanj.com/2017/linux-note/"/>
     <id>https://jpanj.com/2017/linux-note/</id>
     <published>2017-08-01T02:41:57.000Z</published>
-    <updated>2017-08-01T02:59:52.000Z</updated>
+    <updated>2017-08-01T03:03:59.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h3><p>在添加用户时，最好用 <code>adduser</code>，虽然 <code>adduser</code> 和 <code>useradd</code> 这两个命令在其他发行版的 Linux 系统下一样，但是在 Ubuntu 下是有区别的：<code>adduser</code> 会自动创建用户的 home 目录，并且创建用户同名的组，而 <code>useradd</code> 不会。</p>
 <p>如果不小心将用户 home 目录删除了，可以使用下边的方法来重建：</p>
@@ -149,8 +149,8 @@
 <li>通过修改 <code>/etc/sudoers</code></li>
 </ol>
 <h3 id="ssh-免密登录"><a href="#ssh-免密登录" class="headerlink" title="ssh 免密登录"></a>ssh 免密登录</h3><p>将自己电脑上的公钥内容插入到主机用户 home 目录下的 <code>.ssh/authorized_keys</code> 中，通常新建的用户没有这个目录文件，需要手动创建一下。</p>
-<p>如果本地没有生成过公钥货私钥，或者想生成新的，可使用 <code>ssh-keygen</code>。</p>
-<p>运行上面的命令后，系统会出现一系列提示，可以一路回车。特别说明，其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，可以设置一个。运行结束以后，会在 <code>~/.ssh/</code> 目录下新生成两个文件：<code>id_rsa.pub</code> 和 <code>id_rsa</code>，前者公钥，后者是私钥。</p>
+<p>如果本地没有生成过公钥和私钥，或者想生成新的，可使用 <code>ssh-keygen</code>。</p>
+<p>运行上面的命令后，系统会出现一系列提示，可以一路回车。特别说明，其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，可以设置一个。运行结束以后，会在 <code>~/.ssh/</code> 目录下新生成两个文件：<code>id_rsa.pub</code> 和 <code>id_rsa</code>，前者是公钥，后者是私钥。</p>
 ]]></content>
     
     <summary type="html">
