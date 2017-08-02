@@ -100,19 +100,19 @@
 
 
 
-<meta name="description" content="为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。 在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 doc">
+<meta name="description" content="为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。 在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。 RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 do">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Docker 部署 RabbitMQ">
 <meta property="og:url" content="https://jpanj.com/2017/docker-install-rabbitmq/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。 在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 doc">
+<meta property="og:description" content="为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。 在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。 RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 do">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2017/docker-install-rabbitmq/1.png">
 <meta property="og:image" content="https://jpanj.com/2017/docker-install-rabbitmq/2.png">
-<meta property="og:updated_time" content="2017-08-02T08:23:26.000Z">
+<meta property="og:updated_time" content="2017-08-02T08:26:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Docker 部署 RabbitMQ">
-<meta name="twitter:description" content="为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。 在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 doc">
+<meta name="twitter:description" content="为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。 在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。 RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 do">
 <meta name="twitter:image" content="https://jpanj.com/2017/docker-install-rabbitmq/1.png">
 
 
@@ -271,16 +271,17 @@
 
       
         <p>为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。</p>
-<p>在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。<br>RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 docker 环境下部署就比较简单了，直接使用 RabbitMQ 官方提供的镜像即可。</p>
+<p>在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。</p>
+<p>RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 docker 环境下部署就比较简单了，直接使用 RabbitMQ 官方提供的镜像即可。</p>
 <p>直接安装的方式可以参考 <code>http://blog.didispace.com/spring-boot-rabbitmq/</code> 这篇文章，下边我主要来说下如何使用 Docker 部署 RabbitMQ。</p>
-<p>运行 <code>docker pull rabbitmq:management</code> 从官方下载镜像到本地，这里使用的是带 web 管理插件的镜像。</p>
+<p>运行 <code>docker pull rabbitmq:management</code> 从官方下载镜像到本地，这里使用的是带 Web 管理插件的镜像。</p>
 <p><strong>启动容器：</strong></p>
 <figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">docker</span> <span class="comment">run</span> <span class="literal">-</span><span class="comment">d</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">name</span> <span class="comment">rabbitmq</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">5671:5671</span> <span class="comment">\</span></div><div class="line"> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">5672:5672</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">4369:4369</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">25672:25672</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">15671:15671</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">15672:15672</span> <span class="comment">\</span></div><div class="line"><span class="comment">rabbitmq:management</span></div></pre></td></tr></table></figure>
 <p>容器启动之后就可以访问 Web 管理界面了 <code>http://IP:15672</code></p>
 <p><img src="1.png" alt=""></p>
 <p>默认创建了一个 guest 用户，密码也是 guest。</p>
 <p><img src="2.png" alt=""></p>
-<p>通过这种方式来部署 RabbitMQ 非常方便，今后可以在部署 测试环境 时用起来，因为我们还没有大规模使用 docker，所以暂时不建议在 生产环境 来使用。</p>
+<p>通过这种方式来部署 RabbitMQ 非常方便，今后可以在部署 测试环境 时用起来，因为我们还没有大规模使用 Docker，所以暂时不建议在 生产环境 来使用。</p>
 <h3 id="AMQP-协议中的几个重要概念"><a href="#AMQP-协议中的几个重要概念" class="headerlink" title="AMQP 协议中的几个重要概念"></a>AMQP 协议中的几个重要概念</h3><ul>
 <li>Queue 是 RabbitMQ 的内部对象，用于存储消息。RabbitMQ 中的消息只能存储在 Queue 中，消费者从 Queue 中获取消息并消费。</li>
 <li>Exchange 生产者将消息发送到 Exchange，由 Exchange 根据一定的规则将消息路由到一个或多个 Queue 中（或者丢弃）。</li>
