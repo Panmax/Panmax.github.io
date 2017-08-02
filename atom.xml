@@ -133,6 +133,41 @@
   </entry>
   
   <entry>
+    <title>Eureka Server 外置配置文件</title>
+    <link href="https://jpanj.com/2017/eureka-config-outside/"/>
+    <id>https://jpanj.com/2017/eureka-config-outside/</id>
+    <published>2017-08-02T08:11:29.000Z</published>
+    <updated>2017-08-02T08:16:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在我们现在的架构中，一切都是由 Eureka 开始的，因为业务中的配置中心地址是使用 <code>service-id</code> 的形式，从注册中心来自动发现配置中心地址。</p>
+<p>这就出现了一个矛盾，如果我们想将 Eureka Server 的配置外置的话就不太可行了，因为 Eureka 启动前，配置中心还没有注册进来，所以它也无法发现配置中心。</p>
+<p>现在我们项目中的做法是：Eureka Server 的所有配置文件都是写在自己的 application.yml 中。<br>今天我想到一个思路，并验证了其可行性：</p>
+<p>可以先将 Config Server 启动起来，因为 Config Server 需要注册到 Eureka Server 上，但是注册失败并不会导致服务的终止，只是在发心跳包时会有一些错误信息。也就是说，即便不注册上去，配置中心也是可以通过 IP+端口号 的形式来访问的。</p>
+<p>Config Server 的 <code>application.yml</code> 如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="attr">management:</span></div><div class="line"><span class="attr">  security:</span></div><div class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></div><div class="line"> </div><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">7020</span></div><div class="line"> </div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  application:</span></div><div class="line"><span class="attr">    name:</span> <span class="string">config-server</span></div><div class="line"><span class="attr">  cloud:</span></div><div class="line"><span class="attr">    config:</span></div><div class="line"><span class="attr">      server:</span></div><div class="line"><span class="attr">        git:</span></div><div class="line"><span class="attr">          username:</span> <span class="string">xxxxx</span></div><div class="line"><span class="attr">          password:</span> <span class="string">yyyyy</span></div><div class="line"><span class="attr">          uri:</span> <span class="attr">http://gitlab-server/config-repo/&#123;application&#125;.git</span></div><div class="line"><span class="attr">          force-pull:</span> <span class="literal">true</span></div><div class="line"><span class="attr">      label:</span> <span class="string">master</span></div><div class="line"> </div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:7011/eureka/</span></div><div class="line"><span class="attr">  instance:</span></div><div class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></div></pre></td></tr></table></figure>
+<p>然后我们在 git 中新建 eureka 仓库，并创建 <code>eureka-dev.yml</code> 文件，其内容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">7011</span></div><div class="line"> </div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  instance:</span></div><div class="line"><span class="attr">    hostname:</span> <span class="string">localhost</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:7011/eureka/</span></div><div class="line"><span class="attr">    register-with-eureka:</span> <span class="literal">false</span></div><div class="line"><span class="attr">    fetch-registry:</span> <span class="literal">false</span></div></pre></td></tr></table></figure>
+<p>然后在 Eureka Server 项目中新建 <code>bootstrap.yml</code> 文件，内容如下：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">spring</span>:</div><div class="line">  <span class="attribute">application</span>:</div><div class="line">    <span class="attribute">name</span>: eureka</div><div class="line">  <span class="attribute">jackson</span>:</div><div class="line">    <span class="attribute">default-property-inclusion</span>: non_null</div><div class="line">  <span class="attribute">cloud</span>:</div><div class="line">    <span class="attribute">config</span>:</div><div class="line">      <span class="attribute">label</span>: master</div><div class="line">      <span class="attribute">profile</span>: dev</div><div class="line">      <span class="attribute">uri</span>: <span class="attribute">http</span>:<span class="comment">//localhost:7020/</span></div></pre></td></tr></table></figure>
+<p>这里我们使用 <code>IP+端口号</code> 的形式来访问配置中心，然后将之前的 <code>application.yml</code> 配置文件删除。</p>
+<p>现在我们来分别启动这两个项目，注意启动顺序：先启动 Config Server，再启动 Eureka Server，启动完 Config Server 后会看到一些错误，暂时不用理会，启动 Eureka Server 时我们可以在控制台中看到可以正常拉取配置，如图：</p>
+<p><img src="1.png" alt=""></p>
+<p>待 Eureka Server 启动完后，再回来看 Config Server 的控制台，已经不报错了，到 <code>http://localhost:7011/</code> 看到，配置中心也成功注册上来，这也说明我们的 Eureka Server 已经成功读到了 配置中心 提供的配置文件。</p>
+<p><img src="2.png" alt=""></p>
+<p>以上验证了这种思路是可行的，回头可以将线上环境也修改为这种方式。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在我们现在的架构中，一切都是由 Eureka 开始的，因为业务中的配置中心地址是使用 &lt;code&gt;service-id&lt;/code&gt; 的形式，从注册中心来自动发现配置中心地址。&lt;/p&gt;
+&lt;p&gt;这就出现了一个矛盾，如果我们想将 Eureka Server 的配置外置的话就不太
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Linux 笔记</title>
     <link href="https://jpanj.com/2017/linux-note/"/>
     <id>https://jpanj.com/2017/linux-note/</id>
@@ -822,32 +857,6 @@
     
       &lt;p&gt;之前已经做过对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。&lt;/p&gt;
 &lt;p&gt;我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 &lt;code&gt;fonts.gstatic.com&lt;/code&gt;，这个请求应该是
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题</title>
-    <link href="https://jpanj.com/2017/%E8%A7%A3%E5%86%B3%E5%9C%A8-SAE-%E4%B8%AD%E4%BD%BF%E7%94%A8-Flask-SQLAlchemy-%E5%87%BA%E7%8E%B0-MySQL-server-has-gone-away-%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://jpanj.com/2017/解决在-SAE-中使用-Flask-SQLAlchemy-出现-MySQL-server-has-gone-away-的问题/</id>
-    <published>2017-05-31T09:01:32.000Z</published>
-    <updated>2017-05-31T09:21:27.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且降低了成本，我现在暂时只用到了一个最基础的容器+一个最低配置的 <code>MySQL</code> 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。</p>
-<p>但是在迁移中发现一个问题，当过一会不访问服务后，再次访问时会出现 <code>MySQL server has gone away</code> 的错误，在 SAE 提供的数据库中用 <code>SHOW VARIABLES;</code> 检查了下，SAE 给数据库配置的 <code>wait_timeout</code> 是 300 秒，我之前阿里云上的数据库没有改配置，所以默认为 8 小时，而且 SAE 数据库 的这个值是不允许修改的，所以既然<strong>无法改变环境，就来适应环境吧</strong>。</p>
-<p>尝试了很多解决办法，比如 配置<code>SQLALCHEMY_COMMIT_ON_TEARDOWN=True</code> 和 在每次请求完成后关闭 db 的 <code>session</code> 都没有解决问题，再次阅读文档时看到了这个配置：<code>SQLALCHEMY_POOL_RECYCLE</code>，作用是设置多少秒后回收连接，在使用 <code>MySQL</code> 时是必须设置的。如果不提供值，默认为 2 小时，而我之前的数据库默认 <code>wait_timeout</code> 为 8 小时，所以一直没有出过问题。我在我的配置文件中，将这个值设置为 280 秒（小于 300 秒），最终解决了问题。</p>
-<p>最后帖一下<code>SQLALCHEMY_POOL_RECYCLE</code>参数的原文解释：</p>
-<blockquote>
-<p>Number of seconds after which a connection is automatically recycled. This is required for MySQL, which removes connections after 8 hours idle by default. Note that Flask-SQLAlchemy automatically sets this to 2 hours if MySQL is used.</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这段时间尝试把 进销存SAAS 迁移到 新浪云（SAE），这样的话减少了运维的麻烦而且降低了成本，我现在暂时只用到了一个最基础的容器+一个最低配置的 &lt;code&gt;MySQL&lt;/code&gt; 服务，每天的成本只有 2 块多。打算迁移完之后改成两个容器实例。&lt;/p&gt;
-&lt;p&gt;但是在
     
     </summary>
     
