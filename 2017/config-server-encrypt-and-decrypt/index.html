@@ -114,7 +114,7 @@
 <meta property="og:image" content="https://jpanj.com/2017/config-server-encrypt-and-decrypt/5.png">
 <meta property="og:image" content="https://jpanj.com/2017/config-server-encrypt-and-decrypt/6.png">
 <meta property="og:image" content="https://jpanj.com/2017/config-server-encrypt-and-decrypt/7.png">
-<meta property="og:updated_time" content="2017-08-04T07:09:17.000Z">
+<meta property="og:updated_time" content="2017-08-04T07:10:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置中心的加密与解密功能">
 <meta name="twitter:description" content="有时候我们会放一些敏感信息到配置中心里，比如线上数据库密码等，我们直接将敏感信息以明文的方式存储于微服务应用的配置文件中是非常危险的，Spring Cloud Config 提供了对属性进行加密解密的功能，以保护配置文件中的信息安全。 在 Spring Cloud Config 中通过在属性值前使用 {cipher} 前缀来标注该内容是一个加密值，当微服务客户端加载配置时，配置中心就会自动为带有">
@@ -297,7 +297,7 @@
 <h3 id="下边我们在实际情景中运用一下加密解密功能"><a href="#下边我们在实际情景中运用一下加密解密功能" class="headerlink" title="下边我们在实际情景中运用一下加密解密功能"></a>下边我们在实际情景中运用一下加密解密功能</h3><p>在 GitLab 中修改 app-a 的 dev 配置文件，加上如下配置：</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">password: '&#123;cipher&#125;49db5b628a4b722ef<span class="number">776262</span>d67c0fa<span class="number">9676</span>de<span class="number">7767</span>e54ecfb2be70df<span class="number">515767</span>7d20'</div></pre></td></tr></table></figure>
 <p>然后在 app-a 中新加一个 Controller:</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@Value(<span class="meta-string">"<span class="subst">$&#123;password&#125;</span>"</span>)</span></div><div class="line"><span class="keyword">private</span> String password;</div><div class="line"> </div><div class="line"><span class="meta">@RequestMapping(value = <span class="meta-string">"/password"</span>, method = RequestMethod.GET)</span></div><div class="line"><span class="keyword">public</span> String password() &#123;</div><div class="line">    <span class="keyword">return</span> password;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Value(<span class="meta-string">"<span class="subst">$&#123;password&#125;</span>"</span>)</span></div><div class="line"><span class="keyword">private</span> String password;</div><div class="line"> </div><div class="line"><span class="meta">@RequestMapping(value = <span class="meta-string">"/password"</span>, method = RequestMethod.GET)</span></div><div class="line"><span class="keyword">public</span> String password() &#123;</div><div class="line">    <span class="keyword">return</span> password;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>重新编译后运行，访问它的 <code>/password</code> 路径，可以看到结果：</p>
 <p><img src="7.png" alt=""></p>
 <p>我们通过配置 <code>encrypt.key</code> 参数来指定密钥的实现方式采用了对称加密。这种方式实现起来比较简单，只需要配置一个参数即可。另外，我们也可以使用环境变量 <code>ENCRYPT_KEY</code> 来进行配置，让密钥信息外置。</p>
