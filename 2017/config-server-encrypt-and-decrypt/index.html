@@ -114,7 +114,7 @@
 <meta property="og:image" content="https://jpanj.com/2017/config-server-encrypt-and-decrypt/5.png">
 <meta property="og:image" content="https://jpanj.com/2017/config-server-encrypt-and-decrypt/6.png">
 <meta property="og:image" content="https://jpanj.com/2017/config-server-encrypt-and-decrypt/7.png">
-<meta property="og:updated_time" content="2017-08-04T07:04:41.000Z">
+<meta property="og:updated_time" content="2017-08-04T07:09:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置中心的加密与解密功能">
 <meta name="twitter:description" content="有时候我们会放一些敏感信息到配置中心里，比如线上数据库密码等，我们直接将敏感信息以明文的方式存储于微服务应用的配置文件中是非常危险的，Spring Cloud Config 提供了对属性进行加密解密的功能，以保护配置文件中的信息安全。 在 Spring Cloud Config 中通过在属性值前使用 {cipher} 前缀来标注该内容是一个加密值，当微服务客户端加载配置时，配置中心就会自动为带有">
@@ -287,13 +287,13 @@
 <p><img src="2.png" alt=""></p>
 <p>这是因为在 JRE 中，自带的 JCE 默认是有长度限制的版本，我们需要从 Oracle 官网下载不限长度的版本：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html" target="_blank" rel="external">http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</a> ，下载解压后可以看到下边三个文件：</p>
 <p><img src="3.png" alt=""></p>
-<p>我们需要将 <code>local_policy.jar</code> 和 <code>US_export_policy.jar</code> 两个文件复制到 <code>$JAVA_HOME/jre/lib/security</code> 目录下，在复制前，最好将之前的两个文件进行备份，我将这两个文件放到了 lc0 的  <code>$JAVA_HOME/jre/lib/security</code> 目录中，现在目录中的文件如下：</p>
+<p>我们需要将 <code>local_policy.jar</code> 和 <code>US_export_policy.jar</code> 两个文件复制到<br><code>$JAVA_HOME/jre/lib/security</code><br>目录下，在复制前，最好将之前的两个文件进行备份，我将这两个文件放到了 lc0 机器的相应目录中，现在目录中的文件如下：</p>
 <p><img src="4.png" alt=""></p>
 <p>重新运行配置中心，访问 <code>/encrypt/status</code> 可以看到密钥已经生效了，并且配置中心已经支持对配置进行加密了。</p>
 <p><img src="5.png" alt=""></p>
 <p>此时，我们配置中心的加密解密功能就已经可以使用了，可以访问 <code>/encrypt</code> 和 <code>/decrypt</code> 来使用加密和解密功能。这两个端点都是 POST 请求，我们来用 <code>curl</code> 测试下：</p>
 <p><img src="6.png" alt=""></p>
-<p>我们用 <code>my-password</code> 为明文生成了 <code>49db5b628a4b722ef776262d67c0fa9676de7767e54ecfb2be70df5157677d20</code> 这个密文，同时又测试了解密功能。</p>
+<p>我们用 <code>my-password</code> 为明文生成了<br><code>49db5b628a4b722ef776262d67c0fa9676de7767e54ecfb2be70df5157677d20</code><br>这个密文，同时又测试了解密功能。</p>
 <h3 id="下边我们在实际情景中运用一下加密解密功能"><a href="#下边我们在实际情景中运用一下加密解密功能" class="headerlink" title="下边我们在实际情景中运用一下加密解密功能"></a>下边我们在实际情景中运用一下加密解密功能</h3><p>在 GitLab 中修改 app-a 的 dev 配置文件，加上如下配置：</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">password: '&#123;cipher&#125;49db5b628a4b722ef<span class="number">776262</span>d67c0fa<span class="number">9676</span>de<span class="number">7767</span>e54ecfb2be70df<span class="number">515767</span>7d20'</div></pre></td></tr></table></figure>
 <p>然后在 app-a 中新加一个 Controller:</p>
