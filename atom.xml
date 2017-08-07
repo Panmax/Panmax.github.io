@@ -137,7 +137,7 @@
     <link href="https://jpanj.com/2017/exa-and-zsh-syntax-highlighting/"/>
     <id>https://jpanj.com/2017/exa-and-zsh-syntax-highlighting/</id>
     <published>2017-08-07T03:05:24.000Z</published>
-    <updated>2017-08-07T03:37:09.000Z</updated>
+    <updated>2017-08-07T03:39:14.000Z</updated>
     
     <content type="html"><![CDATA[<p>今天再来记录两个命令行神器。</p>
 <p>第一个是 <strong>exa</strong>: <a href="https://the.exa.website/" target="_blank" rel="external">https://the.exa.website/</a></p>
@@ -155,8 +155,8 @@
 <blockquote>
 <p>Fish shell-like like syntax highlighting for Zsh.</p>
 </blockquote>
-<p>很抱歉我没有用过 Fish，这个工具是用来提供命令行中的语法高亮的。</p>
-<p>来看效果图：</p>
+<p><code>zsh-syntax-highlighting</code> 是用来在命令行中提供语法高亮的工具 (很抱歉我没有用过 Fish)。</p>
+<p>效果图：</p>
 <p><img src="3.png" alt=""></p>
 <p>安装方法：</p>
 <p><code>brew install zsh-syntax-highlighting</code></p>
