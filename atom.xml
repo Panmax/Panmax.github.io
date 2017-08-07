@@ -137,7 +137,7 @@
     <link href="https://jpanj.com/2017/exa-and-zsh-syntax-highlighting/"/>
     <id>https://jpanj.com/2017/exa-and-zsh-syntax-highlighting/</id>
     <published>2017-08-07T03:05:24.000Z</published>
-    <updated>2017-08-07T04:49:12.000Z</updated>
+    <updated>2017-08-07T04:57:38.000Z</updated>
     
     <content type="html"><![CDATA[<p>今天再来记录两个命令行神器。</p>
 <p>第一个是 <strong>exa</strong>: <a href="https://the.exa.website/" target="_blank" rel="external">https://the.exa.website/</a></p>
@@ -163,7 +163,9 @@
 <p>然后将 </p>
 <p><code>source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh</code></p>
 <p>加入到 <code>.zshrc</code> 文件中即可。</p>
-<p>最后再来说下我现在用的 iTerm2 配色，之前一直用的都是自己配的，会遇到文字和背景色不太搭的情况（link 蓝色的字，淡蓝色的背景），所以最近换用了： <a href="https://github.com/dracula/iterm" target="_blank" rel="external">https://github.com/dracula/iterm</a> 这个配色方案。看起来挺舒服的，所以就不再自己折腾了。</p>
+<p>最后再来说下我现在用的 iTerm2 配色，之前一直用的都是自己配的，会遇到文字和背景色不太搭的情况，比如 Date 和 Modified 那两列：</p>
+<p><img src="5.png" alt=""></p>
+<p>所以最近换用了： <a href="https://github.com/dracula/iterm" target="_blank" rel="external">https://github.com/dracula/iterm</a> 这个配色方案。看起来挺舒服的，所以就不再自己折腾了。</p>
 <p><img src="4.png" alt=""></p>
 ]]></content>
     
