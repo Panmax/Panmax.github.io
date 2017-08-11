@@ -111,7 +111,7 @@
 <meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy/2.png">
 <meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy/3.png">
 <meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy/4.png">
-<meta property="og:updated_time" content="2017-08-11T10:19:38.000Z">
+<meta property="og:updated_time" content="2017-08-11T10:21:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="部署到生产环境的科学方法">
 <meta name="twitter:description" content="我们现在的线上环境都是简单的使用 nohup java -jar xxx.jar &amp;amp; 的命令来将项目启起来的（感谢 Spring Boot），不过这种方式有诸多不便，比如我们想停掉或者重启某个项目，都需要通过 ps 命令先找到程序对应的 pid，然后再执行 kill 命令，然后再手动启动一遍这个程序。 下边我介绍一种（自我认为）比较科学的方式： 以我们已有的 demo 项目 app-c 为">
@@ -280,14 +280,12 @@
 <p>不带 <code>x</code> 权限的 <code>app-c</code><br><img src="1.png" alt=""></p>
 <p>带 <code>x</code> 权限的 <code>app-c</code><br><img src="2.png" alt=""></p>
 <p>我们来直接用 <code>output/app-c-0.0.1-SNAPSHOT.jar</code> 运行一下试试：</p>
-<p><img src="3.png" alt=""></p>
-<p>没有任何问问题。</p>
+<p><img src="3.png" alt=""><br>没有任何问问题。</p>
 <h4 id="接下来我们把这个可执行程序通过软链接的方式注册为系统服务："><a href="#接下来我们把这个可执行程序通过软链接的方式注册为系统服务：" class="headerlink" title="接下来我们把这个可执行程序通过软链接的方式注册为系统服务："></a>接下来我们把这个可执行程序通过软链接的方式注册为系统服务：</h4><p><code>sudo ln -s /opt/demo-projects/output/app-c-0.0.1-SNAPSHOT.jar /etc/init.d/app-c</code></p>
 <p>这样就可以使用 <code>start</code>、<code>stop</code>、<code>restart</code> 来管理我们的应用了</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/etc/init.d/app-c start|stop|restart</div><div class="line"> </div><div class="line">或</div><div class="line"> <span class="built_in"></span></div><div class="line">service app-c start|stop|restart</div></pre></td></tr></table></figure>
 <p>并且 <code>status</code> 可以查看运行状态：</p>
-<p><img src="4.png" alt=""></p>
-<p>用这样的方式来管理线上应用，比之前的方式方便了很多：不需要再进到存放 <code>jar</code> 包的目录来用冗长的代码启动，只需知道应用名称，就可以直接启动、重启、停止我们想管理的应用。</p>
+<p><img src="4.png" alt=""><br>用这样的方式来管理线上应用，比之前的方式方便了很多：不需要再进到存放 <code>jar</code> 包的目录来用冗长的代码启动，只需知道应用名称，就可以直接启动、重启、停止我们想管理的应用。</p>
 
       
     </div>
