@@ -102,20 +102,20 @@
 
 <meta name="description" content="我们现在的线上环境都是简单的使用 nohup java -jar xxx.jar &amp;amp; 的命令来将项目启起来的（感谢 Spring Boot），不过这种方式有诸多不便，比如我们想停掉或者重启某个项目，都需要通过 ps 命令先找到程序对应的 pid，然后再执行 kill 命令，然后再手动启动一遍这个程序。 下边我介绍一种（自我认为）比较科学的方式： 以我们已有的 demo 项目 app-c 为">
 <meta property="og:type" content="article">
-<meta property="og:title" content="部署到生产环境的科学方法">
-<meta property="og:url" content="https://jpanj.com/2017/the-best-way-to-deploy/index.html">
+<meta property="og:title" content="部署 jar 包到生产环境的科学方法">
+<meta property="og:url" content="https://jpanj.com/2017/the-best-way-to-deploy-jar/index.html">
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="我们现在的线上环境都是简单的使用 nohup java -jar xxx.jar &amp;amp; 的命令来将项目启起来的（感谢 Spring Boot），不过这种方式有诸多不便，比如我们想停掉或者重启某个项目，都需要通过 ps 命令先找到程序对应的 pid，然后再执行 kill 命令，然后再手动启动一遍这个程序。 下边我介绍一种（自我认为）比较科学的方式： 以我们已有的 demo 项目 app-c 为">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy/1.png">
-<meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy/2.png">
-<meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy/3.png">
-<meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy/4.png">
-<meta property="og:updated_time" content="2017-08-11T10:21:19.000Z">
+<meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy-jar/1.png">
+<meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy-jar/2.png">
+<meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy-jar/3.png">
+<meta property="og:image" content="https://jpanj.com/2017/the-best-way-to-deploy-jar/4.png">
+<meta property="og:updated_time" content="2017-08-11T10:23:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="部署到生产环境的科学方法">
+<meta name="twitter:title" content="部署 jar 包到生产环境的科学方法">
 <meta name="twitter:description" content="我们现在的线上环境都是简单的使用 nohup java -jar xxx.jar &amp;amp; 的命令来将项目启起来的（感谢 Spring Boot），不过这种方式有诸多不便，比如我们想停掉或者重启某个项目，都需要通过 ps 命令先找到程序对应的 pid，然后再执行 kill 命令，然后再手动启动一遍这个程序。 下边我介绍一种（自我认为）比较科学的方式： 以我们已有的 demo 项目 app-c 为">
-<meta name="twitter:image" content="https://jpanj.com/2017/the-best-way-to-deploy/1.png">
+<meta name="twitter:image" content="https://jpanj.com/2017/the-best-way-to-deploy-jar/1.png">
 
 
 
@@ -143,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/the-best-way-to-deploy/"/>
+  <link rel="canonical" href="https://jpanj.com/2017/the-best-way-to-deploy-jar/"/>
 
 
 
 
 
-  <title>部署到生产环境的科学方法 | 贾攀家</title>
+  <title>部署 jar 包到生产环境的科学方法 | 贾攀家</title>
   
 
 
@@ -208,7 +208,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/the-best-way-to-deploy/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/the-best-way-to-deploy-jar/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -225,7 +225,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">部署到生产环境的科学方法</h1>
+          <h1 class="post-title" itemprop="name headline">部署 jar 包到生产环境的科学方法</h1>
         
 
         <div class="post-meta">
@@ -322,8 +322,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/exa-and-zsh-syntax-highlighting/" rel="next" title="exa 和 zsh-syntax-highlighting">
-                <i class="fa fa-chevron-left"></i> exa 和 zsh-syntax-highlighting
+              <a href="/2017/the-best-way-to-deploy/" rel="next" title="部署到生产环境的科学方法">
+                <i class="fa fa-chevron-left"></i> 部署到生产环境的科学方法
               </a>
             
           </div>
@@ -332,8 +332,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/the-best-way-to-deploy-jar/" rel="prev" title="部署 jar 包到生产环境的科学方法">
-                部署 jar 包到生产环境的科学方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2333/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
+                山丘 - 李宗盛 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
