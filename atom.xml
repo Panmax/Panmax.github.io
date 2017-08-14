@@ -136,6 +136,37 @@
   </entry>
   
   <entry>
+    <title>Redis 开放端口与设置密码</title>
+    <link href="https://jpanj.com/2017/redis-open-port-and-set-password/"/>
+    <id>https://jpanj.com/2017/redis-open-port-and-set-password/</id>
+    <published>2017-08-14T10:10:55.000Z</published>
+    <updated>2017-08-14T10:27:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近自己的 VPS 上部署了几个 Docker 服务，其中一个打算用 Reids 做个计数的功能，因为我的偏好是数据库类的程序不用 Docker 来部署，所以在本地安装了 Redis 服务，但是这样如果不做任何配置的话 Docker 容器中的服务是访问不到宿主机的 Redis 服务的。</p>
+<p>从网上搜了下解决方法，都挺复杂的，需要配置网桥之类的，所以我就走了个捷径，直接将 Redis 的端口进行开放，然后设置一个密码：</p>
+<p>修改 <code>/etc/redis/redis.conf</code>:</p>
+<p>将里边的 <code>bind 127.0.0.1</code> 改为 <code>bind 0.0.0.0</code>，这样的话 Redis 就可以监听外部请求了。</p>
+<p>接下来为 Redis 配置一个认证密码：</p>
+<p>找到 <code>#requirepass foobared</code>  将注释去掉，同时将 <code>foobared</code> 改为自己想设置的密码。</p>
+<p>修改完后，保存退出，然后重启 Redis 服务：<code>sudo /etc/init.d/redis-server restart</code></p>
+<p>这样就完成了，在我本地尝试登录服务器的 Redis：</p>
+<p><code>redis-cli -h ipaddress</code> 发现登录成功，发送个命令试试看: <code>keys *</code>，这是会得到：</p>
+<p><code>(error) NOAUTH Authentication required.</code></p>
+<p>这样的结果，告诉我们没有权限，因为我们设置了访问密码。</p>
+<p>正确的登录姿势是：<code>redis-cli -h ipaddress -a password</code></p>
+<p>同时，Python 程序中连接 Redis 的时候也要记得加上 <code>password</code> 参数。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近自己的 VPS 上部署了几个 Docker 服务，其中一个打算用 Reids 做个计数的功能，因为我的偏好是数据库类的程序不用 Docker 来部署，所以在本地安装了 Redis 服务，但是这样如果不做任何配置的话 Docker 容器中的服务是访问不到宿主机的 Redi
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>部署 jar 包到生产环境的科学方法</title>
     <link href="https://jpanj.com/2017/the-best-way-to-deploy-jar/"/>
     <id>https://jpanj.com/2017/the-best-way-to-deploy-jar/</id>
@@ -300,7 +331,7 @@
     <link href="https://jpanj.com/2017/linux-note/"/>
     <id>https://jpanj.com/2017/linux-note/</id>
     <published>2017-08-01T02:41:57.000Z</published>
-    <updated>2017-08-01T06:48:17.000Z</updated>
+    <updated>2017-08-14T02:27:14.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h3><p>在添加用户时，最好用 <code>adduser</code>，虽然 <code>adduser</code> 和 <code>useradd</code> 这两个命令在其他发行版的 Linux 系统下一样，但是在 Ubuntu 下是有区别的：<code>adduser</code> 会自动创建用户的 home 目录，并且创建用户同名的组，而 <code>useradd</code> 不会。</p>
 <p>如果不小心将用户 home 目录删除了，可以使用下边的方法来重建：</p>
@@ -320,6 +351,19 @@
 <h3 id="Ubuntu-下安装官方-JDK"><a href="#Ubuntu-下安装官方-JDK" class="headerlink" title="Ubuntu 下安装官方 JDK"></a>Ubuntu 下安装官方 JDK</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo<span class="built_in"> add-apt-repository </span>ppa:webupd8team/java  <span class="comment"># 添加仓库源</span></div><div class="line">sudo apt-get update <span class="comment"># 更新软件包列表</span></div><div class="line">sudo apt-get install oracle-java8-installer</div></pre></td></tr></table></figure>
 <p>安装过程中需要接受协议，选择 <code>Yes</code>。</p>
 <p>查看 Java 版本： <code>java -version</code> (我每次都输成 <code>--version</code>)</p>
+<h3 id="查看修改时区"><a href="#查看修改时区" class="headerlink" title="查看修改时区"></a>查看修改时区</h3><ol>
+<li>查看当前时区</li>
+</ol>
+<p><code>date -R</code></p>
+<ol>
+<li>修改时区</li>
+</ol>
+<p><code>tzselect</code></p>
+<ol>
+<li>赋值相应时区文件，替换系统时区文件</li>
+</ol>
+<p><code>cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</code></p>
+<h3 id="telent-退出"><a href="#telent-退出" class="headerlink" title="telent 退出"></a>telent 退出</h3><figure class="highlight cos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Control + ]</div><div class="line"></div><div class="line"><span class="keyword">quit</span></div></pre></td></tr></table></figure>
 ]]></content>
     
     <summary type="html">
@@ -829,55 +873,6 @@
     <summary type="html">
     
       &lt;p&gt;根据这篇教程：&lt;a href=&quot;http://blog.csdn.net/cl_andywin/article/details/53998986&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/cl_andywin/
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>基于 Eureka 的服务注册与发现调研</title>
-    <link href="https://jpanj.com/2017/%E5%9F%BA%E4%BA%8E-Eureka-%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0%E8%B0%83%E7%A0%94/"/>
-    <id>https://jpanj.com/2017/基于-Eureka-的服务注册与发现调研/</id>
-    <published>2017-06-21T03:31:40.000Z</published>
-    <updated>2017-06-21T07:11:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。"><a href="#Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。" class="headerlink" title="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。"></a><a href="https://github.com/Netflix/eureka" target="_blank" rel="external">Eureka</a> 是 Netflix 开源的一款提供服务注册和发现的产品。</h2><p>Eureka 由两个组件组成： <strong>Eureka 服务器</strong> 和 <strong>Eureka 客户端</strong>。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。</p>
-<h3 id="官方对自己的定义是："><a href="#官方对自己的定义是：" class="headerlink" title="官方对自己的定义是："></a>官方对自己的定义是：</h3><blockquote>
-<p>Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of load balancing and failover of middle-tier servers.</p>
-</blockquote>
-<h3 id="通俗点讲什么是服务注册发现？"><a href="#通俗点讲什么是服务注册发现？" class="headerlink" title="通俗点讲什么是服务注册发现？"></a>通俗点讲什么是服务注册发现？</h3><p>服务注册与发现就像是在一个聊天室，每个用户来的时候去服务器上注册，这样你的好友们就能看到你，你同时也将获取好友的上线列表。在微服务中，服务就相当于聊天室的用户，而服务注册中心就像聊天室服务器一样。</p>
-<h3 id="Eureka特性"><a href="#Eureka特性" class="headerlink" title="Eureka特性"></a>Eureka特性</h3><ol>
-<li>Eureka Server 具有服务定位/发现的能力，在各个微服务启动时，会通过 Eureka Client 向Eureka Server 进行注册自己的信息（例如网络信息）。 </li>
-<li>一般情况下，微服务启动后，Eureka Client 会周期性向 Eureka Server 发送心跳检测(默认周期为30秒)以注册/更新自己的信息。 </li>
-<li>如果 Eureka Server 在一定时间内(默认90秒)没有收到 Eureka Client 的心跳检测，就会注销掉该微服务点。 </li>
-<li>同时，Eureka Server 本身也是 Eureka Client，多个 Eureka Server 通过复制注册表的方法来完成服务注册表的同步从而达到集群的效果。</li>
-</ol>
-<h3 id="为什么选择-Eureka"><a href="#为什么选择-Eureka" class="headerlink" title="为什么选择 Eureka"></a>为什么选择 Eureka</h3><h4 id="1-它提供了完整的-Service-Registry-和-Service-Discovery-实现"><a href="#1-它提供了完整的-Service-Registry-和-Service-Discovery-实现" class="headerlink" title="1) 它提供了完整的 Service Registry 和 Service Discovery 实现"></a>1) 它提供了完整的 <code>Service Registry</code> 和 <code>Service Discovery</code> 实现</h4><p>首先是提供了完整的实现，并且也经受住了 Netflix 自己的生产环境考验，相对使用起来会比较省心。</p>
-<h4 id="2-和-Spring-Cloud-无缝集成"><a href="#2-和-Spring-Cloud-无缝集成" class="headerlink" title="2) 和 Spring Cloud 无缝集成"></a>2) 和 <code>Spring Cloud</code> 无缝集成</h4><p>服务端和客户端都是 Java 编写的，针对微服务场景，并且和 Netflix 的其他开源项目以及 Spring Cloud 都有着非常好的整合，具备良好的生态。</p>
-<h4 id="3-Open-Source"><a href="#3-Open-Source" class="headerlink" title="3) Open Source"></a>3) Open Source</h4><p>最后一点是开源，由于代码是开源的，所以非常便于我们了解它的实现原理和排查问题。</p>
-<h3 id="Eureka-Server-使用介绍"><a href="#Eureka-Server-使用介绍" class="headerlink" title="Eureka Server 使用介绍"></a>Eureka Server 使用介绍</h3><h4 id="在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server"><a href="#在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server" class="headerlink" title="在 Spring Boot 项目的 pom.xml 中加入 spring-cloud-starter-eureka-server"></a>在 Spring Boot 项目的 pom.xml 中加入 <code>spring-cloud-starter-eureka-server</code></h4><p>使用 Spring Cloud 需要在 pom.xml 中加入 Spring Cloud 的父级引用，让 Spring 帮我们管理依赖版本。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
-<h4 id="在application-yml中配置"><a href="#在application-yml中配置" class="headerlink" title="在application.yml中配置"></a>在application.yml中配置</h4><p>Eureka 是一个高可用的组件，它没有后端缓存，每一个实例注册之后需要向注册中心发送心跳（因此可以在内存中完成），在默认情况下 Erureka Server 也是一个 Eureka Client，必须要指定一个 Server。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">8761</span></div><div class="line"></div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  instance:</span></div><div class="line"><span class="attr">    hostname:</span> <span class="string">localhost</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    register-with-eureka:</span> <span class="literal">false</span>  <span class="comment"># 不用将自己注册到Eureka</span></div><div class="line"><span class="attr">    fetch-registry:</span> <span class="literal">false</span>  <span class="comment"># 不用发现Eureka中的服务</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      default-zone:</span> <span class="attr">http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span></div></pre></td></tr></table></figure>
-<h4 id="添加-Application-java-启动类-添加-EnableEurekaServer-注解"><a href="#添加-Application-java-启动类-添加-EnableEurekaServer-注解" class="headerlink" title="添加 Application.java 启动类 添加 @EnableEurekaServer 注解"></a>添加 Application.java 启动类 添加 <code>@EnableEurekaServer</code> 注解</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@SpringBootApplication</span></div><div class="line"><span class="variable">@EnableEurekaServer</span></div><div class="line">public class Application &#123;</div><div class="line">    <span class="selector-tag">public</span> <span class="selector-tag">static</span> <span class="selector-tag">void</span> <span class="selector-tag">main</span>(String[] args) &#123;</div><div class="line">        <span class="selector-tag">SpringApplication</span><span class="selector-class">.run</span>(Application.class, args);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="Eureka-Client-使用介绍"><a href="#Eureka-Client-使用介绍" class="headerlink" title="Eureka Client 使用介绍"></a>Eureka Client 使用介绍</h3><h4 id="服务注册与服务发现都是使用-Eureka-Client，所以在-Spring-Boot-项目的-pom-xml-中加入"><a href="#服务注册与服务发现都是使用-Eureka-Client，所以在-Spring-Boot-项目的-pom-xml-中加入" class="headerlink" title="服务注册与服务发现都是使用 Eureka Client，所以在 Spring Boot 项目的 pom.xml 中加入"></a>服务注册与服务发现都是使用 Eureka Client，所以在 Spring Boot 项目的 pom.xml 中加入</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
-<h4 id="在-application-yml-中加入-Eureka-的-Server-配置"><a href="#在-application-yml-中加入-Eureka-的-Server-配置" class="headerlink" title="在 application.yml 中加入 Eureka 的 Server 配置"></a>在 application.yml 中加入 Eureka 的 Server 配置</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">server</span>:</div><div class="line">  <span class="attribute">port</span>: <span class="number">8762</span></div><div class="line"></div><div class="line"><span class="attribute">spring</span>:</div><div class="line">  <span class="attribute">application</span>:</div><div class="line">    <span class="attribute">name</span>: service-hi</div><div class="line"></div><div class="line"><span class="attribute">eureka</span>:</div><div class="line">  <span class="attribute">client</span>:</div><div class="line">    <span class="attribute">serviceUrl</span>:</div><div class="line">      <span class="attribute">defaultZone</span>: <span class="attribute">http</span>:<span class="comment">//localhost:8761/eureka/</span></div></pre></td></tr></table></figure>
-<p>需要指明 <code>spring.application.name</code>，这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个 name。</p>
-<p>启动上边两个程序后，访问 <code>http://localhost:8761/</code> 可以看到下边的页面，同时看到我们的 <code>service-hi</code> 也注册上来了。</p>
-<p><img src="1.png" alt=""></p>
-<p>在本地调试时出现了这样的问题，如上图所示，中间部分有一行红色大字 <strong>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.</strong>，原因是 Eureka 的自我保护机制:</p>
-<blockquote>
-<p>Eureka Server 在运行期间，会统计心跳成功率在 15分钟 之内是否低于85%，如果出现低于的情况（在单机调试的时候很容易满足，实际在生产环境上通常是由于网络不稳定导致），Eureka Server 会将当前的实例注册信息保护起来，同时提示这个警告。至于为什么需要有这个自我保护机制，官方的解释是：Service 不是强一致的，所以会有部分情况下没发现新服务导致请求出错，对于Service 发现服务而言，宁可返回某服务 5分钟 之前在哪几个服务器上可用的信息，也不能因为暂时的网络故障而找不到可用的服务器，而不返回任何结果。</p>
-</blockquote>
-<h3 id="其他实现方式比较"><a href="#其他实现方式比较" class="headerlink" title="其他实现方式比较"></a>其他实现方式比较</h3><p>DNS 可以算是最为原始的服务发现系统，但是在服务变更较为频繁，即服务的动态性很强的时候，DNS 记录的传播速度可能会跟不上服务的变更速度，这将导致在一定的时间窗口内无法提供正确的服务位置信息，所以这种方案只适合在比较静态的环境中使用，不适用于微服务。</p>
-<p>基于 ZooKeeper、Etcd 等分布式键值对存储服务来建立服务发现系统在现在看起来 也不是一种很好的方案，一方面是因为它们只能提供基本的数据存储功能，还需要在外围做大量的开发才能形成完整的服务发现方案。另一方面是因为它们都是强一致性系统，在集群发生分区时会优先保证一致性、放弃可用性，而服务发现方案更注重可用性，为了保证可用性可以选择最终一致性，这两方面原因共同导致了 ZooKeeper、Etcd 这类系统越来越远离服务发现方案的备选清单，像 SmartStack 这种依赖 ZooKeeper 的服务发现方案也逐渐发觉 ZooKeeper 成了它的薄弱环节。与 ZooKeeper、Etcd 或者依赖它们的方案不同，Eureka 是个专门为服务发现从零开始开发的项目，Eureka 以可用性为先，可以在多种故障期间保持服务发现和服务注册功能可用，虽然此时会存在一些数据错误，但是 Eureka 的设计原则是“<strong>存在少量的错误数据，总比完全不可用要好</strong>”，并且可以在故障恢复之后按最终一致性进行状态合并，清理掉错误数据。</p>
-<p>Eureka 有个强大的对手 Consul。Consul 是 HashiCorp 公司的商业产品，它有一个开源的基础版本，这个版本在基本的服务发现功能之外，还提供了多数据中心部署能力，包括内存、存储使用情况在内的细粒度服务状态检测能力，和用于服务配置的键值对存储能力（这是一把双刃剑，使用它可以带来便捷，但是也意味着和 Consul 的较强耦合性），这几个能力 Eureka 目前都没有。但是 Consul 对业务的侵入性较大，在与 SpringBoot 项目对接时没有那么方便，而且 Consul 由一家商业软件公司提供，那么必然或多或少的存在商业软件的某些弊端。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。&quot;&gt;&lt;a href=&quot;#Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。&quot; class=&quot;headerlink&quot; title=&quot;Eureka 是 Netflix 开源的一款
     
     </summary>
     
