@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="今天在用 IDEA 运行 Spring Boot 项目的时候，每次重启都会卡住，过好一会才能恢复，同时 IDEA 底部显示 Finished, saving caches，经过 Google 找到了解决办法，但是不明白为什么这样能解决。 方法很简单，修改 hosts 文件，在里边 127.0.0.1 和 ::1 后边加上 &amp;lt;hostname&amp;gt;.local，比如我电脑的 hostname">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-25T08:04:21.000Z">
+<meta property="og:updated_time" content="2017-08-25T08:07:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决 IDEA 启动非常慢和生成 getter setter 不是 public 的问题">
 <meta name="twitter:description" content="今天在用 IDEA 运行 Spring Boot 项目的时候，每次重启都会卡住，过好一会才能恢复，同时 IDEA 底部显示 Finished, saving caches，经过 Google 找到了解决办法，但是不明白为什么这样能解决。 方法很简单，修改 hosts 文件，在里边 127.0.0.1 和 ::1 后边加上 &amp;lt;hostname&amp;gt;.local，比如我电脑的 hostname">
@@ -270,9 +270,9 @@
         <p>今天在用 IDEA 运行 Spring Boot 项目的时候，每次重启都会卡住，过好一会才能恢复，同时 IDEA 底部显示 <strong>Finished, saving caches</strong>，经过 <a href="https://stackoverflow.com/questions/30625785/intellij-freezes-for-about-30-seconds-before-debugging" target="_blank" rel="external">Google</a> 找到了解决办法，但是不明白为什么这样能解决。</p>
 <p>方法很简单，修改 <code>hosts</code> 文件，在里边 <code>127.0.0.1</code> 和 <code>::1</code> 后边加上 <code>&lt;hostname&gt;.local</code>，比如我电脑的 hostname 是 panmax，所以我的 <code>host</code> 文件修改完后为<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span>       <span class="selector-tag">localhost</span>   <span class="selector-tag">panmax</span><span class="selector-class">.local</span></div><div class="line">...</div><div class="line"><span class="selector-pseudo">::1</span>             <span class="selector-tag">localhost</span>     <span class="selector-tag">panmax</span><span class="selector-class">.local</span></div></pre></td></tr></table></figure></p>
 <p>重启 IDEA，发现已经不会卡顿了。</p>
-<p>再有一个是我使用 IDEA 生成的 <code>getter</code> 和 <code>setter</code> 是 <code>protected</code> 的，我用同事电脑测了一下，他的生成的确实 <code>public</code> 的，经过如下设置改回了正常：</p>
+<p>再有一个是我使用 IDEA 生成的 <code>getter</code> 和 <code>setter</code> 是 <code>protected</code> 的，我用同事电脑测了一下，他的生成的确是 <code>public</code> 的，经过如下设置改回了正常：</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">File |<span class="built_in"> Settings </span>| Editor | Code Style | Java</div><div class="line">|</div><div class="line">Code Generation</div><div class="line">|<span class="built_in"></span></div><div class="line">Default Visibility</div></pre></td></tr></table></figure>
-<p>改为 Public 即可。</p>
+<p>改为 <code>Public</code> 即可。</p>
 
       
     </div>
