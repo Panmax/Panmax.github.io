@@ -136,13 +136,13 @@
   </entry>
   
   <entry>
-    <title>different-notnull-notempty-notblank</title>
+    <title>NotNull、NotEmpty、NotBlank 的区别</title>
     <link href="https://jpanj.com/2017/different-notnull-notempty-notblank/"/>
     <id>https://jpanj.com/2017/different-notnull-notempty-notblank/</id>
     <published>2017-08-25T07:28:30.000Z</published>
-    <updated>2017-08-25T07:30:37.000Z</updated>
+    <updated>2017-08-25T07:32:08.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="NotNull-NotEmpty-NotBlank"><a href="#NotNull-NotEmpty-NotBlank" class="headerlink" title="NotNull NotEmpty NotBlank"></a>NotNull NotEmpty NotBlank</h2><h3 id="NotNull"><a href="#NotNull" class="headerlink" title="@NotNull"></a>@NotNull</h3><p>The CharSequence, Collection, Map or Array object is not null, but can be empty.</p>
+    <content type="html"><![CDATA[<h3 id="NotNull"><a href="#NotNull" class="headerlink" title="@NotNull"></a>@NotNull</h3><p>The CharSequence, Collection, Map or Array object is not null, but can be empty.</p>
 <h3 id="NotEmpty"><a href="#NotEmpty" class="headerlink" title="@NotEmpty"></a>@NotEmpty</h3><p>The CharSequence, Collection, Map or Array object is not null and size &gt; 0.</p>
 <h3 id="NotBlank"><a href="#NotBlank" class="headerlink" title="@NotBlank"></a>@NotBlank</h3><p>The string is not null and the trimmed length is greater than zero.</p>
 <h2 id="Here-are-a-few-examples"><a href="#Here-are-a-few-examples" class="headerlink" title="Here are a few examples:"></a>Here are a few examples:</h2><figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">String</span> name = <span class="literal">null</span><span class="comment">;</span></div><div class="line">	<span class="symbol">@NotNull</span>: <span class="literal">false</span></div><div class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">false</span></div><div class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></div><div class="line"><span class="built_in">String</span> name = <span class="string">""</span><span class="comment">;</span></div><div class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">false</span></div><div class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></div><div class="line"><span class="built_in">String</span> name = <span class="string">" "</span><span class="comment">;</span></div><div class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></div><div class="line"><span class="built_in">String</span> name = <span class="string">"Great answer!"</span><span class="comment">;</span></div><div class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">true</span></div></pre></td></tr></table></figure>
@@ -150,7 +150,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;NotNull-NotEmpty-NotBlank&quot;&gt;&lt;a href=&quot;#NotNull-NotEmpty-NotBlank&quot; class=&quot;headerlink&quot; title=&quot;NotNull NotEmpty NotBlank&quot;&gt;&lt;/a&gt;NotNull Not
+      &lt;h3 id=&quot;NotNull&quot;&gt;&lt;a href=&quot;#NotNull&quot; class=&quot;headerlink&quot; title=&quot;@NotNull&quot;&gt;&lt;/a&gt;@NotNull&lt;/h3&gt;&lt;p&gt;The CharSequence, Collection, Map or Array objec
     
     </summary>
     

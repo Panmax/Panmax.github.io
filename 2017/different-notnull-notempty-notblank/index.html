@@ -100,17 +100,17 @@
 
 
 
-<meta name="description" content="NotNull NotEmpty NotBlank@NotNullThe CharSequence, Collection, Map or Array object is not null, but can be empty. @NotEmptyThe CharSequence, Collection, Map or Array object is not null and size &amp;gt; 0">
+<meta name="description" content="@NotNullThe CharSequence, Collection, Map or Array object is not null, but can be empty. @NotEmptyThe CharSequence, Collection, Map or Array object is not null and size &amp;gt; 0. @NotBlankThe string is">
 <meta property="og:type" content="article">
-<meta property="og:title" content="different-notnull-notempty-notblank">
+<meta property="og:title" content="NotNull、NotEmpty、NotBlank 的区别">
 <meta property="og:url" content="https://jpanj.com/2017/different-notnull-notempty-notblank/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="NotNull NotEmpty NotBlank@NotNullThe CharSequence, Collection, Map or Array object is not null, but can be empty. @NotEmptyThe CharSequence, Collection, Map or Array object is not null and size &amp;gt; 0">
+<meta property="og:description" content="@NotNullThe CharSequence, Collection, Map or Array object is not null, but can be empty. @NotEmptyThe CharSequence, Collection, Map or Array object is not null and size &amp;gt; 0. @NotBlankThe string is">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-25T07:30:37.000Z">
+<meta property="og:updated_time" content="2017-08-25T07:32:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="different-notnull-notempty-notblank">
-<meta name="twitter:description" content="NotNull NotEmpty NotBlank@NotNullThe CharSequence, Collection, Map or Array object is not null, but can be empty. @NotEmptyThe CharSequence, Collection, Map or Array object is not null and size &amp;gt; 0">
+<meta name="twitter:title" content="NotNull、NotEmpty、NotBlank 的区别">
+<meta name="twitter:description" content="@NotNullThe CharSequence, Collection, Map or Array object is not null, but can be empty. @NotEmptyThe CharSequence, Collection, Map or Array object is not null and size &amp;gt; 0. @NotBlankThe string is">
 
 
 
@@ -144,7 +144,7 @@
 
 
 
-  <title>different-notnull-notempty-notblank | 贾攀家</title>
+  <title>NotNull、NotEmpty、NotBlank 的区别 | 贾攀家</title>
   
 
 
@@ -220,7 +220,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">different-notnull-notempty-notblank</h1>
+          <h1 class="post-title" itemprop="name headline">NotNull、NotEmpty、NotBlank 的区别</h1>
         
 
         <div class="post-meta">
@@ -267,7 +267,7 @@
       
 
       
-        <h2 id="NotNull-NotEmpty-NotBlank"><a href="#NotNull-NotEmpty-NotBlank" class="headerlink" title="NotNull NotEmpty NotBlank"></a>NotNull NotEmpty NotBlank</h2><h3 id="NotNull"><a href="#NotNull" class="headerlink" title="@NotNull"></a>@NotNull</h3><p>The CharSequence, Collection, Map or Array object is not null, but can be empty.</p>
+        <h3 id="NotNull"><a href="#NotNull" class="headerlink" title="@NotNull"></a>@NotNull</h3><p>The CharSequence, Collection, Map or Array object is not null, but can be empty.</p>
 <h3 id="NotEmpty"><a href="#NotEmpty" class="headerlink" title="@NotEmpty"></a>@NotEmpty</h3><p>The CharSequence, Collection, Map or Array object is not null and size &gt; 0.</p>
 <h3 id="NotBlank"><a href="#NotBlank" class="headerlink" title="@NotBlank"></a>@NotBlank</h3><p>The string is not null and the trimmed length is greater than zero.</p>
 <h2 id="Here-are-a-few-examples"><a href="#Here-are-a-few-examples" class="headerlink" title="Here are a few examples:"></a>Here are a few examples:</h2><figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">String</span> name = <span class="literal">null</span><span class="comment">;</span></div><div class="line">	<span class="symbol">@NotNull</span>: <span class="literal">false</span></div><div class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">false</span></div><div class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></div><div class="line"><span class="built_in">String</span> name = <span class="string">""</span><span class="comment">;</span></div><div class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">false</span></div><div class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></div><div class="line"><span class="built_in">String</span> name = <span class="string">" "</span><span class="comment">;</span></div><div class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></div><div class="line"><span class="built_in">String</span> name = <span class="string">"Great answer!"</span><span class="comment">;</span></div><div class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">true</span></div><div class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">true</span></div></pre></td></tr></table></figure>
