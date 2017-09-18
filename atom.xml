@@ -140,7 +140,7 @@
     <link href="https://jpanj.com/2017/spark-operator-elasticsearch-demo/"/>
     <id>https://jpanj.com/2017/spark-operator-elasticsearch-demo/</id>
     <published>2017-09-18T13:51:48.000Z</published>
-    <updated>2017-09-18T13:59:34.000Z</updated>
+    <updated>2017-09-18T14:14:12.000Z</updated>
     
     <content type="html"><![CDATA[<p>上周五调研了下如何用 Spark 读写 Elasticsearch（下文简称 es），中间被官方提供的 jar 包卡了很久，所以本来想周末记录一下，结果一发懒就没做，就蹭到周一晚上来写一下了，最近调研的东西很多，有很多要记得东西，一点一点来吧。</p>
 <p>不废话，直接 Show you the code：</p>
@@ -174,6 +174,8 @@
     
     </summary>
     
+    
+      <category term="BigData" scheme="https://jpanj.com/tags/BigData/"/>
     
   </entry>
   
