@@ -136,6 +136,48 @@
   </entry>
   
   <entry>
+    <title>Spark 操作 Elasticsearch 示例</title>
+    <link href="https://jpanj.com/2017/spark-operator-elasticsearch-demo/"/>
+    <id>https://jpanj.com/2017/spark-operator-elasticsearch-demo/</id>
+    <published>2017-09-18T13:51:48.000Z</published>
+    <updated>2017-09-18T13:59:34.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>上周五调研了下如何用 Spark 读写 Elasticsearch（下文简称 es），中间被官方提供的 jar 包卡了很久，所以本来想周末记录一下，结果一发懒就没做，就蹭到周一晚上来写一下了，最近调研的东西很多，有很多要记得东西，一点一点来吧。</p>
+<p>不废话，直接 Show you the code：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</div><div class="line">import org.elasticsearch.spark._</div><div class="line"> </div><div class="line"> </div><div class="line">object ElasticSparkHelloWorld &#123;</div><div class="line">  def main(<span class="keyword">args</span>: Array[String]) &#123;</div><div class="line"> </div><div class="line"> </div><div class="line">    val <span class="keyword">conf</span> = new SparkConf().setAppName(ElasticSparkHelloWorld.getClass.getName)</div><div class="line">    <span class="keyword">conf</span>.setMaster(<span class="string">"local"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.nodes"</span>, <span class="string">"localhost"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.port"</span>, <span class="string">"9200"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.index.auto.create"</span>, <span class="string">"true"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.nodes.wan.only"</span>, <span class="string">"true"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.query"</span>, <span class="string">"?q=*"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.resource"</span>, <span class="string">"spark/docs"</span>)</div><div class="line"> </div><div class="line">    val <span class="keyword">sc</span> = new SparkContext(<span class="keyword">conf</span>)</div><div class="line">    val numbers = Map(<span class="string">"one"</span> -&gt; 1, <span class="string">"two"</span> -&gt; 2, <span class="string">"three"</span> -&gt; 3, <span class="string">"four"</span> -&gt; 4)</div><div class="line">    val airports = Map(<span class="string">"OTP"</span> -&gt; <span class="string">"Otopeni"</span>, <span class="string">"SFO"</span> -&gt; <span class="string">"San Fran"</span>)</div><div class="line"> </div><div class="line">    <span class="keyword">sc</span>.makeRDD(Seq(numbers, airports)).saveToEs(<span class="string">"spark/docs"</span>)</div><div class="line"> </div><div class="line">    println(<span class="keyword">sc</span>.esRDD().<span class="keyword">count</span>())</div><div class="line"> </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其实上边这些代码从网上一搜一大堆，重点是下边 <code>sbt</code> 部分的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">name := &quot;spark-es-demo&quot;</div><div class="line"> </div><div class="line">version := &quot;1.0&quot;</div><div class="line"> </div><div class="line">scalaVersion := &quot;2.11.11&quot;</div><div class="line"> </div><div class="line">//scalacOptions += &quot;-Ylog-classpath&quot;</div><div class="line"> </div><div class="line">libraryDependencies += &quot;org.apache.spark&quot; %% &quot;spark-core&quot; % &quot;1.6.2&quot;</div><div class="line">libraryDependencies += &quot;org.elasticsearch&quot; % &quot;elasticsearch-spark-13_2.11&quot; % &quot;5.5.2&quot;</div></pre></td></tr></table></figure>
+<p><strong>需要注意 scala 版本，spark 版本还有 es 版本一定要对应，否则无法运行</strong></p>
+<p>比如</p>
+<ul>
+<li><code>scalaVersion</code> 版本是 <code>2.11.11</code></li>
+<li><code>spark</code> 版本是 <code>1.6.2</code></li>
+<li><code>es</code> 版本是 <code>5.5.2</code></li>
+</ul>
+<p>依赖需要写成下边这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">libraryDependencies += &quot;org.apache.spark&quot; %% &quot;spark-core&quot; % &quot;1.6.2&quot;  // 这里指定 spark-core 的版本</div><div class="line">libraryDependencies += &quot;org.elasticsearch&quot; % &quot;elasticsearch-spark-13_2.11&quot; % &quot;5.5.2&quot;</div></pre></td></tr></table></figure>
+<p>解释一下 <code>&quot;elasticsearch-spark-13_2.11&quot; % &quot;5.5.2&quot;</code> 这部分</p>
+<p><code>-13</code> 是给 <code>Spark1.3-1.6</code> 提供的<br><code>-20</code> 是给 <code>Spark2.0</code> 提供的</p>
+<p><code>_2.11</code> 是 <code>scalaVersion</code> 的前边两位</p>
+<p><code>5.5.2</code> 是 <code>elasticsearch</code> 的版本号</p>
+<p>官方文档中提到</p>
+<blockquote>
+<p>The Spark connector framework is the most sensitive to version incompatibilities.</p>
+</blockquote>
+<p>Spark 连接器框架是对版本号非常敏感并且不兼容的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上周五调研了下如何用 Spark 读写 Elasticsearch（下文简称 es），中间被官方提供的 jar 包卡了很久，所以本来想周末记录一下，结果一发懒就没做，就蹭到周一晚上来写一下了，最近调研的东西很多，有很多要记得东西，一点一点来吧。&lt;/p&gt;
+&lt;p&gt;不废话，直接 
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>解决 IDEA 启动非常慢和生成 getter setter 不是 public 的问题</title>
     <link href="https://jpanj.com/2017/idea-slow-getter-and-getter-setter-public/"/>
     <id>https://jpanj.com/2017/idea-slow-getter-and-getter-setter-public/</id>
@@ -799,32 +841,6 @@
       &lt;h3 id=&quot;Controller&quot;&gt;&lt;a href=&quot;#Controller&quot; class=&quot;headerlink&quot; title=&quot;@Controller&quot;&gt;&lt;/a&gt;@Controller&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;用于标注控制层组件&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;@Cont
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>gradle 编译时强制刷新依赖</title>
-    <link href="https://jpanj.com/2017/gradle-%E7%BC%96%E8%AF%91%E6%97%B6%E5%BC%BA%E5%88%B6%E5%88%B7%E6%96%B0%E4%BE%9D%E8%B5%96/"/>
-    <id>https://jpanj.com/2017/gradle-编译时强制刷新依赖/</id>
-    <published>2017-07-17T08:40:35.000Z</published>
-    <updated>2017-07-17T09:11:20.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近团队封装了个 <code>springboot</code> 的 <code>starter</code>，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 <code>profile</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">cloud:</span></div><div class="line"><span class="attr">    config:</span></div><div class="line"><span class="attr">      discovery:</span></div><div class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">        service-id:</span> <span class="string">config-server</span></div><div class="line"><span class="attr">      label:</span> <span class="string">master</span></div><div class="line"><span class="attr">      profile:</span> <span class="string">$&#123;spring.profiles.active:dev&#125;</span></div></pre></td></tr></table></figure>
-<p>所以理所当然的认为不需要指定 <code>spring</code> 的 active 了，就把 <code>active</code> 给删掉了（如下）：</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> dev</div></pre></td></tr></table></figure>
-<p>发布到 <code>maven</code> 仓库后，重新测试没啥问题。结果过了个周末来了再编译，发现程序无法启动了，找了很多原因才发现是上边的操作导致的。</p>
-<p>后来将配置改了回来，发现还是不行，又鼓捣了好久发现这次的问题是 <code>gradle</code> 编译缓存的问题，通过这个网站： <a href="https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html" target="_blank" rel="external">https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html</a> 找到了解决办法，编译的时候在后边加上 <code>--refresh-dependencies</code> 可以强制刷新缓存。</p>
-<p>虽然问题解决了，但是我还有个疑问，我们的 <code>starter</code> 明明已经指定版本号为 <code>0.0.1-SNAPSHOT</code> 了，按理说应该在 <code>build</code> 的时候无条件的重新拉取最新的依赖，但是这个时候为什么没有生效？</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近团队封装了个 &lt;code&gt;springboot&lt;/code&gt; 的 &lt;code&gt;starter&lt;/code&gt;，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 &lt;code&gt;profile&lt;/code&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight y
     
     </summary>
     
