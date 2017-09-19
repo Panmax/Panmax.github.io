@@ -140,7 +140,7 @@
     <link href="https://jpanj.com/2017/spark-operator-elasticsearch-demo/"/>
     <id>https://jpanj.com/2017/spark-operator-elasticsearch-demo/</id>
     <published>2017-09-18T13:51:48.000Z</published>
-    <updated>2017-09-18T14:41:04.000Z</updated>
+    <updated>2017-09-19T03:14:14.000Z</updated>
     
     <content type="html"><![CDATA[<p>上周五调研了下如何用 Spark 读写 Elasticsearch（下文简称 es），中间被官方提供的 jar 包卡了很久，所以本来想周末记录一下，结果一发懒就没做，就蹭到周一晚上来写一下了，最近调研的东西很多，有很多要记得东西，一点一点来吧。</p>
 <p>不废话，直接 Show you the code：</p>
@@ -165,6 +165,10 @@
 <p>The Spark connector framework is the most sensitive to version incompatibilities.</p>
 <p>Spark 连接器框架是对版本号非常敏感并且不兼容的。</p>
 </blockquote>
+<p>另外一个坑是，<code>elasticsearch-spark-13_2.11</code> 这个 jar 包所依赖的包无法在 <code>maven</code> 官方源中找到，需要添加另一个源：<code>conjars: http://conjars.org/repo</code></p>
+<p>在 <code>~/.sbt</code> 下新建 <code>repositories</code> 文件，我的 <code>repositories</code> 内容如下：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[repositories]</div><div class="line">  local</div><div class="line"><span class="symbol">  aliyun:</span> http:<span class="comment">//maven.aliyun.com/nexus/content/groups/public/</span></div><div class="line"><span class="symbol">  conjars:</span> http:<span class="comment">//conjars.org/repo</span></div><div class="line"><span class="symbol">  central:</span> http:<span class="comment">//repo1.maven.org/maven2/</span></div></pre></td></tr></table></figure>
+<p>将阿里源放在上边，可以让官方依赖下载更快。</p>
 <p>完整代码见：<a href="https://github.com/Panmax/spark-es-demo" target="_blank" rel="external">https://github.com/Panmax/spark-es-demo</a></p>
 ]]></content>
     
