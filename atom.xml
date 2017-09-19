@@ -140,7 +140,7 @@
     <link href="https://jpanj.com/2017/graph-database-thinkerpop/"/>
     <id>https://jpanj.com/2017/graph-database-thinkerpop/</id>
     <published>2017-09-19T05:15:30.000Z</published>
-    <updated>2017-09-19T06:11:00.000Z</updated>
+    <updated>2017-09-19T06:19:47.000Z</updated>
     
     <content type="html"><![CDATA[<p><a href="http://tinkerpop.apache.org/" target="_blank" rel="external">Apache TinkerPop</a> 是一个开源的图计算框架。在这其中，TinkerPop 代表了很多的功能和技术，并且在它广阔的生态系统下还另外扩展了<a href="http://tinkerpop.apache.org/#graph-systems" target="_blank" rel="external">第三方贡献图库</a>和系统的世界。TinkerPop 的生态系统对于新手来说可能是复杂的，尤其是第一次浏览<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/" target="_blank" rel="external">参考文档</a>的时候。</p>
 <p>所以，你要从哪里开始使用 TinkerPop 呢？你如何快速入门并且获得成果？</p>
@@ -154,6 +154,7 @@
 <p>我们来<a href="https://www.apache.org/dyn/closer.lua/tinkerpop/3.3.0/apache-tinkerpop-gremlin-console-3.3.0-bin.zip" target="_blank" rel="external">下载控制台</a>然后解压并启动它：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ unzip apache-tinkerpop-gremlin-console-<span class="number">3.3</span>.<span class="number">0</span>-bin<span class="selector-class">.zip</span></div><div class="line">$ cd apache-tinkerpop-gremlin-console-<span class="number">3.3</span>.<span class="number">0</span></div><div class="line">$ bin/gremlin<span class="selector-class">.sh</span></div><div class="line"></div><div class="line">         \,,,/</div><div class="line">         (o o)</div><div class="line">-----oOOo-(<span class="number">3</span>)-oOOo-----</div><div class="line">plugin activated: tinkerpop<span class="selector-class">.server</span></div><div class="line">plugin activated: tinkerpop<span class="selector-class">.utilities</span></div><div class="line">plugin activated: tinkerpop<span class="selector-class">.tinkergraph</span></div><div class="line">gremlin&gt;</div></pre></td></tr></table></figure>
 <p>Gremlin 控制台是个 <a href="http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop" target="_blank" rel="external">REPL 环境</a>，它提供了很 nice 的方式来学习 Gremlin，因为你可以在输入代码后立刻得到反馈。这消除了需要「创建项目」才能尝试的复杂方式。控制台不仅仅是用来「入门」的，你将发现你会使用它来进行和 TinkerPop 相关的各种活动，比如加载数据、管理图、编写复杂的遍历等等。</p>
+<p>为了让 Gremlin 遍历一个图，你需要一个 <code>Graph</code> 实例，它保存着图的<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#_the_graph_structure" target="_blank" rel="external">结构</a>和数据。TinkerPop 是不同图数据库和图处理器之上的图抽象层，所以控制台中有很多可以实例化的实例供你选择。开始时最好的 <code>Grahp</code> 实例当然是 <a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#tinkergraph-gremlin" target="_blank" rel="external">TinkerGraph</a>。TinkerGraph 是一个快速、运行于内存的图数据库，有少量配置项，使其成为初学者不错的选择。</p>
 <p>待续</p>
 ]]></content>
     
