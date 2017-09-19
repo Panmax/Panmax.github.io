@@ -136,6 +136,33 @@
   </entry>
   
   <entry>
+    <title>图数据库入门：ThinkerPop 介绍</title>
+    <link href="https://jpanj.com/2017/graph-database-thinkerpop/"/>
+    <id>https://jpanj.com/2017/graph-database-thinkerpop/</id>
+    <published>2017-09-19T05:15:30.000Z</published>
+    <updated>2017-09-19T05:49:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="http://tinkerpop.apache.org/" target="_blank" rel="external">Apache TinkerPop</a> 是一个开源的图计算框架。在这其中，TinkerPop 代表了很多的功能和技术，并且在它广阔的生态系统下还另外扩展了<a href="http://tinkerpop.apache.org/#graph-systems" target="_blank" rel="external">第三方贡献图库</a>和系统的世界。TinkerPop 的生态系统对于新手来说可能是复杂的，尤其是第一次浏览<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/" target="_blank" rel="external">参考文档</a>的时候。</p>
+<p>所以，你要从哪里开始使用 TinkerPop 呢？你如何快速入门并且获得成果？</p>
+<p>Gremlin，TinkerPop 世界里最知名的公民，让它来帮助你完成入门，之后，你也可以使用 TinkerPop 构建图应用程序了。</p>
+<p><img src="1.png" alt=""></p>
+<h2 id="认识-Gremlin"><a href="#认识-Gremlin" class="headerlink" title="认识 Gremlin"></a>认识 Gremlin</h2><p><img src="2.png" alt=""></p>
+<p>Gremlin 可以帮助你浏览一个图中的点和边。他本质上是你用来查询图数据库的语言，就和 <code>SQL</code> 是用来查询关系型数据库的语言一样。为了告诉 Gremlin 他如何「遍历」图（也就是你想做的查询）你需要一种方法来用他明白的语言下达命令，这货总给你语言当然也叫做「Gremlin」。对于此事，你需要一个 TinkerPop 最重要的工具：<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#gremlin-console" target="_blank" rel="external">Gremlin 控制台</a></p>
+<p>待续</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;http://tinkerpop.apache.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Apache TinkerPop&lt;/a&gt; 是一个开源的图计算框架。在这其中，TinkerPop 代表了很多的功能和技术，并且在它广阔的
+    
+    </summary>
+    
+    
+      <category term="BigData Graph" scheme="https://jpanj.com/tags/BigData-Graph/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Spark 操作 Elasticsearch 示例</title>
     <link href="https://jpanj.com/2017/spark-operator-elasticsearch-demo/"/>
     <id>https://jpanj.com/2017/spark-operator-elasticsearch-demo/</id>
@@ -780,74 +807,6 @@
       &lt;p&gt;今天在服务器上用 pip 安装 MySQL-python 时报错，虽然之前处理过很多次，但都没有记录，这次记录一下。&lt;/p&gt;
 &lt;p&gt;报错如下：&lt;/p&gt;
 &lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>SpringMVC 常用注解</title>
-    <link href="https://jpanj.com/2017/spring-chang-yong-zhu-jie/"/>
-    <id>https://jpanj.com/2017/spring-chang-yong-zhu-jie/</id>
-    <published>2017-07-19T02:44:33.000Z</published>
-    <updated>2017-07-26T10:36:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Controller"><a href="#Controller" class="headerlink" title="@Controller"></a>@Controller</h3><ul>
-<li>用于标注控制层组件</li>
-<li><code>@Controller</code> 用于标记在一个类上，使用它标记的类就是一个 <code>SpringMVC Controller</code> 对象，分发处理器将会扫描使用了该注解的类方法，并检测该方法是否使用了 <code>@RequestMapping</code> 注解</li>
-<li>可以把 <code>Request</code> 请求 header 部分的值绑定到方法参数上</li>
-</ul>
-<h3 id="RestController"><a href="#RestController" class="headerlink" title="@RestController"></a>@RestController</h3><ul>
-<li>相当于 <code>@Controller</code> 和 <code>@ResponseBody</code> 的组合效果</li>
-</ul>
-<h3 id="Component"><a href="#Component" class="headerlink" title="@Component"></a>@Component</h3><ul>
-<li>泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注</li>
-</ul>
-<h3 id="Respository"><a href="#Respository" class="headerlink" title="@Respository"></a>@Respository</h3><ul>
-<li>用于注解 <code>dao</code> 层，在 <code>daoImpl</code> 类上面注解</li>
-</ul>
-<h3 id="Service"><a href="#Service" class="headerlink" title="@Service"></a>@Service</h3><ul>
-<li>用于注解业务组件</li>
-</ul>
-<hr>
-<h3 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h3><ul>
-<li>异步请求</li>
-<li>该注解用于将 <code>Controller</code> 的方法返回的对象通过适当的 <code>HttpMessageConverter</code> 转换为指定格式后，写入到 <code>Response</code> 对象的 <code>body</code> 数据区</li>
-<li>返回的数据不是 html 标签的页面，而是其他某种格式的数据时（如json、xml）使用</li>
-</ul>
-<h3 id="RequestMapping"><a href="#RequestMapping" class="headerlink" title="@RequestMapping"></a>@RequestMapping</h3><ul>
-<li>一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类的所有响应请求的方法都是以该地址作为父路径</li>
-</ul>
-<h3 id="Autowired"><a href="#Autowired" class="headerlink" title="@Autowired"></a>@Autowired</h3><ul>
-<li>它可以对类成员变量、方法及构造函数进行标注，完成自动装配的工作。通过 <code>@Autowired</code> 的使用来消除 <code>set</code>、<code>get</code> 方法</li>
-</ul>
-<h3 id="PathVariable"><a href="#PathVariable" class="headerlink" title="@PathVariable"></a>@PathVariable</h3><ul>
-<li>用于将请求 URL 中的模板变量映射到功能处理方法的参数上，即取出 URL 模板中的变量作为参数</li>
-</ul>
-<h3 id="RequestParam"><a href="#RequestParam" class="headerlink" title="@RequestParam"></a>@RequestParam</h3><ul>
-<li>主要用于在 <code>Spring MVC</code> 后台控制层获取参数，类似的一种做法是： <code>request.getParamter(&quot;name&quot;)</code></li>
-</ul>
-<h3 id="RequestHeader"><a href="#RequestHeader" class="headerlink" title="@RequestHeader"></a>@RequestHeader</h3><ul>
-<li>可以把 request 请求 header 部分的值绑定到方法参数上</li>
-</ul>
-<hr>
-<h3 id="SessionAttribute"><a href="#SessionAttribute" class="headerlink" title="@SessionAttribute"></a>@SessionAttribute</h3><ul>
-<li>用来映射 HttpSession 中 attribute 对象的值，将值放到 session 作用域中，写在 class 上面</li>
-</ul>
-<h3 id="Valid"><a href="#Valid" class="headerlink" title="@Valid"></a>@Valid</h3><ul>
-<li>实体校验数据，可结合 hibernate validator 一起使用</li>
-</ul>
-<h3 id="CookieValue"><a href="#CookieValue" class="headerlink" title="@CookieValue"></a>@CookieValue</h3><ul>
-<li>用来获取 Cookies 的值</li>
-</ul>
-<h3 id="ModelAttribute"><a href="#ModelAttribute" class="headerlink" title="@ModelAttribute"></a>@ModelAttribute</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;Controller&quot;&gt;&lt;a href=&quot;#Controller&quot; class=&quot;headerlink&quot; title=&quot;@Controller&quot;&gt;&lt;/a&gt;@Controller&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;用于标注控制层组件&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;@Cont
     
     </summary>
     
