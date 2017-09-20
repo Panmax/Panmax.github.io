@@ -136,14 +136,15 @@
   </entry>
   
   <entry>
-    <title>Titan 中边标签 SIMPLE 和 ONE2ONE 的区别</title>
+    <title>Titan 边标签 SIMPLE 和 ONE2ONE 的区别</title>
     <link href="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/"/>
     <id>https://jpanj.com/2017/titan-edge-label-simple-and-one2one/</id>
     <published>2017-09-20T01:45:04.000Z</published>
-    <updated>2017-09-20T02:32:46.000Z</updated>
+    <updated>2017-09-20T03:25:31.000Z</updated>
     
     <content type="html"><![CDATA[<p>昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 <code>SIMPLE</code> 和 <code>ONE2ONE</code>，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。</p>
 <p><img src="1.png" alt=""></p>
+<p><strong>SIMPLE:</strong> Allows at most one edge of such label between any pair of vertices. In other words, the graph is a simple graph with respect to the label. Ensures that edges are unique for a given label and pairs of vertices.<br><strong>ONE2ONE:</strong> Allows at most one incoming and one outgoing edge of such label on any vertex in the graph. The edge label marriedTo is an example with ONE2ONE multiplicity since a person is married to exactly one other person.</p>
 <p>先给结论，一张图来解释：</p>
 <p><img src="2.png" alt=""></p>
 <h3 id="程序验证"><a href="#程序验证" class="headerlink" title="程序验证"></a>程序验证</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; graph = TitanFactory.open("conf/titan.properties")</div><div class="line">=<span class="ruby">=&gt;standardtitangraph[<span class="symbol">cassandra:</span>[<span class="number">172.24</span>.<span class="number">8.84</span>]]</span></div><div class="line">gremlin&gt; mgmt = graph.openManagement()</div><div class="line">=<span class="ruby">=&gt;com.thinkaurelius.titan.graphdb.database.management.ManagementSystem@d7109be</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('simple').multiplicity(SIMPLE).make()</div><div class="line">=<span class="ruby">=&gt;simple</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('one2one').multiplicity(ONE2ONE).make()</div><div class="line">=<span class="ruby">=&gt;one2one</span></div><div class="line">gremlin&gt; mgmt.commit()</div><div class="line"></div><div class="line">gremlin&gt; a = graph.addVertex("name", "a")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4152</span>]</span></div><div class="line">gremlin&gt; b = graph.addVertex("name", "b")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">8248</span>]</span></div><div class="line">gremlin&gt; c = graph.addVertex("name", "c")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4128</span>]</span></div><div class="line">gremlin&gt; d = graph.addVertex("name", "d")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4328</span>]</span></div></pre></td></tr></table></figure>
