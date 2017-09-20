@@ -1,0 +1,512 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/css/fonts/fonts.css" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hi Panmax" />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="贾攀家" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 SIMPLE 和 ONE2ONE，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。  先给结论，一张图来解释：  程序验证123456789101112131415161718gremlin&amp;gt; graph = TitanFactory.open(&quot;conf/titan.properties&quot;)==&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Titan 中边标签 SIMPLE 和 ONE2ONE 的区别">
+<meta property="og:url" content="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 SIMPLE 和 ONE2ONE，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。  先给结论，一张图来解释：  程序验证123456789101112131415161718gremlin&amp;gt; graph = TitanFactory.open(&quot;conf/titan.properties&quot;)==&amp;g">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/1.png">
+<meta property="og:image" content="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/2.png">
+<meta property="og:updated_time" content="2017-09-20T02:32:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Titan 中边标签 SIMPLE 和 ONE2ONE 的区别">
+<meta name="twitter:description" content="昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 SIMPLE 和 ONE2ONE，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。  先给结论，一张图来解释：  程序验证123456789101112131415161718gremlin&amp;gt; graph = TitanFactory.open(&quot;conf/titan.properties&quot;)==&amp;g">
+<meta name="twitter:image" content="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/"/>
+
+
+
+
+
+  <title>Titan 中边标签 SIMPLE 和 ONE2ONE 的区别 | 贾攀家</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-meta ">
+  <div class="custom-logo-site-title">
+    <a href="/archives/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">贾攀家</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+</div>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Titan 中边标签 SIMPLE 和 ONE2ONE 的区别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T09:45:04+08:00">
+                2017-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 <code>SIMPLE</code> 和 <code>ONE2ONE</code>，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。</p>
+<p><img src="1.png" alt=""></p>
+<p>先给结论，一张图来解释：</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="程序验证"><a href="#程序验证" class="headerlink" title="程序验证"></a>程序验证</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; graph = TitanFactory.open("conf/titan.properties")</div><div class="line">=<span class="ruby">=&gt;standardtitangraph[<span class="symbol">cassandra:</span>[<span class="number">172.24</span>.<span class="number">8.84</span>]]</span></div><div class="line">gremlin&gt; mgmt = graph.openManagement()</div><div class="line">=<span class="ruby">=&gt;com.thinkaurelius.titan.graphdb.database.management.ManagementSystem@d7109be</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('simple').multiplicity(SIMPLE).make()</div><div class="line">=<span class="ruby">=&gt;simple</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('one2one').multiplicity(ONE2ONE).make()</div><div class="line">=<span class="ruby">=&gt;one2one</span></div><div class="line">gremlin&gt; mgmt.commit()</div><div class="line"></div><div class="line">gremlin&gt; a = graph.addVertex("name", "a")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4152</span>]</span></div><div class="line">gremlin&gt; b = graph.addVertex("name", "b")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">8248</span>]</span></div><div class="line">gremlin&gt; c = graph.addVertex("name", "c")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4128</span>]</span></div><div class="line">gremlin&gt; d = graph.addVertex("name", "d")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4328</span>]</span></div></pre></td></tr></table></figure>
+<p>先分别创建 <code>multiplicity</code> 为 <code>SIMPLE</code> 和 <code>ONE2ONE</code> 的 <code>Edge Label</code>，然后创建 a b c d 四个点。</p>
+<h4 id="首先来验证-SIMPLE："><a href="#首先来验证-SIMPLE：" class="headerlink" title="首先来验证 SIMPLE："></a>首先来验证 SIMPLE：</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; a.addEdge("simple", b)</div><div class="line">==&gt;e[<span class="string">1zb-37c-t1-6d4</span>][<span class="symbol">4152-simple-&gt;8248</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", b)</div><div class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; b.addEdge("simple", a)</div><div class="line">==&gt;e[<span class="string">2dj-6d4-t1-37c</span>][<span class="symbol">8248-simple-&gt;4152</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", c)</div><div class="line">==&gt;e[<span class="string">2rr-37c-t1-36o</span>][<span class="symbol">4152-simple-&gt;4128</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", d)</div><div class="line">==&gt;e[<span class="string">35z-37c-t1-3c8</span>][<span class="symbol">4152-simple-&gt;4328</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", c)</div><div class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; c.addEdge("simple", b)</div><div class="line">==&gt;e[<span class="string">16s-36o-t1-6d4</span>][<span class="symbol">4128-simple-&gt;8248</span>]</div></pre></td></tr></table></figure>
+<p>得到的结论是，只要两点之间不存在相同方向的 <code>SIMPLE</code> 边就可以。</p>
+<h4 id="然后验证-ONE2ONE"><a href="#然后验证-ONE2ONE" class="headerlink" title="然后验证 ONE2ONE"></a>然后验证 ONE2ONE</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; a.addEdge("one2one", b)</div><div class="line">==&gt;e[<span class="string">3k7-37c-1lh-6d4</span>][<span class="symbol">4152-one2one-&gt;8248</span>]</div><div class="line">gremlin&gt; a.addEdge("one2one", c)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; a.addEdge("one2one", d)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; d.addEdge("one2one", a)</div><div class="line">==&gt;e[<span class="string">17h-3c8-1lh-37c</span>][<span class="symbol">4328-one2one-&gt;4152</span>]</div><div class="line">gremlin&gt; d.addEdge("one2one", b)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; b.addEdge("one2one", c)</div><div class="line">==&gt;e[<span class="string">3yf-6d4-1lh-36o</span>][<span class="symbol">8248-one2one-&gt;4128</span>]</div></pre></td></tr></table></figure>
+<p>结论是，一个点上的 <code>ONE2ONE</code> 边只能有一次 <code>in</code> 和一次 <code>out</code>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/Soft-Skills-reading-note/" rel="next" title="《软技能：代码之外的生存指南》 读书笔记">
+                <i class="fa fa-chevron-left"></i> 《软技能：代码之外的生存指南》 读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2333/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
+                山丘 - 李宗盛 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript">
+    var OriginTitile = document.title;
+    var titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '(つェ⊂)我藏好了哦~ ' + OriginTitile;
+            clearTimeout(titleTime);
+        }
+        else {
+            document.title = '(*´∇｀*) 被你发现啦~ ' + OriginTitile;
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            }, 2000);
+        }
+    });
+  </script>
+</body>
+</html>

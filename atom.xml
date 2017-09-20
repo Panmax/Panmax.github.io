@@ -136,6 +136,35 @@
   </entry>
   
   <entry>
+    <title>Titan 中边标签 SIMPLE 和 ONE2ONE 的区别</title>
+    <link href="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/"/>
+    <id>https://jpanj.com/2017/titan-edge-label-simple-and-one2one/</id>
+    <published>2017-09-20T01:45:04.000Z</published>
+    <updated>2017-09-20T02:32:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 <code>SIMPLE</code> 和 <code>ONE2ONE</code>，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。</p>
+<p><img src="1.png" alt=""></p>
+<p>先给结论，一张图来解释：</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="程序验证"><a href="#程序验证" class="headerlink" title="程序验证"></a>程序验证</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; graph = TitanFactory.open("conf/titan.properties")</div><div class="line">=<span class="ruby">=&gt;standardtitangraph[<span class="symbol">cassandra:</span>[<span class="number">172.24</span>.<span class="number">8.84</span>]]</span></div><div class="line">gremlin&gt; mgmt = graph.openManagement()</div><div class="line">=<span class="ruby">=&gt;com.thinkaurelius.titan.graphdb.database.management.ManagementSystem@d7109be</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('simple').multiplicity(SIMPLE).make()</div><div class="line">=<span class="ruby">=&gt;simple</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('one2one').multiplicity(ONE2ONE).make()</div><div class="line">=<span class="ruby">=&gt;one2one</span></div><div class="line">gremlin&gt; mgmt.commit()</div><div class="line"></div><div class="line">gremlin&gt; a = graph.addVertex("name", "a")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4152</span>]</span></div><div class="line">gremlin&gt; b = graph.addVertex("name", "b")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">8248</span>]</span></div><div class="line">gremlin&gt; c = graph.addVertex("name", "c")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4128</span>]</span></div><div class="line">gremlin&gt; d = graph.addVertex("name", "d")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4328</span>]</span></div></pre></td></tr></table></figure>
+<p>先分别创建 <code>multiplicity</code> 为 <code>SIMPLE</code> 和 <code>ONE2ONE</code> 的 <code>Edge Label</code>，然后创建 a b c d 四个点。</p>
+<h4 id="首先来验证-SIMPLE："><a href="#首先来验证-SIMPLE：" class="headerlink" title="首先来验证 SIMPLE："></a>首先来验证 SIMPLE：</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; a.addEdge("simple", b)</div><div class="line">==&gt;e[<span class="string">1zb-37c-t1-6d4</span>][<span class="symbol">4152-simple-&gt;8248</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", b)</div><div class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; b.addEdge("simple", a)</div><div class="line">==&gt;e[<span class="string">2dj-6d4-t1-37c</span>][<span class="symbol">8248-simple-&gt;4152</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", c)</div><div class="line">==&gt;e[<span class="string">2rr-37c-t1-36o</span>][<span class="symbol">4152-simple-&gt;4128</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", d)</div><div class="line">==&gt;e[<span class="string">35z-37c-t1-3c8</span>][<span class="symbol">4152-simple-&gt;4328</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", c)</div><div class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; c.addEdge("simple", b)</div><div class="line">==&gt;e[<span class="string">16s-36o-t1-6d4</span>][<span class="symbol">4128-simple-&gt;8248</span>]</div></pre></td></tr></table></figure>
+<p>得到的结论是，只要两点之间不存在相同方向的 <code>SIMPLE</code> 边就可以。</p>
+<h4 id="然后验证-ONE2ONE"><a href="#然后验证-ONE2ONE" class="headerlink" title="然后验证 ONE2ONE"></a>然后验证 ONE2ONE</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; a.addEdge("one2one", b)</div><div class="line">==&gt;e[<span class="string">3k7-37c-1lh-6d4</span>][<span class="symbol">4152-one2one-&gt;8248</span>]</div><div class="line">gremlin&gt; a.addEdge("one2one", c)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; a.addEdge("one2one", d)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; d.addEdge("one2one", a)</div><div class="line">==&gt;e[<span class="string">17h-3c8-1lh-37c</span>][<span class="symbol">4328-one2one-&gt;4152</span>]</div><div class="line">gremlin&gt; d.addEdge("one2one", b)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; b.addEdge("one2one", c)</div><div class="line">==&gt;e[<span class="string">3yf-6d4-1lh-36o</span>][<span class="symbol">8248-one2one-&gt;4128</span>]</div></pre></td></tr></table></figure>
+<p>结论是，一个点上的 <code>ONE2ONE</code> 边只能有一次 <code>in</code> 和一次 <code>out</code>。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 &lt;code&gt;SIMPLE&lt;/code&gt; 和 &lt;code&gt;ONE2ONE&lt;/code&gt;，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;1.png&quot;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>《软技能：代码之外的生存指南》 读书笔记</title>
     <link href="https://jpanj.com/2017/Soft-Skills-reading-note/"/>
     <id>https://jpanj.com/2017/Soft-Skills-reading-note/</id>
@@ -820,38 +849,6 @@
     <summary type="html">
     
       &lt;p&gt;前段时间将博客在七牛上部署了一份，并且为新的域名 &lt;a href=&quot;https://jpanj.com&quot;&gt;jpanj.com&lt;/a&gt; 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>--spring.profiles.active 穿透性</title>
-    <link href="https://jpanj.com/2017/spring-profiles-active-chuan-tou-xing/"/>
-    <id>https://jpanj.com/2017/spring-profiles-active-chuan-tou-xing/</id>
-    <published>2017-07-20T08:00:08.000Z</published>
-    <updated>2017-07-25T08:09:36.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天在帮助 datamaster 接入配置中心时发现一个问题，就是如果在应用的 <code>application.yml</code> 像这样：</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  application:</span></div><div class="line"><span class="symbol">    name:</span> datamaster-scheduler</div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> lc10</div></pre></td></tr></table></figure>
-<p>指定环境的话，在启动时会自动寻找 <code>datamaster-scheduler-lc10.yml</code> 这个配置文件，不论使用 <code>bootrun</code> 启动或者打成 <code>jar</code> 包都没有问题。</p>
-<p>但是如果不在 <code>application.yml</code> 中指定 <code>spring.profiles.active</code>，而是打成 <code>jar</code> 包，使用 <code>--spring.profiles.active=lc10</code> 参数启动的话，就注册不上 Eureka，所以也就没办法正常拉取配置文件了。</p>
-<p>出现这个问题可以理解，因为我们在封装微服务接入的 starter 时，只定义了两个 active：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">---</span></div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  profiles:</span> <span class="string">dev</span></div><div class="line"><span class="attr">  rabbitmq:</span></div><div class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></div><div class="line"><span class="attr">    port:</span> <span class="number">5672</span></div><div class="line"><span class="attr">    username:</span> <span class="string">admin</span></div><div class="line"><span class="attr">    password:</span> <span class="string">admin</span></div><div class="line"><span class="attr">  zipkin:</span></div><div class="line"><span class="attr">    base-url:</span> <span class="attr">http://172.24.8.100:7030</span></div><div class="line"></div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://172.24.8.100:7011/eureka/,http://172.24.8.100:7012/eureka/,http://172.24.8.100:7013/eureka/</span></div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  profiles:</span> <span class="string">beta</span></div><div class="line"><span class="attr">  rabbitmq:</span></div><div class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></div><div class="line"><span class="attr">    port:</span> <span class="number">5672</span></div><div class="line"><span class="attr">    username:</span> <span class="string">admin</span></div><div class="line"><span class="attr">    password:</span> <span class="string">admin</span></div><div class="line"><span class="attr">  zipkin:</span></div><div class="line"><span class="attr">    base-url:</span> <span class="attr">http://172.24.8.100:7030</span></div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://172.24.8.100:7011/eureka/,http://172.24.8.100:7012/eureka/,http://172.24.8.100:7013/eureka/</span></div></pre></td></tr></table></figure>
-<p>所以使用这两种之外的环境是找不到配置中心的地址的，但是之前那种方式所得到的行为就不太理解了。</p>
-<p>这个问题我得到的结论是这样的：在应用系统的 <code>application.yml</code> 中定义的 <code>active</code> 是不具有穿透性的，所以我们的 微服务 starter 是不会得到这里定义的 <code>active</code> 的，而且 微服务starter 中的 <code>bootstrap.yml</code> 中定义了：</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> dev</div></pre></td></tr></table></figure>
-<p>所以在没有指定时会使用 dev，没有任何问题。</p>
-<p>使用 <code>--spring.profiles.active=lc10</code> 指定的 active 具有穿透性，会让这个应用系统依赖的其他组件也使用指定的 <code>active</code>，所以这个时候 微服务 starter 也会切换到 lc10 的 <code>active</code>，因为我们没有在 starter 中配 lc10 对应的 <code>active</code>，也就就相当于没有指定 eureka 的注册地址，所以接下来的所有流程就都跑不通了。</p>
-<p>为了解决这个问题，我在 微服务 starter 的 <code>bootstrap.yml</code> 中加上了默认的 eureka 注册地址和其他需要用到的配置，这样即便是指定的环境不存在的话也没有任何问题。</p>
-<p>之后在为客户部署时，只需要在 微服务 starter 中增加一个客户所对应的环境，然后启动应用时指定客户的 <code>active</code> 就可以了。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天在帮助 datamaster 接入配置中心时发现一个问题，就是如果在应用的 &lt;code&gt;application.yml&lt;/code&gt; 像这样：&lt;/p&gt;
-&lt;figure class=&quot;highlight dts&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
     
     </summary>
     
