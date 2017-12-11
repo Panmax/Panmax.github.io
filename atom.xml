@@ -136,6 +136,92 @@
   </entry>
   
   <entry>
+    <title>关于情景的一点点思考</title>
+    <link href="https://jpanj.com/2017/%E5%85%B3%E4%BA%8E%E6%83%85%E6%99%AF%E7%9A%84%E4%B8%80%E7%82%B9%E7%82%B9%E6%80%9D%E8%80%83/"/>
+    <id>https://jpanj.com/2017/关于情景的一点点思考/</id>
+    <published>2017-12-11T10:33:02.000Z</published>
+    <updated>2017-12-11T10:34:48.027Z</updated>
+    
+    <content type="html"><![CDATA[<p>这段时间的工作内容，让我更加体会到「情景」的重要性。</p>
+<p>想把事情做好，就要有一个已经存在的情景设定，空穴来潮地去做一定做不完美，或者做着做着会失去动力。<br>这段时间学习了很多图数据库知识，接触了一下Titan，深入学习了 Neo4j 。用 Hadoop/Spark 写了一些大数据处理工具。</p>
+<p>因为有上亿级的数据需要处理，所以不得不使用分布式计算引擎；为了将上亿级的数据导入到图数据库，不得不使用 Neo4j 的初始化导入工具；为了将一些增量关系通过计算后追加到图中，不得不学习通过编码的导入方式；为了满足产品需求，不得不学习各种复杂的查询语句，不断 debug 语句的正确性；因为有上亿数据的存在，不得不学习如果优化语句性能，在合适的地方添加索引。以上这些都是在工作内容这个场景下进行的，因为有了这个场景，推动着我不断的探索和进步，如果没有这个场景，我就算会去自己学习，也不会学的这么深入。</p>
+<p>还可以从另一个方面说一下场景的重要性：如果你想开发一个软件/工具来让大家用，也需要一个场景，要么当下你用得到，要么你的家人或者朋友用得到，否则我觉得空想是做不来的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这段时间的工作内容，让我更加体会到「情景」的重要性。&lt;/p&gt;
+&lt;p&gt;想把事情做好，就要有一个已经存在的情景设定，空穴来潮地去做一定做不完美，或者做着做着会失去动力。&lt;br&gt;这段时间学习了很多图数据库知识，接触了一下Titan，深入学习了 Neo4j 。用 Hadoop/Sp
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>基于前后端分离的CAS对接方案</title>
+    <link href="https://jpanj.com/2017/%E5%9F%BA%E4%BA%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E7%9A%84CAS%E5%AF%B9%E6%8E%A5%E6%96%B9%E6%A1%88/"/>
+    <id>https://jpanj.com/2017/基于前后端分离的CAS对接方案/</id>
+    <published>2017-12-08T02:03:13.000Z</published>
+    <updated>2017-12-11T10:34:56.569Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3 个问题：</p>
+<ul>
+<li>客户端除了浏览器，可能还包括手机端 APP，对于手机端而言，管理 cookie 是一件麻烦的事情</li>
+<li>RESTful 风格的 API 不建议使用 cookie</li>
+<li>Cookie 本身有一个缺陷，不能跨域</li>
+</ul>
+<p>解决这个问题的方案是让前端传数据时，在 URL 参数中或者 header 中携带一个 参数，我们成这个参数为 token，后端通过这个 token 来判断用户身份，这样可以免去对 Cookies 的管理。</p>
+<p>顺着这个思路，我们很容易想到一种方案，就是后端维护一个 <code>Map</code>，<code>key</code> 值为 <code>token</code>，<code>value</code> 为用户信息，这样只要用户登录时生成这个 <code>key</code> 后，放到 <code>Map</code> 中，然后将 <code>key</code> 返回给前端就行了，但是这样做有个很严重的问题，<code>Map</code> 是在内存中的，如果后端服务为集群时，还需要做 <code>key</code> 同步，非常麻烦，当然也有人会提出可以将后端生成的 <code>token</code> 和对应的用户信息放在 键-值 数据库中，这样就不用考虑同步问题了，当然这样做没有什么问题，但是会额外引入基础组件（我们现在做第一版，为了快速开发，不打算引入太多的组件），而且还要保证键值数据库的高可用性。</p>
+<p>这里我使用了一个更加优雅的方案：JSON Web Token</p>
+<p>JSON Web Token（JWT）是一个非常轻巧的规范。这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息。</p>
+<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成:"></a>JWT的组成:</h3><p>一个JWT实际上就是一个字符串，它由三部分组成，头部、载荷与签名。</p>
+<h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）:"></a>载荷（Payload）:</h4><p>Payload 是 JWT 存储信息的部分。Payload 也是一个 json 数据，每一个 json 的 key-value 称为一个声明。</p>
+<p>我们将用户信息描述成一个 json 对象。其中添加了一些其他的信息，帮助今后收到这个 JWT 的服务器理解这个 JWT 。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"iss"</span>: <span class="string">"Panmax JWT"</span>,</div><div class="line">    <span class="attr">"iat"</span>: <span class="number">1441593502</span>,</div><div class="line">    <span class="attr">"exp"</span>: <span class="number">1441594722</span>,</div><div class="line">    <span class="attr">"aud"</span>: <span class="string">"www.example.com"</span>,</div><div class="line">    <span class="attr">"sub"</span>: <span class="string">"jrocket@example.com"</span>,</div><div class="line">    <span class="attr">"user_id"</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">"username"</span>: <span class="string">"jiapan"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里面的前五个字段都是由JWT的标准所定义的</p>
+<ul>
+<li>iss: 该JWT的签发者</li>
+<li>sub: 该JWT所面向的用户</li>
+<li>aud: 接收该JWT的一方</li>
+<li>exp(expires):  JWT 的过期时间，是一个 unxi 时间戳</li>
+<li>iat(issued at): JWT 的签发时间，是一个 unix 时间戳</li>
+</ul>
+<p>上面这个 payload 中，<code>user_id</code> 和 <code>username</code> 为自定义声明。</p>
+<p>将上面的 json 对象进行<strong>base64编码</strong>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
+<p><code>ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p>
+<blockquote>
+<p>注：Base64是一种编码，也就是说，它是可以被翻译回原来的样子来的。它并不是一种加密过程。</p>
+</blockquote>
+<h4 id="头部（Header）"><a href="#头部（Header）" class="headerlink" title="头部（Header）"></a>头部（Header）</h4><p>WT还需要一个头部，头部用于描述关于该JWT的最基本的信息，例如其类型以及签名所用的算法等。这也可以被表示成一个JSON对象。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span>,</div><div class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这里，我们说明了这是一个 JWT，并且我们所用的签名算法（后面会提到）是 HS256 算法。</p>
+<p>对它也要进行Base64编码，之后的字符串就成了 JWT 的 Header（头部）。</p>
+<p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9</code></p>
+<h4 id="签名（签名）"><a href="#签名（签名）" class="headerlink" title="签名（签名）"></a>签名（签名）</h4><p>将上面的两个编码后的字符串都用句号.连接在一起（头部在前），就形成了</p>
+<p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9.ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p>
+<p>最后，我们将上面拼接完的字符串用 HS256 算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。加密之后，得到一串加密字符串，最后把这串加密字符串也是用 . 拼接在 header.payload 后面，形成完整的 JWT。</p>
+<p>最终生成的JWT格式如下：</p>
+<p><code>xxx.yyy.zzz</code></p>
+<p>这里签名的目的是为了保证 payload 数据的完整性。如果 JWT 在传输过程中被第三方劫持，中间人对 header.payload 进行修改，并且使用自己的密钥重新签名。服务端收到中间人修改过的 JWT，使用自己的密钥对 header.payload 进行再次加密，由于中间人和服务端使用的是不同的密钥签名，所以服务端再次加密的结果肯定和中间人加密的结果不一致，由此可以断定该 JWT 被恶意篡改。</p>
+<p>经过上边的介绍，我们可以看出 JWT 中 Payload 的信息是可以解码会明文的，也就是说信息会泄露，所以 JWT 中不应该存放任何敏感信息，用于登录时我们只需放入用户ID或者用户名就可以了，不要把身份号或者密码等信息放入JWT中，应该让后端拿到用户ID或者用户名后进行查询得到身份证号等隐私信息。</p>
+<p>好的，以上就是JWT的科普部分，下边介绍下我这边CAS对接实现方案。</p>
+<p>我单独写了一个服务，命名为 hodor(hold the door)，作为一个中间层来验证 CAS ticket 并且根据用户信息生成 JWT Token。</p>
+<p>我们用 zuul 作为网关服务，当请求过来后，网关判断有没有携带 token，并且判断 token 的有效性，我们需要把网关里验证 jwt 的密钥和 hodor 中生成 jwt 的密钥设置为相同的字符串就可以完成验证工作。</p>
+<p>当网关验证 token 没有被篡改并且还在有效期内后，从 Payload 中取出我们需要的信息，将这些信息明文放在 header 中继续往后请求各个应用，对于应用来说从网关过来的请求是可信的，直接从头中取出相应的用户名或者ID就行了。这里有一个坑，就是网关将信息放入 header 的时候，只能传 ASCII 编码字符串，我们的 CAS 返回用户信息时会同时返回中文姓名，所以中文在传入 header 时，需要做 urlencode 处理，同时应用内接受时也需要做 urldecode。</p>
+<p>如果没有携带 token 或 token 无效，网关会返回 HTTP 401 错误，前端收到这个返回码后，会跳转到 CAS 认证地址，让用户来登录。同时 service 是前端配置好的一个地址，当用户登录成功后，会回到前端配置好那个地址，前端拿到 CAS 给的 ticket 后，用这个 ticket 和申请 ticket 时的 service 来请求我写的 hodor 服务，hodor根据 ticket 和service 来完成ticket验证工作，获取用户信息，生成jwt，返回给前端，前端保存这个 token，再之后的请求中携带这个 token 来访问就行了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Titan 边标签 SIMPLE 和 ONE2ONE 的区别</title>
     <link href="https://jpanj.com/2017/titan-edge-label-simple-and-one2one/"/>
     <id>https://jpanj.com/2017/titan-edge-label-simple-and-one2one/</id>
@@ -765,99 +851,6 @@
     
       &lt;p&gt;现在我们的配置中心使用 &lt;code&gt;Spring Cloud Bus&lt;/code&gt; 与 &lt;code&gt;Spring Cloud Config&lt;/code&gt; 的整合，并以 &lt;code&gt;RabbitMQ&lt;/code&gt; 作为消息代理，实现了应用配置的动态更新。&lt;/p&gt;
 &lt;p&gt;架构如
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Boot 与 Docker 结合</title>
-    <link href="https://jpanj.com/2017/spring-boot-docker/"/>
-    <id>https://jpanj.com/2017/spring-boot-docker/</id>
-    <published>2017-07-26T05:17:46.000Z</published>
-    <updated>2017-07-26T05:34:14.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>Docker 是一个具有社交倾向的 Linux 容器管理工具包，允许用户发布容器镜像，其他用户可以使用这些镜像。Docker 镜像是运行容器化进程的基础，本文将介绍如何编译一个简单的 <code>Spring Boot</code> 应用的镜像。</p>
-</blockquote>
-<p>Docker 的安装和基本使用不在本文中介绍，之后可以单独拿出来写一写。</p>
-<p>本文将使用 <strong>Gradle</strong> 作为编译工具，基础项目工程直接使用 IDEA 的 <code>Spring Initializr</code> 生成，如下图：</p>
-<p><img src="1.png" alt=""></p>
-<p>直接下一步，<strong>注意</strong>这里的 Type 修改为 <code>Gradle Project</code>，然再下一步</p>
-<p><img src="2.png" alt=""></p>
-<p>然后只需要勾选 Web 即可</p>
-<p><img src="3.png" alt=""></p>
-<h4 id="我们来简单调整一下-build-gradle，新增："><a href="#我们来简单调整一下-build-gradle，新增：" class="headerlink" title="我们来简单调整一下 build.gradle，新增："></a>我们来简单调整一下 <code>build.gradle</code>，新增：</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">jar</span> &#123;</div><div class="line">    <span class="attribute">baseName</span> = <span class="string">'my-spring-boot-docker'</span></div><div class="line">    version =  <span class="string">'0.1.0'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>它的作用是让编译出来的 jar 包文件名为：<code>my-spring-boot-docker-0.1.0.jar</code></p>
-<h4 id="此时-build-gradle-如下："><a href="#此时-build-gradle-如下：" class="headerlink" title="此时 build.gradle 如下："></a>此时 <code>build.gradle</code> 如下：</h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    ext &#123;</div><div class="line">        springBootVersion = <span class="string">'1.5.4.RELEASE'</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">repositories</span> &#123;</div><div class="line">        mavenCentral()</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">classpath</span>(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">apply plugin: <span class="string">'java'</span></div><div class="line">apply plugin: <span class="string">'eclipse'</span></div><div class="line">apply plugin: <span class="string">'org.springframework.boot'</span></div><div class="line"></div><div class="line"></div><div class="line">jar &#123;</div><div class="line">    baseName = <span class="string">'my-spring-boot-docker'</span></div><div class="line">    version =  <span class="string">'0.1.0'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">version = <span class="string">'0.0.1-SNAPSHOT'</span></div><div class="line"><span class="keyword">sourceCompatibility</span> = <span class="number">1.8</span></div><div class="line"></div><div class="line"><span class="keyword">repositories</span> &#123;</div><div class="line">    mavenCentral()</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</div><div class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后我们写一个最简单的 <code>Controller</code>，为了方便直接写在 <code>main</code> 方法的类中：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.jpanj;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.<span class="keyword">annotation</span>.RequestMapping;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.<span class="keyword">annotation</span>.RestController;</div><div class="line"></div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringBootDockerApplication</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@RequestMapping(<span class="meta-string">"/"</span>)</span></div><div class="line">	<span class="keyword">public</span> String home() &#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"Hello Docker World"</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(SpringBootDockerApplication.<span class="keyword">class</span>, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="现在我们在不使用-Docker-容器-的情况下运行这个应用："><a href="#现在我们在不使用-Docker-容器-的情况下运行这个应用：" class="headerlink" title="现在我们在不使用 Docker 容器 的情况下运行这个应用："></a>现在我们在不使用 Docker 容器 的情况下运行这个应用：</h4><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./gradlew build</div><div class="line">java -jar build/libs/gs-spring-boot-docker<span class="number">-0.1</span><span class="number">.0</span>.jar</div></pre></td></tr></table></figure>
-<p>然后访问 <a href="localhost:8080" target="_blank" rel="external">localhost:8080</a> 可以看到 <code>Hello Docker World</code> 的返回结果。</p>
-<h3 id="接下来让我们把它容器化吧"><a href="#接下来让我们把它容器化吧" class="headerlink" title="接下来让我们把它容器化吧"></a>接下来让我们把它容器化吧</h3><p>Docker 有一个简单的 Dockerfile 文件格式用来指定生成镜像的层次，所以我们在 <code>Spring Boot</code> 项目中创建一个 Dockerfile，将这个文件放在项目根目录下即可，现在这个项目结构是这个样的：</p>
-<p><img src="4.png" alt=""></p>
-<h4 id="Dockerfile-内容如下："><a href="#Dockerfile-内容如下：" class="headerlink" title="Dockerfile 内容如下："></a>Dockerfile 内容如下：</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> frolvlad/alpine-oraclejdk8:slim</div><div class="line"><span class="keyword">VOLUME</span><span class="bash"> /tmp</span></div><div class="line"><span class="keyword">ADD</span><span class="bash"> target/my-spring-boot-docker-0.1.0.jar app.jar</span></div><div class="line"><span class="keyword">ENV</span> JAVA_OPTS=<span class="string">""</span></div><div class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [ <span class="string">"sh"</span>, <span class="string">"-c"</span>, <span class="string">"java <span class="variable">$JAVA_OPTS</span> -Djava.security.egd=file:/dev/./urandom -jar /app.jar"</span> ]</span></div></pre></td></tr></table></figure>
-<p>这个 Dockerfile 非常简单，不过这就是你运行一个 <code>Spring Boot</code> 应用的全部了，只需要 <code>Java</code> 和 <code>JAR</code> 文件就够了。这个项目 <code>JAR</code> 文件被作为 <code>app.jar</code> 加入到容器中，然后通过 <code>ENTRYPOINT</code> 来执行它。</p>
-<p>Docker容器 运行时应该尽量保持容器存储层不发生写操作，在这里我们添加一个 <code>VOLUME</code> 指向 <code>/tmp</code> 是因为 <code>Spring Boot</code> 应用在默认情况下会为 <code>Tomcat</code> 创建工作目录。这里的 <code>/tmp</code> 目录就会在运行时自动挂载为匿名卷，任何向 <code>/tmp</code> 中写入的信息都不会记录进容器存储层，从而保证了容器存储层的无状态化。</p>
-<p>当然，也可以在运行时可以覆盖这个挂载设置 </p>
-<p><code>docker run -d -v mytmp:/tmp xxxx</code></p>
-<p>在这行命令中，就使用了 <code>mytmp</code> 这个命名卷挂载到了 <code>/tmp</code> 这个位置，替代了 Dockerfile 中定义的匿名卷的挂载配置。</p>
-<p>不过此步骤在这个简单的应用中是可选的，但是在其他会写入文件系统的 <code>Spring Boot</code> 应用中是必须的。</p>
-<p>接下来就是把这个项目编译成一个可以到处运行的 Docker 镜像了，在 <code>build.gradle</code> 中我们添加一些新的插件：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        ...</div><div class="line">        <span class="keyword">classpath</span>(<span class="string">'se.transmode.gradle:gradle-docker:1.2'</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">...</div><div class="line">apply plugin: <span class="string">'docker'</span></div><div class="line"></div><div class="line"><span class="keyword">task</span> buildDocker(type: Docker, dependsOn: build) &#123;</div><div class="line">  applicationName = jar.baseName</div><div class="line">  dockerfile = <span class="keyword">file</span>(<span class="string">'Dockerfile'</span>)</div><div class="line">  <span class="keyword">doFirst</span> &#123;</div><div class="line">    <span class="keyword">copy</span> &#123;</div><div class="line">      <span class="keyword">from</span> jar</div><div class="line">      <span class="keyword">into</span> <span class="string">"$&#123;stageDir&#125;/target"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="上边的配置做了这-3-件事："><a href="#上边的配置做了这-3-件事：" class="headerlink" title="上边的配置做了这 3 件事："></a>上边的配置做了这 3 件事：</h4><ul>
-<li>镜像的名字被设置为 jar 配置的 baseName 属性</li>
-<li>确定 Dockerfile 的位置</li>
-<li>将 <code>jar</code> 文件从编译目录复制到 <code>docker</code> 编译目录的 <code>target</code> 目录下，这就是我们在 Dockerfile 中看到的 <code>ADD target/my-spring-boot-docker-0.1.0.jar app.jar</code> 为什么会生效的原因。</li>
-</ul>
-<h4 id="此时完整的-build-gradle-如下："><a href="#此时完整的-build-gradle-如下：" class="headerlink" title="此时完整的 build.gradle 如下："></a>此时完整的 <code>build.gradle</code> 如下：</h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    ext &#123;</div><div class="line">        springBootVersion = <span class="string">'1.5.4.RELEASE'</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">repositories</span> &#123;</div><div class="line">        mavenCentral()</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">classpath</span>(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:$&#123;springBootVersion&#125;"</span>)</div><div class="line">        <span class="keyword">classpath</span>(<span class="string">'se.transmode.gradle:gradle-docker:1.2'</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">apply plugin: <span class="string">'java'</span></div><div class="line">apply plugin: <span class="string">'eclipse'</span></div><div class="line">apply plugin: <span class="string">'org.springframework.boot'</span></div><div class="line">apply plugin: <span class="string">'docker'</span></div><div class="line"></div><div class="line"></div><div class="line">jar &#123;</div><div class="line">    baseName = <span class="string">'my-spring-boot-docker'</span></div><div class="line">    version =  <span class="string">'0.1.0'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">task</span> buildDocker(type: Docker, dependsOn: build) &#123;</div><div class="line">    applicationName = jar.baseName</div><div class="line">    dockerfile = <span class="keyword">file</span>(<span class="string">'Dockerfile'</span>)</div><div class="line">    <span class="keyword">doFirst</span> &#123;</div><div class="line">        <span class="keyword">copy</span> &#123;</div><div class="line">            <span class="keyword">from</span> jar</div><div class="line">            <span class="keyword">into</span> <span class="string">"$&#123;stageDir&#125;/target"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">version = <span class="string">'0.0.1-SNAPSHOT'</span></div><div class="line"><span class="keyword">sourceCompatibility</span> = <span class="number">1.8</span></div><div class="line"></div><div class="line"><span class="keyword">repositories</span> &#123;</div><div class="line">    mavenCentral()</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">dependencies</span> &#123;</div><div class="line">    <span class="keyword">compile</span>(<span class="string">'org.springframework.boot:spring-boot-starter-web'</span>)</div><div class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>现在你可以使用下边的命令编译这个 docker 镜像，然后将它推送到远端仓库中分享给其他用户使用（本教程不介绍推送远端仓库的方法）。</p>
-<p><code>./gradlew build buildDocker</code></p>
-<p>执行上边命令后，可以在本地的 docker 镜像仓库中看到，已经有了我们自己编译出来的 <code>my-spring-boot-docker</code> 镜像：</p>
-<p><img src="5.png" alt=""></p>
-<h4 id="然后你就可以像这样来运行它了："><a href="#然后你就可以像这样来运行它了：" class="headerlink" title="然后你就可以像这样来运行它了："></a>然后你就可以像这样来运行它了：</h4><p><code>docker run -p 8080:8080 -t my-spring-boot-docker:0.0.1-SNAPSHOT</code></p>
-<blockquote>
-<p>这里说明一下 -p 的用途， -p 8080:8080 的意思是将本地的 8080 端口映射到容器的 8080 端口，因为容器相对于主机来说是完全隔离的，所以必须要有此设置，不然外部是无法访问到 8080 端口的。</p>
-</blockquote>
-<p>现在再次访问 <a href="localhost:8080" target="_blank" rel="external">localhost:8080</a> 就可以看到 Hello Docker World 啦。</p>
-<p>当容器运行时你可以通过 <code>docker ps</code> 的命令看到正在运行的容器列表：</p>
-<p><img src="6.png" alt=""></p>
-<p>而且可以通过 <code>docker stop</code> 加上这个容器的 ID 来停掉它：</p>
-<p><img src="7.png" alt=""></p>
-<p>如果你想删掉这个容器，可以使用 <code>docker rm + 容器 ID</code>。</p>
-<p>到此你已经为 <code>Spring Boot</code> 应用创建了一个 docker 容器，默认运行在容器内的 8080 端口上，我们在命令行中使用 <code>-p</code> 参数将它映射到主机的相同端口上。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Docker 是一个具有社交倾向的 Linux 容器管理工具包，允许用户发布容器镜像，其他用户可以使用这些镜像。Docker 镜像是运行容器化进程的基础，本文将介绍如何编译一个简单的 &lt;code&gt;Spring Boot&lt;/code&gt; 应用的镜像。&lt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>让博客重定向到 https 的方法</title>
-    <link href="https://jpanj.com/2017/blog-redirect-https/"/>
-    <id>https://jpanj.com/2017/blog-redirect-https/</id>
-    <published>2017-07-25T02:21:24.000Z</published>
-    <updated>2017-07-25T02:42:53.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>前段时间将博客在七牛上部署了一份，并且为新的域名 <a href="https://jpanj.com">jpanj.com</a> 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https，我想有没有什么办法能在用 http 访问时重定向到 https。</p>
-<p>所以我开了个工单请教七牛的工作人员，得到的结果是他们也无法做强制跳转。</p>
-<p><img src="1.png" alt=""></p>
-<p>之前让 http 请求重定向到 https 的方法是通过 Nginx 的 rewrite 完成的，但是我现在的博客是一个纯静态站点，而且并没有托管在自己的服务器上，所以无法这样操作。</p>
-<p>今天得到了一个解决方法，是通过修改主题源码来实现的，就我现在用的这个主题来说，<code>layout</code> 目录下所有模板都会继承 <code>_layout.swig</code>，所以我只要在 <code>&lt;head&gt;</code> 标签中加入以下代码即可：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> host = <span class="string">"jpanj.com"</span>;</div><div class="line">  <span class="keyword">if</span> ((host == <span class="built_in">window</span>.location.host) &amp;&amp; (<span class="built_in">window</span>.location.protocol != <span class="string">"https:"</span>))</div><div class="line">    <span class="built_in">window</span>.location.protocol = <span class="string">"https"</span>;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>我只需要判断 <a href="https://jpanj.com">jpanj.com</a> 就可以了，之前的 <a href="http://panmax.love" target="_blank" rel="external">panmax.love</a> 不做修改。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;前段时间将博客在七牛上部署了一份，并且为新的域名 &lt;a href=&quot;https://jpanj.com&quot;&gt;jpanj.com&lt;/a&gt; 申请了 SSL 证书，但是发现一个问题，使用 http 请求还是可以访问的，想通过 https 的方式访问，需要手动将地址修改为 https
     
     </summary>
     

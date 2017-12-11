@@ -1,0 +1,544 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/css/fonts/fonts.css" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hi Panmax" />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="贾攀家" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于前后端分离的CAS对接方案">
+<meta property="og:url" content="https://jpanj.com/2017/基于前后端分离的CAS对接方案/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-11T10:34:56.569Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于前后端分离的CAS对接方案">
+<meta name="twitter:description" content="最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2017/基于前后端分离的CAS对接方案/"/>
+
+
+
+
+
+  <title>基于前后端分离的CAS对接方案 | 贾攀家</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-meta ">
+  <div class="custom-logo-site-title">
+    <a href="/archives/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">贾攀家</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+</div>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/基于前后端分离的CAS对接方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于前后端分离的CAS对接方案</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T10:03:13+08:00">
+                2017-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3 个问题：</p>
+<ul>
+<li>客户端除了浏览器，可能还包括手机端 APP，对于手机端而言，管理 cookie 是一件麻烦的事情</li>
+<li>RESTful 风格的 API 不建议使用 cookie</li>
+<li>Cookie 本身有一个缺陷，不能跨域</li>
+</ul>
+<p>解决这个问题的方案是让前端传数据时，在 URL 参数中或者 header 中携带一个 参数，我们成这个参数为 token，后端通过这个 token 来判断用户身份，这样可以免去对 Cookies 的管理。</p>
+<p>顺着这个思路，我们很容易想到一种方案，就是后端维护一个 <code>Map</code>，<code>key</code> 值为 <code>token</code>，<code>value</code> 为用户信息，这样只要用户登录时生成这个 <code>key</code> 后，放到 <code>Map</code> 中，然后将 <code>key</code> 返回给前端就行了，但是这样做有个很严重的问题，<code>Map</code> 是在内存中的，如果后端服务为集群时，还需要做 <code>key</code> 同步，非常麻烦，当然也有人会提出可以将后端生成的 <code>token</code> 和对应的用户信息放在 键-值 数据库中，这样就不用考虑同步问题了，当然这样做没有什么问题，但是会额外引入基础组件（我们现在做第一版，为了快速开发，不打算引入太多的组件），而且还要保证键值数据库的高可用性。</p>
+<p>这里我使用了一个更加优雅的方案：JSON Web Token</p>
+<p>JSON Web Token（JWT）是一个非常轻巧的规范。这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息。</p>
+<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成:"></a>JWT的组成:</h3><p>一个JWT实际上就是一个字符串，它由三部分组成，头部、载荷与签名。</p>
+<h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）:"></a>载荷（Payload）:</h4><p>Payload 是 JWT 存储信息的部分。Payload 也是一个 json 数据，每一个 json 的 key-value 称为一个声明。</p>
+<p>我们将用户信息描述成一个 json 对象。其中添加了一些其他的信息，帮助今后收到这个 JWT 的服务器理解这个 JWT 。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"iss"</span>: <span class="string">"Panmax JWT"</span>,</div><div class="line">    <span class="attr">"iat"</span>: <span class="number">1441593502</span>,</div><div class="line">    <span class="attr">"exp"</span>: <span class="number">1441594722</span>,</div><div class="line">    <span class="attr">"aud"</span>: <span class="string">"www.example.com"</span>,</div><div class="line">    <span class="attr">"sub"</span>: <span class="string">"jrocket@example.com"</span>,</div><div class="line">    <span class="attr">"user_id"</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">"username"</span>: <span class="string">"jiapan"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里面的前五个字段都是由JWT的标准所定义的</p>
+<ul>
+<li>iss: 该JWT的签发者</li>
+<li>sub: 该JWT所面向的用户</li>
+<li>aud: 接收该JWT的一方</li>
+<li>exp(expires):  JWT 的过期时间，是一个 unxi 时间戳</li>
+<li>iat(issued at): JWT 的签发时间，是一个 unix 时间戳</li>
+</ul>
+<p>上面这个 payload 中，<code>user_id</code> 和 <code>username</code> 为自定义声明。</p>
+<p>将上面的 json 对象进行<strong>base64编码</strong>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
+<p><code>ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p>
+<blockquote>
+<p>注：Base64是一种编码，也就是说，它是可以被翻译回原来的样子来的。它并不是一种加密过程。</p>
+</blockquote>
+<h4 id="头部（Header）"><a href="#头部（Header）" class="headerlink" title="头部（Header）"></a>头部（Header）</h4><p>WT还需要一个头部，头部用于描述关于该JWT的最基本的信息，例如其类型以及签名所用的算法等。这也可以被表示成一个JSON对象。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span>,</div><div class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这里，我们说明了这是一个 JWT，并且我们所用的签名算法（后面会提到）是 HS256 算法。</p>
+<p>对它也要进行Base64编码，之后的字符串就成了 JWT 的 Header（头部）。</p>
+<p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9</code></p>
+<h4 id="签名（签名）"><a href="#签名（签名）" class="headerlink" title="签名（签名）"></a>签名（签名）</h4><p>将上面的两个编码后的字符串都用句号.连接在一起（头部在前），就形成了</p>
+<p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9.ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p>
+<p>最后，我们将上面拼接完的字符串用 HS256 算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。加密之后，得到一串加密字符串，最后把这串加密字符串也是用 . 拼接在 header.payload 后面，形成完整的 JWT。</p>
+<p>最终生成的JWT格式如下：</p>
+<p><code>xxx.yyy.zzz</code></p>
+<p>这里签名的目的是为了保证 payload 数据的完整性。如果 JWT 在传输过程中被第三方劫持，中间人对 header.payload 进行修改，并且使用自己的密钥重新签名。服务端收到中间人修改过的 JWT，使用自己的密钥对 header.payload 进行再次加密，由于中间人和服务端使用的是不同的密钥签名，所以服务端再次加密的结果肯定和中间人加密的结果不一致，由此可以断定该 JWT 被恶意篡改。</p>
+<p>经过上边的介绍，我们可以看出 JWT 中 Payload 的信息是可以解码会明文的，也就是说信息会泄露，所以 JWT 中不应该存放任何敏感信息，用于登录时我们只需放入用户ID或者用户名就可以了，不要把身份号或者密码等信息放入JWT中，应该让后端拿到用户ID或者用户名后进行查询得到身份证号等隐私信息。</p>
+<p>好的，以上就是JWT的科普部分，下边介绍下我这边CAS对接实现方案。</p>
+<p>我单独写了一个服务，命名为 hodor(hold the door)，作为一个中间层来验证 CAS ticket 并且根据用户信息生成 JWT Token。</p>
+<p>我们用 zuul 作为网关服务，当请求过来后，网关判断有没有携带 token，并且判断 token 的有效性，我们需要把网关里验证 jwt 的密钥和 hodor 中生成 jwt 的密钥设置为相同的字符串就可以完成验证工作。</p>
+<p>当网关验证 token 没有被篡改并且还在有效期内后，从 Payload 中取出我们需要的信息，将这些信息明文放在 header 中继续往后请求各个应用，对于应用来说从网关过来的请求是可信的，直接从头中取出相应的用户名或者ID就行了。这里有一个坑，就是网关将信息放入 header 的时候，只能传 ASCII 编码字符串，我们的 CAS 返回用户信息时会同时返回中文姓名，所以中文在传入 header 时，需要做 urlencode 处理，同时应用内接受时也需要做 urldecode。</p>
+<p>如果没有携带 token 或 token 无效，网关会返回 HTTP 401 错误，前端收到这个返回码后，会跳转到 CAS 认证地址，让用户来登录。同时 service 是前端配置好的一个地址，当用户登录成功后，会回到前端配置好那个地址，前端拿到 CAS 给的 ticket 后，用这个 ticket 和申请 ticket 时的 service 来请求我写的 hodor 服务，hodor根据 ticket 和service 来完成ticket验证工作，获取用户信息，生成jwt，返回给前端，前端保存这个 token，再之后的请求中携带这个 token 来访问就行了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/titan-edge-label-simple-and-one2one/" rel="next" title="Titan 边标签 SIMPLE 和 ONE2ONE 的区别">
+                <i class="fa fa-chevron-left"></i> Titan 边标签 SIMPLE 和 ONE2ONE 的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/关于情景的一点点思考/" rel="prev" title="关于情景的一点点思考">
+                关于情景的一点点思考 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript">
+    var OriginTitile = document.title;
+    var titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '(つェ⊂)我藏好了哦~ ' + OriginTitile;
+            clearTimeout(titleTime);
+        }
+        else {
+            document.title = '(*´∇｀*) 被你发现啦~ ' + OriginTitile;
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            }, 2000);
+        }
+    });
+  </script>
+</body>
+</html>
