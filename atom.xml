@@ -136,6 +136,35 @@
   </entry>
   
   <entry>
+    <title>Neo4j 冷启动预热缓存</title>
+    <link href="https://jpanj.com/2017/neo4j-warms-up/"/>
+    <id>https://jpanj.com/2017/neo4j-warms-up/</id>
+    <published>2017-12-18T09:45:23.000Z</published>
+    <updated>2017-12-18T10:25:32.314Z</updated>
+    
+    <content type="html"><![CDATA[<p>你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。</p>
+<p>一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！</p>
+<p>Cypher(Server,Shell)</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>)</div><div class="line">OPTIONAL <span class="built_in">MATCH</span> (<span class="built_in">n</span>)-[r]-&gt;()</div><div class="line">RETURN <span class="built_in">count</span>(n.prop) + <span class="built_in">count</span>(r.prop);</div></pre></td></tr></table></figure>
+<p>上边的例子用到了 <code>count(n.prop) + count(r.prop)</code> ，来强制让优化器在点或关系中搜索名为 <code>prop</code> 的属性。用 <code>count(*)</code> 替代它将不够充分，因为这样不会加载所有的点和关系属性。</p>
+<p>内嵌方式(Java):</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/warmup"</span>)</div><div class="line"><span class="keyword">public</span> String warmUp(<span class="meta">@Context</span> GraphDatabaseService db) &#123;</div><div class="line">    <span class="keyword">try</span> ( Transaction tx = db.beginTx()) &#123;</div><div class="line">        <span class="keyword">for</span> ( Node <span class="string">n :</span> GlobalGraphOperations.at(db).getAllNodes()) &#123;</div><div class="line">            n.getPropertyKeys();</div><div class="line">            <span class="keyword">for</span> ( Relationship <span class="string">relationship :</span> n.getRelationships()) &#123;</div><div class="line">                relationship.getPropertyKeys();</div><div class="line">                relationship.getStartNode();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="string">"Warmed up and ready to go!"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在 3.0 之后的版本并且使用了 <a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures" target="_blank" rel="external">APOC</a> 插件的话，可以运行如下存储过程来完成缓存预热</p>
+<p><code>CALL apoc.warmup.run()</code></p>
+<p>这样做可以提供更多方面的帮助，除了纯粹的提升性能外，如果你使用的是 Neo4j集群的话，还可以帮助缓解由于查询之后而导致的上游问题。例如，如果节点繁忙并且负载均衡超时时间很短，图中没有任何数据在内存中，很可能会显示该集群最初不可用。如果缓存处于预热状态，那么冷启动应该就不会有短暂超时的问题了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。&lt;/p&gt;
+&lt;p&gt;一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>关于情景的一点点思考</title>
     <link href="https://jpanj.com/2017/%E5%85%B3%E4%BA%8E%E6%83%85%E6%99%AF%E7%9A%84%E4%B8%80%E7%82%B9%E7%82%B9%E6%80%9D%E8%80%83/"/>
     <id>https://jpanj.com/2017/关于情景的一点点思考/</id>
@@ -806,51 +835,6 @@
 &lt;p&gt;本指南理论上适用于 IntelliJ 家的所有产品。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3 id=&quot;首先来介绍下我自己定义的一些快捷键&quot;&gt;&lt;a href=&quot;#首先来介绍下我自己定义的一些快捷键&quot; class=&quot;headerlink&quot; titl
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>对配置中心进行优化</title>
-    <link href="https://jpanj.com/2017/optimization-config-server/"/>
-    <id>https://jpanj.com/2017/optimization-config-server/</id>
-    <published>2017-07-27T06:27:52.000Z</published>
-    <updated>2017-07-27T06:41:49.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>现在我们的配置中心使用 <code>Spring Cloud Bus</code> 与 <code>Spring Cloud Config</code> 的整合，并以 <code>RabbitMQ</code> 作为消息代理，实现了应用配置的动态更新。</p>
-<p>架构如下图所示：</p>
-<p><img src="1.png" alt=""></p>
-<p>但是，现在的架构有个很大的缺陷，就是每次在修改配置文件后，需要手动地触发下应用的 <code>/bus/refresh</code> 接口，才能完成更新操作。假如我们后端有上百个不同的服务在运行的话，手动去更新简直就是灾难，更新某一个应用时，需要先查到他的 <code>IP + 端口号</code>。而且如果同时修改了很多服务的配置的话，一个一个去发更新请求就有些太痛苦了。</p>
-<p>解决这个问题的办法是借助 GitLab 的 <code>Webhook</code> 机制，让 GitLab 帮我们去发这个请求。<code>Webhook</code> 用于当 GitLab 上的项目有变化的时侯以 HTTP 接口的形式通知第三方。</p>
-<p>进入我们 GitLab 的 <code>config-repo/app-a</code> 仓库，在 Settings - Integrations 中可以对 <code>Webhook</code> 进行设置：URL 填写我们刷新配置的地址，触发器选择 <code>Push events</code> 就够了，然后直接保存。</p>
-<p><img src="2.png" alt=""></p>
-<p>现在可以测试一下，修改配置后，不需要再手动访问 <code>/bus/refresh</code> 也能完成更新操作了。</p>
-<p>初步优化到这里就结束了，已经可以省去很多人力成本，简单来说就是服务的配置更新需要 GitLab 的 <code>Webhook</code> 通过向具体服务中的某个实例发送请求，再触发对整个服务集群的配置更新，不过这样做还是有问题的：首先一个问题是，我们在配每个服务 <code>Webhook</code> 的时候，其实也需要根据自己在线上不同的 <code>IP + 端口号</code> 来配置，另一个更严重一些的问题是，虽然我们现在的方式可以依赖消息总线，通过更新一个实例达到更新所有实例的目的，但这样做有个前提是，接受 <code>/bus/refresh</code> 的那个实例要保证没有宕掉，如果它挂了，配置依然不会被修改。比如我们的 <code>app-a</code> 服务有很多实例，我们分别取名叫 <code>app-a-1</code>,<code>app-a-2</code>,<code>app-a-3</code>…，现在我们在 <code>Webhook</code> 中设置的地址是 <code>app-a-1</code> 实例的 <code>/bus/refresh</code> 地址，假如在我们更新完 GitLab 上的配置文件后，<code>app-a-1</code> 那台机器刚好出了问题，这个时候其他的实例也就得不到更新了。</p>
-<p>其实这个时候依赖哪个节点都不合适，谁也不知道哪个节点在什么时候会挂掉，可能有人会想到，我可以给所有节点都发一遍请求，我来分析一下这样做的缺点：</p>
-<ul>
-<li>第一点是节点很多的时候，你需要配很多 <code>Webhook</code></li>
-<li>第二点是当每个实例收到消息后，都会通过 <code>RabbitMQ</code> 通知其他所有实例，这样做非常浪费资源而且消息总线的意义就不存在了</li>
-<li>第三点是我们指定的实例会在收到更新请求的时候立刻更新配置，并通过异步的方式来通知其他实例，这时会导致我们节点间存在不对等性，从而增加集群内部的复杂度</li>
-<li>第四如果我们需要对服务实例进行迁移，那么我们还要修改 <code>Webhook</code> 中的配置</li>
-</ul>
-<p>所以我们需要做一些调整，让服务集群中的各个节点是对等的：我们在 <code>Config Server</code> 中也引入 <code>Spring Cloud Bus</code>，将配置服务端也加入到消息总线中来。<code>/bus/refresh</code> 请求不再发送到具体实例上，而是发送给 <code>Config Server</code>，并通过 <code>destination</code> 参数来指定需要更新配置的服务或实例。</p>
-<p>在 <code>Config Server</code> 项目的 <code>build.gradle</code> 中加入消息总线的依赖：</p>
-<p><code>compile(&#39;org.springframework.cloud:spring-cloud-starter-bus-amqp&#39;)</code></p>
-<p>然后修改 <code>application.yml</code>，加入</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">management:</span></div><div class="line"><span class="attr">  security:</span></div><div class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="attr">spring:</span></div><div class="line">  <span class="string">...</span></div><div class="line"><span class="attr">  rabbitmq:</span></div><div class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></div><div class="line"><span class="attr">    port:</span> <span class="number">5672</span></div><div class="line"><span class="attr">    username:</span> <span class="string">admin</span></div><div class="line"><span class="attr">    password:</span> <span class="string">admin</span></div></pre></td></tr></table></figure>
-<p>然后在 <code>app-a</code> 的 GitLab 仓库中修改我们刚才设置的 <code>Webhook</code>，将地址改为：<code>http://172.24.8.100:7020/bus/refresh?destination=app-a</code></p>
-<p>注意端口号已经变了，对应的是配置中心的端口，<code>destination</code> 的值是要刷新的服务名称，这样的话配置其他服务 <code>Webhook</code> 的时候，只需要修改这个名称就可以了。</p>
-<p><img src="3.png" alt=""></p>
-<p>通过上面的改动，我们的服务实例就不需要再承担触发配置更新的职责。同时，对于Git的触发等配置都只需要针对 <code>Config Server</code> 即可，从而简化了集群上的一些维护工作。</p>
-<p>保存 <code>Webhook</code> 后再次修改 GitLab 上 <code>app-a</code> 的配置文件，提交修改后刷新页面看到结果已经变为最新的配置了。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;现在我们的配置中心使用 &lt;code&gt;Spring Cloud Bus&lt;/code&gt; 与 &lt;code&gt;Spring Cloud Config&lt;/code&gt; 的整合，并以 &lt;code&gt;RabbitMQ&lt;/code&gt; 作为消息代理，实现了应用配置的动态更新。&lt;/p&gt;
-&lt;p&gt;架构如
     
     </summary>
     
