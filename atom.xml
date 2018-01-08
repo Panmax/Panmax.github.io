@@ -136,11 +136,51 @@
   </entry>
   
   <entry>
+    <title>Neo4j基础教程 - 关于 Neo4j</title>
+    <link href="https://jpanj.com/2018/neo4j-tutorial-about/"/>
+    <id>https://jpanj.com/2018/neo4j-tutorial-about/</id>
+    <published>2018-01-08T09:38:09.000Z</published>
+    <updated>2018-01-08T12:37:59.724Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Neo4j 是世界上最流行的图数据库管理系统（DBMS）。它同样是最流行的 NoSQL 数据库系统之一，也是任何类别中比较流行的 DBMS 之一。</p>
+</blockquote>
+<h3 id="Neo4j-是什么"><a href="#Neo4j-是什么" class="headerlink" title="Neo4j 是什么"></a>Neo4j 是什么</h3><p>Neo4j 以图的方式存储和展示数据，数据由节点和节点间的关系来表示。</p>
+<p>Neo4j 数据库（和任何图数据库一样）与关系型数据库（如：MS Access、SQL Server、MySQL）有很大不同。关系数据库使用表、行和列来存储数据。他们以表格的形式展示数据。</p>
+<p>Neo4j 不使用表、行或者列存储或展示数据。</p>
+<h3 id="Neo4j-用来做什么"><a href="#Neo4j-用来做什么" class="headerlink" title="Neo4j 用来做什么"></a>Neo4j 用来做什么</h3><p>Neo4j 非常适合存储有很多关联关系的数据。这是图数据库可以发挥巨大作用的地方。实际上，像 Neo4j 这样的图数据库在处理关系数据方面要优于关系型数据库。</p>
+<p>图模型通常不需要预定义结构，你不需要在加载数据前创建数据库结构（就像在关系型数据库中那样）。在 Neo4j 中，数据就是结构。Neo4j 是一个 「结构可选」的 DBMS。</p>
+<p>但是 Neo4j 能更好地处理关系数据的主要原因在于它允许你创建关系。Neo4j 是围绕关系而建立的。它不需要设置主键/外键约束来预先确定哪些字段和哪些数据有关系。在 Neo4j 中，只需要在你需要时添加任何点之间的关系就行了。</p>
+<p>所以，这使得 Neo4j 非常合适社交网络应用，比如 微博、人人网等等。同时，Neo4j 还可以应用于很多其他领域。以下是 Neo4j 可用的一些主要领域：</p>
+<ul>
+<li>社交网络</li>
+<li>时时产品推荐</li>
+<li>网络架构图</li>
+<li>欺诈识别</li>
+<li>访问管理</li>
+<li>基于图的数字资产搜索</li>
+<li>主数据管理</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Neo4j 是世界上最流行的图数据库管理系统（DBMS）。它同样是最流行的 NoSQL 数据库系统之一，也是任何类别中比较流行的 DBMS 之一。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;Neo4j-是什么&quot;&gt;&lt;a href=&quot;#Neo
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Http Cookies 中 Max-age 和 Expires 有什么区别？</title>
     <link href="https://jpanj.com/2017/cookies-max-age-vs-expires/"/>
     <id>https://jpanj.com/2017/cookies-max-age-vs-expires/</id>
     <published>2017-12-21T08:32:48.000Z</published>
-    <updated>2017-12-22T07:06:02.025Z</updated>
+    <updated>2018-01-08T09:41:31.044Z</updated>
     
     <content type="html"><![CDATA[<p>快速回答</p>
 <ul>
@@ -798,51 +838,6 @@
     <summary type="html">
     
       &lt;h3 id=&quot;添加用户&quot;&gt;&lt;a href=&quot;#添加用户&quot; class=&quot;headerlink&quot; title=&quot;添加用户&quot;&gt;&lt;/a&gt;添加用户&lt;/h3&gt;&lt;p&gt;在添加用户时，最好用 &lt;code&gt;adduser&lt;/code&gt;，虽然 &lt;code&gt;adduser&lt;/code&gt; 和 &lt;cod
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>使用 Docker 部署 RabbitMQ</title>
-    <link href="https://jpanj.com/2017/docker-install-rabbitmq/"/>
-    <id>https://jpanj.com/2017/docker-install-rabbitmq/</id>
-    <published>2017-07-31T08:20:16.000Z</published>
-    <updated>2017-08-02T08:26:25.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。</p>
-<p>在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。</p>
-<p>RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 docker 环境下部署就比较简单了，直接使用 RabbitMQ 官方提供的镜像即可。</p>
-<p>直接安装的方式可以参考 <code>http://blog.didispace.com/spring-boot-rabbitmq/</code> 这篇文章，下边我主要来说下如何使用 Docker 部署 RabbitMQ。</p>
-<p>运行 <code>docker pull rabbitmq:management</code> 从官方下载镜像到本地，这里使用的是带 Web 管理插件的镜像。</p>
-<p><strong>启动容器：</strong></p>
-<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">docker</span> <span class="comment">run</span> <span class="literal">-</span><span class="comment">d</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">name</span> <span class="comment">rabbitmq</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">5671:5671</span> <span class="comment">\</span></div><div class="line"> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">5672:5672</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">4369:4369</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">25672:25672</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">15671:15671</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">publish</span> <span class="comment">15672:15672</span> <span class="comment">\</span></div><div class="line"><span class="comment">rabbitmq:management</span></div></pre></td></tr></table></figure>
-<p>容器启动之后就可以访问 Web 管理界面了 <code>http://IP:15672</code></p>
-<p><img src="1.png" alt=""></p>
-<p>默认创建了一个 guest 用户，密码也是 guest。</p>
-<p><img src="2.png" alt=""></p>
-<p>通过这种方式来部署 RabbitMQ 非常方便，今后可以在部署 测试环境 时用起来，因为我们还没有大规模使用 Docker，所以暂时不建议在 生产环境 来使用。</p>
-<h3 id="AMQP-协议中的几个重要概念"><a href="#AMQP-协议中的几个重要概念" class="headerlink" title="AMQP 协议中的几个重要概念"></a>AMQP 协议中的几个重要概念</h3><ul>
-<li>Queue 是 RabbitMQ 的内部对象，用于存储消息。RabbitMQ 中的消息只能存储在 Queue 中，消费者从 Queue 中获取消息并消费。</li>
-<li>Exchange 生产者将消息发送到 Exchange，由 Exchange 根据一定的规则将消息路由到一个或多个 Queue 中（或者丢弃）。</li>
-<li>Binding RabbitMQ 中通过 Binding 将 Exchange 与 Queue 关联起来。</li>
-<li>Binding key 在绑定（Binding） Exchange 与 Queue 的同时，一般会指定一个 binding key。</li>
-<li>Routing key 生产者在将消息发送给 Exchange 的时候，一般会指定一个 routing key，来指定这个消息的路由规则。 Exchange 会根据 routing key 和 Exchange Type 以及 Binding key 的匹配情况来决定把消息路由到哪个 Queue。</li>
-<li>Exchange Types RabbitMQ 常用的 Exchange Type 有 fanout、 direct、 topic、 headers 这四种。<ul>
-<li>fanout 这种类型的 Exchange 路由规则非常简单，它会把所有发送到该 Exchange 的消息路由到所有与它绑定的 Queue 中，这时 Routing key 不起作用。</li>
-<li>direct 这种类型的 Exchange 路由规则也很简单，它会把消息路由到那些 binding key 与 routing key完全匹配的 Queue 中。</li>
-<li>topic 这种类型的 Exchange 的路由规则支持 binding key 和 routing key 的模糊匹配，会把消息路由到满足条件的 Queue。 binding key 中可以存在两种特殊字符 <em> 与 #，用于做模糊匹配，其中 </em> 用于匹配一个单词，# 用于匹配多个单词（可以是零个），单词以 . 为分隔符。</li>
-<li>headers 这种类型的 Exchange 不依赖于 routing key 与 binding key 的匹配规则来路由消息，而是根据发送的消息内容中的 headers 属性进行匹配。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。&lt;/p&gt;
-&lt;p&gt;在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所
     
     </summary>
     
