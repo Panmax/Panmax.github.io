@@ -140,7 +140,7 @@
     <link href="https://jpanj.com/2018/neo4j-tutorial-installation/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-installation/</id>
     <published>2018-01-11T05:45:06.000Z</published>
-    <updated>2018-01-11T07:57:00.878Z</updated>
+    <updated>2018-01-11T07:58:34.288Z</updated>
     
     <content type="html"><![CDATA[<p>这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
 <h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="external">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p>
@@ -183,7 +183,7 @@
 <p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> 然后按照提示进行操作。</p>
 <p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p>
 <p><img src="2.png" alt=""></p>
-<h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户名和密码来登录，默认是密码是 <code>neo4j</code></p>
+<h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户名和密码来登录，默认的密码是 <code>neo4j</code></p>
 <p>第一次登录时，系统会提示你修改密码</p>
 <h3 id="3-结果"><a href="#3-结果" class="headerlink" title="3. 结果"></a>3. 结果</h3><p>密码修改完成后这个界面将会被展示</p>
 <p><img src="3.png" alt=""></p>
