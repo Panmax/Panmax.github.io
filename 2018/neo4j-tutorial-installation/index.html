@@ -1,0 +1,549 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/css/fonts/fonts.css" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hi Panmax" />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="贾攀家" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。 下载 Neo4j首先在 https://neo4j.com/download/ 下载 Neo4j。你可以选择免费的企业体验版或者免费的社区版，这里我是用社区版。点击 Download 按钮即可开始下载。 网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过这个链接选择另一个操作系统的版本。 安装 Neo4j当文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neo4j基础教程 - 安装">
+<meta property="og:url" content="https://jpanj.com/2018/neo4j-tutorial-installation/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。 下载 Neo4j首先在 https://neo4j.com/download/ 下载 Neo4j。你可以选择免费的企业体验版或者免费的社区版，这里我是用社区版。点击 Download 按钮即可开始下载。 网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过这个链接选择另一个操作系统的版本。 安装 Neo4j当文件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-installation/1.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-installation/2.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-installation/3.png">
+<meta property="og:updated_time" content="2018-01-11T07:43:53.707Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neo4j基础教程 - 安装">
+<meta name="twitter:description" content="这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。 下载 Neo4j首先在 https://neo4j.com/download/ 下载 Neo4j。你可以选择免费的企业体验版或者免费的社区版，这里我是用社区版。点击 Download 按钮即可开始下载。 网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过这个链接选择另一个操作系统的版本。 安装 Neo4j当文件">
+<meta name="twitter:image" content="https://jpanj.com/2018/neo4j-tutorial-installation/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-installation/"/>
+
+
+
+
+
+  <title>Neo4j基础教程 - 安装 | 贾攀家</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-meta ">
+  <div class="custom-logo-site-title">
+    <a href="/archives/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">贾攀家</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+</div>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/neo4j-tutorial-installation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Neo4j基础教程 - 安装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T13:45:06+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
+<h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="external">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择免费的企业体验版或者免费的社区版，这里我是用社区版。点击 Download 按钮即可开始下载。</p>
+<p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过<a href="https://neo4j.com/download/other-releases/" target="_blank" rel="external">这个链接</a>选择另一个操作系统的版本。</p>
+<h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到您的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让您快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p>
+<h2 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h2><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
+<ol>
+<li>打开你刚刚下载好的 dmg 文件</li>
+<li>将 Neo4j 的图标拖拽到你的应用目录中</li>
+<li>在应用目录中打开 Neo4j，你可能会被系统询问是否是你从互联网上下载的这个程序，不要担心，确认即可</li>
+<li>点击 Start 按钮来启动 Neo4j 的服务</li>
+<li>在你的浏览器中打开程序提供给你的 URL</li>
+<li>为 <code>neo4j</code> 账户修改密码</li>
+</ol>
+<h2 id="Linux-Unix-tar-tar-gz"><a href="#Linux-Unix-tar-tar-gz" class="headerlink" title="Linux/Unix (tar/tar.gz)"></a>Linux/Unix (tar/tar.gz)</h2><ol>
+<li>打开你的终端</li>
+<li>使用 <code>tar -xvf &lt;file&gt;</code> 来提取存档的内容。比如 <code>tar -xvf neo4j-community-3.2.8-unix.tar</code>，如果你下载的是 <code>tar.gz</code> 的压缩包，那么使用 <code>tar -zxvf</code> 来进行解压。</li>
+<li>使用 <code>$NEO4J_HOME/bin/neo4j console</code> 来运行 Neo4j，或者用 <code>$NEO4J_HOME/bin/neo4j start</code> 让服务进程在后台运行。</li>
+<li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> </li>
+<li>为 <code>neo4j</code> 账户修改密码</li>
+</ol>
+<h2 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h2><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
+<ol>
+<li>运行你刚刚下载的安装程序，你可能需要给这个程序的安装权限来授权</li>
+<li>按照提示选择运行 Neo4j 的选项</li>
+<li>点击 Start 按钮来启动 Neo4j 服务器</li>
+<li>在浏览器中打开程序提供给你的 URL</li>
+<li>为 <code>neo4j</code> 账户修改密码</li>
+</ol>
+<h2 id="Windows-zip"><a href="#Windows-zip" class="headerlink" title="Windows (zip)"></a>Windows (zip)</h2><ol>
+<li>首先安装 JDK8</li>
+<li>找到压缩包文件，点击右键进行解压</li>
+<li>把解压出的文件放到服务器的主目录中，顶级目录成为 <code>NEO4J_HOME</code>，比如 <code>D:\neo4j\</code></li>
+<li>使用 zip 包中包含的 Windows PowerShell 来启动和管理 Neo4j</li>
+<li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a></li>
+<li>为 <code>neo4j</code> 账户修改密码</li>
+</ol>
+<h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里介绍的是一个已经启动起来的 Neo4j 服务，确切的启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code> 运行的窗口允许你启动 Neo4j 服务。</p>
+<p><img src="1.png" alt=""></p>
+<p>服务启动后，在浏览器中打开<a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a>然后按照提示进行操作。</p>
+<p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户米和密码来登录，默认是密码是 <code>neo4j</code></p>
+<p>第一次登录时，系统会提示你修改密码</p>
+<h3 id="3-结果"><a href="#3-结果" class="headerlink" title="3. 结果"></a>3. 结果</h3><p>密码修改完成后这个界面将会被展示</p>
+<p><img src="3.png" alt=""></p>
+<p>在这里，你可以使用当前界面提供的链接来学习更多关于 Neo4j 的知识以及如何创建数据库和运行查询语句</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/neo4j-tutorial-about/" rel="next" title="Neo4j基础教程 - 关于 Neo4j">
+                <i class="fa fa-chevron-left"></i> Neo4j基础教程 - 关于 Neo4j
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2333/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
+                山丘 - 李宗盛 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript">
+    var OriginTitile = document.title;
+    var titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '(つェ⊂)我藏好了哦~ ' + OriginTitile;
+            clearTimeout(titleTime);
+        }
+        else {
+            document.title = '(*´∇｀*) 被你发现啦~ ' + OriginTitile;
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            }, 2000);
+        }
+    });
+  </script>
+</body>
+</html>

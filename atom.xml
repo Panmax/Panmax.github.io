@@ -136,6 +136,71 @@
   </entry>
   
   <entry>
+    <title>Neo4j基础教程 - 安装</title>
+    <link href="https://jpanj.com/2018/neo4j-tutorial-installation/"/>
+    <id>https://jpanj.com/2018/neo4j-tutorial-installation/</id>
+    <published>2018-01-11T05:45:06.000Z</published>
+    <updated>2018-01-11T07:43:53.707Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
+<h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="external">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择免费的企业体验版或者免费的社区版，这里我是用社区版。点击 Download 按钮即可开始下载。</p>
+<p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过<a href="https://neo4j.com/download/other-releases/" target="_blank" rel="external">这个链接</a>选择另一个操作系统的版本。</p>
+<h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到您的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让您快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p>
+<h2 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h2><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
+<ol>
+<li>打开你刚刚下载好的 dmg 文件</li>
+<li>将 Neo4j 的图标拖拽到你的应用目录中</li>
+<li>在应用目录中打开 Neo4j，你可能会被系统询问是否是你从互联网上下载的这个程序，不要担心，确认即可</li>
+<li>点击 Start 按钮来启动 Neo4j 的服务</li>
+<li>在你的浏览器中打开程序提供给你的 URL</li>
+<li>为 <code>neo4j</code> 账户修改密码</li>
+</ol>
+<h2 id="Linux-Unix-tar-tar-gz"><a href="#Linux-Unix-tar-tar-gz" class="headerlink" title="Linux/Unix (tar/tar.gz)"></a>Linux/Unix (tar/tar.gz)</h2><ol>
+<li>打开你的终端</li>
+<li>使用 <code>tar -xvf &lt;file&gt;</code> 来提取存档的内容。比如 <code>tar -xvf neo4j-community-3.2.8-unix.tar</code>，如果你下载的是 <code>tar.gz</code> 的压缩包，那么使用 <code>tar -zxvf</code> 来进行解压。</li>
+<li>使用 <code>$NEO4J_HOME/bin/neo4j console</code> 来运行 Neo4j，或者用 <code>$NEO4J_HOME/bin/neo4j start</code> 让服务进程在后台运行。</li>
+<li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> </li>
+<li>为 <code>neo4j</code> 账户修改密码</li>
+</ol>
+<h2 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h2><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
+<ol>
+<li>运行你刚刚下载的安装程序，你可能需要给这个程序的安装权限来授权</li>
+<li>按照提示选择运行 Neo4j 的选项</li>
+<li>点击 Start 按钮来启动 Neo4j 服务器</li>
+<li>在浏览器中打开程序提供给你的 URL</li>
+<li>为 <code>neo4j</code> 账户修改密码</li>
+</ol>
+<h2 id="Windows-zip"><a href="#Windows-zip" class="headerlink" title="Windows (zip)"></a>Windows (zip)</h2><ol>
+<li>首先安装 JDK8</li>
+<li>找到压缩包文件，点击右键进行解压</li>
+<li>把解压出的文件放到服务器的主目录中，顶级目录成为 <code>NEO4J_HOME</code>，比如 <code>D:\neo4j\</code></li>
+<li>使用 zip 包中包含的 Windows PowerShell 来启动和管理 Neo4j</li>
+<li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a></li>
+<li>为 <code>neo4j</code> 账户修改密码</li>
+</ol>
+<h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里介绍的是一个已经启动起来的 Neo4j 服务，确切的启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code> 运行的窗口允许你启动 Neo4j 服务。</p>
+<p><img src="1.png" alt=""></p>
+<p>服务启动后，在浏览器中打开<a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a>然后按照提示进行操作。</p>
+<p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户米和密码来登录，默认是密码是 <code>neo4j</code></p>
+<p>第一次登录时，系统会提示你修改密码</p>
+<h3 id="3-结果"><a href="#3-结果" class="headerlink" title="3. 结果"></a>3. 结果</h3><p>密码修改完成后这个界面将会被展示</p>
+<p><img src="3.png" alt=""></p>
+<p>在这里，你可以使用当前界面提供的链接来学习更多关于 Neo4j 的知识以及如何创建数据库和运行查询语句</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。&lt;/p&gt;
+&lt;h2 id=&quot;下载-Neo4j&quot;&gt;&lt;a href=&quot;#下载-Neo4j&quot; class=&quot;headerlink&quot; title=&quot;下载 Neo4j&quot;&gt;&lt;/a&gt;下载 Neo4j&lt;/h2&gt;&lt;p&gt;首先在
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Neo4j基础教程 - 关于 Neo4j</title>
     <link href="https://jpanj.com/2018/neo4j-tutorial-about/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-about/</id>
@@ -792,55 +857,6 @@
     
       &lt;p&gt;在我们现在的架构中，一切都是由 Eureka 开始的，因为业务中的配置中心地址是使用 &lt;code&gt;service-id&lt;/code&gt; 的形式，从注册中心来自动发现配置中心地址。&lt;/p&gt;
 &lt;p&gt;这就出现了一个矛盾，如果我们想将 Eureka Server 的配置外置的话就不太
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 笔记</title>
-    <link href="https://jpanj.com/2017/linux-note/"/>
-    <id>https://jpanj.com/2017/linux-note/</id>
-    <published>2017-08-01T02:41:57.000Z</published>
-    <updated>2017-08-14T02:27:14.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h3><p>在添加用户时，最好用 <code>adduser</code>，虽然 <code>adduser</code> 和 <code>useradd</code> 这两个命令在其他发行版的 Linux 系统下一样，但是在 Ubuntu 下是有区别的：<code>adduser</code> 会自动创建用户的 home 目录，并且创建用户同名的组，而 <code>useradd</code> 不会。</p>
-<p>如果不小心将用户 home 目录删除了，可以使用下边的方法来重建：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo mkdir /home<span class="built_in">/user </span>  # 这里的 /home<span class="built_in">/user </span>里的<span class="built_in"> user </span>最好改成跟你原来用户名一样 </div><div class="line">sudo chown -R user:user /home<span class="built_in">/user </span> # 这里的 user:user 要改成你之前的“用户名:用户组”的格式 </div><div class="line">sudo chmod -R 755 /home<span class="built_in">/user </span># 这里权限给 755</div></pre></td></tr></table></figure>
-<p>755 是同组的还有别的组的用户可以查看并且可以执行的。如果不想同组的和别的组的用户查看，可以把权限设置为 700。</p>
-<h3 id="赋予-sudo-权限"><a href="#赋予-sudo-权限" class="headerlink" title="赋予 sudo 权限"></a>赋予 sudo 权限</h3><p>新建用户后可能还需要给用户添加 sudo 权限，有两种方法：</p>
-<ol>
-<li><code>sudo usermod -aG sudo username</code></li>
-<li>通过修改 <code>/etc/sudoers</code></li>
-</ol>
-<h3 id="ssh-免密登录"><a href="#ssh-免密登录" class="headerlink" title="ssh 免密登录"></a>ssh 免密登录</h3><p>将自己电脑上的公钥内容插入到主机用户 home 目录下的 <code>.ssh/authorized_keys</code> 中，通常新建的用户没有这个目录文件，需要手动创建一下。</p>
-<p>如果本地没有生成过公钥和私钥，或者想生成新的，可使用 <code>ssh-keygen</code>。</p>
-<p>运行上面的命令后，系统会出现一系列提示，可以一路回车。特别说明，其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，可以设置一个。运行结束以后，会在 <code>~/.ssh/</code> 目录下新生成两个文件：<code>id_rsa.pub</code> 和 <code>id_rsa</code>，前者是公钥，后者是私钥。</p>
-<h3 id="ubuntu-安装-zsh"><a href="#ubuntu-安装-zsh" class="headerlink" title="ubuntu 安装 zsh"></a>ubuntu 安装 zsh</h3><h4 id="查看默认安装了哪些-shell"><a href="#查看默认安装了哪些-shell" class="headerlink" title="查看默认安装了哪些 shell"></a>查看默认安装了哪些 <code>shell</code></h4><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">jiapan@ubuntu:~$ cat <span class="meta-keyword">/etc/</span>shells</div><div class="line"><span class="meta"># /etc/shells: valid login shells</span></div><div class="line"><span class="meta-keyword">/bin/</span>sh</div><div class="line"><span class="meta-keyword">/bin/</span>dash</div><div class="line"><span class="meta-keyword">/bin/</span>bash</div><div class="line"><span class="meta-keyword">/bin/</span>rbash</div><div class="line"><span class="meta-keyword">/usr/</span>bin/tmux</div><div class="line"><span class="meta-keyword">/usr/</span>bin/screen</div></pre></td></tr></table></figure>
-<h4 id="当前正在运行的是哪个-shell"><a href="#当前正在运行的是哪个-shell" class="headerlink" title="当前正在运行的是哪个 shell"></a>当前正在运行的是哪个 <code>shell</code></h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo <span class="variable">$SHELL</span><span class="regexp">/bin/</span>bash</div></pre></td></tr></table></figure>
-<h4 id="安装-zsh、git-和-wget"><a href="#安装-zsh、git-和-wget" class="headerlink" title="安装 zsh、git 和 wget"></a>安装 zsh、git 和 wget</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install zsh git wget</div><div class="line"></div><div class="line">wget --no-check-certificate https:<span class="regexp">//gi</span>thub.com<span class="regexp">/robbyrussell/</span>oh-my-zsh<span class="regexp">/raw/m</span>aster<span class="regexp">/tools/i</span>nstall.sh -O - | sh</div><div class="line"></div><div class="line">chsh -s <span class="regexp">/bin/</span>zsh  <span class="comment"># 替换 bash 为 zsh</span></div></pre></td></tr></table></figure>
-<h3 id="Ubuntu-下安装官方-JDK"><a href="#Ubuntu-下安装官方-JDK" class="headerlink" title="Ubuntu 下安装官方 JDK"></a>Ubuntu 下安装官方 JDK</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo<span class="built_in"> add-apt-repository </span>ppa:webupd8team/java  <span class="comment"># 添加仓库源</span></div><div class="line">sudo apt-get update <span class="comment"># 更新软件包列表</span></div><div class="line">sudo apt-get install oracle-java8-installer</div></pre></td></tr></table></figure>
-<p>安装过程中需要接受协议，选择 <code>Yes</code>。</p>
-<p>查看 Java 版本： <code>java -version</code> (我每次都输成 <code>--version</code>)</p>
-<h3 id="查看修改时区"><a href="#查看修改时区" class="headerlink" title="查看修改时区"></a>查看修改时区</h3><ol>
-<li>查看当前时区</li>
-</ol>
-<p><code>date -R</code></p>
-<ol>
-<li>修改时区</li>
-</ol>
-<p><code>tzselect</code></p>
-<ol>
-<li>赋值相应时区文件，替换系统时区文件</li>
-</ol>
-<p><code>cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</code></p>
-<h3 id="telent-退出"><a href="#telent-退出" class="headerlink" title="telent 退出"></a>telent 退出</h3><figure class="highlight cos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Control + ]</div><div class="line"></div><div class="line"><span class="keyword">quit</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;添加用户&quot;&gt;&lt;a href=&quot;#添加用户&quot; class=&quot;headerlink&quot; title=&quot;添加用户&quot;&gt;&lt;/a&gt;添加用户&lt;/h3&gt;&lt;p&gt;在添加用户时，最好用 &lt;code&gt;adduser&lt;/code&gt;，虽然 &lt;code&gt;adduser&lt;/code&gt; 和 &lt;cod
     
     </summary>
     
