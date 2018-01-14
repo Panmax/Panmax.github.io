@@ -136,17 +136,17 @@
   </entry>
   
   <entry>
-    <title>Neo4j基础教程 - 安装</title>
+    <title>Neo4j 入门教程 - 安装</title>
     <link href="https://jpanj.com/2018/neo4j-tutorial-installation/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-installation/</id>
     <published>2018-01-11T05:45:06.000Z</published>
-    <updated>2018-01-11T07:58:34.288Z</updated>
+    <updated>2018-01-14T01:27:23.102Z</updated>
     
-    <content type="html"><![CDATA[<p>这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
+    <content type="html"><![CDATA[<p>本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
 <h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="external">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p>
 <p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 <a href="https://neo4j.com/download/other-releases/" target="_blank" rel="external">这个链接</a> 选择另一个操作系统的版本。</p>
-<h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到您的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让您快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p>
-<h2 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h2><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
+<h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到你的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让你快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p>
+<h3 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
 <ol>
 <li>打开你刚刚下载好的 dmg 文件</li>
 <li>将 Neo4j 的图标拖拽到你的应用目录中</li>
@@ -155,14 +155,14 @@
 <li>在你的浏览器中打开程序提供给你的 URL</li>
 <li>为 <code>neo4j</code> 账户修改密码</li>
 </ol>
-<h2 id="Linux-Unix-tar-tar-gz"><a href="#Linux-Unix-tar-tar-gz" class="headerlink" title="Linux/Unix (tar/tar.gz)"></a>Linux/Unix (tar/tar.gz)</h2><ol>
+<h3 id="Linux-Unix-tar-tar-gz"><a href="#Linux-Unix-tar-tar-gz" class="headerlink" title="Linux/Unix (tar/tar.gz)"></a>Linux/Unix (tar/tar.gz)</h3><ol>
 <li>打开你的终端</li>
 <li>使用 <code>tar -xvf &lt;file&gt;</code> 来提取存档的内容。比如 <code>tar -xvf neo4j-community-3.2.8-unix.tar</code>，如果你下载的是 <code>tar.gz</code> 的压缩包，那么使用 <code>tar -zxvf</code> 来进行解压</li>
 <li>使用 <code>$NEO4J_HOME/bin/neo4j console</code> 来运行 Neo4j，或者用 <code>$NEO4J_HOME/bin/neo4j start</code> 让服务进程在后台运行</li>
 <li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> </li>
 <li>为 <code>neo4j</code> 账户修改密码</li>
 </ol>
-<h2 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h2><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
+<h3 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
 <ol>
 <li>运行你刚刚下载的安装程序，你可能需要给这个程序的安装权限来授权</li>
 <li>按照提示选择运行 Neo4j 的选项</li>
@@ -170,7 +170,7 @@
 <li>在浏览器中打开程序提供给你的 URL</li>
 <li>为 <code>neo4j</code> 账户修改密码</li>
 </ol>
-<h2 id="Windows-zip"><a href="#Windows-zip" class="headerlink" title="Windows (zip)"></a>Windows (zip)</h2><ol>
+<h3 id="Windows-zip"><a href="#Windows-zip" class="headerlink" title="Windows (zip)"></a>Windows (zip)</h3><ol>
 <li>首先安装 JDK8</li>
 <li>找到压缩包，点击右键进行解压</li>
 <li>把解压出的文件放到服务器的主目录中，顶级目录称为 <code>NEO4J_HOME</code>，比如 <code>D:\neo4j\</code></li>
@@ -178,7 +178,7 @@
 <li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a></li>
 <li>为 <code>neo4j</code> 账户修改密码</li>
 </ol>
-<h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，确切的启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，打开的窗口允许你启动 Neo4j 服务。</p>
+<h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，打开的窗口允许你启动 Neo4j 服务。</p>
 <p><img src="1.png" alt=""></p>
 <p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> 然后按照提示进行操作。</p>
 <p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p>
@@ -192,7 +192,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;这篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。&lt;/p&gt;
+      &lt;p&gt;本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。&lt;/p&gt;
 &lt;h2 id=&quot;下载-Neo4j&quot;&gt;&lt;a href=&quot;#下载-Neo4j&quot; class=&quot;headerlink&quot; title=&quot;下载 Neo4j&quot;&gt;&lt;/a&gt;下载 Neo4j&lt;/h2&gt;&lt;p&gt;首先在
     
     </summary>
@@ -201,18 +201,18 @@
   </entry>
   
   <entry>
-    <title>Neo4j基础教程 - 关于 Neo4j</title>
+    <title>Neo4j 入门教程 - 关于 Neo4j</title>
     <link href="https://jpanj.com/2018/neo4j-tutorial-about/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-about/</id>
     <published>2018-01-08T09:38:09.000Z</published>
-    <updated>2018-01-11T08:03:18.084Z</updated>
+    <updated>2018-01-14T00:34:38.467Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
-<p>Neo4j 是世界上最流行的图数据库管理系统（DBMS）。它同样是最流行的 NoSQL 数据库系统之一，也是任何类别中比较流行的 DBMS 之一。</p>
+<p>Neo4j 是世界上最流行的图数据库管理系统（DBMS），同样是最流行的 NoSQL 数据库之一。</p>
 </blockquote>
 <p><img src="1.png" alt=""></p>
 <h3 id="Neo4j-是什么"><a href="#Neo4j-是什么" class="headerlink" title="Neo4j 是什么"></a>Neo4j 是什么</h3><p>Neo4j 以图的方式存储和展示数据，数据由节点和节点间的关系来表示。</p>
-<p>Neo4j 数据库（和任何图数据库一样）与关系型数据库（如：MS Access、SQL Server、MySQL）有很大不同。关系数据库使用表、行和列来存储数据。他们以表格的形式展示数据。</p>
+<p>Neo4j 数据库（和任何图数据库一样）与关系型数据库（如：MS Access、SQL Server、MySQL）有很大不同。关系数据库使用表、行和列来存储数据，他们以表格的形式展示数据。</p>
 <p>Neo4j 不使用表、行或者列存储或展示数据。</p>
 <h3 id="Neo4j-用来做什么"><a href="#Neo4j-用来做什么" class="headerlink" title="Neo4j 用来做什么"></a>Neo4j 用来做什么</h3><p>Neo4j 非常适合存储有很多关联关系的数据。这是图数据库可以发挥巨大作用的地方。实际上，像 Neo4j 这样的图数据库在处理关系数据方面要优于关系型数据库。</p>
 <p>图模型通常不需要预定义结构，你不需要在加载数据前创建数据库结构（就像在关系型数据库中那样）。在 Neo4j 中，数据就是结构。Neo4j 是一个 「结构可选」的 DBMS。</p>
@@ -233,10 +233,10 @@
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt;Neo4j 是世界上最流行的图数据库管理系统（DBMS）。它同样是最流行的 NoSQL 数据库系统之一，也是任何类别中比较流行的 DBMS 之一。&lt;/p&gt;
+&lt;p&gt;Neo4j 是世界上最流行的图数据库管理系统（DBMS），同样是最流行的 NoSQL 数据库之一。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-
+&lt;h3 id=&quot;Neo4j-是什么&quot;&gt;&lt;a hr
     
     </summary>
     
