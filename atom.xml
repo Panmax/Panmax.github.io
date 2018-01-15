@@ -136,11 +136,50 @@
   </entry>
   
   <entry>
+    <title>Neo4j 入门教程 - 浏览器</title>
+    <link href="https://jpanj.com/2018/neo4j-tutorial-browser/"/>
+    <id>https://jpanj.com/2018/neo4j-tutorial-browser/</id>
+    <published>2018-01-15T02:05:45.000Z</published>
+    <updated>2018-01-15T03:43:33.496Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Neo4j 浏览器是一个可以通过 Web 浏览器运行的图形用户界面（GUI）</p>
+</blockquote>
+<hr>
+<p>Neo4j 浏览器可以用来添加数据、运行查询语句、创建关系等等。它还提供了一种简单的方式来可视化数据库中的数据。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><em>这是一个 Neo4j 浏览器概览</em></p>
+<p><img src="1.png" alt="这是一个 Neo4j 浏览器概览"></p>
+<h3 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h3><p>这里是你输入查询语句和命令的地方，比如创建或检索数据。你可以随时通过输入 <code>:help</code> 并按下回车键（或者点击编辑器右侧的「运行」箭头）来获取帮助。</p>
+<h3 id="流"><a href="#流" class="headerlink" title="流"></a>流</h3><p>这里是展示查询结果的地方，每个结果有自己的框架，新的结果框会出现在前个结果框的上边。所以如果你需要的话，可以向下滚动并查看之前的查询结果。你可以随时使用 <code>:clear</code> 命令清空这个<strong>流</strong>。</p>
+<h3 id="标签、节点、关系"><a href="#标签、节点、关系" class="headerlink" title="标签、节点、关系"></a>标签、节点、关系</h3><p>这些代表了数据库中的数据。点击顶部的任意图标都会在框架的底部显示可选信息。</p>
+<h3 id="侧边栏"><a href="#侧边栏" class="headerlink" title="侧边栏"></a>侧边栏</h3><p>侧边栏有多个选线，例如查看数据库详情，查看或修改 Neo4j 浏览器设置，查看 Neo4j 文档等等。</p>
+<p>点击选项会展开一个更宽一些的侧边栏并提供该选项的详情。</p>
+<p>比如，点击「数据库」图标会打开有关数据的的详细信息。</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="框架视图选项"><a href="#框架视图选项" class="headerlink" title="框架视图选项"></a>框架视图选项</h3><p>你能够以不同的方式查看数据。例如，点击 「Row」将会用行的方式显示节点和关系。</p>
+<p>下图是一个以行显示数据的例子：</p>
+<p><img src="3.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Neo4j 浏览器是一个可以通过 Web 浏览器运行的图形用户界面（GUI）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;Neo4j 浏览器可以用来添加数据、运行查询语句、创建关系等等。它还提供了一种简单的方式来可视化数据库中的数据。&lt;/p
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Neo4j 入门教程 - 安装</title>
     <link href="https://jpanj.com/2018/neo4j-tutorial-installation/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-installation/</id>
     <published>2018-01-11T05:45:06.000Z</published>
-    <updated>2018-01-14T01:27:23.102Z</updated>
+    <updated>2018-01-14T01:29:54.017Z</updated>
     
     <content type="html"><![CDATA[<p>本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
 <h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="external">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p>
@@ -178,7 +217,7 @@
 <li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a></li>
 <li>为 <code>neo4j</code> 账户修改密码</li>
 </ol>
-<h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，打开的窗口允许你启动 Neo4j 服务。</p>
+<h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，点击打开窗口中 Start 按钮即可启动 Neo4j 服务。</p>
 <p><img src="1.png" alt=""></p>
 <p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> 然后按照提示进行操作。</p>
 <p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p>
@@ -821,42 +860,6 @@
     
       &lt;p&gt;有时候我们会放一些敏感信息到配置中心里，比如线上数据库密码等，我们直接将敏感信息以明文的方式存储于微服务应用的配置文件中是非常危险的，Spring Cloud Config 提供了对属性进行加密解密的功能，以保护配置文件中的信息安全。&lt;/p&gt;
 &lt;p&gt;在 Spring Clo
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Eureka Server 外置配置文件</title>
-    <link href="https://jpanj.com/2017/eureka-config-outside/"/>
-    <id>https://jpanj.com/2017/eureka-config-outside/</id>
-    <published>2017-08-02T08:11:29.000Z</published>
-    <updated>2017-08-02T08:24:31.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>在我们现在的架构中，一切都是由 Eureka 开始的，因为业务中的配置中心地址是使用 <code>service-id</code> 的形式，从注册中心来自动发现配置中心地址。</p>
-<p>这就出现了一个矛盾，如果我们想将 Eureka Server 的配置外置的话就不太可行了，因为 Eureka 启动前，配置中心还没有注册进来，所以它也无法发现配置中心。</p>
-<p>现在我们项目中的做法是：Eureka Server 的所有配置文件都是写在自己的 <code>application.yml</code> 中。</p>
-<p>今天我想到一个思路，并验证了其可行性：</p>
-<p>可以先将 Config Server 启动起来，因为 Config Server 需要注册到 Eureka Server 上，但是注册失败并不会导致服务的终止，只是在发心跳包时会有一些错误信息。也就是说，即便不注册上去，配置中心也是可以通过 <code>IP+端口号</code> 的形式来访问的。</p>
-<p>Config Server 的 <code>application.yml</code> 如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="attr">management:</span></div><div class="line"><span class="attr">  security:</span></div><div class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></div><div class="line"> </div><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">7020</span></div><div class="line"> </div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  application:</span></div><div class="line"><span class="attr">    name:</span> <span class="string">config-server</span></div><div class="line"><span class="attr">  cloud:</span></div><div class="line"><span class="attr">    config:</span></div><div class="line"><span class="attr">      server:</span></div><div class="line"><span class="attr">        git:</span></div><div class="line"><span class="attr">          username:</span> <span class="string">xxxxx</span></div><div class="line"><span class="attr">          password:</span> <span class="string">yyyyy</span></div><div class="line"><span class="attr">          uri:</span> <span class="attr">http://gitlab-server/config-repo/&#123;application&#125;.git</span></div><div class="line"><span class="attr">          force-pull:</span> <span class="literal">true</span></div><div class="line"><span class="attr">      label:</span> <span class="string">master</span></div><div class="line"> </div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:7011/eureka/</span></div><div class="line"><span class="attr">  instance:</span></div><div class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></div></pre></td></tr></table></figure>
-<p>然后我们在 Git 中新建 eureka 仓库，并创建 <code>eureka-dev.yml</code> 文件，其内容如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">7011</span></div><div class="line"> </div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  instance:</span></div><div class="line"><span class="attr">    hostname:</span> <span class="string">localhost</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:7011/eureka/</span></div><div class="line"><span class="attr">    register-with-eureka:</span> <span class="literal">false</span></div><div class="line"><span class="attr">    fetch-registry:</span> <span class="literal">false</span></div></pre></td></tr></table></figure>
-<p>然后在 Eureka Server 项目中新建 <code>bootstrap.yml</code> 文件，内容如下：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">spring</span>:</div><div class="line">  <span class="attribute">application</span>:</div><div class="line">    <span class="attribute">name</span>: eureka</div><div class="line">  <span class="attribute">jackson</span>:</div><div class="line">    <span class="attribute">default-property-inclusion</span>: non_null</div><div class="line">  <span class="attribute">cloud</span>:</div><div class="line">    <span class="attribute">config</span>:</div><div class="line">      <span class="attribute">label</span>: master</div><div class="line">      <span class="attribute">profile</span>: dev</div><div class="line">      <span class="attribute">uri</span>: <span class="attribute">http</span>:<span class="comment">//localhost:7020/</span></div></pre></td></tr></table></figure>
-<p>这里我们使用 <code>IP+端口号</code> 的形式来访问配置中心，然后将之前的 <code>application.yml</code> 配置文件删除。</p>
-<p>现在我们来分别启动这两个项目，注意启动顺序：先启动 Config Server，再启动 Eureka Server，启动完 Config Server 后会看到一些错误，暂时不用理会，启动 Eureka Server 时我们可以在控制台中看到可以正常拉取配置，如图：</p>
-<p><img src="1.png" alt=""></p>
-<p>待 Eureka Server 启动完后，再回来看 Config Server 的控制台，已经不报错了，到 <code>http://localhost:7011/</code> 看到，配置中心也成功注册上来，这也说明我们的 Eureka Server 已经成功读到了 配置中心 提供的配置文件。</p>
-<p><img src="2.png" alt=""></p>
-<p>以上验证了这种思路是可行的，回头可以将线上环境也修改为这种方式。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在我们现在的架构中，一切都是由 Eureka 开始的，因为业务中的配置中心地址是使用 &lt;code&gt;service-id&lt;/code&gt; 的形式，从注册中心来自动发现配置中心地址。&lt;/p&gt;
-&lt;p&gt;这就出现了一个矛盾，如果我们想将 Eureka Server 的配置外置的话就不太
     
     </summary>
     
