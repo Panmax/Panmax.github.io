@@ -136,13 +136,70 @@
   </entry>
   
   <entry>
+    <title>Neo4j 入门教程 - 查询语言 Cypher</title>
+    <link href="https://jpanj.com/2018/neo4j-tutorial-cypher/"/>
+    <id>https://jpanj.com/2018/neo4j-tutorial-cypher/</id>
+    <published>2018-01-16T06:13:49.000Z</published>
+    <updated>2018-01-16T07:11:33.971Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>Neo4j 有自己的查询语言称为 Cypher。Cypher 使用与 SQL（结构化查询语言）类似的语法。</p>
+</blockquote>
+<hr>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>下边是一条 Cypher 语句：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></div></pre></td></tr></table></figure>
+<p>这条 Cypher 语句返回属性 <code>name</code> 为 <code>Homer Flinstone</code> 的 <code>Person</code> 节点。</p>
+<p>如果通过 SQL 来查询关系型数据库，看起来可能更像这样：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Person</div><div class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Homer Flinstone"</span>;</div></pre></td></tr></table></figure>
+<p>不过请记住，Neo4j 不像关系数据库模型那样将数据存储在表中，Neo4j 的所有数据都在节点和关系中存储。所以上边的 Cypher 语句查询的是节点、节点的标签和节点的属性，而 SQL 查询的是表、行和列。</p>
+<p>SQL 被设计为适用于关系数据库管理系统（DBMS）。Neo4j 是一个 NoSQL DBMS，所以它不使用关系模型同样也不使用 SQL。</p>
+<p>Cypher 是专门为 Neo4j 的数据模型而设计，用来查询节点及其相互关系的。</p>
+<h3 id="字符画语法"><a href="#字符画语法" class="headerlink" title="字符画语法"></a>字符画语法</h3><p>Cypher 使用字符画来表示模式，使得我们在第一次学习这门语言时很容易记住它。如果你忘记了如何编写，只需要想一想图的样子就会对你有所帮助。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(a)-[<span class="symbol">:KNOWS</span>]-&gt;(b)</div></pre></td></tr></table></figure>
+<p>主要记住如下几点：</p>
+<ul>
+<li>节点由圆括号表示，看起来像是圆圈。就像这样：<code>(node)</code></li>
+<li>关系用箭头来表示。像这样： <code>-&gt;</code></li>
+<li>关系相关的信息可以插入到方括号中。像这样：<code>[:KNOWS]</code></li>
+</ul>
+<h3 id="定义数据"><a href="#定义数据" class="headerlink" title="定义数据"></a>定义数据</h3><p>在使用 Cypher 时请记住以下几点：</p>
+<ul>
+<li>节点通常有标签（一个或多个）。比如：”Person”,”User”,”Actor”,”Customer”,”Employee”等</li>
+<li>节点通常有属性，属性提供有关节点的额外信息。比如：”name”,”age”,”born”等</li>
+<li>关系也可以有属性</li>
+<li>关系通常有一个类型（类似于节点的标签）。比如：”KNOWS”,”LIKES”,”WORKS_FOR”,”PURCHASED”等</li>
+</ul>
+<p>让我们再来看一下上边的例子：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></div></pre></td></tr></table></figure>
+<p>我们可以看到：</p>
+<ul>
+<li>节点被圆括号 <code>()</code> 包围</li>
+<li><code>Person</code> 是节点的标签</li>
+<li><code>name</code> 是节点的属性</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Neo4j 有自己的查询语言称为 Cypher。Cypher 使用与 SQL（结构化查询语言）类似的语法。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;举例&quot;&gt;&lt;a href=&quot;#举例&quot; class=&quot;headerlink&quot; ti
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>阅读 Eureka 的 StringCache 源码 get 到的知识</title>
     <link href="https://jpanj.com/2018/eureka-StringCache-get-new-knowledge/"/>
     <id>https://jpanj.com/2018/eureka-StringCache-get-new-knowledge/</id>
     <published>2018-01-15T07:49:24.000Z</published>
-    <updated>2018-01-15T09:24:33.441Z</updated>
+    <updated>2018-01-16T01:45:25.769Z</updated>
     
-    <content type="html"><![CDATA[<p>今天在读 Eureka 源码时，看到了它里边实现了一个工具类 <code>StringCache</code> 阅读后我产生了几个疑问，随后查阅资料后一一进行了解决，受益良多并以此文进行记录。</p>
+    <content type="html"><![CDATA[<p>今天在读 Eureka 源码时，看到了它里边实现了一个工具类 <code>StringCache</code> 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。</p>
 <p><code>StringCache</code> 实现了一个字符串缓存，代码如下</p>
 <figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> class StringCache &#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">int</span> LENGTH_LIMIT = <span class="number">38</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> StringCache INSTANCE = <span class="keyword">new</span> StringCache();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ReadWriteLock lock = <span class="keyword">new</span> ReentrantReadWriteLock();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;<span class="keyword">String</span>, WeakReference&lt;<span class="keyword">String</span>&gt;&gt; cache = <span class="keyword">new</span> WeakHashMap&lt;<span class="keyword">String</span>, WeakReference&lt;<span class="keyword">String</span>&gt;&gt;();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="built_in">int</span> lengthLimit;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> StringCache() &#123;</div><div class="line">        <span class="keyword">this</span>(LENGTH_LIMIT);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> StringCache(<span class="built_in">int</span> lengthLimit) &#123;</div><div class="line">        <span class="keyword">this</span>.lengthLimit = lengthLimit;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> cachedValueOf(<span class="keyword">final</span> <span class="keyword">String</span> <span class="built_in">str</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="built_in">str</span> != <span class="keyword">null</span> &amp;&amp; (lengthLimit &lt; <span class="number">0</span> || <span class="built_in">str</span>.length() &lt;= lengthLimit)) &#123;</div><div class="line">            <span class="comment">// Return value from cache if available</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                lock.readLock().lock();</div><div class="line">                WeakReference&lt;<span class="keyword">String</span>&gt; ref = cache.<span class="built_in">get</span>(<span class="built_in">str</span>);</div><div class="line">                <span class="keyword">if</span> (ref != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> ref.<span class="built_in">get</span>();</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                lock.readLock().unlock();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="comment">// Update cache with new content</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                lock.writeLock().lock();</div><div class="line">                WeakReference&lt;<span class="keyword">String</span>&gt; ref = cache.<span class="built_in">get</span>(<span class="built_in">str</span>);</div><div class="line">                <span class="keyword">if</span> (ref != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> ref.<span class="built_in">get</span>();</div><div class="line">                &#125;</div><div class="line">                cache.put(<span class="built_in">str</span>, <span class="keyword">new</span> WeakReference&lt;&gt;(<span class="built_in">str</span>));</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                lock.writeLock().unlock();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="built_in">str</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">str</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="built_in">int</span> <span class="built_in">size</span>() &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            lock.readLock().lock();</div><div class="line">            <span class="keyword">return</span> cache.<span class="built_in">size</span>();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            lock.readLock().unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> intern(<span class="keyword">String</span> original) &#123;</div><div class="line">        <span class="keyword">return</span> INSTANCE.cachedValueOf(original);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="什么是字符串常量池？"><a href="#什么是字符串常量池？" class="headerlink" title="什么是字符串常量池？"></a>什么是字符串常量池？</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">String</span> s = <span class="string">"a"</span> + <span class="string">"bc"</span>;</div><div class="line"><span class="keyword">String</span> t = <span class="string">"ab"</span> + <span class="string">"c"</span>;</div><div class="line">System.out.<span class="built_in">println</span>(s == t);</div></pre></td></tr></table></figure>
@@ -181,8 +238,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;今天在读 Eureka 源码时，看到了它里边实现了一个工具类 &lt;code&gt;StringCache&lt;/code&gt; 阅读后我产生了几个疑问，随后查阅资料后一一进行了解决，受益良多并以此文进行记录。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;StringCache&lt;/code&gt; 实现了一个字符串
+      &lt;p&gt;今天在读 Eureka 源码时，看到了它里边实现了一个工具类 &lt;code&gt;StringCache&lt;/code&gt; 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;StringCache&lt;/code&gt; 实现了一个字符串缓存
     
     </summary>
     
@@ -194,7 +251,7 @@
     <link href="https://jpanj.com/2018/neo4j-tutorial-browser/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-browser/</id>
     <published>2018-01-15T02:05:45.000Z</published>
-    <updated>2018-01-15T04:58:24.289Z</updated>
+    <updated>2018-01-16T01:33:37.933Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Neo4j 浏览器是一个可以通过 Web 浏览器运行的图形用户界面（GUI）</p>
@@ -204,11 +261,11 @@
 <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><em>下图是 Neo4j 浏览器概览</em></p>
 <p><img src="1.png" alt="Neo4j 浏览器概览"></p>
 <h3 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h3><p>这里是你输入查询语句和命令的地方，比如创建或检索数据。你可以随时通过输入 <code>:help</code> 并按下回车键（或者点击编辑器右侧的「运行」箭头）来获取帮助。</p>
-<h3 id="流"><a href="#流" class="headerlink" title="流"></a>流</h3><p>这里是展示查询结果的地方，每个结果有自己的框架，新的结果框会出现在前个结果框的上边。所以如果需要的话，你可以向下滚动并查看之前的查询结果。你可以随时使用 <code>:clear</code> 命令清空这个<strong>流</strong>。</p>
+<h3 id="流"><a href="#流" class="headerlink" title="流"></a>流</h3><p>这里是展示查询结果的地方，每个结果有自己的框架，新的结果框会出现在前一个结果框的上边。所以如果需要的话，你可以向下滚动并查看之前的查询结果。你可以随时使用 <code>:clear</code> 命令清空这个<strong>流</strong>。</p>
 <h3 id="标签、节点、关系"><a href="#标签、节点、关系" class="headerlink" title="标签、节点、关系"></a>标签、节点、关系</h3><p>这些代表了数据库中的数据。点击顶部的任意图标都会在框架的底部显示可选信息。</p>
 <h3 id="侧边栏"><a href="#侧边栏" class="headerlink" title="侧边栏"></a>侧边栏</h3><p>侧边栏有多个选线，例如查看数据库详情，查看或修改 Neo4j 浏览器设置，查看 Neo4j 文档等等。</p>
 <p>点击一个选项会打开更宽一些的侧边栏并提供该选项的详情。</p>
-<p>比如，点击「数据库」图标会打开有关数据的的详细信息。</p>
+<p>比如，点击「数据库」图标会打开有关数据库的详细信息。</p>
 <p><img src="2.png" alt=""></p>
 <h3 id="框架视图选项"><a href="#框架视图选项" class="headerlink" title="框架视图选项"></a>框架视图选项</h3><p>你能够以不同的方式查看数据。例如，点击 「Table」将会以表格的方式显示节点和关系。</p>
 <p>下图是一个以表格方式显示数据的例子：</p>
@@ -822,53 +879,6 @@
     <summary type="html">
     
       &lt;p&gt;我们现在的线上环境都是简单的使用 &lt;code&gt;nohup java -jar xxx.jar &amp;amp;&lt;/code&gt; 的命令来将项目启起来的（感谢 Spring Boot），不过这种方式有诸多不便，比如我们想停掉或者重启某个项目，都需要通过 &lt;code&gt;ps&lt;/code&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>exa 和 zsh-syntax-highlighting</title>
-    <link href="https://jpanj.com/2017/exa-and-zsh-syntax-highlighting/"/>
-    <id>https://jpanj.com/2017/exa-and-zsh-syntax-highlighting/</id>
-    <published>2017-08-07T03:05:24.000Z</published>
-    <updated>2017-08-07T04:57:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天再来记录两个命令行神器。</p>
-<p>第一个是 <strong>exa</strong>: <a href="https://the.exa.website/" target="_blank" rel="external">https://the.exa.website/</a></p>
-<p>官方的介绍为</p>
-<blockquote>
-<p>exa is a modern replacement for ls. </p>
-</blockquote>
-<p>顾名思义 <code>exa</code> 是一个用来替代 <code>ls</code> 的工具，官方介绍了很多关于 <code>exa</code> 的特性，对于我来说，使用它的原因是可以支持不同文件类型可以用不同颜色来展示这个特性。至于官方还提到，<code>exa</code> 比 <code>ls</code> 要更快一些，这我倒是没有什么感觉。</p>
-<p>在 Mac 下直接用 <code>Homebrew</code> 安装就行了: <code>brew install exa</code>，为了方便使用，我直接修改 alias 为 <code>ls</code>，这样之后再使用 <code>ls</code> 命令时，系统就自动用 <code>exa</code> 来代替了，毫无学习成本。</p>
-<p><img src="1.png" alt=""></p>
-<p>来看下效果:</p>
-<p><img src="2.png" alt=""></p>
-<p><em>我这个目录下不同类型的文件不多，没有展示出特别好的效果</em></p>
-<p>第二个神器是 <strong>zsh-syntax-highlighting</strong>，看名字就知道，它是一个在 zsh 下使用的工具，官方介绍为：</p>
-<blockquote>
-<p>Fish shell-like like syntax highlighting for Zsh.</p>
-</blockquote>
-<p><code>zsh-syntax-highlighting</code> 是用来在命令行中提供语法高亮的工具 (很抱歉我没有用过 Fish)。</p>
-<p>效果图：</p>
-<p><img src="3.png" alt=""></p>
-<p>安装方法：</p>
-<p><code>brew install zsh-syntax-highlighting</code></p>
-<p>然后将 </p>
-<p><code>source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh</code></p>
-<p>加入到 <code>.zshrc</code> 文件中即可。</p>
-<p>最后再来说下我现在用的 iTerm2 配色，之前一直用的都是自己配的，会遇到文字和背景色不太搭的情况，比如 Date 和 Modified 那两列：</p>
-<p><img src="5.png" alt=""></p>
-<p>所以最近换用了： <a href="https://github.com/dracula/iterm" target="_blank" rel="external">https://github.com/dracula/iterm</a> 这个配色方案。看起来挺舒服的，所以就不再自己折腾了。</p>
-<p><img src="4.png" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天再来记录两个命令行神器。&lt;/p&gt;
-&lt;p&gt;第一个是 &lt;strong&gt;exa&lt;/strong&gt;: &lt;a href=&quot;https://the.exa.website/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://the.exa.websit
     
     </summary>
     
