@@ -136,6 +136,55 @@
   </entry>
   
   <entry>
+    <title>使用 Cypher 创建节点</title>
+    <link href="https://jpanj.com/2018/neo4j-tutorial-create-node/"/>
+    <id>https://jpanj.com/2018/neo4j-tutorial-create-node/</id>
+    <published>2018-01-17T08:16:15.000Z</published>
+    <updated>2018-01-17T09:01:52.045Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>要用 Cypher 创建节点和关系，请使用 <code>CREATE</code> 语句</p>
+</blockquote>
+<hr>
+<p>这个语句由 <code>CREATE</code> 组成，后边跟上你要创建的点或关系。</p>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>我们来创建一个包含乐队名和他们专辑的音乐数据库。</p>
+<p>第一个乐队被称为<em>筷子兄弟</em>，我们创建一个艺术家节点，并称之为<em>筷子兄弟</em>。</p>
+<p><em>我们第一个点看起来像下边这样</em></p>
+<p><img src="1.png" alt=""></p>
+<p>下边是创建<em>筷子兄弟</em>节点的 Cypher  <code>CREATE</code> 语句：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123; <span class="attribute">name </span>: <span class="string">"筷子兄弟"</span> &#125;)</div></pre></td></tr></table></figure>
+<p>这个 Cypher 语句创建一个带有 Artist 标签的节点，节点有一个 <code>name</code> 的属性，该属性的值是<em>筷子兄弟</em>。</p>
+<p><code>a</code> 前缀是我们提供的变量名，我们可以使用任意变量名。如果我们需要在后边的语句中用到这个点（上边的情况中我们没有用到），这个变量就会是很有用的。主义，变量仅限于在单条语句中使用。</p>
+<p>到 Neo4j 浏览器中执行上边的语句，该语句将创建一个节点。</p>
+<p><em>一旦 Neo4j 创建完节点，你将看到这样的消息：</em></p>
+<p><img src="2.png" alt=""></p>
+<h3 id="Displaying-the-Node"><a href="#Displaying-the-Node" class="headerlink" title="Displaying the Node"></a>Displaying the Node</h3><p><code>CREATE</code> 语句创建节点但是不展示节点。为了展示节点我们需要在它后边跟上 <code>RETURN</code> 语句。</p>
+<p>我们来创建另一个节点，这次我们创建一个专辑，与之前不同的是这次我们在后边跟上 <code>RETURN</code> 语句</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name </span>: <span class="string">"猛龙过江"</span>, released : <span class="string">"2014"</span> &#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">b</span></div></pre></td></tr></table></figure>
+<p>上边语句创建了一个带有 <em>Album</em> 标签的节点，它有两个属性：<code>name</code> 和 <code>released</code>。</p>
+<p>注意，我们通过使用它的变量名（本例中是 <code>b</code>）返回了这个节点。</p>
+<h3 id="创建多个节点"><a href="#创建多个节点" class="headerlink" title="创建多个节点"></a>创建多个节点</h3><p>我们可以通过用逗号分隔来一次性创建多个节点：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"我们是太阳"</span>&#125;), (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"小水果"</span>&#125;) </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span>,<span class="selector-tag">b</span></div></pre></td></tr></table></figure>
+<p>或者可以使用多个 <code>CREATE</code> 语句：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"我们是太阳"</span>&#125;) </div><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"小水果"</span>&#125;) </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span>,<span class="selector-tag">b</span></div></pre></td></tr></table></figure>
+<p>下一课，我们将在我们的节点间建立关系。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;要用 Cypher 创建节点和关系，请使用 &lt;code&gt;CREATE&lt;/code&gt; 语句&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;这个语句由 &lt;code&gt;CREATE&lt;/code&gt; 组成，后边跟上你要创建的点或关系。&lt;/p&gt;
+&lt;h3 i
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Neo4j 入门教程 - 查询语言 Cypher</title>
     <link href="https://jpanj.com/2018/neo4j-tutorial-cypher/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-cypher/</id>
@@ -847,38 +896,6 @@
     <summary type="html">
     
       &lt;p&gt;最近自己的 VPS 上部署了几个 Docker 服务，其中一个打算用 Reids 做个计数的功能，因为我的偏好是数据库类的程序不用 Docker 来部署，所以在本地安装了 Redis 服务，但是这样如果不做任何配置的话 Docker 容器中的服务是访问不到宿主机的 Redi
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>部署 jar 包到生产环境的科学方法</title>
-    <link href="https://jpanj.com/2017/the-best-way-to-deploy-jar/"/>
-    <id>https://jpanj.com/2017/the-best-way-to-deploy-jar/</id>
-    <published>2017-08-11T10:15:13.000Z</published>
-    <updated>2017-08-11T10:23:02.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>我们现在的线上环境都是简单的使用 <code>nohup java -jar xxx.jar &amp;</code> 的命令来将项目启起来的（感谢 Spring Boot），不过这种方式有诸多不便，比如我们想停掉或者重启某个项目，都需要通过 <code>ps</code> 命令先找到程序对应的 <code>pid</code>，然后再执行 <code>kill</code> 命令，然后再手动启动一遍这个程序。</p>
-<p>下边我介绍一种（自我认为）比较科学的方式：</p>
-<p>以我们已有的 <code>demo</code> 项目 <code>app-c</code> 为例，在 <code>build.gradle</code> 中加入：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">springBoot</span> &#123;</div><div class="line">    <span class="attribute">executable</span> = <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样可以编译出来可执行的 <code>jar</code> 包，看下前后对比，下边两张图分别是加之前和加之后 <code>app-c</code> ，可以看到多了 <code>x</code> 权限。</p>
-<p>不带 <code>x</code> 权限的 <code>app-c</code><br><img src="1.png" alt=""></p>
-<p>带 <code>x</code> 权限的 <code>app-c</code><br><img src="2.png" alt=""></p>
-<p>我们来直接用 <code>output/app-c-0.0.1-SNAPSHOT.jar</code> 运行一下试试：</p>
-<p><img src="3.png" alt=""><br>没有任何问问题。</p>
-<h4 id="接下来我们把这个可执行程序通过软链接的方式注册为系统服务："><a href="#接下来我们把这个可执行程序通过软链接的方式注册为系统服务：" class="headerlink" title="接下来我们把这个可执行程序通过软链接的方式注册为系统服务："></a>接下来我们把这个可执行程序通过软链接的方式注册为系统服务：</h4><p><code>sudo ln -s /opt/demo-projects/output/app-c-0.0.1-SNAPSHOT.jar /etc/init.d/app-c</code></p>
-<p>这样就可以使用 <code>start</code>、<code>stop</code>、<code>restart</code> 来管理我们的应用了</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/etc/init.d/app-c start|stop|restart</div><div class="line"> </div><div class="line">或</div><div class="line"> <span class="built_in"></span></div><div class="line">service app-c start|stop|restart</div></pre></td></tr></table></figure>
-<p>并且 <code>status</code> 可以查看运行状态：</p>
-<p><img src="4.png" alt=""><br>用这样的方式来管理线上应用，比之前的方式方便了很多：不需要再进到存放 <code>jar</code> 包的目录来用冗长的代码启动，只需知道应用名称，就可以直接启动、重启、停止我们想管理的应用。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我们现在的线上环境都是简单的使用 &lt;code&gt;nohup java -jar xxx.jar &amp;amp;&lt;/code&gt; 的命令来将项目启起来的（感谢 Spring Boot），不过这种方式有诸多不便，比如我们想停掉或者重启某个项目，都需要通过 &lt;code&gt;ps&lt;/code&gt;
     
     </summary>
     
