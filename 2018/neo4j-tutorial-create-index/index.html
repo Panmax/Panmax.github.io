@@ -100,19 +100,19 @@
 
 
 
-<meta name="description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 数据创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
+<meta name="description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 语句创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="neo4j-tutorial-create-index">
+<meta property="og:title" content="Neo4j 入门教程 - 使用 Cypher 创建索引">
 <meta property="og:url" content="https://jpanj.com/2018/neo4j-tutorial-create-index/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 数据创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
+<meta property="og:description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 语句创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-create-index/1.png">
 <meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-create-index/2.png">
-<meta property="og:updated_time" content="2018-01-22T13:19:56.481Z">
+<meta property="og:updated_time" content="2018-01-22T13:26:46.249Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="neo4j-tutorial-create-index">
-<meta name="twitter:description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 数据创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
+<meta name="twitter:title" content="Neo4j 入门教程 - 使用 Cypher 创建索引">
+<meta name="twitter:description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 语句创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
 <meta name="twitter:image" content="https://jpanj.com/2018/neo4j-tutorial-create-index/1.png">
 
 
@@ -147,7 +147,7 @@
 
 
 
-  <title>neo4j-tutorial-create-index | 贾攀家</title>
+  <title>Neo4j 入门教程 - 使用 Cypher 创建索引 | 贾攀家</title>
   
 
 
@@ -223,7 +223,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">neo4j-tutorial-create-index</h1>
+          <h1 class="post-title" itemprop="name headline">Neo4j 入门教程 - 使用 Cypher 创建索引</h1>
         
 
         <div class="post-meta">
@@ -274,7 +274,7 @@
 <p>索引是一种数据结构，可以提高数据库数据检索的速度。</p>
 </blockquote>
 <p>在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。</p>
-<p>使用 <code>CREATE INDEX ON</code> 数据创建索引，像下边这样：</p>
+<p>使用 <code>CREATE INDEX ON</code> 语句创建索引，像下边这样：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> :Album(<span class="keyword">name</span>)</div></pre></td></tr></table></figure>
 <p>在上边的例子中，我们为所有标签为 <code>Album</code> 的点的 <code>name</code> 属性创建了一个索引。</p>
 <p>语句执行成功后，将展示如下信息：</p>
@@ -282,18 +282,18 @@
 <blockquote>
 <p>当你创建一个索引时，Neo4j 会在后台进行操作。如果你的数据库很大，可能需要一段时间。只有当 Neo4j 完成索引创建后，这个索引才会被上线并用于查询。</p>
 </blockquote>
-<h3 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h3><p>索引（约束）成为了数据库模式的一部分。</p>
+<h2 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h2><p>索引（约束）成为了数据库模式的一部分。</p>
 <p>在 Neo4j 浏览器中，你可以使用 <code>:schema</code> 命令查看所有索引和约束。</p>
 <p>来试一试吧：</p>
 <figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">:schema</span></div></pre></td></tr></table></figure>
 <p>你可以看到一个索引和约束的列表：</p>
 <p><img src="2.png" alt=""></p>
-<h3 id="索引提示"><a href="#索引提示" class="headerlink" title="索引提示"></a>索引提示</h3><p>索引创建完成后，当你在执行查询时会自动使用。</p>
+<h2 id="索引提示"><a href="#索引提示" class="headerlink" title="索引提示"></a>索引提示</h2><p>索引创建完成后，当你在执行查询时会自动使用。</p>
 <p>然而 Neo4j 也允许你根据提示执行一个或多个索引，你可以在你的查询语句中使用 <code>USING INDEX ...</code> 创建一个索引提示。</p>
 <p>所以上边的示例可以像下边这样执行索引：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"猛龙过江"</span>&#125;) </div><div class="line"><span class="selector-tag">USING</span> <span class="selector-tag">INDEX</span> <span class="selector-tag">a</span><span class="selector-pseudo">:Album(name)</span> </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></div></pre></td></tr></table></figure>
 <p>我们也可以使用多个提示，为每个你想执行的索引新增一个 <code>USING INDEX</code> 即可。</p>
-<h3 id="是否有必要索引？"><a href="#是否有必要索引？" class="headerlink" title="是否有必要索引？"></a>是否有必要索引？</h3><p>当 Neo4j 创建索引时，它会在数据库中创建冗余的副本，因此使用索引会占用更多的硬盘空间并减慢写入速度。</p>
+<h2 id="是否有必要索引？"><a href="#是否有必要索引？" class="headerlink" title="是否有必要索引？"></a>是否有必要索引？</h2><p>当 Neo4j 创建索引时，它会在数据库中创建冗余的副本，因此使用索引会占用更多的硬盘空间并减慢写入速度。</p>
 <p>因此在决定索引哪些数据时你需要进行一些权衡。</p>
 <p>一般来说当你知道某些节点数量很多时，创建索引是个不错的主意。或者你发现查询时间太长可以尝试通过添加索引来解决。</p>
 
