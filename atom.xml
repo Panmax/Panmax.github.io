@@ -143,7 +143,7 @@
     <link href="https://jpanj.com/2018/neo4j-tutorial-create-index/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-create-index/</id>
     <published>2018-01-22T11:04:37.000Z</published>
-    <updated>2018-01-22T13:26:46.249Z</updated>
+    <updated>2018-01-22T13:35:12.151Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>索引是一种数据结构，可以提高数据库数据检索的速度。</p>
@@ -164,10 +164,10 @@
 <p>你可以看到一个索引和约束的列表：</p>
 <p><img src="2.png" alt=""></p>
 <h2 id="索引提示"><a href="#索引提示" class="headerlink" title="索引提示"></a>索引提示</h2><p>索引创建完成后，当你在执行查询时会自动使用。</p>
-<p>然而 Neo4j 也允许你根据提示执行一个或多个索引，你可以在你的查询语句中使用 <code>USING INDEX ...</code> 创建一个索引提示。</p>
-<p>所以上边的示例可以像下边这样执行索引：</p>
+<p>然而 Neo4j 也允许你强制提示一个或多个索引，你可以在你的查询语句中使用 <code>USING INDEX ...</code> 创建一个索引提示。</p>
+<p>所以上边的示例可以像下边这样强制索引：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"猛龙过江"</span>&#125;) </div><div class="line"><span class="selector-tag">USING</span> <span class="selector-tag">INDEX</span> <span class="selector-tag">a</span><span class="selector-pseudo">:Album(name)</span> </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></div></pre></td></tr></table></figure>
-<p>我们也可以使用多个提示，为每个你想执行的索引新增一个 <code>USING INDEX</code> 即可。</p>
+<p>我们也可以使用多个提示，为每个想强制的索引添加一个新的 <code>USING INDEX</code> 即可。</p>
 <h2 id="是否有必要索引？"><a href="#是否有必要索引？" class="headerlink" title="是否有必要索引？"></a>是否有必要索引？</h2><p>当 Neo4j 创建索引时，它会在数据库中创建冗余的副本，因此使用索引会占用更多的硬盘空间并减慢写入速度。</p>
 <p>因此在决定索引哪些数据时你需要进行一些权衡。</p>
 <p>一般来说当你知道某些节点数量很多时，创建索引是个不错的主意。或者你发现查询时间太长可以尝试通过添加索引来解决。</p>
