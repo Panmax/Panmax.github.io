@@ -100,17 +100,20 @@
 
 
 
-<meta name="description" content="想说却还没说的 还很多攒着是因为想写成歌让人轻轻地唱着 淡淡地记着就算终于忘了 也值了说不定我一生涓滴意念侥幸汇成河然后我俩各自一端望着大河弯弯 终于敢放胆嘻皮笑脸 面对 人生的难也许我们从未成熟还没能晓得 就快要老了尽管心里活着的还是那个年轻人因为不安而频频回首无知地索求 羞耻于求救不知疲倦地翻越 每一个山丘越过山丘 虽然已白了头喋喋不休 时不我予的哀愁还未如愿见着不朽就把自己先搞丢越过山">
+<meta name="description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 数据创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="山丘 - 李宗盛">
-<meta property="og:url" content="https://jpanj.com/2333/shangqiu-video/index.html">
+<meta property="og:title" content="neo4j-tutorial-create-index">
+<meta property="og:url" content="https://jpanj.com/2018/neo4j-tutorial-create-index/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="想说却还没说的 还很多攒着是因为想写成歌让人轻轻地唱着 淡淡地记着就算终于忘了 也值了说不定我一生涓滴意念侥幸汇成河然后我俩各自一端望着大河弯弯 终于敢放胆嘻皮笑脸 面对 人生的难也许我们从未成熟还没能晓得 就快要老了尽管心里活着的还是那个年轻人因为不安而频频回首无知地索求 羞耻于求救不知疲倦地翻越 每一个山丘越过山丘 虽然已白了头喋喋不休 时不我予的哀愁还未如愿见着不朽就把自己先搞丢越过山">
+<meta property="og:description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 数据创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-12T07:07:34.166Z">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-create-index/1.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-create-index/2.png">
+<meta property="og:updated_time" content="2018-01-22T13:19:56.481Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="山丘 - 李宗盛">
-<meta name="twitter:description" content="想说却还没说的 还很多攒着是因为想写成歌让人轻轻地唱着 淡淡地记着就算终于忘了 也值了说不定我一生涓滴意念侥幸汇成河然后我俩各自一端望着大河弯弯 终于敢放胆嘻皮笑脸 面对 人生的难也许我们从未成熟还没能晓得 就快要老了尽管心里活着的还是那个年轻人因为不安而频频回首无知地索求 羞耻于求救不知疲倦地翻越 每一个山丘越过山丘 虽然已白了头喋喋不休 时不我予的哀愁还未如愿见着不朽就把自己先搞丢越过山">
+<meta name="twitter:title" content="neo4j-tutorial-create-index">
+<meta name="twitter:description" content="索引是一种数据结构，可以提高数据库数据检索的速度。  在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。 使用 CREATE INDEX ON 数据创建索引，像下边这样： 1CREATE INDEX ON :Album(name) 在上边的例子中，我们为所有标签为 Album 的点的 name 属性创建了一个索引。">
+<meta name="twitter:image" content="https://jpanj.com/2018/neo4j-tutorial-create-index/1.png">
 
 
 
@@ -138,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2333/shangqiu-video/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-create-index/"/>
 
 
 
 
 
-  <title>山丘 - 李宗盛 | 贾攀家</title>
+  <title>neo4j-tutorial-create-index | 贾攀家</title>
   
 
 
@@ -203,7 +206,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2333/shangqiu-video/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/neo4j-tutorial-create-index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -220,7 +223,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">山丘 - 李宗盛</h1>
+          <h1 class="post-title" itemprop="name headline">neo4j-tutorial-create-index</h1>
         
 
         <div class="post-meta">
@@ -232,8 +235,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2333-07-21T18:42:59+08:00">
-                2333-07-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T19:04:37+08:00">
+                2018-01-22
               </time>
             
 
@@ -267,11 +270,32 @@
       
 
       
-        <video width="720" height="480" controls><br><source src="http://otfsjju04.bkt.clouddn.com/SMG%202016%20New%20Year%27s%20Gala%20%5BFull%20HD%5D-NQzJOmQ-98A.mp4"><br></video>
-
-<blockquote>
-<p>想说却还没说的 还很多<br>攒着是因为想写成歌<br>让人轻轻地唱着 淡淡地记着<br>就算终于忘了 也值了<br>说不定我一生涓滴意念<br>侥幸汇成河<br>然后我俩各自一端<br>望着大河弯弯 终于敢放胆<br>嘻皮笑脸 面对 人生的难<br>也许我们从未成熟<br>还没能晓得 就快要老了<br>尽管心里活着的还是那个<br>年轻人<br>因为不安而频频回首<br>无知地索求 羞耻于求救<br>不知疲倦地翻越 每一个山丘<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>我没有刻意隐藏 也无意让你感伤<br>多少次我们无醉不欢<br>咒骂人生太短 唏嘘相见恨晚<br>让女人把妆哭花了 也不管<br>遗憾我们从未成熟<br>还没能晓得 就已经老了<br>尽力却仍不明白<br>身边的年轻人<br>给自己随便找个理由<br>向情爱的挑逗 命运的左右<br>不自量力地还手 直至死方休<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回了温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回了温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>喋喋不休 时不我予的哀愁<br>向情爱的挑逗 命运的左右<br>不自量力地还手 直至死方休<br>为何记不得上一次是谁给的拥抱<br>在什么时候</p>
+        <blockquote>
+<p>索引是一种数据结构，可以提高数据库数据检索的速度。</p>
 </blockquote>
+<p>在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。</p>
+<p>使用 <code>CREATE INDEX ON</code> 数据创建索引，像下边这样：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> :Album(<span class="keyword">name</span>)</div></pre></td></tr></table></figure>
+<p>在上边的例子中，我们为所有标签为 <code>Album</code> 的点的 <code>name</code> 属性创建了一个索引。</p>
+<p>语句执行成功后，将展示如下信息：</p>
+<p><img src="1.png" alt=""></p>
+<blockquote>
+<p>当你创建一个索引时，Neo4j 会在后台进行操作。如果你的数据库很大，可能需要一段时间。只有当 Neo4j 完成索引创建后，这个索引才会被上线并用于查询。</p>
+</blockquote>
+<h3 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h3><p>索引（约束）成为了数据库模式的一部分。</p>
+<p>在 Neo4j 浏览器中，你可以使用 <code>:schema</code> 命令查看所有索引和约束。</p>
+<p>来试一试吧：</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">:schema</span></div></pre></td></tr></table></figure>
+<p>你可以看到一个索引和约束的列表：</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="索引提示"><a href="#索引提示" class="headerlink" title="索引提示"></a>索引提示</h3><p>索引创建完成后，当你在执行查询时会自动使用。</p>
+<p>然而 Neo4j 也允许你根据提示执行一个或多个索引，你可以在你的查询语句中使用 <code>USING INDEX ...</code> 创建一个索引提示。</p>
+<p>所以上边的示例可以像下边这样执行索引：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"猛龙过江"</span>&#125;) </div><div class="line"><span class="selector-tag">USING</span> <span class="selector-tag">INDEX</span> <span class="selector-tag">a</span><span class="selector-pseudo">:Album(name)</span> </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></div></pre></td></tr></table></figure>
+<p>我们也可以使用多个提示，为每个你想执行的索引新增一个 <code>USING INDEX</code> 即可。</p>
+<h3 id="是否有必要索引？"><a href="#是否有必要索引？" class="headerlink" title="是否有必要索引？"></a>是否有必要索引？</h3><p>当 Neo4j 创建索引时，它会在数据库中创建冗余的副本，因此使用索引会占用更多的硬盘空间并减慢写入速度。</p>
+<p>因此在决定索引哪些数据时你需要进行一些权衡。</p>
+<p>一般来说当你知道某些节点数量很多时，创建索引是个不错的主意。或者你发现查询时间太长可以尝试通过添加索引来解决。</p>
 
       
     </div>
@@ -308,8 +332,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/neo4j-tutorial-create-index/" rel="next" title="neo4j-tutorial-create-index">
-                <i class="fa fa-chevron-left"></i> neo4j-tutorial-create-index
+              <a href="/2018/neo4j-tutorial-create-repationship/" rel="next" title="Neo4j 入门教程 - 使用 Cypher 创建关系">
+                <i class="fa fa-chevron-left"></i> Neo4j 入门教程 - 使用 Cypher 创建关系
               </a>
             
           </div>
@@ -318,8 +342,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2333/book-list/" rel="prev" title="书单">
-                书单 <i class="fa fa-chevron-right"></i>
+              <a href="/2333/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
+                山丘 - 李宗盛 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
