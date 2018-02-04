@@ -143,7 +143,7 @@
     <link href="https://jpanj.com/2018/Awsome-Abbreviation/"/>
     <id>https://jpanj.com/2018/Awsome-Abbreviation/</id>
     <published>2018-02-04T02:28:48.000Z</published>
-    <updated>2018-02-04T03:16:47.195Z</updated>
+    <updated>2018-02-04T03:19:09.623Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>程序员的世界里充斥着很多的专业名词和英文缩写，我打算对一些常见的词汇进行一个汇总，同时会在 GitHub 上进行同步：<a href="https://github.com/Panmax/Awsome-Programmer-Abbreviation" target="_blank" rel="external">https://github.com/Panmax/Awsome-Programmer-Abbreviation</a>，欢迎 PR。</p>
@@ -167,7 +167,7 @@
 <h4 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h4><p>SQL（结构化查询语言）是一种特定目的程序语言，用于管理关系数据库管理系统（RDBMS），或在关系流数据管理系统（RDSMS）中进行流处理。</p>
 <h4 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h4><p>NoSQL 是对不同于传统的关系数据库的数据库管理系统的统称。</p>
 <hr>
-<h3 id="专业名词"><a href="#专业名词" class="headerlink" title="专业名词"></a>专业名词</h3><h4 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h4><p>在关系数据库管理系统里，乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出[1]。</p>
+<h3 id="专业名词"><a href="#专业名词" class="headerlink" title="专业名词"></a>专业名词</h3><h4 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h4><p>在关系数据库管理系统里，乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。乐观事务控制最早是由孔祥重（H.T.Kung）教授提出。</p>
 <h4 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h4><p>在关系数据库管理系统里，悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，缩写“PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作读某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p>
 <h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><p>自旋锁是计算机科学用于多线程同步的一种锁，线程反复检查锁变量是否可用。由于线程在这一过程中保持执行，因此是一种忙等待。一旦获取了自旋锁，线程会一直保持该锁，直至显式释放自旋锁。</p>
 <h4 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h4><p>递归（英语：Recursion），又译为递回，在数学与计算机科学中，是指在函数的定义中使用函数自身的方法。递归一词还较常用于描述以自相似方法重复事物的过程。例如，当两面镜子相互之间近似平行时，镜中嵌套的图像是以无限递归的形式出现的。也可以理解为自我复制的过程。</p>
