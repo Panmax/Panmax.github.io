@@ -110,7 +110,7 @@
 <meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-create-constraint/1.png">
 <meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-create-constraint/2.png">
 <meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-create-constraint/3.png">
-<meta property="og:updated_time" content="2018-01-31T08:23:33.036Z">
+<meta property="og:updated_time" content="2018-01-31T08:36:54.846Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neo4j 入门教程 - 使用 Cypher 创建约束">
 <meta name="twitter:description" content="约束允许你对节点或关系的输入数据进行限制。  约束有助于数据的完整性，因为它们阻止用户输入错误的数据类型。如果某个用户在应用了约束时输入了错误的类型会收到错误消息。 约束类型在 Neo4j 中你可以创建唯一约束和属性存在约束。 唯一约束  指定该属性必须包含唯一值（比如两个 Artist 节点不允许有相同值的 name 属性。）  属性存在约束  确保具有特定标签的节点或具有特定类型的关系都存在">
@@ -300,7 +300,7 @@
 <h3 id="测试约束"><a href="#测试约束" class="headerlink" title="测试约束"></a>测试约束</h3><p>我们可以通过尝试创建两个相同的艺术家来测试这个约束是否起作用。</p>
 <p>执行下边的语句两次：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"周杰伦"</span>&#125;) </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></div></pre></td></tr></table></figure>
-<p>第一次运行这条语句时，节点将会被创建。第二次运行时，你应该会收到一下错误信息：</p>
+<p>第一次运行这条语句时，节点将会被创建。第二次运行时，你应该会收到以下错误信息：</p>
 <p><img src="3.png" alt=""></p>
 <h3 id="属性存在约束"><a href="#属性存在约束" class="headerlink" title="属性存在约束"></a>属性存在约束</h3><p>属性存在约束能够确保具有特定标签的所有节点具有特定的属性。比如你可以指定 <code>Artist</code> 标签的所有节点都必须包含 <code>name</code> 属性。</p>
 <p>使用 <code>ASSERT exists(variable.propertyName)</code> 语法来创建属性存在约束。像下边这样：</p>
@@ -354,8 +354,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2333/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
-                山丘 - 李宗盛 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/Awsome-Abbreviation/" rel="prev" title="程序员需要知道的缩写和专业名词">
+                程序员需要知道的缩写和专业名词 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
