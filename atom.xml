@@ -143,7 +143,7 @@
     <link href="https://jpanj.com/2018/Awsome-Abbreviation/"/>
     <id>https://jpanj.com/2018/Awsome-Abbreviation/</id>
     <published>2018-02-04T02:28:48.000Z</published>
-    <updated>2018-02-04T04:30:08.459Z</updated>
+    <updated>2018-02-04T04:34:47.494Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>程序员的世界里充斥着很多的专业名词和英文缩写，我打算对一些常见的词汇进行一个汇总，同时会在 GitHub 上进行同步：<a href="https://github.com/Panmax/Awsome-Programmer-Abbreviation" target="_blank" rel="external">https://github.com/Panmax/Awsome-Programmer-Abbreviation</a>，欢迎 PR。</p>
@@ -163,7 +163,9 @@
 <h4 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h4><p>数据操纵语言（Data Manipulation Language, DML）是 SQL 语言中，负责对数据库对象运行数据访问工作的指令集，以 INSERT、UPDATE、DELETE 三种指令为核心，分别代表插入、更新与删除，是开发以数据为中心的应用程序必定会使用到的指令，因此有很多开发人员都把加上SQL的SELECT语句的四大指令以“CRUD”来称呼。</p>
 <h4 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h4><p>数据定义语言（Data Definition Language，DDL）是 SQL 语言集中负责数据结构定义与数据库对象定义的语言，由 CREATE、ALTER 与 DROP 三个语法所组成，最早是由Codasyl（Conference on Data Systems Languages）数据模型开始，现在被纳入 SQL 指令中作为其中一个子集。</p>
 <h4 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h4><p>Dependency Injection，依赖注入。在软件工程中，依赖注入是种实现控制反转用于解决依赖性设计模式。一个依赖关系指的是可被利用的一种对象（即服务提供端） 。依赖注入是将所依赖的传递给将使用的从属对象（即客户端）。该服务是将会变成客户端的状态的一部分。 传递服务给客户端，而非允许客户端来建立或寻找服务，是本设计模式的基本要求。</p>
+<h4 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h4><p>域名系统（英文：Domain Name System）是互联网的一项服务。它作为将域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。DNS使用TCP和UDP端口53。当前，对于每一级域名长度的限制是63个字符，域名总长度则不能超过253个字符。</p>
 <h4 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h4><p>图形用户界面（Graphical User Interface）是指采用图形方式显示的计算机操作用户界面。与早期计算机使用的命令行界面相比，图形界面对于用户来说在视觉上更易于接受。</p>
+<h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>超文本传输协议（英文：HyperText Transfer ProtocolP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。HTTP是万维网的数据通信的基础。</p>
 <h4 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h4><p>控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。其中最常见的方式叫做依赖注入（Dependency Injection，简称DI），还有一种方式叫“依赖查找”（Dependency Lookup）。通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体，将其所依赖的对象的引用传递给它。也可以说，依赖被注入到对象中。</p>
 <h4 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h4><p>JSON Web Token（JWT）是一个非常轻巧的规范。这个规范允许我们使用JWT在用户和服务器之间传递安全可靠的信息，特别适用于分布式站点的单点登录（SSO）场景。</p>
 <h4 id="LDAP"><a href="#LDAP" class="headerlink" title="LDAP"></a>LDAP</h4><p>轻型目录存取协定（英文：Lightweight Directory Access Protocol）是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息。</p>
@@ -174,7 +176,7 @@
 <h4 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h4><p>SQL（结构化查询语言）是一种特定目的程序语言，用于管理关系数据库管理系统（RDBMS），或在关系流数据管理系统（RDSMS）中进行流处理。</p>
 <h4 id="SPA"><a href="#SPA" class="headerlink" title="SPA"></a>SPA</h4><p>单页 Web 应用（single page web application），就是只有一张 Web 页面的应用，是加载单个 HTML 页面并在用户与应用程序交互时动态更新该页面的 Web 应用程序。</p>
 <h4 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h4><p>面向服务的体系结构（英语：service-oriented architecture）并不特指一种技术，而是一种分散式运算的软件设计方法。软件的部分组件(呼叫者)，可以透过网络上的通用协定呼叫另一个应用软件元件执行、运作，让呼叫者获得服务。SOA原则上采用开放标准、与软件资源进行交互并采用表示的标准方式。因此应能跨越厂商、产品与技术。一项服务应视为一个独立的功能单元，可以远端存取并独立执行与更新，例如在线上线查询信用卡账单。</p>
-<h4 id="SOAP"><a href="#SOAP" class="headerlink" title="SOAP"></a>SOAP</h4><p>SOAP（原为Simple Object Access Protocol的首字母缩写，即简单对象访问协议）是交换数据的一种协议规范，使用在计算机网络Web服务（web service）中，交换带结构信息。SOAP为了简化网页服务器（Web Server）从XML数据库中提取数据时，节省去格式化页面时间，以及不同应用程序之间按照HTTP通信协议，遵从XML格式执行资料互换，使其抽象于语言实现、平台和硬件。此标准由IBM、Microsoft、UserLand和DevelopMentor在1998年共同提出，并得到IBM，莲花（Lotus），康柏（Compaq）等公司的支持，于2000年提交给万维网联盟（World Wide Web Consortium；W3C），目前SOAP 1.1版是业界共同的标准，属于第二代的XML协定（第一代具主要代表性的技术为XML-RPC以及WDDX）。</p>
+<h4 id="SOAP"><a href="#SOAP" class="headerlink" title="SOAP"></a>SOAP</h4><p>SOAP（原为Simple Object Access Protocol的首字母缩写，即简单对象访问协议）是交换数据的一种协议规范，使用在计算机网络Web服务（web service）中，交换带结构信息。SOAP为了简化网页服务器（Web Server）从XML数据库中提取数据时，节省去格式化页面时间，以及不同应用程序之间按照HTTP通信协议，遵从XML格式执行资料互换，使其抽象于语言实现、平台和硬件。</p>
 <h4 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h4><p>NoSQL 是对不同于传统的关系数据库的数据库管理系统的统称。</p>
 <h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><p>可扩展标记语言（英语：eXtensible Markup Language，简称：XML），是一种标记语言。标记指计算机所能理解的信息符号，通过此种标记，计算机之间可以处理包含各种信息的文章等。如何定义这些标记，既可以选择国际通用的标记语言，比如HTML，也可以使用像XML这样由相关人士自由决定的标记语言，这就是语言的可扩展性。XML是从标准通用标记语言（SGML）中简化修改出来的。它主要用到的有可扩展标记语言、可扩展样式语言（XSL）、XBRL和XPath等。</p>
 <hr>
