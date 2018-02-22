@@ -146,7 +146,7 @@
     <link href="https://jpanj.com/2018/neo4j-tutorial-select-data-with-match-using-cypher/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-select-data-with-match-using-cypher/</id>
     <published>2018-02-22T02:31:30.000Z</published>
-    <updated>2018-02-22T03:42:24.583Z</updated>
+    <updated>2018-02-22T05:52:25.434Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>Cypher 的 <code>MATCH</code> 语句允许你查询符合条件的数据。你可以使用 <code>MATCH</code> 来返回数据或对这些数据执行一些其他操作。</p>
@@ -155,7 +155,7 @@
 <h3 id="检索一个节点"><a href="#检索一个节点" class="headerlink" title="检索一个节点"></a>检索一个节点</h3><p>这里有个使用 <code>MATCH</code> 语句检索一个节点的的例子。</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MATCH (<span class="selector-tag">p</span>:Person)</div><div class="line">WHERE <span class="selector-tag">p</span><span class="selector-class">.name</span> = <span class="string">"王太利"</span></div><div class="line">RETURN p</div></pre></td></tr></table></figure>
 <p><code>WHERE</code> 子句与 SQL 的 <code>WHERE</code> 子句工作方式相同，它允许你提供额外的条件来缩小查询范围。</p>
-<p>同时你可以在不使用 <code>WHERE</code> 子句的情况下获得相同的结果。你可以通过提供像创建节点那样的符号来查询节点。</p>
+<p>同时你可以在不使用 <code>WHERE</code> 子句的情况下获得相同的结果。你可以通过使用像创建节点那样的符号来查询节点。</p>
 <p>下边的代码提供和上边语句相同的结果：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123;<span class="attribute">name</span>: <span class="string">"王太利"</span>&#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></div></pre></td></tr></table></figure>
 <p>运行上边任意一条查询语句将会看到如下的节点被展示出来：</p>
@@ -165,14 +165,14 @@
 <p>点击底部选项将展开节点的关系：</p>
 <p><img src="3.png" alt=""></p>
 <h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><p>你还可以通过 <code>MATCH</code> 语句遍历关系。事实上，这才是 Neoj4 真正擅长的事情之一。</p>
-<p>举个栗子，如果我们想找出哪个乐队发布了名为「猛龙过江」的专辑，我们可以使用如下查询：</p>
+<p>举个栗子，如果我们想找出哪个乐队发布了名为「猛龙过江」的专辑，可以使用如下查询语句：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MATCH (<span class="selector-tag">a</span>:Artist)-[:RELEASED]-&gt;(<span class="selector-tag">b</span>:Album)</div><div class="line">WHERE <span class="selector-tag">b</span><span class="selector-class">.name</span> = <span class="string">"猛龙过江"</span> </div><div class="line">RETURN a</div></pre></td></tr></table></figure>
-<p>将返回如下节点：</p>
+<p>这将返回以下节点：</p>
 <p><img src="4.png" alt=""></p>
-<p>可以看到我们在 <code>MATCH</code> 中使用的模式几乎是不言自明的，它匹配了所有发布过名为 <em>猛龙过江</em> 专辑的艺术家。</p>
+<p>可以看到我们在 <code>MATCH</code> 中使用的模式几乎是不言自明的，它匹配了所有发布过名为 <em>猛龙过江</em> 专辑的乐队。</p>
 <p>我们使用了变量（<code>a</code>,<code>b</code>）以便在稍后的查询中引用他们。我们没有为关系提供任何变量，因为我们不需要在之后的查询中引用关系。</p>
 <p>你可能还会注意到第一行使用的是我们在创建关系时相同的模式，这突出了 Cypher 语言的简单性，我们可以在不同的上下文中使用相同的模式（比如创建数据和遍历数据）。</p>
-<h3 id="返回全部节点"><a href="#返回全部节点" class="headerlink" title="返回全部节点"></a>返回全部节点</h3><p>你可以通过省略过滤条件来返回数据库中所有的节点。因此一下查询将返回数据库中国年的所有节点：</p>
+<h3 id="返回全部节点"><a href="#返回全部节点" class="headerlink" title="返回全部节点"></a>返回全部节点</h3><p>你可以通过省略过滤条件来返回数据库中所有的节点。因此以下查询将返回数据库中的所有节点：</p>
 <figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) return <span class="built_in">n</span>;</div></pre></td></tr></table></figure>
 <p>我们所有的节点将被返回：</p>
 <p><img src="5.png" alt=""></p>
