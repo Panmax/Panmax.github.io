@@ -262,17 +262,6 @@
 
           
           
-             <span id="/2017/neo4j-warms-up/" class="leancloud_visitors" data-flag-title="Neo4j 冷启动预热缓存">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -293,11 +282,11 @@
         <p>你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。</p>
 <p>一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！</p>
 <p>Cypher(Server,Shell)</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>)</div><div class="line">OPTIONAL <span class="built_in">MATCH</span> (<span class="built_in">n</span>)-[r]-&gt;()</div><div class="line">RETURN <span class="built_in">count</span>(n.prop) + <span class="built_in">count</span>(r.prop);</div></pre></td></tr></table></figure>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>)</span><br><span class="line">OPTIONAL <span class="built_in">MATCH</span> (<span class="built_in">n</span>)-[r]-&gt;()</span><br><span class="line">RETURN <span class="built_in">count</span>(n.prop) + <span class="built_in">count</span>(r.prop);</span><br></pre></td></tr></table></figure>
 <p>上边的例子用到了 <code>count(n.prop) + count(r.prop)</code> ，来强制让优化器在点或关系中搜索名为 <code>prop</code> 的属性。用 <code>count(*)</code> 替代它将不够充分，因为这样不会加载所有的点和关系属性。</p>
 <p>内嵌方式(Java):</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/warmup"</span>)</div><div class="line"><span class="keyword">public</span> String warmUp(<span class="meta">@Context</span> GraphDatabaseService db) &#123;</div><div class="line">    <span class="keyword">try</span> ( Transaction tx = db.beginTx()) &#123;</div><div class="line">        <span class="keyword">for</span> ( Node <span class="string">n :</span> GlobalGraphOperations.at(db).getAllNodes()) &#123;</div><div class="line">            n.getPropertyKeys();</div><div class="line">            <span class="keyword">for</span> ( Relationship <span class="string">relationship :</span> n.getRelationships()) &#123;</div><div class="line">                relationship.getPropertyKeys();</div><div class="line">                relationship.getStartNode();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="string">"Warmed up and ready to go!"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在 3.0 之后的版本并且使用了 <a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures" target="_blank" rel="external">APOC</a> 插件的话，可以运行如下存储过程来完成缓存预热</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/warmup"</span>)</span><br><span class="line"><span class="keyword">public</span> String warmUp(<span class="meta">@Context</span> GraphDatabaseService db) &#123;</span><br><span class="line">    <span class="keyword">try</span> ( Transaction tx = db.beginTx()) &#123;</span><br><span class="line">        <span class="keyword">for</span> ( Node <span class="string">n :</span> GlobalGraphOperations.at(db).getAllNodes()) &#123;</span><br><span class="line">            n.getPropertyKeys();</span><br><span class="line">            <span class="keyword">for</span> ( Relationship <span class="string">relationship :</span> n.getRelationships()) &#123;</span><br><span class="line">                relationship.getPropertyKeys();</span><br><span class="line">                relationship.getStartNode();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Warmed up and ready to go!"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 3.0 之后的版本并且使用了 <a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures" target="_blank" rel="noopener">APOC</a> 插件的话，可以运行如下存储过程来完成缓存预热</p>
 <p><code>CALL apoc.warmup.run()</code></p>
 <blockquote>
 <p>property record loading for warmup, apoc.warmup.run(true)</p>
@@ -535,113 +524,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

@@ -264,17 +264,6 @@
 
           
           
-             <span id="/2018/neo4j-tutorial-installation/" class="leancloud_visitors" data-flag-title="Neo4j 入门教程 - 安装">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -293,8 +282,8 @@
 
       
         <p>本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
-<h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="external">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p>
-<p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 <a href="https://neo4j.com/download/other-releases/" target="_blank" rel="external">这个链接</a> 选择另一个操作系统的版本。</p>
+<h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="noopener">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p>
+<p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 <a href="https://neo4j.com/download/other-releases/" target="_blank" rel="noopener">这个链接</a> 选择另一个操作系统的版本。</p>
 <h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到你的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让你快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p>
 <h3 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
 <ol>
@@ -309,7 +298,7 @@
 <li>打开你的终端</li>
 <li>使用 <code>tar -xvf &lt;file&gt;</code> 来提取存档的内容。比如 <code>tar -xvf neo4j-community-3.2.8-unix.tar</code>，如果你下载的是 <code>tar.gz</code> 的压缩包，那么使用 <code>tar -zxvf</code> 来进行解压</li>
 <li>使用 <code>$NEO4J_HOME/bin/neo4j console</code> 来运行 Neo4j，或者用 <code>$NEO4J_HOME/bin/neo4j start</code> 让服务进程在后台运行</li>
-<li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> </li>
+<li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a> </li>
 <li>为 <code>neo4j</code> 账户修改密码</li>
 </ol>
 <h3 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
@@ -325,12 +314,12 @@
 <li>找到压缩包，点击右键进行解压</li>
 <li>把解压出的文件放到服务器的主目录中，顶级目录称为 <code>NEO4J_HOME</code>，比如 <code>D:\neo4j\</code></li>
 <li>使用 zip 包中提供的 <code>Windows PowerShell</code> 来启动和管理 Neo4j</li>
-<li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a></li>
+<li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a></li>
 <li>为 <code>neo4j</code> 账户修改密码</li>
 </ol>
 <h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，点击打开窗口中 Start 按钮即可启动 Neo4j 服务。</p>
 <p><img src="1.png" alt=""></p>
-<p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> 然后按照提示进行操作。</p>
+<p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a> 然后按照提示进行操作。</p>
 <p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p>
 <p><img src="2.png" alt=""></p>
 <h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户名和密码来登录，默认的密码是 <code>neo4j</code></p>
@@ -563,113 +552,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

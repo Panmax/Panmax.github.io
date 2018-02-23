@@ -260,17 +260,6 @@
 
           
           
-             <span id="/2017/spring-profiles-active-chuan-tou-xing/" class="leancloud_visitors" data-flag-title="--spring.profiles.active 穿透性">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -289,14 +278,14 @@
 
       
         <p>今天在帮助 datamaster 接入配置中心时发现一个问题，就是如果在应用的 <code>application.yml</code> 像这样：</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  application:</span></div><div class="line"><span class="symbol">    name:</span> datamaster-scheduler</div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> lc10</div></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">spring:</span></span><br><span class="line"><span class="symbol">  application:</span></span><br><span class="line"><span class="symbol">    name:</span> datamaster-scheduler</span><br><span class="line"><span class="symbol">  profiles:</span></span><br><span class="line"><span class="symbol">    active:</span> lc10</span><br></pre></td></tr></table></figure>
 <p>指定环境的话，在启动时会自动寻找 <code>datamaster-scheduler-lc10.yml</code> 这个配置文件，不论使用 <code>bootrun</code> 启动或者打成 <code>jar</code> 包都没有问题。</p>
 <p>但是如果不在 <code>application.yml</code> 中指定 <code>spring.profiles.active</code>，而是打成 <code>jar</code> 包，使用 <code>--spring.profiles.active=lc10</code> 参数启动的话，就注册不上 Eureka，所以也就没办法正常拉取配置文件了。</p>
 <p>出现这个问题可以理解，因为我们在封装微服务接入的 starter 时，只定义了两个 active：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">---</span></div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  profiles:</span> <span class="string">dev</span></div><div class="line"><span class="attr">  rabbitmq:</span></div><div class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></div><div class="line"><span class="attr">    port:</span> <span class="number">5672</span></div><div class="line"><span class="attr">    username:</span> <span class="string">admin</span></div><div class="line"><span class="attr">    password:</span> <span class="string">admin</span></div><div class="line"><span class="attr">  zipkin:</span></div><div class="line"><span class="attr">    base-url:</span> <span class="attr">http://172.24.8.100:7030</span></div><div class="line"></div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://172.24.8.100:7011/eureka/,http://172.24.8.100:7012/eureka/,http://172.24.8.100:7013/eureka/</span></div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  profiles:</span> <span class="string">beta</span></div><div class="line"><span class="attr">  rabbitmq:</span></div><div class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></div><div class="line"><span class="attr">    port:</span> <span class="number">5672</span></div><div class="line"><span class="attr">    username:</span> <span class="string">admin</span></div><div class="line"><span class="attr">    password:</span> <span class="string">admin</span></div><div class="line"><span class="attr">  zipkin:</span></div><div class="line"><span class="attr">    base-url:</span> <span class="attr">http://172.24.8.100:7030</span></div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://172.24.8.100:7011/eureka/,http://172.24.8.100:7012/eureka/,http://172.24.8.100:7013/eureka/</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">dev</span></span><br><span class="line"><span class="attr">  rabbitmq:</span></span><br><span class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></span><br><span class="line"><span class="attr">    port:</span> <span class="number">5672</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">admin</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">admin</span></span><br><span class="line"><span class="attr">  zipkin:</span></span><br><span class="line"><span class="attr">    base-url:</span> <span class="attr">http://172.24.8.100:7030</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://172.24.8.100:7011/eureka/,http://172.24.8.100:7012/eureka/,http://172.24.8.100:7013/eureka/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">beta</span></span><br><span class="line"><span class="attr">  rabbitmq:</span></span><br><span class="line"><span class="attr">    host:</span> <span class="number">172.24</span><span class="number">.8</span><span class="number">.100</span></span><br><span class="line"><span class="attr">    port:</span> <span class="number">5672</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">admin</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">admin</span></span><br><span class="line"><span class="attr">  zipkin:</span></span><br><span class="line"><span class="attr">    base-url:</span> <span class="attr">http://172.24.8.100:7030</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://172.24.8.100:7011/eureka/,http://172.24.8.100:7012/eureka/,http://172.24.8.100:7013/eureka/</span></span><br></pre></td></tr></table></figure>
 <p>所以使用这两种之外的环境是找不到配置中心的地址的，但是之前那种方式所得到的行为就不太理解了。</p>
 <p>这个问题我得到的结论是这样的：在应用系统的 <code>application.yml</code> 中定义的 <code>active</code> 是不具有穿透性的，所以我们的 微服务 starter 是不会得到这里定义的 <code>active</code> 的，而且 微服务starter 中的 <code>bootstrap.yml</code> 中定义了：</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> dev</div></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">spring:</span></span><br><span class="line"><span class="symbol">  profiles:</span></span><br><span class="line"><span class="symbol">    active:</span> dev</span><br></pre></td></tr></table></figure>
 <p>所以在没有指定时会使用 dev，没有任何问题。</p>
 <p>使用 <code>--spring.profiles.active=lc10</code> 指定的 active 具有穿透性，会让这个应用系统依赖的其他组件也使用指定的 <code>active</code>，所以这个时候 微服务 starter 也会切换到 lc10 的 <code>active</code>，因为我们没有在 starter 中配 lc10 对应的 <code>active</code>，也就就相当于没有指定 eureka 的注册地址，所以接下来的所有流程就都跑不通了。</p>
 <p>为了解决这个问题，我在 微服务 starter 的 <code>bootstrap.yml</code> 中加上了默认的 eureka 注册地址和其他需要用到的配置，这样即便是指定的环境不存在的话也没有任何问题。</p>
@@ -526,113 +515,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

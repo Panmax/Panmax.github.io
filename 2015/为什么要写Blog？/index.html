@@ -283,17 +283,6 @@
 
           
           
-             <span id="/2015/为什么要写Blog？/" class="leancloud_visitors" data-flag-title="为什么要写Blog？">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -311,12 +300,12 @@
       
 
       
-        <p>原文地址:<a href="http://www.ruanyifeng.com/blog/2006/12/why_i_keep_blogging.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2006/12/why_i_keep_blogging.html</a></p>
+        <p>原文地址:<a href="http://www.ruanyifeng.com/blog/2006/12/why_i_keep_blogging.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2006/12/why_i_keep_blogging.html</a></p>
 <p>到今年12月为止，我写Blog已经满3年了，一共写了接近600篇，平均每2天写一篇。今后应该还会继续写下去。</p>
 <p>3年前，我开始写的时候，并没有想过自己会坚持这么久。3年中，也遇见过几次有人问我”为什么要写Blog？”</p>
 <p>是啊，为什么要写Blog？毕竟这里没有人支付稿酬，也看不出有任何明显的物质性收益。</p>
 <a id="more"></a>
-<p>Darren Rowse在他的<a href="http://www.problogger.net/archives/2006/12/06/7-reasons-why-personal-blogs-rock/" target="_blank" rel="external">Blog</a>上，讲到了7个理由，我觉得说得很好。</p>
+<p>Darren Rowse在他的<a href="http://www.problogger.net/archives/2006/12/06/7-reasons-why-personal-blogs-rock/" target="_blank" rel="noopener">Blog</a>上，讲到了7个理由，我觉得说得很好。</p>
 <p><strong>1. 学会写作Blog的技巧（teach you the skills of blogging）</strong></p>
 <p>没有人天生会写Blog，我刚开始的时候也不知道该怎么写。但是，经过不断的尝试，现在我知道怎么可以写出受欢迎的文章。</p>
 <p><strong>2. 熟悉Blog工具（familiarize you with the tools of blogging）</strong></p>
@@ -563,113 +552,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

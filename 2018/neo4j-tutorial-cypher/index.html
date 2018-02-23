@@ -260,17 +260,6 @@
 
           
           
-             <span id="/2018/neo4j-tutorial-cypher/" class="leancloud_visitors" data-flag-title="Neo4j 入门教程 - 查询语言 Cypher">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -293,15 +282,15 @@
 </blockquote>
 <hr>
 <h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>下边是一条 Cypher 语句：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></span><br></pre></td></tr></table></figure>
 <p>这条 Cypher 语句返回属性 <code>name</code> 为 <code>Homer Flinstone</code> 的 <code>Person</code> 节点。</p>
 <p>如果通过 SQL 来查询关系型数据库，看起来可能更像这样：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Person</div><div class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Homer Flinstone"</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Person</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Homer Flinstone"</span>;</span><br></pre></td></tr></table></figure>
 <p>不过请记住，Neo4j 不像关系数据库模型那样将数据存储在表中，Neo4j 的所有数据都在节点和关系中存储。所以上边的 Cypher 语句查询的是节点、节点的标签和节点的属性，而 SQL 查询的是表、行和列。</p>
 <p>SQL 被设计为适用于关系数据库管理系统（DBMS）。Neo4j 是一个 NoSQL DBMS，所以它不使用关系模型同样也不使用 SQL。</p>
 <p>Cypher 是专门为 Neo4j 的数据模型而设计，用来查询节点及其相互关系的。</p>
 <h3 id="字符画语法"><a href="#字符画语法" class="headerlink" title="字符画语法"></a>字符画语法</h3><p>Cypher 使用字符画来表示模式，使得我们在第一次学习这门语言时很容易记住它。如果你忘记了如何编写，只需要想一想图的样子就会对你有所帮助。</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(a)-[<span class="symbol">:KNOWS</span>]-&gt;(b)</div></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(a)-[<span class="symbol">:KNOWS</span>]-&gt;(b)</span><br></pre></td></tr></table></figure>
 <p>主要记住如下几点：</p>
 <ul>
 <li>节点由圆括号表示，看起来像是圆圈。就像这样：<code>(node)</code></li>
@@ -316,7 +305,7 @@
 <li>关系通常有一个类型（类似于节点的标签）。比如：”KNOWS”,”LIKES”,”WORKS_FOR”,”PURCHASED”等</li>
 </ul>
 <p>让我们再来看一下上边的例子：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></span><br></pre></td></tr></table></figure>
 <p>我们可以看到：</p>
 <ul>
 <li>节点被圆括号 <code>()</code> 包围</li>
@@ -548,113 +537,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

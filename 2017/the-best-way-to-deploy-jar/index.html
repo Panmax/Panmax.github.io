@@ -265,17 +265,6 @@
 
           
           
-             <span id="/2017/the-best-way-to-deploy-jar/" class="leancloud_visitors" data-flag-title="部署 jar 包到生产环境的科学方法">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -296,7 +285,7 @@
         <p>我们现在的线上环境都是简单的使用 <code>nohup java -jar xxx.jar &amp;</code> 的命令来将项目启起来的（感谢 Spring Boot），不过这种方式有诸多不便，比如我们想停掉或者重启某个项目，都需要通过 <code>ps</code> 命令先找到程序对应的 <code>pid</code>，然后再执行 <code>kill</code> 命令，然后再手动启动一遍这个程序。</p>
 <p>下边我介绍一种（自我认为）比较科学的方式：</p>
 <p>以我们已有的 <code>demo</code> 项目 <code>app-c</code> 为例，在 <code>build.gradle</code> 中加入：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">springBoot</span> &#123;</div><div class="line">    <span class="attribute">executable</span> = <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">springBoot</span> &#123;</span><br><span class="line">    <span class="attribute">executable</span> = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样可以编译出来可执行的 <code>jar</code> 包，看下前后对比，下边两张图分别是加之前和加之后 <code>app-c</code> ，可以看到多了 <code>x</code> 权限。</p>
 <p>不带 <code>x</code> 权限的 <code>app-c</code><br><img src="1.png" alt=""></p>
 <p>带 <code>x</code> 权限的 <code>app-c</code><br><img src="2.png" alt=""></p>
@@ -304,7 +293,7 @@
 <p><img src="3.png" alt=""><br>没有任何问问题。</p>
 <h4 id="接下来我们把这个可执行程序通过软链接的方式注册为系统服务："><a href="#接下来我们把这个可执行程序通过软链接的方式注册为系统服务：" class="headerlink" title="接下来我们把这个可执行程序通过软链接的方式注册为系统服务："></a>接下来我们把这个可执行程序通过软链接的方式注册为系统服务：</h4><p><code>sudo ln -s /opt/demo-projects/output/app-c-0.0.1-SNAPSHOT.jar /etc/init.d/app-c</code></p>
 <p>这样就可以使用 <code>start</code>、<code>stop</code>、<code>restart</code> 来管理我们的应用了</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/etc/init.d/app-c start|stop|restart</div><div class="line"> </div><div class="line">或</div><div class="line"> <span class="built_in"></span></div><div class="line">service app-c start|stop|restart</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/etc/init.d/app-c start|stop|restart</span><br><span class="line"> </span><br><span class="line">或</span><br><span class="line"> </span><br><span class="line">service app-c start|stop|restart</span><br></pre></td></tr></table></figure>
 <p>并且 <code>status</code> 可以查看运行状态：</p>
 <p><img src="4.png" alt=""><br>用这样的方式来管理线上应用，比之前的方式方便了很多：不需要再进到存放 <code>jar</code> 包的目录来用冗长的代码启动，只需知道应用名称，就可以直接启动、重启、停止我们想管理的应用。</p>
 
@@ -532,113 +521,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

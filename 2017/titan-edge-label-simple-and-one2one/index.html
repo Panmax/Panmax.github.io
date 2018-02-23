@@ -263,17 +263,6 @@
 
           
           
-             <span id="/2017/titan-edge-label-simple-and-one2one/" class="leancloud_visitors" data-flag-title="Titan 边标签 SIMPLE 和 ONE2ONE 的区别">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -296,11 +285,11 @@
 <p><strong>SIMPLE:</strong> Allows at most one edge of such label between any pair of vertices. In other words, the graph is a simple graph with respect to the label. Ensures that edges are unique for a given label and pairs of vertices.<br><strong>ONE2ONE:</strong> Allows at most one incoming and one outgoing edge of such label on any vertex in the graph. The edge label marriedTo is an example with ONE2ONE multiplicity since a person is married to exactly one other person.</p>
 <p>先给结论，一张图来解释：</p>
 <p><img src="2.png" alt=""></p>
-<h3 id="程序验证"><a href="#程序验证" class="headerlink" title="程序验证"></a>程序验证</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; graph = TitanFactory.open("conf/titan.properties")</div><div class="line">=<span class="ruby">=&gt;standardtitangraph[<span class="symbol">cassandra:</span>[<span class="number">172.24</span>.<span class="number">8.84</span>]]</span></div><div class="line">gremlin&gt; mgmt = graph.openManagement()</div><div class="line">=<span class="ruby">=&gt;com.thinkaurelius.titan.graphdb.database.management.ManagementSystem@d7109be</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('simple').multiplicity(SIMPLE).make()</div><div class="line">=<span class="ruby">=&gt;simple</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('one2one').multiplicity(ONE2ONE).make()</div><div class="line">=<span class="ruby">=&gt;one2one</span></div><div class="line">gremlin&gt; mgmt.commit()</div><div class="line"></div><div class="line">gremlin&gt; a = graph.addVertex("name", "a")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4152</span>]</span></div><div class="line">gremlin&gt; b = graph.addVertex("name", "b")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">8248</span>]</span></div><div class="line">gremlin&gt; c = graph.addVertex("name", "c")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4128</span>]</span></div><div class="line">gremlin&gt; d = graph.addVertex("name", "d")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4328</span>]</span></div></pre></td></tr></table></figure>
+<h3 id="程序验证"><a href="#程序验证" class="headerlink" title="程序验证"></a>程序验证</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">gremlin&gt; graph = TitanFactory.open("conf/titan.properties")</span><br><span class="line">=<span class="ruby">=&gt;standardtitangraph[<span class="symbol">cassandra:</span>[<span class="number">172.24</span>.<span class="number">8.84</span>]]</span></span><br><span class="line"><span class="ruby">gremlin&gt; mgmt = graph.openManagement()</span></span><br><span class="line"><span class="ruby">==&gt;com.thinkaurelius.titan.graphdb.database.management.ManagementSystem@d7109be</span></span><br><span class="line"><span class="ruby">gremlin&gt; mgmt.makeEdgeLabel(<span class="string">'simple'</span>).multiplicity(SIMPLE).make()</span></span><br><span class="line"><span class="ruby">==&gt;simple</span></span><br><span class="line"><span class="ruby">gremlin&gt; mgmt.makeEdgeLabel(<span class="string">'one2one'</span>).multiplicity(ONE2ONE).make()</span></span><br><span class="line"><span class="ruby">==&gt;one2one</span></span><br><span class="line"><span class="ruby">gremlin&gt; mgmt.commit()</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">gremlin&gt; a = graph.addVertex(<span class="string">"name"</span>, <span class="string">"a"</span>)</span></span><br><span class="line"><span class="ruby">==&gt;v[<span class="number">4152</span>]</span></span><br><span class="line"><span class="ruby">gremlin&gt; b = graph.addVertex(<span class="string">"name"</span>, <span class="string">"b"</span>)</span></span><br><span class="line"><span class="ruby">==&gt;v[<span class="number">8248</span>]</span></span><br><span class="line"><span class="ruby">gremlin&gt; c = graph.addVertex(<span class="string">"name"</span>, <span class="string">"c"</span>)</span></span><br><span class="line"><span class="ruby">==&gt;v[<span class="number">4128</span>]</span></span><br><span class="line"><span class="ruby">gremlin&gt; d = graph.addVertex(<span class="string">"name"</span>, <span class="string">"d"</span>)</span></span><br><span class="line"><span class="ruby">==&gt;v[<span class="number">4328</span>]</span></span><br></pre></td></tr></table></figure>
 <p>先分别创建 <code>multiplicity</code> 为 <code>SIMPLE</code> 和 <code>ONE2ONE</code> 的 <code>Edge Label</code>，然后创建 a b c d 四个点。</p>
-<h4 id="首先来验证-SIMPLE："><a href="#首先来验证-SIMPLE：" class="headerlink" title="首先来验证 SIMPLE："></a>首先来验证 SIMPLE：</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; a.addEdge("simple", b)</div><div class="line">==&gt;e[<span class="string">1zb-37c-t1-6d4</span>][<span class="symbol">4152-simple-&gt;8248</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", b)</div><div class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; b.addEdge("simple", a)</div><div class="line">==&gt;e[<span class="string">2dj-6d4-t1-37c</span>][<span class="symbol">8248-simple-&gt;4152</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", c)</div><div class="line">==&gt;e[<span class="string">2rr-37c-t1-36o</span>][<span class="symbol">4152-simple-&gt;4128</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", d)</div><div class="line">==&gt;e[<span class="string">35z-37c-t1-3c8</span>][<span class="symbol">4152-simple-&gt;4328</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", c)</div><div class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; c.addEdge("simple", b)</div><div class="line">==&gt;e[<span class="string">16s-36o-t1-6d4</span>][<span class="symbol">4128-simple-&gt;8248</span>]</div></pre></td></tr></table></figure>
+<h4 id="首先来验证-SIMPLE："><a href="#首先来验证-SIMPLE：" class="headerlink" title="首先来验证 SIMPLE："></a>首先来验证 SIMPLE：</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gremlin&gt; a.addEdge("simple", b)</span><br><span class="line">==&gt;e[<span class="string">1zb-37c-t1-6d4</span>][<span class="symbol">4152-simple-&gt;8248</span>]</span><br><span class="line">gremlin&gt; a.addEdge("simple", b)</span><br><span class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; b.addEdge("simple", a)</span><br><span class="line">==&gt;e[<span class="string">2dj-6d4-t1-37c</span>][<span class="symbol">8248-simple-&gt;4152</span>]</span><br><span class="line">gremlin&gt; a.addEdge("simple", c)</span><br><span class="line">==&gt;e[<span class="string">2rr-37c-t1-36o</span>][<span class="symbol">4152-simple-&gt;4128</span>]</span><br><span class="line">gremlin&gt; a.addEdge("simple", d)</span><br><span class="line">==&gt;e[<span class="string">35z-37c-t1-3c8</span>][<span class="symbol">4152-simple-&gt;4328</span>]</span><br><span class="line">gremlin&gt; a.addEdge("simple", c)</span><br><span class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; c.addEdge("simple", b)</span><br><span class="line">==&gt;e[<span class="string">16s-36o-t1-6d4</span>][<span class="symbol">4128-simple-&gt;8248</span>]</span><br></pre></td></tr></table></figure>
 <p>得到的结论是，只要两点之间不存在相同方向的 <code>SIMPLE</code> 边就可以。</p>
-<h4 id="然后验证-ONE2ONE"><a href="#然后验证-ONE2ONE" class="headerlink" title="然后验证 ONE2ONE"></a>然后验证 ONE2ONE</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; a.addEdge("one2one", b)</div><div class="line">==&gt;e[<span class="string">3k7-37c-1lh-6d4</span>][<span class="symbol">4152-one2one-&gt;8248</span>]</div><div class="line">gremlin&gt; a.addEdge("one2one", c)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; a.addEdge("one2one", d)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; d.addEdge("one2one", a)</div><div class="line">==&gt;e[<span class="string">17h-3c8-1lh-37c</span>][<span class="symbol">4328-one2one-&gt;4152</span>]</div><div class="line">gremlin&gt; d.addEdge("one2one", b)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; b.addEdge("one2one", c)</div><div class="line">==&gt;e[<span class="string">3yf-6d4-1lh-36o</span>][<span class="symbol">8248-one2one-&gt;4128</span>]</div></pre></td></tr></table></figure>
+<h4 id="然后验证-ONE2ONE"><a href="#然后验证-ONE2ONE" class="headerlink" title="然后验证 ONE2ONE"></a>然后验证 ONE2ONE</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">gremlin&gt; a.addEdge("one2one", b)</span><br><span class="line">==&gt;e[<span class="string">3k7-37c-1lh-6d4</span>][<span class="symbol">4152-one2one-&gt;8248</span>]</span><br><span class="line">gremlin&gt; a.addEdge("one2one", c)</span><br><span class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; a.addEdge("one2one", d)</span><br><span class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; d.addEdge("one2one", a)</span><br><span class="line">==&gt;e[<span class="string">17h-3c8-1lh-37c</span>][<span class="symbol">4328-one2one-&gt;4152</span>]</span><br><span class="line">gremlin&gt; d.addEdge("one2one", b)</span><br><span class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; b.addEdge("one2one", c)</span><br><span class="line">==&gt;e[<span class="string">3yf-6d4-1lh-36o</span>][<span class="symbol">8248-one2one-&gt;4128</span>]</span><br></pre></td></tr></table></figure>
 <p>结论是，一个点上的 <code>ONE2ONE</code> 边只能有一次 <code>in</code> 和一次 <code>out</code>。</p>
 
       
@@ -527,113 +516,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

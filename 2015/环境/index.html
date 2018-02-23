@@ -285,17 +285,6 @@
 
           
           
-             <span id="/2015/环境/" class="leancloud_visitors" data-flag-title="explore flask 环境">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -319,7 +308,7 @@
 <h4 id="避开版本控制"><a href="#避开版本控制" class="headerlink" title="避开版本控制"></a>避开版本控制</h4><p>我通常把一个文件放在版本控制之外因为两个原因之一。其中一个是杂乱的东西另一个是秘密的东西。例如编译后的<code>.pyc</code>文件和虚拟环境（如果你因为某些原因没有使用virtualenvwrapper）是杂乱的东西。它们不需要在版本控制中，因为它们可以各自通过<code>.py</code>文件和你的<code>requirements.txt</code>文件被重新创建。</p>
 <p>例如API密钥，应用密钥和数据库证书是秘密的东西。它们不应该在版本控制中因为它们的暴露将会造成很大的安全问题。</p>
 <h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><h4 id="调试模式"><a href="#调试模式" class="headerlink" title="调试模式"></a>调试模式</h4><p>Flask自带一个很好用的功能叫调试模式。你只需要在你的开发配置中设置<code>debug = True</code>就可以打开它。当调试模式打开，服务器将会在代码发生变化时重新加载并且带有堆栈跟踪和交互控制台。</p>
-<h4 id="Flask-DebugToolbar"><a href="#Flask-DebugToolbar" class="headerlink" title="Flask-DebugToolbar"></a>Flask-DebugToolbar</h4><p><a href="http://flask-debugtoolbar.readthedocs.org/en/latest/" target="_blank" rel="external">Flask-DebugToolbar</a>是另外一个很棒的工具用来调试你应用中的问题。在调试模式中，它在你的应用中的每一个页面上覆盖一个边栏。这个边栏给你关于SQL查询，日志，版本，模板，配置的信息和其他有趣的东西用来更容易的跟踪问题。</p>
+<h4 id="Flask-DebugToolbar"><a href="#Flask-DebugToolbar" class="headerlink" title="Flask-DebugToolbar"></a>Flask-DebugToolbar</h4><p><a href="http://flask-debugtoolbar.readthedocs.org/en/latest/" target="_blank" rel="noopener">Flask-DebugToolbar</a>是另外一个很棒的工具用来调试你应用中的问题。在调试模式中，它在你的应用中的每一个页面上覆盖一个边栏。这个边栏给你关于SQL查询，日志，版本，模板，配置的信息和其他有趣的东西用来更容易的跟踪问题。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li>使用virtualenv保持你的应用的依赖在一起。</li>
 <li>使用virtualenvwrapper保持你的虚拟环境依赖在一起</li>
@@ -560,113 +549,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

@@ -285,17 +285,6 @@
 
           
           
-             <span id="/2015/组织你的项目/" class="leancloud_visitors" data-flag-title="explore flask 组织你的项目">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -321,16 +310,16 @@
 <p><strong>包</strong> - 这个指的是一个包含你的应用代码的Python包。我将会在本章谈论更多的关于设置你的作为一个包，但是现在只需要知道包是版本库的一个子目录。</p>
 <p><strong>模块</strong> - 一个模块是一个单独的Python文件可以被其他Python文件所导入。一个包本质上是多个模块被包裹在一起。</p>
 <h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><ul>
-<li><p>阅读更多关于Python模块在<a href="http://docs.python.org/2/tutorial/modules.html" target="_blank" rel="external">Python教程</a></p>
+<li><p>阅读更多关于Python模块在<a href="http://docs.python.org/2/tutorial/modules.html" target="_blank" rel="noopener">Python教程</a></p>
 </li>
-<li><p>同一页有<a href="http://docs.python.org/2/tutorial/modules.html#packages" target="_blank" rel="external">包的部分</a></p>
+<li><p>同一页有<a href="http://docs.python.org/2/tutorial/modules.html#packages" target="_blank" rel="noopener">包的部分</a></p>
 </li>
 </ul>
 <h3 id="组织模式"><a href="#组织模式" class="headerlink" title="组织模式"></a>组织模式</h3><h4 id="单模块"><a href="#单模块" class="headerlink" title="单模块"></a>单模块</h4><p>你会遇到很多Flask示例将所有的代码放在一个文件中，常常是<code>app.py</code>。这对于快速项目是很好的（比如一个用来教学的项目），你只需要在这个文件里提供一些路由并且你已经获得少于几百行的应用代码了。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app<span class="selector-class">.py</span></div><div class="line">config<span class="selector-class">.py</span></div><div class="line">requirements<span class="selector-class">.txt</span></div><div class="line">static/</div><div class="line">templates/</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">app.py</span><br><span class="line">config.py</span><br><span class="line">requirements.txt</span><br><span class="line">static/</span><br><span class="line">templates/</span><br></pre></td></tr></table></figure>
 <p>应用逻辑将放在清单的<code>app.py</code>中。</p>
 <h3 id="包"><a href="#包" class="headerlink" title="包"></a>包</h3><p>当你工作的项目稍微有些复杂时，一个单独的模块会导致混乱。你将需要为模型和表单定义类，并且他们将与你的路由和配置代码混合起来。所有的这些会阻碍开发。为了解决这个问题，我们能够把我们应用的不同的组件分解出来进行分组形成相互连接的模块 – 一个包。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">config<span class="selector-class">.py</span></div><div class="line">requirements<span class="selector-class">.txt</span></div><div class="line">run<span class="selector-class">.py</span></div><div class="line">instance/</div><div class="line">	config<span class="selector-class">.py</span></div><div class="line">yourapp/</div><div class="line">	__init__<span class="selector-class">.py</span></div><div class="line">	views<span class="selector-class">.py</span></div><div class="line">	models<span class="selector-class">.py</span></div><div class="line">	forms<span class="selector-class">.py</span></div><div class="line">	static/</div><div class="line">	templates/</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">config.py</span><br><span class="line">requirements.txt</span><br><span class="line">run.py</span><br><span class="line">instance/</span><br><span class="line">	config.py</span><br><span class="line">yourapp/</span><br><span class="line">	__init__.py</span><br><span class="line">	views.py</span><br><span class="line">	models.py</span><br><span class="line">	forms.py</span><br><span class="line">	static/</span><br><span class="line">	templates/</span><br></pre></td></tr></table></figure>
 <p>在这个列表中展示的这种结构允许你将应用中不同的组件按照符合逻辑的方式进行分组。定义模型的类一起放在<code>models.py</code>中，路由定义放在<code>views.py</code>中，表单定义放在<code>forms.py</code>中（我们稍后有整章来介绍表单）。</p>
 <p>下边的表提供一个基本的组件概述，你会在大多数的Flask应用中见到。你可能最终在你的版本库中有很多其它文件，但是这些是大多数Flask应用中最普遍的。</p>
 <table>
@@ -621,113 +610,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

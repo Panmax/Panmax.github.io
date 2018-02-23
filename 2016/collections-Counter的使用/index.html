@@ -283,17 +283,6 @@
 
           
           
-             <span id="/2016/collections-Counter的使用/" class="leancloud_visitors" data-flag-title="collections.Counter的使用">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -316,23 +305,23 @@
 <ul>
 <li>首先导入 <code>Counter</code>:</li>
 </ul>
-<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</div></pre></td></tr></table></figure>
+<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br></pre></td></tr></table></figure>
 <ul>
 <li>通过查询数据库获取到所有满足条件的愿望放在<code>wishes</code>数组中，然后遍历所有数据，把所有城市的adcode存在一个数组中：</li>
 </ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cities = [wish<span class="selector-class">.adcode</span> <span class="keyword">for</span> wish <span class="keyword">in</span> wishes]</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cities = [wish<span class="selector-class">.adcode</span> <span class="keyword">for</span> wish <span class="keyword">in</span> wishes]</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>(我发现我最近越来越用推导式了。。。</p>
 </blockquote>
 <ul>
 <li>然后使用Counter进行操作：</li>
 </ul>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">c</span> = Counter(cities).most_common()</div></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">c</span> = Counter(cities).most_common()</span><br></pre></td></tr></table></figure>
 <p>这样得到的结果是一个数组，每个元素是一个长度为2的元组，元组第0位保存的是数据，第1位保存的是这个数据出现的次数，整个数组是按照元素出现次数排序的，<code>most_common()</code>还可以带int型的参数，表示获取排名前n个的结果。不带参数表示获取所有结果。</p>
 <p>以上得到的结果为：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[(<span class="number">110000</span>, <span class="number">4</span>), (<span class="number">510800</span>, <span class="number">3</span>)],...</div></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(<span class="number">110000</span>, <span class="number">4</span>), (<span class="number">510800</span>, <span class="number">3</span>)],...</span><br></pre></td></tr></table></figure>
 <p>获取热门城市只需拿前4个数据就行（需求是4个热门城市），其他城市拿剩下的数据即可(注意，<code>c</code> 里每个元素是一个元组，元组的一个0位才是我们要的数据)：</p>
-<figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">top4 = [<span class="keyword">_</span>[<span class="number">0</span>] <span class="keyword">for</span> <span class="keyword">_</span> <span class="built_in">in</span> c[:<span class="number">4</span>]]</div><div class="line">others = [<span class="keyword">_</span>[<span class="number">0</span>] <span class="keyword">for</span> <span class="keyword">_</span> <span class="built_in">in</span> c[<span class="number">4</span>:]]</div></pre></td></tr></table></figure>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">top4 = [<span class="keyword">_</span>[<span class="number">0</span>] <span class="keyword">for</span> <span class="keyword">_</span> <span class="built_in">in</span> c[:<span class="number">4</span>]]</span><br><span class="line">others = [<span class="keyword">_</span>[<span class="number">0</span>] <span class="keyword">for</span> <span class="keyword">_</span> <span class="built_in">in</span> c[<span class="number">4</span>:]]</span><br></pre></td></tr></table></figure>
 <p>现在 <code>top4</code> 里存放的就是排名前四的城市adcode，<code>others</code> 里存放的是其他有愿望地区的城市adcode按照愿望数量排序的数组。</p>
 
       
@@ -567,113 +556,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

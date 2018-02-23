@@ -264,17 +264,6 @@
 
           
           
-             <span id="/2018/neo4j-tutorial-create-constraint/" class="leancloud_visitors" data-flag-title="Neo4j 入门教程 - 使用 Cypher 创建约束">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -306,7 +295,7 @@
 <li>确保具有特定标签的节点或具有特定类型的关系都存在某个属性（属性存在约束只在 Neo4j 企业版中可用）</li>
 </ul>
 <h3 id="创建唯一约束"><a href="#创建唯一约束" class="headerlink" title="创建唯一约束"></a>创建唯一约束</h3><p>在 Neo4j 中创建唯一约束需要使用 <code>CREATE CONSTRAINT ON</code> 语句，像下边这样：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE CONSTRAINT ON (<span class="selector-tag">a</span>:Artist) ASSERT <span class="selector-tag">a</span><span class="selector-class">.name</span> IS UNIQUE</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE CONSTRAINT ON (<span class="selector-tag">a</span>:Artist) ASSERT <span class="selector-tag">a</span><span class="selector-class">.name</span> IS UNIQUE</span><br></pre></td></tr></table></figure>
 <p>在上边的例子中，我们为 <code>Artist</code> 标签的所有节点的 <code>name</code> 属性创建了唯一约束。</p>
 <p>我们的语句执行成功后，展示如下信息：</p>
 <p><img src="1.png" alt=""></p>
@@ -315,17 +304,17 @@
 </blockquote>
 <h3 id="查看约束"><a href="#查看约束" class="headerlink" title="查看约束"></a>查看约束</h3><p>约束（和索引）成为数据库模式的一部分。</p>
 <p>我们可以通过使用 <code>:schema</code> 名来来查看我们刚刚创建的约束，就像下边这样：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">:schems</span></div></pre></td></tr></table></figure>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schems</span></span><br></pre></td></tr></table></figure>
 <p>你将会看到新创建的约束以及使用它创建的索引，也可以看到我们之前创建的索引：</p>
 <p><img src="2.png" alt=""></p>
 <h3 id="测试约束"><a href="#测试约束" class="headerlink" title="测试约束"></a>测试约束</h3><p>我们可以通过尝试创建两个相同的艺术家来测试这个约束是否起作用。</p>
 <p>执行下边的语句两次：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"周杰伦"</span>&#125;) </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"周杰伦"</span>&#125;) </span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></span><br></pre></td></tr></table></figure>
 <p>第一次运行这条语句时，节点将会被创建。第二次运行时，你应该会收到以下错误信息：</p>
 <p><img src="3.png" alt=""></p>
 <h3 id="属性存在约束"><a href="#属性存在约束" class="headerlink" title="属性存在约束"></a>属性存在约束</h3><p>属性存在约束能够确保具有特定标签的所有节点具有特定的属性。比如你可以指定 <code>Artist</code> 标签的所有节点都必须包含 <code>name</code> 属性。</p>
 <p>使用 <code>ASSERT exists(variable.propertyName)</code> 语法来创建属性存在约束。像下边这样：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE CONSTRAINT ON (<span class="name">a</span><span class="symbol">:Artist</span>) ASSERT exists(<span class="name">a</span>.name)</div></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE CONSTRAINT ON (<span class="name">a</span><span class="symbol">:Artist</span>) ASSERT exists(<span class="name">a</span>.name)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>请注意，属性存在约束只能在 Neo4j 企业版中使用。</p>
 </blockquote>
@@ -554,113 +543,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

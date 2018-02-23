@@ -283,17 +283,6 @@
 
           
           
-             <span id="/2016/简明-Python-编程规范/" class="leancloud_visitors" data-flag-title="简明 Python 编程规范">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -311,11 +300,11 @@
       
 
       
-        <p>原文地址：<a href="http://blog.csdn.net/gzlaiyonghao/article/details/6601123" target="_blank" rel="external">http://blog.csdn.net/gzlaiyonghao/article/details/6601123</a></p>
+        <p>原文地址：<a href="http://blog.csdn.net/gzlaiyonghao/article/details/6601123" target="_blank" rel="noopener">http://blog.csdn.net/gzlaiyonghao/article/details/6601123</a></p>
 <h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><ul>
 <li>所有的 Python 脚本文件都应在文件头标上如下标识或其兼容格式的标识：</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> -*- coding:utf-8 -*-</span></div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> -*- coding:utf-8 -*-</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>设置编辑器，默认保存为 utf-8 格式。</li>
 </ul>
@@ -334,17 +323,17 @@
 <li>空格在 Python 代码中是有意义的，因为 Python 的语法依赖于缩进，在行首的空格称为前导空格。在这一节不讨论前导空格相关的内容，只讨论非前导空格。非前导空格在 Python 代码中没有意义，但适当地加入非前导空格可以增进代码的可读性。</li>
 <li>在二元算术、逻辑运算符前后加空格，如：</li>
 </ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span> = <span class="selector-tag">b</span> + c</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span> = <span class="selector-tag">b</span> + c</span><br></pre></td></tr></table></figure>
 <ul>
 <li>“:”用在行尾时前后皆不加空格，如分枝、循环、函数和类定义语言；用在非行尾时两端加空格，如 dict 对象的定义：</li>
 </ul>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">d</span> = &#123;<span class="string">'key'</span> : <span class="string">'value'</span>&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">d</span> = &#123;<span class="string">'key'</span> : <span class="string">'value'</span>&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>括号（含圆括号、方括号和花括号）前后不加空格，如：</li>
 </ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">do_something</span><span class="params">(arg1, arg2)</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">do_something</span><span class="params">(arg1, arg2)</span></span></span><br></pre></td></tr></table></figure>
 <p>而不是</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">do_something</span><span class="params">( arg1, arg2 )</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">do_something</span><span class="params">( arg1, arg2 )</span></span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>逗号后面加一个空格，前面不加空格。</li>
 </ul>
@@ -360,45 +349,45 @@
 <li><p>尽管现在的宽屏显示器已经可以单屏显示超过 256 列字符，但本规范仍然坚持行的最大长度不得超过 78 个字符的标准。折叠长行的方法有以下几种方法：</p>
 <ul>
 <li><p>为长变量名换一个短名，如：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">this._is<span class="selector-class">.a</span><span class="selector-class">.very</span><span class="selector-class">.long</span><span class="selector-class">.variable_name</span> = this._is<span class="selector-class">.another</span><span class="selector-class">.long</span><span class="selector-class">.variable_name</span></div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this._is<span class="selector-class">.a</span><span class="selector-class">.very</span><span class="selector-class">.long</span><span class="selector-class">.variable_name</span> = this._is<span class="selector-class">.another</span><span class="selector-class">.long</span><span class="selector-class">.variable_name</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
 </ul>
 <pre><code>- 应改为：
 
-<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">variable</span><span class="number">_n</span>ame<span class="number">1</span> = <span class="keyword">this</span>.<span class="number">_</span><span class="keyword">is</span>.a.very.long.<span class="keyword">variable</span><span class="number">_n</span>ame  </div><div class="line"><span class="keyword">variable</span><span class="number">_n</span>ame<span class="number">2</span> = <span class="keyword">this</span>.<span class="number">_</span><span class="keyword">is</span>.another.<span class="keyword">variable</span><span class="number">_n</span>ame  </div><div class="line"><span class="keyword">variable</span><span class="number">_n</span>ame<span class="number">1</span> = <span class="keyword">variable</span><span class="number">_n</span>ame<span class="number">2</span>s</div></pre></td></tr></table></figure>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">variable</span><span class="number">_n</span>ame<span class="number">1</span> = <span class="keyword">this</span>.<span class="number">_</span><span class="keyword">is</span>.a.very.long.<span class="keyword">variable</span><span class="number">_n</span>ame  </span><br><span class="line"><span class="keyword">variable</span><span class="number">_n</span>ame<span class="number">2</span> = <span class="keyword">this</span>.<span class="number">_</span><span class="keyword">is</span>.another.<span class="keyword">variable</span><span class="number">_n</span>ame  </span><br><span class="line"><span class="keyword">variable</span><span class="number">_n</span>ame<span class="number">1</span> = <span class="keyword">variable</span><span class="number">_n</span>ame<span class="number">2</span>s</span><br></pre></td></tr></table></figure>
 
 
 - 在括号（包括圆括号、方括号和花括号）内换行，如：
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Edit</span><span class="params">(Widget)</span>:</span>  </div><div class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent, width,  </span></span></div><div class="line">     font = FONT, color = BLACK, pos = POS, style = <span class="number">0</span>): <span class="comment"># 注意：多一层缩进  </span></div><div class="line">   <span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Edit</span><span class="params">(Widget)</span>:</span>  </span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent, width,  </span></span></span><br><span class="line"><span class="function"><span class="params">     font = FONT, color = BLACK, pos = POS, style = <span class="number">0</span>)</span>:</span> <span class="comment"># 注意：多一层缩进  </span></span><br><span class="line">   <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 
 
 或
 
-<figure class="highlight hsp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">very_very_very_long_variable_name = Edit(parent,  </div><div class="line">  <span class="keyword">width</span>,  </div><div class="line">  <span class="keyword">font</span>,  </div><div class="line">  <span class="keyword">color</span>,  </div><div class="line">  <span class="keyword">pos</span>) <span class="meta"># 注意：多一层缩进  </span></div><div class="line">do_sth_with(very_very_very_long_variable_name)</div></pre></td></tr></table></figure>
+<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">very_very_very_long_variable_name = Edit(parent,  </span><br><span class="line">  <span class="keyword">width</span>,  </span><br><span class="line">  <span class="keyword">font</span>,  </span><br><span class="line">  <span class="keyword">color</span>,  </span><br><span class="line">  <span class="keyword">pos</span>) <span class="meta"># 注意：多一层缩进  </span></span><br><span class="line">do_sth_with(very_very_very_long_variable_name)</span><br></pre></td></tr></table></figure>
 
 
 - 如果行长到连第一个括号内的参数都放不下，则每个元素都单独占一行：
 
-<figure class="highlight hsp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">very_very_very_long_variable_name = ui.widgets.Edit(  </div><div class="line">  panrent,  </div><div class="line">  <span class="keyword">width</span>,  </div><div class="line">  <span class="keyword">font</span>,  </div><div class="line">  <span class="keyword">color</span>,  </div><div class="line">  <span class="keyword">pos</span>) <span class="meta"># 注意：多一层缩进  </span></div><div class="line">do_sth_with(very_very_very_long_variable_name)</div></pre></td></tr></table></figure>
+<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">very_very_very_long_variable_name = ui.widgets.Edit(  </span><br><span class="line">  panrent,  </span><br><span class="line">  <span class="keyword">width</span>,  </span><br><span class="line">  <span class="keyword">font</span>,  </span><br><span class="line">  <span class="keyword">color</span>,  </span><br><span class="line">  <span class="keyword">pos</span>) <span class="meta"># 注意：多一层缩进  </span></span><br><span class="line">do_sth_with(very_very_very_long_variable_name)</span><br></pre></td></tr></table></figure>
 
 
 - 在长行加入续行符强行断行，断行的位置应在操作符前，且换行后多一个缩进，以使维护人员看代码的时候看到代码行首即可判定这里存在换行，如：
 
-<figure class="highlight hsp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">color</span> == WHITE <span class="keyword">or</span> <span class="keyword">color</span> == BLACK \  </div><div class="line">    <span class="keyword">or</span> <span class="keyword">color</span> == BLUE: <span class="meta"># 注意 or 操作符在新行的行首而不是旧行的行尾，上一行的续行符不可省略  </span></div><div class="line">  do_something(<span class="keyword">color</span>)<span class="comment">;  </span></div><div class="line"><span class="keyword">else</span>:  </div><div class="line">  do_something(DEFAULT_COLOR)<span class="comment">;</span></div></pre></td></tr></table></figure>
+<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">color</span> == WHITE <span class="keyword">or</span> <span class="keyword">color</span> == BLACK \  </span><br><span class="line">    <span class="keyword">or</span> <span class="keyword">color</span> == BLUE: <span class="meta"># 注意 or 操作符在新行的行首而不是旧行的行尾，上一行的续行符不可省略  </span></span><br><span class="line">  do_something(<span class="keyword">color</span>)<span class="comment">;  </span></span><br><span class="line"><span class="keyword">else</span>:  </span><br><span class="line">  do_something(DEFAULT_COLOR)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 </code></pre><h3 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h3><ul>
 <li>一致的命名可以给开发人员减少许多麻烦，而恰如其分的命名则可以大幅提高代码的可读性，降低维护成本。</li>
 </ul>
 <h4 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h4><ul>
 <li>常量名所有字母大写，由下划线连接各个单词，如：</li>
 </ul>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">WHITE</span> = <span class="number">0</span>xffffffff  </div><div class="line"><span class="attr">THIS_IS_A_CONSTANT</span> = <span class="number">1</span></div></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">WHITE</span> = <span class="number">0</span>xffffffff  </span><br><span class="line"><span class="attr">THIS_IS_A_CONSTANT</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><ul>
 <li>变量名全部小写，由下划线连接各个单词，如：</li>
 </ul>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">color</span> = WHITE  </div><div class="line"><span class="attr">this_is_a_variable</span> = <span class="number">1</span></div></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">color</span> = WHITE  </span><br><span class="line"><span class="attr">this_is_a_variable</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>不论是类成员变量还是全局变量，均不使用 m 或 g 前缀。私有类成员使用单一下划线前缀标识，多定义公开成员，少定义私有成员。</li>
 <li>变量名不应带有类型信息，因为 Python 是动态类型语言。如 iValue、names_list、dict_obj 等都是不好的命名。</li>
@@ -409,11 +398,11 @@
 <h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><ul>
 <li>类名单词首字母大写，不使用下划线连接单词，也不加入 C、T 等前缀。如：</li>
 </ul>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThisIsAClass</span></span>(<span class="keyword">object</span>):  </div><div class="line">  passs</div></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThisIsAClass</span></span>(<span class="keyword">object</span>):  </span><br><span class="line">  passs</span><br></pre></td></tr></table></figure>
 <h4 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h4><ul>
 <li>模块名全部小写，对于包内使用的模块，可以加一个下划线前缀，如：</li>
 </ul>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">module</span>.<span class="title">py</span>  </span></div><div class="line">_internal_module.py</div></pre></td></tr></table></figure>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span>.<span class="title">py</span>  </span></span><br><span class="line">_internal_module.py</span><br></pre></td></tr></table></figure>
 <h4 id="包"><a href="#包" class="headerlink" title="包"></a>包</h4><ul>
 <li>包的命名规范与模块相同。</li>
 </ul>
@@ -421,7 +410,7 @@
 <li><p>命名应当尽量使用全拼写的单词，缩写的情况有如下两种：</p>
 <ul>
 <li><p>常用的缩写，如 XML、ID等，在命名时也应只大写首字母，如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">XmlParser</span><span class="params">(object)</span>:</span><span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XmlParser</span><span class="params">(object)</span>:</span><span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -435,7 +424,7 @@
 </code></pre><h4 id="特定命名方式"><a href="#特定命名方式" class="headerlink" title="特定命名方式"></a>特定命名方式</h4><ul>
 <li>主要是指 <code>__xxx__</code> 形式的系统保留字命名法。项目中也可以使用这种命名，它的意义在于这种形式的变量是只读的，这种形式的类成员函数尽量不要重载。如：</li>
 </ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>(<span class="title">object</span>):  </span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>, id, parent = None)</span></span>:  </div><div class="line">    <span class="keyword">self</span>.__id_<span class="number">_</span> = id  </div><div class="line">    <span class="keyword">self</span>.__parent_<span class="number">_</span> = parent  </div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__message__</span><span class="params">(<span class="keyword">self</span>, msgid)</span></span>:  </div><div class="line">    <span class="comment"># …略</span></div></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>(<span class="title">object</span>):  </span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>, id, parent = None)</span></span>:  </span><br><span class="line">    <span class="keyword">self</span>.__id_<span class="number">_</span> = id  </span><br><span class="line">    <span class="keyword">self</span>.__parent_<span class="number">_</span> = parent  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__message__</span><span class="params">(<span class="keyword">self</span>, msgid)</span></span>:  </span><br><span class="line">    <span class="comment"># …略</span></span><br></pre></td></tr></table></figure>
 <p>其中 <code>__id__</code>、<code>__parent__</code> 和 <code>__message__</code> 都采用了系统保留字命名法。</p>
 <h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><h4 id="import"><a href="#import" class="headerlink" title="import"></a>import</h4><ul>
 <li><p>import 语句有以下几个原则需要遵守：</p>
@@ -443,7 +432,7 @@
 <li>import 的次序，先 import Python 内置模块，再 import 第三方模块，最后 import 自己开发的项目中的其它模块；这几种模块中用空行分隔开来。</li>
 <li>一条 import 语句 import 一个模块。</li>
 <li><p>当从模块中 import 多个对象且超过一行时，使用如下断行法（此语法 py2.5 以上版本才支持）：</p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> <span class="keyword">module</span> <span class="keyword">import</span> (obj1, obj2, obj3, obj4,  </div><div class="line">       obj5, obj6)</div></pre></td></tr></table></figure>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> <span class="keyword">module</span> <span class="keyword">import</span> (obj1, obj2, obj3, obj4,  </span><br><span class="line">       obj5, obj6)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -452,35 +441,35 @@
 </code></pre><h4 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h4><ul>
 <li>对于赋值语句，主要是不要做无谓的对齐，如：</li>
 </ul>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a        = 1                  <span class="comment"># 这是一个行注释  </span></div><div class="line">variable = 2                  <span class="comment"># 另一个行注释  </span></div><div class="line">fn       = callback_function  <span class="comment"># 还是行注释</span></div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a        = 1                  <span class="comment"># 这是一个行注释  </span></span><br><span class="line">variable = 2                  <span class="comment"># 另一个行注释  </span></span><br><span class="line">fn       = callback_function  <span class="comment"># 还是行注释</span></span><br></pre></td></tr></table></figure>
 <p>没有必要做这种对齐，原因有两点：一是这种对齐会打乱编程时的注意力，大脑要同时处理两件事（编程和对齐）；二是以后阅读和维护都很困难，因为人眼的横向视野很窄，把三个字段看成一行很困难，而且维护时要增加一个更长的变量名也会破坏对齐。直接这样写为佳：</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a = 1 <span class="comment"># 这是一个行注释  </span></div><div class="line">variable = 2 <span class="comment"># 另一个行注释  </span></div><div class="line">fn = callback_function <span class="comment"># 还是行注释</span></div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = 1 <span class="comment"># 这是一个行注释  </span></span><br><span class="line">variable = 2 <span class="comment"># 另一个行注释  </span></span><br><span class="line">fn = callback_function <span class="comment"># 还是行注释</span></span><br></pre></td></tr></table></figure>
 <h4 id="分枝和循环"><a href="#分枝和循环" class="headerlink" title="分枝和循环"></a>分枝和循环</h4><ul>
 <li><p>对于分枝和循环，有如下几点需要注意的：</p>
 <ul>
 <li><p>不要写成一行，如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">not</span> flg: <span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> flg: <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
 </ul>
 <pre><code>和
 
-<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">xrange</span>(<span class="number">10</span>): <span class="built_in">print</span> i</div></pre></td></tr></table></figure>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">xrange</span>(<span class="number">10</span>): <span class="built_in">print</span> i</span><br></pre></td></tr></table></figure>
 
 
 都不是好代码，应写成
 
-<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">not</span> flg:  </div><div class="line">  pass  </div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">xrange</span>(<span class="number">10</span>):  </div><div class="line">  <span class="built_in">print</span> i</div></pre></td></tr></table></figure>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> flg:  </span><br><span class="line">  pass  </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">xrange</span>(<span class="number">10</span>):  </span><br><span class="line">  <span class="built_in">print</span> i</span><br></pre></td></tr></table></figure>
 
 
 注：本文档中出现写成一行的例子是因为排版的原因，不得作为编码中不断行的依据。
 </code></pre><ul>
 <li>条件表达式的编写应该足够 pythonic，如以下形式的条件表达式是拙劣的：</li>
 </ul>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> len(alist) != <span class="number">0</span>: do_something()  </div><div class="line"><span class="keyword">if</span> alist != []: do_something()  </div><div class="line"><span class="keyword">if</span> s != <span class="string">""</span>: do_something()  </div><div class="line"><span class="keyword">if</span> <span class="selector-tag">var</span> != None: do_something()  </div><div class="line"><span class="keyword">if</span> <span class="selector-tag">var</span> != False: do_something()</div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> len(alist) != <span class="number">0</span>: do_something()  </span><br><span class="line"><span class="keyword">if</span> alist != []: do_something()  </span><br><span class="line"><span class="keyword">if</span> s != <span class="string">""</span>: do_something()  </span><br><span class="line"><span class="keyword">if</span> <span class="selector-tag">var</span> != None: do_something()  </span><br><span class="line"><span class="keyword">if</span> <span class="selector-tag">var</span> != False: do_something()</span><br></pre></td></tr></table></figure>
 <p>上面的语句应该写成：</p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">if</span> <span class="built_in">seq</span>: do_somethin() <span class="comment"># 注意，这里命名也更改了  </span></div><div class="line"><span class="keyword">if</span> <span class="keyword">var</span>: do_something()</div></pre></td></tr></table></figure>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">seq</span>: do_somethin() <span class="comment"># 注意，这里命名也更改了  </span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">var</span>: do_something()</span><br></pre></td></tr></table></figure>
 <ul>
 <li>用得着的时候多使用循环语句的 else 分句，以简化代码。</li>
 </ul>
@@ -723,113 +712,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

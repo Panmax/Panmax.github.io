@@ -286,17 +286,6 @@
 
           
           
-             <span id="/2015/技术高手如何炼成/" class="leancloud_visitors" data-flag-title="技术高手如何炼成">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -314,7 +303,7 @@
       
 
       
-        <p>原文地址：<a href="http://zhuanlan.zhihu.com/zhengyun/20270317" target="_blank" rel="external">http://zhuanlan.zhihu.com/zhengyun/20270317</a></p>
+        <p>原文地址：<a href="http://zhuanlan.zhihu.com/zhengyun/20270317" target="_blank" rel="noopener">http://zhuanlan.zhihu.com/zhengyun/20270317</a></p>
 <p><img src="1.jpg" alt=""></p>
 <p>本文档适用人员：技术人员</p>
 <p>面试的时候，我会问面试者，你日常如何构建自己的知识体系，如何让自己更高更快更强？多数工程师并没有深入地思考过这个问题，基本上是零敲碎打，随机性大。本着不能让你白来一趟的精神，好为人师的我会娓娓道来：</p>
@@ -479,6 +468,8 @@
 <p>因为你要信奉：</p>
 <blockquote>
 <p>你学过的每一样东西，你遭受的每一次苦难，都会在你一生中的某个时候派上用场。<br>——佩内洛普·菲兹杰拉德 《离岸》</p>
+</blockquote>
+<blockquote>
 <p>Everything that you’ve learnt and all the hardships you’ve suffered will all come in handy at some point in your life.</p>
 </blockquote>
 <h3 id="第四阶段-RCA-总结"><a href="#第四阶段-RCA-总结" class="headerlink" title="第四阶段 RCA/总结"></a>第四阶段 RCA/总结</h3><p>现在是你把经验教训变为财富的时刻了。</p>
@@ -739,113 +730,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

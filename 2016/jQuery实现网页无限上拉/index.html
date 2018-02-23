@@ -283,17 +283,6 @@
 
           
           
-             <span id="/2016/jQuery实现网页无限上拉/" class="leancloud_visitors" data-flag-title="jQuery实现网页无限上拉">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -318,17 +307,17 @@
 <p>我了个擦，我居然没有想到这种方法，我之前设想方法，还要单独去写个用来翻页的接口，增加了很多工作量，这种方法简直是棒呆了！</p>
 <p>下边来介绍一下这个插件的使用：</p>
 <p>插件名称：infinite-scroll</p>
-<p>项目地址： <a href="http://www.infinite-scroll.com/infinite-scroll-jquery-plugin/" target="_blank" rel="external">Infinite Scroll jQuery Plugin</a></p>
-<p>参考地址： <a href="http://ifxoxo.com/jquery-infinite-scroll.html" target="_blank" rel="external">http://ifxoxo.com/jquery-infinite-scroll.html</a></p>
+<p>项目地址： <a href="http://www.infinite-scroll.com/infinite-scroll-jquery-plugin/" target="_blank" rel="noopener">Infinite Scroll jQuery Plugin</a></p>
+<p>参考地址： <a href="http://ifxoxo.com/jquery-infinite-scroll.html" target="_blank" rel="noopener">http://ifxoxo.com/jquery-infinite-scroll.html</a></p>
 <p>首先要在页面底部新增一个类似于下一页按钮的部分，这个部分用什么包裹都可以，但最里边需要有个a标签，href对应的是下一页的地址。例如： <code>&lt;a id=&quot;next&quot; href=&quot;?page=2&quot;&gt;&lt;/a&gt;</code> 我这里什么也没有包裹，而且 <code>a</code> 标签里也没加文字，这样翻到底部时看不到任何提示信息。这里可以自行写个 <code>div</code> 什么的，里边写着上拉加载更多这样的提示信息。当加载更多被触发时，这个部分会自动隐藏掉。</p>
 <p>下边来看看 <code>js</code> 代码部分：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    $(<span class="string">"#masonny-div"</span>).infinitescroll(&#123;</div><div class="line">        <span class="attr">navSelector</span>: <span class="string">"#next:last"</span>,   <span class="comment">// 页面分页元素(成功后会被隐藏)</span></div><div class="line">        nextSelector: <span class="string">"a#next:last"</span>, <span class="comment">// 需要点击的下一页链接</span></div><div class="line">        itemSelector: <span class="string">"div.section"</span>, <span class="comment">// ajax回来之后，每一项的selecter</span></div><div class="line">        animate: <span class="literal">true</span>,      <span class="comment">//加载完毕是否采用动态效果</span></div><div class="line">        extraScrollPx: <span class="number">100</span>,       <span class="comment">//向下滚动的像素，必须开启动态效果</span></div><div class="line">        debug: <span class="literal">true</span>,      <span class="comment">//调试的时候，可以打开,</span></div><div class="line">        path: <span class="function"><span class="keyword">function</span> (<span class="params">index</span>) </span>&#123;</div><div class="line"></div><div class="line">            <span class="keyword">return</span> <span class="string">"?page="</span> + index;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">loading</span>: &#123;</div><div class="line">            <span class="attr">finished</span>: <span class="literal">undefined</span>,</div><div class="line">            <span class="attr">finishedMsg</span>: <span class="string">'没有更多内容了'</span>, <span class="comment">//当加载失败，或者加载不出内容之后的提示语</span></div><div class="line">            img: <span class="string">'/static/pic/loading-new.gif'</span>,   <span class="comment">//自定义loadding的动画图</span></div><div class="line">            msgText: <span class="string">'正在加载中...'</span>,    <span class="comment">//加载时的提示语</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">&#125;)</div><div class="line">;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">"#masonny-div"</span>).infinitescroll(&#123;</span><br><span class="line">        navSelector: <span class="string">"#next:last"</span>,   <span class="comment">// 页面分页元素(成功后会被隐藏)</span></span><br><span class="line">        nextSelector: <span class="string">"a#next:last"</span>, <span class="comment">// 需要点击的下一页链接</span></span><br><span class="line">        itemSelector: <span class="string">"div.section"</span>, <span class="comment">// ajax回来之后，每一项的selecter</span></span><br><span class="line">        animate: <span class="literal">true</span>,      <span class="comment">//加载完毕是否采用动态效果</span></span><br><span class="line">        extraScrollPx: <span class="number">100</span>,       <span class="comment">//向下滚动的像素，必须开启动态效果</span></span><br><span class="line">        debug: <span class="literal">true</span>,      <span class="comment">//调试的时候，可以打开,</span></span><br><span class="line">        path: <span class="function"><span class="keyword">function</span> (<span class="params">index</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="string">"?page="</span> + index;</span><br><span class="line">        &#125;,</span><br><span class="line">        loading: &#123;</span><br><span class="line">            finished: <span class="literal">undefined</span>,</span><br><span class="line">            finishedMsg: <span class="string">'没有更多内容了'</span>, <span class="comment">//当加载失败，或者加载不出内容之后的提示语</span></span><br><span class="line">            img: <span class="string">'/static/pic/loading-new.gif'</span>,   <span class="comment">//自定义loadding的动画图</span></span><br><span class="line">            msgText: <span class="string">'正在加载中...'</span>,    <span class="comment">//加载时的提示语</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
 <p>因为我这里需要提取出来加载更多的部分是这样的：</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-12 section"</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"location.href='</span></span><span class="template-variable">&#123;&#123; artcle.url &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">'"</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">h4</span>&gt;</span><span class="tag">&lt;<span class="name">a</span>&gt;</span><span class="template-variable">&#123;&#123; artcle.title &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h4</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span><span class="template-variable">&#123;&#123; artcle.abstract &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row tag"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span> <span class="attr">style</span>=<span class="string">"white-space:nowrap;"</span>&gt;</span></div><div class="line">                <span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> tag <span class="keyword">in</span> artcle._tags[:3] %&#125;</span><span class="xml"></span></div><div class="line">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-4"</span> <span class="attr">onclick</span>=<span class="string">"location.href='/tag/</span></span><span class="template-variable">&#123;&#123; tag.tag_id &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">'"</span>&gt;</span>#</span><span class="template-variable">&#123;&#123; tag.name &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">                <span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span><span class="xml"></span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-4 col-xs-offset-2"</span></span></div><div class="line">             <span class="attr">style</span>=<span class="string">"text-align: end"</span>&gt;<span class="template-variable">&#123;&#123; artcle.publish_date | datetime('date') &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-12 section"</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"location.href='</span></span></span><span class="template-variable">&#123;&#123; artcle.url &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">'"</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">h4</span>&gt;</span><span class="tag">&lt;<span class="name">a</span>&gt;</span></span><span class="template-variable">&#123;&#123; artcle.title &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">h4</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span></span><span class="template-variable">&#123;&#123; artcle.abstract &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row tag"</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6"</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span> <span class="attr">style</span>=<span class="string">"white-space:nowrap;"</span>&gt;</span></span></span><br><span class="line"><span class="xml">                </span><span class="template-tag">&#123;% <span class="name"><span class="name">for</span></span> tag <span class="keyword">in</span> artcle._tags[:3] %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">                    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-4"</span> <span class="attr">onclick</span>=<span class="string">"location.href='/tag/</span></span></span><span class="template-variable">&#123;&#123; tag.tag_id &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">'"</span>&gt;</span>#</span><span class="template-variable">&#123;&#123; tag.name &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">                </span><span class="template-tag">&#123;% <span class="name"><span class="name">endfor</span></span> %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-4 col-xs-offset-2"</span></span></span></span><br><span class="line"><span class="xml">             style="text-align: end"&gt;</span><span class="template-variable">&#123;&#123; artcle.publish_date | datetime('date') &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>所以我的 <code>itemSelector</code> 的值为 <code>div.section</code>。</p>
 <p>还有一点，我这个用这个插件的时候，刚开始的时候一直有问题，是因为没有给 <code>path</code> 写值， <code>path</code> 的作用是每次加载下一页的时候所对应的地址。</p>
 <p>还可以给加载更多时候的 loading 编写样式，例如：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#infscr-loading</span> &#123;</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">z-index</span>: <span class="number">100</span>;</div><div class="line">    <span class="attribute">position</span>: fixed;</div><div class="line">    <span class="attribute">left</span>: <span class="number">45%</span>;</div><div class="line">    <span class="attribute">bottom</span>: <span class="number">40px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#000</span>;</div><div class="line">    <span class="attribute">opacity</span>: <span class="number">0.8</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#FFF</span>;</div><div class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#infscr-loading</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">z-index</span>: <span class="number">100</span>;</span><br><span class="line">    <span class="attribute">position</span>: fixed;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">45%</span>;</span><br><span class="line">    <span class="attribute">bottom</span>: <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#000</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">0.8</span>;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#FFF</span>;</span><br><span class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>至此，我又 get 到一个新技能。</p>
 
       
@@ -565,113 +554,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

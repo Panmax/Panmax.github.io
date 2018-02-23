@@ -260,17 +260,6 @@
 
           
           
-             <span id="/2017/基于前后端分离的CAS对接方案/" class="leancloud_visitors" data-flag-title="基于前后端分离的CAS对接方案">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -301,7 +290,7 @@
 <h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成:"></a>JWT的组成:</h3><p>一个JWT实际上就是一个字符串，它由三部分组成，头部、载荷与签名。</p>
 <h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）:"></a>载荷（Payload）:</h4><p>Payload 是 JWT 存储信息的部分。Payload 也是一个 json 数据，每一个 json 的 key-value 称为一个声明。</p>
 <p>我们将用户信息描述成一个 json 对象。其中添加了一些其他的信息，帮助今后收到这个 JWT 的服务器理解这个 JWT 。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"iss"</span>: <span class="string">"Panmax JWT"</span>,</div><div class="line">    <span class="attr">"iat"</span>: <span class="number">1441593502</span>,</div><div class="line">    <span class="attr">"exp"</span>: <span class="number">1441594722</span>,</div><div class="line">    <span class="attr">"aud"</span>: <span class="string">"www.example.com"</span>,</div><div class="line">    <span class="attr">"sub"</span>: <span class="string">"jrocket@example.com"</span>,</div><div class="line">    <span class="attr">"user_id"</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">"username"</span>: <span class="string">"jiapan"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"iss"</span>: <span class="string">"Panmax JWT"</span>,</span><br><span class="line">    <span class="attr">"iat"</span>: <span class="number">1441593502</span>,</span><br><span class="line">    <span class="attr">"exp"</span>: <span class="number">1441594722</span>,</span><br><span class="line">    <span class="attr">"aud"</span>: <span class="string">"www.example.com"</span>,</span><br><span class="line">    <span class="attr">"sub"</span>: <span class="string">"jrocket@example.com"</span>,</span><br><span class="line">    <span class="attr">"user_id"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"username"</span>: <span class="string">"jiapan"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里面的前五个字段都是由JWT的标准所定义的</p>
 <ul>
 <li>iss: 该JWT的签发者</li>
@@ -317,7 +306,7 @@
 <p>注：Base64是一种编码，也就是说，它是可以被翻译回原来的样子来的。它并不是一种加密过程。</p>
 </blockquote>
 <h4 id="头部（Header）"><a href="#头部（Header）" class="headerlink" title="头部（Header）"></a>头部（Header）</h4><p>WT还需要一个头部，头部用于描述关于该JWT的最基本的信息，例如其类型以及签名所用的算法等。这也可以被表示成一个JSON对象。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span>,</div><div class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span>,</span><br><span class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在这里，我们说明了这是一个 JWT，并且我们所用的签名算法（后面会提到）是 HS256 算法。</p>
 <p>对它也要进行Base64编码，之后的字符串就成了 JWT 的 Header（头部）。</p>
 <p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9</code></p>
@@ -558,113 +547,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

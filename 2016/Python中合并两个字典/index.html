@@ -283,17 +283,6 @@
 
           
           
-             <span id="/2016/Python中合并两个字典/" class="leancloud_visitors" data-flag-title="Python中合并两个字典">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -312,7 +301,7 @@
 
       
         <p>有两个字典：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">user</span> = &#123;<span class="string">'name'</span>: <span class="string">"Trey"</span>, <span class="string">'website'</span>: <span class="string">"http://treyhunner.com"</span>&#125;</div><div class="line"></div><div class="line"><span class="attr">defaults</span> = &#123;<span class="string">'name'</span>: <span class="string">"Anonymous User"</span>, <span class="string">'page_name'</span>: <span class="string">"Profile Page"</span>&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">user</span> = &#123;<span class="string">'name'</span>: <span class="string">"Trey"</span>, <span class="string">'website'</span>: <span class="string">"http://treyhunner.com"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">defaults</span> = &#123;<span class="string">'name'</span>: <span class="string">"Anonymous User"</span>, <span class="string">'page_name'</span>: <span class="string">"Profile Page"</span>&#125;</span><br></pre></td></tr></table></figure>
 <p>现在想合并两个字典，得到一个新的字典，要求：</p>
 <ol>
 <li>如果存在重复的键，user字典中的值应覆盖defaults字典中的值；</li>
@@ -322,15 +311,15 @@
 <li>更新context字典时，不能更改defaults或user字典。</li>
 </ol>
 <p>以上两个字典合并结果为：</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="string">'website'</span>: <span class="string">'http://treyhunner.com'</span>, <span class="string">'name'</span>: <span class="string">'Trey'</span>, <span class="string">'page_name'</span>: <span class="string">'Profile Page'</span>&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'website'</span>: <span class="string">'http://treyhunner.com'</span>, <span class="string">'name'</span>: <span class="string">'Trey'</span>, <span class="string">'page_name'</span>: <span class="string">'Profile Page'</span>&#125;</span><br></pre></td></tr></table></figure>
 <p>Python 3 中最优雅的实现方法：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">context</span> = &#123;**defaults, **user&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">context</span> = &#123;**defaults, **user&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <p>Python 2 中：</p>
-<h5 id="多次更新"><a href="#多次更新" class="headerlink" title="多次更新"></a>多次更新</h5><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">context</span> = &#123;&#125;</div><div class="line"><span class="built_in">context</span>.update(defaults)</div><div class="line"><span class="built_in">context</span>.update(user)</div></pre></td></tr></table></figure>
+<h5 id="多次更新"><a href="#多次更新" class="headerlink" title="多次更新"></a>多次更新</h5><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">context</span> = &#123;&#125;</span><br><span class="line"><span class="built_in">context</span>.update(defaults)</span><br><span class="line"><span class="built_in">context</span>.update(user)</span><br></pre></td></tr></table></figure>
 <p>这里我们创建了一个新的空字典，并使用其update方法从其他字典中添加元素。请注意，我们首先添加的是defaults字典中的元素，以保证user字典中的重复键会覆盖掉defaults中的键。</p>
-<h5 id="复制，然后更新"><a href="#复制，然后更新" class="headerlink" title="复制，然后更新"></a>复制，然后更新</h5><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">context</span> = defaults.<span class="built_in">copy</span>()</div><div class="line"><span class="built_in">context</span>.update(user)</div></pre></td></tr></table></figure>
-<h5 id="ChainMap转换成字典"><a href="#ChainMap转换成字典" class="headerlink" title="ChainMap转换成字典"></a>ChainMap转换成字典</h5><figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">context = dict(<span class="name">ChainMap</span>(<span class="name">user</span>, defaults))</div></pre></td></tr></table></figure>
+<h5 id="复制，然后更新"><a href="#复制，然后更新" class="headerlink" title="复制，然后更新"></a>复制，然后更新</h5><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">context</span> = defaults.<span class="built_in">copy</span>()</span><br><span class="line"><span class="built_in">context</span>.update(user)</span><br></pre></td></tr></table></figure>
+<h5 id="ChainMap转换成字典"><a href="#ChainMap转换成字典" class="headerlink" title="ChainMap转换成字典"></a>ChainMap转换成字典</h5><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context = dict(<span class="name">ChainMap</span>(<span class="name">user</span>, defaults))</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -561,113 +550,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

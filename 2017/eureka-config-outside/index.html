@@ -263,17 +263,6 @@
 
           
           
-             <span id="/2017/eureka-config-outside/" class="leancloud_visitors" data-flag-title="Eureka Server 外置配置文件">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -297,11 +286,11 @@
 <p>今天我想到一个思路，并验证了其可行性：</p>
 <p>可以先将 Config Server 启动起来，因为 Config Server 需要注册到 Eureka Server 上，但是注册失败并不会导致服务的终止，只是在发心跳包时会有一些错误信息。也就是说，即便不注册上去，配置中心也是可以通过 <code>IP+端口号</code> 的形式来访问的。</p>
 <p>Config Server 的 <code>application.yml</code> 如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="attr">management:</span></div><div class="line"><span class="attr">  security:</span></div><div class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></div><div class="line"> </div><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">7020</span></div><div class="line"> </div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  application:</span></div><div class="line"><span class="attr">    name:</span> <span class="string">config-server</span></div><div class="line"><span class="attr">  cloud:</span></div><div class="line"><span class="attr">    config:</span></div><div class="line"><span class="attr">      server:</span></div><div class="line"><span class="attr">        git:</span></div><div class="line"><span class="attr">          username:</span> <span class="string">xxxxx</span></div><div class="line"><span class="attr">          password:</span> <span class="string">yyyyy</span></div><div class="line"><span class="attr">          uri:</span> <span class="attr">http://gitlab-server/config-repo/&#123;application&#125;.git</span></div><div class="line"><span class="attr">          force-pull:</span> <span class="literal">true</span></div><div class="line"><span class="attr">      label:</span> <span class="string">master</span></div><div class="line"> </div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:7011/eureka/</span></div><div class="line"><span class="attr">  instance:</span></div><div class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  security:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">7020</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">config-server</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          username:</span> <span class="string">xxxxx</span></span><br><span class="line"><span class="attr">          password:</span> <span class="string">yyyyy</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">http://gitlab-server/config-repo/&#123;application&#125;.git</span></span><br><span class="line"><span class="attr">          force-pull:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">      label:</span> <span class="string">master</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:7011/eureka/</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>然后我们在 Git 中新建 eureka 仓库，并创建 <code>eureka-dev.yml</code> 文件，其内容如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">7011</span></div><div class="line"> </div><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  instance:</span></div><div class="line"><span class="attr">    hostname:</span> <span class="string">localhost</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    service-url:</span></div><div class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:7011/eureka/</span></div><div class="line"><span class="attr">    register-with-eureka:</span> <span class="literal">false</span></div><div class="line"><span class="attr">    fetch-registry:</span> <span class="literal">false</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">7011</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">localhost</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:7011/eureka/</span></span><br><span class="line"><span class="attr">    register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    fetch-registry:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 <p>然后在 Eureka Server 项目中新建 <code>bootstrap.yml</code> 文件，内容如下：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">spring</span>:</div><div class="line">  <span class="attribute">application</span>:</div><div class="line">    <span class="attribute">name</span>: eureka</div><div class="line">  <span class="attribute">jackson</span>:</div><div class="line">    <span class="attribute">default-property-inclusion</span>: non_null</div><div class="line">  <span class="attribute">cloud</span>:</div><div class="line">    <span class="attribute">config</span>:</div><div class="line">      <span class="attribute">label</span>: master</div><div class="line">      <span class="attribute">profile</span>: dev</div><div class="line">      <span class="attribute">uri</span>: <span class="attribute">http</span>:<span class="comment">//localhost:7020/</span></div></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">spring</span>:</span><br><span class="line">  <span class="attribute">application</span>:</span><br><span class="line">    <span class="attribute">name</span>: eureka</span><br><span class="line">  <span class="attribute">jackson</span>:</span><br><span class="line">    <span class="attribute">default-property-inclusion</span>: non_null</span><br><span class="line">  <span class="attribute">cloud</span>:</span><br><span class="line">    <span class="attribute">config</span>:</span><br><span class="line">      <span class="attribute">label</span>: master</span><br><span class="line">      <span class="attribute">profile</span>: dev</span><br><span class="line">      <span class="attribute">uri</span>: <span class="attribute">http</span>:<span class="comment">//localhost:7020/</span></span><br></pre></td></tr></table></figure>
 <p>这里我们使用 <code>IP+端口号</code> 的形式来访问配置中心，然后将之前的 <code>application.yml</code> 配置文件删除。</p>
 <p>现在我们来分别启动这两个项目，注意启动顺序：先启动 Config Server，再启动 Eureka Server，启动完 Config Server 后会看到一些错误，暂时不用理会，启动 Eureka Server 时我们可以在控制台中看到可以正常拉取配置，如图：</p>
 <p><img src="1.png" alt=""></p>
@@ -533,113 +522,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

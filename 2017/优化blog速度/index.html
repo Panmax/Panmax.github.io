@@ -263,17 +263,6 @@
 
           
           
-             <span id="/2017/优化blog速度/" class="leancloud_visitors" data-flag-title="优化 blog 速度">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -294,7 +283,7 @@
         <p>之前已经做过对 Blog 静态资源的优化，但是都没有进行记录，今天又做了一个比较实用的优化，赶紧记一下。</p>
 <p>我打开 Chrome 的调试器进入站点时，看到 Network 里有一条访问 <code>fonts.gstatic.com</code>，这个请求应该是访问的 谷歌 CDN，但是国内的访问速度是非常不友好的，由于我平时都是开着 Surge 所以没什么感觉。</p>
 <p>这个资源是在由主题渲染成静态站点时插入进来的，因为我用的是自己修改的 <code>Next</code> 模板，所以在 <code>themes/next</code> 目录下查找带 <code>fonts.gstatic.com</code> 关键字的文件竟然没有找到，很是费解。后来我又看那条请求，发现它的 <code>referer</code> 是 <code>fonts.googleapis.com</code>，所以我又尝试用这个关键字进行查找，最后在 <code>themes/next/layout/_partials/head/external-fonts.swig</code> 找到了它。</p>
-<figure class="highlight twig"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name"><span class="keyword">if</span></span> font_families !== '' %&#125;</span><span class="xml"></span></div><div class="line">  <span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_families += '&amp;subset=latin,latin-ext' %&#125;</span><span class="xml"></span></div><div class="line">  <span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_host = font_config.host | default('//fonts.googleapis.com') %&#125;</span><span class="xml"></span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"</span></span><span class="template-variable">&#123;&#123; font_host &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">/css?family=</span></span></span><span class="template-variable">&#123;&#123; font_families &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span></div><div class="line"><span class="template-tag">&#123;% <span class="name"><span class="keyword">endif</span></span> %&#125;</span><span class="xml"></span></div></pre></td></tr></table></figure>
+<figure class="highlight twig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name"><span class="keyword">if</span></span> font_families !== '' %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">  </span><span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_families += '&amp;subset=latin,latin-ext' %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">  </span><span class="template-tag">&#123;% <span class="name"><span class="keyword">set</span></span> font_host = font_config.host | default('//fonts.googleapis.com') %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"</span></span></span><span class="template-variable">&#123;&#123; font_host &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">/css?family=</span></span></span><span class="template-variable">&#123;&#123; font_families &#125;&#125;</span><span class="xml"><span class="tag"><span class="string">"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name"><span class="keyword">endif</span></span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
 <p>然后我在网上找了找 <code>fonts.googleapis.com</code> 国内镜像，有两个用的比较多的：360网站卫士 和 中科大。但是一些地方写到 360网站卫士 提供的源不支持 HTTPS，虽然我的博客现在并不是 HTTPS 的，但保不齐以后我要改呢。所以我选择使用中科大镜像。只需用 <code>fonts.lug.ustc.edu.cn</code> 替代之即可。然后再 <code>hexo g</code> 重新生成下站点就可以了。</p>
 <p>下边是几个常用的替代镜像：</p>
 <ol>
@@ -533,113 +522,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

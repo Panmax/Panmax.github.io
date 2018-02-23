@@ -260,17 +260,6 @@
 
           
           
-             <span id="/2017/gradle-编译时强制刷新依赖/" class="leancloud_visitors" data-flag-title="gradle 编译时强制刷新依赖">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -289,11 +278,11 @@
 
       
         <p>最近团队封装了个 <code>springboot</code> 的 <code>starter</code>，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 <code>profile</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">cloud:</span></div><div class="line"><span class="attr">    config:</span></div><div class="line"><span class="attr">      discovery:</span></div><div class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">        service-id:</span> <span class="string">config-server</span></div><div class="line"><span class="attr">      label:</span> <span class="string">master</span></div><div class="line"><span class="attr">      profile:</span> <span class="string">$&#123;spring.profiles.active:dev&#125;</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      discovery:</span></span><br><span class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">        service-id:</span> <span class="string">config-server</span></span><br><span class="line"><span class="attr">      label:</span> <span class="string">master</span></span><br><span class="line"><span class="attr">      profile:</span> <span class="string">$&#123;spring.profiles.active:dev&#125;</span></span><br></pre></td></tr></table></figure>
 <p>所以理所当然的认为不需要指定 <code>spring</code> 的 active 了，就把 <code>active</code> 给删掉了（如下）：</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">spring:</span></div><div class="line"><span class="symbol">  profiles:</span></div><div class="line"><span class="symbol">    active:</span> dev</div></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">spring:</span></span><br><span class="line"><span class="symbol">  profiles:</span></span><br><span class="line"><span class="symbol">    active:</span> dev</span><br></pre></td></tr></table></figure>
 <p>发布到 <code>maven</code> 仓库后，重新测试没啥问题。结果过了个周末来了再编译，发现程序无法启动了，找了很多原因才发现是上边的操作导致的。</p>
-<p>后来将配置改了回来，发现还是不行，又鼓捣了好久发现这次的问题是 <code>gradle</code> 编译缓存的问题，通过这个网站： <a href="https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html" target="_blank" rel="external">https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html</a> 找到了解决办法，编译的时候在后边加上 <code>--refresh-dependencies</code> 可以强制刷新缓存。</p>
+<p>后来将配置改了回来，发现还是不行，又鼓捣了好久发现这次的问题是 <code>gradle</code> 编译缓存的问题，通过这个网站： <a href="https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html" target="_blank" rel="noopener">https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html</a> 找到了解决办法，编译的时候在后边加上 <code>--refresh-dependencies</code> 可以强制刷新缓存。</p>
 <p>虽然问题解决了，但是我还有个疑问，我们的 <code>starter</code> 明明已经指定版本号为 <code>0.0.1-SNAPSHOT</code> 了，按理说应该在 <code>build</code> 的时候无条件的重新拉取最新的依赖，但是这个时候为什么没有生效？</p>
 
       
@@ -520,113 +509,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

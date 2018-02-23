@@ -261,17 +261,6 @@
 
           
           
-             <span id="/2017/spark-operator-elasticsearch-demo/" class="leancloud_visitors" data-flag-title="Spark 操作 Elasticsearch 示例">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -291,9 +280,9 @@
       
         <p>上周五调研了下如何用 Spark 读写 Elasticsearch（下文简称 es），中间被官方提供的 jar 包卡了很久，所以本来想周末记录一下，结果一发懒就没做，就蹭到周一晚上来写一下了，最近调研的东西很多，有很多要记得东西，一点一点来吧。</p>
 <p>不废话，直接 Show you the code：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</div><div class="line">import org.elasticsearch.spark._</div><div class="line"> </div><div class="line"> </div><div class="line">object ElasticSparkHelloWorld &#123;</div><div class="line">  def main(<span class="keyword">args</span>: Array[String]) &#123;</div><div class="line"> </div><div class="line"> </div><div class="line">    val <span class="keyword">conf</span> = new SparkConf().setAppName(ElasticSparkHelloWorld.getClass.getName)</div><div class="line">    <span class="keyword">conf</span>.setMaster(<span class="string">"local"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.nodes"</span>, <span class="string">"localhost"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.port"</span>, <span class="string">"9200"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.index.auto.create"</span>, <span class="string">"true"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.nodes.wan.only"</span>, <span class="string">"true"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.query"</span>, <span class="string">"?q=*"</span>)</div><div class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.resource"</span>, <span class="string">"spark/docs"</span>)</div><div class="line"> </div><div class="line">    val <span class="keyword">sc</span> = new SparkContext(<span class="keyword">conf</span>)</div><div class="line">    val numbers = Map(<span class="string">"one"</span> -&gt; 1, <span class="string">"two"</span> -&gt; 2, <span class="string">"three"</span> -&gt; 3, <span class="string">"four"</span> -&gt; 4)</div><div class="line">    val airports = Map(<span class="string">"OTP"</span> -&gt; <span class="string">"Otopeni"</span>, <span class="string">"SFO"</span> -&gt; <span class="string">"San Fran"</span>)</div><div class="line"> </div><div class="line">    <span class="keyword">sc</span>.makeRDD(Seq(numbers, airports)).saveToEs(<span class="string">"spark/docs"</span>)</div><div class="line"> </div><div class="line">    println(<span class="keyword">sc</span>.esRDD().<span class="keyword">count</span>())</div><div class="line"> </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line">import org.elasticsearch.spark._</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">object ElasticSparkHelloWorld &#123;</span><br><span class="line">  def main(<span class="keyword">args</span>: Array[String]) &#123;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    val <span class="keyword">conf</span> = new SparkConf().setAppName(ElasticSparkHelloWorld.getClass.getName)</span><br><span class="line">    <span class="keyword">conf</span>.setMaster(<span class="string">"local"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.nodes"</span>, <span class="string">"localhost"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.port"</span>, <span class="string">"9200"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.index.auto.create"</span>, <span class="string">"true"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.nodes.wan.only"</span>, <span class="string">"true"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.query"</span>, <span class="string">"?q=*"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.resource"</span>, <span class="string">"spark/docs"</span>)</span><br><span class="line"> </span><br><span class="line">    val <span class="keyword">sc</span> = new SparkContext(<span class="keyword">conf</span>)</span><br><span class="line">    val numbers = Map(<span class="string">"one"</span> -&gt; 1, <span class="string">"two"</span> -&gt; 2, <span class="string">"three"</span> -&gt; 3, <span class="string">"four"</span> -&gt; 4)</span><br><span class="line">    val airports = Map(<span class="string">"OTP"</span> -&gt; <span class="string">"Otopeni"</span>, <span class="string">"SFO"</span> -&gt; <span class="string">"San Fran"</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">sc</span>.makeRDD(Seq(numbers, airports)).saveToEs(<span class="string">"spark/docs"</span>)</span><br><span class="line"> </span><br><span class="line">    println(<span class="keyword">sc</span>.esRDD().<span class="keyword">count</span>())</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其实上边这些代码从网上一搜一大堆，重点是下边 <code>sbt</code> 部分的配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">name := &quot;spark-es-demo&quot;</div><div class="line"> </div><div class="line">version := &quot;1.0&quot;</div><div class="line"> </div><div class="line">scalaVersion := &quot;2.11.11&quot;</div><div class="line"> </div><div class="line">//scalacOptions += &quot;-Ylog-classpath&quot;</div><div class="line"> </div><div class="line">libraryDependencies += &quot;org.apache.spark&quot; %% &quot;spark-core&quot; % &quot;1.6.2&quot;</div><div class="line">libraryDependencies += &quot;org.elasticsearch&quot; % &quot;elasticsearch-spark-13_2.11&quot; % &quot;5.5.2&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">name := &quot;spark-es-demo&quot;</span><br><span class="line"> </span><br><span class="line">version := &quot;1.0&quot;</span><br><span class="line"> </span><br><span class="line">scalaVersion := &quot;2.11.11&quot;</span><br><span class="line"> </span><br><span class="line">//scalacOptions += &quot;-Ylog-classpath&quot;</span><br><span class="line"> </span><br><span class="line">libraryDependencies += &quot;org.apache.spark&quot; %% &quot;spark-core&quot; % &quot;1.6.2&quot;</span><br><span class="line">libraryDependencies += &quot;org.elasticsearch&quot; % &quot;elasticsearch-spark-13_2.11&quot; % &quot;5.5.2&quot;</span><br></pre></td></tr></table></figure>
 <p><strong>需要注意 scala 版本，spark 版本还有 es 版本一定要对应，否则无法运行</strong></p>
 <p>比如</p>
 <ul>
@@ -302,7 +291,7 @@
 <li><code>es</code> 版本是 <code>5.5.2</code></li>
 </ul>
 <p>依赖需要写成下边这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">libraryDependencies += &quot;org.apache.spark&quot; %% &quot;spark-core&quot; % &quot;1.6.2&quot;  // 这里指定 spark-core 的版本</div><div class="line">libraryDependencies += &quot;org.elasticsearch&quot; % &quot;elasticsearch-spark-13_2.11&quot; % &quot;5.5.2&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">libraryDependencies += &quot;org.apache.spark&quot; %% &quot;spark-core&quot; % &quot;1.6.2&quot;  // 这里指定 spark-core 的版本</span><br><span class="line">libraryDependencies += &quot;org.elasticsearch&quot; % &quot;elasticsearch-spark-13_2.11&quot; % &quot;5.5.2&quot;</span><br></pre></td></tr></table></figure>
 <p>解释一下 <code>&quot;elasticsearch-spark-13_2.11&quot; % &quot;5.5.2&quot;</code> 这部分</p>
 <p><code>-13</code> 是给 <code>Spark1.3-1.6</code> 提供的<br><code>-20</code> 是给 <code>Spark2.0</code> 提供的</p>
 <p><code>_2.11</code> 是 <code>scalaVersion</code> 的前边两位</p>
@@ -310,13 +299,15 @@
 <p>官方文档中提到</p>
 <blockquote>
 <p>The Spark connector framework is the most sensitive to version incompatibilities.</p>
+</blockquote>
+<blockquote>
 <p>Spark 连接器框架是对版本号非常敏感并且不兼容的。</p>
 </blockquote>
 <p>另外一个坑是，<code>elasticsearch-spark-13_2.11</code> 这个 jar 包所依赖的包无法在 <code>maven</code> 官方源中找到，需要添加另一个源：<code>conjars: http://conjars.org/repo</code></p>
 <p>在 <code>~/.sbt</code> 下新建 <code>repositories</code> 文件，我的 <code>repositories</code> 内容如下：</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[repositories]</div><div class="line">  local</div><div class="line"><span class="symbol">  aliyun:</span> http:<span class="comment">//maven.aliyun.com/nexus/content/groups/public/</span></div><div class="line"><span class="symbol">  conjars:</span> http:<span class="comment">//conjars.org/repo</span></div><div class="line"><span class="symbol">  central:</span> http:<span class="comment">//repo1.maven.org/maven2/</span></div></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[repositories]</span><br><span class="line">  local</span><br><span class="line"><span class="symbol">  aliyun:</span> http:<span class="comment">//maven.aliyun.com/nexus/content/groups/public/</span></span><br><span class="line"><span class="symbol">  conjars:</span> http:<span class="comment">//conjars.org/repo</span></span><br><span class="line"><span class="symbol">  central:</span> http:<span class="comment">//repo1.maven.org/maven2/</span></span><br></pre></td></tr></table></figure>
 <p>将阿里源放在上边，可以让官方依赖下载更快。</p>
-<p>完整代码见：<a href="https://github.com/Panmax/spark-es-demo" target="_blank" rel="external">https://github.com/Panmax/spark-es-demo</a></p>
+<p>完整代码见：<a href="https://github.com/Panmax/spark-es-demo" target="_blank" rel="noopener">https://github.com/Panmax/spark-es-demo</a></p>
 
       
     </div>
@@ -548,113 +539,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

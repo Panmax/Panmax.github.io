@@ -283,17 +283,6 @@
 
           
           
-             <span id="/2015/Datetime相减计算总秒数遇到的坑/" class="leancloud_visitors" data-flag-title="Datetime相减计算总秒数遇到的坑">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -313,15 +302,17 @@
       
         <p>一直以为Python里两个datetime类型相减然后获取seconds拿到的是两个时间相差的总秒数，其实并不是。。。</p>
 <p>正确的获取方法应该是用total_seconds()</p>
-<p>示例：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">first_time = datetime.datetime(<span class="number">2013</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>)</div><div class="line">last_time =  datetime.datetime(<span class="number">2014</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>)</div><div class="line">delta = last_time - first_time</div><div class="line">print delta.total_seconds()</div></pre></td></tr></table></figure></p>
-<p><code>timedelta</code> 相关的文档中这样写到：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Only days, <span class="built_in">seconds</span> <span class="keyword">and</span> microseconds are stored internally. Arguments are converted <span class="built_in">to</span> those units:</div><div class="line"></div><div class="line">A <span class="built_in">millisecond</span> is converted <span class="built_in">to</span> <span class="number">1000</span> microseconds.</div><div class="line">A minute is converted <span class="built_in">to</span> <span class="number">60</span> <span class="built_in">seconds</span>.</div><div class="line">An hour is converted <span class="built_in">to</span> <span class="number">3600</span> <span class="built_in">seconds</span>.</div><div class="line">A week is converted <span class="built_in">to</span> <span class="number">7</span> days.</div><div class="line"></div><div class="line"><span class="keyword">and</span> days, <span class="built_in">seconds</span> <span class="keyword">and</span> microseconds are <span class="keyword">then</span> normalized so that <span class="keyword">the</span> representation is unique, <span class="keyword">with</span></div><div class="line"></div><div class="line"><span class="number">0</span> &lt;= microseconds &lt; <span class="number">1000000</span></div><div class="line"><span class="number">0</span> &lt;= <span class="built_in">seconds</span> &lt; <span class="number">3600</span>*<span class="number">24</span> (<span class="keyword">the</span> <span class="built_in">number</span> <span class="keyword">of</span> <span class="built_in">seconds</span> <span class="keyword">in</span> <span class="literal">one</span> day)</div><div class="line"><span class="number">-999999999</span> &lt;= days &lt;= <span class="number">999999999</span></div></pre></td></tr></table></figure></p>
+<p>示例：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">first_time = datetime.datetime(<span class="number">2013</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>)</span><br><span class="line">last_time =  datetime.datetime(<span class="number">2014</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">11</span>,<span class="number">11</span>)</span><br><span class="line">delta = last_time - first_time</span><br><span class="line">print delta.total_seconds()</span><br></pre></td></tr></table></figure></p>
+<p><code>timedelta</code> 相关的文档中这样写到：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Only days, <span class="built_in">seconds</span> <span class="keyword">and</span> microseconds are stored internally. Arguments are converted <span class="built_in">to</span> those units:</span><br><span class="line"></span><br><span class="line">A <span class="built_in">millisecond</span> is converted <span class="built_in">to</span> <span class="number">1000</span> microseconds.</span><br><span class="line">A minute is converted <span class="built_in">to</span> <span class="number">60</span> <span class="built_in">seconds</span>.</span><br><span class="line">An hour is converted <span class="built_in">to</span> <span class="number">3600</span> <span class="built_in">seconds</span>.</span><br><span class="line">A week is converted <span class="built_in">to</span> <span class="number">7</span> days.</span><br><span class="line"></span><br><span class="line"><span class="keyword">and</span> days, <span class="built_in">seconds</span> <span class="keyword">and</span> microseconds are <span class="keyword">then</span> normalized so that <span class="keyword">the</span> representation is unique, <span class="keyword">with</span></span><br><span class="line"></span><br><span class="line"><span class="number">0</span> &lt;= microseconds &lt; <span class="number">1000000</span></span><br><span class="line"><span class="number">0</span> &lt;= <span class="built_in">seconds</span> &lt; <span class="number">3600</span>*<span class="number">24</span> (<span class="keyword">the</span> <span class="built_in">number</span> <span class="keyword">of</span> <span class="built_in">seconds</span> <span class="keyword">in</span> <span class="literal">one</span> day)</span><br><span class="line"><span class="number">-999999999</span> &lt;= days &lt;= <span class="number">999999999</span></span><br></pre></td></tr></table></figure></p>
 <p>在Python2.7中加入了<code>timedelta.total_seconds()</code>方法：</p>
 <p>timedelta.<strong>total_seconds()</strong></p>
 <blockquote>
-<p>Return the total number of seconds contained in the duration. Equivalent to (td.microseconds + (td.seconds + td.days <em> 24 </em> 3600) <em> 10<em>*6) / 10</em></em>6 computed with true division enabled.</p>
+<p>Return the total number of seconds contained in the duration. Equivalent to (td.microseconds + (td.seconds + td.days <em> 24 </em> 3600) * 10<strong>6) / 10</strong>6 computed with true division enabled.</p>
+</blockquote>
+<blockquote>
 <p>Note that for very large time intervals (greater than 270 years on most platforms) this method will lose microsecond accuracy.</p>
 </blockquote>
-<p><code>timedelta</code>官方示例：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; from datetime import timedelta</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; year = timedelta(days=365)</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; another_year = timedelta(weeks=40, days=84, hours=23,</span></div><div class="line">...                          minutes=50, seconds=600)  # adds up to 365 days</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; year.total_seconds()</span></div><div class="line">31536000.0</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; year == another_year</span></div><div class="line">True</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; ten_years = 10 * year</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; ten_years, ten_years.days // 365</span></div><div class="line">(datetime.timedelta(3650), 10)</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; nine_years = ten_years - year</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; nine_years, nine_years.days // 365</span></div><div class="line">(datetime.timedelta(3285), 9)</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; three_years = nine_years // 3;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; three_years, three_years.days // 365</span></div><div class="line">(datetime.timedelta(1095), 3)</div><div class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; abs(three_years - ten_years) == 2 * three_years + year</span></div><div class="line">True</div></pre></td></tr></table></figure></p>
+<p><code>timedelta</code>官方示例：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; from datetime import timedelta</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; year = timedelta(days=365)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; another_year = timedelta(weeks=40, days=84, hours=23,</span></span><br><span class="line">...                          minutes=50, seconds=600)  # adds up to 365 days</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; year.total_seconds()</span></span><br><span class="line">31536000.0</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; year == another_year</span></span><br><span class="line">True</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; ten_years = 10 * year</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; ten_years, ten_years.days // 365</span></span><br><span class="line">(datetime.timedelta(3650), 10)</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; nine_years = ten_years - year</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; nine_years, nine_years.days // 365</span></span><br><span class="line">(datetime.timedelta(3285), 9)</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; three_years = nine_years // 3;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; three_years, three_years.days // 365</span></span><br><span class="line">(datetime.timedelta(1095), 3)</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; abs(three_years - ten_years) == 2 * three_years + year</span></span><br><span class="line">True</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -557,113 +548,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

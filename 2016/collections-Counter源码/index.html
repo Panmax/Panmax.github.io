@@ -283,17 +283,6 @@
 
           
           
-             <span id="/2016/collections-Counter源码/" class="leancloud_visitors" data-flag-title="collections.Counter源码阅读笔记">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -313,9 +302,9 @@
       
         <p>这几天用到 <code>collections.Counter</code> 的次数挺多的（比如热门标签、热门愿望、热门城市），看文档的时候就很好奇，这个类初始化的时候是如何实现既可以不传参数，可以传一个可迭代的值，可以传字典，而且还可以传关键字。</p>
 <p>文档范例：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter()                           <span class="comment"># a new, empty counter</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(<span class="string">'gallahad'</span>)                 <span class="comment"># a new counter from an iterable</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(&#123;<span class="string">'a'</span>: <span class="number">4</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125;)           <span class="comment"># a new counter from a mapping</span></div><div class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(a=<span class="number">4</span>, b=<span class="number">2</span>)                   <span class="comment"># a new counter from keyword args</span></div></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter()                           <span class="comment"># a new, empty counter</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(<span class="string">'gallahad'</span>)                 <span class="comment"># a new counter from an iterable</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(&#123;<span class="string">'a'</span>: <span class="number">4</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125;)           <span class="comment"># a new counter from a mapping</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(a=<span class="number">4</span>, b=<span class="number">2</span>)                   <span class="comment"># a new counter from keyword args</span></span><br></pre></td></tr></table></figure>
 <p>先来看他的 <code>__init__方法</code>：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">def __init__(*<span class="keyword">args</span>, **kwds):</div><div class="line">    <span class="keyword">if</span> not arg<span class="variable">s:</span></div><div class="line">        raise TypeError(<span class="string">"descriptor '__init__' of 'Counter' object "</span></div><div class="line">                        <span class="string">"needs an argument"</span>)</div><div class="line">    self = <span class="keyword">args</span>[<span class="number">0</span>]</div><div class="line">    <span class="keyword">args</span> = <span class="keyword">args</span>[<span class="number">1</span>:]</div><div class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(<span class="keyword">args</span>) &gt; <span class="number">1</span>:</div><div class="line">        raise TypeError(<span class="string">'expected at most 1 arguments, got %d'</span> % <span class="built_in">len</span>(<span class="keyword">args</span>))</div><div class="line">    super(Counter, self).__init__()</div><div class="line">    self.<span class="keyword">update</span>(*<span class="keyword">args</span>, **kwds)</div></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def __init__(*<span class="keyword">args</span>, **kwds):</span><br><span class="line">    <span class="keyword">if</span> not arg<span class="variable">s:</span></span><br><span class="line">        raise TypeError(<span class="string">"descriptor '__init__' of 'Counter' object "</span></span><br><span class="line">                        <span class="string">"needs an argument"</span>)</span><br><span class="line">    self = <span class="keyword">args</span>[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">args</span> = <span class="keyword">args</span>[<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(<span class="keyword">args</span>) &gt; <span class="number">1</span>:</span><br><span class="line">        raise TypeError(<span class="string">'expected at most 1 arguments, got %d'</span> % <span class="built_in">len</span>(<span class="keyword">args</span>))</span><br><span class="line">    super(Counter, self).__init__()</span><br><span class="line">    self.<span class="keyword">update</span>(*<span class="keyword">args</span>, **kwds)</span><br></pre></td></tr></table></figure>
 <p>刚开始不明白，明明判断了 <code>args</code> 不存在的话就抛出异常，但是却可以是使用无参来初始化这个类，后来想明白了，类初始化的时候会默认给一个参数，我们通常把这个参数命名为 <code>self</code>，所以才有了下边的语句，将 <code>self</code> 从 <code>args[0]</code> 中取出。所以 <code>args[1:]</code> 就是剩下的参数，注意这时候 <code>args</code> 还是一个元组，现在来判断 <code>args</code> 的长度，因为除了关键字参数外，只能使用一个可迭代的值或者一个字典来初始化，所以如果args长度大于1，说明除了关键字参数外，给了超过一个以上的参数，这时候程序抛出异常。</p>
 <p>这时候我就想既然是一个参数，为什么不直接给个固定值，比如像这样：</p>
 <p> <code>__init(self, iterable_or_mapping, **kwds)__</code></p>
@@ -325,9 +314,9 @@
 <p>答案是不能，因为你不知道调用者在调用时关键字参数要传什么，万一调用者要传 <code>iterable_or_mapping</code> 作为关键字参数怎么办。</p>
 <p>最后想到能不能这样：</p>
 <p><code>__init(self, *args, **kwds)__</code></p>
-<p>觉得好像没什么问题。。。不知道阅读者有没有看出来问题，如果看出这样写有什么问题麻烦告诉我，我把评论关闭了，可以通过邮箱： <code>jiapan.china@gmail.com</code></p>
+<p>觉得好像没什么问题。。。不知道阅读者有没有看出来问题，如果看出这样写有什么问题麻烦告诉我，我把评论关闭了，可以通过邮箱： <a href="mailto:`jiapan.china@gmail.com" target="_blank" rel="noopener">`jiapan.china@gmail.com</a>`</p>
 <p>接下来然后调用他的 <code>update</code> 方法:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">def <span class="keyword">update</span>(*args, **kwds):</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> args:</div><div class="line">        <span class="keyword">raise</span> TypeError(<span class="string">"descriptor 'update' of 'Counter' object "</span></div><div class="line">                        <span class="string">"needs an argument"</span>)</div><div class="line">    <span class="keyword">self</span> = args[<span class="number">0</span>]</div><div class="line">    args = args[<span class="number">1</span>:]</div><div class="line">    <span class="keyword">if</span> <span class="keyword">len</span>(args) &gt; <span class="number">1</span>:</div><div class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'expected at most 1 arguments, got %d'</span> % <span class="keyword">len</span>(args))</div><div class="line">    iterable = args[<span class="number">0</span>] <span class="keyword">if</span> args <span class="keyword">else</span> <span class="keyword">None</span></div><div class="line">    <span class="keyword">if</span> iterable <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">        <span class="keyword">if</span> isinstance(iterable, <span class="keyword">Mapping</span>):</div><div class="line">            <span class="keyword">if</span> <span class="keyword">self</span>:</div><div class="line">                self_get = self.get</div><div class="line">                <span class="keyword">for</span> elem, <span class="keyword">count</span> <span class="keyword">in</span> iterable.iteritems():</div><div class="line">                    <span class="keyword">self</span>[elem] = self_get(elem, <span class="number">0</span>) + <span class="keyword">count</span></div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                super(Counter, <span class="keyword">self</span>).update(iterable) # <span class="keyword">fast</span> <span class="keyword">path</span> <span class="keyword">when</span> counter <span class="keyword">is</span> <span class="keyword">empty</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            self_get = self.get</div><div class="line">            <span class="keyword">for</span> elem <span class="keyword">in</span> iterable:</div><div class="line">                <span class="keyword">self</span>[elem] = self_get(elem, <span class="number">0</span>) + <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> kwds:</div><div class="line">        self.update(kwds)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">def <span class="keyword">update</span>(*args, **kwds):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> args:</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">"descriptor 'update' of 'Counter' object "</span></span><br><span class="line">                        <span class="string">"needs an argument"</span>)</span><br><span class="line">    <span class="keyword">self</span> = args[<span class="number">0</span>]</span><br><span class="line">    args = args[<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">len</span>(args) &gt; <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'expected at most 1 arguments, got %d'</span> % <span class="keyword">len</span>(args))</span><br><span class="line">    iterable = args[<span class="number">0</span>] <span class="keyword">if</span> args <span class="keyword">else</span> <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">if</span> iterable <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">if</span> isinstance(iterable, <span class="keyword">Mapping</span>):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">self</span>:</span><br><span class="line">                self_get = self.get</span><br><span class="line">                <span class="keyword">for</span> elem, <span class="keyword">count</span> <span class="keyword">in</span> iterable.iteritems():</span><br><span class="line">                    <span class="keyword">self</span>[elem] = self_get(elem, <span class="number">0</span>) + <span class="keyword">count</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                super(Counter, <span class="keyword">self</span>).update(iterable) # <span class="keyword">fast</span> <span class="keyword">path</span> <span class="keyword">when</span> counter <span class="keyword">is</span> <span class="keyword">empty</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self_get = self.get</span><br><span class="line">            <span class="keyword">for</span> elem <span class="keyword">in</span> iterable:</span><br><span class="line">                <span class="keyword">self</span>[elem] = self_get(elem, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> kwds:</span><br><span class="line">        self.update(kwds)</span><br></pre></td></tr></table></figure>
 <p>刚开始和 <code>__init__</code> 一样，就不说了，从 <code>iterable = args[0] if args else None</code> 开始说。</p>
 <p>因为此时 <code>args</code> 是一个长度小于1的元组，所以 <code>args[0]</code>可能是一个值也可能是 <code>None</code>，如果不是 <code>None</code>的话，就进入 <code>if</code>， 首先判断这个值类型是不是 <code>Mapping</code>，我猜测这里的 <code>Mapping</code> 就是 <code>dict</code> 的原始实现类，只是在注册为了<code>dict</code>（如有误请更正），如果是字典类型的，就把键值对迭代出来。因为这个类继承自 <code>dict</code>,所以继承了 <code>get</code> 方法, Python可以将方法作为参数传递，所以就有了这样的写法 <code>self_get = self.get</code> ，这时候 <code>self_get</code> 实际上还带有这个类的实例（这么说有点别扭。。。），然后 <code>self[elem] = self_get(elem, 0) + count</code> 从 <code>self</code> 中尝试获取 <code>elem</code> 的数量，如果没有就初始化为0然后加上字典的值，这样写而不是直接 <code>self[elem] = count</code>是有原因的，因为我们还可能给关键字参数，这样写的好处是，一会用关键字参数再递归调用一下这个方法，就能把关键字参数的值也更新上去啦。 </p>
 <p>当 <code>iterable</code> 不是字典的时候，就会把这个值进行迭代取出每个元素计算出现的次数，具体代码就不解释了。</p>
@@ -568,113 +557,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

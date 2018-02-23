@@ -260,17 +260,6 @@
 
           
           
-             <span id="/2017/cookies-max-age-vs-expires/" class="leancloud_visitors" data-flag-title="Http Cookies 中 Max-age 和 Expires 有什么区别？">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -298,9 +287,9 @@
 <p><code>expires</code> 参数是当年网景公司推出 Cookies 原有的一部分。在 HTTP1.1 中，<code>expires</code> 被弃用并且被更加易用的 <code>max-age</code> 所替代。你只需说明这个 Cookie 能够存活多久就可以了，而不用像之前那样指定一个日期。设置二者中的一个，Cookie 会在它过期前一直保存，如果你一个都没有设置，这个 Cookie 将会一直存在直到你关闭浏览器，这种称之为 <code>Session Cookie</code>。</p>
 <p><strong>举个栗子</strong></p>
 <p>用 <code>expires</code> 的方式设置 <code>foo=bar</code> 在5分钟后过期</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">d.setTime(d.getTime() + <span class="number">5</span>*<span class="number">60</span>*<span class="number">1000</span>); <span class="comment">// in milliseconds</span></div><div class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;expires='</span>+d.toGMTString()+<span class="string">';'</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">d.setTime(d.getTime() + <span class="number">5</span>*<span class="number">60</span>*<span class="number">1000</span>); <span class="comment">// in milliseconds</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;expires='</span>+d.toGMTString()+<span class="string">';'</span>;</span><br></pre></td></tr></table></figure>
 <p>用 <code>max-age</code> 来做同样的事情</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;max-age='</span>+<span class="number">5</span>*<span class="number">60</span>+<span class="string">';'</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;max-age='</span>+<span class="number">5</span>*<span class="number">60</span>+<span class="string">';'</span>;</span><br></pre></td></tr></table></figure>
 <p>不幸的是，IE 浏览器 不支持 <code>max-age</code>，如果你想跨浏览器存放 Cookie，应该坚持用 <code>expires</code>。</p>
 <p>下边我们来进行几个假设的问答</p>
 <p><strong>问：如果我在 Cookie 中同时设置了 <code>expires</code> 和 <code>max-age</code> 会发生什么？</strong></p>
@@ -536,113 +525,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

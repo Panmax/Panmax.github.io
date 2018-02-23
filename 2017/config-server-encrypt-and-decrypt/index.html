@@ -268,17 +268,6 @@
 
           
           
-             <span id="/2017/config-server-encrypt-and-decrypt/" class="leancloud_visitors" data-flag-title="配置中心的加密与解密功能">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -298,15 +287,15 @@
       
         <p>有时候我们会放一些敏感信息到配置中心里，比如线上数据库密码等，我们直接将敏感信息以明文的方式存储于微服务应用的配置文件中是非常危险的，Spring Cloud Config 提供了对属性进行加密解密的功能，以保护配置文件中的信息安全。</p>
 <p>在 Spring Cloud Config 中通过在属性值前使用 <code>{cipher}</code> 前缀来标注该内容是一个加密值，当微服务客户端加载配置时，配置中心就会自动为带有 <code>{cipher}</code> 前缀的值进行解密。这里有个需要注意的地方，如果配置文件使用的是 <code>yml</code> 格式的话，一定要用引号将内容包裹起来，<code>properites</code> 的配置文件不需要。如：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">spring:</div><div class="line">  datasource:</div><div class="line">    password: '&#123;cipher&#125;c400dd5d44f<span class="number">112518</span>bbf<span class="number">870894</span>e4b8a60fbc<span class="number">64680073</span>aa535d363c28f038bb77'</div></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    password: '&#123;cipher&#125;c400dd5d44f<span class="number">112518</span>bbf<span class="number">870894</span>e4b8a60fbc<span class="number">64680073</span>aa535d363c28f038bb77'</span><br></pre></td></tr></table></figure>
 <p>Spring Cloud Config 同时支持对称加密和非对称加密，下边我们只介绍对称加密的使用方式，一般来说只要密钥不被泄露，对称加密的方式就足够了。</p>
 <p>首先我们访问配置中心的 <code>/encrypt/status</code> 路径，可以看到返回结果提示我们还没有设置密钥，需要我们在配置文件中进行设置。</p>
 <p><img src="1.png" alt=""></p>
 <p>在配置中心项目的配置文件 <code>application.yml</code> 中加入以下配置即可（密钥根据根据需要自行修改）:</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">encrypt:</span></div><div class="line"><span class="symbol">  key:</span> my-encrypt-key</div></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">encrypt:</span></span><br><span class="line"><span class="symbol">  key:</span> my-encrypt-key</span><br></pre></td></tr></table></figure>
 <p>然后重新编译后运行，再次访问 <code>/encrypt/status</code> 看到如下错误：</p>
 <p><img src="2.png" alt=""></p>
-<p>这是因为在 JRE 中，自带的 JCE 默认是有长度限制的版本，我们需要从 Oracle 官网下载不限长度的版本：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html" target="_blank" rel="external">http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</a> ，下载解压后可以看到下边三个文件：</p>
+<p>这是因为在 JRE 中，自带的 JCE 默认是有长度限制的版本，我们需要从 Oracle 官网下载不限长度的版本：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</a> ，下载解压后可以看到下边三个文件：</p>
 <p><img src="3.png" alt=""></p>
 <p>我们需要将 <code>local_policy.jar</code> 和 <code>US_export_policy.jar</code> 两个文件复制到<br><code>$JAVA_HOME/jre/lib/security</code><br>目录下，在复制前，最好将之前的两个文件进行备份，我将这两个文件放到了 lc0 机器的相应目录中，现在目录中的文件如下：</p>
 <p><img src="4.png" alt=""></p>
@@ -316,9 +305,9 @@
 <p><img src="6.png" alt=""></p>
 <p>我们用 <code>my-password</code> 为明文生成了<br><code>49db5b628a4b722ef776262d67c0fa9676de7767e54ecfb2be70df5157677d20</code><br>这个密文，同时又测试了解密功能。</p>
 <h3 id="下边我们在实际情景中运用一下加密解密功能"><a href="#下边我们在实际情景中运用一下加密解密功能" class="headerlink" title="下边我们在实际情景中运用一下加密解密功能"></a>下边我们在实际情景中运用一下加密解密功能</h3><p>在 GitLab 中修改 app-a 的 dev 配置文件，加上如下配置：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">password: '&#123;cipher&#125;49db5b628a4b722ef<span class="number">776262</span>d67c0fa<span class="number">9676</span>de<span class="number">7767</span>e54ecfb2be70df<span class="number">515767</span>7d20'</div></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password: '&#123;cipher&#125;49db5b628a4b722ef<span class="number">776262</span>d67c0fa<span class="number">9676</span>de<span class="number">7767</span>e54ecfb2be70df<span class="number">515767</span>7d20'</span><br></pre></td></tr></table></figure>
 <p>然后在 app-a 中新加一个 Controller:</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Value(<span class="meta-string">"<span class="subst">$&#123;password&#125;</span>"</span>)</span></div><div class="line"><span class="keyword">private</span> String password;</div><div class="line"> </div><div class="line"><span class="meta">@RequestMapping(value = <span class="meta-string">"/password"</span>, method = RequestMethod.GET)</span></div><div class="line"><span class="keyword">public</span> String password() &#123;</div><div class="line">    <span class="keyword">return</span> password;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(<span class="meta-string">"<span class="subst">$&#123;password&#125;</span>"</span>)</span></span><br><span class="line"><span class="keyword">private</span> String password;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@RequestMapping(value = <span class="meta-string">"/password"</span>, method = RequestMethod.GET)</span></span><br><span class="line"><span class="keyword">public</span> String password() &#123;</span><br><span class="line">    <span class="keyword">return</span> password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重新编译后运行，访问它的 <code>/password</code> 路径，可以看到结果：</p>
 <p><img src="7.png" alt=""></p>
 <p>我们通过配置 <code>encrypt.key</code> 参数来指定密钥的实现方式采用了对称加密。这种方式实现起来比较简单，只需要配置一个参数即可。另外，我们也可以使用环境变量 <code>ENCRYPT_KEY</code> 来进行配置，让密钥信息外置。</p>
@@ -547,113 +536,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>贾攀家</title>
+  
   <subtitle>Panmax&#39;s Blog</subtitle>
   <link href="/atom.xml" rel="self"/>
   
@@ -22,92 +23,14 @@
     <published>2333-12-30T16:00:00.000Z</published>
     <updated>2018-02-22T02:30:34.444Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="2018"><a href="#2018" class="headerlink" title="2018"></a>2018</h2><h3 id="1月"><a href="#1月" class="headerlink" title="1月"></a>1月</h3><ul>
-<li>软技能 代码之外的生存指南</li>
-</ul>
-<h3 id="2月"><a href="#2月" class="headerlink" title="2月"></a>2月</h3><ul>
-<li>三体1（二刷）</li>
-</ul>
-<h2 id="2017"><a href="#2017" class="headerlink" title="2017"></a>2017</h2><h3 id="1月-1"><a href="#1月-1" class="headerlink" title="1月"></a>1月</h3><ul>
-<li>摆渡人</li>
-<li>了不起的盖茨比</li>
-</ul>
-<h3 id="2月-1"><a href="#2月-1" class="headerlink" title="2月"></a>2月</h3><ul>
-<li>偷影子的人</li>
-<li>Python 高手之路 (The Hacker’s Guide to Python)</li>
-<li>富爸爸，穷爸爸</li>
-</ul>
-<h3 id="3月"><a href="#3月" class="headerlink" title="3月"></a>3月</h3><ul>
-<li>小狗钱钱</li>
-<li>岛上书店</li>
-<li>嫌疑人X的献身</li>
-</ul>
-<h3 id="4月"><a href="#4月" class="headerlink" title="4月"></a>4月</h3><ul>
-<li>无声告白</li>
-</ul>
-<h3 id="8月"><a href="#8月" class="headerlink" title="8月"></a>8月</h3><ul>
-<li>浪潮之巅</li>
-</ul>
-<hr>
-<h2 id="2016"><a href="#2016" class="headerlink" title="2016"></a>2016</h2><h3 id="1月-2"><a href="#1月-2" class="headerlink" title="1月"></a>1月</h3><ul>
-<li>Redis 入门指南（第2版）</li>
-</ul>
-<h3 id="3月-1"><a href="#3月-1" class="headerlink" title="3月"></a>3月</h3><ul>
-<li>第七天（余华）</li>
-<li>三体·地球往事</li>
-<li>动物农场</li>
-</ul>
-<h3 id="4月-1"><a href="#4月-1" class="headerlink" title="4月"></a>4月</h3><ul>
-<li>黄金时代</li>
-<li>三体Ⅱ·黑暗森林</li>
-<li>React Native 入门与实战</li>
-</ul>
-<h3 id="5月"><a href="#5月" class="headerlink" title="5月"></a>5月</h3><ul>
-<li>兄弟（余华）</li>
-</ul>
-<h3 id="6月"><a href="#6月" class="headerlink" title="6月"></a>6月</h3><ul>
-<li>三体Ⅲ·死神永生</li>
-</ul>
-<h3 id="7月"><a href="#7月" class="headerlink" title="7月"></a>7月</h3><ul>
-<li>代码的未来</li>
-<li>白银时代</li>
-</ul>
-<h3 id="8月-1"><a href="#8月-1" class="headerlink" title="8月"></a>8月</h3><ul>
-<li>解忧杂货店</li>
-</ul>
-<h3 id="9月"><a href="#9月" class="headerlink" title="9月"></a>9月</h3><ul>
-<li>没有色彩的多崎作和他的巡礼之年</li>
-<li>北京折叠</li>
-</ul>
-<h3 id="12月"><a href="#12月" class="headerlink" title="12月"></a>12月</h3><ul>
-<li>挪威的森林</li>
-</ul>
-<h2 id="2014-2015"><a href="#2014-2015" class="headerlink" title="2014-2015"></a>2014-2015</h2><ul>
-<li>小王子</li>
-<li>追风筝的人</li>
-<li>围城</li>
-<li>活着</li>
-<li>1984</li>
-<li>平凡的世界</li>
-<li>看见</li>
-<li>许三观卖血记</li>
-<li>失控</li>
-<li>当我谈跑步时我谈些什么</li>
-<li>白鹿原</li>
-<li>爱你就像爱生命</li>
-<li>一只特立独行的猪</li>
-<li>乖，摸摸头</li>
-<li>滚蛋吧，肿瘤君</li>
-<li>人性的弱点</li>
-<li>白夜</li>
-<li>孤独六讲</li>
-<li>黑客与画家</li>
-</ul>
-]]></content>
+    <content type="html"><![CDATA[<h2 id="2018"><a href="#2018" class="headerlink" title="2018"></a>2018</h2><h3 id="1月"><a href="#1月" class="headerlink" title="1月"></a>1月</h3><ul><li>软技能 代码之外的生存指南</li></ul><h3 id="2月"><a href="#2月" class="headerlink" title="2月"></a>2月</h3><ul><li>三体1（二刷）</li></ul><h2 id="2017"><a href="#2017" class="headerlink" title="2017"></a>2017</h2><h3 id="1月-1"><a href="#1月-1" class="headerlink" title="1月"></a>1月</h3><ul><li>摆渡人</li><li>了不起的盖茨比</li></ul><h3 id="2月-1"><a href="#2月-1" class="headerlink" title="2月"></a>2月</h3><ul><li>偷影子的人</li><li>Python 高手之路 (The Hacker’s Guide to Python)</li><li>富爸爸，穷爸爸</li></ul><h3 id="3月"><a href="#3月" class="headerlink" title="3月"></a>3月</h3><ul><li>小狗钱钱</li><li>岛上书店</li><li>嫌疑人X的献身</li></ul><h3 id="4月"><a href="#4月" class="headerlink" title="4月"></a>4月</h3><ul><li>无声告白</li></ul><h3 id="8月"><a href="#8月" class="headerlink" title="8月"></a>8月</h3><ul><li>浪潮之巅</li></ul><hr><h2 id="2016"><a href="#2016" class="headerlink" title="2016"></a>2016</h2><h3 id="1月-2"><a href="#1月-2" class="headerlink" title="1月"></a>1月</h3><ul><li>Redis 入门指南（第2版）</li></ul><h3 id="3月-1"><a href="#3月-1" class="headerlink" title="3月"></a>3月</h3><ul><li>第七天（余华）</li><li>三体·地球往事</li><li>动物农场</li></ul><h3 id="4月-1"><a href="#4月-1" class="headerlink" title="4月"></a>4月</h3><ul><li>黄金时代</li><li>三体Ⅱ·黑暗森林</li><li>React Native 入门与实战</li></ul><h3 id="5月"><a href="#5月" class="headerlink" title="5月"></a>5月</h3><ul><li>兄弟（余华）</li></ul><h3 id="6月"><a href="#6月" class="headerlink" title="6月"></a>6月</h3><ul><li>三体Ⅲ·死神永生</li></ul><h3 id="7月"><a href="#7月" class="headerlink" title="7月"></a>7月</h3><ul><li>代码的未来</li><li>白银时代</li></ul><h3 id="8月-1"><a href="#8月-1" class="headerlink" title="8月"></a>8月</h3><ul><li>解忧杂货店</li></ul><h3 id="9月"><a href="#9月" class="headerlink" title="9月"></a>9月</h3><ul><li>没有色彩的多崎作和他的巡礼之年</li><li>北京折叠</li></ul><h3 id="12月"><a href="#12月" class="headerlink" title="12月"></a>12月</h3><ul><li>挪威的森林</li></ul><h2 id="2014-2015"><a href="#2014-2015" class="headerlink" title="2014-2015"></a>2014-2015</h2><ul><li>小王子</li><li>追风筝的人</li><li>围城</li><li>活着</li><li>1984</li><li>平凡的世界</li><li>看见</li><li>许三观卖血记</li><li>失控</li><li>当我谈跑步时我谈些什么</li><li>白鹿原</li><li>爱你就像爱生命</li><li>一只特立独行的猪</li><li>乖，摸摸头</li><li>滚蛋吧，肿瘤君</li><li>人性的弱点</li><li>白夜</li><li>孤独六讲</li><li>黑客与画家</li></ul>]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;2018&quot;&gt;&lt;a href=&quot;#2018&quot; class=&quot;headerlink&quot; title=&quot;2018&quot;&gt;&lt;/a&gt;2018&lt;/h2&gt;&lt;h3 id=&quot;1月&quot;&gt;&lt;a href=&quot;#1月&quot; class=&quot;headerlink&quot; title=&quot;1月&quot;&gt;&lt;/a&gt;1月&lt;/h
+      
+      
+        &lt;h2 id=&quot;2018&quot;&gt;&lt;a href=&quot;#2018&quot; class=&quot;headerlink&quot; title=&quot;2018&quot;&gt;&lt;/a&gt;2018&lt;/h2&gt;&lt;h3 id=&quot;1月&quot;&gt;&lt;a href=&quot;#1月&quot; class=&quot;headerlink&quot; title=&quot;1月&quot;&gt;&lt;/a&gt;1月&lt;/h
+      
     
     </summary>
     
@@ -125,16 +48,14 @@
     <published>2333-07-21T10:42:59.000Z</published>
     <updated>2018-01-12T07:07:34.166Z</updated>
     
-    <content type="html"><![CDATA[<video width="720" height="480" controls><br><source src="http://otfsjju04.bkt.clouddn.com/SMG%202016%20New%20Year%27s%20Gala%20%5BFull%20HD%5D-NQzJOmQ-98A.mp4"><br></video>
-
-<blockquote>
-<p>想说却还没说的 还很多<br>攒着是因为想写成歌<br>让人轻轻地唱着 淡淡地记着<br>就算终于忘了 也值了<br>说不定我一生涓滴意念<br>侥幸汇成河<br>然后我俩各自一端<br>望着大河弯弯 终于敢放胆<br>嘻皮笑脸 面对 人生的难<br>也许我们从未成熟<br>还没能晓得 就快要老了<br>尽管心里活着的还是那个<br>年轻人<br>因为不安而频频回首<br>无知地索求 羞耻于求救<br>不知疲倦地翻越 每一个山丘<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>我没有刻意隐藏 也无意让你感伤<br>多少次我们无醉不欢<br>咒骂人生太短 唏嘘相见恨晚<br>让女人把妆哭花了 也不管<br>遗憾我们从未成熟<br>还没能晓得 就已经老了<br>尽力却仍不明白<br>身边的年轻人<br>给自己随便找个理由<br>向情爱的挑逗 命运的左右<br>不自量力地还手 直至死方休<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回了温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回了温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>喋喋不休 时不我予的哀愁<br>向情爱的挑逗 命运的左右<br>不自量力地还手 直至死方休<br>为何记不得上一次是谁给的拥抱<br>在什么时候</p>
-</blockquote>
-]]></content>
+    <content type="html"><![CDATA[<video width="720" height="480" controls><br><source src="http://otfsjju04.bkt.clouddn.com/SMG%202016%20New%20Year%27s%20Gala%20%5BFull%20HD%5D-NQzJOmQ-98A.mp4"><br></video><blockquote><p>想说却还没说的 还很多<br>攒着是因为想写成歌<br>让人轻轻地唱着 淡淡地记着<br>就算终于忘了 也值了<br>说不定我一生涓滴意念<br>侥幸汇成河<br>然后我俩各自一端<br>望着大河弯弯 终于敢放胆<br>嘻皮笑脸 面对 人生的难<br>也许我们从未成熟<br>还没能晓得 就快要老了<br>尽管心里活着的还是那个<br>年轻人<br>因为不安而频频回首<br>无知地索求 羞耻于求救<br>不知疲倦地翻越 每一个山丘<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>我没有刻意隐藏 也无意让你感伤<br>多少次我们无醉不欢<br>咒骂人生太短 唏嘘相见恨晚<br>让女人把妆哭花了 也不管<br>遗憾我们从未成熟<br>还没能晓得 就已经老了<br>尽力却仍不明白<br>身边的年轻人<br>给自己随便找个理由<br>向情爱的挑逗 命运的左右<br>不自量力地还手 直至死方休<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回了温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>越过山丘 虽然已白了头<br>喋喋不休 时不我予的哀愁<br>还未如愿见着不朽<br>就把自己先搞丢<br>越过山丘 才发现无人等候<br>喋喋不休 再也唤不回了温柔<br>为何记不得上一次是谁给的拥抱<br>在什么时候<br>喋喋不休 时不我予的哀愁<br>向情爱的挑逗 命运的左右<br>不自量力地还手 直至死方休<br>为何记不得上一次是谁给的拥抱<br>在什么时候</p></blockquote>]]></content>
     
     <summary type="html">
     
-      &lt;video width=&quot;720&quot; height=&quot;480&quot; controls&gt;&lt;br&gt;&lt;source src=&quot;http://otfsjju04.bkt.clouddn.com/SMG%202016%20New%20Year%27s%20Gala%20%5BFull%20HD
+      
+      
+        &lt;video width=&quot;720&quot; height=&quot;480&quot; controls&gt;&lt;br&gt;&lt;source src=&quot;http://otfsjju04.bkt.clouddn.com/SMG%202016%20New%20Year%27s%20Gala%20%5BFull%20HD
+      
     
     </summary>
     
@@ -148,50 +69,17 @@
     <published>2018-02-22T02:31:30.000Z</published>
     <updated>2018-02-22T05:52:25.434Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>Cypher 的 <code>MATCH</code> 语句允许你查询符合条件的数据。你可以使用 <code>MATCH</code> 来返回数据或对这些数据执行一些其他操作。</p>
-</blockquote>
-<p><code>MATCH</code> 语句用于匹配给定的条件，但实际上它并不<em>返回</em>数据。为了从 <code>MATCH</code> 语句返回数据，我们仍然需要使用 <code>RETURN</code> 子句。</p>
-<h3 id="检索一个节点"><a href="#检索一个节点" class="headerlink" title="检索一个节点"></a>检索一个节点</h3><p>这里有个使用 <code>MATCH</code> 语句检索一个节点的的例子。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MATCH (<span class="selector-tag">p</span>:Person)</div><div class="line">WHERE <span class="selector-tag">p</span><span class="selector-class">.name</span> = <span class="string">"王太利"</span></div><div class="line">RETURN p</div></pre></td></tr></table></figure>
-<p><code>WHERE</code> 子句与 SQL 的 <code>WHERE</code> 子句工作方式相同，它允许你提供额外的条件来缩小查询范围。</p>
-<p>同时你可以在不使用 <code>WHERE</code> 子句的情况下获得相同的结果。你可以通过使用像创建节点那样的符号来查询节点。</p>
-<p>下边的代码提供和上边语句相同的结果：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123;<span class="attribute">name</span>: <span class="string">"王太利"</span>&#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></div></pre></td></tr></table></figure>
-<p>运行上边任意一条查询语句将会看到如下的节点被展示出来：</p>
-<p><img src="1.png" alt=""></p>
-<p>你可能已经注意到，点击一个节点会展开一个分成三部分的外部圆，每个部分有不同的选项：</p>
-<p><img src="2.png" alt=""></p>
-<p>点击底部选项将展开节点的关系：</p>
-<p><img src="3.png" alt=""></p>
-<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><p>你还可以通过 <code>MATCH</code> 语句遍历关系。事实上，这才是 Neoj4 真正擅长的事情之一。</p>
-<p>举个栗子，如果我们想找出哪个乐队发布了名为「猛龙过江」的专辑，可以使用如下查询语句：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MATCH (<span class="selector-tag">a</span>:Artist)-[:RELEASED]-&gt;(<span class="selector-tag">b</span>:Album)</div><div class="line">WHERE <span class="selector-tag">b</span><span class="selector-class">.name</span> = <span class="string">"猛龙过江"</span> </div><div class="line">RETURN a</div></pre></td></tr></table></figure>
-<p>这将返回以下节点：</p>
-<p><img src="4.png" alt=""></p>
-<p>可以看到我们在 <code>MATCH</code> 中使用的模式几乎是不言自明的，它匹配了所有发布过名为 <em>猛龙过江</em> 专辑的乐队。</p>
-<p>我们使用了变量（<code>a</code>,<code>b</code>）以便在稍后的查询中引用他们。我们没有为关系提供任何变量，因为我们不需要在之后的查询中引用关系。</p>
-<p>你可能还会注意到第一行使用的是我们在创建关系时相同的模式，这突出了 Cypher 语言的简单性，我们可以在不同的上下文中使用相同的模式（比如创建数据和遍历数据）。</p>
-<h3 id="返回全部节点"><a href="#返回全部节点" class="headerlink" title="返回全部节点"></a>返回全部节点</h3><p>你可以通过省略过滤条件来返回数据库中所有的节点。因此以下查询将返回数据库中的所有节点：</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) return <span class="built_in">n</span>;</div></pre></td></tr></table></figure>
-<p>我们所有的节点将被返回：</p>
-<p><img src="5.png" alt=""></p>
-<p>你还可以点击侧面的 <strong>Table</strong> 图标用表格来展示数据：</p>
-<p><img src="6.png" alt=""></p>
-<blockquote>
-<p>返回所有节点时要小心，在大型数据库中执行这个操作可能会产生很大的性能影响。通常建议限制结果以避免意想不到的问题。</p>
-</blockquote>
-<h3 id="限制结果"><a href="#限制结果" class="headerlink" title="限制结果"></a>限制结果</h3><p>使用 <code>LIMIT</code> 来限制输出记录的数量，当你不确定结果集有多大时，使用 <code>LIMIT</code> 是个好主意。</p>
-<p>因此我们可以简单的将 <code>LIMIT 5</code> 追加到前边的语句上来将输出限制为5条记录：</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) RETURN <span class="built_in">n</span> </div><div class="line">LIMIT <span class="number">5</span></div></pre></td></tr></table></figure>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>Cypher 的 <code>MATCH</code> 语句允许你查询符合条件的数据。你可以使用 <code>MATCH</code> 来返回数据或对这些数据执行一些其他操作。</p></blockquote><p><code>MATCH</code> 语句用于匹配给定的条件，但实际上它并不<em>返回</em>数据。为了从 <code>MATCH</code> 语句返回数据，我们仍然需要使用 <code>RETURN</code> 子句。</p><h3 id="检索一个节点"><a href="#检索一个节点" class="headerlink" title="检索一个节点"></a>检索一个节点</h3><p>这里有个使用 <code>MATCH</code> 语句检索一个节点的的例子。</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH (<span class="selector-tag">p</span>:Person)</span><br><span class="line">WHERE <span class="selector-tag">p</span><span class="selector-class">.name</span> = <span class="string">"王太利"</span></span><br><span class="line">RETURN p</span><br></pre></td></tr></table></figure><p><code>WHERE</code> 子句与 SQL 的 <code>WHERE</code> 子句工作方式相同，它允许你提供额外的条件来缩小查询范围。</p><p>同时你可以在不使用 <code>WHERE</code> 子句的情况下获得相同的结果。你可以通过使用像创建节点那样的符号来查询节点。</p><p>下边的代码提供和上边语句相同的结果：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123;<span class="attribute">name</span>: <span class="string">"王太利"</span>&#125;)</span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></span><br></pre></td></tr></table></figure><p>运行上边任意一条查询语句将会看到如下的节点被展示出来：</p><p><img src="1.png" alt=""></p><p>你可能已经注意到，点击一个节点会展开一个分成三部分的外部圆，每个部分有不同的选项：</p><p><img src="2.png" alt=""></p><p>点击底部选项将展开节点的关系：</p><p><img src="3.png" alt=""></p><h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><p>你还可以通过 <code>MATCH</code> 语句遍历关系。事实上，这才是 Neoj4 真正擅长的事情之一。</p><p>举个栗子，如果我们想找出哪个乐队发布了名为「猛龙过江」的专辑，可以使用如下查询语句：</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH (<span class="selector-tag">a</span>:Artist)-[:RELEASED]-&gt;(<span class="selector-tag">b</span>:Album)</span><br><span class="line">WHERE <span class="selector-tag">b</span><span class="selector-class">.name</span> = <span class="string">"猛龙过江"</span> </span><br><span class="line">RETURN a</span><br></pre></td></tr></table></figure><p>这将返回以下节点：</p><p><img src="4.png" alt=""></p><p>可以看到我们在 <code>MATCH</code> 中使用的模式几乎是不言自明的，它匹配了所有发布过名为 <em>猛龙过江</em> 专辑的乐队。</p><p>我们使用了变量（<code>a</code>,<code>b</code>）以便在稍后的查询中引用他们。我们没有为关系提供任何变量，因为我们不需要在之后的查询中引用关系。</p><p>你可能还会注意到第一行使用的是我们在创建关系时相同的模式，这突出了 Cypher 语言的简单性，我们可以在不同的上下文中使用相同的模式（比如创建数据和遍历数据）。</p><h3 id="返回全部节点"><a href="#返回全部节点" class="headerlink" title="返回全部节点"></a>返回全部节点</h3><p>你可以通过省略过滤条件来返回数据库中所有的节点。因此以下查询将返回数据库中的所有节点：</p><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) return <span class="built_in">n</span>;</span><br></pre></td></tr></table></figure><p>我们所有的节点将被返回：</p><p><img src="5.png" alt=""></p><p>你还可以点击侧面的 <strong>Table</strong> 图标用表格来展示数据：</p><p><img src="6.png" alt=""></p><blockquote><p>返回所有节点时要小心，在大型数据库中执行这个操作可能会产生很大的性能影响。通常建议限制结果以避免意想不到的问题。</p></blockquote><h3 id="限制结果"><a href="#限制结果" class="headerlink" title="限制结果"></a>限制结果</h3><p>使用 <code>LIMIT</code> 来限制输出记录的数量，当你不确定结果集有多大时，使用 <code>LIMIT</code> 是个好主意。</p><p>因此我们可以简单的将 <code>LIMIT 5</code> 追加到前边的语句上来将输出限制为5条记录：</p><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) RETURN <span class="built_in">n</span> </span><br><span class="line">LIMIT <span class="number">5</span></span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;Cypher 的 &lt;code&gt;MATCH&lt;/code&gt; 语句允许你查询符合条件的数据。你可以使用 &lt;code&gt;MATCH&lt;/code&gt; 来返回数据或对这些数据执行一些其他操作。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;MATCH&lt;/c
+      
     
     </summary>
     
@@ -205,57 +93,15 @@
     <published>2018-02-04T02:28:48.000Z</published>
     <updated>2018-02-04T04:34:47.494Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>程序员的世界里充斥着很多的专业名词和英文缩写，我打算对一些常见的词汇进行一个汇总，同时会在 GitHub 上进行同步：<a href="https://github.com/Panmax/Awsome-Programmer-Abbreviation" target="_blank" rel="external">https://github.com/Panmax/Awsome-Programmer-Abbreviation</a>，欢迎 PR。</p>
-</blockquote>
-<h3 id="英文缩写"><a href="#英文缩写" class="headerlink" title="英文缩写"></a>英文缩写</h3><h4 id="API"><a href="#API" class="headerlink" title="API"></a>API</h4><p>应用程序接口（英语：Application Programming Interface，简称：API），又称为应用编程接口，就是软件系统不同组成部分衔接的约定。由于近年来软件的规模日益庞大，常常需要把复杂的系统划分成小的组成部分，编程接口的设计十分重要。程序设计的实践中，编程接口的设计首先要使软件系统的职责得到合理划分。良好的接口设计可以降低系统各部分的相互依赖，提高组成单元的内聚性，降低组成单元间的耦合程度，从而提高系统的维护性和扩展性。</p>
-<h4 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h4><p>ACID，是指数据库管理系统（DBMS）在写入或更新资料的过程中，为保证事务（transaction）是正确可靠的，所必须具备的四个特性：原子性（atomicity，或称不可分割性）、一致性（consistency）、隔离性（isolation，又称独立性）、持久性（durability）。</p>
-<h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>AJAX即“Asynchronous JavaScript and XML”（异步的 JavaScript 与 XML 技术），指的是一套综合了多项技术的浏览器端网页开发技术。</p>
-<h4 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h4><ol>
-<li>比较并交换(compare and swap, CAS)，是原子操作的一种，可用于在多线程编程中实现不被打断的数据交换操作，从而避免多线程同时改写某一数据时由于执行顺序不确定性以及中断的不可预知性产生的数据不一致问题。 该操作通过将内存中的值与指定数据进行比较，当数值一样时将内存中的数据替换为新的值。</li>
-<li>集中式认证服务（英语：Central Authentication Service，缩写CAS）是一种针对万维网的单点登录协议。它的目的是允许一个用户访问多个应用程序，而只需提供一次凭证（如用户名和密码）。它还允许web应用程序在没有获得用户的安全凭据（如密码）的情况下对用户进行身份验证。“CAS”也指实现了该协议的软件包。</li>
-</ol>
-<h4 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h4><p>JPA 是 Java Persistence API 的简称，中文名 Java 持久层 API，是 JDK 5.0 注解或 XML 描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中。 </p>
-<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><p>JSON（JavaScript Object Notation）是一种轻量级的数据交换语言，以文字为基础，且易于让人阅读。尽管 JSON 是 Javascript 的一个子集，但JSON是独立于语言的文本格式，并且采用了类似于 C语言 家族的一些习惯。</p>
-<h4 id="POJO"><a href="#POJO" class="headerlink" title="POJO"></a>POJO</h4><p>POJO（Plain Ordinary Java Object）简单的 Java 对象，实际就是普通 Java Beans。使用 POJO 名称是为了避免和 EJB 混淆起来，而且简称比较直接。其中有一些属性及其 getter setter 方法的类，没有业务逻辑，有时可以作为VO(Value Object) 或 DTO(Data Transform Object) 来使用。当然，如果你有一个简单的运算属性也是可以的，但不允许有业务方法，也不能携带有 connection 之类的方法。</p>
-<h4 id="DSL"><a href="#DSL" class="headerlink" title="DSL"></a>DSL</h4><p>领域专用语言（Domain Specific Language/DSL），其基本思想是「求专不求全」，不像通用目的语言那样目标范围涵盖一切软件问题，而是专门针对某一特定问题的计算机语言。</p>
-<h4 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h4><p>在计算机科学中，垃圾回收（英语：Garbage Collection，缩写为GC）是一种自动的内存管理机制。当一个电脑上的动态内存不再需要时，就应该予以释放，以让出内存，这种内存资源管理，称为垃圾回收。垃圾回收器可以让程序员减轻许多负担，也减少程序员犯错的机会。垃圾回收最早起源于LISP语言。目前许多语言如 Smalltalk、Java、C# 和 D 语言都支持垃圾回收器。</p>
-<h4 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h4><p>数据操纵语言（Data Manipulation Language, DML）是 SQL 语言中，负责对数据库对象运行数据访问工作的指令集，以 INSERT、UPDATE、DELETE 三种指令为核心，分别代表插入、更新与删除，是开发以数据为中心的应用程序必定会使用到的指令，因此有很多开发人员都把加上SQL的SELECT语句的四大指令以“CRUD”来称呼。</p>
-<h4 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h4><p>数据定义语言（Data Definition Language，DDL）是 SQL 语言集中负责数据结构定义与数据库对象定义的语言，由 CREATE、ALTER 与 DROP 三个语法所组成，最早是由Codasyl（Conference on Data Systems Languages）数据模型开始，现在被纳入 SQL 指令中作为其中一个子集。</p>
-<h4 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h4><p>Dependency Injection，依赖注入。在软件工程中，依赖注入是种实现控制反转用于解决依赖性设计模式。一个依赖关系指的是可被利用的一种对象（即服务提供端） 。依赖注入是将所依赖的传递给将使用的从属对象（即客户端）。该服务是将会变成客户端的状态的一部分。 传递服务给客户端，而非允许客户端来建立或寻找服务，是本设计模式的基本要求。</p>
-<h4 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h4><p>域名系统（英文：Domain Name System）是互联网的一项服务。它作为将域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。DNS使用TCP和UDP端口53。当前，对于每一级域名长度的限制是63个字符，域名总长度则不能超过253个字符。</p>
-<h4 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h4><p>图形用户界面（Graphical User Interface）是指采用图形方式显示的计算机操作用户界面。与早期计算机使用的命令行界面相比，图形界面对于用户来说在视觉上更易于接受。</p>
-<h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>超文本传输协议（英文：HyperText Transfer ProtocolP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。HTTP是万维网的数据通信的基础。</p>
-<h4 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h4><p>控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。其中最常见的方式叫做依赖注入（Dependency Injection，简称DI），还有一种方式叫“依赖查找”（Dependency Lookup）。通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体，将其所依赖的对象的引用传递给它。也可以说，依赖被注入到对象中。</p>
-<h4 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h4><p>JSON Web Token（JWT）是一个非常轻巧的规范。这个规范允许我们使用JWT在用户和服务器之间传递安全可靠的信息，特别适用于分布式站点的单点登录（SSO）场景。</p>
-<h4 id="LDAP"><a href="#LDAP" class="headerlink" title="LDAP"></a>LDAP</h4><p>轻型目录存取协定（英文：Lightweight Directory Access Protocol）是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息。</p>
-<h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p>MVC模式（Model–view–controller）是软件工程中的一种软件架构模式，把软件系统分为三个基本部分：模型（Model）、视图（View）和控制器（Controller）。MVC 模式的目的是实现一种动态的程序设计，使后续对程序的修改和扩展简化，并且使程序某一部分的重复利用成为可能。除此之外，此模式通过对复杂度的简化，使程序结构更加直观。</p>
-<h4 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h4><p>Model-view-presenter，简称MVP，是电脑软件设计工程中一种对针对MVC模式，再审议后所延伸提出的一种软件设计模式。被广范用于便捷自动化单元测试和在呈现逻辑中改良分离关注点（separation of concerns）。</p>
-<h4 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h4><p>MVVM（Model–view–viewmodel）是一种软件架构模式，有助于将图形用户界面的开发与业务逻辑或后端逻辑（数据模型）的开发分离开来，这是通过置标语言或 GUI 代码实现的。</p>
-<h4 id="OLAP"><a href="#OLAP" class="headerlink" title="OLAP"></a>OLAP</h4><p>联机分析处理（英语：On-Line Analytical Processing），是一套以多维度方式分析数据，而能弹性地提供积存（英语：Roll-up）、下钻（英语：Drill-down）、和透视分析（英语：pivot）等操作，呈现集成性决策信息的方法，多用于决策支持系统、商务智能或数据仓库。其主要的功能，在于方便大规模数据分析及统计计算，对决策提供参考和支持。与之相区别的是联机交易处理（OLTP）。</p>
-<h4 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h4><p>SQL（结构化查询语言）是一种特定目的程序语言，用于管理关系数据库管理系统（RDBMS），或在关系流数据管理系统（RDSMS）中进行流处理。</p>
-<h4 id="SPA"><a href="#SPA" class="headerlink" title="SPA"></a>SPA</h4><p>单页 Web 应用（single page web application），就是只有一张 Web 页面的应用，是加载单个 HTML 页面并在用户与应用程序交互时动态更新该页面的 Web 应用程序。</p>
-<h4 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h4><p>面向服务的体系结构（英语：service-oriented architecture）并不特指一种技术，而是一种分散式运算的软件设计方法。软件的部分组件(呼叫者)，可以透过网络上的通用协定呼叫另一个应用软件元件执行、运作，让呼叫者获得服务。SOA原则上采用开放标准、与软件资源进行交互并采用表示的标准方式。因此应能跨越厂商、产品与技术。一项服务应视为一个独立的功能单元，可以远端存取并独立执行与更新，例如在线上线查询信用卡账单。</p>
-<h4 id="SOAP"><a href="#SOAP" class="headerlink" title="SOAP"></a>SOAP</h4><p>SOAP（原为Simple Object Access Protocol的首字母缩写，即简单对象访问协议）是交换数据的一种协议规范，使用在计算机网络Web服务（web service）中，交换带结构信息。SOAP为了简化网页服务器（Web Server）从XML数据库中提取数据时，节省去格式化页面时间，以及不同应用程序之间按照HTTP通信协议，遵从XML格式执行资料互换，使其抽象于语言实现、平台和硬件。</p>
-<h4 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h4><p>NoSQL 是对不同于传统的关系数据库的数据库管理系统的统称。</p>
-<h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><p>可扩展标记语言（英语：eXtensible Markup Language，简称：XML），是一种标记语言。标记指计算机所能理解的信息符号，通过此种标记，计算机之间可以处理包含各种信息的文章等。如何定义这些标记，既可以选择国际通用的标记语言，比如HTML，也可以使用像XML这样由相关人士自由决定的标记语言，这就是语言的可扩展性。XML是从标准通用标记语言（SGML）中简化修改出来的。它主要用到的有可扩展标记语言、可扩展样式语言（XSL）、XBRL和XPath等。</p>
-<hr>
-<h3 id="专业名词"><a href="#专业名词" class="headerlink" title="专业名词"></a>专业名词</h3><h4 id="前端后端"><a href="#前端后端" class="headerlink" title="前端后端"></a>前端后端</h4><p>前端（英语：front-end）和后端（英语：back-end）是描述进程开始和结束的通用词汇。前端作用于采集输入信息，后端进行处理。计算机程序的界面样式，视觉呈现属于前端。</p>
-<h4 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h4><p>在关系数据库管理系统里，乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</p>
-<h4 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h4><p>在关系数据库管理系统里，悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，缩写“PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作读某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p>
-<h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><p>自旋锁是计算机科学用于多线程同步的一种锁，线程反复检查锁变量是否可用。由于线程在这一过程中保持执行，因此是一种忙等待。一旦获取了自旋锁，线程会一直保持该锁，直至显式释放自旋锁。</p>
-<h4 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h4><p>递归（英语：Recursion），又译为递回，在数学与计算机科学中，是指在函数的定义中使用函数自身的方法。递归一词还较常用于描述以自相似方法重复事物的过程。例如，当两面镜子相互之间近似平行时，镜中嵌套的图像是以无限递归的形式出现的。也可以理解为自我复制的过程。</p>
-<h4 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h4><p>主键，又称主码（英语：primary key或unique key）。数据库表中对储存数据对象予以唯一和完整标识的数据列或属性的组合。一个数据列只能有一个主键，且主键的取值不能缺失，即不能为空值（Null）。</p>
-<h4 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h4><p>外键（英语：foreign key，台湾译外来键，又称外部键）。其实在关系数据库中，每个数据表都是由关系来连系彼此的关系，父数据表（Parent Entity）的主键（primary key）会放在另一个数据表，当做属性以创建彼此的关系，而这个属性就是外键。</p>
-<h4 id="B-S结构"><a href="#B-S结构" class="headerlink" title="B/S结构"></a>B/S结构</h4><p>浏览器-服务器（Browser/Server）结构，与C/S结构不同，其客户端不需要安装专门的软件，只需要浏览器即可，浏览器通过Web服务器与数据库进行交互，可以方便的在不同平台下工作；服务器端可采用高性能计算机，并安装Oracle、Sybase、Informix等大型数据库。B/S结构简化了客户端的工作，它是随着Internet技术兴起而产生的，对C/S技术的改进，但该结构下服务器端的工作较重，对服务器的性能要求更高。</p>
-<h4 id="C-S结构"><a href="#C-S结构" class="headerlink" title="C/S结构"></a>C/S结构</h4><p>主从式架构 (英语：Client–server model) 也称客户端-服务器（Client/Server）架构、C/S架构，是一种网络架构，它把客户端 (Client) （通常是一个采用图形用户界面的程序）与服务器 (Server) 区分开来。每一个客户端软件的实例都可以向一个服务器或应用程序服务器发出请求。有很多不同类型的服务器，例如文件服务器、游戏服务器等。</p>
-<h4 id="Web服务"><a href="#Web服务" class="headerlink" title="Web服务"></a>Web服务</h4><p>根据W3C的定义，Web服务（Web service）应当是一个软件系统，用以支持网络间不同机器的互动操作。网络服务通常是许多应用程序接口（API）所组成的，它们透过网络，例如国际互联网（Internet）的远程服务器端，执行客户所提交服务的请求。</p>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>程序员的世界里充斥着很多的专业名词和英文缩写，我打算对一些常见的词汇进行一个汇总，同时会在 GitHub 上进行同步：<a href="https://github.com/Panmax/Awsome-Programmer-Abbreviation" target="_blank" rel="noopener">https://github.com/Panmax/Awsome-Programmer-Abbreviation</a>，欢迎 PR。</p></blockquote><h3 id="英文缩写"><a href="#英文缩写" class="headerlink" title="英文缩写"></a>英文缩写</h3><h4 id="API"><a href="#API" class="headerlink" title="API"></a>API</h4><p>应用程序接口（英语：Application Programming Interface，简称：API），又称为应用编程接口，就是软件系统不同组成部分衔接的约定。由于近年来软件的规模日益庞大，常常需要把复杂的系统划分成小的组成部分，编程接口的设计十分重要。程序设计的实践中，编程接口的设计首先要使软件系统的职责得到合理划分。良好的接口设计可以降低系统各部分的相互依赖，提高组成单元的内聚性，降低组成单元间的耦合程度，从而提高系统的维护性和扩展性。</p><h4 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h4><p>ACID，是指数据库管理系统（DBMS）在写入或更新资料的过程中，为保证事务（transaction）是正确可靠的，所必须具备的四个特性：原子性（atomicity，或称不可分割性）、一致性（consistency）、隔离性（isolation，又称独立性）、持久性（durability）。</p><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>AJAX即“Asynchronous JavaScript and XML”（异步的 JavaScript 与 XML 技术），指的是一套综合了多项技术的浏览器端网页开发技术。</p><h4 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h4><ol><li>比较并交换(compare and swap, CAS)，是原子操作的一种，可用于在多线程编程中实现不被打断的数据交换操作，从而避免多线程同时改写某一数据时由于执行顺序不确定性以及中断的不可预知性产生的数据不一致问题。 该操作通过将内存中的值与指定数据进行比较，当数值一样时将内存中的数据替换为新的值。</li><li>集中式认证服务（英语：Central Authentication Service，缩写CAS）是一种针对万维网的单点登录协议。它的目的是允许一个用户访问多个应用程序，而只需提供一次凭证（如用户名和密码）。它还允许web应用程序在没有获得用户的安全凭据（如密码）的情况下对用户进行身份验证。“CAS”也指实现了该协议的软件包。</li></ol><h4 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h4><p>JPA 是 Java Persistence API 的简称，中文名 Java 持久层 API，是 JDK 5.0 注解或 XML 描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中。 </p><h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><p>JSON（JavaScript Object Notation）是一种轻量级的数据交换语言，以文字为基础，且易于让人阅读。尽管 JSON 是 Javascript 的一个子集，但JSON是独立于语言的文本格式，并且采用了类似于 C语言 家族的一些习惯。</p><h4 id="POJO"><a href="#POJO" class="headerlink" title="POJO"></a>POJO</h4><p>POJO（Plain Ordinary Java Object）简单的 Java 对象，实际就是普通 Java Beans。使用 POJO 名称是为了避免和 EJB 混淆起来，而且简称比较直接。其中有一些属性及其 getter setter 方法的类，没有业务逻辑，有时可以作为VO(Value Object) 或 DTO(Data Transform Object) 来使用。当然，如果你有一个简单的运算属性也是可以的，但不允许有业务方法，也不能携带有 connection 之类的方法。</p><h4 id="DSL"><a href="#DSL" class="headerlink" title="DSL"></a>DSL</h4><p>领域专用语言（Domain Specific Language/DSL），其基本思想是「求专不求全」，不像通用目的语言那样目标范围涵盖一切软件问题，而是专门针对某一特定问题的计算机语言。</p><h4 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h4><p>在计算机科学中，垃圾回收（英语：Garbage Collection，缩写为GC）是一种自动的内存管理机制。当一个电脑上的动态内存不再需要时，就应该予以释放，以让出内存，这种内存资源管理，称为垃圾回收。垃圾回收器可以让程序员减轻许多负担，也减少程序员犯错的机会。垃圾回收最早起源于LISP语言。目前许多语言如 Smalltalk、Java、C# 和 D 语言都支持垃圾回收器。</p><h4 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h4><p>数据操纵语言（Data Manipulation Language, DML）是 SQL 语言中，负责对数据库对象运行数据访问工作的指令集，以 INSERT、UPDATE、DELETE 三种指令为核心，分别代表插入、更新与删除，是开发以数据为中心的应用程序必定会使用到的指令，因此有很多开发人员都把加上SQL的SELECT语句的四大指令以“CRUD”来称呼。</p><h4 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h4><p>数据定义语言（Data Definition Language，DDL）是 SQL 语言集中负责数据结构定义与数据库对象定义的语言，由 CREATE、ALTER 与 DROP 三个语法所组成，最早是由Codasyl（Conference on Data Systems Languages）数据模型开始，现在被纳入 SQL 指令中作为其中一个子集。</p><h4 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h4><p>Dependency Injection，依赖注入。在软件工程中，依赖注入是种实现控制反转用于解决依赖性设计模式。一个依赖关系指的是可被利用的一种对象（即服务提供端） 。依赖注入是将所依赖的传递给将使用的从属对象（即客户端）。该服务是将会变成客户端的状态的一部分。 传递服务给客户端，而非允许客户端来建立或寻找服务，是本设计模式的基本要求。</p><h4 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h4><p>域名系统（英文：Domain Name System）是互联网的一项服务。它作为将域名和IP地址相互映射的一个分布式数据库，能够使人更方便地访问互联网。DNS使用TCP和UDP端口53。当前，对于每一级域名长度的限制是63个字符，域名总长度则不能超过253个字符。</p><h4 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h4><p>图形用户界面（Graphical User Interface）是指采用图形方式显示的计算机操作用户界面。与早期计算机使用的命令行界面相比，图形界面对于用户来说在视觉上更易于接受。</p><h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>超文本传输协议（英文：HyperText Transfer ProtocolP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。HTTP是万维网的数据通信的基础。</p><h4 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h4><p>控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。其中最常见的方式叫做依赖注入（Dependency Injection，简称DI），还有一种方式叫“依赖查找”（Dependency Lookup）。通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体，将其所依赖的对象的引用传递给它。也可以说，依赖被注入到对象中。</p><h4 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h4><p>JSON Web Token（JWT）是一个非常轻巧的规范。这个规范允许我们使用JWT在用户和服务器之间传递安全可靠的信息，特别适用于分布式站点的单点登录（SSO）场景。</p><h4 id="LDAP"><a href="#LDAP" class="headerlink" title="LDAP"></a>LDAP</h4><p>轻型目录存取协定（英文：Lightweight Directory Access Protocol）是一个开放的，中立的，工业标准的应用协议，通过IP协议提供访问控制和维护分布式信息的目录信息。</p><h4 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h4><p>MVC模式（Model–view–controller）是软件工程中的一种软件架构模式，把软件系统分为三个基本部分：模型（Model）、视图（View）和控制器（Controller）。MVC 模式的目的是实现一种动态的程序设计，使后续对程序的修改和扩展简化，并且使程序某一部分的重复利用成为可能。除此之外，此模式通过对复杂度的简化，使程序结构更加直观。</p><h4 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h4><p>Model-view-presenter，简称MVP，是电脑软件设计工程中一种对针对MVC模式，再审议后所延伸提出的一种软件设计模式。被广范用于便捷自动化单元测试和在呈现逻辑中改良分离关注点（separation of concerns）。</p><h4 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h4><p>MVVM（Model–view–viewmodel）是一种软件架构模式，有助于将图形用户界面的开发与业务逻辑或后端逻辑（数据模型）的开发分离开来，这是通过置标语言或 GUI 代码实现的。</p><h4 id="OLAP"><a href="#OLAP" class="headerlink" title="OLAP"></a>OLAP</h4><p>联机分析处理（英语：On-Line Analytical Processing），是一套以多维度方式分析数据，而能弹性地提供积存（英语：Roll-up）、下钻（英语：Drill-down）、和透视分析（英语：pivot）等操作，呈现集成性决策信息的方法，多用于决策支持系统、商务智能或数据仓库。其主要的功能，在于方便大规模数据分析及统计计算，对决策提供参考和支持。与之相区别的是联机交易处理（OLTP）。</p><h4 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h4><p>SQL（结构化查询语言）是一种特定目的程序语言，用于管理关系数据库管理系统（RDBMS），或在关系流数据管理系统（RDSMS）中进行流处理。</p><h4 id="SPA"><a href="#SPA" class="headerlink" title="SPA"></a>SPA</h4><p>单页 Web 应用（single page web application），就是只有一张 Web 页面的应用，是加载单个 HTML 页面并在用户与应用程序交互时动态更新该页面的 Web 应用程序。</p><h4 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h4><p>面向服务的体系结构（英语：service-oriented architecture）并不特指一种技术，而是一种分散式运算的软件设计方法。软件的部分组件(呼叫者)，可以透过网络上的通用协定呼叫另一个应用软件元件执行、运作，让呼叫者获得服务。SOA原则上采用开放标准、与软件资源进行交互并采用表示的标准方式。因此应能跨越厂商、产品与技术。一项服务应视为一个独立的功能单元，可以远端存取并独立执行与更新，例如在线上线查询信用卡账单。</p><h4 id="SOAP"><a href="#SOAP" class="headerlink" title="SOAP"></a>SOAP</h4><p>SOAP（原为Simple Object Access Protocol的首字母缩写，即简单对象访问协议）是交换数据的一种协议规范，使用在计算机网络Web服务（web service）中，交换带结构信息。SOAP为了简化网页服务器（Web Server）从XML数据库中提取数据时，节省去格式化页面时间，以及不同应用程序之间按照HTTP通信协议，遵从XML格式执行资料互换，使其抽象于语言实现、平台和硬件。</p><h4 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h4><p>NoSQL 是对不同于传统的关系数据库的数据库管理系统的统称。</p><h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><p>可扩展标记语言（英语：eXtensible Markup Language，简称：XML），是一种标记语言。标记指计算机所能理解的信息符号，通过此种标记，计算机之间可以处理包含各种信息的文章等。如何定义这些标记，既可以选择国际通用的标记语言，比如HTML，也可以使用像XML这样由相关人士自由决定的标记语言，这就是语言的可扩展性。XML是从标准通用标记语言（SGML）中简化修改出来的。它主要用到的有可扩展标记语言、可扩展样式语言（XSL）、XBRL和XPath等。</p><hr><h3 id="专业名词"><a href="#专业名词" class="headerlink" title="专业名词"></a>专业名词</h3><h4 id="前端后端"><a href="#前端后端" class="headerlink" title="前端后端"></a>前端后端</h4><p>前端（英语：front-end）和后端（英语：back-end）是描述进程开始和结束的通用词汇。前端作用于采集输入信息，后端进行处理。计算机程序的界面样式，视觉呈现属于前端。</p><h4 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h4><p>在关系数据库管理系统里，乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</p><h4 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h4><p>在关系数据库管理系统里，悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，缩写“PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作读某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p><h4 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h4><p>自旋锁是计算机科学用于多线程同步的一种锁，线程反复检查锁变量是否可用。由于线程在这一过程中保持执行，因此是一种忙等待。一旦获取了自旋锁，线程会一直保持该锁，直至显式释放自旋锁。</p><h4 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h4><p>递归（英语：Recursion），又译为递回，在数学与计算机科学中，是指在函数的定义中使用函数自身的方法。递归一词还较常用于描述以自相似方法重复事物的过程。例如，当两面镜子相互之间近似平行时，镜中嵌套的图像是以无限递归的形式出现的。也可以理解为自我复制的过程。</p><h4 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h4><p>主键，又称主码（英语：primary key或unique key）。数据库表中对储存数据对象予以唯一和完整标识的数据列或属性的组合。一个数据列只能有一个主键，且主键的取值不能缺失，即不能为空值（Null）。</p><h4 id="外键"><a href="#外键" class="headerlink" title="外键"></a>外键</h4><p>外键（英语：foreign key，台湾译外来键，又称外部键）。其实在关系数据库中，每个数据表都是由关系来连系彼此的关系，父数据表（Parent Entity）的主键（primary key）会放在另一个数据表，当做属性以创建彼此的关系，而这个属性就是外键。</p><h4 id="B-S结构"><a href="#B-S结构" class="headerlink" title="B/S结构"></a>B/S结构</h4><p>浏览器-服务器（Browser/Server）结构，与C/S结构不同，其客户端不需要安装专门的软件，只需要浏览器即可，浏览器通过Web服务器与数据库进行交互，可以方便的在不同平台下工作；服务器端可采用高性能计算机，并安装Oracle、Sybase、Informix等大型数据库。B/S结构简化了客户端的工作，它是随着Internet技术兴起而产生的，对C/S技术的改进，但该结构下服务器端的工作较重，对服务器的性能要求更高。</p><h4 id="C-S结构"><a href="#C-S结构" class="headerlink" title="C/S结构"></a>C/S结构</h4><p>主从式架构 (英语：Client–server model) 也称客户端-服务器（Client/Server）架构、C/S架构，是一种网络架构，它把客户端 (Client) （通常是一个采用图形用户界面的程序）与服务器 (Server) 区分开来。每一个客户端软件的实例都可以向一个服务器或应用程序服务器发出请求。有很多不同类型的服务器，例如文件服务器、游戏服务器等。</p><h4 id="Web服务"><a href="#Web服务" class="headerlink" title="Web服务"></a>Web服务</h4><p>根据W3C的定义，Web服务（Web service）应当是一个软件系统，用以支持网络间不同机器的互动操作。网络服务通常是许多应用程序接口（API）所组成的，它们透过网络，例如国际互联网（Internet）的远程服务器端，执行客户所提交服务的请求。</p>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;程序员的世界里充斥着很多的专业名词和英文缩写，我打算对一些常见的词汇进行一个汇总，同时会在 GitHub 上进行同步：&lt;a href=&quot;https://github.com/Panmax/Awsome-Programmer-Abbreviation
+      
     
     </summary>
     
@@ -269,52 +115,18 @@
     <published>2018-01-31T07:42:31.000Z</published>
     <updated>2018-01-31T08:36:54.846Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>约束允许你对节点或关系的输入数据进行限制。</p>
-</blockquote>
-<p>约束有助于数据的完整性，因为它们阻止用户输入错误的数据类型。如果某个用户在应用了约束时输入了错误的类型会收到错误消息。</p>
-<h3 id="约束类型"><a href="#约束类型" class="headerlink" title="约束类型"></a>约束类型</h3><p>在 Neo4j 中你可以创建<em>唯一</em>约束和<em>属性存在</em>约束。</p>
-<p>唯一约束</p>
-<ul>
-<li>指定该属性必须包含唯一值（比如两个 Artist 节点不允许有相同值的 name 属性。）</li>
-</ul>
-<p>属性存在约束</p>
-<ul>
-<li>确保具有特定标签的节点或具有特定类型的关系都存在某个属性（属性存在约束只在 Neo4j 企业版中可用）</li>
-</ul>
-<h3 id="创建唯一约束"><a href="#创建唯一约束" class="headerlink" title="创建唯一约束"></a>创建唯一约束</h3><p>在 Neo4j 中创建唯一约束需要使用 <code>CREATE CONSTRAINT ON</code> 语句，像下边这样：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE CONSTRAINT ON (<span class="selector-tag">a</span>:Artist) ASSERT <span class="selector-tag">a</span><span class="selector-class">.name</span> IS UNIQUE</div></pre></td></tr></table></figure>
-<p>在上边的例子中，我们为 <code>Artist</code> 标签的所有节点的 <code>name</code> 属性创建了唯一约束。</p>
-<p>我们的语句执行成功后，展示如下信息：</p>
-<p><img src="1.png" alt=""></p>
-<blockquote>
-<p>当你创建一个唯一约束时，Neo4j 将同时创建一个索引。Cypher 将使用该索引进行查询，就像使用其他索引一样。<br>因此不需要单独创建索引了，如果你尝试在已经有索引的情况下创建约束，你将会收到一个错误。</p>
-</blockquote>
-<h3 id="查看约束"><a href="#查看约束" class="headerlink" title="查看约束"></a>查看约束</h3><p>约束（和索引）成为数据库模式的一部分。</p>
-<p>我们可以通过使用 <code>:schema</code> 名来来查看我们刚刚创建的约束，就像下边这样：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">:schems</span></div></pre></td></tr></table></figure>
-<p>你将会看到新创建的约束以及使用它创建的索引，也可以看到我们之前创建的索引：</p>
-<p><img src="2.png" alt=""></p>
-<h3 id="测试约束"><a href="#测试约束" class="headerlink" title="测试约束"></a>测试约束</h3><p>我们可以通过尝试创建两个相同的艺术家来测试这个约束是否起作用。</p>
-<p>执行下边的语句两次：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"周杰伦"</span>&#125;) </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></div></pre></td></tr></table></figure>
-<p>第一次运行这条语句时，节点将会被创建。第二次运行时，你应该会收到以下错误信息：</p>
-<p><img src="3.png" alt=""></p>
-<h3 id="属性存在约束"><a href="#属性存在约束" class="headerlink" title="属性存在约束"></a>属性存在约束</h3><p>属性存在约束能够确保具有特定标签的所有节点具有特定的属性。比如你可以指定 <code>Artist</code> 标签的所有节点都必须包含 <code>name</code> 属性。</p>
-<p>使用 <code>ASSERT exists(variable.propertyName)</code> 语法来创建属性存在约束。像下边这样：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE CONSTRAINT ON (<span class="name">a</span><span class="symbol">:Artist</span>) ASSERT exists(<span class="name">a</span>.name)</div></pre></td></tr></table></figure>
-<blockquote>
-<p>请注意，属性存在约束只能在 Neo4j 企业版中使用。</p>
-</blockquote>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>约束允许你对节点或关系的输入数据进行限制。</p></blockquote><p>约束有助于数据的完整性，因为它们阻止用户输入错误的数据类型。如果某个用户在应用了约束时输入了错误的类型会收到错误消息。</p><h3 id="约束类型"><a href="#约束类型" class="headerlink" title="约束类型"></a>约束类型</h3><p>在 Neo4j 中你可以创建<em>唯一</em>约束和<em>属性存在</em>约束。</p><p>唯一约束</p><ul><li>指定该属性必须包含唯一值（比如两个 Artist 节点不允许有相同值的 name 属性。）</li></ul><p>属性存在约束</p><ul><li>确保具有特定标签的节点或具有特定类型的关系都存在某个属性（属性存在约束只在 Neo4j 企业版中可用）</li></ul><h3 id="创建唯一约束"><a href="#创建唯一约束" class="headerlink" title="创建唯一约束"></a>创建唯一约束</h3><p>在 Neo4j 中创建唯一约束需要使用 <code>CREATE CONSTRAINT ON</code> 语句，像下边这样：</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE CONSTRAINT ON (<span class="selector-tag">a</span>:Artist) ASSERT <span class="selector-tag">a</span><span class="selector-class">.name</span> IS UNIQUE</span><br></pre></td></tr></table></figure><p>在上边的例子中，我们为 <code>Artist</code> 标签的所有节点的 <code>name</code> 属性创建了唯一约束。</p><p>我们的语句执行成功后，展示如下信息：</p><p><img src="1.png" alt=""></p><blockquote><p>当你创建一个唯一约束时，Neo4j 将同时创建一个索引。Cypher 将使用该索引进行查询，就像使用其他索引一样。<br>因此不需要单独创建索引了，如果你尝试在已经有索引的情况下创建约束，你将会收到一个错误。</p></blockquote><h3 id="查看约束"><a href="#查看约束" class="headerlink" title="查看约束"></a>查看约束</h3><p>约束（和索引）成为数据库模式的一部分。</p><p>我们可以通过使用 <code>:schema</code> 名来来查看我们刚刚创建的约束，就像下边这样：</p><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schems</span></span><br></pre></td></tr></table></figure><p>你将会看到新创建的约束以及使用它创建的索引，也可以看到我们之前创建的索引：</p><p><img src="2.png" alt=""></p><h3 id="测试约束"><a href="#测试约束" class="headerlink" title="测试约束"></a>测试约束</h3><p>我们可以通过尝试创建两个相同的艺术家来测试这个约束是否起作用。</p><p>执行下边的语句两次：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"周杰伦"</span>&#125;) </span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></span><br></pre></td></tr></table></figure><p>第一次运行这条语句时，节点将会被创建。第二次运行时，你应该会收到以下错误信息：</p><p><img src="3.png" alt=""></p><h3 id="属性存在约束"><a href="#属性存在约束" class="headerlink" title="属性存在约束"></a>属性存在约束</h3><p>属性存在约束能够确保具有特定标签的所有节点具有特定的属性。比如你可以指定 <code>Artist</code> 标签的所有节点都必须包含 <code>name</code> 属性。</p><p>使用 <code>ASSERT exists(variable.propertyName)</code> 语法来创建属性存在约束。像下边这样：</p><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE CONSTRAINT ON (<span class="name">a</span><span class="symbol">:Artist</span>) ASSERT exists(<span class="name">a</span>.name)</span><br></pre></td></tr></table></figure><blockquote><p>请注意，属性存在约束只能在 Neo4j 企业版中使用。</p></blockquote>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;约束允许你对节点或关系的输入数据进行限制。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;约束有助于数据的完整性，因为它们阻止用户输入错误的数据类型。如果某个用户在应用了约束时输入了错误的类型会收到错误消息。&lt;/p&gt;
 &lt;h3 id=&quot;约束类型&quot;&gt;&lt;a 
+      
     
     </summary>
     
@@ -328,41 +140,18 @@
     <published>2018-01-22T11:04:37.000Z</published>
     <updated>2018-01-22T13:35:12.151Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>索引是一种数据结构，可以提高数据库数据检索的速度。</p>
-</blockquote>
-<p>在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。</p>
-<p>使用 <code>CREATE INDEX ON</code> 语句创建索引，像下边这样：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> :Album(<span class="keyword">name</span>)</div></pre></td></tr></table></figure>
-<p>在上边的例子中，我们为所有标签为 <code>Album</code> 的点的 <code>name</code> 属性创建了一个索引。</p>
-<p>语句执行成功后，将展示如下信息：</p>
-<p><img src="1.png" alt=""></p>
-<blockquote>
-<p>当你创建一个索引时，Neo4j 会在后台进行操作。如果你的数据库很大，可能需要一段时间。只有当 Neo4j 完成索引创建后，这个索引才会被上线并用于查询。</p>
-</blockquote>
-<h2 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h2><p>索引（约束）成为了数据库模式的一部分。</p>
-<p>在 Neo4j 浏览器中，你可以使用 <code>:schema</code> 命令查看所有索引和约束。</p>
-<p>来试一试吧：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">:schema</span></div></pre></td></tr></table></figure>
-<p>你可以看到一个索引和约束的列表：</p>
-<p><img src="2.png" alt=""></p>
-<h2 id="索引提示"><a href="#索引提示" class="headerlink" title="索引提示"></a>索引提示</h2><p>索引创建完成后，当你在执行查询时会自动使用。</p>
-<p>然而 Neo4j 也允许你强制提示一个或多个索引，你可以在你的查询语句中使用 <code>USING INDEX ...</code> 创建一个索引提示。</p>
-<p>所以上边的示例可以像下边这样强制索引：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"猛龙过江"</span>&#125;) </div><div class="line"><span class="selector-tag">USING</span> <span class="selector-tag">INDEX</span> <span class="selector-tag">a</span><span class="selector-pseudo">:Album(name)</span> </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></div></pre></td></tr></table></figure>
-<p>我们也可以使用多个提示，为每个想强制的索引添加一个新的 <code>USING INDEX</code> 即可。</p>
-<h2 id="是否有必要索引？"><a href="#是否有必要索引？" class="headerlink" title="是否有必要索引？"></a>是否有必要索引？</h2><p>当 Neo4j 创建索引时，它会在数据库中创建冗余的副本，因此使用索引会占用更多的硬盘空间并减慢写入速度。</p>
-<p>因此在决定索引哪些数据时你需要进行一些权衡。</p>
-<p>一般来说当你知道某些节点数量很多时，创建索引是个不错的主意。或者你发现查询时间太长可以尝试通过添加索引来解决。</p>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>索引是一种数据结构，可以提高数据库数据检索的速度。</p></blockquote><p>在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。</p><p>使用 <code>CREATE INDEX ON</code> 语句创建索引，像下边这样：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> :Album(<span class="keyword">name</span>)</span><br></pre></td></tr></table></figure><p>在上边的例子中，我们为所有标签为 <code>Album</code> 的点的 <code>name</code> 属性创建了一个索引。</p><p>语句执行成功后，将展示如下信息：</p><p><img src="1.png" alt=""></p><blockquote><p>当你创建一个索引时，Neo4j 会在后台进行操作。如果你的数据库很大，可能需要一段时间。只有当 Neo4j 完成索引创建后，这个索引才会被上线并用于查询。</p></blockquote><h2 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h2><p>索引（约束）成为了数据库模式的一部分。</p><p>在 Neo4j 浏览器中，你可以使用 <code>:schema</code> 命令查看所有索引和约束。</p><p>来试一试吧：</p><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schema</span></span><br></pre></td></tr></table></figure><p>你可以看到一个索引和约束的列表：</p><p><img src="2.png" alt=""></p><h2 id="索引提示"><a href="#索引提示" class="headerlink" title="索引提示"></a>索引提示</h2><p>索引创建完成后，当你在执行查询时会自动使用。</p><p>然而 Neo4j 也允许你强制提示一个或多个索引，你可以在你的查询语句中使用 <code>USING INDEX ...</code> 创建一个索引提示。</p><p>所以上边的示例可以像下边这样强制索引：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"猛龙过江"</span>&#125;) </span><br><span class="line"><span class="selector-tag">USING</span> <span class="selector-tag">INDEX</span> <span class="selector-tag">a</span><span class="selector-pseudo">:Album(name)</span> </span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></span><br></pre></td></tr></table></figure><p>我们也可以使用多个提示，为每个想强制的索引添加一个新的 <code>USING INDEX</code> 即可。</p><h2 id="是否有必要索引？"><a href="#是否有必要索引？" class="headerlink" title="是否有必要索引？"></a>是否有必要索引？</h2><p>当 Neo4j 创建索引时，它会在数据库中创建冗余的副本，因此使用索引会占用更多的硬盘空间并减慢写入速度。</p><p>因此在决定索引哪些数据时你需要进行一些权衡。</p><p>一般来说当你知道某些节点数量很多时，创建索引是个不错的主意。或者你发现查询时间太长可以尝试通过添加索引来解决。</p>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;索引是一种数据结构，可以提高数据库数据检索的速度。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。&lt;/p&gt;
 &lt;p&gt;使用 
+      
     
     </summary>
     
@@ -376,40 +165,18 @@
     <published>2018-01-19T03:02:41.000Z</published>
     <updated>2018-01-19T04:56:59.431Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>就像在 Neo4j 中创建节点一样，可以用 <code>CREATE</code> 来创建节点间的关系。</p>
-</blockquote>
-<hr>
-<p>创建关系的语句由 <code>CREATE</code> 组成，后边跟着要创建的关系详情。</p>
-<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>我们在先前创建的点之间创建一个关系，首先创建一个乐队和专辑之间的关系。</p>
-<p><em>我们将创建如下关系</em></p>
-<p><img src="1.png" alt=""></p>
-<p>这是 Cypher 的 <code>CREATE</code>  创建上边关系的语句：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">MATCH (<span class="selector-tag">a</span>:Artist),(<span class="selector-tag">b</span>:Album)</div><div class="line">WHERE <span class="selector-tag">a</span><span class="selector-class">.name</span> = <span class="string">"筷子兄弟"</span> AND <span class="selector-tag">b</span><span class="selector-class">.name</span> = <span class="string">"猛龙过江"</span></div><div class="line">CREATE (a)-[r:RELEASED]-&gt;(b)</div><div class="line">RETURN r</div></pre></td></tr></table></figure>
-<h3 id="上边代码的解释"><a href="#上边代码的解释" class="headerlink" title="上边代码的解释"></a>上边代码的解释</h3><p>首先我们使用 <code>MATCH</code> 语句查找我们要创建关系的两个点。</p>
-<p>可能有很多节点带有 <code>Artist</code> 或 <code>Album</code> 标签，所以我们需要找到我们感兴趣的节点。在这个例子中，我们使用属性值来过滤它：使用之前赋值给每个节点的 <code>name</code> 属性。</p>
-<p>接下来是用来创建关系的 <code>CREATE</code> 语句，在这个例子中，它通过我们在第一行中给出的变量名称（<code>a</code> 和 <code>b</code>）来引用两个节点，关系是通过字符画模式，用箭头指示关系方向来建立的：<code>(a)-[r:RELEASED]-&gt;(b)</code>。</p>
-<p>我们给这个关系一个变量名 <code>r</code> 并且给了一个 <code>RELEASE</code> 类型（乐队发行专辑）。关系<strong>类型</strong>和节点的<strong>标签</strong>概念类似。</p>
-<h3 id="添加更多关系"><a href="#添加更多关系" class="headerlink" title="添加更多关系"></a>添加更多关系</h3><p>上边是一个非常简单的例子，Neo4j 擅长的事情是处理很多相互关联的关系。</p>
-<p>为了看到继续创建更多节点和它们之间的关系是多么容易，让我们在刚刚的基础上继续构建。我们来创建一个点外加两个关系。</p>
-<p><em>我们将要达到下边图效果</em></p>
-<p><img src="2.png" alt=""></p>
-<p><em>这张图展示了王太利在筷子兄弟乐队中参与演奏，在专辑中进行表演并且专辑是由他来创作的</em></p>
-<p>我们为<strong>王太利</strong>创建一个节点：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>: <span class="string">"王太利"</span> &#125;)</div></pre></td></tr></table></figure>
-<p>现在来创建关系并返回图：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">MATCH (<span class="selector-tag">a</span>:Artist),(<span class="selector-tag">b</span>:Album),(<span class="selector-tag">p</span>:Person)</div><div class="line">WHERE <span class="selector-tag">a</span><span class="selector-class">.name</span> = <span class="string">"筷子兄弟"</span> AND <span class="selector-tag">b</span><span class="selector-class">.name</span> = <span class="string">"猛龙过江"</span> AND <span class="selector-tag">p</span><span class="selector-class">.name</span> = <span class="string">"王太利"</span> </div><div class="line">CREATE (p)-[:PRODUCED]-&gt;(b), (p)-[:PERFORMED_ON]-&gt;(b), (p)-[:PLAYS_IN]-&gt;(a)</div><div class="line">RETURN <span class="selector-tag">a</span>,<span class="selector-tag">b</span>,p</div></pre></td></tr></table></figure>
-<p>执行完成后你应该就可以看到前边截图中的图了。</p>
-<p><img src="3.png" alt=""></p>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>就像在 Neo4j 中创建节点一样，可以用 <code>CREATE</code> 来创建节点间的关系。</p></blockquote><hr><p>创建关系的语句由 <code>CREATE</code> 组成，后边跟着要创建的关系详情。</p><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>我们在先前创建的点之间创建一个关系，首先创建一个乐队和专辑之间的关系。</p><p><em>我们将创建如下关系</em></p><p><img src="1.png" alt=""></p><p>这是 Cypher 的 <code>CREATE</code>  创建上边关系的语句：</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MATCH (<span class="selector-tag">a</span>:Artist),(<span class="selector-tag">b</span>:Album)</span><br><span class="line">WHERE <span class="selector-tag">a</span><span class="selector-class">.name</span> = <span class="string">"筷子兄弟"</span> AND <span class="selector-tag">b</span><span class="selector-class">.name</span> = <span class="string">"猛龙过江"</span></span><br><span class="line">CREATE (a)-[r:RELEASED]-&gt;(b)</span><br><span class="line">RETURN r</span><br></pre></td></tr></table></figure><h3 id="上边代码的解释"><a href="#上边代码的解释" class="headerlink" title="上边代码的解释"></a>上边代码的解释</h3><p>首先我们使用 <code>MATCH</code> 语句查找我们要创建关系的两个点。</p><p>可能有很多节点带有 <code>Artist</code> 或 <code>Album</code> 标签，所以我们需要找到我们感兴趣的节点。在这个例子中，我们使用属性值来过滤它：使用之前赋值给每个节点的 <code>name</code> 属性。</p><p>接下来是用来创建关系的 <code>CREATE</code> 语句，在这个例子中，它通过我们在第一行中给出的变量名称（<code>a</code> 和 <code>b</code>）来引用两个节点，关系是通过字符画模式，用箭头指示关系方向来建立的：<code>(a)-[r:RELEASED]-&gt;(b)</code>。</p><p>我们给这个关系一个变量名 <code>r</code> 并且给了一个 <code>RELEASE</code> 类型（乐队发行专辑）。关系<strong>类型</strong>和节点的<strong>标签</strong>概念类似。</p><h3 id="添加更多关系"><a href="#添加更多关系" class="headerlink" title="添加更多关系"></a>添加更多关系</h3><p>上边是一个非常简单的例子，Neo4j 擅长的事情是处理很多相互关联的关系。</p><p>为了看到继续创建更多节点和它们之间的关系是多么容易，让我们在刚刚的基础上继续构建。我们来创建一个点外加两个关系。</p><p><em>我们将要达到下边图效果</em></p><p><img src="2.png" alt=""></p><p><em>这张图展示了王太利在筷子兄弟乐队中参与演奏，在专辑中进行表演并且专辑是由他来创作的</em></p><p>我们为<strong>王太利</strong>创建一个节点：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>: <span class="string">"王太利"</span> &#125;)</span><br></pre></td></tr></table></figure><p>现在来创建关系并返回图：</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MATCH (<span class="selector-tag">a</span>:Artist),(<span class="selector-tag">b</span>:Album),(<span class="selector-tag">p</span>:Person)</span><br><span class="line">WHERE <span class="selector-tag">a</span><span class="selector-class">.name</span> = <span class="string">"筷子兄弟"</span> AND <span class="selector-tag">b</span><span class="selector-class">.name</span> = <span class="string">"猛龙过江"</span> AND <span class="selector-tag">p</span><span class="selector-class">.name</span> = <span class="string">"王太利"</span> </span><br><span class="line">CREATE (p)-[:PRODUCED]-&gt;(b), (p)-[:PERFORMED_ON]-&gt;(b), (p)-[:PLAYS_IN]-&gt;(a)</span><br><span class="line">RETURN <span class="selector-tag">a</span>,<span class="selector-tag">b</span>,p</span><br></pre></td></tr></table></figure><p>执行完成后你应该就可以看到前边截图中的图了。</p><p><img src="3.png" alt=""></p>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;就像在 Neo4j 中创建节点一样，可以用 &lt;code&gt;CREATE&lt;/code&gt; 来创建节点间的关系。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;创建关系的语句由 &lt;code&gt;CREATE&lt;/code&gt; 组成，后边跟着要创建的关系详情。
+      
     
     </summary>
     
@@ -423,42 +190,19 @@
     <published>2018-01-17T08:16:15.000Z</published>
     <updated>2018-01-17T09:13:24.133Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>要用 Cypher 创建节点和关系，请使用 <code>CREATE</code> 语句</p>
-</blockquote>
-<hr>
-<p>这个语句由 <code>CREATE</code> 组成，后边跟上你要创建的点或关系。</p>
-<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>我们来创建一个包含乐队名和他们专辑的音乐数据库。</p>
-<p>第一个乐队被称为<em>筷子兄弟</em>，我们创建一个艺术家节点，并称之为<em>筷子兄弟</em>。</p>
-<p><em>我们第一个点看起来像下边这样</em></p>
-<p><img src="1.png" alt=""></p>
-<p>下边是创建<em>筷子兄弟</em>节点的 Cypher  <code>CREATE</code> 语句：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123; <span class="attribute">name </span>: <span class="string">"筷子兄弟"</span> &#125;)</div></pre></td></tr></table></figure>
-<p>这个 Cypher 语句创建一个带有 Artist 标签的节点，节点有一个 <code>name</code> 属性，该属性的值是<em>筷子兄弟</em>。</p>
-<p><code>a</code> 前缀是我们提供的变量名，我们可以使用任意变量名。如果我们需要在后边的语句中用到这个点（上边的情况中我们没有用到），这个变量就会是很有用的。注意，变量仅限于在单条语句中使用。</p>
-<p>到 Neo4j 浏览器中执行上边的语句，该语句将创建一个节点。</p>
-<p><em>一旦 Neo4j 创建完节点，你将看到这样的消息：</em></p>
-<p><img src="2.png" alt=""></p>
-<h3 id="展示节点"><a href="#展示节点" class="headerlink" title="展示节点"></a>展示节点</h3><p><code>CREATE</code> 语句创建节点但是不展示节点。为了展示节点我们需要在它后边跟上 <code>RETURN</code> 语句。</p>
-<p>我们来创建另一个节点，这次我们创建一个专辑，与之前不同的是这次我们在后边跟上 <code>RETURN</code> 语句</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name </span>: <span class="string">"猛龙过江"</span>, released : <span class="string">"2014"</span> &#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">b</span></div></pre></td></tr></table></figure>
-<p>上边语句创建了一个带有 <em>Album</em> 标签的节点，它有两个属性：<code>name</code> 和 <code>released</code>。</p>
-<p>注意，我们通过使用它的变量名（本例中是 <code>b</code>）返回了这个节点。</p>
-<h3 id="创建多个节点"><a href="#创建多个节点" class="headerlink" title="创建多个节点"></a>创建多个节点</h3><p>我们可以通过用逗号分隔来一次性创建多个节点：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"我们是太阳"</span>&#125;), (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"小水果"</span>&#125;) </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span>,<span class="selector-tag">b</span></div></pre></td></tr></table></figure>
-<p>或者可以使用多个 <code>CREATE</code> 语句：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"我们是太阳"</span>&#125;) </div><div class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"小水果"</span>&#125;) </div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span>,<span class="selector-tag">b</span></div></pre></td></tr></table></figure>
-<p>接下来，我们将在节点间建立关系。</p>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>要用 Cypher 创建节点和关系，请使用 <code>CREATE</code> 语句</p></blockquote><hr><p>这个语句由 <code>CREATE</code> 组成，后边跟上你要创建的点或关系。</p><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>我们来创建一个包含乐队名和他们专辑的音乐数据库。</p><p>第一个乐队被称为<em>筷子兄弟</em>，我们创建一个艺术家节点，并称之为<em>筷子兄弟</em>。</p><p><em>我们第一个点看起来像下边这样</em></p><p><img src="1.png" alt=""></p><p>下边是创建<em>筷子兄弟</em>节点的 Cypher  <code>CREATE</code> 语句：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123; <span class="attribute">name </span>: <span class="string">"筷子兄弟"</span> &#125;)</span><br></pre></td></tr></table></figure><p>这个 Cypher 语句创建一个带有 Artist 标签的节点，节点有一个 <code>name</code> 属性，该属性的值是<em>筷子兄弟</em>。</p><p><code>a</code> 前缀是我们提供的变量名，我们可以使用任意变量名。如果我们需要在后边的语句中用到这个点（上边的情况中我们没有用到），这个变量就会是很有用的。注意，变量仅限于在单条语句中使用。</p><p>到 Neo4j 浏览器中执行上边的语句，该语句将创建一个节点。</p><p><em>一旦 Neo4j 创建完节点，你将看到这样的消息：</em></p><p><img src="2.png" alt=""></p><h3 id="展示节点"><a href="#展示节点" class="headerlink" title="展示节点"></a>展示节点</h3><p><code>CREATE</code> 语句创建节点但是不展示节点。为了展示节点我们需要在它后边跟上 <code>RETURN</code> 语句。</p><p>我们来创建另一个节点，这次我们创建一个专辑，与之前不同的是这次我们在后边跟上 <code>RETURN</code> 语句</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name </span>: <span class="string">"猛龙过江"</span>, released : <span class="string">"2014"</span> &#125;)</span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">b</span></span><br></pre></td></tr></table></figure><p>上边语句创建了一个带有 <em>Album</em> 标签的节点，它有两个属性：<code>name</code> 和 <code>released</code>。</p><p>注意，我们通过使用它的变量名（本例中是 <code>b</code>）返回了这个节点。</p><h3 id="创建多个节点"><a href="#创建多个节点" class="headerlink" title="创建多个节点"></a>创建多个节点</h3><p>我们可以通过用逗号分隔来一次性创建多个节点：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"我们是太阳"</span>&#125;), (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"小水果"</span>&#125;) </span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span>,<span class="selector-tag">b</span></span><br></pre></td></tr></table></figure><p>或者可以使用多个 <code>CREATE</code> 语句：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"我们是太阳"</span>&#125;) </span><br><span class="line"><span class="selector-tag">CREATE</span> (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123; <span class="attribute">name</span>: <span class="string">"小水果"</span>&#125;) </span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span>,<span class="selector-tag">b</span></span><br></pre></td></tr></table></figure><p>接下来，我们将在节点间建立关系。</p>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;要用 Cypher 创建节点和关系，请使用 &lt;code&gt;CREATE&lt;/code&gt; 语句&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;这个语句由 &lt;code&gt;CREATE&lt;/code&gt; 组成，后边跟上你要创建的点或关系。&lt;/p&gt;
 &lt;h3 i
+      
     
     </summary>
     
@@ -472,50 +216,18 @@
     <published>2018-01-16T06:13:49.000Z</published>
     <updated>2018-01-16T07:11:33.971Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>Neo4j 有自己的查询语言称为 Cypher。Cypher 使用与 SQL（结构化查询语言）类似的语法。</p>
-</blockquote>
-<hr>
-<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>下边是一条 Cypher 语句：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></div></pre></td></tr></table></figure>
-<p>这条 Cypher 语句返回属性 <code>name</code> 为 <code>Homer Flinstone</code> 的 <code>Person</code> 节点。</p>
-<p>如果通过 SQL 来查询关系型数据库，看起来可能更像这样：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Person</div><div class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Homer Flinstone"</span>;</div></pre></td></tr></table></figure>
-<p>不过请记住，Neo4j 不像关系数据库模型那样将数据存储在表中，Neo4j 的所有数据都在节点和关系中存储。所以上边的 Cypher 语句查询的是节点、节点的标签和节点的属性，而 SQL 查询的是表、行和列。</p>
-<p>SQL 被设计为适用于关系数据库管理系统（DBMS）。Neo4j 是一个 NoSQL DBMS，所以它不使用关系模型同样也不使用 SQL。</p>
-<p>Cypher 是专门为 Neo4j 的数据模型而设计，用来查询节点及其相互关系的。</p>
-<h3 id="字符画语法"><a href="#字符画语法" class="headerlink" title="字符画语法"></a>字符画语法</h3><p>Cypher 使用字符画来表示模式，使得我们在第一次学习这门语言时很容易记住它。如果你忘记了如何编写，只需要想一想图的样子就会对你有所帮助。</p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(a)-[<span class="symbol">:KNOWS</span>]-&gt;(b)</div></pre></td></tr></table></figure>
-<p>主要记住如下几点：</p>
-<ul>
-<li>节点由圆括号表示，看起来像是圆圈。就像这样：<code>(node)</code></li>
-<li>关系用箭头来表示。像这样： <code>-&gt;</code></li>
-<li>关系相关的信息可以插入到方括号中。像这样：<code>[:KNOWS]</code></li>
-</ul>
-<h3 id="定义数据"><a href="#定义数据" class="headerlink" title="定义数据"></a>定义数据</h3><p>在使用 Cypher 时请记住以下几点：</p>
-<ul>
-<li>节点通常有标签（一个或多个）。比如：”Person”,”User”,”Actor”,”Customer”,”Employee”等</li>
-<li>节点通常有属性，属性提供有关节点的额外信息。比如：”name”,”age”,”born”等</li>
-<li>关系也可以有属性</li>
-<li>关系通常有一个类型（类似于节点的标签）。比如：”KNOWS”,”LIKES”,”WORKS_FOR”,”PURCHASED”等</li>
-</ul>
-<p>让我们再来看一下上边的例子：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</div><div class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></div></pre></td></tr></table></figure>
-<p>我们可以看到：</p>
-<ul>
-<li>节点被圆括号 <code>()</code> 包围</li>
-<li><code>Person</code> 是节点的标签</li>
-<li><code>name</code> 是节点的属性</li>
-</ul>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>Neo4j 有自己的查询语言称为 Cypher。Cypher 使用与 SQL（结构化查询语言）类似的语法。</p></blockquote><hr><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>下边是一条 Cypher 语句：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></span><br></pre></td></tr></table></figure><p>这条 Cypher 语句返回属性 <code>name</code> 为 <code>Homer Flinstone</code> 的 <code>Person</code> 节点。</p><p>如果通过 SQL 来查询关系型数据库，看起来可能更像这样：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Person</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span> = <span class="string">"Homer Flinstone"</span>;</span><br></pre></td></tr></table></figure><p>不过请记住，Neo4j 不像关系数据库模型那样将数据存储在表中，Neo4j 的所有数据都在节点和关系中存储。所以上边的 Cypher 语句查询的是节点、节点的标签和节点的属性，而 SQL 查询的是表、行和列。</p><p>SQL 被设计为适用于关系数据库管理系统（DBMS）。Neo4j 是一个 NoSQL DBMS，所以它不使用关系模型同样也不使用 SQL。</p><p>Cypher 是专门为 Neo4j 的数据模型而设计，用来查询节点及其相互关系的。</p><h3 id="字符画语法"><a href="#字符画语法" class="headerlink" title="字符画语法"></a>字符画语法</h3><p>Cypher 使用字符画来表示模式，使得我们在第一次学习这门语言时很容易记住它。如果你忘记了如何编写，只需要想一想图的样子就会对你有所帮助。</p><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(a)-[<span class="symbol">:KNOWS</span>]-&gt;(b)</span><br></pre></td></tr></table></figure><p>主要记住如下几点：</p><ul><li>节点由圆括号表示，看起来像是圆圈。就像这样：<code>(node)</code></li><li>关系用箭头来表示。像这样： <code>-&gt;</code></li><li>关系相关的信息可以插入到方括号中。像这样：<code>[:KNOWS]</code></li></ul><h3 id="定义数据"><a href="#定义数据" class="headerlink" title="定义数据"></a>定义数据</h3><p>在使用 Cypher 时请记住以下几点：</p><ul><li>节点通常有标签（一个或多个）。比如：”Person”,”User”,”Actor”,”Customer”,”Employee”等</li><li>节点通常有属性，属性提供有关节点的额外信息。比如：”name”,”age”,”born”等</li><li>关系也可以有属性</li><li>关系通常有一个类型（类似于节点的标签）。比如：”KNOWS”,”LIKES”,”WORKS_FOR”,”PURCHASED”等</li></ul><p>让我们再来看一下上边的例子：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">p</span><span class="selector-pseudo">:Person</span> &#123; <span class="attribute">name</span>:<span class="string">"Homer Flinstone"</span> &#125;)</span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">p</span></span><br></pre></td></tr></table></figure><p>我们可以看到：</p><ul><li>节点被圆括号 <code>()</code> 包围</li><li><code>Person</code> 是节点的标签</li><li><code>name</code> 是节点的属性</li></ul>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;Neo4j 有自己的查询语言称为 Cypher。Cypher 使用与 SQL（结构化查询语言）类似的语法。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h3 id=&quot;举例&quot;&gt;&lt;a href=&quot;#举例&quot; class=&quot;headerlink&quot; ti
+      
     
     </summary>
     
@@ -529,47 +241,15 @@
     <published>2018-01-15T07:49:24.000Z</published>
     <updated>2018-01-16T01:45:25.769Z</updated>
     
-    <content type="html"><![CDATA[<p>今天在读 Eureka 源码时，看到了它里边实现了一个工具类 <code>StringCache</code> 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。</p>
-<p><code>StringCache</code> 实现了一个字符串缓存，代码如下</p>
-<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> class StringCache &#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">int</span> LENGTH_LIMIT = <span class="number">38</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> StringCache INSTANCE = <span class="keyword">new</span> StringCache();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ReadWriteLock lock = <span class="keyword">new</span> ReentrantReadWriteLock();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;<span class="keyword">String</span>, WeakReference&lt;<span class="keyword">String</span>&gt;&gt; cache = <span class="keyword">new</span> WeakHashMap&lt;<span class="keyword">String</span>, WeakReference&lt;<span class="keyword">String</span>&gt;&gt;();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="built_in">int</span> lengthLimit;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> StringCache() &#123;</div><div class="line">        <span class="keyword">this</span>(LENGTH_LIMIT);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> StringCache(<span class="built_in">int</span> lengthLimit) &#123;</div><div class="line">        <span class="keyword">this</span>.lengthLimit = lengthLimit;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> cachedValueOf(<span class="keyword">final</span> <span class="keyword">String</span> <span class="built_in">str</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="built_in">str</span> != <span class="keyword">null</span> &amp;&amp; (lengthLimit &lt; <span class="number">0</span> || <span class="built_in">str</span>.length() &lt;= lengthLimit)) &#123;</div><div class="line">            <span class="comment">// Return value from cache if available</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                lock.readLock().lock();</div><div class="line">                WeakReference&lt;<span class="keyword">String</span>&gt; ref = cache.<span class="built_in">get</span>(<span class="built_in">str</span>);</div><div class="line">                <span class="keyword">if</span> (ref != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> ref.<span class="built_in">get</span>();</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                lock.readLock().unlock();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="comment">// Update cache with new content</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                lock.writeLock().lock();</div><div class="line">                WeakReference&lt;<span class="keyword">String</span>&gt; ref = cache.<span class="built_in">get</span>(<span class="built_in">str</span>);</div><div class="line">                <span class="keyword">if</span> (ref != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> ref.<span class="built_in">get</span>();</div><div class="line">                &#125;</div><div class="line">                cache.put(<span class="built_in">str</span>, <span class="keyword">new</span> WeakReference&lt;&gt;(<span class="built_in">str</span>));</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                lock.writeLock().unlock();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="built_in">str</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="built_in">str</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="built_in">int</span> <span class="built_in">size</span>() &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            lock.readLock().lock();</div><div class="line">            <span class="keyword">return</span> cache.<span class="built_in">size</span>();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            lock.readLock().unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> intern(<span class="keyword">String</span> original) &#123;</div><div class="line">        <span class="keyword">return</span> INSTANCE.cachedValueOf(original);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="什么是字符串常量池？"><a href="#什么是字符串常量池？" class="headerlink" title="什么是字符串常量池？"></a>什么是字符串常量池？</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">String</span> s = <span class="string">"a"</span> + <span class="string">"bc"</span>;</div><div class="line"><span class="keyword">String</span> t = <span class="string">"ab"</span> + <span class="string">"c"</span>;</div><div class="line">System.out.<span class="built_in">println</span>(s == t);</div></pre></td></tr></table></figure>
-<p>上边这段程序会打印 <code>true</code>（尽管我们没有使用正确比较字符串的 <code>equals</code> 方法）</p>
-<p>当编译器优化字符串的字面值时，它看到 <code>s</code> 和 <code>t</code> 有相同的值，因为字符串在 Java 中是不可变的，所以提供同一个字符串对象也是安全的，因此 <code>s</code> 和 <code>t</code> 指向了同一个对象并且节省了一丢丢的内存。</p>
-<p>「字符串常量池」的灵感来源于这样的想法：所有已定义的字符串都存储在一个「池子」中，在创建新的 <code>String</code> 对象前，编译器需要检查这个字符串是否已经被定义，若已经在「池子」中存在就直接拿出来用。</p>
-<p>也就是说 Java 编译器已经用字符串常量池实现了字符串缓存的特性，在我们直接使用双引号来声明 <code>String</code> 对象时会自动利用以上特性，如果不是用双引号声明的，可以用 <code>String</code> 提供的 <code>intern()</code> 方法。<code>intern()</code> 方法会从字符串常量池中查询当前字符串是否存在，若不存在就会将当前字符串放入常量池中。</p>
-<p>示例程序：</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">String </span><span class="built_in">a1</span> = <span class="string">"aaa"</span><span class="comment">;</span></div><div class="line"><span class="keyword">String </span><span class="built_in">a2</span> = <span class="string">"aaa"</span><span class="comment">;</span></div><div class="line"><span class="keyword">String </span><span class="built_in">a3</span> = new <span class="keyword">String("aaa");</span></div><div class="line"><span class="symbol">System.out.println</span>(<span class="built_in">a1</span> == <span class="built_in">a2</span>)<span class="comment">;           // true</span></div><div class="line"><span class="symbol">System.out.println</span>(<span class="built_in">a1</span> == <span class="built_in">a3</span>)<span class="comment">;           // false</span></div><div class="line"><span class="symbol">System.out.println</span>(<span class="built_in">a1</span> == <span class="built_in">a3</span>.intern())<span class="comment">;  // true</span></div><div class="line"></div><div class="line"><span class="keyword">String </span><span class="keyword">b1 </span>= new <span class="keyword">String("bbb").intern();</span></div><div class="line"><span class="keyword">String </span><span class="keyword">b2 </span>= <span class="string">"bbb"</span><span class="comment">;</span></div><div class="line"><span class="symbol">System.out.println</span>(<span class="keyword">b1 </span>== <span class="keyword">b2); </span>          // true</div></pre></td></tr></table></figure>
-<h3 id="为什么-Eureka-要再造轮子？"><a href="#为什么-Eureka-要再造轮子？" class="headerlink" title="为什么 Eureka 要再造轮子？"></a>为什么 Eureka 要再造轮子？</h3><p>既然 Java 编译器已经对相同的字符串进行了优化，为什么 Eureka 还要再造一个轮子呢，因为字符串常量池在存储大量的字符串后，会出现严重的性能问题。</p>
-<p>以下解释来自美团点评技术团队编写的 <a href="https://tech.meituan.com/in_depth_understanding_string_intern.html" target="_blank" rel="external">深入解析String#intern</a> 一文：</p>
-<blockquote>
-<p>Java 使用 JNI 调用 C++ 实现的 StringTable 的 intern 方法，StringTable 的 intern 方法跟 Java 中的 HashMap 的实现是差不多的，只是不能自动扩容。默认大小是1009。</p>
-<p>要注意的是，String 的 String Pool 是一个固定大小的 Hashtable，默认值大小长度是1009，如果放进 String Pool 的 String 非常多，就会造成 Hash 冲突严重，从而导致链表会很长，而链表长了后直接会造成的影响就是当调用 String.intern 时性能会大幅下降（因为要一个一个找）。</p>
-</blockquote>
-<p>好了原因解释清楚了，我们来看一下具体实现中有那哪些问题。</p>
-<h3 id="WeakHashMap-和-HashMap-有什么区别？"><a href="#WeakHashMap-和-HashMap-有什么区别？" class="headerlink" title="WeakHashMap 和 HashMap 有什么区别？"></a>WeakHashMap 和 HashMap 有什么区别？</h3><p><code>StringCache</code> 的代码不难理解，大致就是声明一个锁和一个 <code>Map</code>，取值时先获取锁，如果存在就直接从 <code>Map</code>中 <code>get</code> 出来然后返回，不存在就 <code>put</code> 进去作为缓存以便下次使用。</p>
-<p>这里声明的 <code>Map</code> 类型是 <code>WeakHashMap</code>，这种 <code>Map</code> 的特点是，当除了自身有对 <code>key</code> 的引用外，此 <code>key</code> 没有其他引用那么这个 <code>map</code> 会自动丢弃此值。</p>
-<p>示例程序：</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">String</span> a = <span class="keyword">new</span> <span class="keyword">String</span>(<span class="string">"a"</span>);</div><div class="line"><span class="keyword">String</span> b = <span class="keyword">new</span> <span class="keyword">String</span>(<span class="string">"b"</span>);</div><div class="line">Map&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; weakmap = <span class="keyword">new</span> WeakHashMap();</div><div class="line">Map&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; <span class="built_in">map</span> = <span class="keyword">new</span> HashMap();</div><div class="line"><span class="built_in">map</span>.<span class="built_in">put</span>(a, <span class="string">"aaa"</span>);</div><div class="line"><span class="built_in">map</span>.<span class="built_in">put</span>(b, <span class="string">"bbb"</span>);</div><div class="line"></div><div class="line">weakmap.<span class="built_in">put</span>(a, <span class="string">"aaa"</span>);</div><div class="line">weakmap.<span class="built_in">put</span>(b, <span class="string">"bbb"</span>);</div><div class="line"></div><div class="line"><span class="built_in">map</span>.<span class="built_in">remove</span>(a);</div><div class="line">a = null;</div><div class="line">b = null;</div><div class="line"></div><div class="line">System.gc();</div><div class="line">Iterator i = <span class="built_in">map</span>.entrySet().iterator();</div><div class="line"><span class="built_in">while</span> (i.hasNext()) &#123;</div><div class="line">    Map.Entry en = (Map.Entry)i.next();</div><div class="line">    System.out.<span class="built_in">println</span>(<span class="string">"map: "</span>+en.<span class="built_in">getKey</span>()+<span class="string">":"</span>+en.getValue());</div><div class="line">&#125;</div><div class="line"></div><div class="line">Iterator j = weakmap.entrySet().iterator();</div><div class="line"><span class="built_in">while</span> (j.hasNext()) &#123;</div><div class="line">    Map.Entry en = (Map.Entry)j.next();</div><div class="line">    System.out.<span class="built_in">println</span>(<span class="string">"weakmap: "</span>+en.<span class="built_in">getKey</span>()+<span class="string">":"</span>+en.getValue());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>我们声明了两个 <code>Map</code> 对象，一个是 <code>HashMap</code>，一个是 <code>WeakHashMap</code>，同时向两个 <code>map</code> 中放入 <code>a</code>、<code>b</code> 两个对象，从 <code>HashMap</code> 中 <code>remove</code>掉 <code>a</code> 并且将 <code>a</code>、<code>b</code> 都指向 <code>null</code> 时，<code>WeakHashMap</code> 中的 <code>a</code> 将自动被回收掉。出现这个状况的原因是，对于 <code>a</code> 对象而言，当从 <code>HashMap</code> 中 <code>remove</code> 掉 <code>a</code> 并且将 <code>a</code> 指向 <code>null</code> 后，除了 <code>WeakHashMap</code> 中还保存 <code>a</code> 外已经没有指向 <code>a</code> 的指针了，所以 <code>WeakHashMap</code> 会自动舍弃掉 <code>a</code>，而对于 <code>b</code> 对象虽然指向了<code>null</code>，但 <code>HashMap</code> 中还有指向 <code>b</code> 的指针，所以 <code>WeakHashMap</code> 将会保留 <code>b</code>。</p>
-<p>以上程序得到的结果是：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="string">map:</span> <span class="string">b:</span>bbb</div><div class="line"><span class="string">weakmap:</span> <span class="string">b:</span>bbb</div></pre></td></tr></table></figure>
-<h3 id="WeakReference-和普通的引用有什么区别？"><a href="#WeakReference-和普通的引用有什么区别？" class="headerlink" title="WeakReference 和普通的引用有什么区别？"></a>WeakReference 和普通的引用有什么区别？</h3><p>可以看到我们的 <code>StringCache</code> 中的 <code>Map</code> 值类型用的是 <code>WeakReference&lt;String&gt;</code>，如果你希望能随时取得某对象的信息，但又不想影响此对象的垃圾收集，那么你应该用 <strong>Weak Reference</strong> 来记住此对象，而不是用一般的 <strong>reference</strong>。</p>
-<p>如果不这样用，会导致我们 <code>Map</code> 的值也会引用我们想缓存的字符串，这就导致即使 <code>key</code> 已经没有任何地方引用了，这个 <code>WeakHashMap</code> 也不会丢弃此值。</p>
-<h3 id="ReentrantReadWriteLock-有什么特性？"><a href="#ReentrantReadWriteLock-有什么特性？" class="headerlink" title="ReentrantReadWriteLock 有什么特性？"></a>ReentrantReadWriteLock 有什么特性？</h3><p><code>ReentrantReadWriteLock</code> 是一个读写锁：分为读锁和写锁，多个读锁不互斥，读锁与写锁互斥，这是由 jvm 自己控制的，你只要上好相应的锁即可。如果你的代码只读数据，可以很多人同时读，但不能同时写，那就上读锁；如果你的代码修改数据，只能有一个人在写，且不能同时读取，那就上写锁。总之，读的时候上读锁，写的时候上写锁。</p>
-<h4 id="线程进入读锁的前提条件："><a href="#线程进入读锁的前提条件：" class="headerlink" title="线程进入读锁的前提条件："></a>线程进入读锁的前提条件：</h4><ul>
-<li>没有其他线程的写锁，</li>
-<li>没有写请求或者有写请求，但调用线程和持有锁的线程是同一个</li>
-</ul>
-<h4 id="线程进入写锁的前提条件："><a href="#线程进入写锁的前提条件：" class="headerlink" title="线程进入写锁的前提条件："></a>线程进入写锁的前提条件：</h4><ul>
-<li>没有其他线程的读锁</li>
-<li>没有其他线程的写锁</li>
-</ul>
-]]></content>
+    <content type="html"><![CDATA[<p>今天在读 Eureka 源码时，看到了它里边实现了一个工具类 <code>StringCache</code> 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。</p><p><code>StringCache</code> 实现了一个字符串缓存，代码如下</p><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> class StringCache &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">int</span> LENGTH_LIMIT = <span class="number">38</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> StringCache INSTANCE = <span class="keyword">new</span> StringCache();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ReadWriteLock lock = <span class="keyword">new</span> ReentrantReadWriteLock();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;<span class="keyword">String</span>, WeakReference&lt;<span class="keyword">String</span>&gt;&gt; cache = <span class="keyword">new</span> WeakHashMap&lt;<span class="keyword">String</span>, WeakReference&lt;<span class="keyword">String</span>&gt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="built_in">int</span> lengthLimit;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> StringCache() &#123;</span><br><span class="line">        <span class="keyword">this</span>(LENGTH_LIMIT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> StringCache(<span class="built_in">int</span> lengthLimit) &#123;</span><br><span class="line">        <span class="keyword">this</span>.lengthLimit = lengthLimit;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> cachedValueOf(<span class="keyword">final</span> <span class="keyword">String</span> <span class="built_in">str</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">str</span> != <span class="keyword">null</span> &amp;&amp; (lengthLimit &lt; <span class="number">0</span> || <span class="built_in">str</span>.length() &lt;= lengthLimit)) &#123;</span><br><span class="line">            <span class="comment">// Return value from cache if available</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                lock.readLock().lock();</span><br><span class="line">                WeakReference&lt;<span class="keyword">String</span>&gt; ref = cache.<span class="built_in">get</span>(<span class="built_in">str</span>);</span><br><span class="line">                <span class="keyword">if</span> (ref != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> ref.<span class="built_in">get</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                lock.readLock().unlock();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Update cache with new content</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                lock.writeLock().lock();</span><br><span class="line">                WeakReference&lt;<span class="keyword">String</span>&gt; ref = cache.<span class="built_in">get</span>(<span class="built_in">str</span>);</span><br><span class="line">                <span class="keyword">if</span> (ref != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> ref.<span class="built_in">get</span>();</span><br><span class="line">                &#125;</span><br><span class="line">                cache.put(<span class="built_in">str</span>, <span class="keyword">new</span> WeakReference&lt;&gt;(<span class="built_in">str</span>));</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                lock.writeLock().unlock();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">str</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">str</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> <span class="built_in">size</span>() &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            lock.readLock().lock();</span><br><span class="line">            <span class="keyword">return</span> cache.<span class="built_in">size</span>();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.readLock().unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> intern(<span class="keyword">String</span> original) &#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE.cachedValueOf(original);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="什么是字符串常量池？"><a href="#什么是字符串常量池？" class="headerlink" title="什么是字符串常量池？"></a>什么是字符串常量池？</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String</span> s = <span class="string">"a"</span> + <span class="string">"bc"</span>;</span><br><span class="line"><span class="keyword">String</span> t = <span class="string">"ab"</span> + <span class="string">"c"</span>;</span><br><span class="line">System.out.<span class="built_in">println</span>(s == t);</span><br></pre></td></tr></table></figure><p>上边这段程序会打印 <code>true</code>（尽管我们没有使用正确比较字符串的 <code>equals</code> 方法）</p><p>当编译器优化字符串的字面值时，它看到 <code>s</code> 和 <code>t</code> 有相同的值，因为字符串在 Java 中是不可变的，所以提供同一个字符串对象也是安全的，因此 <code>s</code> 和 <code>t</code> 指向了同一个对象并且节省了一丢丢的内存。</p><p>「字符串常量池」的灵感来源于这样的想法：所有已定义的字符串都存储在一个「池子」中，在创建新的 <code>String</code> 对象前，编译器需要检查这个字符串是否已经被定义，若已经在「池子」中存在就直接拿出来用。</p><p>也就是说 Java 编译器已经用字符串常量池实现了字符串缓存的特性，在我们直接使用双引号来声明 <code>String</code> 对象时会自动利用以上特性，如果不是用双引号声明的，可以用 <code>String</code> 提供的 <code>intern()</code> 方法。<code>intern()</code> 方法会从字符串常量池中查询当前字符串是否存在，若不存在就会将当前字符串放入常量池中。</p><p>示例程序：</p><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String </span><span class="built_in">a1</span> = <span class="string">"aaa"</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">String </span><span class="built_in">a2</span> = <span class="string">"aaa"</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">String </span><span class="built_in">a3</span> = new <span class="keyword">String("aaa");</span></span><br><span class="line"><span class="keyword">System.out.println(a1 </span>== <span class="built_in">a2</span>)<span class="comment">;           // true</span></span><br><span class="line"><span class="symbol">System.out.println</span>(<span class="built_in">a1</span> == <span class="built_in">a3</span>)<span class="comment">;           // false</span></span><br><span class="line"><span class="symbol">System.out.println</span>(<span class="built_in">a1</span> == <span class="built_in">a3</span>.intern())<span class="comment">;  // true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">String </span><span class="keyword">b1 </span>= new <span class="keyword">String("bbb").intern();</span></span><br><span class="line"><span class="keyword">String </span><span class="keyword">b2 </span>= <span class="string">"bbb"</span><span class="comment">;</span></span><br><span class="line"><span class="symbol">System.out.println</span>(<span class="keyword">b1 </span>== <span class="keyword">b2); </span>          // true</span><br></pre></td></tr></table></figure><h3 id="为什么-Eureka-要再造轮子？"><a href="#为什么-Eureka-要再造轮子？" class="headerlink" title="为什么 Eureka 要再造轮子？"></a>为什么 Eureka 要再造轮子？</h3><p>既然 Java 编译器已经对相同的字符串进行了优化，为什么 Eureka 还要再造一个轮子呢，因为字符串常量池在存储大量的字符串后，会出现严重的性能问题。</p><p>以下解释来自美团点评技术团队编写的 <a href="https://tech.meituan.com/in_depth_understanding_string_intern.html" target="_blank" rel="noopener">深入解析String#intern</a> 一文：</p><blockquote><p>Java 使用 JNI 调用 C++ 实现的 StringTable 的 intern 方法，StringTable 的 intern 方法跟 Java 中的 HashMap 的实现是差不多的，只是不能自动扩容。默认大小是1009。</p></blockquote><blockquote><p>要注意的是，String 的 String Pool 是一个固定大小的 Hashtable，默认值大小长度是1009，如果放进 String Pool 的 String 非常多，就会造成 Hash 冲突严重，从而导致链表会很长，而链表长了后直接会造成的影响就是当调用 String.intern 时性能会大幅下降（因为要一个一个找）。</p></blockquote><p>好了原因解释清楚了，我们来看一下具体实现中有那哪些问题。</p><h3 id="WeakHashMap-和-HashMap-有什么区别？"><a href="#WeakHashMap-和-HashMap-有什么区别？" class="headerlink" title="WeakHashMap 和 HashMap 有什么区别？"></a>WeakHashMap 和 HashMap 有什么区别？</h3><p><code>StringCache</code> 的代码不难理解，大致就是声明一个锁和一个 <code>Map</code>，取值时先获取锁，如果存在就直接从 <code>Map</code>中 <code>get</code> 出来然后返回，不存在就 <code>put</code> 进去作为缓存以便下次使用。</p><p>这里声明的 <code>Map</code> 类型是 <code>WeakHashMap</code>，这种 <code>Map</code> 的特点是，当除了自身有对 <code>key</code> 的引用外，此 <code>key</code> 没有其他引用那么这个 <code>map</code> 会自动丢弃此值。</p><p>示例程序：</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String</span> a = <span class="keyword">new</span> <span class="keyword">String</span>(<span class="string">"a"</span>);</span><br><span class="line"><span class="keyword">String</span> b = <span class="keyword">new</span> <span class="keyword">String</span>(<span class="string">"b"</span>);</span><br><span class="line">Map&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; weakmap = <span class="keyword">new</span> WeakHashMap();</span><br><span class="line">Map&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; <span class="built_in">map</span> = <span class="keyword">new</span> HashMap();</span><br><span class="line"><span class="built_in">map</span>.<span class="built_in">put</span>(a, <span class="string">"aaa"</span>);</span><br><span class="line"><span class="built_in">map</span>.<span class="built_in">put</span>(b, <span class="string">"bbb"</span>);</span><br><span class="line"></span><br><span class="line">weakmap.<span class="built_in">put</span>(a, <span class="string">"aaa"</span>);</span><br><span class="line">weakmap.<span class="built_in">put</span>(b, <span class="string">"bbb"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">map</span>.<span class="built_in">remove</span>(a);</span><br><span class="line">a = null;</span><br><span class="line">b = null;</span><br><span class="line"></span><br><span class="line">System.gc();</span><br><span class="line">Iterator i = <span class="built_in">map</span>.entrySet().iterator();</span><br><span class="line"><span class="built_in">while</span> (i.hasNext()) &#123;</span><br><span class="line">    Map.Entry en = (Map.Entry)i.next();</span><br><span class="line">    System.out.<span class="built_in">println</span>(<span class="string">"map: "</span>+en.<span class="built_in">getKey</span>()+<span class="string">":"</span>+en.getValue());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Iterator j = weakmap.entrySet().iterator();</span><br><span class="line"><span class="built_in">while</span> (j.hasNext()) &#123;</span><br><span class="line">    Map.Entry en = (Map.Entry)j.next();</span><br><span class="line">    System.out.<span class="built_in">println</span>(<span class="string">"weakmap: "</span>+en.<span class="built_in">getKey</span>()+<span class="string">":"</span>+en.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>我们声明了两个 <code>Map</code> 对象，一个是 <code>HashMap</code>，一个是 <code>WeakHashMap</code>，同时向两个 <code>map</code> 中放入 <code>a</code>、<code>b</code> 两个对象，从 <code>HashMap</code> 中 <code>remove</code>掉 <code>a</code> 并且将 <code>a</code>、<code>b</code> 都指向 <code>null</code> 时，<code>WeakHashMap</code> 中的 <code>a</code> 将自动被回收掉。出现这个状况的原因是，对于 <code>a</code> 对象而言，当从 <code>HashMap</code> 中 <code>remove</code> 掉 <code>a</code> 并且将 <code>a</code> 指向 <code>null</code> 后，除了 <code>WeakHashMap</code> 中还保存 <code>a</code> 外已经没有指向 <code>a</code> 的指针了，所以 <code>WeakHashMap</code> 会自动舍弃掉 <code>a</code>，而对于 <code>b</code> 对象虽然指向了<code>null</code>，但 <code>HashMap</code> 中还有指向 <code>b</code> 的指针，所以 <code>WeakHashMap</code> 将会保留 <code>b</code>。</p><p>以上程序得到的结果是：</p><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">map:</span> <span class="string">b:</span>bbb</span><br><span class="line"><span class="string">weakmap:</span> <span class="string">b:</span>bbb</span><br></pre></td></tr></table></figure><h3 id="WeakReference-和普通的引用有什么区别？"><a href="#WeakReference-和普通的引用有什么区别？" class="headerlink" title="WeakReference 和普通的引用有什么区别？"></a>WeakReference 和普通的引用有什么区别？</h3><p>可以看到我们的 <code>StringCache</code> 中的 <code>Map</code> 值类型用的是 <code>WeakReference&lt;String&gt;</code>，如果你希望能随时取得某对象的信息，但又不想影响此对象的垃圾收集，那么你应该用 <strong>Weak Reference</strong> 来记住此对象，而不是用一般的 <strong>reference</strong>。</p><p>如果不这样用，会导致我们 <code>Map</code> 的值也会引用我们想缓存的字符串，这就导致即使 <code>key</code> 已经没有任何地方引用了，这个 <code>WeakHashMap</code> 也不会丢弃此值。</p><h3 id="ReentrantReadWriteLock-有什么特性？"><a href="#ReentrantReadWriteLock-有什么特性？" class="headerlink" title="ReentrantReadWriteLock 有什么特性？"></a>ReentrantReadWriteLock 有什么特性？</h3><p><code>ReentrantReadWriteLock</code> 是一个读写锁：分为读锁和写锁，多个读锁不互斥，读锁与写锁互斥，这是由 jvm 自己控制的，你只要上好相应的锁即可。如果你的代码只读数据，可以很多人同时读，但不能同时写，那就上读锁；如果你的代码修改数据，只能有一个人在写，且不能同时读取，那就上写锁。总之，读的时候上读锁，写的时候上写锁。</p><h4 id="线程进入读锁的前提条件："><a href="#线程进入读锁的前提条件：" class="headerlink" title="线程进入读锁的前提条件："></a>线程进入读锁的前提条件：</h4><ul><li>没有其他线程的写锁，</li><li>没有写请求或者有写请求，但调用线程和持有锁的线程是同一个</li></ul><h4 id="线程进入写锁的前提条件："><a href="#线程进入写锁的前提条件：" class="headerlink" title="线程进入写锁的前提条件："></a>线程进入写锁的前提条件：</h4><ul><li>没有其他线程的读锁</li><li>没有其他线程的写锁</li></ul>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;今天在读 Eureka 源码时，看到了它里边实现了一个工具类 &lt;code&gt;StringCache&lt;/code&gt; 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。&lt;/p&gt;
+      
+      
+        &lt;p&gt;今天在读 Eureka 源码时，看到了它里边实现了一个工具类 &lt;code&gt;StringCache&lt;/code&gt; 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;StringCache&lt;/code&gt; 实现了一个字符串缓存
+      
     
     </summary>
     
@@ -583,32 +263,18 @@
     <published>2018-01-15T02:05:45.000Z</published>
     <updated>2018-01-16T01:33:37.933Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>Neo4j 浏览器是一个可以通过 Web 浏览器运行的图形用户界面（GUI）</p>
-</blockquote>
-<hr>
-<p>Neo4j 浏览器可以用来添加数据、运行查询语句、创建关系等等。它还提供了一种简单的方式来可视化数据库中的数据。</p>
-<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><em>下图是 Neo4j 浏览器概览</em></p>
-<p><img src="1.png" alt="Neo4j 浏览器概览"></p>
-<h3 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h3><p>这里是你输入查询语句和命令的地方，比如创建或检索数据。你可以随时通过输入 <code>:help</code> 并按下回车键（或者点击编辑器右侧的「运行」箭头）来获取帮助。</p>
-<h3 id="流"><a href="#流" class="headerlink" title="流"></a>流</h3><p>这里是展示查询结果的地方，每个结果有自己的框架，新的结果框会出现在前一个结果框的上边。所以如果需要的话，你可以向下滚动并查看之前的查询结果。你可以随时使用 <code>:clear</code> 命令清空这个<strong>流</strong>。</p>
-<h3 id="标签、节点、关系"><a href="#标签、节点、关系" class="headerlink" title="标签、节点、关系"></a>标签、节点、关系</h3><p>这些代表了数据库中的数据。点击顶部的任意图标都会在框架的底部显示可选信息。</p>
-<h3 id="侧边栏"><a href="#侧边栏" class="headerlink" title="侧边栏"></a>侧边栏</h3><p>侧边栏有多个选线，例如查看数据库详情，查看或修改 Neo4j 浏览器设置，查看 Neo4j 文档等等。</p>
-<p>点击一个选项会打开更宽一些的侧边栏并提供该选项的详情。</p>
-<p>比如，点击「数据库」图标会打开有关数据库的详细信息。</p>
-<p><img src="2.png" alt=""></p>
-<h3 id="框架视图选项"><a href="#框架视图选项" class="headerlink" title="框架视图选项"></a>框架视图选项</h3><p>你能够以不同的方式查看数据。例如，点击 「Table」将会以表格的方式显示节点和关系。</p>
-<p>下图是一个以表格方式显示数据的例子：</p>
-<p><img src="3.png" alt=""></p>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>Neo4j 浏览器是一个可以通过 Web 浏览器运行的图形用户界面（GUI）</p></blockquote><hr><p>Neo4j 浏览器可以用来添加数据、运行查询语句、创建关系等等。它还提供了一种简单的方式来可视化数据库中的数据。</p><h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><em>下图是 Neo4j 浏览器概览</em></p><p><img src="1.png" alt="Neo4j 浏览器概览"></p><h3 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h3><p>这里是你输入查询语句和命令的地方，比如创建或检索数据。你可以随时通过输入 <code>:help</code> 并按下回车键（或者点击编辑器右侧的「运行」箭头）来获取帮助。</p><h3 id="流"><a href="#流" class="headerlink" title="流"></a>流</h3><p>这里是展示查询结果的地方，每个结果有自己的框架，新的结果框会出现在前一个结果框的上边。所以如果需要的话，你可以向下滚动并查看之前的查询结果。你可以随时使用 <code>:clear</code> 命令清空这个<strong>流</strong>。</p><h3 id="标签、节点、关系"><a href="#标签、节点、关系" class="headerlink" title="标签、节点、关系"></a>标签、节点、关系</h3><p>这些代表了数据库中的数据。点击顶部的任意图标都会在框架的底部显示可选信息。</p><h3 id="侧边栏"><a href="#侧边栏" class="headerlink" title="侧边栏"></a>侧边栏</h3><p>侧边栏有多个选线，例如查看数据库详情，查看或修改 Neo4j 浏览器设置，查看 Neo4j 文档等等。</p><p>点击一个选项会打开更宽一些的侧边栏并提供该选项的详情。</p><p>比如，点击「数据库」图标会打开有关数据库的详细信息。</p><p><img src="2.png" alt=""></p><h3 id="框架视图选项"><a href="#框架视图选项" class="headerlink" title="框架视图选项"></a>框架视图选项</h3><p>你能够以不同的方式查看数据。例如，点击 「Table」将会以表格的方式显示节点和关系。</p><p>下图是一个以表格方式显示数据的例子：</p><p><img src="3.png" alt=""></p>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;Neo4j 浏览器是一个可以通过 Web 浏览器运行的图形用户界面（GUI）&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;Neo4j 浏览器可以用来添加数据、运行查询语句、创建关系等等。它还提供了一种简单的方式来可视化数据库中的数据。&lt;/p
+      
     
     </summary>
     
@@ -622,58 +288,15 @@
     <published>2018-01-11T05:45:06.000Z</published>
     <updated>2018-01-14T01:29:54.017Z</updated>
     
-    <content type="html"><![CDATA[<p>本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
-<h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="external">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p>
-<p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 <a href="https://neo4j.com/download/other-releases/" target="_blank" rel="external">这个链接</a> 选择另一个操作系统的版本。</p>
-<h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到你的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让你快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p>
-<h3 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
-<ol>
-<li>打开你刚刚下载好的 dmg 文件</li>
-<li>将 Neo4j 的图标拖拽到你的应用目录中</li>
-<li>在应用目录中打开 Neo4j，你可能会被系统询问是否是你从互联网上下载的这个程序，不要担心，确认即可</li>
-<li>点击 Start 按钮来启动 Neo4j 的服务</li>
-<li>在你的浏览器中打开程序提供给你的 URL</li>
-<li>为 <code>neo4j</code> 账户修改密码</li>
-</ol>
-<h3 id="Linux-Unix-tar-tar-gz"><a href="#Linux-Unix-tar-tar-gz" class="headerlink" title="Linux/Unix (tar/tar.gz)"></a>Linux/Unix (tar/tar.gz)</h3><ol>
-<li>打开你的终端</li>
-<li>使用 <code>tar -xvf &lt;file&gt;</code> 来提取存档的内容。比如 <code>tar -xvf neo4j-community-3.2.8-unix.tar</code>，如果你下载的是 <code>tar.gz</code> 的压缩包，那么使用 <code>tar -zxvf</code> 来进行解压</li>
-<li>使用 <code>$NEO4J_HOME/bin/neo4j console</code> 来运行 Neo4j，或者用 <code>$NEO4J_HOME/bin/neo4j start</code> 让服务进程在后台运行</li>
-<li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> </li>
-<li>为 <code>neo4j</code> 账户修改密码</li>
-</ol>
-<h3 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
-<ol>
-<li>运行你刚刚下载的安装程序，你可能需要给这个程序的安装权限来授权</li>
-<li>按照提示选择运行 Neo4j 的选项</li>
-<li>点击 Start 按钮来启动 Neo4j 服务器</li>
-<li>在浏览器中打开程序提供给你的 URL</li>
-<li>为 <code>neo4j</code> 账户修改密码</li>
-</ol>
-<h3 id="Windows-zip"><a href="#Windows-zip" class="headerlink" title="Windows (zip)"></a>Windows (zip)</h3><ol>
-<li>首先安装 JDK8</li>
-<li>找到压缩包，点击右键进行解压</li>
-<li>把解压出的文件放到服务器的主目录中，顶级目录称为 <code>NEO4J_HOME</code>，比如 <code>D:\neo4j\</code></li>
-<li>使用 zip 包中提供的 <code>Windows PowerShell</code> 来启动和管理 Neo4j</li>
-<li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a></li>
-<li>为 <code>neo4j</code> 账户修改密码</li>
-</ol>
-<h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，点击打开窗口中 Start 按钮即可启动 Neo4j 服务。</p>
-<p><img src="1.png" alt=""></p>
-<p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="external">http://localhost:7474</a> 然后按照提示进行操作。</p>
-<p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p>
-<p><img src="2.png" alt=""></p>
-<h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户名和密码来登录，默认的密码是 <code>neo4j</code></p>
-<p>第一次登录时，系统会提示你修改密码</p>
-<h3 id="3-结果"><a href="#3-结果" class="headerlink" title="3. 结果"></a>3. 结果</h3><p>密码修改完成后这个界面将会被展示</p>
-<p><img src="3.png" alt=""></p>
-<p>在这里，你可以使用当前界面提供的链接来学习更多关于 Neo4j 的知识以及如何创建数据库和运行查询语句</p>
-]]></content>
+    <content type="html"><![CDATA[<p>本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p><h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="noopener">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p><p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 <a href="https://neo4j.com/download/other-releases/" target="_blank" rel="noopener">这个链接</a> 选择另一个操作系统的版本。</p><h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到你的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让你快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p><h3 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p><ol><li>打开你刚刚下载好的 dmg 文件</li><li>将 Neo4j 的图标拖拽到你的应用目录中</li><li>在应用目录中打开 Neo4j，你可能会被系统询问是否是你从互联网上下载的这个程序，不要担心，确认即可</li><li>点击 Start 按钮来启动 Neo4j 的服务</li><li>在你的浏览器中打开程序提供给你的 URL</li><li>为 <code>neo4j</code> 账户修改密码</li></ol><h3 id="Linux-Unix-tar-tar-gz"><a href="#Linux-Unix-tar-tar-gz" class="headerlink" title="Linux/Unix (tar/tar.gz)"></a>Linux/Unix (tar/tar.gz)</h3><ol><li>打开你的终端</li><li>使用 <code>tar -xvf &lt;file&gt;</code> 来提取存档的内容。比如 <code>tar -xvf neo4j-community-3.2.8-unix.tar</code>，如果你下载的是 <code>tar.gz</code> 的压缩包，那么使用 <code>tar -zxvf</code> 来进行解压</li><li>使用 <code>$NEO4J_HOME/bin/neo4j console</code> 来运行 Neo4j，或者用 <code>$NEO4J_HOME/bin/neo4j start</code> 让服务进程在后台运行</li><li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a> </li><li>为 <code>neo4j</code> 账户修改密码</li></ol><h3 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p><ol><li>运行你刚刚下载的安装程序，你可能需要给这个程序的安装权限来授权</li><li>按照提示选择运行 Neo4j 的选项</li><li>点击 Start 按钮来启动 Neo4j 服务器</li><li>在浏览器中打开程序提供给你的 URL</li><li>为 <code>neo4j</code> 账户修改密码</li></ol><h3 id="Windows-zip"><a href="#Windows-zip" class="headerlink" title="Windows (zip)"></a>Windows (zip)</h3><ol><li>首先安装 JDK8</li><li>找到压缩包，点击右键进行解压</li><li>把解压出的文件放到服务器的主目录中，顶级目录称为 <code>NEO4J_HOME</code>，比如 <code>D:\neo4j\</code></li><li>使用 zip 包中提供的 <code>Windows PowerShell</code> 来启动和管理 Neo4j</li><li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a></li><li>为 <code>neo4j</code> 账户修改密码</li></ol><h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，点击打开窗口中 Start 按钮即可启动 Neo4j 服务。</p><p><img src="1.png" alt=""></p><p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a> 然后按照提示进行操作。</p><p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p><p><img src="2.png" alt=""></p><h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户名和密码来登录，默认的密码是 <code>neo4j</code></p><p>第一次登录时，系统会提示你修改密码</p><h3 id="3-结果"><a href="#3-结果" class="headerlink" title="3. 结果"></a>3. 结果</h3><p>密码修改完成后这个界面将会被展示</p><p><img src="3.png" alt=""></p><p>在这里，你可以使用当前界面提供的链接来学习更多关于 Neo4j 的知识以及如何创建数据库和运行查询语句</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。&lt;/p&gt;
+      
+      
+        &lt;p&gt;本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。&lt;/p&gt;
 &lt;h2 id=&quot;下载-Neo4j&quot;&gt;&lt;a href=&quot;#下载-Neo4j&quot; class=&quot;headerlink&quot; title=&quot;下载 Neo4j&quot;&gt;&lt;/a&gt;下载 Neo4j&lt;/h2&gt;&lt;p&gt;首先在
+      
     
     </summary>
     
@@ -687,36 +310,18 @@
     <published>2018-01-08T09:38:09.000Z</published>
     <updated>2018-01-14T00:34:38.467Z</updated>
     
-    <content type="html"><![CDATA[<blockquote>
-<p>Neo4j 是世界上最流行的图数据库管理系统（DBMS），同样是最流行的 NoSQL 数据库之一。</p>
-</blockquote>
-<p><img src="1.png" alt=""></p>
-<h3 id="Neo4j-是什么"><a href="#Neo4j-是什么" class="headerlink" title="Neo4j 是什么"></a>Neo4j 是什么</h3><p>Neo4j 以图的方式存储和展示数据，数据由节点和节点间的关系来表示。</p>
-<p>Neo4j 数据库（和任何图数据库一样）与关系型数据库（如：MS Access、SQL Server、MySQL）有很大不同。关系数据库使用表、行和列来存储数据，他们以表格的形式展示数据。</p>
-<p>Neo4j 不使用表、行或者列存储或展示数据。</p>
-<h3 id="Neo4j-用来做什么"><a href="#Neo4j-用来做什么" class="headerlink" title="Neo4j 用来做什么"></a>Neo4j 用来做什么</h3><p>Neo4j 非常适合存储有很多关联关系的数据。这是图数据库可以发挥巨大作用的地方。实际上，像 Neo4j 这样的图数据库在处理关系数据方面要优于关系型数据库。</p>
-<p>图模型通常不需要预定义结构，你不需要在加载数据前创建数据库结构（就像在关系型数据库中那样）。在 Neo4j 中，数据就是结构。Neo4j 是一个 「结构可选」的 DBMS。</p>
-<p>然而 Neo4j 能更好地处理关系数据的主要原因在于它允许你创建关系。Neo4j 是围绕关系而建立的。它不需要设置主键/外键约束来预先确定哪些字段或者哪些数据间有关系。在 Neo4j 中，只要在你需要时添加任何点之间的关系就行了。</p>
-<p>所以，这使得 Neo4j 非常合适社交网络应用，比如 Facebook、Twitter 等。同时，Neo4j 还可以应用于很多其他领域。</p>
-<p>以下是一些 Neo4j 主要应用领域：</p>
-<ul>
-<li>社交网络</li>
-<li>实时产品推荐</li>
-<li>网络架构图</li>
-<li>欺诈识别</li>
-<li>访问管理</li>
-<li>基于图的数字资产搜索</li>
-<li>主数据管理</li>
-</ul>
-]]></content>
+    <content type="html"><![CDATA[<blockquote><p>Neo4j 是世界上最流行的图数据库管理系统（DBMS），同样是最流行的 NoSQL 数据库之一。</p></blockquote><p><img src="1.png" alt=""></p><h3 id="Neo4j-是什么"><a href="#Neo4j-是什么" class="headerlink" title="Neo4j 是什么"></a>Neo4j 是什么</h3><p>Neo4j 以图的方式存储和展示数据，数据由节点和节点间的关系来表示。</p><p>Neo4j 数据库（和任何图数据库一样）与关系型数据库（如：MS Access、SQL Server、MySQL）有很大不同。关系数据库使用表、行和列来存储数据，他们以表格的形式展示数据。</p><p>Neo4j 不使用表、行或者列存储或展示数据。</p><h3 id="Neo4j-用来做什么"><a href="#Neo4j-用来做什么" class="headerlink" title="Neo4j 用来做什么"></a>Neo4j 用来做什么</h3><p>Neo4j 非常适合存储有很多关联关系的数据。这是图数据库可以发挥巨大作用的地方。实际上，像 Neo4j 这样的图数据库在处理关系数据方面要优于关系型数据库。</p><p>图模型通常不需要预定义结构，你不需要在加载数据前创建数据库结构（就像在关系型数据库中那样）。在 Neo4j 中，数据就是结构。Neo4j 是一个 「结构可选」的 DBMS。</p><p>然而 Neo4j 能更好地处理关系数据的主要原因在于它允许你创建关系。Neo4j 是围绕关系而建立的。它不需要设置主键/外键约束来预先确定哪些字段或者哪些数据间有关系。在 Neo4j 中，只要在你需要时添加任何点之间的关系就行了。</p><p>所以，这使得 Neo4j 非常合适社交网络应用，比如 Facebook、Twitter 等。同时，Neo4j 还可以应用于很多其他领域。</p><p>以下是一些 Neo4j 主要应用领域：</p><ul><li>社交网络</li><li>实时产品推荐</li><li>网络架构图</li><li>欺诈识别</li><li>访问管理</li><li>基于图的数字资产搜索</li><li>主数据管理</li></ul>]]></content>
     
     <summary type="html">
     
-      &lt;blockquote&gt;
+      
+      
+        &lt;blockquote&gt;
 &lt;p&gt;Neo4j 是世界上最流行的图数据库管理系统（DBMS），同样是最流行的 NoSQL 数据库之一。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;h3 id=&quot;Neo4j-是什么&quot;&gt;&lt;a hr
+      
     
     </summary>
     
@@ -730,38 +335,18 @@
     <published>2017-12-21T08:32:48.000Z</published>
     <updated>2018-01-08T09:41:31.044Z</updated>
     
-    <content type="html"><![CDATA[<p>快速回答</p>
-<ul>
-<li><code>Expires</code> 为 Cookie 的删除设置一个过期的<strong>日期</strong></li>
-<li><code>Max-age</code> 设置一个 Cookie 将要过期的秒数</li>
-<li>IE 浏览器(ie6、ie7 和 ie8) 不支持 <code>max-age</code>，所有的浏览器都支持 <code>expires</code></li>
-</ul>
-<p>深入一些来说明</p>
-<p><code>expires</code> 参数是当年网景公司推出 Cookies 原有的一部分。在 HTTP1.1 中，<code>expires</code> 被弃用并且被更加易用的 <code>max-age</code> 所替代。你只需说明这个 Cookie 能够存活多久就可以了，而不用像之前那样指定一个日期。设置二者中的一个，Cookie 会在它过期前一直保存，如果你一个都没有设置，这个 Cookie 将会一直存在直到你关闭浏览器，这种称之为 <code>Session Cookie</code>。</p>
-<p><strong>举个栗子</strong></p>
-<p>用 <code>expires</code> 的方式设置 <code>foo=bar</code> 在5分钟后过期</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">d.setTime(d.getTime() + <span class="number">5</span>*<span class="number">60</span>*<span class="number">1000</span>); <span class="comment">// in milliseconds</span></div><div class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;expires='</span>+d.toGMTString()+<span class="string">';'</span>;</div></pre></td></tr></table></figure>
-<p>用 <code>max-age</code> 来做同样的事情</p>
-<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;max-age='</span>+<span class="number">5</span>*<span class="number">60</span>+<span class="string">';'</span>;</div></pre></td></tr></table></figure>
-<p>不幸的是，IE 浏览器 不支持 <code>max-age</code>，如果你想跨浏览器存放 Cookie，应该坚持用 <code>expires</code>。</p>
-<p>下边我们来进行几个假设的问答</p>
-<p><strong>问：如果我在 Cookie 中同时设置了 <code>expires</code> 和 <code>max-age</code> 会发生什么？</strong></p>
-<p>答：所有支持 <code>max-age</code> 的浏览器会忽略 <code>expires</code> 的值，只有 IE 另外，IE 会忽略 <code>max-age</code> 只支持 <code>expires</code>。</p>
-<p><strong>问：如果我只设了 <code>max-age</code> 会怎样？</strong></p>
-<p>答：除了 IE 之外的所有浏览器会正确的使用它。在 IE 浏览器中，这个 Cookie 将会作为一个 Session Cookie（当你关闭浏览器时它会被删除）。</p>
-<p><strong>问：如果我只设了 <code>expires</code>？</strong></p>
-<p>答：所有浏览器会正确使用它来保存 Cookie，只需要记得像上边示例那样设置它的 GMT 时间就行了。</p>
-<p><strong>问：这篇文章的寓意是什么？</strong></p>
-<p>答：如果你关心你的 Cookies 功能在大多数 Web 用户下正常工作，不要用正确的方式（<code>max-age</code>）存储你的 Cookies，应该用 <code>expires</code> 的方式让他们工作。</p>
-]]></content>
+    <content type="html"><![CDATA[<p>快速回答</p><ul><li><code>Expires</code> 为 Cookie 的删除设置一个过期的<strong>日期</strong></li><li><code>Max-age</code> 设置一个 Cookie 将要过期的秒数</li><li>IE 浏览器(ie6、ie7 和 ie8) 不支持 <code>max-age</code>，所有的浏览器都支持 <code>expires</code></li></ul><p>深入一些来说明</p><p><code>expires</code> 参数是当年网景公司推出 Cookies 原有的一部分。在 HTTP1.1 中，<code>expires</code> 被弃用并且被更加易用的 <code>max-age</code> 所替代。你只需说明这个 Cookie 能够存活多久就可以了，而不用像之前那样指定一个日期。设置二者中的一个，Cookie 会在它过期前一直保存，如果你一个都没有设置，这个 Cookie 将会一直存在直到你关闭浏览器，这种称之为 <code>Session Cookie</code>。</p><p><strong>举个栗子</strong></p><p>用 <code>expires</code> 的方式设置 <code>foo=bar</code> 在5分钟后过期</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">d.setTime(d.getTime() + <span class="number">5</span>*<span class="number">60</span>*<span class="number">1000</span>); <span class="comment">// in milliseconds</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;expires='</span>+d.toGMTString()+<span class="string">';'</span>;</span><br></pre></td></tr></table></figure><p>用 <code>max-age</code> 来做同样的事情</p><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;max-age='</span>+<span class="number">5</span>*<span class="number">60</span>+<span class="string">';'</span>;</span><br></pre></td></tr></table></figure><p>不幸的是，IE 浏览器 不支持 <code>max-age</code>，如果你想跨浏览器存放 Cookie，应该坚持用 <code>expires</code>。</p><p>下边我们来进行几个假设的问答</p><p><strong>问：如果我在 Cookie 中同时设置了 <code>expires</code> 和 <code>max-age</code> 会发生什么？</strong></p><p>答：所有支持 <code>max-age</code> 的浏览器会忽略 <code>expires</code> 的值，只有 IE 另外，IE 会忽略 <code>max-age</code> 只支持 <code>expires</code>。</p><p><strong>问：如果我只设了 <code>max-age</code> 会怎样？</strong></p><p>答：除了 IE 之外的所有浏览器会正确的使用它。在 IE 浏览器中，这个 Cookie 将会作为一个 Session Cookie（当你关闭浏览器时它会被删除）。</p><p><strong>问：如果我只设了 <code>expires</code>？</strong></p><p>答：所有浏览器会正确使用它来保存 Cookie，只需要记得像上边示例那样设置它的 GMT 时间就行了。</p><p><strong>问：这篇文章的寓意是什么？</strong></p><p>答：如果你关心你的 Cookies 功能在大多数 Web 用户下正常工作，不要用正确的方式（<code>max-age</code>）存储你的 Cookies，应该用 <code>expires</code> 的方式让他们工作。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;快速回答&lt;/p&gt;
+      
+      
+        &lt;p&gt;快速回答&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Expires&lt;/code&gt; 为 Cookie 的删除设置一个过期的&lt;strong&gt;日期&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;Max-age&lt;/code&gt; 设置一个 Cookie 将要过期的秒数&lt;/li&gt;
 &lt;li&gt;
+      
     
     </summary>
     
@@ -775,32 +360,15 @@
     <published>2017-12-18T09:45:23.000Z</published>
     <updated>2017-12-18T11:56:04.732Z</updated>
     
-    <content type="html"><![CDATA[<p>你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。</p>
-<p>一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！</p>
-<p>Cypher(Server,Shell)</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>)</div><div class="line">OPTIONAL <span class="built_in">MATCH</span> (<span class="built_in">n</span>)-[r]-&gt;()</div><div class="line">RETURN <span class="built_in">count</span>(n.prop) + <span class="built_in">count</span>(r.prop);</div></pre></td></tr></table></figure>
-<p>上边的例子用到了 <code>count(n.prop) + count(r.prop)</code> ，来强制让优化器在点或关系中搜索名为 <code>prop</code> 的属性。用 <code>count(*)</code> 替代它将不够充分，因为这样不会加载所有的点和关系属性。</p>
-<p>内嵌方式(Java):</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/warmup"</span>)</div><div class="line"><span class="keyword">public</span> String warmUp(<span class="meta">@Context</span> GraphDatabaseService db) &#123;</div><div class="line">    <span class="keyword">try</span> ( Transaction tx = db.beginTx()) &#123;</div><div class="line">        <span class="keyword">for</span> ( Node <span class="string">n :</span> GlobalGraphOperations.at(db).getAllNodes()) &#123;</div><div class="line">            n.getPropertyKeys();</div><div class="line">            <span class="keyword">for</span> ( Relationship <span class="string">relationship :</span> n.getRelationships()) &#123;</div><div class="line">                relationship.getPropertyKeys();</div><div class="line">                relationship.getStartNode();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="string">"Warmed up and ready to go!"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在 3.0 之后的版本并且使用了 <a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures" target="_blank" rel="external">APOC</a> 插件的话，可以运行如下存储过程来完成缓存预热</p>
-<p><code>CALL apoc.warmup.run()</code></p>
-<blockquote>
-<p>property record loading for warmup, apoc.warmup.run(true)</p>
-</blockquote>
-<p><code>CALL apoc.warmup.run()</code> 默认不读取属性记录，更加建议使用 <code>call apoc.warmup.run(true)</code>，这个是 3.2.0 以上版本插件的新功能。</p>
-<p><img src="1.png" alt=""></p>
-<p>这样做除了纯粹的提升性能外还可以提供更多方面的帮助，如果你使用的是 Neo4j集群的话，还可以帮助缓解由于查询滞后而导致的上游问题。例如，如果节点繁忙并且负载均衡超时时间很短，图中没有任何数据在内存中，很可能会显示该集群最初不可用。如果缓存处于预热状态，那么冷启动应该就不会有短暂超时的问题了。</p>
-<h3 id="APOC-安装"><a href="#APOC-安装" class="headerlink" title="APOC 安装"></a><code>APOC</code> 安装</h3><ol>
-<li>将最新的插件 jar 包下载后放进 neo4j 的 plugins 目录中</li>
-<li>修改配置文件加入 <code>dbms.security.procedures.unrestricted=apoc.*</code></li>
-<li>重启 <code>neo4j</code></li>
-</ol>
-]]></content>
+    <content type="html"><![CDATA[<p>你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。</p><p>一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！</p><p>Cypher(Server,Shell)</p><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>)</span><br><span class="line">OPTIONAL <span class="built_in">MATCH</span> (<span class="built_in">n</span>)-[r]-&gt;()</span><br><span class="line">RETURN <span class="built_in">count</span>(n.prop) + <span class="built_in">count</span>(r.prop);</span><br></pre></td></tr></table></figure><p>上边的例子用到了 <code>count(n.prop) + count(r.prop)</code> ，来强制让优化器在点或关系中搜索名为 <code>prop</code> 的属性。用 <code>count(*)</code> 替代它将不够充分，因为这样不会加载所有的点和关系属性。</p><p>内嵌方式(Java):</p><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/warmup"</span>)</span><br><span class="line"><span class="keyword">public</span> String warmUp(<span class="meta">@Context</span> GraphDatabaseService db) &#123;</span><br><span class="line">    <span class="keyword">try</span> ( Transaction tx = db.beginTx()) &#123;</span><br><span class="line">        <span class="keyword">for</span> ( Node <span class="string">n :</span> GlobalGraphOperations.at(db).getAllNodes()) &#123;</span><br><span class="line">            n.getPropertyKeys();</span><br><span class="line">            <span class="keyword">for</span> ( Relationship <span class="string">relationship :</span> n.getRelationships()) &#123;</span><br><span class="line">                relationship.getPropertyKeys();</span><br><span class="line">                relationship.getStartNode();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Warmed up and ready to go!"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在 3.0 之后的版本并且使用了 <a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures" target="_blank" rel="noopener">APOC</a> 插件的话，可以运行如下存储过程来完成缓存预热</p><p><code>CALL apoc.warmup.run()</code></p><blockquote><p>property record loading for warmup, apoc.warmup.run(true)</p></blockquote><p><code>CALL apoc.warmup.run()</code> 默认不读取属性记录，更加建议使用 <code>call apoc.warmup.run(true)</code>，这个是 3.2.0 以上版本插件的新功能。</p><p><img src="1.png" alt=""></p><p>这样做除了纯粹的提升性能外还可以提供更多方面的帮助，如果你使用的是 Neo4j集群的话，还可以帮助缓解由于查询滞后而导致的上游问题。例如，如果节点繁忙并且负载均衡超时时间很短，图中没有任何数据在内存中，很可能会显示该集群最初不可用。如果缓存处于预热状态，那么冷启动应该就不会有短暂超时的问题了。</p><h3 id="APOC-安装"><a href="#APOC-安装" class="headerlink" title="APOC 安装"></a><code>APOC</code> 安装</h3><ol><li>将最新的插件 jar 包下载后放进 neo4j 的 plugins 目录中</li><li>修改配置文件加入 <code>dbms.security.procedures.unrestricted=apoc.*</code></li><li>重启 <code>neo4j</code></li></ol>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。&lt;/p&gt;
+      
+      
+        &lt;p&gt;你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。&lt;/p&gt;
 &lt;p&gt;一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关
+      
     
     </summary>
     
@@ -814,16 +382,15 @@
     <published>2017-12-11T10:33:02.000Z</published>
     <updated>2017-12-11T10:34:48.027Z</updated>
     
-    <content type="html"><![CDATA[<p>这段时间的工作内容，让我更加体会到「情景」的重要性。</p>
-<p>想把事情做好，就要有一个已经存在的情景设定，空穴来潮地去做一定做不完美，或者做着做着会失去动力。<br>这段时间学习了很多图数据库知识，接触了一下Titan，深入学习了 Neo4j 。用 Hadoop/Spark 写了一些大数据处理工具。</p>
-<p>因为有上亿级的数据需要处理，所以不得不使用分布式计算引擎；为了将上亿级的数据导入到图数据库，不得不使用 Neo4j 的初始化导入工具；为了将一些增量关系通过计算后追加到图中，不得不学习通过编码的导入方式；为了满足产品需求，不得不学习各种复杂的查询语句，不断 debug 语句的正确性；因为有上亿数据的存在，不得不学习如果优化语句性能，在合适的地方添加索引。以上这些都是在工作内容这个场景下进行的，因为有了这个场景，推动着我不断的探索和进步，如果没有这个场景，我就算会去自己学习，也不会学的这么深入。</p>
-<p>还可以从另一个方面说一下场景的重要性：如果你想开发一个软件/工具来让大家用，也需要一个场景，要么当下你用得到，要么你的家人或者朋友用得到，否则我觉得空想是做不来的。</p>
-]]></content>
+    <content type="html"><![CDATA[<p>这段时间的工作内容，让我更加体会到「情景」的重要性。</p><p>想把事情做好，就要有一个已经存在的情景设定，空穴来潮地去做一定做不完美，或者做着做着会失去动力。<br>这段时间学习了很多图数据库知识，接触了一下Titan，深入学习了 Neo4j 。用 Hadoop/Spark 写了一些大数据处理工具。</p><p>因为有上亿级的数据需要处理，所以不得不使用分布式计算引擎；为了将上亿级的数据导入到图数据库，不得不使用 Neo4j 的初始化导入工具；为了将一些增量关系通过计算后追加到图中，不得不学习通过编码的导入方式；为了满足产品需求，不得不学习各种复杂的查询语句，不断 debug 语句的正确性；因为有上亿数据的存在，不得不学习如果优化语句性能，在合适的地方添加索引。以上这些都是在工作内容这个场景下进行的，因为有了这个场景，推动着我不断的探索和进步，如果没有这个场景，我就算会去自己学习，也不会学的这么深入。</p><p>还可以从另一个方面说一下场景的重要性：如果你想开发一个软件/工具来让大家用，也需要一个场景，要么当下你用得到，要么你的家人或者朋友用得到，否则我觉得空想是做不来的。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;这段时间的工作内容，让我更加体会到「情景」的重要性。&lt;/p&gt;
+      
+      
+        &lt;p&gt;这段时间的工作内容，让我更加体会到「情景」的重要性。&lt;/p&gt;
 &lt;p&gt;想把事情做好，就要有一个已经存在的情景设定，空穴来潮地去做一定做不完美，或者做着做着会失去动力。&lt;br&gt;这段时间学习了很多图数据库知识，接触了一下Titan，深入学习了 Neo4j 。用 Hadoop/Sp
+      
     
     </summary>
     
@@ -837,56 +404,14 @@
     <published>2017-12-08T02:03:13.000Z</published>
     <updated>2017-12-11T10:34:56.569Z</updated>
     
-    <content type="html"><![CDATA[<p>最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3 个问题：</p>
-<ul>
-<li>客户端除了浏览器，可能还包括手机端 APP，对于手机端而言，管理 cookie 是一件麻烦的事情</li>
-<li>RESTful 风格的 API 不建议使用 cookie</li>
-<li>Cookie 本身有一个缺陷，不能跨域</li>
-</ul>
-<p>解决这个问题的方案是让前端传数据时，在 URL 参数中或者 header 中携带一个 参数，我们成这个参数为 token，后端通过这个 token 来判断用户身份，这样可以免去对 Cookies 的管理。</p>
-<p>顺着这个思路，我们很容易想到一种方案，就是后端维护一个 <code>Map</code>，<code>key</code> 值为 <code>token</code>，<code>value</code> 为用户信息，这样只要用户登录时生成这个 <code>key</code> 后，放到 <code>Map</code> 中，然后将 <code>key</code> 返回给前端就行了，但是这样做有个很严重的问题，<code>Map</code> 是在内存中的，如果后端服务为集群时，还需要做 <code>key</code> 同步，非常麻烦，当然也有人会提出可以将后端生成的 <code>token</code> 和对应的用户信息放在 键-值 数据库中，这样就不用考虑同步问题了，当然这样做没有什么问题，但是会额外引入基础组件（我们现在做第一版，为了快速开发，不打算引入太多的组件），而且还要保证键值数据库的高可用性。</p>
-<p>这里我使用了一个更加优雅的方案：JSON Web Token</p>
-<p>JSON Web Token（JWT）是一个非常轻巧的规范。这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息。</p>
-<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成:"></a>JWT的组成:</h3><p>一个JWT实际上就是一个字符串，它由三部分组成，头部、载荷与签名。</p>
-<h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）:"></a>载荷（Payload）:</h4><p>Payload 是 JWT 存储信息的部分。Payload 也是一个 json 数据，每一个 json 的 key-value 称为一个声明。</p>
-<p>我们将用户信息描述成一个 json 对象。其中添加了一些其他的信息，帮助今后收到这个 JWT 的服务器理解这个 JWT 。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"iss"</span>: <span class="string">"Panmax JWT"</span>,</div><div class="line">    <span class="attr">"iat"</span>: <span class="number">1441593502</span>,</div><div class="line">    <span class="attr">"exp"</span>: <span class="number">1441594722</span>,</div><div class="line">    <span class="attr">"aud"</span>: <span class="string">"www.example.com"</span>,</div><div class="line">    <span class="attr">"sub"</span>: <span class="string">"jrocket@example.com"</span>,</div><div class="line">    <span class="attr">"user_id"</span>: <span class="number">1</span>,</div><div class="line">    <span class="attr">"username"</span>: <span class="string">"jiapan"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里面的前五个字段都是由JWT的标准所定义的</p>
-<ul>
-<li>iss: 该JWT的签发者</li>
-<li>sub: 该JWT所面向的用户</li>
-<li>aud: 接收该JWT的一方</li>
-<li>exp(expires):  JWT 的过期时间，是一个 unxi 时间戳</li>
-<li>iat(issued at): JWT 的签发时间，是一个 unix 时间戳</li>
-</ul>
-<p>上面这个 payload 中，<code>user_id</code> 和 <code>username</code> 为自定义声明。</p>
-<p>将上面的 json 对象进行<strong>base64编码</strong>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
-<p><code>ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p>
-<blockquote>
-<p>注：Base64是一种编码，也就是说，它是可以被翻译回原来的样子来的。它并不是一种加密过程。</p>
-</blockquote>
-<h4 id="头部（Header）"><a href="#头部（Header）" class="headerlink" title="头部（Header）"></a>头部（Header）</h4><p>WT还需要一个头部，头部用于描述关于该JWT的最基本的信息，例如其类型以及签名所用的算法等。这也可以被表示成一个JSON对象。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span>,</div><div class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在这里，我们说明了这是一个 JWT，并且我们所用的签名算法（后面会提到）是 HS256 算法。</p>
-<p>对它也要进行Base64编码，之后的字符串就成了 JWT 的 Header（头部）。</p>
-<p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9</code></p>
-<h4 id="签名（签名）"><a href="#签名（签名）" class="headerlink" title="签名（签名）"></a>签名（签名）</h4><p>将上面的两个编码后的字符串都用句号.连接在一起（头部在前），就形成了</p>
-<p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9.ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p>
-<p>最后，我们将上面拼接完的字符串用 HS256 算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。加密之后，得到一串加密字符串，最后把这串加密字符串也是用 . 拼接在 header.payload 后面，形成完整的 JWT。</p>
-<p>最终生成的JWT格式如下：</p>
-<p><code>xxx.yyy.zzz</code></p>
-<p>这里签名的目的是为了保证 payload 数据的完整性。如果 JWT 在传输过程中被第三方劫持，中间人对 header.payload 进行修改，并且使用自己的密钥重新签名。服务端收到中间人修改过的 JWT，使用自己的密钥对 header.payload 进行再次加密，由于中间人和服务端使用的是不同的密钥签名，所以服务端再次加密的结果肯定和中间人加密的结果不一致，由此可以断定该 JWT 被恶意篡改。</p>
-<p>经过上边的介绍，我们可以看出 JWT 中 Payload 的信息是可以解码会明文的，也就是说信息会泄露，所以 JWT 中不应该存放任何敏感信息，用于登录时我们只需放入用户ID或者用户名就可以了，不要把身份号或者密码等信息放入JWT中，应该让后端拿到用户ID或者用户名后进行查询得到身份证号等隐私信息。</p>
-<p>好的，以上就是JWT的科普部分，下边介绍下我这边CAS对接实现方案。</p>
-<p>我单独写了一个服务，命名为 hodor(hold the door)，作为一个中间层来验证 CAS ticket 并且根据用户信息生成 JWT Token。</p>
-<p>我们用 zuul 作为网关服务，当请求过来后，网关判断有没有携带 token，并且判断 token 的有效性，我们需要把网关里验证 jwt 的密钥和 hodor 中生成 jwt 的密钥设置为相同的字符串就可以完成验证工作。</p>
-<p>当网关验证 token 没有被篡改并且还在有效期内后，从 Payload 中取出我们需要的信息，将这些信息明文放在 header 中继续往后请求各个应用，对于应用来说从网关过来的请求是可信的，直接从头中取出相应的用户名或者ID就行了。这里有一个坑，就是网关将信息放入 header 的时候，只能传 ASCII 编码字符串，我们的 CAS 返回用户信息时会同时返回中文姓名，所以中文在传入 header 时，需要做 urlencode 处理，同时应用内接受时也需要做 urldecode。</p>
-<p>如果没有携带 token 或 token 无效，网关会返回 HTTP 401 错误，前端收到这个返回码后，会跳转到 CAS 认证地址，让用户来登录。同时 service 是前端配置好的一个地址，当用户登录成功后，会回到前端配置好那个地址，前端拿到 CAS 给的 ticket 后，用这个 ticket 和申请 ticket 时的 service 来请求我写的 hodor 服务，hodor根据 ticket 和service 来完成ticket验证工作，获取用户信息，生成jwt，返回给前端，前端保存这个 token，再之后的请求中携带这个 token 来访问就行了。</p>
-]]></content>
+    <content type="html"><![CDATA[<p>最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3 个问题：</p><ul><li>客户端除了浏览器，可能还包括手机端 APP，对于手机端而言，管理 cookie 是一件麻烦的事情</li><li>RESTful 风格的 API 不建议使用 cookie</li><li>Cookie 本身有一个缺陷，不能跨域</li></ul><p>解决这个问题的方案是让前端传数据时，在 URL 参数中或者 header 中携带一个 参数，我们成这个参数为 token，后端通过这个 token 来判断用户身份，这样可以免去对 Cookies 的管理。</p><p>顺着这个思路，我们很容易想到一种方案，就是后端维护一个 <code>Map</code>，<code>key</code> 值为 <code>token</code>，<code>value</code> 为用户信息，这样只要用户登录时生成这个 <code>key</code> 后，放到 <code>Map</code> 中，然后将 <code>key</code> 返回给前端就行了，但是这样做有个很严重的问题，<code>Map</code> 是在内存中的，如果后端服务为集群时，还需要做 <code>key</code> 同步，非常麻烦，当然也有人会提出可以将后端生成的 <code>token</code> 和对应的用户信息放在 键-值 数据库中，这样就不用考虑同步问题了，当然这样做没有什么问题，但是会额外引入基础组件（我们现在做第一版，为了快速开发，不打算引入太多的组件），而且还要保证键值数据库的高可用性。</p><p>这里我使用了一个更加优雅的方案：JSON Web Token</p><p>JSON Web Token（JWT）是一个非常轻巧的规范。这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息。</p><h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成:"></a>JWT的组成:</h3><p>一个JWT实际上就是一个字符串，它由三部分组成，头部、载荷与签名。</p><h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）:"></a>载荷（Payload）:</h4><p>Payload 是 JWT 存储信息的部分。Payload 也是一个 json 数据，每一个 json 的 key-value 称为一个声明。</p><p>我们将用户信息描述成一个 json 对象。其中添加了一些其他的信息，帮助今后收到这个 JWT 的服务器理解这个 JWT 。</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"iss"</span>: <span class="string">"Panmax JWT"</span>,</span><br><span class="line">    <span class="attr">"iat"</span>: <span class="number">1441593502</span>,</span><br><span class="line">    <span class="attr">"exp"</span>: <span class="number">1441594722</span>,</span><br><span class="line">    <span class="attr">"aud"</span>: <span class="string">"www.example.com"</span>,</span><br><span class="line">    <span class="attr">"sub"</span>: <span class="string">"jrocket@example.com"</span>,</span><br><span class="line">    <span class="attr">"user_id"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"username"</span>: <span class="string">"jiapan"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这里面的前五个字段都是由JWT的标准所定义的</p><ul><li>iss: 该JWT的签发者</li><li>sub: 该JWT所面向的用户</li><li>aud: 接收该JWT的一方</li><li>exp(expires):  JWT 的过期时间，是一个 unxi 时间戳</li><li>iat(issued at): JWT 的签发时间，是一个 unix 时间戳</li></ul><p>上面这个 payload 中，<code>user_id</code> 和 <code>username</code> 为自定义声明。</p><p>将上面的 json 对象进行<strong>base64编码</strong>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p><p><code>ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p><blockquote><p>注：Base64是一种编码，也就是说，它是可以被翻译回原来的样子来的。它并不是一种加密过程。</p></blockquote><h4 id="头部（Header）"><a href="#头部（Header）" class="headerlink" title="头部（Header）"></a>头部（Header）</h4><p>WT还需要一个头部，头部用于描述关于该JWT的最基本的信息，例如其类型以及签名所用的算法等。这也可以被表示成一个JSON对象。</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span>,</span><br><span class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在这里，我们说明了这是一个 JWT，并且我们所用的签名算法（后面会提到）是 HS256 算法。</p><p>对它也要进行Base64编码，之后的字符串就成了 JWT 的 Header（头部）。</p><p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9</code></p><h4 id="签名（签名）"><a href="#签名（签名）" class="headerlink" title="签名（签名）"></a>签名（签名）</h4><p>将上面的两个编码后的字符串都用句号.连接在一起（头部在前），就形成了</p><p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9.ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p><p>最后，我们将上面拼接完的字符串用 HS256 算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。加密之后，得到一串加密字符串，最后把这串加密字符串也是用 . 拼接在 header.payload 后面，形成完整的 JWT。</p><p>最终生成的JWT格式如下：</p><p><code>xxx.yyy.zzz</code></p><p>这里签名的目的是为了保证 payload 数据的完整性。如果 JWT 在传输过程中被第三方劫持，中间人对 header.payload 进行修改，并且使用自己的密钥重新签名。服务端收到中间人修改过的 JWT，使用自己的密钥对 header.payload 进行再次加密，由于中间人和服务端使用的是不同的密钥签名，所以服务端再次加密的结果肯定和中间人加密的结果不一致，由此可以断定该 JWT 被恶意篡改。</p><p>经过上边的介绍，我们可以看出 JWT 中 Payload 的信息是可以解码会明文的，也就是说信息会泄露，所以 JWT 中不应该存放任何敏感信息，用于登录时我们只需放入用户ID或者用户名就可以了，不要把身份号或者密码等信息放入JWT中，应该让后端拿到用户ID或者用户名后进行查询得到身份证号等隐私信息。</p><p>好的，以上就是JWT的科普部分，下边介绍下我这边CAS对接实现方案。</p><p>我单独写了一个服务，命名为 hodor(hold the door)，作为一个中间层来验证 CAS ticket 并且根据用户信息生成 JWT Token。</p><p>我们用 zuul 作为网关服务，当请求过来后，网关判断有没有携带 token，并且判断 token 的有效性，我们需要把网关里验证 jwt 的密钥和 hodor 中生成 jwt 的密钥设置为相同的字符串就可以完成验证工作。</p><p>当网关验证 token 没有被篡改并且还在有效期内后，从 Payload 中取出我们需要的信息，将这些信息明文放在 header 中继续往后请求各个应用，对于应用来说从网关过来的请求是可信的，直接从头中取出相应的用户名或者ID就行了。这里有一个坑，就是网关将信息放入 header 的时候，只能传 ASCII 编码字符串，我们的 CAS 返回用户信息时会同时返回中文姓名，所以中文在传入 header 时，需要做 urlencode 处理，同时应用内接受时也需要做 urldecode。</p><p>如果没有携带 token 或 token 无效，网关会返回 HTTP 401 错误，前端收到这个返回码后，会跳转到 CAS 认证地址，让用户来登录。同时 service 是前端配置好的一个地址，当用户登录成功后，会回到前端配置好那个地址，前端拿到 CAS 给的 ticket 后，用这个 ticket 和申请 ticket 时的 service 来请求我写的 hodor 服务，hodor根据 ticket 和service 来完成ticket验证工作，获取用户信息，生成jwt，返回给前端，前端保存这个 token，再之后的请求中携带这个 token 来访问就行了。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情
+      
+      
+        &lt;p&gt;最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情
+      
     
     </summary>
     
@@ -900,23 +425,15 @@
     <published>2017-09-20T01:45:04.000Z</published>
     <updated>2017-09-20T03:25:31.000Z</updated>
     
-    <content type="html"><![CDATA[<p>昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 <code>SIMPLE</code> 和 <code>ONE2ONE</code>，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。</p>
-<p><img src="1.png" alt=""></p>
-<p><strong>SIMPLE:</strong> Allows at most one edge of such label between any pair of vertices. In other words, the graph is a simple graph with respect to the label. Ensures that edges are unique for a given label and pairs of vertices.<br><strong>ONE2ONE:</strong> Allows at most one incoming and one outgoing edge of such label on any vertex in the graph. The edge label marriedTo is an example with ONE2ONE multiplicity since a person is married to exactly one other person.</p>
-<p>先给结论，一张图来解释：</p>
-<p><img src="2.png" alt=""></p>
-<h3 id="程序验证"><a href="#程序验证" class="headerlink" title="程序验证"></a>程序验证</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; graph = TitanFactory.open("conf/titan.properties")</div><div class="line">=<span class="ruby">=&gt;standardtitangraph[<span class="symbol">cassandra:</span>[<span class="number">172.24</span>.<span class="number">8.84</span>]]</span></div><div class="line">gremlin&gt; mgmt = graph.openManagement()</div><div class="line">=<span class="ruby">=&gt;com.thinkaurelius.titan.graphdb.database.management.ManagementSystem@d7109be</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('simple').multiplicity(SIMPLE).make()</div><div class="line">=<span class="ruby">=&gt;simple</span></div><div class="line">gremlin&gt; mgmt.makeEdgeLabel('one2one').multiplicity(ONE2ONE).make()</div><div class="line">=<span class="ruby">=&gt;one2one</span></div><div class="line">gremlin&gt; mgmt.commit()</div><div class="line"></div><div class="line">gremlin&gt; a = graph.addVertex("name", "a")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4152</span>]</span></div><div class="line">gremlin&gt; b = graph.addVertex("name", "b")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">8248</span>]</span></div><div class="line">gremlin&gt; c = graph.addVertex("name", "c")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4128</span>]</span></div><div class="line">gremlin&gt; d = graph.addVertex("name", "d")</div><div class="line">=<span class="ruby">=&gt;v[<span class="number">4328</span>]</span></div></pre></td></tr></table></figure>
-<p>先分别创建 <code>multiplicity</code> 为 <code>SIMPLE</code> 和 <code>ONE2ONE</code> 的 <code>Edge Label</code>，然后创建 a b c d 四个点。</p>
-<h4 id="首先来验证-SIMPLE："><a href="#首先来验证-SIMPLE：" class="headerlink" title="首先来验证 SIMPLE："></a>首先来验证 SIMPLE：</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; a.addEdge("simple", b)</div><div class="line">==&gt;e[<span class="string">1zb-37c-t1-6d4</span>][<span class="symbol">4152-simple-&gt;8248</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", b)</div><div class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; b.addEdge("simple", a)</div><div class="line">==&gt;e[<span class="string">2dj-6d4-t1-37c</span>][<span class="symbol">8248-simple-&gt;4152</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", c)</div><div class="line">==&gt;e[<span class="string">2rr-37c-t1-36o</span>][<span class="symbol">4152-simple-&gt;4128</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", d)</div><div class="line">==&gt;e[<span class="string">35z-37c-t1-3c8</span>][<span class="symbol">4152-simple-&gt;4328</span>]</div><div class="line">gremlin&gt; a.addEdge("simple", c)</div><div class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; c.addEdge("simple", b)</div><div class="line">==&gt;e[<span class="string">16s-36o-t1-6d4</span>][<span class="symbol">4128-simple-&gt;8248</span>]</div></pre></td></tr></table></figure>
-<p>得到的结论是，只要两点之间不存在相同方向的 <code>SIMPLE</code> 边就可以。</p>
-<h4 id="然后验证-ONE2ONE"><a href="#然后验证-ONE2ONE" class="headerlink" title="然后验证 ONE2ONE"></a>然后验证 ONE2ONE</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">gremlin&gt; a.addEdge("one2one", b)</div><div class="line">==&gt;e[<span class="string">3k7-37c-1lh-6d4</span>][<span class="symbol">4152-one2one-&gt;8248</span>]</div><div class="line">gremlin&gt; a.addEdge("one2one", c)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; a.addEdge("one2one", d)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; d.addEdge("one2one", a)</div><div class="line">==&gt;e[<span class="string">17h-3c8-1lh-37c</span>][<span class="symbol">4328-one2one-&gt;4152</span>]</div><div class="line">gremlin&gt; d.addEdge("one2one", b)</div><div class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</div><div class="line">Display stack trace? [yN] n</div><div class="line">gremlin&gt; b.addEdge("one2one", c)</div><div class="line">==&gt;e[<span class="string">3yf-6d4-1lh-36o</span>][<span class="symbol">8248-one2one-&gt;4128</span>]</div></pre></td></tr></table></figure>
-<p>结论是，一个点上的 <code>ONE2ONE</code> 边只能有一次 <code>in</code> 和一次 <code>out</code>。</p>
-]]></content>
+    <content type="html"><![CDATA[<p>昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 <code>SIMPLE</code> 和 <code>ONE2ONE</code>，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。</p><p><img src="1.png" alt=""></p><p><strong>SIMPLE:</strong> Allows at most one edge of such label between any pair of vertices. In other words, the graph is a simple graph with respect to the label. Ensures that edges are unique for a given label and pairs of vertices.<br><strong>ONE2ONE:</strong> Allows at most one incoming and one outgoing edge of such label on any vertex in the graph. The edge label marriedTo is an example with ONE2ONE multiplicity since a person is married to exactly one other person.</p><p>先给结论，一张图来解释：</p><p><img src="2.png" alt=""></p><h3 id="程序验证"><a href="#程序验证" class="headerlink" title="程序验证"></a>程序验证</h3><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">gremlin&gt; graph = TitanFactory.open("conf/titan.properties")</span><br><span class="line">=<span class="ruby">=&gt;standardtitangraph[<span class="symbol">cassandra:</span>[<span class="number">172.24</span>.<span class="number">8.84</span>]]</span></span><br><span class="line"><span class="ruby">gremlin&gt; mgmt = graph.openManagement()</span></span><br><span class="line"><span class="ruby">==&gt;com.thinkaurelius.titan.graphdb.database.management.ManagementSystem@d7109be</span></span><br><span class="line"><span class="ruby">gremlin&gt; mgmt.makeEdgeLabel(<span class="string">'simple'</span>).multiplicity(SIMPLE).make()</span></span><br><span class="line"><span class="ruby">==&gt;simple</span></span><br><span class="line"><span class="ruby">gremlin&gt; mgmt.makeEdgeLabel(<span class="string">'one2one'</span>).multiplicity(ONE2ONE).make()</span></span><br><span class="line"><span class="ruby">==&gt;one2one</span></span><br><span class="line"><span class="ruby">gremlin&gt; mgmt.commit()</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">gremlin&gt; a = graph.addVertex(<span class="string">"name"</span>, <span class="string">"a"</span>)</span></span><br><span class="line"><span class="ruby">==&gt;v[<span class="number">4152</span>]</span></span><br><span class="line"><span class="ruby">gremlin&gt; b = graph.addVertex(<span class="string">"name"</span>, <span class="string">"b"</span>)</span></span><br><span class="line"><span class="ruby">==&gt;v[<span class="number">8248</span>]</span></span><br><span class="line"><span class="ruby">gremlin&gt; c = graph.addVertex(<span class="string">"name"</span>, <span class="string">"c"</span>)</span></span><br><span class="line"><span class="ruby">==&gt;v[<span class="number">4128</span>]</span></span><br><span class="line"><span class="ruby">gremlin&gt; d = graph.addVertex(<span class="string">"name"</span>, <span class="string">"d"</span>)</span></span><br><span class="line"><span class="ruby">==&gt;v[<span class="number">4328</span>]</span></span><br></pre></td></tr></table></figure><p>先分别创建 <code>multiplicity</code> 为 <code>SIMPLE</code> 和 <code>ONE2ONE</code> 的 <code>Edge Label</code>，然后创建 a b c d 四个点。</p><h4 id="首先来验证-SIMPLE："><a href="#首先来验证-SIMPLE：" class="headerlink" title="首先来验证 SIMPLE："></a>首先来验证 SIMPLE：</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">gremlin&gt; a.addEdge("simple", b)</span><br><span class="line">==&gt;e[<span class="string">1zb-37c-t1-6d4</span>][<span class="symbol">4152-simple-&gt;8248</span>]</span><br><span class="line">gremlin&gt; a.addEdge("simple", b)</span><br><span class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; b.addEdge("simple", a)</span><br><span class="line">==&gt;e[<span class="string">2dj-6d4-t1-37c</span>][<span class="symbol">8248-simple-&gt;4152</span>]</span><br><span class="line">gremlin&gt; a.addEdge("simple", c)</span><br><span class="line">==&gt;e[<span class="string">2rr-37c-t1-36o</span>][<span class="symbol">4152-simple-&gt;4128</span>]</span><br><span class="line">gremlin&gt; a.addEdge("simple", d)</span><br><span class="line">==&gt;e[<span class="string">35z-37c-t1-3c8</span>][<span class="symbol">4152-simple-&gt;4328</span>]</span><br><span class="line">gremlin&gt; a.addEdge("simple", c)</span><br><span class="line">An edge with the given label already exists between the pair of vertices and the label [simple] is simple</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; c.addEdge("simple", b)</span><br><span class="line">==&gt;e[<span class="string">16s-36o-t1-6d4</span>][<span class="symbol">4128-simple-&gt;8248</span>]</span><br></pre></td></tr></table></figure><p>得到的结论是，只要两点之间不存在相同方向的 <code>SIMPLE</code> 边就可以。</p><h4 id="然后验证-ONE2ONE"><a href="#然后验证-ONE2ONE" class="headerlink" title="然后验证 ONE2ONE"></a>然后验证 ONE2ONE</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">gremlin&gt; a.addEdge("one2one", b)</span><br><span class="line">==&gt;e[<span class="string">3k7-37c-1lh-6d4</span>][<span class="symbol">4152-one2one-&gt;8248</span>]</span><br><span class="line">gremlin&gt; a.addEdge("one2one", c)</span><br><span class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; a.addEdge("one2one", d)</span><br><span class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; d.addEdge("one2one", a)</span><br><span class="line">==&gt;e[<span class="string">17h-3c8-1lh-37c</span>][<span class="symbol">4328-one2one-&gt;4152</span>]</span><br><span class="line">gremlin&gt; d.addEdge("one2one", b)</span><br><span class="line">An edge with the given label already exists on the out-vertex and the label [one2one] is out-unique</span><br><span class="line">Display stack trace? [yN] n</span><br><span class="line">gremlin&gt; b.addEdge("one2one", c)</span><br><span class="line">==&gt;e[<span class="string">3yf-6d4-1lh-36o</span>][<span class="symbol">8248-one2one-&gt;4128</span>]</span><br></pre></td></tr></table></figure><p>结论是，一个点上的 <code>ONE2ONE</code> 边只能有一次 <code>in</code> 和一次 <code>out</code>。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 &lt;code&gt;SIMPLE&lt;/code&gt; 和 &lt;code&gt;ONE2ONE&lt;/code&gt;，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。&lt;/p&gt;
+      
+      
+        &lt;p&gt;昨天在读 Titan 文档关于边的多样性时看到两个设置，分别是 &lt;code&gt;SIMPLE&lt;/code&gt; 和 &lt;code&gt;ONE2ONE&lt;/code&gt;，这两个设置的介绍有点绕，我琢磨了很久，最终通过程序弄明白了这两种模式的区别。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;1.png&quot;
+      
     
     </summary>
     
@@ -930,59 +447,16 @@
     <published>2017-09-19T13:38:31.000Z</published>
     <updated>2017-09-24T10:14:55.000Z</updated>
     
-    <content type="html"><![CDATA[<p>之前读书大多都囫囵吞枣，雁过无痕，所以这次打算留下点什么，其实我准备写的内容也谈不上什么读书笔记，就是把原文感觉不错的句子记下来，有时再加上一些自己的想法。</p>
-<hr>
-<p>对于大多数软件开发人员来说，生产力都是一场巨大的斗争，也是阻碍你成为成功人事的最大障碍（没有之一）。</p>
-<blockquote>
-<p>我自己就是一个有着严重拖延症的人，对时间的管理能力很差，作者提到会在后文给出一个解决方法，我们拭目吧，希望可以对我有所帮助。这句话又可以联想到其他一些事情，比如可以提高生产力的生产工具，有了趁手的生产工具（包括软件在内）绝对是可以事半功倍的，还有就是既然我们是程序员，能自动化的地方就不要手动去搞，重复性工作交给机器，我们来做创作性的工作就好。</p>
-</blockquote>
-<p>只有你开始把自己当作一个企业去思考时，你才能开始做出良好的商业决策。如果你已经习惯领取一份固定的薪酬，这会很容易导致你产生另一个心态 – 你只是在为某家公司打工。</p>
-<blockquote>
-<p>这里的重点是「把自己当做企业去思考」，把公司作为自己的客户，将自己的地位转为主动，既然你把公司作为了客户，那么你就一定会有其他的潜在客户，所以你就需要学会营销自己。把自己当做一个企业去思考，就需要为自己做一些规划。</p>
-</blockquote>
-<p>你需要做到：</p>
-<ul>
-<li>专注你正在提供怎样的服务，以及如何营销这项服务；</li>
-<li>想方设法提升你的服务；思考你可以专注为哪一特定类型的客户或者行业提供特定的服务；</li>
-<li>集中精力成为以为专家，专门为某一特定类型的客户提供专业的整体服务（作为一个软件开发人员，你只有真正专注于一类客户，才能找到非常好的工作）。</li>
-</ul>
-<blockquote>
-<p>我也有必要专注特定类型的「客户」。</p>
-</blockquote>
-<p>要实现任何目标，都必须先知道目标是什么。</p>
-<p>大目标并不需要这么具体，但是必须足够清晰，能够让你知道自己是在向它前进还是离它越来越远。</p>
-<p>较小的目标可以让你航行在自己的轨道上，激励你保持航向朝着更大的目标前进。</p>
-<blockquote>
-<p>这几句话摘抄自 3 个段落。在接触编程 5 年后的我看来，不同领域的编程思想千差万别，可能站在初级程序员的角度就是写一些增删改查操作，但是深入到一定层次后都是针对某个领域来进行编程，这时需要的不光是你的代码能力，还有你对这个领域的理解程度。比如你在金融行业，你就需要知道很多的金融行业的业务和处理流程，大数据行业，也要了解大数据的业务和解决方案。我说这两个行业的原因是因为我上家公司算是一家金融公司，为什么说算是一家金融公司，因为我觉得它的金融属性并不完全，对外提供的产品都是对其他公司的产品进行包装，这样对于程序员来说，很多底层的业务实际上是接触不到的（我单从程序员的角度说一说就够了，毕竟我觉得那是一家不错的公司）。现在我所在的这家公司以大数据业务为主，所以我给自己的目标是成为大数据领域的专家。再写点题外话，很早之前我是有另一个小目标的，就是成为 Python Web 的专家，但是后来越写越发现 Web 这东西就所能接触到的技术层面不会太深，后来也是比较幸运在几乎没有大数据知识的背景下来到现在这家公司，我觉得这算是一种缘分，给了我更高的追求空间。BigData 专家，我来了！</p>
-</blockquote>
-<p>在软件开发领域，我们大多时候都是与人而非计算机打交道。甚至我们所写的代码首先是供人使用，其次才是让计算机可以理解的。</p>
-<blockquote>
-<p>这句话里边包含两个涵义，作者写到要与人打交道而非计算机，是要我们提升自己人际交际的能力，毕竟想要成为一个 Leader 这种能力是必不可少的。我最早选择程序员这个职业，天真的认为我只需要和计算机对话就够了，几乎不需要做我不擅长的与人交流这件事，但是后来发现我错了，拿最简单的例子来说，你和产品对需求时，如果你连自己的想法也说不出来，我觉得你在实现功能的时候，也很难按照产品的原意来进行。原文的另一个涵义是，你写的代码是给人读的，所以写代码的时候请遵守一些编码规范、命名规范，让别人读你的代码时谈不上赏心悦目，但不至于心里骂娘。这也是我更喜欢写 Python 而不是 Java 的原因。并且我所认识的大多数 Java 程序员是不在乎代码风格这件事的（我说的是事实，真心不是黑）。</p>
-</blockquote>
-<p>一但你贬低他人，削弱他们的成就感，在某种程度上就如同切断了他们的氧气补给，获得的回馈将完全是抓狂和绝望的。</p>
-<blockquote>
-<p>哎呀，鼓励别人这件事我一直学不来怎么办~</p>
-</blockquote>
-<p>我们常常容易犯的一项错误就是，轻率的否决同事的想法，以便于可以提出自己的想法。然而随着你做出这样的错误判断，你往往会发现他们对你的想法充耳不闻，仅仅因为你让他们感觉自己是无足轻重的。</p>
-<blockquote>
-<p>我非常厌恶在我还没说完话就否决我的想法然后自己开始高谈阔论的人，那些人不值得去尊敬。大多数时候他们只是想炫耀一下自己的见闻。当然我自己偶尔也会犯这种错误，今后我会努力改正这个缺点，即便对方的想法有再大的不足，我也尽量等对方说完后再来纠正。</p>
-</blockquote>
-<p>一项又一项的研究表名，奖励积极行为要比惩罚消极行为有效得多。如果你身处管理岗位，这是一条值得遵守的重要原则。如果你想激励他人做出最好的表现，或者希望达到改变的目的，你必须学会管住自己的舌头，只说些鼓励的画。</p>
-<blockquote>
-<p>我经常在别人犯了错误之后抱怨，完成很漂亮的时候会发出赞赏，但是很少鼓励。以后要管住嘴，减少抱怨。有一句话我特别喜欢，原话我忘记了，大致意思是：不要抱怨别人笨，毕竟他们之前没有你这么优越的条件。</p>
-</blockquote>
-<p>你可能会害怕专攻软件开发的某个区域，担心自己陷入很窄的专业领域，从而与其他的工作机会绝缘。虽然专业化确实会把你关在一些工作机会的大门之外，但与此同时它将打开的机会大门要比你用其他方式打开的多得多。</p>
-<blockquote>
-<p>术业有专攻，虽然编程是一大家，但是每个专业领域编写代码时的思考方式是有很大区别的。下文中作者用律师来举例，当我们聘用律师时，如果不傻的话，都会根据我们遇到的官司找这个方向的律师，很少有人聘用通才律师。</p>
-</blockquote>
-<p>待续。。。</p>
-]]></content>
+    <content type="html"><![CDATA[<p>之前读书大多都囫囵吞枣，雁过无痕，所以这次打算留下点什么，其实我准备写的内容也谈不上什么读书笔记，就是把原文感觉不错的句子记下来，有时再加上一些自己的想法。</p><hr><p>对于大多数软件开发人员来说，生产力都是一场巨大的斗争，也是阻碍你成为成功人事的最大障碍（没有之一）。</p><blockquote><p>我自己就是一个有着严重拖延症的人，对时间的管理能力很差，作者提到会在后文给出一个解决方法，我们拭目吧，希望可以对我有所帮助。这句话又可以联想到其他一些事情，比如可以提高生产力的生产工具，有了趁手的生产工具（包括软件在内）绝对是可以事半功倍的，还有就是既然我们是程序员，能自动化的地方就不要手动去搞，重复性工作交给机器，我们来做创作性的工作就好。</p></blockquote><p>只有你开始把自己当作一个企业去思考时，你才能开始做出良好的商业决策。如果你已经习惯领取一份固定的薪酬，这会很容易导致你产生另一个心态 – 你只是在为某家公司打工。</p><blockquote><p>这里的重点是「把自己当做企业去思考」，把公司作为自己的客户，将自己的地位转为主动，既然你把公司作为了客户，那么你就一定会有其他的潜在客户，所以你就需要学会营销自己。把自己当做一个企业去思考，就需要为自己做一些规划。</p></blockquote><p>你需要做到：</p><ul><li>专注你正在提供怎样的服务，以及如何营销这项服务；</li><li>想方设法提升你的服务；思考你可以专注为哪一特定类型的客户或者行业提供特定的服务；</li><li>集中精力成为以为专家，专门为某一特定类型的客户提供专业的整体服务（作为一个软件开发人员，你只有真正专注于一类客户，才能找到非常好的工作）。</li></ul><blockquote><p>我也有必要专注特定类型的「客户」。</p></blockquote><p>要实现任何目标，都必须先知道目标是什么。</p><p>大目标并不需要这么具体，但是必须足够清晰，能够让你知道自己是在向它前进还是离它越来越远。</p><p>较小的目标可以让你航行在自己的轨道上，激励你保持航向朝着更大的目标前进。</p><blockquote><p>这几句话摘抄自 3 个段落。在接触编程 5 年后的我看来，不同领域的编程思想千差万别，可能站在初级程序员的角度就是写一些增删改查操作，但是深入到一定层次后都是针对某个领域来进行编程，这时需要的不光是你的代码能力，还有你对这个领域的理解程度。比如你在金融行业，你就需要知道很多的金融行业的业务和处理流程，大数据行业，也要了解大数据的业务和解决方案。我说这两个行业的原因是因为我上家公司算是一家金融公司，为什么说算是一家金融公司，因为我觉得它的金融属性并不完全，对外提供的产品都是对其他公司的产品进行包装，这样对于程序员来说，很多底层的业务实际上是接触不到的（我单从程序员的角度说一说就够了，毕竟我觉得那是一家不错的公司）。现在我所在的这家公司以大数据业务为主，所以我给自己的目标是成为大数据领域的专家。再写点题外话，很早之前我是有另一个小目标的，就是成为 Python Web 的专家，但是后来越写越发现 Web 这东西就所能接触到的技术层面不会太深，后来也是比较幸运在几乎没有大数据知识的背景下来到现在这家公司，我觉得这算是一种缘分，给了我更高的追求空间。BigData 专家，我来了！</p></blockquote><p>在软件开发领域，我们大多时候都是与人而非计算机打交道。甚至我们所写的代码首先是供人使用，其次才是让计算机可以理解的。</p><blockquote><p>这句话里边包含两个涵义，作者写到要与人打交道而非计算机，是要我们提升自己人际交际的能力，毕竟想要成为一个 Leader 这种能力是必不可少的。我最早选择程序员这个职业，天真的认为我只需要和计算机对话就够了，几乎不需要做我不擅长的与人交流这件事，但是后来发现我错了，拿最简单的例子来说，你和产品对需求时，如果你连自己的想法也说不出来，我觉得你在实现功能的时候，也很难按照产品的原意来进行。原文的另一个涵义是，你写的代码是给人读的，所以写代码的时候请遵守一些编码规范、命名规范，让别人读你的代码时谈不上赏心悦目，但不至于心里骂娘。这也是我更喜欢写 Python 而不是 Java 的原因。并且我所认识的大多数 Java 程序员是不在乎代码风格这件事的（我说的是事实，真心不是黑）。</p></blockquote><p>一但你贬低他人，削弱他们的成就感，在某种程度上就如同切断了他们的氧气补给，获得的回馈将完全是抓狂和绝望的。</p><blockquote><p>哎呀，鼓励别人这件事我一直学不来怎么办~</p></blockquote><p>我们常常容易犯的一项错误就是，轻率的否决同事的想法，以便于可以提出自己的想法。然而随着你做出这样的错误判断，你往往会发现他们对你的想法充耳不闻，仅仅因为你让他们感觉自己是无足轻重的。</p><blockquote><p>我非常厌恶在我还没说完话就否决我的想法然后自己开始高谈阔论的人，那些人不值得去尊敬。大多数时候他们只是想炫耀一下自己的见闻。当然我自己偶尔也会犯这种错误，今后我会努力改正这个缺点，即便对方的想法有再大的不足，我也尽量等对方说完后再来纠正。</p></blockquote><p>一项又一项的研究表名，奖励积极行为要比惩罚消极行为有效得多。如果你身处管理岗位，这是一条值得遵守的重要原则。如果你想激励他人做出最好的表现，或者希望达到改变的目的，你必须学会管住自己的舌头，只说些鼓励的画。</p><blockquote><p>我经常在别人犯了错误之后抱怨，完成很漂亮的时候会发出赞赏，但是很少鼓励。以后要管住嘴，减少抱怨。有一句话我特别喜欢，原话我忘记了，大致意思是：不要抱怨别人笨，毕竟他们之前没有你这么优越的条件。</p></blockquote><p>你可能会害怕专攻软件开发的某个区域，担心自己陷入很窄的专业领域，从而与其他的工作机会绝缘。虽然专业化确实会把你关在一些工作机会的大门之外，但与此同时它将打开的机会大门要比你用其他方式打开的多得多。</p><blockquote><p>术业有专攻，虽然编程是一大家，但是每个专业领域编写代码时的思考方式是有很大区别的。下文中作者用律师来举例，当我们聘用律师时，如果不傻的话，都会根据我们遇到的官司找这个方向的律师，很少有人聘用通才律师。</p></blockquote><p>待续。。。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;之前读书大多都囫囵吞枣，雁过无痕，所以这次打算留下点什么，其实我准备写的内容也谈不上什么读书笔记，就是把原文感觉不错的句子记下来，有时再加上一些自己的想法。&lt;/p&gt;
+      
+      
+        &lt;p&gt;之前读书大多都囫囵吞枣，雁过无痕，所以这次打算留下点什么，其实我准备写的内容也谈不上什么读书笔记，就是把原文感觉不错的句子记下来，有时再加上一些自己的想法。&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;对于大多数软件开发人员来说，生产力都是一场巨大的斗争，也是阻碍你成为成功人事的最大障碍（没有
+      
     
     </summary>
     
@@ -998,28 +472,14 @@
     <published>2017-09-19T05:15:30.000Z</published>
     <updated>2017-09-19T06:39:10.000Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="http://tinkerpop.apache.org/" target="_blank" rel="external">Apache TinkerPop</a> 是一个开源的图计算框架。在这其中，TinkerPop 代表了很多的功能和技术，并且在它广阔的生态系统下还另外扩展了<a href="http://tinkerpop.apache.org/#graph-systems" target="_blank" rel="external">第三方贡献图库</a>和系统的世界。TinkerPop 的生态系统对于新手来说可能是复杂的，尤其是第一次浏览<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/" target="_blank" rel="external">参考文档</a>的时候。</p>
-<p>所以，你要从哪里开始使用 TinkerPop 呢？你如何快速入门并且获得成果？</p>
-<p>Gremlin，TinkerPop 世界里最知名的公民，让它来帮助你完成入门，之后，你也可以使用 TinkerPop 构建图应用程序了。</p>
-<p><img src="1.png" alt=""></p>
-<h2 id="认识-Gremlin"><a href="#认识-Gremlin" class="headerlink" title="认识 Gremlin"></a>认识 Gremlin</h2><p><img src="2.png" alt=""></p>
-<p>Gremlin 可以帮助你浏览一个图中的点和边。他本质上是你用来查询图数据库的语言，就和 <code>SQL</code> 是用来查询关系型数据库的语言一样。为了告诉 Gremlin 他应该如何「遍历」图（也就是你想做的查询）你需要一种方法来用他能明白的语言下达命令，这个语言当然被叫做「Gremlin」。对于这个任务，你需要一个 TinkerPop 的最重要的工具：<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#gremlin-console" target="_blank" rel="external">Gremlin 控制台</a>。</p>
-<blockquote>
-<p>你现在可能还不知道点和边是什么，这会在后文中进行介绍，不过请允许我带你先认识一下 Gremlin 控制台，让你能够了解这个可以帮助你学习体验的工具。</p>
-</blockquote>
-<p>我们来<a href="https://www.apache.org/dyn/closer.lua/tinkerpop/3.3.0/apache-tinkerpop-gremlin-console-3.3.0-bin.zip" target="_blank" rel="external">下载控制台</a>然后解压并启动它：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ unzip apache-tinkerpop-gremlin-console-<span class="number">3.3</span>.<span class="number">0</span>-bin<span class="selector-class">.zip</span></div><div class="line">$ cd apache-tinkerpop-gremlin-console-<span class="number">3.3</span>.<span class="number">0</span></div><div class="line">$ bin/gremlin<span class="selector-class">.sh</span></div><div class="line"></div><div class="line">         \,,,/</div><div class="line">         (o o)</div><div class="line">-----oOOo-(<span class="number">3</span>)-oOOo-----</div><div class="line">plugin activated: tinkerpop<span class="selector-class">.server</span></div><div class="line">plugin activated: tinkerpop<span class="selector-class">.utilities</span></div><div class="line">plugin activated: tinkerpop<span class="selector-class">.tinkergraph</span></div><div class="line">gremlin&gt;</div></pre></td></tr></table></figure>
-<p>Gremlin 控制台是个 <a href="http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop" target="_blank" rel="external">REPL 环境</a>，它提供了很 nice 的方式来学习 Gremlin，因为你可以在输入代码后立刻得到反馈。这消除了需要「创建项目」才能尝试的复杂方式。控制台不仅仅是用来「入门」的，你将发现你会使用它来进行和 TinkerPop 相关的各种活动，比如加载数据、管理图、编写复杂的遍历等等。</p>
-<p>为了让 Gremlin 遍历一个图，你需要一个 <code>Graph</code> 实例，它保存着图的<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#_the_graph_structure" target="_blank" rel="external">结构</a>和数据。TinkerPop 是不同图数据库和图处理器之上的图抽象层，所以控制台中有很多可以实例化的实例供你选择。开始时最好的 <code>Grahp</code> 实例当然是 <a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#tinkergraph-gremlin" target="_blank" rel="external">TinkerGraph</a>。TinkerGraph 是一个快速、运行于内存的图数据库，有少量配置项，使其成为初学者不错的选择。</p>
-<blockquote>
-<p>TinkerGraph 不仅仅是提供给初学者的玩具。它在以下几个场景也是非常有用的：分析从大图中取出的子图时，使用不会有太大变化的静态图时，编写单元测试和其他能适应内存的图用例时。</p>
-</blockquote>
-<p>待续</p>
-]]></content>
+    <content type="html"><![CDATA[<p><a href="http://tinkerpop.apache.org/" target="_blank" rel="noopener">Apache TinkerPop</a> 是一个开源的图计算框架。在这其中，TinkerPop 代表了很多的功能和技术，并且在它广阔的生态系统下还另外扩展了<a href="http://tinkerpop.apache.org/#graph-systems" target="_blank" rel="noopener">第三方贡献图库</a>和系统的世界。TinkerPop 的生态系统对于新手来说可能是复杂的，尤其是第一次浏览<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/" target="_blank" rel="noopener">参考文档</a>的时候。</p><p>所以，你要从哪里开始使用 TinkerPop 呢？你如何快速入门并且获得成果？</p><p>Gremlin，TinkerPop 世界里最知名的公民，让它来帮助你完成入门，之后，你也可以使用 TinkerPop 构建图应用程序了。</p><p><img src="1.png" alt=""></p><h2 id="认识-Gremlin"><a href="#认识-Gremlin" class="headerlink" title="认识 Gremlin"></a>认识 Gremlin</h2><p><img src="2.png" alt=""></p><p>Gremlin 可以帮助你浏览一个图中的点和边。他本质上是你用来查询图数据库的语言，就和 <code>SQL</code> 是用来查询关系型数据库的语言一样。为了告诉 Gremlin 他应该如何「遍历」图（也就是你想做的查询）你需要一种方法来用他能明白的语言下达命令，这个语言当然被叫做「Gremlin」。对于这个任务，你需要一个 TinkerPop 的最重要的工具：<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#gremlin-console" target="_blank" rel="noopener">Gremlin 控制台</a>。</p><blockquote><p>你现在可能还不知道点和边是什么，这会在后文中进行介绍，不过请允许我带你先认识一下 Gremlin 控制台，让你能够了解这个可以帮助你学习体验的工具。</p></blockquote><p>我们来<a href="https://www.apache.org/dyn/closer.lua/tinkerpop/3.3.0/apache-tinkerpop-gremlin-console-3.3.0-bin.zip" target="_blank" rel="noopener">下载控制台</a>然后解压并启动它：</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ unzip apache-tinkerpop-gremlin-console-<span class="number">3.3</span>.<span class="number">0</span>-bin.zip</span><br><span class="line">$ cd apache-tinkerpop-gremlin-console-<span class="number">3.3</span>.<span class="number">0</span></span><br><span class="line">$ bin/gremlin.sh</span><br><span class="line"></span><br><span class="line">         \,,,/</span><br><span class="line">         (o o)</span><br><span class="line">-----oOOo-(<span class="number">3</span>)-oOOo-----</span><br><span class="line">plugin activated: tinkerpop.server</span><br><span class="line">plugin activated: tinkerpop.utilities</span><br><span class="line">plugin activated: tinkerpop.tinkergraph</span><br><span class="line">gremlin&gt;</span><br></pre></td></tr></table></figure><p>Gremlin 控制台是个 <a href="http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop" target="_blank" rel="noopener">REPL 环境</a>，它提供了很 nice 的方式来学习 Gremlin，因为你可以在输入代码后立刻得到反馈。这消除了需要「创建项目」才能尝试的复杂方式。控制台不仅仅是用来「入门」的，你将发现你会使用它来进行和 TinkerPop 相关的各种活动，比如加载数据、管理图、编写复杂的遍历等等。</p><p>为了让 Gremlin 遍历一个图，你需要一个 <code>Graph</code> 实例，它保存着图的<a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#_the_graph_structure" target="_blank" rel="noopener">结构</a>和数据。TinkerPop 是不同图数据库和图处理器之上的图抽象层，所以控制台中有很多可以实例化的实例供你选择。开始时最好的 <code>Grahp</code> 实例当然是 <a href="http://tinkerpop.apache.org/docs/3.3.0/reference/#tinkergraph-gremlin" target="_blank" rel="noopener">TinkerGraph</a>。TinkerGraph 是一个快速、运行于内存的图数据库，有少量配置项，使其成为初学者不错的选择。</p><blockquote><p>TinkerGraph 不仅仅是提供给初学者的玩具。它在以下几个场景也是非常有用的：分析从大图中取出的子图时，使用不会有太大变化的静态图时，编写单元测试和其他能适应内存的图用例时。</p></blockquote><p>待续</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;a href=&quot;http://tinkerpop.apache.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Apache TinkerPop&lt;/a&gt; 是一个开源的图计算框架。在这其中，TinkerPop 代表了很多的功能和技术，并且在它广阔的
+      
+      
+        &lt;p&gt;&lt;a href=&quot;http://tinkerpop.apache.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Apache TinkerPop&lt;/a&gt; 是一个开源的图计算框架。在这其中，TinkerPop 代表了很多的功能和技术，并且在它广阔的
+      
     
     </summary>
     

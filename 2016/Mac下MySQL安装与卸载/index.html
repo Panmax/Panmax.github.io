@@ -283,17 +283,6 @@
 
           
           
-             <span id="/2016/Mac下MySQL安装与卸载/" class="leancloud_visitors" data-flag-title="Mac下MySQL安装与卸载">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -313,10 +302,10 @@
       
         <p>写这篇博客的原因是，我刚用 Mac 的时候 <code>MySQL</code> 是在官网下载的安装包进行的安装，那时候不知道有 <code>Homebrew</code> 这个神器。用官方的包安装好后又做何很多的配置最终才能正常使用。但还是有不少问题，比如无法在终端启动MySQL，只能在系统偏好里，通过官方的启动器启动。</p>
 <p>后来有很长一段时间没有用过MySQL，今天再用的时候发现无法启动了，于是就把之前的进行了卸载，重新用Homebrew安装了一遍。</p>
-<h3 id="卸载过程："><a href="#卸载过程：" class="headerlink" title="卸载过程："></a>卸载过程：</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">sudo <span class="keyword">rm</span> /usr/<span class="keyword">local</span>/mysql</div><div class="line">sudo <span class="keyword">rm</span> -rf /usr/<span class="keyword">local</span>/mysql*</div><div class="line">sudo <span class="keyword">rm</span> -rf /Library/StartupItems/MySQLCOM</div><div class="line">sudo <span class="keyword">rm</span> -rf /Library/PreferencePanes/My*</div><div class="line">sudo vim /etc/hostconfig 按a进入编辑模式 然后手动删除 MYSQLCOM=-YES- 然后按Esc退出编辑模式 输入：wq！保存并退出</div><div class="line"><span class="keyword">rm</span> -rf ~/Library/PreferencePanes/My*</div><div class="line">sudo <span class="keyword">rm</span> -rf /Library/Receipts/mysql*</div><div class="line">sudo <span class="keyword">rm</span> -rf /Library/Receipts/MySQL*</div><div class="line">sudo <span class="keyword">rm</span> -rf /<span class="keyword">var</span>/<span class="keyword">db</span>/receipts/com.mysql.*</div></pre></td></tr></table></figure>
-<h3 id="安装过程："><a href="#安装过程：" class="headerlink" title="安装过程："></a>安装过程：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew install mysql</div><div class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/mysql/bin</span></div></pre></td></tr></table></figure>
-<h3 id="启动："><a href="#启动：" class="headerlink" title="启动："></a>启动：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/mysql/bin</span></div><div class="line">mysql.server start</div></pre></td></tr></table></figure>
-<h3 id="首次登录："><a href="#首次登录：" class="headerlink" title="首次登录："></a>首次登录：</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">mysql -uroot</span></div></pre></td></tr></table></figure>
+<h3 id="卸载过程："><a href="#卸载过程：" class="headerlink" title="卸载过程："></a>卸载过程：</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">rm</span> /usr/<span class="keyword">local</span>/mysql</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /usr/<span class="keyword">local</span>/mysql*</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /Library/StartupItems/MySQLCOM</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /Library/PreferencePanes/My*</span><br><span class="line">sudo vim /etc/hostconfig 按a进入编辑模式 然后手动删除 MYSQLCOM=-YES- 然后按Esc退出编辑模式 输入：wq！保存并退出</span><br><span class="line"><span class="keyword">rm</span> -rf ~/Library/PreferencePanes/My*</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /Library/Receipts/mysql*</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /Library/Receipts/MySQL*</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /<span class="keyword">var</span>/<span class="keyword">db</span>/receipts/com.mysql.*</span><br></pre></td></tr></table></figure>
+<h3 id="安装过程："><a href="#安装过程：" class="headerlink" title="安装过程："></a>安装过程：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install mysql</span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/mysql/bin</span></span><br></pre></td></tr></table></figure>
+<h3 id="启动："><a href="#启动：" class="headerlink" title="启动："></a>启动：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/mysql/bin</span></span><br><span class="line">mysql.server start</span><br></pre></td></tr></table></figure>
+<h3 id="首次登录："><a href="#首次登录：" class="headerlink" title="首次登录："></a>首次登录：</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">mysql -uroot</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -547,113 +536,6 @@
 
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("DvL0R5H2xQvepacsBWEwvukb-gzGzoHsz", "4OSiORp9GS4gefonTOOTgI9L");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 
