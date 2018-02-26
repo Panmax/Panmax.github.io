@@ -100,18 +100,18 @@
 
 
 
-<meta name="description" content="Hello,I am Panmax">
+<meta name="description" content="你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 LOAD CSV 语句。  将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。 在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。 要访问本地（在数据库服务器上）文件，使用 file:/// 路径。除此之外，可以使用任何 HT">
 <meta name="keywords" content="neo4j">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据">
 <meta property="og:url" content="https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="Hello,I am Panmax">
+<meta property="og:description" content="你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 LOAD CSV 语句。  将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。 在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。 要访问本地（在数据库服务器上）文件，使用 file:/// 路径。除此之外，可以使用任何 HT">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-26T08:04:22.674Z">
+<meta property="og:updated_time" content="2018-02-26T08:46:34.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据">
-<meta name="twitter:description" content="Hello,I am Panmax">
+<meta name="twitter:description" content="你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 LOAD CSV 语句。  将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。 在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。 要访问本地（在数据库服务器上）文件，使用 file:/// 路径。除此之外，可以使用任何 HT">
 
 
 
@@ -278,7 +278,19 @@
       
 
       
-        
+        <blockquote>
+<p>你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 <code>LOAD CSV</code> 语句。</p>
+</blockquote>
+<p>将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。</p>
+<p>在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。</p>
+<p>要访问本地（在数据库服务器上）文件，使用 <code>file:///</code> 路径。除此之外，可以使用任何 HTTPS，HTTP 和 FTP 协议。</p>
+<h3 id="读取-CSV-文件"><a href="#读取-CSV-文件" class="headerlink" title="读取 CSV 文件"></a>读取 CSV 文件</h3><p>我们使用 HTTP 协议加载一个名为 <code>genres.csv</code> 的 CSV 文件。它不是一个大文件，这个列表里包含了 115 个音乐流派，所以它将创建 115 个节点（和 230 个属性）。</p>
+<p>这个文件上传到了开放的网络中，所以你可以在你的 Neo4j 浏览器中运行下边的代码，它可以直接导入到你的数据库中。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LOAD</span> CSV <span class="keyword">FROM</span> <span class="string">'https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/genres.csv'</span> <span class="keyword">AS</span> line</span><br><span class="line"><span class="keyword">CREATE</span> (:Genre &#123;genreId: line[<span class="number">0</span>], <span class="keyword">name</span>: line[<span class="number">1</span>]&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>你也可以忽略 CSV 文件中的某些字段，比如，如果你不希望将第一个字段导入到数据库中，可以从上边的代码中省略 <code>genreId: line[0],</code>。</p>
+</blockquote>
+
       
     </div>
 
