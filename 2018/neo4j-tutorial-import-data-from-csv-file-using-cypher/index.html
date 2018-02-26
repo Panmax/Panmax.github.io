@@ -108,10 +108,15 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 LOAD CSV 语句。  将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。 在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。 要访问本地（在数据库服务器上）文件，使用 file:/// 路径。除此之外，可以使用任何 HT">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-26T08:46:34.151Z">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/1.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/2.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/3.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/4.png">
+<meta property="og:updated_time" content="2018-02-26T09:16:14.895Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据">
 <meta name="twitter:description" content="你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 LOAD CSV 语句。  将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。 在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。 要访问本地（在数据库服务器上）文件，使用 file:/// 路径。除此之外，可以使用任何 HT">
+<meta name="twitter:image" content="https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/1.png">
 
 
 
@@ -290,6 +295,25 @@
 <blockquote>
 <p>你也可以忽略 CSV 文件中的某些字段，比如，如果你不希望将第一个字段导入到数据库中，可以从上边的代码中省略 <code>genreId: line[0],</code>。</p>
 </blockquote>
+<p>运行上边的 Cypher 语句会产生以下成功消息：</p>
+<p><img src="1.png" alt=""></p>
+<p>你可以通过以下查询来查看刚刚新创建的节点：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (<span class="name">n</span><span class="symbol">:Genre</span>) RETURN n</span><br></pre></td></tr></table></figure>
+<p>下边是通过数据可视化界面看到的节点结果：</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="导入包含标题的-CSV-文件"><a href="#导入包含标题的-CSV-文件" class="headerlink" title="导入包含标题的 CSV 文件"></a>导入包含标题的 CSV 文件</h3><p>之前的 CSV 文件不包含任何标题，如果 CSV 文件包含标题，可以使用 <code>WITH HEADERS</code>。</p>
+<p>使用这个方法还允许你通过它的列名（标题名）来引用每个字段。</p>
+<p>我们有另一个带标题的 CSV 文件，该文件包含专辑曲目列表。</p>
+<p>同样，这个文件不大，列表中包含了 32 个专辑，所以它将创建 32 个节点（和 96 个属性）。</p>
+<p>这个文件也上传到了开放的网络中，所以你可以在你的 Neo4j 浏览器中运行下边的代码，它可以直接导入到你的数据库中。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LOAD</span> CSV <span class="keyword">WITH</span> HEADERS <span class="keyword">FROM</span> <span class="string">'https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/tracks.csv'</span> <span class="keyword">AS</span> line</span><br><span class="line"><span class="keyword">CREATE</span> (:Track &#123; trackId: line.Id, <span class="keyword">name</span>: line.Track, <span class="keyword">length</span>: line.Length&#125;)</span><br></pre></td></tr></table></figure>
+<p>这将产生下边的成功消息：</p>
+<p><img src="3.png" alt=""> // TODO</p>
+<p>下边的查询语句可以查看新创建的节点：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (<span class="name">n</span><span class="symbol">:Track</span>) RETURN n</span><br></pre></td></tr></table></figure>
+<p>同样我们通过可视化框架看到的节点的结果。</p>
+<p>点击 <strong>Table</strong> 图标可以看到每个点和它的三个属性值：</p>
+<p><img src="4.png" alt=""></p>
 
       
     </div>
