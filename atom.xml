@@ -63,11 +63,36 @@
   </entry>
   
   <entry>
+    <title>Neo4j 入门教程 - 使用 Cypher 删除索引和约束</title>
+    <link href="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/"/>
+    <id>https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/</id>
+    <published>2018-03-05T01:25:30.000Z</published>
+    <updated>2018-03-05T01:53:13.997Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>你可以使用 <code>DROP INDEX ON</code> 语句删除索引，这将从数据库中删除索引。</p></blockquote><p>因此要删除我们之前创建的索引，我们可以使用以下语句：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> :Album(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure><p>语句执行成功后会展示以下消息：</p><p><img src="1.png" alt=""></p><h3 id="查看模式"><a href="#查看模式" class="headerlink" title="查看模式"></a>查看模式</h3><p>你现在可以使用 <code>:schema</code> 命令来验证对应的索引是否已经从模式中删除。</p><p>只需输入：</p><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schema</span></span><br></pre></td></tr></table></figure><p>可以看到索引已经不在模式中了：</p><p><img src="2.png" alt=""></p><blockquote><p>你可以使用 <code>DROP CONSTRAINT</code> 语句删除约束，这将从数据库中删除约束和相关索引。</p></blockquote><p>那么让我们来删除之前创建的约束（和它关联的索引）吧，我们可以使用下边的语句：</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP CONSTRAINT ON (<span class="selector-tag">a</span>:Artist) ASSERT <span class="selector-tag">a</span><span class="selector-class">.name</span> IS UNIQUE</span><br></pre></td></tr></table></figure><p>语句执行成功后会展示下边的消息：</p><p><img src="3.png" alt=""></p><h3 id="查看模式-1"><a href="#查看模式-1" class="headerlink" title="查看模式"></a>查看模式</h3><p>你现在可以使用 <code>:schema</code> 命令来验证对应的索引（和相关联的约束）是否已经从模式中删除。</p><p>只需输入：</p><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schema</span></span><br></pre></td></tr></table></figure><p>可以看到约束已经不在模式中了：</p><p><img src="4.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;你可以使用 &lt;code&gt;DROP INDEX ON&lt;/code&gt; 语句删除索引，这将从数据库中删除索引。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因此要删除我们之前创建的索引，我们可以使用以下语句：&lt;/p&gt;
+&lt;figure class=&quot;high
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>docker 使用笔记</title>
     <link href="https://jpanj.com/2018/docker-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/"/>
     <id>https://jpanj.com/2018/docker-使用笔记/</id>
     <published>2018-03-01T07:41:17.000Z</published>
-    <updated>2018-03-01T07:52:42.973Z</updated>
+    <updated>2018-03-02T08:18:32.058Z</updated>
     
     <content type="html"><![CDATA[<h3 id="常用启动命令"><a href="#常用启动命令" class="headerlink" title="常用启动命令"></a>常用启动命令</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p <span class="number">5001</span>:<span class="number">5000</span> --rm --name xxx jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span></span><br></pre></td></tr></table></figure><h3 id="编译镜像"><a href="#编译镜像" class="headerlink" title="编译镜像"></a>编译镜像</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span> .</span><br></pre></td></tr></table></figure><h3 id="推送镜像到仓库"><a href="#推送镜像到仓库" class="headerlink" title="推送镜像到仓库"></a>推送镜像到仓库</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">push</span> jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span></span><br></pre></td></tr></table></figure><h3 id="进入正在运行的docker"><a href="#进入正在运行的docker" class="headerlink" title="进入正在运行的docker"></a>进入正在运行的docker</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it <span class="params">&lt;container_name&gt;</span> <span class="meta-keyword">/bin/</span>bash</span><br></pre></td></tr></table></figure><h3 id="更改镜像时区（适用于-Ubuntu）"><a href="#更改镜像时区（适用于-Ubuntu）" class="headerlink" title="更改镜像时区（适用于 Ubuntu）"></a>更改镜像时区（适用于 Ubuntu）</h3><p>在 <code>Dockerfile</code> 内添加：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"Asia/Shanghai"</span> &gt; /etc/timezone</span></span><br><span class="line"><span class="bash">RUN dpkg-reconfigure -f noninteractive tzdata</span></span><br></pre></td></tr></table></figure>]]></content>
     
@@ -488,28 +513,6 @@
     
     
       <category term="neo4j" scheme="https://jpanj.com/tags/neo4j/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于情景的一点点思考</title>
-    <link href="https://jpanj.com/2017/%E5%85%B3%E4%BA%8E%E6%83%85%E6%99%AF%E7%9A%84%E4%B8%80%E7%82%B9%E7%82%B9%E6%80%9D%E8%80%83/"/>
-    <id>https://jpanj.com/2017/关于情景的一点点思考/</id>
-    <published>2017-12-11T10:33:02.000Z</published>
-    <updated>2017-12-11T10:34:48.027Z</updated>
-    
-    <content type="html"><![CDATA[<p>这段时间的工作内容，让我更加体会到「情景」的重要性。</p><p>想把事情做好，就要有一个已经存在的情景设定，空穴来潮地去做一定做不完美，或者做着做着会失去动力。<br>这段时间学习了很多图数据库知识，接触了一下Titan，深入学习了 Neo4j 。用 Hadoop/Spark 写了一些大数据处理工具。</p><p>因为有上亿级的数据需要处理，所以不得不使用分布式计算引擎；为了将上亿级的数据导入到图数据库，不得不使用 Neo4j 的初始化导入工具；为了将一些增量关系通过计算后追加到图中，不得不学习通过编码的导入方式；为了满足产品需求，不得不学习各种复杂的查询语句，不断 debug 语句的正确性；因为有上亿数据的存在，不得不学习如果优化语句性能，在合适的地方添加索引。以上这些都是在工作内容这个场景下进行的，因为有了这个场景，推动着我不断的探索和进步，如果没有这个场景，我就算会去自己学习，也不会学的这么深入。</p><p>还可以从另一个方面说一下场景的重要性：如果你想开发一个软件/工具来让大家用，也需要一个场景，要么当下你用得到，要么你的家人或者朋友用得到，否则我觉得空想是做不来的。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;这段时间的工作内容，让我更加体会到「情景」的重要性。&lt;/p&gt;
-&lt;p&gt;想把事情做好，就要有一个已经存在的情景设定，空穴来潮地去做一定做不完美，或者做着做着会失去动力。&lt;br&gt;这段时间学习了很多图数据库知识，接触了一下Titan，深入学习了 Neo4j 。用 Hadoop/Sp
-      
-    
-    </summary>
-    
     
   </entry>
   

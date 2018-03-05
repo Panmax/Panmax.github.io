@@ -82,7 +82,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="笔记," />
+  <meta name="keywords" content="Hi Panmax" />
 
 
 
@@ -100,18 +100,22 @@
 
 
 
-<meta name="description" content="常用启动命令1docker run -d -p 5001:5000 --rm --name xxx jiapan/some-image:label 编译镜像1docker build -t jiapan/some-image:label . 推送镜像到仓库1docker push jiapan/some-image:label 进入正在运行的docker1docker exec -it &amp;lt;c">
-<meta name="keywords" content="笔记">
+<meta name="description" content="你可以使用 DROP INDEX ON 语句删除索引，这将从数据库中删除索引。  因此要删除我们之前创建的索引，我们可以使用以下语句： 1DROP INDEX ON :Album(name); 语句执行成功后会展示以下消息：  查看模式你现在可以使用 :schema 命令来验证对应的索引是否已经从模式中删除。 只需输入： 1:schema 可以看到索引已经不在模式中了：   你可以使用 DROP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker 使用笔记">
-<meta property="og:url" content="https://jpanj.com/2018/docker-使用笔记/index.html">
+<meta property="og:title" content="Neo4j 入门教程 - 使用 Cypher 删除索引和约束">
+<meta property="og:url" content="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="常用启动命令1docker run -d -p 5001:5000 --rm --name xxx jiapan/some-image:label 编译镜像1docker build -t jiapan/some-image:label . 推送镜像到仓库1docker push jiapan/some-image:label 进入正在运行的docker1docker exec -it &amp;lt;c">
+<meta property="og:description" content="你可以使用 DROP INDEX ON 语句删除索引，这将从数据库中删除索引。  因此要删除我们之前创建的索引，我们可以使用以下语句： 1DROP INDEX ON :Album(name); 语句执行成功后会展示以下消息：  查看模式你现在可以使用 :schema 命令来验证对应的索引是否已经从模式中删除。 只需输入： 1:schema 可以看到索引已经不在模式中了：   你可以使用 DROP">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-02T08:18:32.058Z">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/1.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/2.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/3.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/4.png">
+<meta property="og:updated_time" content="2018-03-05T01:53:13.997Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="docker 使用笔记">
-<meta name="twitter:description" content="常用启动命令1docker run -d -p 5001:5000 --rm --name xxx jiapan/some-image:label 编译镜像1docker build -t jiapan/some-image:label . 推送镜像到仓库1docker push jiapan/some-image:label 进入正在运行的docker1docker exec -it &amp;lt;c">
+<meta name="twitter:title" content="Neo4j 入门教程 - 使用 Cypher 删除索引和约束">
+<meta name="twitter:description" content="你可以使用 DROP INDEX ON 语句删除索引，这将从数据库中删除索引。  因此要删除我们之前创建的索引，我们可以使用以下语句： 1DROP INDEX ON :Album(name); 语句执行成功后会展示以下消息：  查看模式你现在可以使用 :schema 命令来验证对应的索引是否已经从模式中删除。 只需输入： 1:schema 可以看到索引已经不在模式中了：   你可以使用 DROP">
+<meta name="twitter:image" content="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/1.png">
 
 
 
@@ -139,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/docker-使用笔记/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/"/>
 
 
 
 
 
-  <title>docker 使用笔记 | 贾攀家</title>
+  <title>Neo4j 入门教程 - 使用 Cypher 删除索引和约束 | 贾攀家</title>
   
 
 
@@ -204,7 +208,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/docker-使用笔记/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -221,7 +225,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">docker 使用笔记</h1>
+          <h1 class="post-title" itemprop="name headline">Neo4j 入门教程 - 使用 Cypher 删除索引和约束</h1>
         
 
         <div class="post-meta">
@@ -233,8 +237,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T15:41:17+08:00">
-                2018-03-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T09:25:30+08:00">
+                2018-03-05
               </time>
             
 
@@ -252,8 +256,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/docker-使用笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/docker-使用笔记/" itemprop="commentCount"></span>
+                <a href="/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -278,12 +282,30 @@
       
 
       
-        <h3 id="常用启动命令"><a href="#常用启动命令" class="headerlink" title="常用启动命令"></a>常用启动命令</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p <span class="number">5001</span>:<span class="number">5000</span> --rm --name xxx jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span></span><br></pre></td></tr></table></figure>
-<h3 id="编译镜像"><a href="#编译镜像" class="headerlink" title="编译镜像"></a>编译镜像</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span> .</span><br></pre></td></tr></table></figure>
-<h3 id="推送镜像到仓库"><a href="#推送镜像到仓库" class="headerlink" title="推送镜像到仓库"></a>推送镜像到仓库</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">push</span> jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span></span><br></pre></td></tr></table></figure>
-<h3 id="进入正在运行的docker"><a href="#进入正在运行的docker" class="headerlink" title="进入正在运行的docker"></a>进入正在运行的docker</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it <span class="params">&lt;container_name&gt;</span> <span class="meta-keyword">/bin/</span>bash</span><br></pre></td></tr></table></figure>
-<h3 id="更改镜像时区（适用于-Ubuntu）"><a href="#更改镜像时区（适用于-Ubuntu）" class="headerlink" title="更改镜像时区（适用于 Ubuntu）"></a>更改镜像时区（适用于 Ubuntu）</h3><p>在 <code>Dockerfile</code> 内添加：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"Asia/Shanghai"</span> &gt; /etc/timezone</span></span><br><span class="line"><span class="bash">RUN dpkg-reconfigure -f noninteractive tzdata</span></span><br></pre></td></tr></table></figure>
+        <blockquote>
+<p>你可以使用 <code>DROP INDEX ON</code> 语句删除索引，这将从数据库中删除索引。</p>
+</blockquote>
+<p>因此要删除我们之前创建的索引，我们可以使用以下语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> :Album(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
+<p>语句执行成功后会展示以下消息：</p>
+<p><img src="1.png" alt=""></p>
+<h3 id="查看模式"><a href="#查看模式" class="headerlink" title="查看模式"></a>查看模式</h3><p>你现在可以使用 <code>:schema</code> 命令来验证对应的索引是否已经从模式中删除。</p>
+<p>只需输入：</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schema</span></span><br></pre></td></tr></table></figure>
+<p>可以看到索引已经不在模式中了：</p>
+<p><img src="2.png" alt=""></p>
+<blockquote>
+<p>你可以使用 <code>DROP CONSTRAINT</code> 语句删除约束，这将从数据库中删除约束和相关索引。</p>
+</blockquote>
+<p>那么让我们来删除之前创建的约束（和它关联的索引）吧，我们可以使用下边的语句：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP CONSTRAINT ON (<span class="selector-tag">a</span>:Artist) ASSERT <span class="selector-tag">a</span><span class="selector-class">.name</span> IS UNIQUE</span><br></pre></td></tr></table></figure>
+<p>语句执行成功后会展示下边的消息：</p>
+<p><img src="3.png" alt=""></p>
+<h3 id="查看模式-1"><a href="#查看模式-1" class="headerlink" title="查看模式"></a>查看模式</h3><p>你现在可以使用 <code>:schema</code> 命令来验证对应的索引（和相关联的约束）是否已经从模式中删除。</p>
+<p>只需输入：</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schema</span></span><br></pre></td></tr></table></figure>
+<p>可以看到约束已经不在模式中了：</p>
+<p><img src="4.png" alt=""></p>
 
       
     </div>
@@ -311,12 +333,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/笔记/" rel="tag"># 笔记</a>
-          
-        </div>
-      
 
       
       
@@ -326,8 +342,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/neo4j-count-relationships-skill/" rel="next" title="Neo4j 统计关系数量时的技巧">
-                <i class="fa fa-chevron-left"></i> Neo4j 统计关系数量时的技巧
+              <a href="/2018/docker-使用笔记/" rel="next" title="docker 使用笔记">
+                <i class="fa fa-chevron-left"></i> docker 使用笔记
               </a>
             
           </div>
@@ -336,8 +352,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/" rel="prev" title="Neo4j 入门教程 - 使用 Cypher 删除索引和约束">
-                Neo4j 入门教程 - 使用 Cypher 删除索引和约束 <i class="fa fa-chevron-right"></i>
+              <a href="/2333/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
+                山丘 - 李宗盛 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
