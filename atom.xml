@@ -63,6 +63,27 @@
   </entry>
   
   <entry>
+    <title>SELinux 开启导致 Nginx 启动失败</title>
+    <link href="https://jpanj.com/2018/SELinux-%E5%BC%80%E5%90%AF%E5%AF%BC%E8%87%B4-Nginx-%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5/"/>
+    <id>https://jpanj.com/2018/SELinux-开启导致-Nginx-启动失败/</id>
+    <published>2018-03-06T09:17:33.000Z</published>
+    <updated>2018-03-06T09:25:04.223Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：<code>2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)</code>。</p><p>看了下系统中并没有进程在占用 9090 端口。最后通过 <a href="http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en" target="_blank" rel="noopener">http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en</a> 这篇文章的最后一个方案解决了这个问题。</p><p>大致看了下 SELinxu 的作用一个 Linux 的强化方案，大部分情况下是需要启动的 <a href="https://www.zhihu.com/question/20559538" target="_blank" rel="noopener">https://www.zhihu.com/question/20559538</a>。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：&lt;code&gt;2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Neo4j 入门教程 - 使用 Cypher 删除索引和约束</title>
     <link href="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/</id>
@@ -489,30 +510,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Neo4j 冷启动预热缓存</title>
-    <link href="https://jpanj.com/2017/neo4j-warms-up/"/>
-    <id>https://jpanj.com/2017/neo4j-warms-up/</id>
-    <published>2017-12-18T09:45:23.000Z</published>
-    <updated>2018-02-26T08:05:04.012Z</updated>
-    
-    <content type="html"><![CDATA[<p>你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。</p><p>一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！</p><p>Cypher(Server,Shell)</p><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>)</span><br><span class="line">OPTIONAL <span class="built_in">MATCH</span> (<span class="built_in">n</span>)-[r]-&gt;()</span><br><span class="line">RETURN <span class="built_in">count</span>(n.prop) + <span class="built_in">count</span>(r.prop);</span><br></pre></td></tr></table></figure><p>上边的例子用到了 <code>count(n.prop) + count(r.prop)</code> ，来强制让优化器在点或关系中搜索名为 <code>prop</code> 的属性。用 <code>count(*)</code> 替代它将不够充分，因为这样不会加载所有的点和关系属性。</p><p>内嵌方式(Java):</p><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GET</span> <span class="meta">@Path</span>(<span class="string">"/warmup"</span>)</span><br><span class="line"><span class="keyword">public</span> String warmUp(<span class="meta">@Context</span> GraphDatabaseService db) &#123;</span><br><span class="line">    <span class="keyword">try</span> ( Transaction tx = db.beginTx()) &#123;</span><br><span class="line">        <span class="keyword">for</span> ( Node <span class="string">n :</span> GlobalGraphOperations.at(db).getAllNodes()) &#123;</span><br><span class="line">            n.getPropertyKeys();</span><br><span class="line">            <span class="keyword">for</span> ( Relationship <span class="string">relationship :</span> n.getRelationships()) &#123;</span><br><span class="line">                relationship.getPropertyKeys();</span><br><span class="line">                relationship.getStartNode();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Warmed up and ready to go!"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在 3.0 之后的版本并且使用了 <a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures" target="_blank" rel="noopener">APOC</a> 插件的话，可以运行如下存储过程来完成缓存预热</p><p><code>CALL apoc.warmup.run()</code></p><blockquote><p>property record loading for warmup, apoc.warmup.run(true)</p></blockquote><p><code>CALL apoc.warmup.run()</code> 默认不读取属性记录，更加建议使用 <code>call apoc.warmup.run(true)</code>，这个是 3.2.0 以上版本插件的新功能。</p><p><img src="1.png" alt=""></p><p>这样做除了纯粹的提升性能外还可以提供更多方面的帮助，如果你使用的是 Neo4j集群的话，还可以帮助缓解由于查询滞后而导致的上游问题。例如，如果节点繁忙并且负载均衡超时时间很短，图中没有任何数据在内存中，很可能会显示该集群最初不可用。如果缓存处于预热状态，那么冷启动应该就不会有短暂超时的问题了。</p><h3 id="APOC-安装"><a href="#APOC-安装" class="headerlink" title="APOC 安装"></a><code>APOC</code> 安装</h3><ol><li>将最新的插件 jar 包下载后放进 neo4j 的 plugins 目录中</li><li>修改配置文件加入 <code>dbms.security.procedures.unrestricted=apoc.*</code></li><li>重启 <code>neo4j</code></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。&lt;/p&gt;
-&lt;p&gt;一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关
-      
-    
-    </summary>
-    
-    
-      <category term="neo4j" scheme="https://jpanj.com/tags/neo4j/"/>
     
   </entry>
   
