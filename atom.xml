@@ -63,6 +63,32 @@
   </entry>
   
   <entry>
+    <title>neo4j-tutorial-delete-node-using-cypher</title>
+    <link href="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/"/>
+    <id>https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/</id>
+    <published>2018-03-07T02:10:33.000Z</published>
+    <updated>2018-03-07T08:10:06.910Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>要使用 <code>Cpyher</code> 删除节点和关系，可使用 <code>DELETE</code> 子句。</p></blockquote><p>在 <code>MATCH</code> 语句中使用 <code>DELETE</code> 子句来删除任何匹配的数据。</p><p>因此 <code>DELETE</code> 子句用在之前例子中的 <code>RETURN</code> 子句的地方。</p><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>下边的语句删除标签为 <em>Album</em>，<code>name</code> 属性为 <code>Panmax</code> 的节点：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"Panmax"</span>&#125;) <span class="selector-tag">DELETE</span> <span class="selector-tag">a</span>;</span><br></pre></td></tr></table></figure><blockquote><p>在实际删除前认真检查语句是否删除的是正确的数据是个不错的主意。<br>为此可以先使用 <code>RETURN</code> 子句构造语句，然后运行它。这样可以检查要删除的是不是正确的数据。一旦你对匹配的结果数据满意后，只需将 <code>RETURN</code> 子句改为 <code>DELETE</code> 子句即可。</p></blockquote><h3 id="删除多个节点"><a href="#删除多个节点" class="headerlink" title="删除多个节点"></a>删除多个节点</h3><p>你也可以一次性删除多个节点。只需要让你的 <code>MATCH</code> 语句包含所有你想要删除的节点就行了。</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"jiapan"</span>&#125;), (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"Panmax"</span>&#125;) </span><br><span class="line"><span class="selector-tag">DELETE</span> <span class="selector-tag">a</span>, <span class="selector-tag">b</span></span><br></pre></td></tr></table></figure><h3 id="删除所有节点"><a href="#删除所有节点" class="headerlink" title="删除所有节点"></a>删除所有节点</h3><p>你可以通过省略过滤条件来删除数据库中的所有节点，就像我们从数据库中选取所有节点一样，你也可以删除它们。</p><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) DELETE <span class="built_in">n</span>;</span><br></pre></td></tr></table></figure><h3 id="删除带有关系的节点"><a href="#删除带有关系的节点" class="headerlink" title="删除带有关系的节点"></a>删除带有关系的节点</h3><p>在删除节点时有一个小细节需要注意，就是你只能删除没有连接任何关系的节点。换句话说，在删除节点本身前，必须先删除和它相关的关系。</p><p>如果你尝试在具有关系的节点上执行上述 <code>DELETE</code> 语句，你将看到如下所示的错误消息：</p><p><img src="1.png" alt=""></p><p>这个错误消息告诉我们，我们在删除节点前必须先删除它的关系。</p><p>幸运的是有一种便捷的方式可以做到这一点，我们会在下一课来介绍它。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;要使用 &lt;code&gt;Cpyher&lt;/code&gt; 删除节点和关系，可使用 &lt;code&gt;DELETE&lt;/code&gt; 子句。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 &lt;code&gt;MATCH&lt;/code&gt; 语句中使用 &lt;code&gt;DELETE&lt;/co
+      
+    
+    </summary>
+    
+    
+      <category term="neo4j" scheme="https://jpanj.com/tags/neo4j/"/>
+    
+  </entry>
+  
+  <entry>
     <title>SELinux 开启导致 Nginx 启动失败</title>
     <link href="https://jpanj.com/2018/SELinux-%E5%BC%80%E5%90%AF%E5%AF%BC%E8%87%B4-Nginx-%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5/"/>
     <id>https://jpanj.com/2018/SELinux-开启导致-Nginx-启动失败/</id>
@@ -485,31 +511,6 @@
     
     
       <category term="neo4j" scheme="https://jpanj.com/tags/neo4j/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Http Cookies 中 Max-age 和 Expires 有什么区别？</title>
-    <link href="https://jpanj.com/2017/cookies-max-age-vs-expires/"/>
-    <id>https://jpanj.com/2017/cookies-max-age-vs-expires/</id>
-    <published>2017-12-21T08:32:48.000Z</published>
-    <updated>2018-01-08T09:41:31.044Z</updated>
-    
-    <content type="html"><![CDATA[<p>快速回答</p><ul><li><code>Expires</code> 为 Cookie 的删除设置一个过期的<strong>日期</strong></li><li><code>Max-age</code> 设置一个 Cookie 将要过期的秒数</li><li>IE 浏览器(ie6、ie7 和 ie8) 不支持 <code>max-age</code>，所有的浏览器都支持 <code>expires</code></li></ul><p>深入一些来说明</p><p><code>expires</code> 参数是当年网景公司推出 Cookies 原有的一部分。在 HTTP1.1 中，<code>expires</code> 被弃用并且被更加易用的 <code>max-age</code> 所替代。你只需说明这个 Cookie 能够存活多久就可以了，而不用像之前那样指定一个日期。设置二者中的一个，Cookie 会在它过期前一直保存，如果你一个都没有设置，这个 Cookie 将会一直存在直到你关闭浏览器，这种称之为 <code>Session Cookie</code>。</p><p><strong>举个栗子</strong></p><p>用 <code>expires</code> 的方式设置 <code>foo=bar</code> 在5分钟后过期</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">d.setTime(d.getTime() + <span class="number">5</span>*<span class="number">60</span>*<span class="number">1000</span>); <span class="comment">// in milliseconds</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;expires='</span>+d.toGMTString()+<span class="string">';'</span>;</span><br></pre></td></tr></table></figure><p>用 <code>max-age</code> 来做同样的事情</p><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">'foo=bar;path=/;max-age='</span>+<span class="number">5</span>*<span class="number">60</span>+<span class="string">';'</span>;</span><br></pre></td></tr></table></figure><p>不幸的是，IE 浏览器 不支持 <code>max-age</code>，如果你想跨浏览器存放 Cookie，应该坚持用 <code>expires</code>。</p><p>下边我们来进行几个假设的问答</p><p><strong>问：如果我在 Cookie 中同时设置了 <code>expires</code> 和 <code>max-age</code> 会发生什么？</strong></p><p>答：所有支持 <code>max-age</code> 的浏览器会忽略 <code>expires</code> 的值，只有 IE 另外，IE 会忽略 <code>max-age</code> 只支持 <code>expires</code>。</p><p><strong>问：如果我只设了 <code>max-age</code> 会怎样？</strong></p><p>答：除了 IE 之外的所有浏览器会正确的使用它。在 IE 浏览器中，这个 Cookie 将会作为一个 Session Cookie（当你关闭浏览器时它会被删除）。</p><p><strong>问：如果我只设了 <code>expires</code>？</strong></p><p>答：所有浏览器会正确使用它来保存 Cookie，只需要记得像上边示例那样设置它的 GMT 时间就行了。</p><p><strong>问：这篇文章的寓意是什么？</strong></p><p>答：如果你关心你的 Cookies 功能在大多数 Web 用户下正常工作，不要用正确的方式（<code>max-age</code>）存储你的 Cookies，应该用 <code>expires</code> 的方式让他们工作。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;快速回答&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Expires&lt;/code&gt; 为 Cookie 的删除设置一个过期的&lt;strong&gt;日期&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Max-age&lt;/code&gt; 设置一个 Cookie 将要过期的秒数&lt;/li&gt;
-&lt;li&gt;
-      
-    
-    </summary>
-    
     
   </entry>
   

@@ -82,7 +82,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hi Panmax" />
+  <meta name="keywords" content="neo4j," />
 
 
 
@@ -100,17 +100,20 @@
 
 
 
-<meta name="description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 看了下系统中并没有进程在占用 9090 端口。最后通过 http://www.err1">
+<meta name="description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &quot;Panmax&quot;&amp;#125;) DELETE a;">
+<meta name="keywords" content="neo4j">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SELinux 开启导致 Nginx 启动失败">
-<meta property="og:url" content="https://jpanj.com/2018/SELinux-开启导致-Nginx-启动失败/index.html">
+<meta property="og:title" content="neo4j-tutorial-delete-node-using-cypher">
+<meta property="og:url" content="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 看了下系统中并没有进程在占用 9090 端口。最后通过 http://www.err1">
+<meta property="og:description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &quot;Panmax&quot;&amp;#125;) DELETE a;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T09:25:04.223Z">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/1.png">
+<meta property="og:updated_time" content="2018-03-07T08:10:06.910Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SELinux 开启导致 Nginx 启动失败">
-<meta name="twitter:description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 看了下系统中并没有进程在占用 9090 端口。最后通过 http://www.err1">
+<meta name="twitter:title" content="neo4j-tutorial-delete-node-using-cypher">
+<meta name="twitter:description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &quot;Panmax&quot;&amp;#125;) DELETE a;">
+<meta name="twitter:image" content="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/1.png">
 
 
 
@@ -138,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/SELinux-开启导致-Nginx-启动失败/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/"/>
 
 
 
 
 
-  <title>SELinux 开启导致 Nginx 启动失败 | 贾攀家</title>
+  <title>neo4j-tutorial-delete-node-using-cypher | 贾攀家</title>
   
 
 
@@ -203,7 +206,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/SELinux-开启导致-Nginx-启动失败/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -220,7 +223,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SELinux 开启导致 Nginx 启动失败</h1>
+          <h1 class="post-title" itemprop="name headline">neo4j-tutorial-delete-node-using-cypher</h1>
         
 
         <div class="post-meta">
@@ -232,8 +235,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T17:17:33+08:00">
-                2018-03-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T10:10:33+08:00">
+                2018-03-07
               </time>
             
 
@@ -251,8 +254,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/SELinux-开启导致-Nginx-启动失败/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/SELinux-开启导致-Nginx-启动失败/" itemprop="commentCount"></span>
+                <a href="/2018/neo4j-tutorial-delete-node-using-cypher/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/neo4j-tutorial-delete-node-using-cypher/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -277,9 +280,25 @@
       
 
       
-        <p>今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：<code>2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)</code>。</p>
-<p>看了下系统中并没有进程在占用 9090 端口。最后通过 <a href="http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en" target="_blank" rel="noopener">http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en</a> 这篇文章的最后一个方案解决了这个问题。</p>
-<p>大致看了下 SELinxu 的作用一个 Linux 的强化方案，大部分情况下是需要启动的 <a href="https://www.zhihu.com/question/20559538" target="_blank" rel="noopener">https://www.zhihu.com/question/20559538</a>。</p>
+        <blockquote>
+<p>要使用 <code>Cpyher</code> 删除节点和关系，可使用 <code>DELETE</code> 子句。</p>
+</blockquote>
+<p>在 <code>MATCH</code> 语句中使用 <code>DELETE</code> 子句来删除任何匹配的数据。</p>
+<p>因此 <code>DELETE</code> 子句用在之前例子中的 <code>RETURN</code> 子句的地方。</p>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>下边的语句删除标签为 <em>Album</em>，<code>name</code> 属性为 <code>Panmax</code> 的节点：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"Panmax"</span>&#125;) <span class="selector-tag">DELETE</span> <span class="selector-tag">a</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在实际删除前认真检查语句是否删除的是正确的数据是个不错的主意。<br>为此可以先使用 <code>RETURN</code> 子句构造语句，然后运行它。这样可以检查要删除的是不是正确的数据。一旦你对匹配的结果数据满意后，只需将 <code>RETURN</code> 子句改为 <code>DELETE</code> 子句即可。</p>
+</blockquote>
+<h3 id="删除多个节点"><a href="#删除多个节点" class="headerlink" title="删除多个节点"></a>删除多个节点</h3><p>你也可以一次性删除多个节点。只需要让你的 <code>MATCH</code> 语句包含所有你想要删除的节点就行了。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"jiapan"</span>&#125;), (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"Panmax"</span>&#125;) </span><br><span class="line"><span class="selector-tag">DELETE</span> <span class="selector-tag">a</span>, <span class="selector-tag">b</span></span><br></pre></td></tr></table></figure>
+<h3 id="删除所有节点"><a href="#删除所有节点" class="headerlink" title="删除所有节点"></a>删除所有节点</h3><p>你可以通过省略过滤条件来删除数据库中的所有节点，就像我们从数据库中选取所有节点一样，你也可以删除它们。</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) DELETE <span class="built_in">n</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="删除带有关系的节点"><a href="#删除带有关系的节点" class="headerlink" title="删除带有关系的节点"></a>删除带有关系的节点</h3><p>在删除节点时有一个小细节需要注意，就是你只能删除没有连接任何关系的节点。换句话说，在删除节点本身前，必须先删除和它相关的关系。</p>
+<p>如果你尝试在具有关系的节点上执行上述 <code>DELETE</code> 语句，你将看到如下所示的错误消息：</p>
+<p><img src="1.png" alt=""></p>
+<p>这个错误消息告诉我们，我们在删除节点前必须先删除它的关系。</p>
+<p>幸运的是有一种便捷的方式可以做到这一点，我们会在下一课来介绍它。</p>
 
       
     </div>
@@ -307,6 +326,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/neo4j/" rel="tag"># neo4j</a>
+          
+        </div>
+      
 
       
       
@@ -316,8 +341,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/" rel="next" title="Neo4j 入门教程 - 使用 Cypher 删除索引和约束">
-                <i class="fa fa-chevron-left"></i> Neo4j 入门教程 - 使用 Cypher 删除索引和约束
+              <a href="/2018/SELinux-开启导致-Nginx-启动失败/" rel="next" title="SELinux 开启导致 Nginx 启动失败">
+                <i class="fa fa-chevron-left"></i> SELinux 开启导致 Nginx 启动失败
               </a>
             
           </div>
@@ -326,8 +351,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/neo4j-tutorial-delete-node-using-cypher/" rel="prev" title="neo4j-tutorial-delete-node-using-cypher">
-                neo4j-tutorial-delete-node-using-cypher <i class="fa fa-chevron-right"></i>
+              <a href="/2333/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
+                山丘 - 李宗盛 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
