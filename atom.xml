@@ -64,6 +64,32 @@
   
   <entry>
     <title>Neo4j 入门教程 - 使用 Cypher 删除节点</title>
+    <link href="https://jpanj.com/2018/neo4j-tutorial-delete-relationship-using-cypher/"/>
+    <id>https://jpanj.com/2018/neo4j-tutorial-delete-relationship-using-cypher/</id>
+    <published>2018-03-08T07:45:41.000Z</published>
+    <updated>2018-03-08T08:43:35.230Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>你可以像删除节点一样删除关系 - 通过匹配你想要删除的关系。</p></blockquote><p>你可以一次性删除一个或多个关系，甚至可以删除数据库中的所有关系。</p><p>首先，作为复习，以下是我们之前创建的关系：</p><p><img src="1.png" alt=""></p><p>我们来删除类型为 <code>RELEASED</code> 的关系。</p><p>有几种方法可以解决这个问题，我们来看其中的三种。</p><p>下边的语句范围非常广 - 它将删除所有类型为 <code>RELEASED</code> 的关系。</p><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> ()<span class="selector-tag">-</span><span class="selector-attr">[r:RELEASED]</span><span class="selector-tag">-</span>() </span><br><span class="line"><span class="selector-tag">DELETE</span> <span class="selector-tag">r</span></span><br></pre></td></tr></table></figure><p>你也可以写的更具体一些，就像这样：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-pseudo">:Artist)-</span><span class="selector-attr">[r:RELEASED]</span><span class="selector-tag">-</span>(<span class="selector-pseudo">:Album)</span> </span><br><span class="line"><span class="selector-tag">DELETE</span> <span class="selector-tag">r</span></span><br></pre></td></tr></table></figure><p>上边的语句将匹配所有的 <code>Artist</code> 节点和 <code>Album</code> 节点间具有 <code>RELEASED</code> 的关系。</p><p>你甚至可以更具体一些，就像这样：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"筷子兄弟"</span>&#125;)<span class="selector-tag">-</span><span class="selector-attr">[r:RELEASED]</span><span class="selector-tag">-</span>(<span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"猛龙过江"</span>&#125;) </span><br><span class="line"><span class="selector-tag">DELETE</span> <span class="selector-tag">r</span></span><br></pre></td></tr></table></figure><p>上边的任意一条语句都可以将 <code>RELEASED</code> 关系删掉，图将看起来是这样的：</p><p><img src="2.png" alt=""></p><h3 id="删除有关联关系的节点"><a href="#删除有关联关系的节点" class="headerlink" title="删除有关联关系的节点"></a>删除有关联关系的节点</h3><p>节点存在关系将不能被删除，如果我们尝试执行下边的语句：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"筷子兄弟"</span>&#125;) <span class="selector-tag">DELETE</span> <span class="selector-tag">a</span></span><br></pre></td></tr></table></figure><p>会看到如下错误：</p><p><img src="3.png" alt=""></p><p>这是因为节点上有连接的关系。</p><p>一种选择是删除所有的关系，然后再删除节点。</p><p>另一种选择是使用 <code>DETACH DELETE</code> 子句。<code>DETACH DELETE</code> 子句允许你删除一个节点的同时删除与其相连的所有关系。</p><p>所以我们可以将上面的语句改为：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"筷子兄弟"</span>&#125;) <span class="selector-tag">DETACH</span> <span class="selector-tag">DELETE</span> <span class="selector-tag">a</span></span><br></pre></td></tr></table></figure><p>执行这条语句将看到下边的成功消息：</p><p><img src="4.png" alt=""></p><h3 id="删除整个数据库"><a href="#删除整个数据库" class="headerlink" title="删除整个数据库"></a>删除整个数据库</h3><p>你可以进一步使用 <code>DETACH DELETE</code> 并删除整个数据库。</p><p>只需将过滤条件去掉就可以删除所有的点和关系了。</p><p>继续来执行下边的语句：</p><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) DETACH DELETE <span class="built_in">n</span></span><br></pre></td></tr></table></figure><p>至此，我们的数据库中不再有任何数据。所以这节课就作为我们 Neoj4 入门教程的最后一课吧🙂</p><p>如果你有兴趣了解更多关于 Neo4j 的知识，请查看 <a href="https://neo4j.com/docs/developer-manual/current/" target="_blank" rel="noopener">https://neo4j.com/docs/developer-manual/current/</a> 。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;你可以像删除节点一样删除关系 - 通过匹配你想要删除的关系。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;你可以一次性删除一个或多个关系，甚至可以删除数据库中的所有关系。&lt;/p&gt;
+&lt;p&gt;首先，作为复习，以下是我们之前创建的关系：&lt;/p&gt;
+&lt;p&gt;&lt;im
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Neo4j 入门教程 - 使用 Cypher 删除节点</title>
     <link href="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/</id>
     <published>2018-03-07T02:10:33.000Z</published>
@@ -478,33 +504,6 @@
       
         &lt;p&gt;本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。&lt;/p&gt;
 &lt;h2 id=&quot;下载-Neo4j&quot;&gt;&lt;a href=&quot;#下载-Neo4j&quot; class=&quot;headerlink&quot; title=&quot;下载 Neo4j&quot;&gt;&lt;/a&gt;下载 Neo4j&lt;/h2&gt;&lt;p&gt;首先在
-      
-    
-    </summary>
-    
-    
-      <category term="neo4j" scheme="https://jpanj.com/tags/neo4j/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Neo4j 入门教程 - 关于 Neo4j</title>
-    <link href="https://jpanj.com/2018/neo4j-tutorial-about/"/>
-    <id>https://jpanj.com/2018/neo4j-tutorial-about/</id>
-    <published>2018-01-08T09:38:09.000Z</published>
-    <updated>2018-02-26T08:05:00.978Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>Neo4j 是世界上最流行的图数据库管理系统（DBMS），同样是最流行的 NoSQL 数据库之一。</p></blockquote><p><img src="1.png" alt=""></p><h3 id="Neo4j-是什么"><a href="#Neo4j-是什么" class="headerlink" title="Neo4j 是什么"></a>Neo4j 是什么</h3><p>Neo4j 以图的方式存储和展示数据，数据由节点和节点间的关系来表示。</p><p>Neo4j 数据库（和任何图数据库一样）与关系型数据库（如：MS Access、SQL Server、MySQL）有很大不同。关系数据库使用表、行和列来存储数据，他们以表格的形式展示数据。</p><p>Neo4j 不使用表、行或者列存储或展示数据。</p><h3 id="Neo4j-用来做什么"><a href="#Neo4j-用来做什么" class="headerlink" title="Neo4j 用来做什么"></a>Neo4j 用来做什么</h3><p>Neo4j 非常适合存储有很多关联关系的数据。这是图数据库可以发挥巨大作用的地方。实际上，像 Neo4j 这样的图数据库在处理关系数据方面要优于关系型数据库。</p><p>图模型通常不需要预定义结构，你不需要在加载数据前创建数据库结构（就像在关系型数据库中那样）。在 Neo4j 中，数据就是结构。Neo4j 是一个 「结构可选」的 DBMS。</p><p>然而 Neo4j 能更好地处理关系数据的主要原因在于它允许你创建关系。Neo4j 是围绕关系而建立的。它不需要设置主键/外键约束来预先确定哪些字段或者哪些数据间有关系。在 Neo4j 中，只要在你需要时添加任何点之间的关系就行了。</p><p>所以，这使得 Neo4j 非常合适社交网络应用，比如 Facebook、Twitter 等。同时，Neo4j 还可以应用于很多其他领域。</p><p>以下是一些 Neo4j 主要应用领域：</p><ul><li>社交网络</li><li>实时产品推荐</li><li>网络架构图</li><li>欺诈识别</li><li>访问管理</li><li>基于图的数字资产搜索</li><li>主数据管理</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;Neo4j 是世界上最流行的图数据库管理系统（DBMS），同样是最流行的 NoSQL 数据库之一。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;Neo4j-是什么&quot;&gt;&lt;a hr
       
     
     </summary>
