@@ -63,6 +63,32 @@
   </entry>
   
   <entry>
+    <title>Panmax 的香煎鸡胸肉教程</title>
+    <link href="https://jpanj.com/2018/fried-chicken-breast-tutorial/"/>
+    <id>https://jpanj.com/2018/fried-chicken-breast-tutorial/</id>
+    <published>2018-03-08T08:58:36.000Z</published>
+    <updated>2018-03-08T09:07:50.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>可能很多人不知道，我的第二职业是厨师，之后会考虑写一些简单易做的美食文章。</p><p>今天尝试做了一次煎鸡胸肉，味道非常棒！有健身需求的朋友们可以了解一下。</p><p>做法非常简单：</p><ol><li>鸡胸肉划上斜刀用盐和料酒腌十分钟</li><li>然后锅里倒一点点油（我用的橄榄油）油稍微冒烟后下鸡胸</li><li>煎至两面变色后加入一大勺蚝油</li><li>然后煎至两面金黄</li><li>撒上黑胡椒再煎两分钟即可出锅</li><li>装盘时可以用盐水煮芦笋和柠檬做装饰</li></ol><p>是不是非常简单？</p><p>最后，上几张图：</p><p><img src="1.png" alt=""></p><p><img src="2.png" alt=""></p><p><img src="3.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;可能很多人不知道，我的第二职业是厨师，之后会考虑写一些简单易做的美食文章。&lt;/p&gt;
+&lt;p&gt;今天尝试做了一次煎鸡胸肉，味道非常棒！有健身需求的朋友们可以了解一下。&lt;/p&gt;
+&lt;p&gt;做法非常简单：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;鸡胸肉划上斜刀用盐和料酒腌十分钟&lt;/li&gt;
+&lt;li&gt;然后
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Neo4j 入门教程 - 使用 Cypher 删除关系</title>
     <link href="https://jpanj.com/2018/neo4j-tutorial-delete-relationship-using-cypher/"/>
     <id>https://jpanj.com/2018/neo4j-tutorial-delete-relationship-using-cypher/</id>
@@ -480,30 +506,6 @@
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;Neo4j 浏览器可以用来添加数据、运行查询语句、创建关系等等。它还提供了一种简单的方式来可视化数据库中的数据。&lt;/p
-      
-    
-    </summary>
-    
-    
-      <category term="neo4j" scheme="https://jpanj.com/tags/neo4j/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Neo4j 入门教程 - 安装</title>
-    <link href="https://jpanj.com/2018/neo4j-tutorial-installation/"/>
-    <id>https://jpanj.com/2018/neo4j-tutorial-installation/</id>
-    <published>2018-01-11T05:45:06.000Z</published>
-    <updated>2018-02-26T08:04:55.557Z</updated>
-    
-    <content type="html"><![CDATA[<p>本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p><h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="noopener">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p><p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 <a href="https://neo4j.com/download/other-releases/" target="_blank" rel="noopener">这个链接</a> 选择另一个操作系统的版本。</p><h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到你的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让你快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p><h3 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p><ol><li>打开你刚刚下载好的 dmg 文件</li><li>将 Neo4j 的图标拖拽到你的应用目录中</li><li>在应用目录中打开 Neo4j，你可能会被系统询问是否是你从互联网上下载的这个程序，不要担心，确认即可</li><li>点击 Start 按钮来启动 Neo4j 的服务</li><li>在你的浏览器中打开程序提供给你的 URL</li><li>为 <code>neo4j</code> 账户修改密码</li></ol><h3 id="Linux-Unix-tar-tar-gz"><a href="#Linux-Unix-tar-tar-gz" class="headerlink" title="Linux/Unix (tar/tar.gz)"></a>Linux/Unix (tar/tar.gz)</h3><ol><li>打开你的终端</li><li>使用 <code>tar -xvf &lt;file&gt;</code> 来提取存档的内容。比如 <code>tar -xvf neo4j-community-3.2.8-unix.tar</code>，如果你下载的是 <code>tar.gz</code> 的压缩包，那么使用 <code>tar -zxvf</code> 来进行解压</li><li>使用 <code>$NEO4J_HOME/bin/neo4j console</code> 来运行 Neo4j，或者用 <code>$NEO4J_HOME/bin/neo4j start</code> 让服务进程在后台运行</li><li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a> </li><li>为 <code>neo4j</code> 账户修改密码</li></ol><h3 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p><ol><li>运行你刚刚下载的安装程序，你可能需要给这个程序的安装权限来授权</li><li>按照提示选择运行 Neo4j 的选项</li><li>点击 Start 按钮来启动 Neo4j 服务器</li><li>在浏览器中打开程序提供给你的 URL</li><li>为 <code>neo4j</code> 账户修改密码</li></ol><h3 id="Windows-zip"><a href="#Windows-zip" class="headerlink" title="Windows (zip)"></a>Windows (zip)</h3><ol><li>首先安装 JDK8</li><li>找到压缩包，点击右键进行解压</li><li>把解压出的文件放到服务器的主目录中，顶级目录称为 <code>NEO4J_HOME</code>，比如 <code>D:\neo4j\</code></li><li>使用 zip 包中提供的 <code>Windows PowerShell</code> 来启动和管理 Neo4j</li><li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a></li><li>为 <code>neo4j</code> 账户修改密码</li></ol><h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，点击打开窗口中 Start 按钮即可启动 Neo4j 服务。</p><p><img src="1.png" alt=""></p><p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a> 然后按照提示进行操作。</p><p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p><p><img src="2.png" alt=""></p><h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户名和密码来登录，默认的密码是 <code>neo4j</code></p><p>第一次登录时，系统会提示你修改密码</p><h3 id="3-结果"><a href="#3-结果" class="headerlink" title="3. 结果"></a>3. 结果</h3><p>密码修改完成后这个界面将会被展示</p><p><img src="3.png" alt=""></p><p>在这里，你可以使用当前界面提供的链接来学习更多关于 Neo4j 的知识以及如何创建数据库和运行查询语句</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。&lt;/p&gt;
-&lt;h2 id=&quot;下载-Neo4j&quot;&gt;&lt;a href=&quot;#下载-Neo4j&quot; class=&quot;headerlink&quot; title=&quot;下载 Neo4j&quot;&gt;&lt;/a&gt;下载 Neo4j&lt;/h2&gt;&lt;p&gt;首先在
       
     
     </summary>
