@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="添加用户在添加用户时，最好用 adduser，虽然 adduser 和 useradd 这两个命令在其他发行版的 Linux 系统下一样，但是在 Ubuntu 下是有区别的：adduser 会自动创建用户的 home 目录，并且创建用户同名的组，而 useradd 不会。 如果不小心将用户 home 目录删除了，可以使用下边的方法来重建： 123sudo mkdir /home/user   #">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-01T07:50:16.688Z">
+<meta property="og:updated_time" content="2018-03-15T03:05:23.202Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 笔记">
 <meta name="twitter:description" content="添加用户在添加用户时，最好用 adduser，虽然 adduser 和 useradd 这两个命令在其他发行版的 Linux 系统下一样，但是在 Ubuntu 下是有区别的：adduser 会自动创建用户的 home 目录，并且创建用户同名的组，而 useradd 不会。 如果不小心将用户 home 目录删除了，可以使用下边的方法来重建： 123sudo mkdir /home/user   #">
@@ -309,6 +309,7 @@
 <p><code>cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</code></p>
 <h3 id="telent-退出"><a href="#telent-退出" class="headerlink" title="telent 退出"></a>telent 退出</h3><figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Control + ]</span><br><span class="line"></span><br><span class="line"><span class="keyword">quit</span></span><br></pre></td></tr></table></figure>
 <h3 id="调整-ssh-登录时的提示信息"><a href="#调整-ssh-登录时的提示信息" class="headerlink" title="调整 ssh 登录时的提示信息"></a>调整 ssh 登录时的提示信息</h3><p>修改 <code>/etc/update-motd.d/</code> 下的几个文件就行了。</p>
+<h3 id="scp-拷贝整个目录"><a href="#scp-拷贝整个目录" class="headerlink" title="scp 拷贝整个目录"></a>scp 拷贝整个目录</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp -r ~<span class="regexp">/local_dir user@host.com:/</span>var<span class="regexp">/www/</span>html<span class="regexp">/target_dir</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
