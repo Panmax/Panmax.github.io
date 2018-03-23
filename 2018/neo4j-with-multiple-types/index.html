@@ -100,21 +100,20 @@
 
 
 
-<meta name="description" content="可能很多人不知道，我的第二职业是厨师，之后会考虑写一些简单易做的美食文章。 今天尝试做了一次煎鸡胸肉，味道非常棒！有健身需求的朋友们可以了解一下。 做法非常简单：  鸡胸肉划上斜刀用盐和料酒腌十分钟 然后锅里倒一点点油（我用的橄榄油）油稍微冒烟后下鸡胸 煎至两面变色后加入一大勺蚝油 然后煎至两面金黄 撒上黑胡椒再煎两分钟即可出锅 装盘时可以用盐水煮芦笋和柠檬做装饰  是不是非常简单？ 最后，上几张">
+<meta name="description" content="Neo4j 中创建节点时，可以指定多个标签： 1CREATE (n:Person:China) 但是在创建关系时，只能指定一种类型，其实官方通过这两个不同词汇（标签 和 类型）也能体现出节点和关系关于分类方面的不同。 如下图所示，在尝试用多种类型创建关系时，会报错：   一个节点可以有多个标签，一个关系只能有一种分类。 在 GitHub issues 中也有一个简短的解释：  This is un">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Panmax 的香煎鸡胸肉教程">
-<meta property="og:url" content="https://jpanj.com/2018/fried-chicken-breast-tutorial/index.html">
+<meta property="og:title" content="Neo4j 关系不支持多种类型">
+<meta property="og:url" content="https://jpanj.com/2018/neo4j-with-multiple-types/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="可能很多人不知道，我的第二职业是厨师，之后会考虑写一些简单易做的美食文章。 今天尝试做了一次煎鸡胸肉，味道非常棒！有健身需求的朋友们可以了解一下。 做法非常简单：  鸡胸肉划上斜刀用盐和料酒腌十分钟 然后锅里倒一点点油（我用的橄榄油）油稍微冒烟后下鸡胸 煎至两面变色后加入一大勺蚝油 然后煎至两面金黄 撒上黑胡椒再煎两分钟即可出锅 装盘时可以用盐水煮芦笋和柠檬做装饰  是不是非常简单？ 最后，上几张">
+<meta property="og:description" content="Neo4j 中创建节点时，可以指定多个标签： 1CREATE (n:Person:China) 但是在创建关系时，只能指定一种类型，其实官方通过这两个不同词汇（标签 和 类型）也能体现出节点和关系关于分类方面的不同。 如下图所示，在尝试用多种类型创建关系时，会报错：   一个节点可以有多个标签，一个关系只能有一种分类。 在 GitHub issues 中也有一个简短的解释：  This is un">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://jpanj.com/2018/fried-chicken-breast-tutorial/1.jpg">
-<meta property="og:image" content="https://jpanj.com/2018/fried-chicken-breast-tutorial/2.jpg">
-<meta property="og:image" content="https://jpanj.com/2018/fried-chicken-breast-tutorial/3.jpg">
-<meta property="og:updated_time" content="2018-03-08T09:09:48.565Z">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-with-multiple-types/1.png">
+<meta property="og:image" content="https://jpanj.com/2018/neo4j-with-multiple-types/2.png">
+<meta property="og:updated_time" content="2018-03-23T03:03:47.040Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Panmax 的香煎鸡胸肉教程">
-<meta name="twitter:description" content="可能很多人不知道，我的第二职业是厨师，之后会考虑写一些简单易做的美食文章。 今天尝试做了一次煎鸡胸肉，味道非常棒！有健身需求的朋友们可以了解一下。 做法非常简单：  鸡胸肉划上斜刀用盐和料酒腌十分钟 然后锅里倒一点点油（我用的橄榄油）油稍微冒烟后下鸡胸 煎至两面变色后加入一大勺蚝油 然后煎至两面金黄 撒上黑胡椒再煎两分钟即可出锅 装盘时可以用盐水煮芦笋和柠檬做装饰  是不是非常简单？ 最后，上几张">
-<meta name="twitter:image" content="https://jpanj.com/2018/fried-chicken-breast-tutorial/1.jpg">
+<meta name="twitter:title" content="Neo4j 关系不支持多种类型">
+<meta name="twitter:description" content="Neo4j 中创建节点时，可以指定多个标签： 1CREATE (n:Person:China) 但是在创建关系时，只能指定一种类型，其实官方通过这两个不同词汇（标签 和 类型）也能体现出节点和关系关于分类方面的不同。 如下图所示，在尝试用多种类型创建关系时，会报错：   一个节点可以有多个标签，一个关系只能有一种分类。 在 GitHub issues 中也有一个简短的解释：  This is un">
+<meta name="twitter:image" content="https://jpanj.com/2018/neo4j-with-multiple-types/1.png">
 
 
 
@@ -142,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/fried-chicken-breast-tutorial/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/neo4j-with-multiple-types/"/>
 
 
 
 
 
-  <title>Panmax 的香煎鸡胸肉教程 | 贾攀家</title>
+  <title>Neo4j 关系不支持多种类型 | 贾攀家</title>
   
 
 
@@ -207,7 +206,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/fried-chicken-breast-tutorial/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/neo4j-with-multiple-types/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -224,7 +223,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Panmax 的香煎鸡胸肉教程</h1>
+          <h1 class="post-title" itemprop="name headline">Neo4j 关系不支持多种类型</h1>
         
 
         <div class="post-meta">
@@ -236,8 +235,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T16:58:36+08:00">
-                2018-03-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T10:48:30+08:00">
+                2018-03-23
               </time>
             
 
@@ -255,8 +254,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/fried-chicken-breast-tutorial/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/fried-chicken-breast-tutorial/" itemprop="commentCount"></span>
+                <a href="/2018/neo4j-with-multiple-types/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/neo4j-with-multiple-types/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -281,22 +280,21 @@
       
 
       
-        <p>可能很多人不知道，我的第二职业是厨师，之后会考虑写一些简单易做的美食文章。</p>
-<p>今天尝试做了一次煎鸡胸肉，味道非常棒！有健身需求的朋友们可以了解一下。</p>
-<p>做法非常简单：</p>
-<ol>
-<li>鸡胸肉划上斜刀用盐和料酒腌十分钟</li>
-<li>然后锅里倒一点点油（我用的橄榄油）油稍微冒烟后下鸡胸</li>
-<li>煎至两面变色后加入一大勺蚝油</li>
-<li>然后煎至两面金黄</li>
-<li>撒上黑胡椒再煎两分钟即可出锅</li>
-<li>装盘时可以用盐水煮芦笋和柠檬做装饰</li>
-</ol>
-<p>是不是非常简单？</p>
-<p>最后，上几张图：</p>
-<p><img src="1.jpg" alt=""></p>
-<p><img src="2.jpg" alt=""></p>
-<p><img src="3.jpg" alt=""></p>
+        <p>Neo4j 中创建节点时，可以指定多个标签：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE (<span class="name">n</span><span class="symbol">:Person</span><span class="symbol">:China</span>)</span><br></pre></td></tr></table></figure>
+<p>但是在创建关系时，只能指定一种类型，其实官方通过这两个不同词汇（标签 和 类型）也能体现出节点和关系关于分类方面的不同。</p>
+<p>如下图所示，在尝试用多种类型创建关系时，会报错：</p>
+<p><img src="1.png" alt=""></p>
+<p><img src="2.png" alt=""></p>
+<p>一个节点可以有多个标签，一个关系只能有一种分类。</p>
+<p>在 <a href="https://github.com/neo4j/neo4j/issues/1199" target="_blank" rel="noopener">GitHub issues</a> 中也有一个简短的解释：</p>
+<blockquote>
+<p>This is unfortunately out of scope right now the property-graph model fared well with a single relationship-type so far.</p>
+</blockquote>
+<blockquote>
+<p>I’d suggest you create multiple relationships between your two nodes that is the way to go.</p>
+</blockquote>
+<p>属性图模型在单一关系类型时表现更好，如果在两个节点间表示多个关系，直接创建多条关系就可以了。</p>
 
       
     </div>
@@ -333,8 +331,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/neo4j-tutorial-delete-relationship-using-cypher/" rel="next" title="Neo4j 入门教程 - 使用 Cypher 删除关系">
-                <i class="fa fa-chevron-left"></i> Neo4j 入门教程 - 使用 Cypher 删除关系
+              <a href="/2018/fried-chicken-breast-tutorial/" rel="next" title="Panmax 的香煎鸡胸肉教程">
+                <i class="fa fa-chevron-left"></i> Panmax 的香煎鸡胸肉教程
               </a>
             
           </div>
@@ -343,8 +341,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/neo4j-with-multiple-types/" rel="prev" title="Neo4j 关系不支持多种类型">
-                Neo4j 关系不支持多种类型 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/lose-weight/" rel="prev" title="2018 减肥计划">
+                2018 减肥计划 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
