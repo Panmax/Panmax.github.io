@@ -100,17 +100,17 @@
 
 
 
-<meta name="description" content="以下内容写于 2018年3月18日： 今年优先级最高的事情是 lose weight，给自己设置了两个时间节点：第一个节点是自己的生日（农历5月12），目标是从 90kg 减至 80kg，第二个节点是我拍脑袋想的日期：222天后（农历9月18），减到 70kg，立文为据。明天起每日博客记录体重变化。 本次算是人生中的第二次减肥，上一次从 98kg 减到了 69kg，但是没有注意保持，两年时间又回来">
+<meta name="description" content="我们在登录服务器，执行一个很耗时的任务时，通常我们会使用 nohup + &amp;amp; 的方式执行，如果我们在启动时，忘记加上这 nohup 该如何补救呢？  首先使用 control + z 让当前进程挂起（Suspend）。 然后我们使用 jobs 查看它的作业号。 再用 bg %jobspec 来将它放入后台并继续运行。 最后使用 disown -h %jobspec 来使这个作业忽略 HUP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2018 减肥计划">
-<meta property="og:url" content="https://jpanj.com/2018/lose-weight/index.html">
+<meta property="og:title" content="让前台程序转为后台运行">
+<meta property="og:url" content="https://jpanj.com/2018/run-in-background/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="以下内容写于 2018年3月18日： 今年优先级最高的事情是 lose weight，给自己设置了两个时间节点：第一个节点是自己的生日（农历5月12），目标是从 90kg 减至 80kg，第二个节点是我拍脑袋想的日期：222天后（农历9月18），减到 70kg，立文为据。明天起每日博客记录体重变化。 本次算是人生中的第二次减肥，上一次从 98kg 减到了 69kg，但是没有注意保持，两年时间又回来">
+<meta property="og:description" content="我们在登录服务器，执行一个很耗时的任务时，通常我们会使用 nohup + &amp;amp; 的方式执行，如果我们在启动时，忘记加上这 nohup 该如何补救呢？  首先使用 control + z 让当前进程挂起（Suspend）。 然后我们使用 jobs 查看它的作业号。 再用 bg %jobspec 来将它放入后台并继续运行。 最后使用 disown -h %jobspec 来使这个作业忽略 HUP">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-30T09:51:56.009Z">
+<meta property="og:updated_time" content="2018-03-30T10:17:37.939Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2018 减肥计划">
-<meta name="twitter:description" content="以下内容写于 2018年3月18日： 今年优先级最高的事情是 lose weight，给自己设置了两个时间节点：第一个节点是自己的生日（农历5月12），目标是从 90kg 减至 80kg，第二个节点是我拍脑袋想的日期：222天后（农历9月18），减到 70kg，立文为据。明天起每日博客记录体重变化。 本次算是人生中的第二次减肥，上一次从 98kg 减到了 69kg，但是没有注意保持，两年时间又回来">
+<meta name="twitter:title" content="让前台程序转为后台运行">
+<meta name="twitter:description" content="我们在登录服务器，执行一个很耗时的任务时，通常我们会使用 nohup + &amp;amp; 的方式执行，如果我们在启动时，忘记加上这 nohup 该如何补救呢？  首先使用 control + z 让当前进程挂起（Suspend）。 然后我们使用 jobs 查看它的作业号。 再用 bg %jobspec 来将它放入后台并继续运行。 最后使用 disown -h %jobspec 来使这个作业忽略 HUP">
 
 
 
@@ -138,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/lose-weight/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/run-in-background/"/>
 
 
 
 
 
-  <title>2018 减肥计划 | 贾攀家</title>
+  <title>让前台程序转为后台运行 | 贾攀家</title>
   
 
 
@@ -203,7 +203,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/lose-weight/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/run-in-background/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -220,7 +220,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">2018 减肥计划</h1>
+          <h1 class="post-title" itemprop="name headline">让前台程序转为后台运行</h1>
         
 
         <div class="post-meta">
@@ -232,8 +232,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-31T14:20:07+08:00">
-                2018-12-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T17:55:55+08:00">
+                2018-03-30
               </time>
             
 
@@ -251,8 +251,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/lose-weight/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/lose-weight/" itemprop="commentCount"></span>
+                <a href="/2018/run-in-background/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/run-in-background/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -277,82 +277,14 @@
       
 
       
-        <p><em>以下内容写于 2018年3月18日：</em></p>
-<p>今年优先级最高的事情是 lose weight，给自己设置了两个时间节点：第一个节点是自己的生日（农历5月12），目标是从 90kg 减至 80kg，第二个节点是我拍脑袋想的日期：222天后（农历9月18），减到 70kg，立文为据。明天起每日博客记录体重变化。</p>
-<p>本次算是人生中的第二次减肥，上一次从 98kg 减到了 69kg，但是没有注意保持，两年时间又回来了，这一次再用 200 多天减下去，再之后准备上一些器械，争取练出 6 块腹肌🌚。</p>
-<h4 id="2018-03-26-2018-04-01"><a href="#2018-03-26-2018-04-01" class="headerlink" title="2018.03.26 - 2018.04.01"></a>2018.03.26 - 2018.04.01</h4><blockquote>
-<p>本周计划：86.0</p>
-</blockquote>
-<ul>
-<li>星期一：87.0</li>
-<li>星期二：86.9<ul>
-<li>练臂</li>
-</ul>
-</li>
-<li>星期三：86.5<ul>
-<li>练背</li>
-</ul>
-</li>
-<li>星期四：86.0<ul>
-<li>练腿</li>
-</ul>
-</li>
-<li>星期五：85.5</li>
-</ul>
-<h4 id="2018-03-19-2018-03-25"><a href="#2018-03-19-2018-03-25" class="headerlink" title="2018.03.19 - 2018.03.25"></a>2018.03.19 - 2018.03.25</h4><blockquote>
-<p>本周计划：87.2（达成）</p>
-</blockquote>
-<ul>
-<li>星期一：87.8（上周末搬家，没有好好运动，吃的东西也没有控制特别注意）</li>
-<li>星期二：87.8</li>
-<li>星期三：87.6</li>
-<li>星期四：87.5</li>
-<li>星期五：86.7<ul>
-<li>卧推：10 * 4</li>
-<li>哑铃卧推：10 * 2</li>
-<li>器械推胸：10 * 4</li>
-<li>跑步：40min</li>
-</ul>
-</li>
-<li>星期六：86.5<ul>
-<li>硬拉：10 * 6</li>
-<li>哑铃划船：10 * 6</li>
-<li>水平划船：10 * 6</li>
-<li>高位下拉：10 * 6</li>
-<li>椭圆机：40min</li>
-</ul>
-</li>
-<li>星期日：86.4<ul>
-<li>腿屈伸 10 * 6</li>
-<li>哈克深蹲 10 * 6</li>
-<li>私教体验课 60 min</li>
-<li>椭圆机：45min</li>
-</ul>
-</li>
-</ul>
-<h4 id="2018-03-12-2018-03-18"><a href="#2018-03-12-2018-03-18" class="headerlink" title="2018.03.12 - 2018.03.18"></a>2018.03.12 - 2018.03.18</h4><blockquote>
-<p>本周计划：87.8（达成）</p>
-</blockquote>
-<ul>
-<li>星期二：88.3</li>
-<li>星期三：87.8</li>
-<li>星期四：87.7</li>
-<li>星期五：87.7</li>
-<li>星期六：87.7</li>
-<li>星期日：87.7（WTF？？？连续4天87.7🙃）</li>
-</ul>
-<h4 id="2018-03-05-2018-03-11"><a href="#2018-03-05-2018-03-11" class="headerlink" title="2018.03.05 - 2018.03.11"></a>2018.03.05 - 2018.03.11</h4><blockquote>
-<p>本周目标：88.5（达成）</p>
-</blockquote>
-<ul>
-<li>星期一：90.1</li>
-<li>星期二：89.8</li>
-<li>星期三：89.8</li>
-<li>星期四：89.1</li>
-<li>星期五：88.7</li>
-<li>星期六：88.9（一顿羊蝎子回到解放前）</li>
-<li>星期日：88.4（💪🏻）</li>
-</ul>
+        <p>我们在登录服务器，执行一个很耗时的任务时，通常我们会使用 <code>nohup</code> + <code>&amp;</code> 的方式执行，如果我们在启动时，忘记加上这 <code>nohup</code> 该如何补救呢？</p>
+<ol>
+<li>首先使用 <code>control + z</code> 让当前进程挂起（Suspend）。</li>
+<li>然后我们使用 <code>jobs</code> 查看它的作业号。</li>
+<li>再用 <code>bg %jobspec</code> 来将它放入后台并继续运行。</li>
+<li>最后使用 <code>disown -h %jobspec</code> 来使这个作业忽略 HUP 信号。</li>
+</ol>
+<p>这个方式可以用在 <code>scp</code> 的命令中，在没有设置 ssh 无密码登录的情况下，我们不能使用 nohup 来执行 <code>scp</code> 命令，所以只能在开始大文件拷贝后，通过上述流程来让这个作业放置在后台执行。</p>
 
       
     </div>
@@ -389,8 +321,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/run-in-background/" rel="next" title="让前台程序转为后台运行">
-                <i class="fa fa-chevron-left"></i> 让前台程序转为后台运行
+              <a href="/2018/neo4j-import-dynamic-relationship-type/" rel="next" title="Neo4j 导入动态类型关系">
+                <i class="fa fa-chevron-left"></i> Neo4j 导入动态类型关系
               </a>
             
           </div>
@@ -399,8 +331,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2333/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
-                山丘 - 李宗盛 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/lose-weight/" rel="prev" title="2018 减肥计划">
+                2018 减肥计划 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
