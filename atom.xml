@@ -89,9 +89,9 @@
     <link href="https://jpanj.com/2018/run-in-background/"/>
     <id>https://jpanj.com/2018/run-in-background/</id>
     <published>2018-03-30T09:55:55.000Z</published>
-    <updated>2018-03-30T10:17:37.939Z</updated>
+    <updated>2018-03-30T10:20:27.327Z</updated>
     
-    <content type="html"><![CDATA[<p>我们在登录服务器，执行一个很耗时的任务时，通常我们会使用 <code>nohup</code> + <code>&amp;</code> 的方式执行，如果我们在启动时，忘记加上这 <code>nohup</code> 该如何补救呢？</p><ol><li>首先使用 <code>control + z</code> 让当前进程挂起（Suspend）。</li><li>然后我们使用 <code>jobs</code> 查看它的作业号。</li><li>再用 <code>bg %jobspec</code> 来将它放入后台并继续运行。</li><li>最后使用 <code>disown -h %jobspec</code> 来使这个作业忽略 HUP 信号。</li></ol><p>这个方式可以用在 <code>scp</code> 的命令中，在没有设置 ssh 无密码登录的情况下，我们不能使用 nohup 来执行 <code>scp</code> 命令，所以只能在开始大文件拷贝后，通过上述流程来让这个作业放置在后台执行。</p>]]></content>
+    <content type="html"><![CDATA[<p>我们在登录服务器，执行一个很耗时的任务时，通常我们会使用 <code>nohup</code> + <code>&amp;</code> 的方式执行，如果我们在启动时，忘记加上这 <code>nohup</code> 该如何补救呢？</p><ol><li>首先使用 <code>control + z</code> 让当前进程挂起（Suspend）。</li><li>然后我们使用 <code>jobs</code> 查看它的作业号。</li><li>再用 <code>bg %jobspec</code> 来将它放入后台并继续运行。</li><li>最后使用 <code>disown -h %jobspec</code> 来使这个作业忽略 HUP 信号。</li></ol><p>这个方法可以用在 <code>scp</code> 的命令中，在没有设置 ssh 无密码登录的情况下，我们不能使用 nohup 来执行 <code>scp</code> 命令，所以只能在开始大文件拷贝后，通过上述流程来让这个作业放置在后台执行。</p>]]></content>
     
     <summary type="html">
     
