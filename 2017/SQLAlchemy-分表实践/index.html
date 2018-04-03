@@ -194,90 +194,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">SQLAlchemy 分表实践</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/SQLAlchemy-分表实践/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">SQLAlchemy 分表实践</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T16:40:09+08:00">
-                2017-05-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/SQLAlchemy-分表实践/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/SQLAlchemy-分表实践/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>去年年底利用工作之余开发了一个进销存相关的 SAAS 项目，ORM 用的 <code>SQLAlchemy</code>，并且进行了一些分表操作，这里来做个简单的记录（也只能是简单记录了，我是小半年前进行的分表调研）。</p>
+      <p>去年年底利用工作之余开发了一个进销存相关的 SAAS 项目，ORM 用的 <code>SQLAlchemy</code>，并且进行了一些分表操作，这里来做个简单的记录（也只能是简单记录了，我是小半年前进行的分表调研）。</p>
 <p>我没有直接使用 继承自 <code>db.Model</code> 的 ORM 类来操作数据库，而是在其之上又封装了一层，将更具体的一些数据库操作进行了封装。</p>
 <p>举个例子，我有一个继承自 <code>db.Model</code> 的 <code>Item</code> 类，同时还有一个自己的 <code>Item</code> 类，然后在自己的 <code>Item</code> 类中引用继承自 <code>db.Model</code> 的类，为了防止名称冲突，在引用时我会将继承自 <code>db.Model</code> 的类叫做 <code>SqlaItem</code>。</p>
 <p>分表是如何实现的呢，我通过 <code>SQLAlchemy</code> 的 <code>automap_base()</code> 将数据库中所有表进行了映射，然后自己实现了分表函数，通过分表函数得到分表的名称，然后动态的拿到那个表所对应的 ORM。</p>
@@ -297,69 +224,7 @@
 <p>这种方式有个弊端，在项目启动时就需要将所有表结构读入到内存中，直接的表现是启动比较慢，占用内存比较多。</p>
 <p>我不觉得这是个最佳方案，所以如果有更好的方案或者有任何疑问请通过邮件(jiapan.china#gmail.com)的方式告诉我，谢谢。</p>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/对 Python 列表常见操作的理解/" rel="next" title="对 Python 列表常见操作的理解">
-                <i class="fa fa-chevron-left"></i> 对 Python 列表常见操作的理解
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/解决在-SAE-中使用-Flask-SQLAlchemy-出现-MySQL-server-has-gone-away-的问题/" rel="prev" title="解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题">
-                解决在 SAE 中使用 Flask-SQLAlchemy 出现 MySQL server has gone away 的问题 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -446,10 +311,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

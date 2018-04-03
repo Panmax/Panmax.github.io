@@ -195,112 +195,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">__getattr__() 和 __getattribute__() 方法的区别</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2016/getattr-和-getattribute-方法的区别/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">__getattr__() 和 __getattribute__() 方法的区别</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-22T12:29:38+08:00">
-                2016-02-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Code/" itemprop="url" rel="index">
-                    <span itemprop="name">Code</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/getattr-和-getattribute-方法的区别/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/getattr-和-getattribute-方法的区别/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>python 在访问属性的方法上定义了<code>__getattr__()</code> 和 <code>__getattribute__()</code> 2种方法，其区别非常细微，但非常重要。</p>
+      <p>python 在访问属性的方法上定义了<code>__getattr__()</code> 和 <code>__getattribute__()</code> 2种方法，其区别非常细微，但非常重要。</p>
 <ul>
 <li>如果某个类定义了 <code>__getattribute__()</code> 方法，在 每次引用属性或方法名称时 Python 都调用它（特殊方法名称除外，因为那样将会导致讨厌的无限循环）。</li>
 <li>如果某个类定义了 <code>__getattr__()</code> 方法，Python 将只在正常的位置查询属性时才会调用它。如果实例 <code>x</code> 定义了属性 <code>color</code>， <code>x.color</code> 将 不会 调用<code>x.__getattr__(&#39;color&#39;)</code>；而只会返回 <code>x.color</code> 已定义好的值。</li>
@@ -333,75 +238,7 @@
 <li>调用 <code>gac.hello()</code> 时，Python 将在 GetAttrClass 类中查找 <code>hello()</code> 方法。该查找将执行整个 <code>__getattribute__()</code>方法，因为所有的属性和方法查找都通过<code>__getattribute__()</code> 方法。在此例中， <code>__getattribute__()</code> 方法引发 AttributeError 异常，因此该方法查找过程将会失败，而方法调用也将失败。</li>
 </ul>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/functools-partial/" rel="next" title="functools.partial">
-                <i class="fa fa-chevron-left"></i> functools.partial
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/如何将一个已存在的项目push到GitHub/" rel="prev" title="如何将一个已存在的项目push到GitHub">
-                如何将一个已存在的项目push到GitHub <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -488,10 +325,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

@@ -194,90 +194,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">基于前后端分离的CAS对接方案</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/基于前后端分离的CAS对接方案/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">基于前后端分离的CAS对接方案</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T10:03:13+08:00">
-                2017-12-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/基于前后端分离的CAS对接方案/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/基于前后端分离的CAS对接方案/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3 个问题：</p>
+      <p>最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3 个问题：</p>
 <ul>
 <li>客户端除了浏览器，可能还包括手机端 APP，对于手机端而言，管理 cookie 是一件麻烦的事情</li>
 <li>RESTful 风格的 API 不建议使用 cookie</li>
@@ -323,69 +250,7 @@
 <p>当网关验证 token 没有被篡改并且还在有效期内后，从 Payload 中取出我们需要的信息，将这些信息明文放在 header 中继续往后请求各个应用，对于应用来说从网关过来的请求是可信的，直接从头中取出相应的用户名或者ID就行了。这里有一个坑，就是网关将信息放入 header 的时候，只能传 ASCII 编码字符串，我们的 CAS 返回用户信息时会同时返回中文姓名，所以中文在传入 header 时，需要做 urlencode 处理，同时应用内接受时也需要做 urldecode。</p>
 <p>如果没有携带 token 或 token 无效，网关会返回 HTTP 401 错误，前端收到这个返回码后，会跳转到 CAS 认证地址，让用户来登录。同时 service 是前端配置好的一个地址，当用户登录成功后，会回到前端配置好那个地址，前端拿到 CAS 给的 ticket 后，用这个 ticket 和申请 ticket 时的 service 来请求我写的 hodor 服务，hodor根据 ticket 和service 来完成ticket验证工作，获取用户信息，生成jwt，返回给前端，前端保存这个 token，再之后的请求中携带这个 token 来访问就行了。</p>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/titan-edge-label-simple-and-one2one/" rel="next" title="Titan 边标签 SIMPLE 和 ONE2ONE 的区别">
-                <i class="fa fa-chevron-left"></i> Titan 边标签 SIMPLE 和 ONE2ONE 的区别
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/关于情景的一点点思考/" rel="prev" title="关于情景的一点点思考">
-                关于情景的一点点思考 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -472,10 +337,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

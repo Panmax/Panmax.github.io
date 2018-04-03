@@ -195,90 +195,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Spark 操作 Elasticsearch 示例</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/spark-operator-elasticsearch-demo/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Spark 操作 Elasticsearch 示例</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-18T21:51:48+08:00">
-                2017-09-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/spark-operator-elasticsearch-demo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/spark-operator-elasticsearch-demo/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>上周五调研了下如何用 Spark 读写 Elasticsearch（下文简称 es），中间被官方提供的 jar 包卡了很久，所以本来想周末记录一下，结果一发懒就没做，就蹭到周一晚上来写一下了，最近调研的东西很多，有很多要记得东西，一点一点来吧。</p>
+      <p>上周五调研了下如何用 Spark 读写 Elasticsearch（下文简称 es），中间被官方提供的 jar 包卡了很久，所以本来想周末记录一下，结果一发懒就没做，就蹭到周一晚上来写一下了，最近调研的东西很多，有很多要记得东西，一点一点来吧。</p>
 <p>不废话，直接 Show you the code：</p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.spark.&#123;SparkConf, SparkContext&#125;</span><br><span class="line">import org.elasticsearch.spark._</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">object ElasticSparkHelloWorld &#123;</span><br><span class="line">  def main(<span class="keyword">args</span>: Array[String]) &#123;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    val <span class="keyword">conf</span> = new SparkConf().setAppName(ElasticSparkHelloWorld.getClass.getName)</span><br><span class="line">    <span class="keyword">conf</span>.setMaster(<span class="string">"local"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.nodes"</span>, <span class="string">"localhost"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.port"</span>, <span class="string">"9200"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.index.auto.create"</span>, <span class="string">"true"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.nodes.wan.only"</span>, <span class="string">"true"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.query"</span>, <span class="string">"?q=*"</span>)</span><br><span class="line">    <span class="keyword">conf</span>.<span class="keyword">set</span>(<span class="string">"es.resource"</span>, <span class="string">"spark/docs"</span>)</span><br><span class="line"> </span><br><span class="line">    val <span class="keyword">sc</span> = new SparkContext(<span class="keyword">conf</span>)</span><br><span class="line">    val numbers = Map(<span class="string">"one"</span> -&gt; 1, <span class="string">"two"</span> -&gt; 2, <span class="string">"three"</span> -&gt; 3, <span class="string">"four"</span> -&gt; 4)</span><br><span class="line">    val airports = Map(<span class="string">"OTP"</span> -&gt; <span class="string">"Otopeni"</span>, <span class="string">"SFO"</span> -&gt; <span class="string">"San Fran"</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">sc</span>.makeRDD(Seq(numbers, airports)).saveToEs(<span class="string">"spark/docs"</span>)</span><br><span class="line"> </span><br><span class="line">    println(<span class="keyword">sc</span>.esRDD().<span class="keyword">count</span>())</span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其实上边这些代码从网上一搜一大堆，重点是下边 <code>sbt</code> 部分的配置：</p>
@@ -309,75 +236,7 @@
 <p>将阿里源放在上边，可以让官方依赖下载更快。</p>
 <p>完整代码见：<a href="https://github.com/Panmax/spark-es-demo" target="_blank" rel="noopener">https://github.com/Panmax/spark-es-demo</a></p>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/BigData/" rel="tag"># BigData</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/idea-slow-getter-and-getter-setter-public/" rel="next" title="解决 IDEA 启动非常慢和生成 getter setter 不是 public 的问题">
-                <i class="fa fa-chevron-left"></i> 解决 IDEA 启动非常慢和生成 getter setter 不是 public 的问题
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/graph-database-thinkerpop/" rel="prev" title="图数据库入门：ThinkerPop 介绍">
-                图数据库入门：ThinkerPop 介绍 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -464,10 +323,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

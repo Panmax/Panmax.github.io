@@ -194,90 +194,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">gradle 编译时强制刷新依赖</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/gradle-编译时强制刷新依赖/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">gradle 编译时强制刷新依赖</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-17T16:40:35+08:00">
-                2017-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/gradle-编译时强制刷新依赖/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/gradle-编译时强制刷新依赖/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>最近团队封装了个 <code>springboot</code> 的 <code>starter</code>，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 <code>profile</code></p>
+      <p>最近团队封装了个 <code>springboot</code> 的 <code>starter</code>，用起来很爽，后来优化代码的时候，看到下边的代码中已经指定了 <code>profile</code></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      discovery:</span></span><br><span class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">        service-id:</span> <span class="string">config-server</span></span><br><span class="line"><span class="attr">      label:</span> <span class="string">master</span></span><br><span class="line"><span class="attr">      profile:</span> <span class="string">$&#123;spring.profiles.active:dev&#125;</span></span><br></pre></td></tr></table></figure>
 <p>所以理所当然的认为不需要指定 <code>spring</code> 的 active 了，就把 <code>active</code> 给删掉了（如下）：</p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">spring:</span></span><br><span class="line"><span class="symbol">  profiles:</span></span><br><span class="line"><span class="symbol">    active:</span> dev</span><br></pre></td></tr></table></figure>
@@ -285,69 +212,7 @@
 <p>后来将配置改了回来，发现还是不行，又鼓捣了好久发现这次的问题是 <code>gradle</code> 编译缓存的问题，通过这个网站： <a href="https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html" target="_blank" rel="noopener">https://pkaq.gitbooks.io/gradletraining/content/book/ch5/4.%E4%BE%9D%E8%B5%96%E7%9A%84%E6%9B%B4%E6%96%B0%E4%B8%8E%E7%BC%93%E5%AD%98.html</a> 找到了解决办法，编译的时候在后边加上 <code>--refresh-dependencies</code> 可以强制刷新缓存。</p>
 <p>虽然问题解决了，但是我还有个疑问，我们的 <code>starter</code> 明明已经指定版本号为 <code>0.0.1-SNAPSHOT</code> 了，按理说应该在 <code>build</code> 的时候无条件的重新拉取最新的依赖，但是这个时候为什么没有生效？</p>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/virtualenvwrapper-安装-与-iPython/" rel="next" title="virtualenvwrapper 安装 与 iPython for Python2">
-                <i class="fa fa-chevron-left"></i> virtualenvwrapper 安装 与 iPython for Python2
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/spring-chang-yong-zhu-jie/" rel="prev" title="SpringMVC 常用注解">
-                SpringMVC 常用注解 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -434,10 +299,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

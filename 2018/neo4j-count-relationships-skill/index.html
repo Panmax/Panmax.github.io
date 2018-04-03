@@ -195,90 +195,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Neo4j 统计关系数量时的技巧</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/neo4j-count-relationships-skill/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Neo4j 统计关系数量时的技巧</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T17:06:33+08:00">
-                2018-02-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/neo4j-count-relationships-skill/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/neo4j-count-relationships-skill/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>今天产品经理给了我一个需求，让我统计下我们数据中的某些类型关系的数量，因为涉及到保密，我就假设他让我统计的关系名称为 <code>FRIEND</code> 和 <code>FATHER</code>，其中 <code>FRIEND</code> 在创建时没有指定方向，<code>FATHER</code> 创建时有方向。</p>
+      <p>今天产品经理给了我一个需求，让我统计下我们数据中的某些类型关系的数量，因为涉及到保密，我就假设他让我统计的关系名称为 <code>FRIEND</code> 和 <code>FATHER</code>，其中 <code>FRIEND</code> 在创建时没有指定方向，<code>FATHER</code> 创建时有方向。</p>
 <p>当统计这两种关系的数量时，我的建议是 <code>Cypher</code> 语句中不要带有节点标签，或者只在一端带标签，因为在我的测试中，两端都带有节点标签时，查询会超时（因为我们的数据量确实比较大）：</p>
 <h3 id="不建议的写法："><a href="#不建议的写法：" class="headerlink" title="不建议的写法："></a>不建议的写法：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (<span class="symbol">:Person</span>)-[<span class="symbol">r:</span>FATHER]-&gt;(<span class="symbol">:Person</span>) <span class="keyword">return</span> COUNT(r);</span><br></pre></td></tr></table></figure>
 <h3 id="建议的写法："><a href="#建议的写法：" class="headerlink" title="建议的写法："></a>建议的写法：</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> ()<span class="selector-tag">-</span><span class="selector-attr">[r:FATHER]</span><span class="selector-tag">-</span>&gt;() <span class="selector-tag">return</span> <span class="selector-tag">COUNT</span>(r);</span><br><span class="line"><span class="selector-tag">or</span></span><br><span class="line"><span class="selector-tag">MATCH</span> (:Person)<span class="selector-tag">-</span><span class="selector-attr">[r:FATHER]</span><span class="selector-tag">-</span>&gt;() <span class="selector-tag">return</span> <span class="selector-tag">COUNT</span>(r);</span><br></pre></td></tr></table></figure>
@@ -286,75 +213,7 @@
 <h3 id="不建议的写法：-1"><a href="#不建议的写法：-1" class="headerlink" title="不建议的写法："></a>不建议的写法：</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> ()<span class="selector-tag">-</span><span class="selector-attr">[r:FRIEND]</span><span class="selector-tag">-</span>() <span class="selector-tag">return</span> <span class="selector-tag">COUNT</span>(r);</span><br></pre></td></tr></table></figure>
 <h3 id="建议的写法"><a href="#建议的写法" class="headerlink" title="建议的写法"></a>建议的写法</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> ()<span class="selector-tag">-</span><span class="selector-attr">[r:FRIEND]</span><span class="selector-tag">-</span>&gt;() <span class="selector-tag">return</span> <span class="selector-tag">COUNT</span>(r);</span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/neo4j/" rel="tag"># neo4j</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/" rel="next" title="Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据">
-                <i class="fa fa-chevron-left"></i> Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/docker-使用笔记/" rel="prev" title="docker 使用笔记">
-                docker 使用笔记 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -441,10 +300,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

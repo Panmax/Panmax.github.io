@@ -197,90 +197,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">使用 Docker 部署 RabbitMQ</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/docker-install-rabbitmq/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">使用 Docker 部署 RabbitMQ</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-31T16:20:16+08:00">
-                2017-07-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/docker-install-rabbitmq/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/docker-install-rabbitmq/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。</p>
+      <p>为了更加熟悉我们现在所使用的微服务架构，了解每一个组件的特性，我将部署在 lc0 上的一系列微服务组件（网关、注册中心、配置中心、熔断监控等）尝试重新在 lc7 机器上再部署一遍。</p>
 <p>在部署配置中心时，需要依赖一个 MQ 组件，项目中用的是 RabbitMQ，所以我需要在 lc7 上安装它。</p>
 <p>RabbitMQ 是用 Erlang 编写的，直接部署的话需要先部署 Erlang 环境，比较麻烦。在 docker 环境下部署就比较简单了，直接使用 RabbitMQ 官方提供的镜像即可。</p>
 <p>直接安装的方式可以参考 <code>http://blog.didispace.com/spring-boot-rabbitmq/</code> 这篇文章，下边我主要来说下如何使用 Docker 部署 RabbitMQ。</p>
@@ -307,69 +234,7 @@
 </li>
 </ul>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/my-idea-settings/" rel="next" title="我的 IDEA 配置指南">
-                <i class="fa fa-chevron-left"></i> 我的 IDEA 配置指南
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/linux-note/" rel="prev" title="Linux 笔记">
-                Linux 笔记 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -456,10 +321,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

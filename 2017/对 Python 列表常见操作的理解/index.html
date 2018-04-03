@@ -194,90 +194,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">对 Python 列表常见操作的理解</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/对 Python 列表常见操作的理解/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">对 Python 列表常见操作的理解</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-27T10:52:10+08:00">
-                2017-05-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/对 Python 列表常见操作的理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/对 Python 列表常见操作的理解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>写这篇文章的原因是前几天做了一道面试题，问题大致是这样的：</p>
+      <p>写这篇文章的原因是前几天做了一道面试题，问题大致是这样的：</p>
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">l.insert(<span class="number">1</span>, <span class="number">6</span>)</span><br><span class="line">和</span><br><span class="line">l.append(<span class="number">6</span>)</span><br><span class="line"> </span><br><span class="line">的时间复杂度分表是什么</span><br></pre></td></tr></table></figure>
 <p>我理所应当的认为，Python 列表的内部实现应该是一个链表，而链表的插入和追加操作应该都是 <code>O(1)</code>，但今天看到一篇文章<a href="http://python.jobbole.com/82549/" target="_blank" rel="noopener">原文地址</a>，发现并不是我认为的那样。</p>
 <p>Python 在 C 实现中，存储数据的部分是一块连续的内存数组，不过这个数组里存放的也是指针，指向具体的元素，并且会在 结构体 中记录元素的实际个数，结构体如下。</p>
@@ -289,69 +216,7 @@
 <p><code>remove</code> 就没这么简单了，需要先通过遍历的方式找到要移除的元素，然后将找到的位置到最后一个有效位置这之间的指针都指向其 <code>next</code> 指向的元素（也就是 <code>ob_item[i]=ob_item[i+1]</code>），然后 <code>ob_size-1</code>，所以时间复杂度也为 <code>O(n)</code></p>
 <p>这就是我对 <code>list</code> 几个常见操作的理解，如有错误之处请通过邮件方式指出: <code>jiapan.china#gmail.com</code></p>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/使用-KM-处理-HHKB-方向键/" rel="next" title="使用 KM 处理 HHKB 方向键">
-                <i class="fa fa-chevron-left"></i> 使用 KM 处理 HHKB 方向键
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/SQLAlchemy-分表实践/" rel="prev" title="SQLAlchemy 分表实践">
-                SQLAlchemy 分表实践 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -438,10 +303,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

@@ -195,112 +195,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Python 查漏补缺</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2016/Python-查漏补缺/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Python 查漏补缺</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-05T19:43:10+08:00">
-                2016-04-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/Python-查漏补缺/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/Python-查漏补缺/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>在Python中当函数被定义时，默认参数只会运算一次，而不是每次被调用时都会重新运算。</p>
+      <p>在Python中当函数被定义时，默认参数只会运算一次，而不是每次被调用时都会重新运算。</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">def</span> <span class="selector-tag">add_to</span>(num, target=[]):</span><br><span class="line">    <span class="selector-tag">target</span><span class="selector-class">.append</span>(num)</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">target</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">add_to</span>(<span class="number">1</span>)</span><br><span class="line"># <span class="selector-tag">Output</span>: <span class="selector-attr">[1]</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">add_to</span>(<span class="number">2</span>)</span><br><span class="line"># <span class="selector-tag">Output</span>: <span class="selector-attr">[1, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">add_to</span>(<span class="number">3</span>)</span><br><span class="line"># <span class="selector-tag">Output</span>: <span class="selector-attr">[1, 2, 3]</span></span><br></pre></td></tr></table></figure>
 <p>你应该永远不要定义可变类型的默认参数，除非你知道你正在做什么。你应该像这样做：</p>
 <figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def add_to(element, <span class="keyword">target</span>=<span class="keyword">None</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">target</span> is <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">target</span> = []</span><br><span class="line">    <span class="keyword">target</span>.append(element)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">target</span></span><br></pre></td></tr></table></figure>
@@ -329,75 +234,7 @@
 <p>您可以通过使用itertools包中的itertools.chain.from_iterable轻松快速的辗平一个列表。下面是一个简单的例子：</p>
 <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a_list = <span class="string">[[1, 2], [3, 4], [5, 6]]</span></span><br><span class="line">    <span class="built_in">print</span>(list(itertools.chain.from_iterable(a_list)))</span><br><span class="line"># Output: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line"></span><br><span class="line"># <span class="keyword">or</span></span><br><span class="line"><span class="built_in">print</span>(list(itertools.chain(*a_list)))</span><br><span class="line"># Output: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br></pre></td></tr></table></figure>
 <h1 id="待续"><a href="#待续" class="headerlink" title="待续"></a>待续</h1>
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/App架构设计经验谈-接口的设计/" rel="next" title="App架构设计经验谈:接口的设计">
-                <i class="fa fa-chevron-left"></i> App架构设计经验谈:接口的设计
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/JavaScript-查漏补缺/" rel="prev" title="JavaScript 查漏补缺">
-                JavaScript 查漏补缺 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -484,10 +321,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

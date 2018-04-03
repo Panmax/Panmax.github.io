@@ -194,157 +194,22 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">NotNull、NotEmpty、NotBlank 的区别</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/different-notnull-notempty-notblank/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">NotNull、NotEmpty、NotBlank 的区别</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-25T15:28:30+08:00">
-                2017-08-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/different-notnull-notempty-notblank/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/different-notnull-notempty-notblank/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h3 id="NotNull"><a href="#NotNull" class="headerlink" title="@NotNull"></a>@NotNull</h3><p>The CharSequence, Collection, Map or Array object is not null, but can be empty.</p>
+      <h3 id="NotNull"><a href="#NotNull" class="headerlink" title="@NotNull"></a>@NotNull</h3><p>The CharSequence, Collection, Map or Array object is not null, but can be empty.</p>
 <h3 id="NotEmpty"><a href="#NotEmpty" class="headerlink" title="@NotEmpty"></a>@NotEmpty</h3><p>The CharSequence, Collection, Map or Array object is not null and size &gt; 0.</p>
 <h3 id="NotBlank"><a href="#NotBlank" class="headerlink" title="@NotBlank"></a>@NotBlank</h3><p>The string is not null and the trimmed length is greater than zero.</p>
 <h2 id="Here-are-a-few-examples"><a href="#Here-are-a-few-examples" class="headerlink" title="Here are a few examples:"></a>Here are a few examples:</h2><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> name = <span class="literal">null</span><span class="comment">;</span></span><br><span class="line">	<span class="symbol">@NotNull</span>: <span class="literal">false</span></span><br><span class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">false</span></span><br><span class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></span><br><span class="line"><span class="built_in">String</span> name = <span class="string">""</span><span class="comment">;</span></span><br><span class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></span><br><span class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">false</span></span><br><span class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></span><br><span class="line"><span class="built_in">String</span> name = <span class="string">" "</span><span class="comment">;</span></span><br><span class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></span><br><span class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">true</span></span><br><span class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">false</span></span><br><span class="line"><span class="built_in">String</span> name = <span class="string">"Great answer!"</span><span class="comment">;</span></span><br><span class="line">	<span class="symbol">@NotNull</span>: <span class="literal">true</span></span><br><span class="line">	<span class="symbol">@NotEmpty</span>: <span class="literal">true</span></span><br><span class="line">	<span class="symbol">@NotBlank</span>: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/spring-boot-redis-mi-zhi-bug/" rel="next" title="Spring Boot Redis 蜜汁 Bug">
-                <i class="fa fa-chevron-left"></i> Spring Boot Redis 蜜汁 Bug
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/idea-slow-getter-and-getter-setter-public/" rel="prev" title="解决 IDEA 启动非常慢和生成 getter setter 不是 public 的问题">
-                解决 IDEA 启动非常慢和生成 getter setter 不是 public 的问题 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -431,10 +296,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

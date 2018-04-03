@@ -194,90 +194,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">--spring.profiles.active 穿透性</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/spring-profiles-active-chuan-tou-xing/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">--spring.profiles.active 穿透性</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-20T16:00:08+08:00">
-                2017-07-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/spring-profiles-active-chuan-tou-xing/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/spring-profiles-active-chuan-tou-xing/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>今天在帮助 datamaster 接入配置中心时发现一个问题，就是如果在应用的 <code>application.yml</code> 像这样：</p>
+      <p>今天在帮助 datamaster 接入配置中心时发现一个问题，就是如果在应用的 <code>application.yml</code> 像这样：</p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">spring:</span></span><br><span class="line"><span class="symbol">  application:</span></span><br><span class="line"><span class="symbol">    name:</span> datamaster-scheduler</span><br><span class="line"><span class="symbol">  profiles:</span></span><br><span class="line"><span class="symbol">    active:</span> lc10</span><br></pre></td></tr></table></figure>
 <p>指定环境的话，在启动时会自动寻找 <code>datamaster-scheduler-lc10.yml</code> 这个配置文件，不论使用 <code>bootrun</code> 启动或者打成 <code>jar</code> 包都没有问题。</p>
 <p>但是如果不在 <code>application.yml</code> 中指定 <code>spring.profiles.active</code>，而是打成 <code>jar</code> 包，使用 <code>--spring.profiles.active=lc10</code> 参数启动的话，就注册不上 Eureka，所以也就没办法正常拉取配置文件了。</p>
@@ -291,69 +218,7 @@
 <p>为了解决这个问题，我在 微服务 starter 的 <code>bootstrap.yml</code> 中加上了默认的 eureka 注册地址和其他需要用到的配置，这样即便是指定的环境不存在的话也没有任何问题。</p>
 <p>之后在为客户部署时，只需要在 微服务 starter 中增加一个客户所对应的环境，然后启动应用时指定客户的 <code>active</code> 就可以了。</p>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/centos-fix-python-mysql/" rel="next" title="解决 CentOS 安装 MySQL-python 报错">
-                <i class="fa fa-chevron-left"></i> 解决 CentOS 安装 MySQL-python 报错
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/blog-redirect-https/" rel="prev" title="让博客重定向到 https 的方法">
-                让博客重定向到 https 的方法 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -440,10 +305,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

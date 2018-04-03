@@ -194,90 +194,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">hadoop 上传文件时报 Checksum error</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/hadoop-上传文件时报-Checksum-error/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">hadoop 上传文件时报 Checksum error</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T15:44:46+08:00">
-                2018-03-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/hadoop-上传文件时报-Checksum-error/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/hadoop-上传文件时报-Checksum-error/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>今天在用 hadoop 上传文件到 HDFS 时，报错：<code>put: Checksum error: file:/home/magneto/fb_friend.csv at 0 exp: 1005486446 got: 441437096</code>。</p>
+      <p>今天在用 hadoop 上传文件到 HDFS 时，报错：<code>put: Checksum error: file:/home/magneto/fb_friend.csv at 0 exp: 1005486446 got: 441437096</code>。</p>
 <p>经过 Google 发现是因为当前目录下存在一个名为：<code>.fb_friend.csv.crc</code> 的文件，将此文件删除后即可成功上传。</p>
 <p>究其原因是因为 Hadoop 的 CRC 数据校验机制，Hadoop 系统为了保证数据的一致性，会对文件生成相应的校验文件，并在读写的时候进行校验，确保数据的准确性。</p>
 <p>在上传的过程中，Hadoop 将通过 FSInputChecker 判断需要上传的文件是否存在进行校验的 crc 文件，即 <code>.fb_friend.csv.crc</code>，如果存在 crc 文件，将会对其内容一致性进行校验，如果校验失败，则停止上传该文件。</p>
@@ -290,69 +217,7 @@
 </li>
 </ol>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/neo4j-with-multiple-types/" rel="next" title="Neo4j 关系不支持多种类型">
-                <i class="fa fa-chevron-left"></i> Neo4j 关系不支持多种类型
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/neo4j-import-dynamic-relationship-type/" rel="prev" title="Neo4j 导入动态类型关系">
-                Neo4j 导入动态类型关系 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -439,10 +304,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

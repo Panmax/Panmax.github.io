@@ -195,186 +195,23 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Mac下MySQL安装与卸载</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2016/Mac下MySQL安装与卸载/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Mac下MySQL安装与卸载</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-25T13:09:01+08:00">
-                2016-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mac/" itemprop="url" rel="index">
-                    <span itemprop="name">Mac</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/Mac下MySQL安装与卸载/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/Mac下MySQL安装与卸载/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>写这篇博客的原因是，我刚用 Mac 的时候 <code>MySQL</code> 是在官网下载的安装包进行的安装，那时候不知道有 <code>Homebrew</code> 这个神器。用官方的包安装好后又做何很多的配置最终才能正常使用。但还是有不少问题，比如无法在终端启动MySQL，只能在系统偏好里，通过官方的启动器启动。</p>
+      <p>写这篇博客的原因是，我刚用 Mac 的时候 <code>MySQL</code> 是在官网下载的安装包进行的安装，那时候不知道有 <code>Homebrew</code> 这个神器。用官方的包安装好后又做何很多的配置最终才能正常使用。但还是有不少问题，比如无法在终端启动MySQL，只能在系统偏好里，通过官方的启动器启动。</p>
 <p>后来有很长一段时间没有用过MySQL，今天再用的时候发现无法启动了，于是就把之前的进行了卸载，重新用Homebrew安装了一遍。</p>
 <h3 id="卸载过程："><a href="#卸载过程：" class="headerlink" title="卸载过程："></a>卸载过程：</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">rm</span> /usr/<span class="keyword">local</span>/mysql</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /usr/<span class="keyword">local</span>/mysql*</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /Library/StartupItems/MySQLCOM</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /Library/PreferencePanes/My*</span><br><span class="line">sudo vim /etc/hostconfig 按a进入编辑模式 然后手动删除 MYSQLCOM=-YES- 然后按Esc退出编辑模式 输入：wq！保存并退出</span><br><span class="line"><span class="keyword">rm</span> -rf ~/Library/PreferencePanes/My*</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /Library/Receipts/mysql*</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /Library/Receipts/MySQL*</span><br><span class="line">sudo <span class="keyword">rm</span> -rf /<span class="keyword">var</span>/<span class="keyword">db</span>/receipts/com.mysql.*</span><br></pre></td></tr></table></figure>
 <h3 id="安装过程："><a href="#安装过程：" class="headerlink" title="安装过程："></a>安装过程：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install mysql</span><br><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/mysql/bin</span></span><br></pre></td></tr></table></figure>
 <h3 id="启动："><a href="#启动：" class="headerlink" title="启动："></a>启动：</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/usr/local/mysql/bin</span></span><br><span class="line">mysql.server start</span><br></pre></td></tr></table></figure>
 <h3 id="首次登录："><a href="#首次登录：" class="headerlink" title="首次登录："></a>首次登录：</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">mysql -uroot</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/jQuery实现网页无限上拉/" rel="next" title="jQuery实现网页无限上拉">
-                <i class="fa fa-chevron-left"></i> jQuery实现网页无限上拉
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/Airbnb-React-编码规范/" rel="prev" title="Airbnb React 编码规范">
-                Airbnb React 编码规范 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -461,10 +298,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 

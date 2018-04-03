@@ -194,90 +194,17 @@
             
 
   <div id="posts" class="posts-expand">
-    
+  <header class="post-header">
 
-  
+	<h1 class="post-title" itemprop="name headline">Redis 开放端口与设置密码</h1>
 
-  
-  
-  
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/redis-open-port-and-set-password/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Panmax">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="贾攀家">
-    </span>
+</header>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">Redis 开放端口与设置密码</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-14T18:10:55+08:00">
-                2017-08-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/redis-open-port-and-set-password/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/redis-open-port-and-set-password/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
     
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>最近自己的 VPS 上部署了几个 Docker 服务，其中一个打算用 Reids 做个计数的功能，因为我的偏好是数据库类的程序不用 Docker 来部署，所以在本地安装了 Redis 服务，但是这样如果不做任何配置的话 Docker 容器中的服务是访问不到宿主机的 Redis 服务的。</p>
+      <p>最近自己的 VPS 上部署了几个 Docker 服务，其中一个打算用 Reids 做个计数的功能，因为我的偏好是数据库类的程序不用 Docker 来部署，所以在本地安装了 Redis 服务，但是这样如果不做任何配置的话 Docker 容器中的服务是访问不到宿主机的 Redis 服务的。</p>
 <p>从网上搜了下解决方法，都挺复杂的，需要配置网桥之类的，所以我就走了个捷径，直接将 Redis 的端口进行开放，然后设置一个密码：</p>
 <p>修改 <code>/etc/redis/redis.conf</code>:</p>
 <p>将里边的 <code>bind 127.0.0.1</code> 改为 <code>bind 0.0.0.0</code>，这样的话 Redis 就可以监听外部请求了。</p>
@@ -291,69 +218,7 @@
 <p>正确的登录姿势是：<code>redis-cli -h ipaddress -a password</code></p>
 <p>同时，Python 程序中连接 Redis 的时候也要记得加上 <code>password</code> 参数。</p>
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/the-best-way-to-deploy-jar/" rel="next" title="部署 jar 包到生产环境的科学方法">
-                <i class="fa fa-chevron-left"></i> 部署 jar 包到生产环境的科学方法
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/spring-boot-redis-mi-zhi-bug/" rel="prev" title="Spring Boot Redis 蜜汁 Bug">
-                Spring Boot Redis 蜜汁 Bug <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
 
 
@@ -440,10 +305,10 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
+  
 
   
 
