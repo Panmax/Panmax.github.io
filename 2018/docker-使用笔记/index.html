@@ -195,24 +195,165 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">docker 使用笔记</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/docker-使用笔记/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">docker 使用笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T15:41:17+08:00">
+                2018-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/docker-使用笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/docker-使用笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <h3 id="常用启动命令"><a href="#常用启动命令" class="headerlink" title="常用启动命令"></a>常用启动命令</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p <span class="number">5001</span>:<span class="number">5000</span> --rm --name xxx jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span></span><br></pre></td></tr></table></figure>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="常用启动命令"><a href="#常用启动命令" class="headerlink" title="常用启动命令"></a>常用启动命令</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p <span class="number">5001</span>:<span class="number">5000</span> --rm --name xxx jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span></span><br></pre></td></tr></table></figure>
 <h3 id="编译镜像"><a href="#编译镜像" class="headerlink" title="编译镜像"></a>编译镜像</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span> .</span><br></pre></td></tr></table></figure>
 <h3 id="推送镜像到仓库"><a href="#推送镜像到仓库" class="headerlink" title="推送镜像到仓库"></a>推送镜像到仓库</h3><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">push</span> jiapan/<span class="built_in">some</span>-<span class="built_in">image</span>:<span class="built_in">label</span></span><br></pre></td></tr></table></figure>
 <h3 id="进入正在运行的docker"><a href="#进入正在运行的docker" class="headerlink" title="进入正在运行的docker"></a>进入正在运行的docker</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it <span class="params">&lt;container_name&gt;</span> <span class="meta-keyword">/bin/</span>bash</span><br></pre></td></tr></table></figure>
 <h3 id="更改镜像时区（适用于-Ubuntu）"><a href="#更改镜像时区（适用于-Ubuntu）" class="headerlink" title="更改镜像时区（适用于 Ubuntu）"></a>更改镜像时区（适用于 Ubuntu）</h3><p>在 <code>Dockerfile</code> 内添加：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"Asia/Shanghai"</span> &gt; /etc/timezone</span></span><br><span class="line"><span class="bash">RUN dpkg-reconfigure -f noninteractive tzdata</span></span><br></pre></td></tr></table></figure>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/neo4j-count-relationships-skill/" rel="next" title="Neo4j 统计关系数量时的技巧">
+                <i class="fa fa-chevron-left"></i> Neo4j 统计关系数量时的技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/" rel="prev" title="Neo4j 入门教程 - 使用 Cypher 删除索引和约束">
+                Neo4j 入门教程 - 使用 Cypher 删除索引和约束 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -299,10 +440,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 

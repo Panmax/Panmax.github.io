@@ -195,17 +195,112 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">如何将一个已存在的项目push到GitHub</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2016/如何将一个已存在的项目push到GitHub/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何将一个已存在的项目push到GitHub</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-23T10:56:21+08:00">
+                2016-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GitHub/" itemprop="url" rel="index">
+                    <span itemprop="name">GitHub</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/如何将一个已存在的项目push到GitHub/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/如何将一个已存在的项目push到GitHub/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <h3 id="第一步：创建一个仓库"><a href="#第一步：创建一个仓库" class="headerlink" title="第一步：创建一个仓库"></a>第一步：创建一个仓库</h3><p>这需要登录到GitHub并且穿件一个仓库。你可以选择是否初始化一个README。这不重要，因为你将会覆盖在这个远程仓库里的所有东西。</p>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="第一步：创建一个仓库"><a href="#第一步：创建一个仓库" class="headerlink" title="第一步：创建一个仓库"></a>第一步：创建一个仓库</h3><p>这需要登录到GitHub并且穿件一个仓库。你可以选择是否初始化一个README。这不重要，因为你将会覆盖在这个远程仓库里的所有东西。</p>
 <h3 id="第二步：在项目目录初始化Git"><a href="#第二步：在项目目录初始化Git" class="headerlink" title="第二步：在项目目录初始化Git"></a>第二步：在项目目录初始化Git</h3><p>通过你的终端并且确保<a href="http://git-scm.com/" target="_blank" rel="noopener">Git</a>已经安装在你的电脑上，导航到你想要添加的目录后运行下边的命令。</p>
 <h4 id="初始化git仓库"><a href="#初始化git仓库" class="headerlink" title="初始化git仓库"></a>初始化git仓库</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">git init</span></span><br></pre></td></tr></table></figure>
 <h4 id="增加文件到Git索引"><a href="#增加文件到Git索引" class="headerlink" title="增加文件到Git索引"></a>增加文件到Git索引</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">add</span><span class="bash"> -A</span></span><br></pre></td></tr></table></figure>
@@ -217,7 +312,75 @@
 <p>到这里有些事情需要注意，<code>-f</code>标记代表<code>force</code>，这将会自动的覆盖远程目录中所有的东西。我们只是用来覆盖GitHub自动初始化README。如果你跳过了，那么<code>-f</code>标记就不是必须的了。</p>
 <p><code>-u</code>标记将远程源设置为默认，这让你以后容易的使用<code>git push</code>和<code>git pull</code>而不用指定一个源。在这种情况下，我们总是想要的GitHub。</p>
 <h4 id="总起来"><a href="#总起来" class="headerlink" title="总起来"></a>总起来</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git <span class="keyword">add</span><span class="bash"> -A</span></span><br><span class="line"><span class="bash">git commit -m <span class="string">'Added my project'</span></span></span><br><span class="line"><span class="bash">git remote add origin git@github.com:Panmax/playground.git</span></span><br><span class="line"><span class="bash">git push -u -f origin master</span></span><br></pre></td></tr></table></figure>
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GitHub/" rel="tag"># GitHub</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/getattr-和-getattribute-方法的区别/" rel="next" title="__getattr__() 和 __getattribute__() 方法的区别">
+                <i class="fa fa-chevron-left"></i> __getattr__() 和 __getattribute__() 方法的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/MySQL创建utf-8格式数据库/" rel="prev" title="MySQL创建utf-8格式数据库">
+                MySQL创建utf-8格式数据库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -304,10 +467,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 

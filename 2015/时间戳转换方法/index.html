@@ -197,20 +197,187 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">时间戳转换方法</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2015/时间戳转换方法/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">时间戳转换方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-25T11:50:39+08:00">
+                2015-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Code/" itemprop="url" rel="index">
+                    <span itemprop="name">Code</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/时间戳转换方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2015/时间戳转换方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">datetime = datetime.datetime.now()</span><br><span class="line">timestamp = <span class="built_in">time</span>.<span class="built_in">time</span>()</span><br><span class="line">datetime_format = %Y-%m-%d %H:%M:%S</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">str</span> -&gt;</span> datetime</span><br><span class="line">datetime.datetime.strptime(string, datetime_format)</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">datetime</span> -&gt;</span> str</span><br><span class="line">datetime.datetime.strftime(datetime_format)</span><br><span class="line"><span class="function"><span class="title">type</span>(a) -&gt;</span> datetime.datetime</span><br><span class="line">a.strftime(datetime_format)</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">datetime</span> -&gt;</span> timestamp</span><br><span class="line"><span class="built_in">time</span>.mktime(datetime.datetime.timetuple())</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">timestamp</span> -&gt;</span> datetime</span><br><span class="line">datetime.datetime.fromtimestamp(timestamp)</span><br><span class="line">datetime.datetime.fromtimestamp(timestamp).strftime(datetime_format)</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">timestamp</span> -&gt;</span> <span class="built_in">time</span></span><br><span class="line"><span class="built_in">time</span>.localtime(timestamp)</span><br></pre></td></tr></table></figure>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">datetime = datetime.datetime.now()</span><br><span class="line">timestamp = <span class="built_in">time</span>.<span class="built_in">time</span>()</span><br><span class="line">datetime_format = %Y-%m-%d %H:%M:%S</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">str</span> -&gt;</span> datetime</span><br><span class="line">datetime.datetime.strptime(string, datetime_format)</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">datetime</span> -&gt;</span> str</span><br><span class="line">datetime.datetime.strftime(datetime_format)</span><br><span class="line"><span class="function"><span class="title">type</span>(a) -&gt;</span> datetime.datetime</span><br><span class="line">a.strftime(datetime_format)</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">datetime</span> -&gt;</span> timestamp</span><br><span class="line"><span class="built_in">time</span>.mktime(datetime.datetime.timetuple())</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">timestamp</span> -&gt;</span> datetime</span><br><span class="line">datetime.datetime.fromtimestamp(timestamp)</span><br><span class="line">datetime.datetime.fromtimestamp(timestamp).strftime(datetime_format)</span><br><span class="line"></span><br><span class="line"># <span class="function"><span class="title">timestamp</span> -&gt;</span> <span class="built_in">time</span></span><br><span class="line"><span class="built_in">time</span>.localtime(timestamp)</span><br></pre></td></tr></table></figure>
 <p><img src="1.png" alt=""></p>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Datetime/" rel="tag"># Datetime</a>
+          
+            <a href="/tags/timestamp/" rel="tag"># timestamp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/Datetime相减计算总秒数遇到的坑/" rel="next" title="Datetime相减计算总秒数遇到的坑">
+                <i class="fa fa-chevron-left"></i> Datetime相减计算总秒数遇到的坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/flask-bootstrap默认使用国外cdn解决方案/" rel="prev" title="flask-bootstrap默认使用国外cdn解决方案">
+                flask-bootstrap默认使用国外cdn解决方案 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -297,10 +464,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 

@@ -195,17 +195,112 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">AWS 搭建SS服务器</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2016/AWS-搭建SS服务器/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AWS 搭建SS服务器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-02T13:21:37+08:00">
+                2016-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/折腾/" itemprop="url" rel="index">
+                    <span itemprop="name">折腾</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/AWS-搭建SS服务器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/AWS-搭建SS服务器/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <p>今天看到亚马逊云服务的广告，说现在开通AWS可以免费用一年。然后我爱占小便宜心又犯了，所以绑定信用卡，开通了AWS，在这过程中，不知道为什么扣了我两笔6.59的钱，想联系客服也找不到人。。</p>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天看到亚马逊云服务的广告，说现在开通AWS可以免费用一年。然后我爱占小便宜心又犯了，所以绑定信用卡，开通了AWS，在这过程中，不知道为什么扣了我两笔6.59的钱，想联系客服也找不到人。。</p>
 <p>进入AWS主页后看到有很多服务可以用，实在眼花缭乱，先一个一个来，我猜测EC2的意思就和阿里云主机是一个意思，所以就开通了一个，选择的是新加坡节点，果然开通时提示我可以免费用一年。既然这样的话，不如拿来搭一个ss服务器吧，哈哈哈~（因为其他暂时没想到做什么用，也许以后我会在这上边部署一个爬虫之类的）</p>
 <p>在此过程中，让我下载了一个<code>pem</code>格式的私钥文件，用来登录。</p>
 <p>登录命令：<code>ssh -i &quot;aws-for-panmax.pem&quot; ubuntu@ec2-54-169-92-35.ap-southeast-1.compute.amazonaws.com</code> 进来之后，我使用<code>sudo adduser panmax</code>创建了新的账户。</p>
@@ -291,7 +386,81 @@
 <p>绑定域名:</p>
 <p>新增CNAME,主机记录ss，记录值为AWS EC2的<code>公有 DNS</code>。</p>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AWS/" rel="tag"># AWS</a>
+          
+            <a href="/tags/EC2/" rel="tag"># EC2</a>
+          
+            <a href="/tags/亚马逊云服务/" rel="tag"># 亚马逊云服务</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/随机从一个数组中取出n个元素并打乱顺序构成新的数组/" rel="next" title="随机从一个数组中取出n个元素打乱顺序构成新的数组">
+                <i class="fa fa-chevron-left"></i> 随机从一个数组中取出n个元素打乱顺序构成新的数组
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/GitHub使用SSH模式不能用sudo/" rel="prev" title="GitHub使用SSH模式不能用sudo">
+                GitHub使用SSH模式不能用sudo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -378,10 +547,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 

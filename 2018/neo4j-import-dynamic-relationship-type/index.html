@@ -196,17 +196,90 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">Neo4j 导入动态类型关系</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/neo4j-import-dynamic-relationship-type/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Neo4j 导入动态类型关系</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-27T17:19:34+08:00">
+                2018-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/neo4j-import-dynamic-relationship-type/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/neo4j-import-dynamic-relationship-type/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <p>今天在构建一批新的关系时，需要用 LOAD CSV 批量导入一些关系数据进去，但是这次的关系类型并不是固定的，而是在文件中指定的，CSV 文件格式如下：</p>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天在构建一批新的关系时，需要用 LOAD CSV 批量导入一些关系数据进去，但是这次的关系类型并不是固定的，而是在文件中指定的，CSV 文件格式如下：</p>
 <figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">AWI9o1sbC5n_pY7tOUdL|<span class="string">AWI96tqyetLN4cQh5GnC</span>|<span class="string">EMERGENCY</span>|<span class="string">紧急联络人</span></span><br><span class="line"><span class="string">AWI85duqetLN4cQhYTVc</span>|<span class="string">AWI-DASVC5n_pY7tH2i5</span>|<span class="string">EMERGENCY</span>|<span class="string">紧急联络人</span></span><br><span class="line"><span class="string">AWI85duqetLN4cQhYTVc</span>|<span class="string">AWI-DASVC5n_pY7tH2i5</span>|<span class="string">RELATIVE</span>|Spouse</span><br><span class="line">AWI9-Vm7etLN4cQhC6gp|<span class="string">AWI9lGsNetLN4cQhK_8U</span>|<span class="string">EMERGENCY</span>|<span class="string">紧急联络人</span></span><br><span class="line"><span class="string">AWI8pkY9etLN4cQhqdrQ</span>|<span class="string">AWI8dIx9C5n_pY7tBKBJ</span>|<span class="string">EMERGENCY</span>|<span class="string">紧急联络人</span></span><br><span class="line"><span class="string">AWI8pkY9etLN4cQhqdrQ</span>|<span class="string">AWI8dIx9C5n_pY7tBKBJ</span>|<span class="string">OTHER</span>|Other</span><br><span class="line">AWI-ZirYC5n_pY7tIn7b|<span class="string">AWI-d3TaC5n_pY7tUjVr</span>|<span class="string">EMERGENCY</span>|<span class="string">紧急联络人</span></span><br><span class="line"><span class="string">AWI-ZirYC5n_pY7tIn7b</span>|<span class="string">AWI-d3TaC5n_pY7tUjVr</span>|<span class="string">RELATIVE</span>|Cousin</span><br><span class="line">AWI8UPZ3etLN4cQhsFoT|<span class="string">AWI9ngEwetLN4cQhS4hI</span>|<span class="string">EMERGENCY</span>|<span class="string">紧急联络人</span></span><br><span class="line"><span class="string">AWI-CJ7jetLN4cQhNwgt</span>|<span class="string">AWI-UkO6etLN4cQhDYhR</span>|<span class="string">EMERGENCY</span>|<span class="string">紧急联络人</span></span><br></pre></td></tr></table></figure>
 <p>第一列和第二列分别两个 <code>Person</code> 节点的 UUID，第三列是关系类型（type），第四列是关系的名称（name）。</p>
 <p>我刚开始这样写的导入语句：</p>
@@ -224,7 +297,69 @@
 <p>最终的导入语句如下：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">USING PERIODIC <span class="keyword">COMMIT</span> <span class="number">10000</span></span><br><span class="line"><span class="keyword">LOAD</span> CSV <span class="keyword">FROM</span> <span class="string">'file:////relation_all.csv'</span> <span class="keyword">AS</span> line FIELDTERMINATOR <span class="string">'|'</span></span><br><span class="line"><span class="keyword">MATCH</span> (p1:Person &#123;<span class="keyword">uuid</span>: line[<span class="number">0</span>]&#125;)</span><br><span class="line"><span class="keyword">MATCH</span> (p2:Person &#123;<span class="keyword">uuid</span>: line[<span class="number">1</span>]&#125;)</span><br><span class="line"><span class="keyword">WITH</span> p1, p2, line</span><br><span class="line"><span class="keyword">CALL</span> apoc.merge.relationship(p1, line[<span class="number">2</span>], &#123;<span class="keyword">name</span>: line[<span class="number">3</span>]&#125;, &#123;&#125;, p2) YIELD rel</span><br><span class="line"><span class="keyword">RETURN</span> rel</span><br></pre></td></tr></table></figure>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/hadoop-上传文件时报-Checksum-error/" rel="next" title="hadoop 上传文件时报 Checksum error">
+                <i class="fa fa-chevron-left"></i> hadoop 上传文件时报 Checksum error
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/run-in-background/" rel="prev" title="让前台程序转为后台运行">
+                让前台程序转为后台运行 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -311,10 +446,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 

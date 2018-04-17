@@ -195,17 +195,112 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">Counter的elements()源码阅读笔记</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2016/Counter的elements-源码阅读笔记/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Counter的elements()源码阅读笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-07T19:32:30+08:00">
+                2016-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/Counter的elements-源码阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/Counter的elements-源码阅读笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <p><code>Counter</code> 的 <code>elements()</code> 方法返回一个迭代器。元素被重复了多少次，在该迭代器中就包含多少个该元素。所有元素按照字母序排序，个数小于1的元素不被包含。</p>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>Counter</code> 的 <code>elements()</code> 方法返回一个迭代器。元素被重复了多少次，在该迭代器中就包含多少个该元素。所有元素按照字母序排序，个数小于1的元素不被包含。</p>
 <p>举例：</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; c = Counter(<span class="string">'ABCABC'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; sorted(c.elements())</span><br><span class="line">[<span class="string">'A'</span>, <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'C'</span>]</span><br></pre></td></tr></table></figure>
 <p>源码如下：</p>
@@ -245,7 +340,77 @@
 <p>字典调用 <code>iteritems</code> 方法得到的并不是一个列表，而是一个迭代器。</p>
 <p>之前把 <code>iteritems</code> 一直当成 <code>items</code> 了。</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; x = &#123;<span class="string">'title'</span><span class="symbol">:<span class="string">'python web site'</span></span>,<span class="string">'url'</span><span class="symbol">:<span class="string">'www.iplaypython.com'</span></span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; x.items()</span><br><span class="line"></span><br><span class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; a</span><br><span class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; type(a)</span><br><span class="line">&lt;type <span class="string">'list'</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; f = x.iteritems()</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; f</span><br><span class="line">&lt;dictionary-itemiterator object at <span class="number">0xb74d5e3c</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; type(f)</span><br><span class="line">&lt;type <span class="string">'dictionary-itemiterator'</span>&gt;    <span class="comment">#字典项的迭代器</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; list(f)</span><br><span class="line">[(<span class="string">'url'</span>, <span class="string">'www.iplaypython.com'</span>), (<span class="string">'title'</span>, <span class="string">'python web site'</span>)]</span><br></pre></td></tr></table></figure>
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/源码/" rel="tag"># 源码</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/简明-Python-编程规范/" rel="next" title="简明 Python 编程规范">
+                <i class="fa fa-chevron-left"></i> 简明 Python 编程规范
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/翻出CSDN博客有感/" rel="prev" title="翻出CSDN博客有感">
+                翻出CSDN博客有感 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -332,10 +497,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 

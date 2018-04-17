@@ -197,17 +197,90 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">基于 Hystrix 的熔断器调研</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/基于-Hystrix-的熔断器调研/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于 Hystrix 的熔断器调研</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T15:18:27+08:00">
+                2017-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/基于-Hystrix-的熔断器调研/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/基于-Hystrix-的熔断器调研/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <h1 id="基于-Hystrix-的熔断器调研"><a href="#基于-Hystrix-的熔断器调研" class="headerlink" title="基于 Hystrix 的熔断器调研"></a>基于 Hystrix 的熔断器调研</h1><h3 id="什么是雪崩效应"><a href="#什么是雪崩效应" class="headerlink" title="什么是雪崩效应"></a>什么是雪崩效应</h3><p>在微服务架构中通常会有多个服务层调用，基础服务的故障可能会导致级联故障，进而造成整个系统不可用的情况，这种现象被称为服务雪崩效应。服务雪崩效应是一种因 <strong>服务提供者</strong> 的不可用导致 <strong>服务消费者</strong> 的不可用，并将不可用逐渐放大的过程。</p>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基于-Hystrix-的熔断器调研"><a href="#基于-Hystrix-的熔断器调研" class="headerlink" title="基于 Hystrix 的熔断器调研"></a>基于 Hystrix 的熔断器调研</h1><h3 id="什么是雪崩效应"><a href="#什么是雪崩效应" class="headerlink" title="什么是雪崩效应"></a>什么是雪崩效应</h3><p>在微服务架构中通常会有多个服务层调用，基础服务的故障可能会导致级联故障，进而造成整个系统不可用的情况，这种现象被称为服务雪崩效应。服务雪崩效应是一种因 <strong>服务提供者</strong> 的不可用导致 <strong>服务消费者</strong> 的不可用，并将不可用逐渐放大的过程。</p>
 <p>如果下图所示：A 作为服务提供者，B 为 A 的服务消费者，C 和 D 是 B 的服务消费者。A 不可用引起了 B 的不可用，并将不可用像滚雪球一样放大到 C 和 D 时，雪崩效应就形成了。</p>
 <p><img src="1.png" alt=""></p>
 <h3 id="熔断器（CircuitBreaker）"><a href="#熔断器（CircuitBreaker）" class="headerlink" title="熔断器（CircuitBreaker）"></a>熔断器（CircuitBreaker）</h3><p>熔断器的原理很简单，如同电力过载保护器。它可以实现快速失败，如果它在一段时间内侦测到许多类似的错误，会强迫其以后的多个调用快速失败，不再访问远程服务器，从而防止应用程序不断地尝试执行可能会失败的操作，使得应用程序继续执行而不用等待修正错误，或者浪费 CPU 时间去等到长时间的超时产生。熔断器也可以使应用程序能够诊断错误是否已经修正，如果已经修正，应用程序会再次尝试调用操作。</p>
@@ -241,7 +314,69 @@
 <h4 id="在程序入口类加上：-EnableHystrix"><a href="#在程序入口类加上：-EnableHystrix" class="headerlink" title="在程序入口类加上：@EnableHystrix"></a>在程序入口类加上：<code>@EnableHystrix</code></h4><h4 id="在需要使用熔断器的地方标记注解即可："><a href="#在需要使用熔断器的地方标记注解即可：" class="headerlink" title="在需要使用熔断器的地方标记注解即可："></a>在需要使用熔断器的地方标记注解即可：</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand(fallbackMethod = <span class="meta-string">"yyy"</span>)</span></span><br><span class="line"><span class="keyword">public</span> String doSomething()</span><br></pre></td></tr></table></figure>
 <p><code>yyy</code> 就是在 熔断器开启时 是我们要调用的函数。</p>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/使用-spring-boot-starter-security-集成-CAS-遇到的问题/" rel="next" title="使用 spring-boot-starter-security 集成 CAS 遇到的问题">
+                <i class="fa fa-chevron-left"></i> 使用 spring-boot-starter-security 集成 CAS 遇到的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/virtualenvwrapper-安装-与-iPython/" rel="prev" title="virtualenvwrapper 安装 与 iPython for Python2">
+                virtualenvwrapper 安装 与 iPython for Python2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -328,10 +463,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 

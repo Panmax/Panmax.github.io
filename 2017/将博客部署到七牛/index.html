@@ -199,17 +199,90 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">将博客部署到七牛</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/将博客部署到七牛/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">将博客部署到七牛</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-16T11:38:47+08:00">
+                2017-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/将博客部署到七牛/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/将博客部署到七牛/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
     
-      <p>我觉得我是不折腾就会死的人，现在的博客部署在 Github Pages 上，访问速度一直令我非常不爽，所以准备迁移到七牛。</p>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我觉得我是不折腾就会死的人，现在的博客部署在 Github Pages 上，访问速度一直令我非常不爽，所以准备迁移到七牛。</p>
 <p>七牛新建 bucket 后，在空间设置，把默认首页设置改成启动就完成了。</p>
 <p>还有一个就是一定要绑定自己的独立域名，否则站内数据改变后，用七牛提供的临时域名来访问的话，缓存一时半会是不会刷新的，独立域名可以设置缓存刷新时间，前提是那个域名需要在国内进行备案。</p>
 <p>缓存可以根据不同类型的数据有不同的策略，但我为了省事，直接将所有配置改为了 0，也就是不进行缓存，因为不是什么大流量站点，再加上七牛的 CDN 优化，所以即便不缓存速度也非常快，这样可以保证我每次在发布或者修改内容后能够及时更新。其实完全可以把非 HTML 类型的数据设置一些缓存时间。</p>
@@ -227,7 +300,69 @@
 <p><img src="4.png" alt=""></p>
 <p>图片和样式文件进行缓存，<code>html</code> 等文本文件不缓存。因为七牛会自动寻找 <code>index.html</code>，所以在真正访问时，不带 <code>/index.html</code> 后缀的页面也可以打开，所以我把全局配置设为了不缓存，也就是说不在这个配置中的文件也不进行缓存。</p>
 
-    
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/单点登录流程梳理/" rel="next" title="单点登录流程梳理">
+                <i class="fa fa-chevron-left"></i> 单点登录流程梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/接入sentry时遇到的坑/" rel="prev" title="接入 sentry 时遇到的坑">
+                接入 sentry 时遇到的坑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -314,10 +449,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
