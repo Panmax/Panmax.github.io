@@ -108,7 +108,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="今天在 Mac 上安装 MySqldb 和 pylibmc 的时候遇到两个问题，在这里记录一下。 安装 MySqldb 时，报： 123456789101112131415161718192021222324252627282930313233343536373839Failed building wheel for MySQL-python  Running setup.py clean for">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-10-27T10:23:37.000Z">
+<meta property="og:updated_time" content="2018-05-02T09:37:25.426Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac安装MySqldb和pylibmc时遇到的问题">
 <meta name="twitter:description" content="今天在 Mac 上安装 MySqldb 和 pylibmc 的时候遇到两个问题，在这里记录一下。 安装 MySqldb 时，报： 123456789101112131415161718192021222324252627282930313233343536373839Failed building wheel for MySQL-python  Running setup.py clean for">
@@ -306,6 +306,9 @@
 <p>产生原因，升级了Xcode，但是Xcode还没有启动过，里边的一些插件还没有升级。</p>
 <p>解决方法，启动Xcode，让Xcode完成升级。</p>
 <p>然后执行 <code>xcode-select --install</code> 等待完成后即可。</p>
+<p>UPDATE AT: 2018-05-02</p>
+<p>今天解决时问题时，上边的方法也不起作用了，stackoverflow 找到了一个方法：</p>
+<p><code>sudo env LDFLAGS=&quot;-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib&quot;  pip install  MySQL-python</code></p>
 <p>第二个问题是再安装 pylibmc 的时候报</p>
 <figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./_pylibmcmodule.h:42:10: fatal error: 'libmemcached/memcached.h' file not found</span><br><span class="line"></span><br><span class="line">#include &lt;libmemcached/memcached.h&gt;</span><br><span class="line"></span><br><span class="line">         ^</span><br><span class="line"></span><br><span class="line">1 error generated.</span><br><span class="line"></span><br><span class="line"><span class="keyword">error: </span>command 'clang' failed with exit status 1</span><br></pre></td></tr></table></figure>
 <p>产生原因，Mac 使用 brew 安装的 memcached 的路径和 pylibmc 认为的默认路径不一致，所以需要指定一下路径。</p>
