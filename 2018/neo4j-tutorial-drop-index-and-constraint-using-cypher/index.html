@@ -286,24 +286,24 @@
 <p>你可以使用 <code>DROP INDEX ON</code> 语句删除索引，这将从数据库中删除索引。</p>
 </blockquote>
 <p>因此要删除我们之前创建的索引，我们可以使用以下语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> :Album(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP INDEX ON :Album(name);</span><br></pre></td></tr></table></figure>
 <p>语句执行成功后会展示以下消息：</p>
 <p><img src="1.png" alt=""></p>
 <h3 id="查看模式"><a href="#查看模式" class="headerlink" title="查看模式"></a>查看模式</h3><p>你现在可以使用 <code>:schema</code> 命令来验证对应的索引是否已经从模式中删除。</p>
 <p>只需输入：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schema</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:schema</span><br></pre></td></tr></table></figure>
 <p>可以看到索引已经不在模式中了：</p>
 <p><img src="2.png" alt=""></p>
 <blockquote>
 <p>你可以使用 <code>DROP CONSTRAINT</code> 语句删除约束，这将从数据库中删除约束和相关索引。</p>
 </blockquote>
 <p>那么让我们来删除之前创建的约束（和它关联的索引）吧，我们可以使用下边的语句：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP CONSTRAINT ON (<span class="selector-tag">a</span>:Artist) ASSERT <span class="selector-tag">a</span><span class="selector-class">.name</span> IS UNIQUE</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP CONSTRAINT ON (a:Artist) ASSERT a.name IS UNIQUE</span><br></pre></td></tr></table></figure>
 <p>语句执行成功后会展示下边的消息：</p>
 <p><img src="3.png" alt=""></p>
 <h3 id="查看模式-1"><a href="#查看模式-1" class="headerlink" title="查看模式"></a>查看模式</h3><p>你现在可以使用 <code>:schema</code> 命令来验证对应的索引（和相关联的约束）是否已经从模式中删除。</p>
 <p>只需输入：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schema</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:schema</span><br></pre></td></tr></table></figure>
 <p>可以看到约束已经不在模式中了：</p>
 <p><img src="4.png" alt=""></p>
 

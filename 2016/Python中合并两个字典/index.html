@@ -100,18 +100,18 @@
 
 
 
-<meta name="description" content="有两个字典： 123user = &amp;#123;&apos;name&apos;: &quot;Trey&quot;, &apos;website&apos;: &quot;http://treyhunner.com&quot;&amp;#125;defaults = &amp;#123;&apos;name&apos;: &quot;Anonymous User&quot;, &apos;page_name&apos;: &quot;Profile Page&quot;&amp;#125; 现在想合并两个字典，得到一个新的字典，要求：  如果存在重复的键，user字典中的值应覆">
+<meta name="description" content="有两个字典： 123user = &amp;#123;&amp;apos;name&amp;apos;: &amp;quot;Trey&amp;quot;, &amp;apos;website&amp;apos;: &amp;quot;http://treyhunner.com&amp;quot;&amp;#125;defaults = &amp;#123;&amp;apos;name&amp;apos;: &amp;quot;Anonymous User&amp;quot;, &amp;apos;page_name&amp;ap">
 <meta name="keywords" content="Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python中合并两个字典">
 <meta property="og:url" content="https://jpanj.com/2016/Python中合并两个字典/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="有两个字典： 123user = &amp;#123;&apos;name&apos;: &quot;Trey&quot;, &apos;website&apos;: &quot;http://treyhunner.com&quot;&amp;#125;defaults = &amp;#123;&apos;name&apos;: &quot;Anonymous User&quot;, &apos;page_name&apos;: &quot;Profile Page&quot;&amp;#125; 现在想合并两个字典，得到一个新的字典，要求：  如果存在重复的键，user字典中的值应覆">
+<meta property="og:description" content="有两个字典： 123user = &amp;#123;&amp;apos;name&amp;apos;: &amp;quot;Trey&amp;quot;, &amp;apos;website&amp;apos;: &amp;quot;http://treyhunner.com&amp;quot;&amp;#125;defaults = &amp;#123;&amp;apos;name&amp;apos;: &amp;quot;Anonymous User&amp;quot;, &amp;apos;page_name&amp;ap">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-02-29T10:23:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python中合并两个字典">
-<meta name="twitter:description" content="有两个字典： 123user = &amp;#123;&apos;name&apos;: &quot;Trey&quot;, &apos;website&apos;: &quot;http://treyhunner.com&quot;&amp;#125;defaults = &amp;#123;&apos;name&apos;: &quot;Anonymous User&quot;, &apos;page_name&apos;: &quot;Profile Page&quot;&amp;#125; 现在想合并两个字典，得到一个新的字典，要求：  如果存在重复的键，user字典中的值应覆">
+<meta name="twitter:description" content="有两个字典： 123user = &amp;#123;&amp;apos;name&amp;apos;: &amp;quot;Trey&amp;quot;, &amp;apos;website&amp;apos;: &amp;quot;http://treyhunner.com&amp;quot;&amp;#125;defaults = &amp;#123;&amp;apos;name&amp;apos;: &amp;quot;Anonymous User&amp;quot;, &amp;apos;page_name&amp;ap">
 
 
 
@@ -301,7 +301,7 @@
 
       
         <p>有两个字典：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">user</span> = &#123;<span class="string">'name'</span>: <span class="string">"Trey"</span>, <span class="string">'website'</span>: <span class="string">"http://treyhunner.com"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">defaults</span> = &#123;<span class="string">'name'</span>: <span class="string">"Anonymous User"</span>, <span class="string">'page_name'</span>: <span class="string">"Profile Page"</span>&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user = &#123;&apos;name&apos;: &quot;Trey&quot;, &apos;website&apos;: &quot;http://treyhunner.com&quot;&#125;</span><br><span class="line"></span><br><span class="line">defaults = &#123;&apos;name&apos;: &quot;Anonymous User&quot;, &apos;page_name&apos;: &quot;Profile Page&quot;&#125;</span><br></pre></td></tr></table></figure>
 <p>现在想合并两个字典，得到一个新的字典，要求：</p>
 <ol>
 <li>如果存在重复的键，user字典中的值应覆盖defaults字典中的值；</li>
@@ -311,15 +311,15 @@
 <li>更新context字典时，不能更改defaults或user字典。</li>
 </ol>
 <p>以上两个字典合并结果为：</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'website'</span>: <span class="string">'http://treyhunner.com'</span>, <span class="string">'name'</span>: <span class="string">'Trey'</span>, <span class="string">'page_name'</span>: <span class="string">'Profile Page'</span>&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;website&apos;: &apos;http://treyhunner.com&apos;, &apos;name&apos;: &apos;Trey&apos;, &apos;page_name&apos;: &apos;Profile Page&apos;&#125;</span><br></pre></td></tr></table></figure>
 <p>Python 3 中最优雅的实现方法：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">context</span> = &#123;**defaults, **user&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context = &#123;**defaults, **user&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <p>Python 2 中：</p>
-<h5 id="多次更新"><a href="#多次更新" class="headerlink" title="多次更新"></a>多次更新</h5><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">context</span> = &#123;&#125;</span><br><span class="line"><span class="built_in">context</span>.update(defaults)</span><br><span class="line"><span class="built_in">context</span>.update(user)</span><br></pre></td></tr></table></figure>
+<h5 id="多次更新"><a href="#多次更新" class="headerlink" title="多次更新"></a>多次更新</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">context = &#123;&#125;</span><br><span class="line">context.update(defaults)</span><br><span class="line">context.update(user)</span><br></pre></td></tr></table></figure>
 <p>这里我们创建了一个新的空字典，并使用其update方法从其他字典中添加元素。请注意，我们首先添加的是defaults字典中的元素，以保证user字典中的重复键会覆盖掉defaults中的键。</p>
-<h5 id="复制，然后更新"><a href="#复制，然后更新" class="headerlink" title="复制，然后更新"></a>复制，然后更新</h5><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">context</span> = defaults.<span class="built_in">copy</span>()</span><br><span class="line"><span class="built_in">context</span>.update(user)</span><br></pre></td></tr></table></figure>
-<h5 id="ChainMap转换成字典"><a href="#ChainMap转换成字典" class="headerlink" title="ChainMap转换成字典"></a>ChainMap转换成字典</h5><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context = dict(<span class="name">ChainMap</span>(<span class="name">user</span>, defaults))</span><br></pre></td></tr></table></figure>
+<h5 id="复制，然后更新"><a href="#复制，然后更新" class="headerlink" title="复制，然后更新"></a>复制，然后更新</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">context = defaults.copy()</span><br><span class="line">context.update(user)</span><br></pre></td></tr></table></figure>
+<h5 id="ChainMap转换成字典"><a href="#ChainMap转换成字典" class="headerlink" title="ChainMap转换成字典"></a>ChainMap转换成字典</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context = dict(ChainMap(user, defaults))</span><br></pre></td></tr></table></figure>
       
     </div>
 

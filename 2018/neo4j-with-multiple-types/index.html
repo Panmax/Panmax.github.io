@@ -281,7 +281,7 @@
 
       
         <p>Neo4j 中创建节点时，可以指定多个标签：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE (<span class="name">n</span><span class="symbol">:Person</span><span class="symbol">:China</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE (n:Person:China)</span><br></pre></td></tr></table></figure>
 <p>但是在创建关系时，只能指定一种类型，其实官方通过这两个不同词汇（标签 和 类型）也能体现出节点和关系关于分类方面的不同。</p>
 <p>如下图所示，在尝试用多种类型创建关系时，会报错：</p>
 <p><img src="1.png" alt=""></p>

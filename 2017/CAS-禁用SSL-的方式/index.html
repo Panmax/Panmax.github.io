@@ -280,7 +280,7 @@
         <p>由于要内部使用，所以不需要配置 https 链接。</p>
 <p>本文是基于 CAS 5.0.X 下进行的修改，修改方式如下：</p>
 <p>我使用 overlay 的方式进行的部署，只需在 <code>etc/cas/config/cas.properties</code> 中配置如下三项即可</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server<span class="selector-class">.ssl</span><span class="selector-class">.enabled</span>=false</span><br><span class="line">cas<span class="selector-class">.tgc</span><span class="selector-class">.secure</span>=false</span><br><span class="line">cas<span class="selector-class">.warningCookie</span><span class="selector-class">.secure</span>=false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.ssl.enabled=false</span><br><span class="line">cas.tgc.secure=false</span><br><span class="line">cas.warningCookie.secure=false</span><br></pre></td></tr></table></figure>
 <p>但是现在还有一个问题时，几遍将 <code>server.port</code> 改为其他端口，http 的端口号也还是 8080，也就是说这里修改的 <code>server.port</code> 是修改的 https 的方式。</p>
 
       

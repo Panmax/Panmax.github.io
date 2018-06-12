@@ -286,7 +286,7 @@
 </blockquote>
 <p>在 Neo4j 中，你可以给有标签的点的任何属性创建索引。一旦你创建了一个索引，Neo4j 将会管理它，在数据更新时保持最新的索引。</p>
 <p>使用 <code>CREATE INDEX ON</code> 语句创建索引，像下边这样：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> :Album(<span class="keyword">name</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX ON :Album(name)</span><br></pre></td></tr></table></figure>
 <p>在上边的例子中，我们为所有标签为 <code>Album</code> 的点的 <code>name</code> 属性创建了一个索引。</p>
 <p>语句执行成功后，将展示如下信息：</p>
 <p><img src="1.png" alt=""></p>
@@ -296,13 +296,13 @@
 <h2 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h2><p>索引（约束）成为了数据库模式的一部分。</p>
 <p>在 Neo4j 浏览器中，你可以使用 <code>:schema</code> 命令查看所有索引和约束。</p>
 <p>来试一试吧：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:schema</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:schema</span><br></pre></td></tr></table></figure>
 <p>你可以看到一个索引和约束的列表：</p>
 <p><img src="2.png" alt=""></p>
 <h2 id="索引提示"><a href="#索引提示" class="headerlink" title="索引提示"></a>索引提示</h2><p>索引创建完成后，当你在执行查询时会自动使用。</p>
 <p>然而 Neo4j 也允许你强制提示一个或多个索引，你可以在你的查询语句中使用 <code>USING INDEX ...</code> 创建一个索引提示。</p>
 <p>所以上边的示例可以像下边这样强制索引：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"猛龙过江"</span>&#125;) </span><br><span class="line"><span class="selector-tag">USING</span> <span class="selector-tag">INDEX</span> <span class="selector-tag">a</span><span class="selector-pseudo">:Album(name)</span> </span><br><span class="line"><span class="selector-tag">RETURN</span> <span class="selector-tag">a</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH (a:Album &#123;name: &quot;猛龙过江&quot;&#125;) </span><br><span class="line">USING INDEX a:Album(name) </span><br><span class="line">RETURN a</span><br></pre></td></tr></table></figure>
 <p>我们也可以使用多个提示，为每个想强制的索引添加一个新的 <code>USING INDEX</code> 即可。</p>
 <h2 id="是否有必要索引？"><a href="#是否有必要索引？" class="headerlink" title="是否有必要索引？"></a>是否有必要索引？</h2><p>当 Neo4j 创建索引时，它会在数据库中创建冗余的副本，因此使用索引会占用更多的硬盘空间并减慢写入速度。</p>
 <p>因此在决定索引哪些数据时你需要进行一些权衡。</p>

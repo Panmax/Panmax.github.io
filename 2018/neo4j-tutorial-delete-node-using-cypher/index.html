@@ -100,19 +100,19 @@
 
 
 
-<meta name="description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &quot;Panmax&quot;&amp;#125;) DELETE a;">
+<meta name="description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &amp;quot;Panmax&amp;quot;&amp;#125;)">
 <meta name="keywords" content="neo4j">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Neo4j 入门教程 - 使用 Cypher 删除节点">
 <meta property="og:url" content="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &quot;Panmax&quot;&amp;#125;) DELETE a;">
+<meta property="og:description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &amp;quot;Panmax&amp;quot;&amp;#125;)">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/1.png">
 <meta property="og:updated_time" content="2018-03-07T08:15:52.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neo4j 入门教程 - 使用 Cypher 删除节点">
-<meta name="twitter:description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &quot;Panmax&quot;&amp;#125;) DELETE a;">
+<meta name="twitter:description" content="要使用 Cpyher 删除节点和关系，可使用 DELETE 子句。  在 MATCH 语句中使用 DELETE 子句来删除任何匹配的数据。 因此 DELETE 子句用在之前例子中的 RETURN 子句的地方。 举例下边的语句删除标签为 Album，name 属性为 Panmax 的节点： 1MATCH (a:Album &amp;#123;name: &amp;quot;Panmax&amp;quot;&amp;#125;)">
 <meta name="twitter:image" content="https://jpanj.com/2018/neo4j-tutorial-delete-node-using-cypher/1.png">
 
 
@@ -286,14 +286,14 @@
 <p>在 <code>MATCH</code> 语句中使用 <code>DELETE</code> 子句来删除任何匹配的数据。</p>
 <p>因此 <code>DELETE</code> 子句用在之前例子中的 <code>RETURN</code> 子句的地方。</p>
 <h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>下边的语句删除标签为 <em>Album</em>，<code>name</code> 属性为 <code>Panmax</code> 的节点：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"Panmax"</span>&#125;) <span class="selector-tag">DELETE</span> <span class="selector-tag">a</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (a:Album &#123;name: &quot;Panmax&quot;&#125;) DELETE a;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>在实际删除前认真检查语句是否删除的是正确的数据是个不错的主意。<br>为此可以先使用 <code>RETURN</code> 子句构造语句，然后运行它。这样可以检查要删除的是不是正确的数据。一旦你对匹配的结果数据满意后，只需将 <code>RETURN</code> 子句改为 <code>DELETE</code> 子句即可。</p>
 </blockquote>
 <h3 id="删除多个节点"><a href="#删除多个节点" class="headerlink" title="删除多个节点"></a>删除多个节点</h3><p>你也可以一次性删除多个节点。只需要让你的 <code>MATCH</code> 语句包含所有你想要删除的节点就行了。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">MATCH</span> (<span class="selector-tag">a</span><span class="selector-pseudo">:Artist</span> &#123;<span class="attribute">name</span>: <span class="string">"jiapan"</span>&#125;), (<span class="selector-tag">b</span><span class="selector-pseudo">:Album</span> &#123;<span class="attribute">name</span>: <span class="string">"Panmax"</span>&#125;) </span><br><span class="line"><span class="selector-tag">DELETE</span> <span class="selector-tag">a</span>, <span class="selector-tag">b</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MATCH (a:Artist &#123;name: &quot;jiapan&quot;&#125;), (b:Album &#123;name: &quot;Panmax&quot;&#125;) </span><br><span class="line">DELETE a, b</span><br></pre></td></tr></table></figure>
 <h3 id="删除所有节点"><a href="#删除所有节点" class="headerlink" title="删除所有节点"></a>删除所有节点</h3><p>你可以通过省略过滤条件来删除数据库中的所有节点，就像我们从数据库中选取所有节点一样，你也可以删除它们。</p>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">MATCH</span> (<span class="built_in">n</span>) DELETE <span class="built_in">n</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (n) DELETE n;</span><br></pre></td></tr></table></figure>
 <h3 id="删除带有关系的节点"><a href="#删除带有关系的节点" class="headerlink" title="删除带有关系的节点"></a>删除带有关系的节点</h3><p>在删除节点时有一个小细节需要注意，就是你只能删除没有连接任何关系的节点。换句话说，在删除节点本身前，必须先删除和它相关的关系。</p>
 <p>如果你尝试在具有关系的节点上执行上述 <code>DELETE</code> 语句，你将看到如下所示的错误消息：</p>
 <p><img src="1.png" alt=""></p>
