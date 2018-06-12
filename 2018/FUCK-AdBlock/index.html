@@ -1,0 +1,540 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/css/fonts/fonts.css" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hi Panmax" />
+
+
+
+
+
+  <link rel="alternate" href="http://panmax.love/atom.xml" title="贾攀家" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="今天写了一个接口，用 postman 测试没有问题，但是用 swagger 测试一直无法访问。 刚开始怀疑是浏览器缓存，换火狐后发现也访问不了。然后怀疑是开了代理的原因，关掉 Surge 后发现还是不行。接着怀疑是 swagger 的 bug，Google 搜索 swagger admin banners 的关键字并没有发现什么有用的信息。 这个接口的 URL 是：/api/admin/banne">
+<meta property="og:type" content="article">
+<meta property="og:title" content="被 AdBlock 坑了">
+<meta property="og:url" content="https://jpanj.com/2018/FUCK-AdBlock/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="今天写了一个接口，用 postman 测试没有问题，但是用 swagger 测试一直无法访问。 刚开始怀疑是浏览器缓存，换火狐后发现也访问不了。然后怀疑是开了代理的原因，关掉 Surge 后发现还是不行。接着怀疑是 swagger 的 bug，Google 搜索 swagger admin banners 的关键字并没有发现什么有用的信息。 这个接口的 URL 是：/api/admin/banne">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-12T12:45:41.491Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="被 AdBlock 坑了">
+<meta name="twitter:description" content="今天写了一个接口，用 postman 测试没有问题，但是用 swagger 测试一直无法访问。 刚开始怀疑是浏览器缓存，换火狐后发现也访问不了。然后怀疑是开了代理的原因，关掉 Surge 后发现还是不行。接着怀疑是 swagger 的 bug，Google 搜索 swagger admin banners 的关键字并没有发现什么有用的信息。 这个接口的 URL 是：/api/admin/banne">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"remove","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2018/FUCK-AdBlock/"/>
+
+
+
+
+
+  <title>被 AdBlock 坑了 | 贾攀家</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-meta ">
+  <div class="custom-logo-site-title">
+    <a href="/archives/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">贾攀家</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+</div>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/FUCK-AdBlock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7xj0sd.com1.z0.glb.clouddn.com/2015-10-12T18%3A50%3A04.527875_222.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">被 AdBlock 坑了</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T20:23:53+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/FUCK-AdBlock/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/FUCK-AdBlock/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天写了一个接口，用 postman 测试没有问题，但是用 swagger 测试一直无法访问。</p>
+<p>刚开始怀疑是浏览器缓存，换火狐后发现也访问不了。然后怀疑是开了代理的原因，关掉 Surge 后发现还是不行。接着怀疑是 swagger 的 bug，Google 搜索 <code>swagger admin banners</code> 的关键字并没有发现什么有用的信息。</p>
+<p>这个接口的 URL 是：<code>/api/admin/banners</code>，我修改了接口对应的 URL 后再次尝试，发现又正常了，然后经过各种尝试，发现只要路径中带有 <code>admin/banners</code> 就无法访问，我把浏览器发送的请求转为 <code>cURL</code> 命令，使用终端发送也是正常的，所以确定问题应该出在浏览器身上。</p>
+<p>这时候想起来我在上家公司工作时，写的一个广告接口，URL 中带有 advertisement，刚开始也是无法请求，最后发现是装了屏蔽广告的插件导致的，这次一定也是因为这个问题，所以我尝试把 AdBlock 关掉，再次测试，一切 ok。</p>
+<p>这中间差不多花费了20多分钟来排查问题，没有很快找到问题的一个重要原因是，我的火狐浏览器恰好也装了 AdBlock，所以早早的就把浏览器的问题排除了。</p>
+<p>最后兜了个圈又回到原点。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/spring-boot-with-mysql-jpa/" rel="next" title="SpringBoot(2.0) + JPA + MySQL 实现 Restful CURD API">
+                <i class="fa fa-chevron-left"></i> SpringBoot(2.0) + JPA + MySQL 实现 Restful CURD API
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/lose-weight/" rel="prev" title="2018 减肥计划">
+                2018 减肥计划 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="comments" id="comments"></div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'gPS1atpl6u5FziDqKf7XW6ms-gzGzoHsz',
+        appKey: 'KioAbSyq7iDATMvbNyctgoLf',
+        placeholder: '我也爱你...',
+        avatar:'hide',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <script type="text/javascript">
+    var OriginTitile = document.title;
+    var titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '(つェ⊂)我藏好了哦~ ' + OriginTitile;
+            clearTimeout(titleTime);
+        }
+        else {
+            document.title = '(*´∇｀*) 被你发现啦~ ' + OriginTitile;
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            }, 2000);
+        }
+    });
+  </script>
+</body>
+</html>
