@@ -107,12 +107,12 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="Gradle的构建生命周期 Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：1234567891011apply plugin: &amp;apos;maven&amp;apos;...uploadArchives &amp;#123;    repositories.mavenDeployer &amp;#123;        repository(url: &amp;quot;http://">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://jpanj.com/2018/Gradle-笔记/dag5.png">
-<meta property="og:updated_time" content="2018-09-05T12:02:08.725Z">
+<meta property="og:image" content="https://jpanj.com/2018/Gradle-笔记/1.png">
+<meta property="og:updated_time" content="2018-09-05T12:03:41.262Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gradle 笔记">
 <meta name="twitter:description" content="Gradle的构建生命周期 Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：1234567891011apply plugin: &amp;apos;maven&amp;apos;...uploadArchives &amp;#123;    repositories.mavenDeployer &amp;#123;        repository(url: &amp;quot;http://">
-<meta name="twitter:image" content="https://jpanj.com/2018/Gradle-笔记/dag5.png">
+<meta name="twitter:image" content="https://jpanj.com/2018/Gradle-笔记/1.png">
 
 
 
@@ -279,7 +279,7 @@
       
 
       
-        <h4 id="Gradle的构建生命周期"><a href="#Gradle的构建生命周期" class="headerlink" title="Gradle的构建生命周期"></a>Gradle的构建生命周期</h4><p><img src="dag5.png" alt=""></p>
+        <h4 id="Gradle的构建生命周期"><a href="#Gradle的构建生命周期" class="headerlink" title="Gradle的构建生命周期"></a>Gradle的构建生命周期</h4><p><img src="1.png" alt=""></p>
 <h4 id="Gradle-项目可以使用-Maven-Plugin-将构建上传到-Maven-仓库中："><a href="#Gradle-项目可以使用-Maven-Plugin-将构建上传到-Maven-仓库中：" class="headerlink" title="Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中："></a>Gradle 项目可以使用 <code>Maven Plugin</code> 将构建上传到 Maven 仓库中：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;maven&apos;</span><br><span class="line">...</span><br><span class="line">uploadArchives &#123;</span><br><span class="line">    repositories.mavenDeployer &#123;</span><br><span class="line">        repository(url: &quot;http://localhost:8088/nexus/content/repositories/snapshots/&quot;) &#123;</span><br><span class="line">            authentication(userName: &quot;admin&quot;, password: &quot;admin123&quot;)</span><br><span class="line">            pom.groupId = &quot;com.juvenxu&quot;</span><br><span class="line">            pom.artifactId = &quot;account-captcha&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="想在-build-时发布版本导-Maven-仓库中，只需要添加一行任务依赖配置即可："><a href="#想在-build-时发布版本导-Maven-仓库中，只需要添加一行任务依赖配置即可：" class="headerlink" title="想在 build 时发布版本导 Maven 仓库中，只需要添加一行任务依赖配置即可："></a>想在 build 时发布版本导 Maven 仓库中，只需要添加一行任务依赖配置即可：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">build.dependsOn &apos;uploadArchives&apos;</span><br></pre></td></tr></table></figure>
 <h4 id="通过-gradle-q-tasks-显示所有的任务"><a href="#通过-gradle-q-tasks-显示所有的任务" class="headerlink" title="通过 gradle -q tasks 显示所有的任务"></a>通过 <code>gradle -q tasks</code> 显示所有的任务</h4><h4 id="任务名称缩写"><a href="#任务名称缩写" class="headerlink" title="任务名称缩写"></a>任务名称缩写</h4><p>Gradle提高效率的一个办法就是能够在命令行输入任务名的驼峰简写，当你的任务名称非常长的时候这很有用</p>
