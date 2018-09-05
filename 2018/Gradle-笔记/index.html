@@ -82,7 +82,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="neo4j," />
+  <meta name="keywords" content="Hi Panmax" />
 
 
 
@@ -100,20 +100,19 @@
 
 
 
-<meta name="description" content="你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。 一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！ Cypher(Server">
-<meta name="keywords" content="neo4j">
+<meta name="description" content="Gradle的构建生命周期 Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：1234567891011apply plugin: &amp;apos;maven&amp;apos;...uploadArchives &amp;#123;    repositories.mavenDeployer &amp;#123;        repository(url: &amp;quot;http://">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Neo4j 冷启动预热缓存">
-<meta property="og:url" content="https://jpanj.com/2017/neo4j-warms-up/index.html">
+<meta property="og:title" content="Gradle 笔记">
+<meta property="og:url" content="https://jpanj.com/2018/Gradle-笔记/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。 一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！ Cypher(Server">
+<meta property="og:description" content="Gradle的构建生命周期 Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：1234567891011apply plugin: &amp;apos;maven&amp;apos;...uploadArchives &amp;#123;    repositories.mavenDeployer &amp;#123;        repository(url: &amp;quot;http://">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://jpanj.com/2017/neo4j-warms-up/1.png">
-<meta property="og:updated_time" content="2018-02-26T08:05:04.000Z">
+<meta property="og:image" content="https://jpanj.com/2018/Gradle-笔记/dag5.png">
+<meta property="og:updated_time" content="2018-09-05T12:02:08.725Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Neo4j 冷启动预热缓存">
-<meta name="twitter:description" content="你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。 一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！ Cypher(Server">
-<meta name="twitter:image" content="https://jpanj.com/2017/neo4j-warms-up/1.png">
+<meta name="twitter:title" content="Gradle 笔记">
+<meta name="twitter:description" content="Gradle的构建生命周期 Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：1234567891011apply plugin: &amp;apos;maven&amp;apos;...uploadArchives &amp;#123;    repositories.mavenDeployer &amp;#123;        repository(url: &amp;quot;http://">
+<meta name="twitter:image" content="https://jpanj.com/2018/Gradle-笔记/dag5.png">
 
 
 
@@ -141,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/neo4j-warms-up/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/Gradle-笔记/"/>
 
 
 
 
 
-  <title>Neo4j 冷启动预热缓存 | 贾攀家</title>
+  <title>Gradle 笔记 | 贾攀家</title>
   
 
 
@@ -206,7 +205,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/neo4j-warms-up/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/Gradle-笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -223,7 +222,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Neo4j 冷启动预热缓存</h1>
+          <h1 class="post-title" itemprop="name headline">Gradle 笔记</h1>
         
 
         <div class="post-meta">
@@ -235,8 +234,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T17:45:23+08:00">
-                2017-12-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-05T19:44:45+08:00">
+                2018-09-05
               </time>
             
 
@@ -254,8 +253,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/neo4j-warms-up/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/neo4j-warms-up/" itemprop="commentCount"></span>
+                <a href="/2018/Gradle-笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/Gradle-笔记/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -280,26 +279,22 @@
       
 
       
-        <p>你可能发现有些查询在第二次运行时非常的快，这是因为在冷启动时服务节点中没有任何缓存，需要到硬盘中查找所有的记录。每当部分或全部记录被缓存，你将发现有了很大的性能提升。</p>
-<p>一种被广泛使用的技术是「缓存预热」，借助这个技术，我们运行一个查询语句来触发图中所有的点和关系。假设内存可以容纳这些数据，整个图会被缓存起来。否则将会缓存尽可能多的数据。尝试一下它是如何给你带来帮助的吧！</p>
-<p>Cypher(Server,Shell)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH (n)</span><br><span class="line">OPTIONAL MATCH (n)-[r]-&gt;()</span><br><span class="line">RETURN count(n.prop) + count(r.prop);</span><br></pre></td></tr></table></figure>
-<p>上边的例子用到了 <code>count(n.prop) + count(r.prop)</code> ，来强制让优化器在点或关系中搜索名为 <code>prop</code> 的属性。用 <code>count(*)</code> 替代它将不够充分，因为这样不会加载所有的点和关系属性。</p>
-<p>内嵌方式(Java):</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@GET @Path(&quot;/warmup&quot;)</span><br><span class="line">public String warmUp(@Context GraphDatabaseService db) &#123;</span><br><span class="line">    try ( Transaction tx = db.beginTx()) &#123;</span><br><span class="line">        for ( Node n : GlobalGraphOperations.at(db).getAllNodes()) &#123;</span><br><span class="line">            n.getPropertyKeys();</span><br><span class="line">            for ( Relationship relationship : n.getRelationships()) &#123;</span><br><span class="line">                relationship.getPropertyKeys();</span><br><span class="line">                relationship.getStartNode();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return &quot;Warmed up and ready to go!&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 3.0 之后的版本并且使用了 <a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures" target="_blank" rel="noopener">APOC</a> 插件的话，可以运行如下存储过程来完成缓存预热</p>
-<p><code>CALL apoc.warmup.run()</code></p>
-<blockquote>
-<p>property record loading for warmup, apoc.warmup.run(true)</p>
-</blockquote>
-<p><code>CALL apoc.warmup.run()</code> 默认不读取属性记录，更加建议使用 <code>call apoc.warmup.run(true)</code>，这个是 3.2.0 以上版本插件的新功能。</p>
-<p><img src="1.png" alt=""></p>
-<p>这样做除了纯粹的提升性能外还可以提供更多方面的帮助，如果你使用的是 Neo4j集群的话，还可以帮助缓解由于查询滞后而导致的上游问题。例如，如果节点繁忙并且负载均衡超时时间很短，图中没有任何数据在内存中，很可能会显示该集群最初不可用。如果缓存处于预热状态，那么冷启动应该就不会有短暂超时的问题了。</p>
-<h3 id="APOC-安装"><a href="#APOC-安装" class="headerlink" title="APOC 安装"></a><code>APOC</code> 安装</h3><ol>
-<li>将最新的插件 jar 包下载后放进 neo4j 的 plugins 目录中</li>
-<li>修改配置文件加入 <code>dbms.security.procedures.unrestricted=apoc.*</code></li>
-<li>重启 <code>neo4j</code></li>
-</ol>
+        <h4 id="Gradle的构建生命周期"><a href="#Gradle的构建生命周期" class="headerlink" title="Gradle的构建生命周期"></a>Gradle的构建生命周期</h4><p><img src="dag5.png" alt=""></p>
+<h4 id="Gradle-项目可以使用-Maven-Plugin-将构建上传到-Maven-仓库中："><a href="#Gradle-项目可以使用-Maven-Plugin-将构建上传到-Maven-仓库中：" class="headerlink" title="Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中："></a>Gradle 项目可以使用 <code>Maven Plugin</code> 将构建上传到 Maven 仓库中：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;maven&apos;</span><br><span class="line">...</span><br><span class="line">uploadArchives &#123;</span><br><span class="line">    repositories.mavenDeployer &#123;</span><br><span class="line">        repository(url: &quot;http://localhost:8088/nexus/content/repositories/snapshots/&quot;) &#123;</span><br><span class="line">            authentication(userName: &quot;admin&quot;, password: &quot;admin123&quot;)</span><br><span class="line">            pom.groupId = &quot;com.juvenxu&quot;</span><br><span class="line">            pom.artifactId = &quot;account-captcha&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="想在-build-时发布版本导-Maven-仓库中，只需要添加一行任务依赖配置即可："><a href="#想在-build-时发布版本导-Maven-仓库中，只需要添加一行任务依赖配置即可：" class="headerlink" title="想在 build 时发布版本导 Maven 仓库中，只需要添加一行任务依赖配置即可："></a>想在 build 时发布版本导 Maven 仓库中，只需要添加一行任务依赖配置即可：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">build.dependsOn &apos;uploadArchives&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="通过-gradle-q-tasks-显示所有的任务"><a href="#通过-gradle-q-tasks-显示所有的任务" class="headerlink" title="通过 gradle -q tasks 显示所有的任务"></a>通过 <code>gradle -q tasks</code> 显示所有的任务</h4><h4 id="任务名称缩写"><a href="#任务名称缩写" class="headerlink" title="任务名称缩写"></a>任务名称缩写</h4><p>Gradle提高效率的一个办法就是能够在命令行输入任务名的驼峰简写，当你的任务名称非常长的时候这很有用</p>
+<h4 id="命令行选项"><a href="#命令行选项" class="headerlink" title="命令行选项"></a>命令行选项</h4><ul>
+<li>-i:Gradle默认不会输出很多信息，你可以使用-i选项改变日志级别为INFO</li>
+<li>-s:如果运行时错误发生打印堆栈信息</li>
+<li>-q:只打印错误信息</li>
+<li>-?-h,–help:打印所有的命令行选项</li>
+<li>-b,–build-file:Gradle默认执行build.gradle脚本，如果想执行其他脚本可以使用这个命令，比如gradle -b test.gradle</li>
+<li>–offline:在离线模式运行build,Gradle只检查本地缓存中的依赖</li>
+<li>-D, –system-prop:Gradle作为JVM进程运行，你可以提供一个系统属性比如：-Dmyprop=myValue</li>
+<li>-P,–project-prop:项目属性可以作为你构建脚本的一个变量，你可以传递一个属性值给build脚本，比如：-Pmyprop=myValue</li>
+<li>tasks:显示项目中所有可运行的任务</li>
+<li>properties:打印你项目中所有的属性值</li>
+</ul>
 
       
     </div>
@@ -327,12 +322,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/neo4j/" rel="tag"># neo4j</a>
-          
-        </div>
-      
 
       
       
@@ -342,8 +331,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/关于情景的一点点思考/" rel="next" title="关于情景的一点点思考">
-                <i class="fa fa-chevron-left"></i> 关于情景的一点点思考
+              <a href="/2018/FUCK-AdBlock/" rel="next" title="被 AdBlock 坑了">
+                <i class="fa fa-chevron-left"></i> 被 AdBlock 坑了
               </a>
             
           </div>
@@ -352,8 +341,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/cookies-max-age-vs-expires/" rel="prev" title="Http Cookies 中 Max-age 和 Expires 有什么区别？">
-                Http Cookies 中 Max-age 和 Expires 有什么区别？ <i class="fa fa-chevron-right"></i>
+              <a href="/2018/lose-weight/" rel="prev" title="2018 减肥计划">
+                2018 减肥计划 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
