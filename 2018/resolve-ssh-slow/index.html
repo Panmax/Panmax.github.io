@@ -108,18 +108,17 @@
 
 
 
-  <meta name="description" content="有一个需求是获取所有存在愿望的城市，并且找出热门城市。 刚好前几天看到了Python的计数器：collections.Counter， 于是就拿来用了用。  首先导入 Counter:  1from collections import Counter  通过查询数据库获取到所有满足条件的愿望放在wishes数组中，然后遍历所有数据，把所有城市的adcode存在一个数组中：  1cities =">
-<meta name="keywords" content="Python,魔镜">
+  <meta name="description" content="OpenSSH 在用户登录的时候会验证 IP，它根据用户的 IP 使用反向 DNS 找到主机名，再使用 DNS 找到 IP 地址，最后匹配一下登录的 IP 是否合法。如果客户机的 IP 没有域名，或者 DNS 服务器很慢或不通，那么登录就会很花时间。 解决办法： 在目标服务器上修改 sshd 服务器端配置，并重启 sshd。 vi /etc/ssh/sshd_config 设置 UseDNS 为">
 <meta property="og:type" content="article">
-<meta property="og:title" content="collections.Counter的使用">
-<meta property="og:url" content="https://jpanj.com/2016/collections-Counter的使用/index.html">
+<meta property="og:title" content="解决 ssh 登录慢的问题">
+<meta property="og:url" content="https://jpanj.com/2018/resolve-ssh-slow/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="有一个需求是获取所有存在愿望的城市，并且找出热门城市。 刚好前几天看到了Python的计数器：collections.Counter， 于是就拿来用了用。  首先导入 Counter:  1from collections import Counter  通过查询数据库获取到所有满足条件的愿望放在wishes数组中，然后遍历所有数据，把所有城市的adcode存在一个数组中：  1cities =">
+<meta property="og:description" content="OpenSSH 在用户登录的时候会验证 IP，它根据用户的 IP 使用反向 DNS 找到主机名，再使用 DNS 找到 IP 地址，最后匹配一下登录的 IP 是否合法。如果客户机的 IP 没有域名，或者 DNS 服务器很慢或不通，那么登录就会很花时间。 解决办法： 在目标服务器上修改 sshd 服务器端配置，并重启 sshd。 vi /etc/ssh/sshd_config 设置 UseDNS 为">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-03-02T11:44:16.000Z">
+<meta property="og:updated_time" content="2018-11-24T03:09:45.813Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="collections.Counter的使用">
-<meta name="twitter:description" content="有一个需求是获取所有存在愿望的城市，并且找出热门城市。 刚好前几天看到了Python的计数器：collections.Counter， 于是就拿来用了用。  首先导入 Counter:  1from collections import Counter  通过查询数据库获取到所有满足条件的愿望放在wishes数组中，然后遍历所有数据，把所有城市的adcode存在一个数组中：  1cities =">
+<meta name="twitter:title" content="解决 ssh 登录慢的问题">
+<meta name="twitter:description" content="OpenSSH 在用户登录的时候会验证 IP，它根据用户的 IP 使用反向 DNS 找到主机名，再使用 DNS 找到 IP 地址，最后匹配一下登录的 IP 是否合法。如果客户机的 IP 没有域名，或者 DNS 服务器很慢或不通，那么登录就会很花时间。 解决办法： 在目标服务器上修改 sshd 服务器端配置，并重启 sshd。 vi /etc/ssh/sshd_config 设置 UseDNS 为">
 
 
 
@@ -128,7 +127,7 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2016/collections-Counter的使用/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/resolve-ssh-slow/"/>
 
 
 
@@ -138,7 +137,7 @@
   };
 </script>
 
-  <title>collections.Counter的使用 | 贾攀家</title>
+  <title>解决 ssh 登录慢的问题 | 贾攀家</title>
   
 
 
@@ -303,7 +302,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2016/collections-Counter的使用/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/resolve-ssh-slow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -320,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">collections.Counter的使用
+          <h1 class="post-title" itemprop="name headline">解决 ssh 登录慢的问题
               
             
           </h1>
@@ -345,7 +344,7 @@
                 
               
 
-              <time title="Created: 2016-03-02 19:30:09 / Modified: 19:44:16" itemprop="dateCreated datePublished" datetime="2016-03-02T19:30:09+08:00">2016-03-02</time>
+              <time title="Created: 2018-11-24 11:02:24 / Modified: 11:09:45" itemprop="dateCreated datePublished" datetime="2018-11-24T11:02:24+08:00">2018-11-24</time>
             
 
             
@@ -356,24 +355,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Code/" itemprop="url" rel="index"><span itemprop="name">Code</span></a></span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -382,8 +363,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/collections-Counter的使用/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2016/collections-Counter的使用/" itemprop="commentCount"></span>
+                <a href="/2018/resolve-ssh-slow/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2018/resolve-ssh-slow/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -411,29 +392,16 @@
       
 
       
-        <p>有一个需求是获取所有存在愿望的城市，并且找出热门城市。</p>
-<p>刚好前几天看到了Python的计数器：<code>collections.Counter</code>， 于是就拿来用了用。</p>
-<ul>
-<li>首先导入 <code>Counter</code>:</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from collections import Counter</span><br></pre></td></tr></table></figure>
-<ul>
-<li>通过查询数据库获取到所有满足条件的愿望放在<code>wishes</code>数组中，然后遍历所有数据，把所有城市的adcode存在一个数组中：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cities = [wish.adcode for wish in wishes]</span><br></pre></td></tr></table></figure>
+        <p>OpenSSH 在用户登录的时候会验证 IP，它根据用户的 IP 使用反向 DNS 找到主机名，再使用 DNS 找到 IP 地址，最后匹配一下登录的 IP 是否合法。如果客户机的 IP 没有域名，或者 DNS 服务器很慢或不通，那么登录就会很花时间。</p>
+<p>解决办法：</p>
+<p>在目标服务器上修改 sshd 服务器端配置，并重启 sshd。</p>
+<p><code>vi /etc/ssh/sshd_config</code></p>
+<p>设置 <code>UseDNS</code> 为 <code>no</code> 即可。</p>
+<p>最后</p>
+<p><code>systemctl restart sshd</code></p>
 <blockquote>
-<p>(我发现我最近越来越用推导式了。。。</p>
+<p>参考：<a href="https://www.cnblogs.com/ggjucheng/p/3348499.html" target="_blank" rel="noopener">https://www.cnblogs.com/ggjucheng/p/3348499.html</a></p>
 </blockquote>
-<ul>
-<li>然后使用Counter进行操作：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c = Counter(cities).most_common()</span><br></pre></td></tr></table></figure>
-<p>这样得到的结果是一个数组，每个元素是一个长度为2的元组，元组第0位保存的是数据，第1位保存的是这个数据出现的次数，整个数组是按照元素出现次数排序的，<code>most_common()</code>还可以带int型的参数，表示获取排名前n个的结果。不带参数表示获取所有结果。</p>
-<p>以上得到的结果为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(110000, 4), (510800, 3)],...</span><br></pre></td></tr></table></figure>
-<p>获取热门城市只需拿前4个数据就行（需求是4个热门城市），其他城市拿剩下的数据即可(注意，<code>c</code> 里每个元素是一个元组，元组的一个0位才是我们要的数据)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">top4 = [_[0] for _ in c[:4]]</span><br><span class="line">others = [_[0] for _ in c[4:]]</span><br></pre></td></tr></table></figure>
-<p>现在 <code>top4</code> 里存放的就是排名前四的城市adcode，<code>others</code> 里存放的是其他有愿望地区的城市adcode按照愿望数量排序的数组。</p>
 
       
     </div>
@@ -452,14 +420,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Python/" rel="tag"># Python</a>
-          
-            <a href="/tags/魔镜/" rel="tag"># 魔镜</a>
-          
-        </div>
-      
 
       
       
@@ -469,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/Python中合并两个字典/" rel="next" title="Python中合并两个字典">
-                <i class="fa fa-chevron-left"></i> Python中合并两个字典
+              <a href="/2018/centos-install-epel-repo/" rel="next" title="Centos 安装并启用 EPEL 源">
+                <i class="fa fa-chevron-left"></i> Centos 安装并启用 EPEL 源
               </a>
             
           </div>
@@ -478,10 +438,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/WakaTime/" rel="prev" title="WakaTime">
-                WakaTime <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

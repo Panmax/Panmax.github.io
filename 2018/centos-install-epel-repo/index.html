@@ -115,7 +115,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="Centos 默认提供的软件源资源很少，很多常用软件都没有：如 nginx,htop 等。 EPEL(Extra Packages for Enterprise Linux) 是由 Fedora Special Interest Group 维护的 Enterprise Linux（RHEL、CentOS）中经常用到的包。 通过 EPEL 可以很容易地通过 yum 命令从 EPEL 源上获取在 C">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-24T02:51:53.727Z">
+<meta property="og:updated_time" content="2018-11-24T03:10:02.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos 安装并启用 EPEL 源">
 <meta name="twitter:description" content="Centos 默认提供的软件源资源很少，很多常用软件都没有：如 nginx,htop 等。 EPEL(Extra Packages for Enterprise Linux) 是由 Fedora Special Interest Group 维护的 Enterprise Linux（RHEL、CentOS）中经常用到的包。 通过 EPEL 可以很容易地通过 yum 命令从 EPEL 源上获取在 C">
@@ -344,7 +344,7 @@
                 
               
 
-              <time title="Created: 2018-11-24 10:32:05 / Modified: 10:51:53" itemprop="dateCreated datePublished" datetime="2018-11-24T10:32:05+08:00">2018-11-24</time>
+              <time title="Created: 2018-11-24 10:32:05 / Modified: 11:10:02" itemprop="dateCreated datePublished" datetime="2018-11-24T10:32:05+08:00">2018-11-24</time>
             
 
             
@@ -407,7 +407,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/yum.repos.d/epel.repo</span><br></pre></td></tr></table></figure>
 <p>可以看到里边有多个组，将 <code>[epel]</code> 组内的 <code>enabled=0</code> 改成 <code>enabled=1</code>。</p>
 <p>这样就可以开启 EPEL 源了。</p>
+<blockquote>
 <p>参考：<a href="https://unix.stackexchange.com/questions/165916/trying-to-enable-epel-on-centos-6-and-it-wont-show-in-repolist" target="_blank" rel="noopener">https://unix.stackexchange.com/questions/165916/trying-to-enable-epel-on-centos-6-and-it-wont-show-in-repolist</a></p>
+</blockquote>
 
       
     </div>
@@ -444,6 +446,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/resolve-ssh-slow/" rel="prev" title="解决 ssh 登录慢的问题">
+                解决 ssh 登录慢的问题 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -511,7 +517,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">124</span>
+                    <span class="site-state-item-count">125</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

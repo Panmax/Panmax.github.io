@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2018-11-24T02:51:53.727Z</updated>
+  <updated>2018-11-24T03:09:45.813Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -17,13 +17,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>解决 ssh 登录慢的问题</title>
+    <link href="https://jpanj.com/2018/resolve-ssh-slow/"/>
+    <id>https://jpanj.com/2018/resolve-ssh-slow/</id>
+    <published>2018-11-24T03:02:24.000Z</published>
+    <updated>2018-11-24T03:09:45.813Z</updated>
+    
+    <content type="html"><![CDATA[<p>OpenSSH 在用户登录的时候会验证 IP，它根据用户的 IP 使用反向 DNS 找到主机名，再使用 DNS 找到 IP 地址，最后匹配一下登录的 IP 是否合法。如果客户机的 IP 没有域名，或者 DNS 服务器很慢或不通，那么登录就会很花时间。</p><p>解决办法：</p><p>在目标服务器上修改 sshd 服务器端配置，并重启 sshd。</p><p><code>vi /etc/ssh/sshd_config</code></p><p>设置 <code>UseDNS</code> 为 <code>no</code> 即可。</p><p>最后</p><p><code>systemctl restart sshd</code></p><blockquote><p>参考：<a href="https://www.cnblogs.com/ggjucheng/p/3348499.html" target="_blank" rel="noopener">https://www.cnblogs.com/ggjucheng/p/3348499.html</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;OpenSSH 在用户登录的时候会验证 IP，它根据用户的 IP 使用反向 DNS 找到主机名，再使用 DNS 找到 IP 地址，最后匹配一下登录的 IP 是否合法。如果客户机的 IP 没有域名，或者 DNS 服务器很慢或不通，那么登录就会很花时间。&lt;/p&gt;
+&lt;p&gt;解决办法
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Centos 安装并启用 EPEL 源</title>
     <link href="https://jpanj.com/2018/centos-install-epel-repo/"/>
     <id>https://jpanj.com/2018/centos-install-epel-repo/</id>
     <published>2018-11-24T02:32:05.000Z</published>
-    <updated>2018-11-24T02:51:53.727Z</updated>
+    <updated>2018-11-24T03:10:02.674Z</updated>
     
-    <content type="html"><![CDATA[<p>Centos 默认提供的软件源资源很少，很多常用软件都没有：如 <code>nginx</code>,<code>htop</code> 等。</p><p>EPEL(Extra Packages for Enterprise Linux) 是由 Fedora Special Interest Group 维护的 Enterprise Linux（RHEL、CentOS）中经常用到的包。</p><p>通过 EPEL 可以很容易地通过 yum 命令从 EPEL 源上获取在 CentOS 自带源上没有的软件。</p><p>首先安装 epel-release：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br></pre></td></tr></table></figure><p>大多数网站到了这一步就告诉你安装好了，但是在我尝试的时候，发现这种方式 EPEL 源默认并不会生效，可以通过下边的命令进行验证：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist | grep epel</span><br></pre></td></tr></table></figure><p>如果发现有类似下边的结果，说明 EPEL 源已生效：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">epel/x86_64           Extra Packages for Enterprise Linux 7 - x86_64      12,716</span><br></pre></td></tr></table></figure><p>如果没有输出这条命令，说明 EPEL 源默认没有开启，在安装软件时还需要手动指定源：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --enablerepo=epel install nginx</span><br></pre></td></tr></table></figure><p>这种方式使用时比较麻烦，我们可以通过修改 EPEL 的配置文件来启用它。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/yum.repos.d/epel.repo</span><br></pre></td></tr></table></figure><p>可以看到里边有多个组，将 <code>[epel]</code> 组内的 <code>enabled=0</code> 改成 <code>enabled=1</code>。</p><p>这样就可以开启 EPEL 源了。</p><p>参考：<a href="https://unix.stackexchange.com/questions/165916/trying-to-enable-epel-on-centos-6-and-it-wont-show-in-repolist" target="_blank" rel="noopener">https://unix.stackexchange.com/questions/165916/trying-to-enable-epel-on-centos-6-and-it-wont-show-in-repolist</a></p>]]></content>
+    <content type="html"><![CDATA[<p>Centos 默认提供的软件源资源很少，很多常用软件都没有：如 <code>nginx</code>,<code>htop</code> 等。</p><p>EPEL(Extra Packages for Enterprise Linux) 是由 Fedora Special Interest Group 维护的 Enterprise Linux（RHEL、CentOS）中经常用到的包。</p><p>通过 EPEL 可以很容易地通过 yum 命令从 EPEL 源上获取在 CentOS 自带源上没有的软件。</p><p>首先安装 epel-release：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br></pre></td></tr></table></figure><p>大多数网站到了这一步就告诉你安装好了，但是在我尝试的时候，发现这种方式 EPEL 源默认并不会生效，可以通过下边的命令进行验证：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist | grep epel</span><br></pre></td></tr></table></figure><p>如果发现有类似下边的结果，说明 EPEL 源已生效：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">epel/x86_64           Extra Packages for Enterprise Linux 7 - x86_64      12,716</span><br></pre></td></tr></table></figure><p>如果没有输出这条命令，说明 EPEL 源默认没有开启，在安装软件时还需要手动指定源：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --enablerepo=epel install nginx</span><br></pre></td></tr></table></figure><p>这种方式使用时比较麻烦，我们可以通过修改 EPEL 的配置文件来启用它。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/yum.repos.d/epel.repo</span><br></pre></td></tr></table></figure><p>可以看到里边有多个组，将 <code>[epel]</code> 组内的 <code>enabled=0</code> 改成 <code>enabled=1</code>。</p><p>这样就可以开启 EPEL 源了。</p><blockquote><p>参考：<a href="https://unix.stackexchange.com/questions/165916/trying-to-enable-epel-on-centos-6-and-it-wont-show-in-repolist" target="_blank" rel="noopener">https://unix.stackexchange.com/questions/165916/trying-to-enable-epel-on-centos-6-and-it-wont-show-in-repolist</a></p></blockquote>]]></content>
     
     <summary type="html">
     
@@ -442,27 +464,6 @@
     
     
       <category term="neo4j" scheme="https://jpanj.com/tags/neo4j/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SELinux 开启导致 Nginx 启动失败</title>
-    <link href="https://jpanj.com/2018/SELinux-%E5%BC%80%E5%90%AF%E5%AF%BC%E8%87%B4-Nginx-%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5/"/>
-    <id>https://jpanj.com/2018/SELinux-开启导致-Nginx-启动失败/</id>
-    <published>2018-03-06T09:17:33.000Z</published>
-    <updated>2018-03-06T09:25:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：<code>2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)</code>。</p><p>看了下系统中并没有进程在占用 9090 端口。最后通过 <a href="http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en" target="_blank" rel="noopener">http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en</a> 这篇文章的最后一个方案解决了这个问题。</p><p>大致看了下 SELinxu 的作用一个 Linux 的强化方案，大部分情况下是需要启动的 <a href="https://www.zhihu.com/question/20559538" target="_blank" rel="noopener">https://www.zhihu.com/question/20559538</a>。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：&lt;code&gt;2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed
-      
-    
-    </summary>
-    
     
   </entry>
   
