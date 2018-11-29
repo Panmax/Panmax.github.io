@@ -115,13 +115,10 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="背景 utf8 是 MySQL 早期版本中支持的一种字符集，只支持最长三个字节的 UTF-8 字符，也就是 Unicode 中的基本多文本平面。这可能是因为在 MySQL 发布初期，基本多文种平面之外的字符确实很少用到。而在 MySQL5.5.3 版本后，要在 MySQL 中保存 4 字节长度的 UTF-8 字符，就可以使用 utf8mb4 字符集了。例如可以用 utf8mb4 字符编码直接存储">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://jpanj.com/2018/docker-mysql-utf8mb4/1.png">
-<meta property="og:image" content="https://jpanj.com/2018/docker-mysql-utf8mb4/2.png">
-<meta property="og:updated_time" content="2018-11-29T06:01:29.257Z">
+<meta property="og:updated_time" content="2018-11-29T06:07:11.574Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker 部署 MySQL 使用 utf8mb4 字符集">
 <meta name="twitter:description" content="背景 utf8 是 MySQL 早期版本中支持的一种字符集，只支持最长三个字节的 UTF-8 字符，也就是 Unicode 中的基本多文本平面。这可能是因为在 MySQL 发布初期，基本多文种平面之外的字符确实很少用到。而在 MySQL5.5.3 版本后，要在 MySQL 中保存 4 字节长度的 UTF-8 字符，就可以使用 utf8mb4 字符集了。例如可以用 utf8mb4 字符编码直接存储">
-<meta name="twitter:image" content="https://jpanj.com/2018/docker-mysql-utf8mb4/1.png">
 
 
 
@@ -347,7 +344,7 @@
                 
               
 
-              <time title="Created: 2018-11-29 13:25:24 / Modified: 14:01:29" itemprop="dateCreated datePublished" datetime="2018-11-29T13:25:24+08:00">2018-11-29</time>
+              <time title="Created: 2018-11-29 13:25:24 / Modified: 14:07:11" itemprop="dateCreated datePublished" datetime="2018-11-29T13:25:24+08:00">2018-11-29</time>
             
 
             
@@ -405,9 +402,8 @@
 <p>解决办法是将服务端的默认字符集改为 <code>utf8mb4</code>。我们的 MySQL 是使用 docker 启动的，需要把配置文件映射进去。在这里我们踩过一次坑，之前我们是将 <code>my.conf</code> 文件映射到容器的 <code>/etc/my.cnf</code>，实际使用时发现配置文件并没有生效，需要映射到 <code>/etc/mysql/my.cnf</code> 才能生效。</p>
 <h4 id="解决问题："><a href="#解决问题：" class="headerlink" title="解决问题："></a>解决问题：</h4><p>先查看一下当前数据库的字符集：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; show variables like &apos;%char%&apos;;</span><br><span class="line"></span><br><span class="line">+--------------------------+----------------------------+</span><br><span class="line">| Variable_name            | Value                      |</span><br><span class="line">+--------------------------+----------------------------+</span><br><span class="line">| character_set_client     | latin1                     |</span><br><span class="line">| character_set_connection | latin1                     |</span><br><span class="line">| character_set_database   | latin1                     |</span><br><span class="line">| character_set_filesystem | binary                     |</span><br><span class="line">| character_set_results    | latin1                     |</span><br><span class="line">| character_set_server     | latin1                     |</span><br><span class="line">| character_set_system     | utf8                       |</span><br><span class="line">| character_sets_dir       | /usr/share/mysql/charsets/ |</span><br><span class="line">+--------------------------+----------------------------+</span><br></pre></td></tr></table></figure>
-<p>发现默认都是 <code>latin1</code>，现在我们在 <code>my.conf</code> 中的相应模块下加入下图的 3 个配置，然后重启 MySQL：</p>
-<p><img src="1.png" alt=""></p>
-<p><img src="2.png" alt=""></p>
+<p>发现默认都是 <code>latin1</code>，现在我们在 <code>my.conf</code> 中的相应模块中加入如下配置，然后重启 MySQL：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default-character-set=utf8mb4</span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8mb4</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">character-set-server=utf8mb4</span><br><span class="line">collation-server=utf8mb4_general_ci</span><br></pre></td></tr></table></figure>
 <p>再次查看字符集：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; show variables like &apos;%char%&apos;;</span><br><span class="line"></span><br><span class="line">+--------------------------+----------------------------+</span><br><span class="line">| Variable_name            | Value                      |</span><br><span class="line">+--------------------------+----------------------------+</span><br><span class="line">| character_set_client     | utf8mb4                    |</span><br><span class="line">| character_set_connection | utf8mb4                    |</span><br><span class="line">| character_set_database   | utf8mb4                    |</span><br><span class="line">| character_set_filesystem | binary                     |</span><br><span class="line">| character_set_results    | utf8mb4                    |</span><br><span class="line">| character_set_server     | utf8mb4                    |</span><br><span class="line">| character_set_system     | utf8                       |</span><br><span class="line">| character_sets_dir       | /usr/share/mysql/charsets/ |</span><br><span class="line">+--------------------------+----------------------------+</span><br></pre></td></tr></table></figure>
 <p>发现已经更改为了 <code>utf8mb4</code>，再次尝试插入 emoji 成功，问题解决。</p>
