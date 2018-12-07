@@ -113,17 +113,17 @@
 
 
 
-  <meta name="description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 看了下系统中并没有进程在占用 9090 端口。最后通过 http://www.err1">
+  <meta name="description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 经过一番查询，发现是因为 SELinux 导致的，平时用到的不多，直接将其关闭即可。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SELinux 开启导致 Nginx 启动失败">
 <meta property="og:url" content="https://jpanj.com/2018/SELinux-开启导致-Nginx-启动失败/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 看了下系统中并没有进程在占用 9090 端口。最后通过 http://www.err1">
+<meta property="og:description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 经过一番查询，发现是因为 SELinux 导致的，平时用到的不多，直接将其关闭即可。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T09:25:04.000Z">
+<meta property="og:updated_time" content="2018-12-07T02:05:23.574Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SELinux 开启导致 Nginx 启动失败">
-<meta name="twitter:description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 看了下系统中并没有进程在占用 9090 端口。最后通过 http://www.err1">
+<meta name="twitter:description" content="今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)。 经过一番查询，发现是因为 SELinux 导致的，平时用到的不多，直接将其关闭即可。">
 
 
 
@@ -349,12 +349,24 @@
                 
               
 
-              <time title="Created: 2018-03-06 17:17:33 / Modified: 17:25:04" itemprop="dateCreated datePublished" datetime="2018-03-06T17:17:33+08:00">2018-03-06</time>
+              <time title="Created: 2018-03-06 17:17:33" itemprop="dateCreated datePublished" datetime="2018-03-06T17:17:33+08:00">2018-03-06</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-12-07 10:05:23" itemprop="dateModified" datetime="2018-12-07T10:05:23+08:00">2018-12-07</time>
               
             
           </span>
@@ -398,7 +410,19 @@
 
       
         <p>今天在启动一个 Centos 上的 Nginx 时，死活启不起来，配置文件中 listen 9090 端口，看 log 启动时会报：<code>2018/03/06 16:54:31 [emerg] 7984#0: bind() to 0.0.0.0:9090 failed (13: Permission denied)</code>。</p>
-<p>看了下系统中并没有进程在占用 9090 端口。最后通过 <a href="http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en" target="_blank" rel="noopener">http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en</a> 这篇文章的最后一个方案解决了这个问题。</p>
+<p>经过一番查询，发现是因为 SELinux 导致的，平时用到的不多，直接将其关闭即可。</p>
+<p>查看状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/sestatus -v      ##如果SELinux status参数为enabled即为开启状态</span><br><span class="line">SELinux status:                 enabled</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getenforce                 ##也可以用这个命令检查</span><br></pre></td></tr></table></figure>
+<p>关闭SELinux：</p>
+<p>临时关闭（不用重启机器）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0                  ##设置SELinux 成为permissive模式</span><br><span class="line">                              ##setenforce 1 设置SELinux 成为enforcing模式</span><br></pre></td></tr></table></figure>
+<p>修改配置文件需要重启机器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">修改/etc/selinux/config 文件</span><br><span class="line">将SELINUX=enforcing改为SELINUX=disabled</span><br></pre></td></tr></table></figure>
+<p>重启机器即可</p>
+<p><del>看了下系统中并没有进程在占用 9090 端口。最后通过 <a href="http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en" target="_blank" rel="noopener">http://www.err123.com/2017/08/29/nginx-emerg-bind-to-0-0-0-0-8081-failed-13-permission-denied/?lang=en</a> 这篇文章的最后一个方案解决了这个问题。</del></p>
+<p>已上外链已失效。</p>
 <p>大致看了下 SELinxu 的作用一个 Linux 的强化方案，大部分情况下是需要启动的 <a href="https://www.zhihu.com/question/20559538" target="_blank" rel="noopener">https://www.zhihu.com/question/20559538</a>。</p>
 
       
