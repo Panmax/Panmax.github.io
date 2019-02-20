@@ -18,8 +18,8 @@
   
   <entry>
     <title>nginx 配置反向代理 + ssl 模板</title>
-    <link href="https://jpanj.com/2019/nginx-%E9%85%8D%E7%BD%AE%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86-ssl-%E6%A8%A1%E6%9D%BF/"/>
-    <id>https://jpanj.com/2019/nginx-配置反向代理-ssl-模板/</id>
+    <link href="https://jpanj.com/2019/nginx-reverse-proxy-and-ssl-template/"/>
+    <id>https://jpanj.com/2019/nginx-reverse-proxy-and-ssl-template/</id>
     <published>2019-02-20T06:52:35.000Z</published>
     <updated>2019-02-20T06:54:32.169Z</updated>
     
