@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2019-01-17T06:22:32.704Z</updated>
+  <updated>2019-02-20T06:54:32.169Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nginx 配置反向代理 + ssl 模板</title>
+    <link href="https://jpanj.com/2019/nginx-%E9%85%8D%E7%BD%AE%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86-ssl-%E6%A8%A1%E6%9D%BF/"/>
+    <id>https://jpanj.com/2019/nginx-配置反向代理-ssl-模板/</id>
+    <published>2019-02-20T06:52:35.000Z</published>
+    <updated>2019-02-20T06:54:32.169Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name abc.com;</span><br><span class="line"></span><br><span class="line">    location / &#123;  // 强制 https 重定向</span><br><span class="line">        rewrite ^(.*)$  https://$host$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name abc.com;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">            proxy_pass http://127.0.0.1:8000;</span><br><span class="line">            proxy_set_header Host $host;</span><br><span class="line">            proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">            proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate      /root/ssl/xxx.pem;</span><br><span class="line">    ssl_certificate_key  /root/ssl/xxx.key;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Idea 启动 SpringBoot 加速</title>
@@ -425,32 +446,6 @@
       
         &lt;p&gt;今年优先级最高的事情是 lose weight，给自己设置了两个时间节点：第一个节点是自己的生日（农历5月12），目标是从 90kg 减至 80kg，第二个节点是我拍脑袋想的日期：222天后（农历9月18），减到 70kg，立文为据。明天起每日博客记录体重变化。&lt;/p&gt;
 &lt;
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Panmax 的香煎鸡胸肉教程</title>
-    <link href="https://jpanj.com/2018/fried-chicken-breast-tutorial/"/>
-    <id>https://jpanj.com/2018/fried-chicken-breast-tutorial/</id>
-    <published>2018-03-08T08:58:36.000Z</published>
-    <updated>2018-03-08T09:09:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>可能很多人不知道，我的第二职业是厨师，之后会考虑写一些简单易做的美食文章。</p><p>今天尝试做了一次煎鸡胸肉，味道非常棒！有健身需求的朋友们可以了解一下。</p><p>做法非常简单：</p><ol><li>鸡胸肉划上斜刀用盐和料酒腌十分钟</li><li>然后锅里倒一点点油（我用的橄榄油）油稍微冒烟后下鸡胸</li><li>煎至两面变色后加入一大勺蚝油</li><li>然后煎至两面金黄</li><li>撒上黑胡椒再煎两分钟即可出锅</li><li>装盘时可以用盐水煮芦笋和柠檬做装饰</li></ol><p>是不是非常简单？</p><p>最后，上几张图：</p><p><img src="1.jpg" alt=""></p><p><img src="2.jpg" alt=""></p><p><img src="3.jpg" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;可能很多人不知道，我的第二职业是厨师，之后会考虑写一些简单易做的美食文章。&lt;/p&gt;
-&lt;p&gt;今天尝试做了一次煎鸡胸肉，味道非常棒！有健身需求的朋友们可以了解一下。&lt;/p&gt;
-&lt;p&gt;做法非常简单：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;鸡胸肉划上斜刀用盐和料酒腌十分钟&lt;/li&gt;
-&lt;li&gt;然后
       
     
     </summary>

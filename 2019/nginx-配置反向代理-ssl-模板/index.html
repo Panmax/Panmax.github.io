@@ -113,18 +113,17 @@
 
 
 
-  <meta name="description" content="写这篇博客的原因是，我刚用 Mac 的时候 MySQL 是在官网下载的安装包进行的安装，那时候不知道有 Homebrew 这个神器。用官方的包安装好后又做何很多的配置最终才能正常使用。但还是有不少问题，比如无法在终端启动MySQL，只能在系统偏好里，通过官方的启动器启动。 后来有很长一段时间没有用过MySQL，今天再用的时候发现无法启动了，于是就把之前的进行了卸载，重新用Homebrew安装了一遍">
-<meta name="keywords" content="MySQL">
+  <meta name="description" content="123456789101112131415161718192021222324252627server &amp;#123;    listen 80;    server_name abc.com;    location / &amp;#123;  // 强制 https 重定向        rewrite ^(.*)$  https://$host$1 permanent;    &amp;#125;    &amp;#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac下MySQL安装与卸载">
-<meta property="og:url" content="https://jpanj.com/2016/Mac下MySQL安装与卸载/index.html">
+<meta property="og:title" content="nginx 配置反向代理 + ssl 模板">
+<meta property="og:url" content="https://jpanj.com/2019/nginx-配置反向代理-ssl-模板/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="写这篇博客的原因是，我刚用 Mac 的时候 MySQL 是在官网下载的安装包进行的安装，那时候不知道有 Homebrew 这个神器。用官方的包安装好后又做何很多的配置最终才能正常使用。但还是有不少问题，比如无法在终端启动MySQL，只能在系统偏好里，通过官方的启动器启动。 后来有很长一段时间没有用过MySQL，今天再用的时候发现无法启动了，于是就把之前的进行了卸载，重新用Homebrew安装了一遍">
+<meta property="og:description" content="123456789101112131415161718192021222324252627server &amp;#123;    listen 80;    server_name abc.com;    location / &amp;#123;  // 强制 https 重定向        rewrite ^(.*)$  https://$host$1 permanent;    &amp;#125;    &amp;#">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-03-25T05:29:07.000Z">
+<meta property="og:updated_time" content="2019-02-20T06:54:32.169Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac下MySQL安装与卸载">
-<meta name="twitter:description" content="写这篇博客的原因是，我刚用 Mac 的时候 MySQL 是在官网下载的安装包进行的安装，那时候不知道有 Homebrew 这个神器。用官方的包安装好后又做何很多的配置最终才能正常使用。但还是有不少问题，比如无法在终端启动MySQL，只能在系统偏好里，通过官方的启动器启动。 后来有很长一段时间没有用过MySQL，今天再用的时候发现无法启动了，于是就把之前的进行了卸载，重新用Homebrew安装了一遍">
+<meta name="twitter:title" content="nginx 配置反向代理 + ssl 模板">
+<meta name="twitter:description" content="123456789101112131415161718192021222324252627server &amp;#123;    listen 80;    server_name abc.com;    location / &amp;#123;  // 强制 https 重定向        rewrite ^(.*)$  https://$host$1 permanent;    &amp;#125;    &amp;#">
 
 
 
@@ -133,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2016/Mac下MySQL安装与卸载/"/>
+  <link rel="canonical" href="https://jpanj.com/2019/nginx-配置反向代理-ssl-模板/"/>
 
 
 
@@ -143,7 +142,7 @@
   };
 </script>
 
-  <title>Mac下MySQL安装与卸载 | 贾攀家</title>
+  <title>nginx 配置反向代理 + ssl 模板 | 贾攀家</title>
   
 
 
@@ -318,7 +317,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2016/Mac下MySQL安装与卸载/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/nginx-配置反向代理-ssl-模板/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -335,7 +334,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mac下MySQL安装与卸载
+          <h1 class="post-title" itemprop="name headline">nginx 配置反向代理 + ssl 模板
               
             
           </h1>
@@ -360,7 +359,7 @@
                 
               
 
-              <time title="Created: 2016-03-25 13:09:01 / Modified: 13:29:07" itemprop="dateCreated datePublished" datetime="2016-03-25T13:09:01+08:00">2016-03-25</time>
+              <time title="Created: 2019-02-20 14:52:35 / Modified: 14:54:32" itemprop="dateCreated datePublished" datetime="2019-02-20T14:52:35+08:00">2019-02-20</time>
             
 
             
@@ -371,24 +370,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Mac/" itemprop="url" rel="index"><span itemprop="name">Mac</span></a></span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -397,8 +378,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/Mac下MySQL安装与卸载/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2016/Mac下MySQL安装与卸载/" itemprop="commentCount"></span>
+                <a href="/2019/nginx-配置反向代理-ssl-模板/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/nginx-配置反向代理-ssl-模板/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -426,12 +407,8 @@
       
 
       
-        <p>写这篇博客的原因是，我刚用 Mac 的时候 <code>MySQL</code> 是在官网下载的安装包进行的安装，那时候不知道有 <code>Homebrew</code> 这个神器。用官方的包安装好后又做何很多的配置最终才能正常使用。但还是有不少问题，比如无法在终端启动MySQL，只能在系统偏好里，通过官方的启动器启动。</p>
-<p>后来有很长一段时间没有用过MySQL，今天再用的时候发现无法启动了，于是就把之前的进行了卸载，重新用Homebrew安装了一遍。</p>
-<h3 id="卸载过程："><a href="#卸载过程：" class="headerlink" title="卸载过程："></a>卸载过程：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /usr/local/mysql</span><br><span class="line">sudo rm -rf /usr/local/mysql*</span><br><span class="line">sudo rm -rf /Library/StartupItems/MySQLCOM</span><br><span class="line">sudo rm -rf /Library/PreferencePanes/My*</span><br><span class="line">sudo vim /etc/hostconfig 按a进入编辑模式 然后手动删除 MYSQLCOM=-YES- 然后按Esc退出编辑模式 输入：wq！保存并退出</span><br><span class="line">rm -rf ~/Library/PreferencePanes/My*</span><br><span class="line">sudo rm -rf /Library/Receipts/mysql*</span><br><span class="line">sudo rm -rf /Library/Receipts/MySQL*</span><br><span class="line">sudo rm -rf /var/db/receipts/com.mysql.*</span><br></pre></td></tr></table></figure>
-<h3 id="安装过程："><a href="#安装过程：" class="headerlink" title="安装过程："></a>安装过程：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install mysql</span><br><span class="line">export PATH=$PATH:/usr/local/mysql/bin</span><br></pre></td></tr></table></figure>
-<h3 id="启动："><a href="#启动：" class="headerlink" title="启动："></a>启动：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/usr/local/mysql/bin</span><br><span class="line">mysql.server start</span><br></pre></td></tr></table></figure>
-<h3 id="首次登录："><a href="#首次登录：" class="headerlink" title="首次登录："></a>首次登录：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name abc.com;</span><br><span class="line"></span><br><span class="line">    location / &#123;  // 强制 https 重定向</span><br><span class="line">        rewrite ^(.*)$  https://$host$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name abc.com;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">            proxy_pass http://127.0.0.1:8000;</span><br><span class="line">            proxy_set_header Host $host;</span><br><span class="line">            proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">            proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate      /root/ssl/xxx.pem;</span><br><span class="line">    ssl_certificate_key  /root/ssl/xxx.key;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -449,12 +426,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
-          
-        </div>
-      
 
       
       
@@ -464,8 +435,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/jQuery实现网页无限上拉/" rel="next" title="jQuery实现网页无限上拉">
-                <i class="fa fa-chevron-left"></i> jQuery实现网页无限上拉
+              <a href="/2019/fast-idea-in-mac/" rel="next" title="Idea 启动 SpringBoot 加速">
+                <i class="fa fa-chevron-left"></i> Idea 启动 SpringBoot 加速
               </a>
             
           </div>
@@ -473,10 +444,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/Airbnb-React-编码规范/" rel="prev" title="Airbnb React 编码规范">
-                Airbnb React 编码规范 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -524,17 +491,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -764,22 +722,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载过程："><span class="nav-number">1.</span> <span class="nav-text">卸载过程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装过程："><span class="nav-number">2.</span> <span class="nav-text">安装过程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动："><span class="nav-number">3.</span> <span class="nav-text">启动：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首次登录："><span class="nav-number">4.</span> <span class="nav-text">首次登录：</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
