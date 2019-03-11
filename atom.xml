@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2019-03-07T07:58:04.047Z</updated>
+  <updated>2019-03-11T05:07:38.738Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2019 Flag</title>
+    <link href="https://jpanj.com/2019/flag-2019/"/>
+    <id>https://jpanj.com/2019/flag-2019/</id>
+    <published>2019-12-31T15:59:59.000Z</published>
+    <updated>2019-03-11T05:07:38.738Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>至少阅读 3 本计算机相关的砖头书<ul><li>[ ] 深入理解计算机系统</li><li>[ ] 代码大全</li><li>[ ] 程序员修炼之道 - 从小工到专家（二刷）</li><li>[ ] UNINX 编程艺术</li><li>[ ] 算法</li><li>[ ] 计算机网络：自顶向下方法</li></ul><ul><li>参考：<a href="https://www.zhihu.com/question/273973062" target="_blank" rel="noopener">https://www.zhihu.com/question/273973062</a></li></ul></li><li>每月至少读一本非计算机类的书</li><li>熟练掌握 Go 语言，并用它完成一个大中型项目</li><li>学习 Team Leader</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;至少阅读 3 本计算机相关的砖头书&lt;ul&gt;
+&lt;li&gt;[ ] 深入理解计算机系统&lt;/li&gt;
+&lt;li&gt;[ ] 代码大全&lt;/li&gt;
+&lt;li&gt;[ ] 程序员修炼之道 - 从小工到专家（二刷）&lt;/li&gt;
+&lt;li&gt;[ ] UNINX 编程艺术&lt;/li&gt;
+&lt;li&gt;[ ] 算法
+      
+    
+    </summary>
+    
+    
+      <category term="flag" scheme="https://jpanj.com/tags/flag/"/>
+    
+  </entry>
   
   <entry>
     <title>Java 8 StringJoiner 示例</title>
@@ -424,28 +453,6 @@
       
         &lt;p&gt;今天在用 hadoop 上传文件到 HDFS 时，报错：&lt;code&gt;put: Checksum error: file:/home/magneto/fb_friend.csv at 0 exp: 1005486446 got: 441437096&lt;/code&gt;。&lt;/p&gt;
 &lt;
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Neo4j 关系不支持多种类型</title>
-    <link href="https://jpanj.com/2018/neo4j-with-multiple-types/"/>
-    <id>https://jpanj.com/2018/neo4j-with-multiple-types/</id>
-    <published>2018-03-23T02:48:30.000Z</published>
-    <updated>2018-03-23T03:08:57.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Neo4j 中创建节点时，可以指定多个标签：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE (n:Person:China)</span><br></pre></td></tr></table></figure><p>但是在创建关系时，只能指定一种类型，其实官方通过这两个不同词汇（标签 和 类型）也能体现出节点和关系关于分类方面的不同。</p><p>如下图所示，在尝试用多种类型创建关系时，会报错：</p><p><img src="1.png" alt=""></p><p><img src="2.png" alt=""></p><p>一个节点可以有多个标签，一个关系只能有一种类型。</p><p>在 <a href="https://github.com/neo4j/neo4j/issues/1199" target="_blank" rel="noopener">GitHub issues</a> 中也有一个简短的解释：</p><blockquote><p>This is unfortunately out of scope right now the property-graph model fared well with a single relationship-type so far.</p></blockquote><blockquote><p>I’d suggest you create multiple relationships between your two nodes that is the way to go.</p></blockquote><p>属性图模型在单一关系类型时表现更好，如果需要在两个节点间表示多个关系，直接创建多条关系就可以了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Neo4j 中创建节点时，可以指定多个标签：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;
       
     
     </summary>
