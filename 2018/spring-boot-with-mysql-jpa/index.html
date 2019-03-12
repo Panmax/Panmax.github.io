@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -135,12 +135,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/spring-boot-with-mysql-jpa/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/spring-boot-with-mysql-jpa/">
 
 
 
@@ -250,7 +250,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -258,7 +258,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -266,7 +266,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -274,7 +274,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -433,9 +433,9 @@
 </li>
 </ol>
 <p>输入完所有详情后，将上边的 <strong>Generate a</strong> 改为 <strong>Gradle Project</strong> 点击 <strong>Generate Project</strong> 来生成并下载项目。Spring Initializer 将根据你输入的信息生成项目并提供一个 zip 包含所有项目目录。下一步解压下载下来的 zip 文件，并将导入到你喜欢的 IDE 中。</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <h2 id="探索目录结构"><a href="#探索目录结构" class="headerlink" title="探索目录结构"></a>探索目录结构</h2><p>下边是我们记事本程序的目录结构</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <p>让我们来理解几个重要文件和目录的详情</p>
 <h4 id="EasyNotesApplication"><a href="#EasyNotesApplication" class="headerlink" title="EasyNotesApplication"></a>EasyNotesApplication</h4><p>这是我们 Spring Boot 应用的主要入口。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package com.example.easynotes;</span><br><span class="line"> </span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"> </span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class EasyNotesApplication &#123;</span><br><span class="line"> </span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">      SpringApplication.run(EasyNotesApplication.class, args);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -535,11 +535,11 @@
 <h2 id="运行应用"><a href="#运行应用" class="headerlink" title="运行应用"></a>运行应用</h2><p>我们已经成功为我们的应用程序构建了所有的 api，现在运行该应用并测试 api。</p>
 <p>在你的 IDE 中直接运行 EasyNotesApplication 类即可，应用将使用 Spring Boot 的默认 tomcat 端口启动。</p>
 <p>接下来我们使用 postman 来测试我们的 api。</p>
-<h2 id="测试-API"><a href="#测试-API" class="headerlink" title="测试 API"></a>测试 API</h2><h4 id="使用-POST-api-notes-创建一个新的笔记"><a href="#使用-POST-api-notes-创建一个新的笔记" class="headerlink" title="使用 POST /api/notes 创建一个新的笔记"></a>使用 <code>POST /api/notes</code> 创建一个新的笔记</h4><p><img src="3.png" alt=""></p>
-<h4 id="使用-GET-api-notes-检索全部笔记"><a href="#使用-GET-api-notes-检索全部笔记" class="headerlink" title="使用 GET /api/notes 检索全部笔记"></a>使用 <code>GET /api/notes</code> 检索全部笔记</h4><p><img src="4.png" alt=""></p>
-<h4 id="使用-GET-api-notes-noteId-检索单个笔记"><a href="#使用-GET-api-notes-noteId-检索单个笔记" class="headerlink" title="使用 GET /api/notes/{noteId} 检索单个笔记"></a>使用 <code>GET /api/notes/{noteId}</code> 检索单个笔记</h4><p><img src="5.png" alt=""></p>
-<h4 id="使用-PUT-api-notes-noteId-更新一个笔记"><a href="#使用-PUT-api-notes-noteId-更新一个笔记" class="headerlink" title="使用 PUT /api/notes/{noteId} 更新一个笔记"></a>使用 <code>PUT /api/notes/{noteId}</code> 更新一个笔记</h4><p><img src="6.png" alt=""></p>
-<h4 id="使用-DELETE-api-notes-noteId-删除一个笔记"><a href="#使用-DELETE-api-notes-noteId-删除一个笔记" class="headerlink" title="使用 DELETE /api/notes/{noteId} 删除一个笔记"></a>使用 DELETE /api/notes/{noteId} 删除一个笔记</h4><p><img src="7.png" alt=""></p>
+<h2 id="测试-API"><a href="#测试-API" class="headerlink" title="测试 API"></a>测试 API</h2><h4 id="使用-POST-api-notes-创建一个新的笔记"><a href="#使用-POST-api-notes-创建一个新的笔记" class="headerlink" title="使用 POST /api/notes 创建一个新的笔记"></a>使用 <code>POST /api/notes</code> 创建一个新的笔记</h4><p><img src="3.png" alt></p>
+<h4 id="使用-GET-api-notes-检索全部笔记"><a href="#使用-GET-api-notes-检索全部笔记" class="headerlink" title="使用 GET /api/notes 检索全部笔记"></a>使用 <code>GET /api/notes</code> 检索全部笔记</h4><p><img src="4.png" alt></p>
+<h4 id="使用-GET-api-notes-noteId-检索单个笔记"><a href="#使用-GET-api-notes-noteId-检索单个笔记" class="headerlink" title="使用 GET /api/notes/{noteId} 检索单个笔记"></a>使用 <code>GET /api/notes/{noteId}</code> 检索单个笔记</h4><p><img src="5.png" alt></p>
+<h4 id="使用-PUT-api-notes-noteId-更新一个笔记"><a href="#使用-PUT-api-notes-noteId-更新一个笔记" class="headerlink" title="使用 PUT /api/notes/{noteId} 更新一个笔记"></a>使用 <code>PUT /api/notes/{noteId}</code> 更新一个笔记</h4><p><img src="6.png" alt></p>
+<h4 id="使用-DELETE-api-notes-noteId-删除一个笔记"><a href="#使用-DELETE-api-notes-noteId-删除一个笔记" class="headerlink" title="使用 DELETE /api/notes/{noteId} 删除一个笔记"></a>使用 DELETE /api/notes/{noteId} 删除一个笔记</h4><p><img src="7.png" alt></p>
 
       
     </div>
@@ -641,9 +641,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -879,7 +877,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建项目"><span class="nav-number">1.</span> <span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#探索目录结构"><span class="nav-number">2.</span> <span class="nav-text">探索目录结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#EasyNotesApplication"><span class="nav-number">2.0.1.</span> <span class="nav-text">EasyNotesApplication</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resources"><span class="nav-number">2.0.2.</span> <span class="nav-text">resources/</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EasyNotesApplicationTests"><span class="nav-number">2.0.3.</span> <span class="nav-text">EasyNotesApplicationTests</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#build-gradle"><span class="nav-number">2.0.4.</span> <span class="nav-text">build.gradle</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-MySQL-数据库"><span class="nav-number">3.</span> <span class="nav-text">配置 MySQL 数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Note-模型"><span class="nav-number">4.</span> <span class="nav-text">创建 Note 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开启-JPA-审计"><span class="nav-number">5.</span> <span class="nav-text">开启 JPA 审计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-NoteRepository-访问来自数据库的数据"><span class="nav-number">6.</span> <span class="nav-text">创建 NoteRepository 访问来自数据库的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建自定义业务异常"><span class="nav-number">7.</span> <span class="nav-text">创建自定义业务异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-NoteController"><span class="nav-number">8.</span> <span class="nav-text">创建 NoteController</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-获取所有笔记（GET-api-notes）"><span class="nav-number">8.1.</span> <span class="nav-text">1.获取所有笔记（GET /api/notes）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建一个新的笔记（POST-api-notes）"><span class="nav-number">8.2.</span> <span class="nav-text">2.创建一个新的笔记（POST /api/notes）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-获取单个笔记（GET-api-notes-noteId-）"><span class="nav-number">8.3.</span> <span class="nav-text">3.获取单个笔记（GET /api/notes/{noteId}）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-更新笔记（PUT-api-notes-noteId-）"><span class="nav-number">8.4.</span> <span class="nav-text">4.更新笔记（PUT /api/notes/{noteId}）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-删除笔记（DELETE-api-notes-noteId-）"><span class="nav-number">8.5.</span> <span class="nav-text">5.删除笔记（DELETE /api/notes/{noteId}）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行应用"><span class="nav-number">9.</span> <span class="nav-text">运行应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-API"><span class="nav-number">10.</span> <span class="nav-text">测试 API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-POST-api-notes-创建一个新的笔记"><span class="nav-number">10.0.1.</span> <span class="nav-text">使用 POST /api/notes 创建一个新的笔记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-GET-api-notes-检索全部笔记"><span class="nav-number">10.0.2.</span> <span class="nav-text">使用 GET /api/notes 检索全部笔记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-GET-api-notes-noteId-检索单个笔记"><span class="nav-number">10.0.3.</span> <span class="nav-text">使用 GET /api/notes/{noteId} 检索单个笔记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-PUT-api-notes-noteId-更新一个笔记"><span class="nav-number">10.0.4.</span> <span class="nav-text">使用 PUT /api/notes/{noteId} 更新一个笔记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-DELETE-api-notes-noteId-删除一个笔记"><span class="nav-number">10.0.5.</span> <span class="nav-text">使用 DELETE /api/notes/{noteId} 删除一个笔记</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建项目"><span class="nav-number">1.</span> <span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#探索目录结构"><span class="nav-number">2.</span> <span class="nav-text">探索目录结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#EasyNotesApplication"><span class="nav-number">2.0.1.</span> <span class="nav-text">EasyNotesApplication</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resources"><span class="nav-number">2.0.2.</span> <span class="nav-text">resources/</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EasyNotesApplicationTests"><span class="nav-number">2.0.3.</span> <span class="nav-text">EasyNotesApplicationTests</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#build-gradle"><span class="nav-number">2.0.4.</span> <span class="nav-text">build.gradle</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-MySQL-数据库"><span class="nav-number">3.</span> <span class="nav-text">配置 MySQL 数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Note-模型"><span class="nav-number">4.</span> <span class="nav-text">创建 Note 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开启-JPA-审计"><span class="nav-number">5.</span> <span class="nav-text">开启 JPA 审计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-NoteRepository-访问来自数据库的数据"><span class="nav-number">6.</span> <span class="nav-text">创建 NoteRepository 访问来自数据库的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建自定义业务异常"><span class="nav-number">7.</span> <span class="nav-text">创建自定义业务异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-NoteController"><span class="nav-number">8.</span> <span class="nav-text">创建 NoteController</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-获取所有笔记（GET-api-notes）"><span class="nav-number">8.1.</span> <span class="nav-text">1.获取所有笔记（GET /api/notes）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建一个新的笔记（POST-api-notes）"><span class="nav-number">8.2.</span> <span class="nav-text">2.创建一个新的笔记（POST /api/notes）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-获取单个笔记（GET-api-notes-noteId-）"><span class="nav-number">8.3.</span> <span class="nav-text">3.获取单个笔记（GET /api/notes/{noteId}）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-更新笔记（PUT-api-notes-noteId-）"><span class="nav-number">8.4.</span> <span class="nav-text">4.更新笔记（PUT /api/notes/{noteId}）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-删除笔记（DELETE-api-notes-noteId-）"><span class="nav-number">8.5.</span> <span class="nav-text">5.删除笔记（DELETE /api/notes/{noteId}）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行应用"><span class="nav-number">9.</span> <span class="nav-text">运行应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-API"><span class="nav-number">10.</span> <span class="nav-text">测试 API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-POST-api-notes-创建一个新的笔记"><span class="nav-number">10.0.1.</span> <span class="nav-text">使用 POST /api/notes 创建一个新的笔记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-GET-api-notes-检索全部笔记"><span class="nav-number">10.0.2.</span> <span class="nav-text">使用 GET /api/notes 检索全部笔记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-GET-api-notes-noteId-检索单个笔记"><span class="nav-number">10.0.3.</span> <span class="nav-text">使用 GET /api/notes/{noteId} 检索单个笔记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-PUT-api-notes-noteId-更新一个笔记"><span class="nav-number">10.0.4.</span> <span class="nav-text">使用 PUT /api/notes/{noteId} 更新一个笔记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-DELETE-api-notes-noteId-删除一个笔记"><span class="nav-number">10.0.5.</span> <span class="nav-text">使用 DELETE /api/notes/{noteId} 删除一个笔记</span></a></li></ol></li></div>
             
 
           </div>
@@ -913,7 +911,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

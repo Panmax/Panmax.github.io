@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -131,12 +131,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/optimization-config-server/"/>
+  <link rel="canonical" href="https://jpanj.com/2017/optimization-config-server/">
 
 
 
@@ -246,7 +246,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -254,7 +254,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -262,7 +262,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -270,7 +270,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -413,11 +413,11 @@
       
         <p>现在我们的配置中心使用 <code>Spring Cloud Bus</code> 与 <code>Spring Cloud Config</code> 的整合，并以 <code>RabbitMQ</code> 作为消息代理，实现了应用配置的动态更新。</p>
 <p>架构如下图所示：</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <p>但是，现在的架构有个很大的缺陷，就是每次在修改配置文件后，需要手动地触发下应用的 <code>/bus/refresh</code> 接口，才能完成更新操作。假如我们后端有上百个不同的服务在运行的话，手动去更新简直就是灾难，更新某一个应用时，需要先查到他的 <code>IP + 端口号</code>。而且如果同时修改了很多服务的配置的话，一个一个去发更新请求就有些太痛苦了。</p>
 <p>解决这个问题的办法是借助 GitLab 的 <code>Webhook</code> 机制，让 GitLab 帮我们去发这个请求。<code>Webhook</code> 用于当 GitLab 上的项目有变化的时侯以 HTTP 接口的形式通知第三方。</p>
 <p>进入我们 GitLab 的 <code>config-repo/app-a</code> 仓库，在 Settings - Integrations 中可以对 <code>Webhook</code> 进行设置：URL 填写我们刷新配置的地址，触发器选择 <code>Push events</code> 就够了，然后直接保存。</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <p>现在可以测试一下，修改配置后，不需要再手动访问 <code>/bus/refresh</code> 也能完成更新操作了。</p>
 <p>初步优化到这里就结束了，已经可以省去很多人力成本，简单来说就是服务的配置更新需要 GitLab 的 <code>Webhook</code> 通过向具体服务中的某个实例发送请求，再触发对整个服务集群的配置更新，不过这样做还是有问题的：首先一个问题是，我们在配每个服务 <code>Webhook</code> 的时候，其实也需要根据自己在线上不同的 <code>IP + 端口号</code> 来配置，另一个更严重一些的问题是，虽然我们现在的方式可以依赖消息总线，通过更新一个实例达到更新所有实例的目的，但这样做有个前提是，接受 <code>/bus/refresh</code> 的那个实例要保证没有宕掉，如果它挂了，配置依然不会被修改。比如我们的 <code>app-a</code> 服务有很多实例，我们分别取名叫 <code>app-a-1</code>,<code>app-a-2</code>,<code>app-a-3</code>…，现在我们在 <code>Webhook</code> 中设置的地址是 <code>app-a-1</code> 实例的 <code>/bus/refresh</code> 地址，假如在我们更新完 GitLab 上的配置文件后，<code>app-a-1</code> 那台机器刚好出了问题，这个时候其他的实例也就得不到更新了。</p>
 <p>其实这个时候依赖哪个节点都不合适，谁也不知道哪个节点在什么时候会挂掉，可能有人会想到，我可以给所有节点都发一遍请求，我来分析一下这样做的缺点：</p>
@@ -434,7 +434,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">management:</span><br><span class="line">  security:</span><br><span class="line">    enabled: false</span><br><span class="line"></span><br><span class="line">spring:</span><br><span class="line">  ...</span><br><span class="line">  rabbitmq:</span><br><span class="line">    host: 172.24.8.100</span><br><span class="line">    port: 5672</span><br><span class="line">    username: admin</span><br><span class="line">    password: admin</span><br></pre></td></tr></table></figure>
 <p>然后在 <code>app-a</code> 的 GitLab 仓库中修改我们刚才设置的 <code>Webhook</code>，将地址改为：<code>http://172.24.8.100:7020/bus/refresh?destination=app-a</code></p>
 <p>注意端口号已经变了，对应的是配置中心的端口，<code>destination</code> 的值是要刷新的服务名称，这样的话配置其他服务 <code>Webhook</code> 的时候，只需要修改这个名称就可以了。</p>
-<p><img src="3.png" alt=""></p>
+<p><img src="3.png" alt></p>
 <p>通过上面的改动，我们的服务实例就不需要再承担触发配置更新的职责。同时，对于Git的触发等配置都只需要针对 <code>Config Server</code> 即可，从而简化了集群上的一些维护工作。</p>
 <p>保存 <code>Webhook</code> 后再次修改 GitLab 上 <code>app-a</code> 的配置文件，提交修改后刷新页面看到结果已经变为最新的配置了。</p>
 
@@ -529,9 +529,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -785,7 +783,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

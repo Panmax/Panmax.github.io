@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -135,12 +135,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/config-server-encrypt-and-decrypt/"/>
+  <link rel="canonical" href="https://jpanj.com/2017/config-server-encrypt-and-decrypt/">
 
 
 
@@ -250,7 +250,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -258,7 +258,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -266,7 +266,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -274,7 +274,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -432,26 +432,26 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    password: &apos;&#123;cipher&#125;c400dd5d44f112518bbf870894e4b8a60fbc64680073aa535d363c28f038bb77&apos;</span><br></pre></td></tr></table></figure>
 <p>Spring Cloud Config 同时支持对称加密和非对称加密，下边我们只介绍对称加密的使用方式，一般来说只要密钥不被泄露，对称加密的方式就足够了。</p>
 <p>首先我们访问配置中心的 <code>/encrypt/status</code> 路径，可以看到返回结果提示我们还没有设置密钥，需要我们在配置文件中进行设置。</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <p>在配置中心项目的配置文件 <code>application.yml</code> 中加入以下配置即可（密钥根据根据需要自行修改）:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">encrypt:</span><br><span class="line">  key: my-encrypt-key</span><br></pre></td></tr></table></figure>
 <p>然后重新编译后运行，再次访问 <code>/encrypt/status</code> 看到如下错误：</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <p>这是因为在 JRE 中，自带的 JCE 默认是有长度限制的版本，我们需要从 Oracle 官网下载不限长度的版本：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</a> ，下载解压后可以看到下边三个文件：</p>
-<p><img src="3.png" alt=""></p>
+<p><img src="3.png" alt></p>
 <p>我们需要将 <code>local_policy.jar</code> 和 <code>US_export_policy.jar</code> 两个文件复制到<br><code>$JAVA_HOME/jre/lib/security</code><br>目录下，在复制前，最好将之前的两个文件进行备份，我将这两个文件放到了 lc0 机器的相应目录中，现在目录中的文件如下：</p>
-<p><img src="4.png" alt=""></p>
+<p><img src="4.png" alt></p>
 <p>重新运行配置中心，访问 <code>/encrypt/status</code> 可以看到密钥已经生效了，并且配置中心已经支持对配置进行加密了。</p>
-<p><img src="5.png" alt=""></p>
+<p><img src="5.png" alt></p>
 <p>此时，我们配置中心的加密解密功能就已经可以使用了，可以访问 <code>/encrypt</code> 和 <code>/decrypt</code> 来使用加密和解密功能。这两个端点都是 POST 请求，我们来用 <code>curl</code> 测试下：</p>
-<p><img src="6.png" alt=""></p>
+<p><img src="6.png" alt></p>
 <p>我们用 <code>my-password</code> 为明文生成了<br><code>49db5b628a4b722ef776262d67c0fa9676de7767e54ecfb2be70df5157677d20</code><br>这个密文，同时又测试了解密功能。</p>
 <h3 id="下边我们在实际情景中运用一下加密解密功能"><a href="#下边我们在实际情景中运用一下加密解密功能" class="headerlink" title="下边我们在实际情景中运用一下加密解密功能"></a>下边我们在实际情景中运用一下加密解密功能</h3><p>在 GitLab 中修改 app-a 的 dev 配置文件，加上如下配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password: &apos;&#123;cipher&#125;49db5b628a4b722ef776262d67c0fa9676de7767e54ecfb2be70df5157677d20&apos;</span><br></pre></td></tr></table></figure>
 <p>然后在 app-a 中新加一个 Controller:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Value(&quot;$&#123;password&#125;&quot;)</span><br><span class="line">private String password;</span><br><span class="line"> </span><br><span class="line">@RequestMapping(value = &quot;/password&quot;, method = RequestMethod.GET)</span><br><span class="line">public String password() &#123;</span><br><span class="line">    return password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重新编译后运行，访问它的 <code>/password</code> 路径，可以看到结果：</p>
-<p><img src="7.png" alt=""></p>
+<p><img src="7.png" alt></p>
 <p>我们通过配置 <code>encrypt.key</code> 参数来指定密钥的实现方式采用了对称加密。这种方式实现起来比较简单，只需要配置一个参数即可。另外，我们也可以使用环境变量 <code>ENCRYPT_KEY</code> 来进行配置，让密钥信息外置。</p>
 
       
@@ -554,9 +554,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -826,7 +824,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

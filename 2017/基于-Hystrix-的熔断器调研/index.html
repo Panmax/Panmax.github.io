@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -130,12 +130,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/基于-Hystrix-的熔断器调研/"/>
+  <link rel="canonical" href="https://jpanj.com/2017/基于-Hystrix-的熔断器调研/">
 
 
 
@@ -245,7 +245,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -253,7 +253,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -261,7 +261,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -269,7 +269,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -412,10 +412,10 @@
       
         <h1 id="基于-Hystrix-的熔断器调研"><a href="#基于-Hystrix-的熔断器调研" class="headerlink" title="基于 Hystrix 的熔断器调研"></a>基于 Hystrix 的熔断器调研</h1><h3 id="什么是雪崩效应"><a href="#什么是雪崩效应" class="headerlink" title="什么是雪崩效应"></a>什么是雪崩效应</h3><p>在微服务架构中通常会有多个服务层调用，基础服务的故障可能会导致级联故障，进而造成整个系统不可用的情况，这种现象被称为服务雪崩效应。服务雪崩效应是一种因 <strong>服务提供者</strong> 的不可用导致 <strong>服务消费者</strong> 的不可用，并将不可用逐渐放大的过程。</p>
 <p>如果下图所示：A 作为服务提供者，B 为 A 的服务消费者，C 和 D 是 B 的服务消费者。A 不可用引起了 B 的不可用，并将不可用像滚雪球一样放大到 C 和 D 时，雪崩效应就形成了。</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <h3 id="熔断器（CircuitBreaker）"><a href="#熔断器（CircuitBreaker）" class="headerlink" title="熔断器（CircuitBreaker）"></a>熔断器（CircuitBreaker）</h3><p>熔断器的原理很简单，如同电力过载保护器。它可以实现快速失败，如果它在一段时间内侦测到许多类似的错误，会强迫其以后的多个调用快速失败，不再访问远程服务器，从而防止应用程序不断地尝试执行可能会失败的操作，使得应用程序继续执行而不用等待修正错误，或者浪费 CPU 时间去等到长时间的超时产生。熔断器也可以使应用程序能够诊断错误是否已经修正，如果已经修正，应用程序会再次尝试调用操作。</p>
 <p>熔断器模式就像是那些容易导致错误的操作的一种代理。这种代理能够记录最近调用发生错误的次数，然后决定是否允许操作继续，或者立即返回错误。熔断器开关相互转换的逻辑如下图：</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <h3 id="Hystrix-是什么"><a href="#Hystrix-是什么" class="headerlink" title="Hystrix 是什么"></a>Hystrix 是什么</h3><p>在分布式系统，我们一定会依赖各种服务，那么这些个服务一定会出现失败的情况，Hystrix 就是这样的一个工具，它通过提供了逻辑上延时和错误容忍的解决力来协助我们完成分布式系统的交互。Hystrix 通过分离服务的调用点，阻止错误在各个系统的传播，并且提供了错误回调机制，这一系列的措施提高了系统的整体服务弹性。</p>
 <h3 id="Hystrix-是干嘛的"><a href="#Hystrix-是干嘛的" class="headerlink" title="Hystrix 是干嘛的"></a>Hystrix 是干嘛的</h3><h4 id="Hystrix-被设计用来做了下面几件事"><a href="#Hystrix-被设计用来做了下面几件事" class="headerlink" title="Hystrix 被设计用来做了下面几件事:"></a>Hystrix 被设计用来做了下面几件事:</h4><ol>
 <li>保护系统间的调用延时以及错误，特别是通过第三方的工具的网络调用</li>
@@ -544,9 +544,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -782,7 +780,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于-Hystrix-的熔断器调研"><span class="nav-number">1.</span> <span class="nav-text">基于 Hystrix 的熔断器调研</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是雪崩效应"><span class="nav-number">1.0.1.</span> <span class="nav-text">什么是雪崩效应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#熔断器（CircuitBreaker）"><span class="nav-number">1.0.2.</span> <span class="nav-text">熔断器（CircuitBreaker）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix-是什么"><span class="nav-number">1.0.3.</span> <span class="nav-text">Hystrix 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix-是干嘛的"><span class="nav-number">1.0.4.</span> <span class="nav-text">Hystrix 是干嘛的</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hystrix-被设计用来做了下面几件事"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">Hystrix 被设计用来做了下面几件事:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix特性"><span class="nav-number">1.0.5.</span> <span class="nav-text">Hystrix特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix工作方式如下"><span class="nav-number">1.0.6.</span> <span class="nav-text">Hystrix工作方式如下:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix-的使用"><span class="nav-number">1.0.7.</span> <span class="nav-text">Hystrix 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在pox-xml文件中加入："><span class="nav-number">1.0.7.1.</span> <span class="nav-text">在pox.xml文件中加入：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在程序入口类加上：-EnableHystrix"><span class="nav-number">1.0.7.2.</span> <span class="nav-text">在程序入口类加上：@EnableHystrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在需要使用熔断器的地方标记注解即可："><span class="nav-number">1.0.7.3.</span> <span class="nav-text">在需要使用熔断器的地方标记注解即可：</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于-Hystrix-的熔断器调研"><span class="nav-number">1.</span> <span class="nav-text">基于 Hystrix 的熔断器调研</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是雪崩效应"><span class="nav-number">1.0.1.</span> <span class="nav-text">什么是雪崩效应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#熔断器（CircuitBreaker）"><span class="nav-number">1.0.2.</span> <span class="nav-text">熔断器（CircuitBreaker）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix-是什么"><span class="nav-number">1.0.3.</span> <span class="nav-text">Hystrix 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix-是干嘛的"><span class="nav-number">1.0.4.</span> <span class="nav-text">Hystrix 是干嘛的</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hystrix-被设计用来做了下面几件事"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">Hystrix 被设计用来做了下面几件事:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix特性"><span class="nav-number">1.0.5.</span> <span class="nav-text">Hystrix特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix工作方式如下"><span class="nav-number">1.0.6.</span> <span class="nav-text">Hystrix工作方式如下:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hystrix-的使用"><span class="nav-number">1.0.7.</span> <span class="nav-text">Hystrix 的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在pox-xml文件中加入："><span class="nav-number">1.0.7.1.</span> <span class="nav-text">在pox.xml文件中加入：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在程序入口类加上：-EnableHystrix"><span class="nav-number">1.0.7.2.</span> <span class="nav-text">在程序入口类加上：@EnableHystrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在需要使用熔断器的地方标记注解即可："><span class="nav-number">1.0.7.3.</span> <span class="nav-text">在需要使用熔断器的地方标记注解即可：</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -816,7 +814,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

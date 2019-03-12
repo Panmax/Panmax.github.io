@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -133,12 +133,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/单点登录流程梳理/"/>
+  <link rel="canonical" href="https://jpanj.com/2017/单点登录流程梳理/">
 
 
 
@@ -248,7 +248,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -256,7 +256,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -264,7 +264,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -272,7 +272,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -429,15 +429,15 @@
 </ol>
 <p>到这里会产生一个疑惑，为什么认证中心要写一个 <code>cookie</code>，其他系统由于跨域的限制根本读不到它啊。</p>
 <p>对于这个问题的回答是， <code>sso.com</code> 产生的 <code>cookie</code> 不是给其他系统用的（至于是给谁用的一会会说明），注意那个 <code>ticket</code>，这个东西是个重要标识，系统拿到以后需要再次向认证中心验证。所以 <code>ticket</code> 才是系统们要用到的东西。</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <p>系统A拿着这个 <code>ticket</code>，去问下认证中心：这是您签发的 <code>ticket</code> 吗，认证中心确认无误后，系统A就可以认为用户在认证中心登录过了。这时候系统A应该为这个用户建立 <code>session</code> 然后返回 <code>pageA</code> 的资源。也就是说，系统A也需要给浏览器发一个属于自己的 cookie：<code>Set cookie : sessionid=xxxx, a.com</code>。这时候浏览器实际上有两个 cookie，一个是系统A发的，一个是认证中心发的。</p>
 <p>当用户再次访问系统A的另一个需要登录的页面时，因为系统A已经在浏览器中放入了自己的cookie，就知道它登录过了，不需要再次到认证中心去了。</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <p>接下来看看，当用户访问系统A时已经通过认证中心登录了，再访问系统B <code>www.b.com/pageB</code> 时是什么样的情况。</p>
 <p>其实和首次访问 <code>www.a.com/pageA</code> 非常类似，<strong>唯一不同就是不需要用户输入用户名密码来登录了</strong>，因为浏览器已经有了认证中心的 cookie，直接发送给 <code>www.sso.com</code> 就可以了。这里解释了我上边提到的认证中心写入浏览器 cookie 的用途。</p>
-<p><img src="3.png" alt=""></p>
+<p><img src="3.png" alt></p>
 <p>同样，认证中心会返回 <code>ticket</code>，系统B需要做验证。</p>
-<p><img src="4.png" alt=""></p>
+<p><img src="4.png" alt></p>
 <p>整个流程的本质是一个认证中心的 <code>cookie</code>，加上多个子系统的 <code>cookie</code> 而已。</p>
 <p>下边来说说单点退出的原理。</p>
 <p>单点退出的作用是用户在一个地方退出，所有系统都要进行退出。这怎么来实现呢。还记得我前边提到的注册服务吗？没错，就是使用之前登录时给认证中心传的 <code>service</code> 参数，认证中心记录下来都有哪些系统进行过登录，当用户访问认证中心的 <code>/logout</code> 需要退出的时候，认证中心需要把自己的会话和 cookie 干掉，然后给之前注册过那些服务的地址发送退出登录的请求，默认是对根路径发一个 <code>POST</code> 请求，<code>Body</code> 中携带一些字段，比如比如之前登录时用到的<code>ticket</code>，这时候各个子系统根据传过来的这个 <code>ticket</code> 来将对应的用户 <code>session</code> 干掉即可。</p>
@@ -450,7 +450,7 @@
 <p>还有人问道那个 <code>ticket</code> 如果被其他人截获了，岂不是就可以冒充我来登录了？并不会。</p>
 <p>首先来说，默认情况下，CAS 要求子系统和它之间的通讯为 <code>https</code> ，再有就是这个 <code>ticket</code> 只有一次有效性，验证一次后即失效，而且有效期还很短，默认我记得只有5秒。最重要的是即便这个 <code>ticket</code> 被其他人获取了也没啥用，验证这个 <code>ticket</code> 时，还需要带上申请这个 <code>ticket</code> 时的 <code>url</code> 信息，而且认证中心鉴定 <code>ticket</code> 为真后也只是返回用户的用户名、认证时间等最基本的信息，由于子系统没有拿到这些信息，所以对于子系统来说，你还是没有登录的。</p>
 <p>最后敬上官方的 CAS 协议流程图</p>
-<p><img src="5.png" alt=""></p>
+<p><img src="5.png" alt></p>
 
       
     </div>
@@ -543,9 +543,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -799,7 +797,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

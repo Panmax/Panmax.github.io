@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -133,12 +133,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/《大话数据结构》阅读笔记/"/>
+  <link rel="canonical" href="https://jpanj.com/2017/《大话数据结构》阅读笔记/">
 
 
 
@@ -248,7 +248,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -256,7 +256,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -264,7 +264,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -272,7 +272,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -530,13 +530,13 @@
 <h4 id="3-14-双向链表"><a href="#3-14-双向链表" class="headerlink" title="3.14 双向链表"></a>3.14 双向链表</h4><p><strong>线性表的双向链表存储结构</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef struct DulNode</span><br><span class="line">&#123;</span><br><span class="line">    ElemType data;</span><br><span class="line">    struct DuLNode *prior;</span><br><span class="line">    struct DuLNode *next;</span><br><span class="line">&#125; DulNode, *DuLinkList;</span><br></pre></td></tr></table></figure>
 <p><strong>双向链表插入元素</strong></p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s -&gt; prior = p</span><br><span class="line">s -&gt; next = p -&gt; next</span><br><span class="line">p -&gt; next -&gt; prior = s</span><br><span class="line">p -&gt; next = s</span><br></pre></td></tr></table></figure>
 <p><strong>双向链表删除元素</strong></p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">p -&gt; prior -&gt; next = p -&gt; next;</span><br><span class="line">p -&gt; next -&gt; prior = p -&gt; prior</span><br><span class="line">free(p);</span><br></pre></td></tr></table></figure>
 <h4 id="3-15-回顾总结"><a href="#3-15-回顾总结" class="headerlink" title="3.15 回顾总结"></a>3.15 回顾总结</h4><p><strong>线性表的两种结构</strong></p>
-<p><img src="3.png" alt=""></p>
+<p><img src="3.png" alt></p>
 <h4 id="4-2-栈的定义"><a href="#4-2-栈的定义" class="headerlink" title="4.2 栈的定义"></a>4.2 栈的定义</h4><blockquote>
 <p>栈（stack）是限定仅在表尾进行插入和删除操作的线性表。</p>
 </blockquote>
@@ -556,7 +556,7 @@
 <li>办法一是设置一个标志变量 flag，当 front == rear，且 flag == 0 时为队列空，当 front == rear，且 flag = 1 时为队列满。</li>
 <li>办法二是当前队列空时，条件就是 front = rear，当队列满时，我们修改其条件，保留一个元素空间。也就是说队列满时，数组中还有一个空闲单元。如图所示，我们就认为此队列已经满了。</li>
 </ul>
-<p><img src="4.png" alt=""></p>
+<p><img src="4.png" alt></p>
 <p>第二种方法，队列满的条件是 (rear+1) % QueueSize == front</p>
 <p>计算队列长度公式：(rear-front+Queue) % QueueSize</p>
 <h4 id="4-14-总结回顾"><a href="#4-14-总结回顾" class="headerlink" title="4.14 总结回顾"></a>4.14 总结回顾</h4><p>对于栈来说，如果是两个相同数据类型的栈，则可以用数组的两端作栈底的方法来让两个栈共享数据，这就可以最大化地利用数组的空间。</p>
@@ -670,9 +670,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -942,7 +940,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

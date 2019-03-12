@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -133,12 +133,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/exa-and-zsh-syntax-highlighting/"/>
+  <link rel="canonical" href="https://jpanj.com/2017/exa-and-zsh-syntax-highlighting/">
 
 
 
@@ -248,7 +248,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -256,7 +256,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -264,7 +264,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -272,7 +272,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -421,9 +421,9 @@
 </blockquote>
 <p>顾名思义 <code>exa</code> 是一个用来替代 <code>ls</code> 的工具，官方介绍了很多关于 <code>exa</code> 的特性，对于我来说，使用它的原因是可以支持不同文件类型可以用不同颜色来展示这个特性。至于官方还提到，<code>exa</code> 比 <code>ls</code> 要更快一些，这我倒是没有什么感觉。</p>
 <p>在 Mac 下直接用 <code>Homebrew</code> 安装就行了: <code>brew install exa</code>，为了方便使用，我直接修改 alias 为 <code>ls</code>，这样之后再使用 <code>ls</code> 命令时，系统就自动用 <code>exa</code> 来代替了，毫无学习成本。</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <p>来看下效果:</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <p><em>我这个目录下不同类型的文件不多，没有展示出特别好的效果</em></p>
 <p>第二个神器是 <strong>zsh-syntax-highlighting</strong>，看名字就知道，它是一个在 zsh 下使用的工具，官方介绍为：</p>
 <blockquote>
@@ -431,16 +431,16 @@
 </blockquote>
 <p><code>zsh-syntax-highlighting</code> 是用来在命令行中提供语法高亮的工具 (很抱歉我没有用过 Fish)。</p>
 <p>效果图：</p>
-<p><img src="3.png" alt=""></p>
+<p><img src="3.png" alt></p>
 <p>安装方法：</p>
 <p><code>brew install zsh-syntax-highlighting</code></p>
 <p>然后将 </p>
 <p><code>source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh</code></p>
 <p>加入到 <code>.zshrc</code> 文件中即可。</p>
 <p>最后再来说下我现在用的 iTerm2 配色，之前一直用的都是自己配的，会遇到文字和背景色不太搭的情况，比如 Date 和 Modified 那两列：</p>
-<p><img src="5.png" alt=""></p>
+<p><img src="5.png" alt></p>
 <p>所以最近换用了： <a href="https://github.com/dracula/iterm" target="_blank" rel="noopener">https://github.com/dracula/iterm</a> 这个配色方案。看起来挺舒服的，所以就不再自己折腾了。</p>
-<p><img src="4.png" alt=""></p>
+<p><img src="4.png" alt></p>
 
       
     </div>
@@ -533,9 +533,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -789,7 +787,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

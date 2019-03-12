@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -132,12 +132,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-create-constraint/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-create-constraint/">
 
 
 
@@ -247,7 +247,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -255,7 +255,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -263,7 +263,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -271,7 +271,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -441,7 +441,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE CONSTRAINT ON (a:Artist) ASSERT a.name IS UNIQUE</span><br></pre></td></tr></table></figure>
 <p>在上边的例子中，我们为 <code>Artist</code> 标签的所有节点的 <code>name</code> 属性创建了唯一约束。</p>
 <p>我们的语句执行成功后，展示如下信息：</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <blockquote>
 <p>当你创建一个唯一约束时，Neo4j 将同时创建一个索引。Cypher 将使用该索引进行查询，就像使用其他索引一样。<br>因此不需要单独创建索引了，如果你尝试在已经有索引的情况下创建约束，你将会收到一个错误。</p>
 </blockquote>
@@ -449,12 +449,12 @@
 <p>我们可以通过使用 <code>:schema</code> 名来来查看我们刚刚创建的约束，就像下边这样：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:schems</span><br></pre></td></tr></table></figure>
 <p>你将会看到新创建的约束以及使用它创建的索引，也可以看到我们之前创建的索引：</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <h3 id="测试约束"><a href="#测试约束" class="headerlink" title="测试约束"></a>测试约束</h3><p>我们可以通过尝试创建两个相同的艺术家来测试这个约束是否起作用。</p>
 <p>执行下边的语句两次：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE (a:Artist &#123;name: &quot;周杰伦&quot;&#125;) </span><br><span class="line">RETURN a</span><br></pre></td></tr></table></figure>
 <p>第一次运行这条语句时，节点将会被创建。第二次运行时，你应该会收到以下错误信息：</p>
-<p><img src="3.png" alt=""></p>
+<p><img src="3.png" alt></p>
 <h3 id="属性存在约束"><a href="#属性存在约束" class="headerlink" title="属性存在约束"></a>属性存在约束</h3><p>属性存在约束能够确保具有特定标签的所有节点具有特定的属性。比如你可以指定 <code>Artist</code> 标签的所有节点都必须包含 <code>name</code> 属性。</p>
 <p>使用 <code>ASSERT exists(variable.propertyName)</code> 语法来创建属性存在约束。像下边这样：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE CONSTRAINT ON (a:Artist) ASSERT exists(a.name)</span><br></pre></td></tr></table></figure>
@@ -568,9 +568,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -840,7 +838,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

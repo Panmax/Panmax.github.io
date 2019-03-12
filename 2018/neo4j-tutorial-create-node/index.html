@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -131,12 +131,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-create-node/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-create-node/">
 
 
 
@@ -246,7 +246,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -254,7 +254,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -262,7 +262,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -270,7 +270,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -431,14 +431,14 @@
 <h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>我们来创建一个包含乐队名和他们专辑的音乐数据库。</p>
 <p>第一个乐队被称为<em>筷子兄弟</em>，我们创建一个艺术家节点，并称之为<em>筷子兄弟</em>。</p>
 <p><em>我们第一个点看起来像下边这样</em></p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <p>下边是创建<em>筷子兄弟</em>节点的 Cypher  <code>CREATE</code> 语句：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE (a:Artist &#123; name : &quot;筷子兄弟&quot; &#125;)</span><br></pre></td></tr></table></figure>
 <p>这个 Cypher 语句创建一个带有 Artist 标签的节点，节点有一个 <code>name</code> 属性，该属性的值是<em>筷子兄弟</em>。</p>
 <p><code>a</code> 前缀是我们提供的变量名，我们可以使用任意变量名。如果我们需要在后边的语句中用到这个点（上边的情况中我们没有用到），这个变量就会是很有用的。注意，变量仅限于在单条语句中使用。</p>
 <p>到 Neo4j 浏览器中执行上边的语句，该语句将创建一个节点。</p>
 <p><em>一旦 Neo4j 创建完节点，你将看到这样的消息：</em></p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <h3 id="展示节点"><a href="#展示节点" class="headerlink" title="展示节点"></a>展示节点</h3><p><code>CREATE</code> 语句创建节点但是不展示节点。为了展示节点我们需要在它后边跟上 <code>RETURN</code> 语句。</p>
 <p>我们来创建另一个节点，这次我们创建一个专辑，与之前不同的是这次我们在后边跟上 <code>RETURN</code> 语句</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE (b:Album &#123; name : &quot;猛龙过江&quot;, released : &quot;2014&quot; &#125;)</span><br><span class="line">RETURN b</span><br></pre></td></tr></table></figure>
@@ -556,9 +556,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -828,7 +826,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -132,12 +132,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/"/>
+  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-drop-index-and-constraint-using-cypher/">
 
 
 
@@ -247,7 +247,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -255,7 +255,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -263,7 +263,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -271,7 +271,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -418,24 +418,24 @@
 <p>因此要删除我们之前创建的索引，我们可以使用以下语句：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP INDEX ON :Album(name);</span><br></pre></td></tr></table></figure>
 <p>语句执行成功后会展示以下消息：</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <h3 id="查看模式"><a href="#查看模式" class="headerlink" title="查看模式"></a>查看模式</h3><p>你现在可以使用 <code>:schema</code> 命令来验证对应的索引是否已经从模式中删除。</p>
 <p>只需输入：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:schema</span><br></pre></td></tr></table></figure>
 <p>可以看到索引已经不在模式中了：</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <blockquote>
 <p>你可以使用 <code>DROP CONSTRAINT</code> 语句删除约束，这将从数据库中删除约束和相关索引。</p>
 </blockquote>
 <p>那么让我们来删除之前创建的约束（和它关联的索引）吧，我们可以使用下边的语句：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP CONSTRAINT ON (a:Artist) ASSERT a.name IS UNIQUE</span><br></pre></td></tr></table></figure>
 <p>语句执行成功后会展示下边的消息：</p>
-<p><img src="3.png" alt=""></p>
+<p><img src="3.png" alt></p>
 <h3 id="查看模式-1"><a href="#查看模式-1" class="headerlink" title="查看模式"></a>查看模式</h3><p>你现在可以使用 <code>:schema</code> 命令来验证对应的索引（和相关联的约束）是否已经从模式中删除。</p>
 <p>只需输入：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:schema</span><br></pre></td></tr></table></figure>
 <p>可以看到约束已经不在模式中了：</p>
-<p><img src="4.png" alt=""></p>
+<p><img src="4.png" alt></p>
 
       
     </div>
@@ -537,9 +537,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -809,7 +807,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

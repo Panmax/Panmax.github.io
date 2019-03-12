@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -130,12 +130,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2015/配置/"/>
+  <link rel="canonical" href="https://jpanj.com/2015/配置/">
 
 
 
@@ -245,7 +245,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -253,7 +253,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -261,7 +261,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -269,7 +269,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -385,7 +385,7 @@
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -440,7 +440,7 @@
       
 
       
-        <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>原文地址:<a href="https://exploreflask.com/configuration.html" target="_blank" rel="noopener">https://exploreflask.com/configuration.html</a><br><img src="1.png" alt=""></p>
+        <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>原文地址:<a href="https://exploreflask.com/configuration.html" target="_blank" rel="noopener">https://exploreflask.com/configuration.html</a><br><img src="1.png" alt></p>
 <p>当你正在学习Flask时，配置看起来很简单。你只需要在<code>config.py</code>中定义一些变量所以工作就完成了。当你不得不为了生产环境的应用管理配置时，这简单就开始消失了。你可能需要保护你的密钥或者在不同的环境下使用不同的配置（例如开发和生产环境）。在这一章我们将介绍一些Flask先进的功能来更简单的管理配置。</p>
 <a id="more"></a>
 <h3 id="简单的情况"><a href="#简单的情况" class="headerlink" title="简单的情况"></a>简单的情况</h3><p>一个简单的应用可能不需要任何复杂的功能。你可能只需要放置<code>config.py</code>在你代码库的根目录下并且在<code>app.py</code>或者<code>yourapp/__init__.py</code>中加载它。</p>
@@ -473,11 +473,11 @@
 </code></pre><h3 id="实例文件夹"><a href="#实例文件夹" class="headerlink" title="实例文件夹"></a>实例文件夹</h3><p>有时你需要定义包含敏感信息的配置变量。我们想将这些变量从<code>config.py</code>分离出来并且将他们保存在代码库之外。你可能要隐藏保密的东西比如数据库密码和API密钥或者给机器定义详细的变量。为了让这容易，Flask给我们提供了一个叫<strong>实例文件夹</strong>的功能。实例文件夹是代码库根目录的子目录并且为这个应用实例包含了一个特殊的配置文件。我们不想在版本控制中提交它。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">config.py</span><br><span class="line">requirements.txt</span><br><span class="line">run.py</span><br><span class="line">instance/</span><br><span class="line">	config.py</span><br><span class="line">yourapp/</span><br><span class="line">	__init__.py</span><br><span class="line">	models.py</span><br><span class="line">	views.py</span><br><span class="line">	templates/</span><br><span class="line">	static/</span><br></pre></td></tr></table></figure>
 <h4 id="使用实例文件夹"><a href="#使用实例文件夹" class="headerlink" title="使用实例文件夹"></a>使用实例文件夹</h4><p>为了加载来自实例文件夹的配置变量，我们使用<code>app.config.from_pyfile()</code>。当我们创建我们的应用并用<code>Flask()</code>调用时，如果我们设置<code>instance_relative_config=True</code>，<code>app.config.from_pyfile()</code>将会通过<em>instance/directory</em>加载指定的文件。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app.py or app/__init__.py</span></span><br><span class="line"></span><br><span class="line">app = Flask(__name__, instance_relative_config=<span class="keyword">True</span>)</span><br><span class="line">app.config.from_object(<span class="string">'config'</span>)</span><br><span class="line">app.config.from_pyfile(<span class="string">'config.py'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app.py or app/__init__.py</span></span><br><span class="line"></span><br><span class="line">app = Flask(__name__, instance_relative_config=<span class="literal">True</span>)</span><br><span class="line">app.config.from_object(<span class="string">'config'</span>)</span><br><span class="line">app.config.from_pyfile(<span class="string">'config.py'</span>)</span><br></pre></td></tr></table></figure>
 <h4 id="密钥"><a href="#密钥" class="headerlink" title="密钥"></a>密钥</h4><p>实例文件夹的私有本质为定义密钥而不想暴露在版本库中提供了很好的候选。这些可能包含你应用的密钥或者第三方API的密钥。如果你的应用是开源的这尤其重要或者也许会在未来某一时刻开源。我们通常想让其他用户或者贡献者使用他们自己的密钥。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># instance/config.py</span></span><br><span class="line"></span><br><span class="line">SECRET_KEY = <span class="string">'Sm9obiBTY2hyb20ga2lja3MgYXNz'</span></span><br><span class="line">STRIPE_API_KEY = <span class="string">'SmFjb2IgS2FwbGFuLU1vc3MgaXMgYSBoZXJv'</span></span><br><span class="line">SQLALCHEMY_DATABASE_URI= \</span><br><span class="line"><span class="string">"postgresql://user:TWljaGHFgiBCYXJ0b3N6a2lld2ljeiEh@localhost/databasename"</span></span><br></pre></td></tr></table></figure>
 <h4 id="较小的环境基础配置"><a href="#较小的环境基础配置" class="headerlink" title="较小的环境基础配置"></a>较小的环境基础配置</h4><p>如果你的生产环境和开发环境之间的不同很小，你可能想使用你的实例文件夹处理配置的改变。定义在<code>instance/config.py</code>文件中的变量能够覆盖<code>config.py</code>中的变量。你只需要在<code>app.config.from_object()</code>之后调用<code>app.config.from_pyfile()</code>。利用这个方法是改变你的应用在不同机器配置的一种方式。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.py</span></span><br><span class="line"></span><br><span class="line">DEBUG = <span class="keyword">False</span></span><br><span class="line">SQLALCHEMY_ECHO = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># instance/config.py</span></span><br><span class="line">DEBUG = <span class="keyword">True</span></span><br><span class="line">SQLALCHEMY_ECHO = <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.py</span></span><br><span class="line"></span><br><span class="line">DEBUG = <span class="literal">False</span></span><br><span class="line">SQLALCHEMY_ECHO = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># instance/config.py</span></span><br><span class="line">DEBUG = <span class="literal">True</span></span><br><span class="line">SQLALCHEMY_ECHO = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
 <p>在生产中，我们将离开列表中的值，在<code>instance/config.py</code>之外，并且它将会回落到<code>config.py</code>定义的值。</p>
 <h3 id="配置基于环境变量"><a href="#配置基于环境变量" class="headerlink" title="配置基于环境变量"></a>配置基于环境变量</h3><p>实例文件夹不应该在版本控制中。这意味着你将无法跟踪你实例配置的变化。这可能对于一两个值来说不是问题，但是如果你在不同环境中（生产、升级、开发等）有微调的配置，你不想冒险失去这些。</p>
 <p>Flask给我们基于环境变量的值去选择一个配置文件来加载的能力。这意味着我们能有多个配置文件在我们的代码库中并且总是加载正确的那个。每次我们有几个不同的配置文件，我们能够移动他们到他们自己的<code>config</code>目录中。</p>
@@ -510,7 +510,7 @@
 </tbody>
 </table>
 <p>为了决定加载哪个配置文件，我们将调用<code>app.config.from_envvar()</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yourapp/__init__.py</span></span><br><span class="line"></span><br><span class="line">app = Flask(__name__, instance_relative_config=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the default configuration</span></span><br><span class="line">app.config.from_object(<span class="string">'config.default'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the configuration from the instance folder</span></span><br><span class="line">app.config.from_pyfile(<span class="string">'config.py'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the file specified by the APP_CONFIG_FILE environment variable</span></span><br><span class="line"><span class="comment"># Variables defined here will override those in the default configuration</span></span><br><span class="line">app.config.from_envvar(<span class="string">'APP_CONFIG_FILE'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yourapp/__init__.py</span></span><br><span class="line"></span><br><span class="line">app = Flask(__name__, instance_relative_config=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the default configuration</span></span><br><span class="line">app.config.from_object(<span class="string">'config.default'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the configuration from the instance folder</span></span><br><span class="line">app.config.from_pyfile(<span class="string">'config.py'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the file specified by the APP_CONFIG_FILE environment variable</span></span><br><span class="line"><span class="comment"># Variables defined here will override those in the default configuration</span></span><br><span class="line">app.config.from_envvar(<span class="string">'APP_CONFIG_FILE'</span>)</span><br></pre></td></tr></table></figure>
 <p>环境变量的值应该是配置文件的绝对路径。</p>
 <p>我们如何设置这个环境变量，取决于我们的应用正在运行的平台。如果我们运行在一个普通的Linux服务器上，我们能够设置一个shell脚本来设置我们的环境变量并且运行<code>run.py</code>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># start.sh</span></span><br><span class="line"></span><br><span class="line">APP_CONFIG_FILE=/var/www/yourapp/config/production.py</span><br><span class="line">python run.py</span><br></pre></td></tr></table></figure>
@@ -624,9 +624,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -896,7 +894,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 

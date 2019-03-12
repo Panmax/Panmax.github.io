@@ -15,15 +15,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <script type="text/javascript">
     var host = "jpanj.com";
     if ((host == window.location.host) && (window.location.protocol != "https:"))
       window.location.protocol = "https";
   </script>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -37,8 +37,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -61,9 +61,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
@@ -131,12 +131,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/mycli-fzf-thefuck/"/>
+  <link rel="canonical" href="https://jpanj.com/2017/mycli-fzf-thefuck/">
 
 
 
@@ -246,7 +246,7 @@
           
           <li class="menu-item menu-item-首页">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -254,7 +254,7 @@
           
           <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章列表</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
         
         
@@ -262,7 +262,7 @@
           
           <li class="menu-item menu-item-关于我">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
   </li>
         
         
@@ -270,7 +270,7 @@
           
           <li class="menu-item menu-item-书单">
     <a href="/book-list/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-book"></i> <br />书单</a>
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
   </li>
 
       
@@ -425,11 +425,11 @@
       
         <p>今天装了3个命令行下的神器，分别是 <code>mycli</code> <code>fzf</code> <code>thefuck</code>，都是通过 <code>Homebrew</code> 装的。</p>
 <p><code>thefuck</code> 装完后在 <code>.zshrc</code> 的 plugin 中配上了插件，这样的话用起来就更方便了，当输错命令或者需要 root 权限却没加 <code>sudo</code> 时，只需要双击 esc 就可以了。</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="2.png" alt></p>
 <p><code>mycli</code> 是一个支持语法高亮和命令补全 mysql 客户端，类似于 ipython。安装过程比较长，主要是中间安装 <code>Pyhton 2.7.13</code> 占用了很长时间。装完后直接 <code>mycli -uroot</code> 就进入数据库的交互状态了。有一个地方不太习惯，没执行一个命令出来结果后，需要再按一下 <code>q</code> 才能返回交互状态。</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="1.png" alt></p>
 <p><code>fzf</code> 是命令行下模糊搜索工具。通过 <code>brew install fzf</code> 安装完后，还需要执行 <code>/usr/local/opt/fzf/install</code> 安装 shell 扩展，之后 <code>Control+r</code> 时出来的就不是之前那种很简单的历史命令搜索结果了，而是交互性很棒的结果。输入 <code>kill -9 + &lt;TAB&gt;</code> 能通过模糊搜索的方式搜到需要杀掉的进程，再也不用先 <code>ps -ef | grep xxx</code> 找到对应的进程然后在执行 <code>kill</code> 或者 通过管道 + <code>xargs</code> 的方式来杀进程了。</p>
-<p><img src="3.png" alt=""></p>
+<p><img src="3.png" alt></p>
 <p><code>fzf</code> 还有几种用法我感觉没多少用： </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd **&lt;TAB&gt;</span><br><span class="line">vim **&lt;TAB&gt;</span><br><span class="line">ssh **&lt;TAB&gt;</span><br><span class="line">telnet **&lt;TAB&gt;</span><br><span class="line">unset **&lt;TAB&gt;</span><br><span class="line">export **&lt;TAB&gt;</span><br><span class="line">unalias **&lt;TAB&gt;</span><br></pre></td></tr></table></figure>
 
@@ -524,9 +524,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/avatar.jpeg"
-                alt="Panmax" />
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
             
               <p class="site-author-name" itemprop="name">Panmax</p>
               <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
@@ -780,7 +778,7 @@
 
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
 
 
 
