@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/favicon.ico?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。 小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处">
+<meta name="keywords" content="同步,异步,阻塞,非阻塞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大p故事会001：同步、异步、阻塞、非阻塞那些事">
+<meta property="og:url" content="https://jpanj.com/2019/story-sync-async-blocking/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。 小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-13T01:31:00.649Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大p故事会001：同步、异步、阻塞、非阻塞那些事">
+<meta name="twitter:description" content="高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。 小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2019/story-sync-async-blocking/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>大p故事会001：同步、异步、阻塞、非阻塞那些事 | 贾攀家</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5fa51f35bce35d98c9014cc40e6683f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">贾攀家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Panmax's Blog</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-文章列表">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于我">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-书单">
+    <a href="/book-list/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/story-sync-async-blocking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">大p故事会001：同步、异步、阻塞、非阻塞那些事
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-13 09:23:37 / Modified: 09:31:00" itemprop="dateCreated datePublished" datetime="2019-03-13T09:23:37+08:00">2019-03-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/story-sync-async-blocking/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/story-sync-async-blocking/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。</p>
+<p>小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处于好玩就给这个陌生号码回了过来，但大p 却没有勇气接听，任由手机振动着。当时很流行彩铃，大p 也不例外地设置了彩铃，用的是张震岳的《思念是一种病》，这首歌刚好是当时小h最喜欢的音乐，于是后来小h在想听这首歌的时候就会给这个号码打电话。</p>
+<p>高二那年下了一场暴雪，导致全市所有设施瘫痪，于是学校放假了，刚好那天学校期中考试，也是在这一天大p 告诉了小h 那个手机号是他的。晚上回家后大p 假装很不在乎地发短信问了小h 这次考的怎么样，小h很客套的应付了几句，但大p这天异常兴奋，他隐约感受到如果再不做点什么可能就会永远错过了，于是他寻找各种话题和小h聊天，不知不觉从晚上10点聊到了早上5点…</p>
+<p>这之后小h 也明白了大p的用意，大p在1个月后向小h 表白了，但遭到了小h 的拒绝，小h 告诉大p 学业要紧，等高中毕业后再考虑。</p>
+<p>转眼间高二下学期快要结束了，这一天小h把大p叫到一个没有人的地方，跟大p 说：「我答应你之前那件事了，你也答应我，等我回来好吗？」，大p 不知道她在说什么，他只听到小h 说她同意了，现在的大p 不管什么事情都会答应的，后来大p 才知道，小h 是要回s市读高三，然后要在s市参加高考。</p>
+<p>高三，小h去了s市，他们两个每天通过手机短信的方式进行交流（当然是偷偷的），刚开始的时候，大p总是心心念地等着短信回复，每次给小h发过去短信后就茶不思饭不想题也看不进去，只能两眼直勾勾地盯着手机等着短信回来，因为手机是静音所以要想第一时间知道短信到了只能盯着看屏幕有没有亮，这样过了一段时间，大p的成绩一落千丈，因为他有太多的时间花在了等着短信回复上。</p>
+<p>大p认为这样下去也不是办法于是调整了一下自己的心态，每次发完短信后不再一直盯着手机等回复了，而是用这个时间去看书、做题，每过一段时间就查看一下有没有短信过来，虽然大p的成绩慢慢爬了上来，但在这种状态下大p的心里还是需要一直惦记着手机，因为他不知道短信什么时候过来所以要时不时的去看一眼。</p>
+<p>于是大p就想有没有什么办法可以让自己不用频繁去看手机，又能在第一时间知道有短信来了呢，大p想了三天三夜想到了一个主意：用手机的振动功能，打开短信的振动提醒，可以把手机放在裤兜里，每次短信来了可以立刻感受到而且不会被老师发现。大p 像平常一样给小h发了条短信，为了验证这个振动功能的有效性，大p这次还是盯着手机等回复，直到短信回来手机震了，大p确信了方案的可行性。</p>
+<p>此后，大p的学习效率更高了，也可以安心的听课做题了，大p 只需要在手机振动的时候去看短信就行。大p 很开心，就这样，高三的时光一闪而过，他们两个约定好要考同一所大学。</p>
+<p>预知后事如何，请听下回分解。</p>
+<h4 id="上边大p用到了4种方案来处理短信这件事："><a href="#上边大p用到了4种方案来处理短信这件事：" class="headerlink" title="上边大p用到了4种方案来处理短信这件事："></a>上边大p用到了4种方案来处理短信这件事：</h4><ul>
+<li>同步阻塞（傻傻的等短信过来）</li>
+<li>同步非阻塞（大p写会作业，检查下手机有没有新短信，这样交替轮询）</li>
+<li>异步阻塞（手机开启振动模式，但大p 还是盯着看。用这种方案的大p 很傻，所以大p只尝试了一次）</li>
+<li>异步非阻塞（大p只管学习，手机一震大p就知道短信来了）</li>
+</ul>
+<blockquote>
+<p>阻塞非阻塞都是相对于大p来说的，取决于大p等待短信时的状态。全心投入等短信达到的大p是阻塞的，可以抽出时间来做其他事情的大p是非阻塞的。</p>
+</blockquote>
+<blockquote>
+<p>而同步和异步是对手机来说的，同步需要让大p自己去检查有没有新短信达到，而异步（也就是手机开启振动模式）可以主动告诉大p有短信来了。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/同步/" rel="tag"># 同步</a>
+          
+            <a href="/tags/异步/" rel="tag"># 异步</a>
+          
+            <a href="/tags/阻塞/" rel="tag"># 阻塞</a>
+          
+            <a href="/tags/非阻塞/" rel="tag"># 非阻塞</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/java-8-stringjoiner/" rel="next" title="Java 8 StringJoiner 示例">
+                <i class="fa fa-chevron-left"></i> Java 8 StringJoiner 示例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flag">
+                2019 Flag <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
+            
+              <p class="site-author-name" itemprop="name">Panmax</p>
+              <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">131</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">52</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Panmax" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:jiapan.china@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#上边大p用到了4种方案来处理短信这件事："><span class="nav-number">1.</span> <span class="nav-text">上边大p用到了4种方案来处理短信这件事：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'gPS1atpl6u5FziDqKf7XW6ms-gzGzoHsz',
+        appKey: 'KioAbSyq7iDATMvbNyctgoLf',
+        placeholder: '我也爱你...',
+        avatar:'hide',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
