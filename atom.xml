@@ -46,59 +46,6 @@
   </entry>
   
   <entry>
-    <title>大p故事会002：关于 https 那些事</title>
-    <link href="https://jpanj.com/2019/story-https/"/>
-    <id>https://jpanj.com/2019/story-https/</id>
-    <published>2019-03-18T01:36:58.000Z</published>
-    <updated>2019-03-18T03:50:14.974Z</updated>
-    
-    <content type="html"><![CDATA[<p>大p在刚刚开始追求小h的时候，正值风华正茂，所以比较喜欢写写书信什么的来交流彼此。由于大p的脸皮比较薄，每次写完信后，并不是把信直接交给小h，而且大部分传信的时间是在上课的时候，所以大p会把信交个离她比较近的一个同学，再由这个同学交给离她更近的同学，最后一步步的传到小h手中，小h写完回信后再使用这个过程传过来。</p><p><img src="1.png" alt></p><p>使用这种方式虽然浪漫，但有几个问题让大p和小h很困扰：</p><ol><li>每次传递过程中都会有好奇心比较旺盛的同学先打开信看一遍然后才继续往下传</li><li>遇到爱搞恶作剧的同学还会修改信的内容，比如有一次我告诉小h，今晚9点操场见，但是这个同学改成了今晚7点操场见，结果导致小h提前两小时到了操场，因为这事俩人差点分手</li><li>甚至有更讨厌的同学，冒充大p给小h写信</li></ol><blockquote><p>以上三中情况对应的是 HTTP 协议传输时存在的风险：<br>窃听风险：第三方节点可以获知通信内容<br>篡改风险：第三方节点可以修改通信内容<br>冒充风险：第三方节点可以冒充他人身份参与通信</p></blockquote><p>大p想到了一个对策，把信放在一个带有密码锁的盒子里，这样就由之前的直接传递小纸条改为了传递有密码锁的盒子。示意图如下：</p><p><img src="2.png" alt></p><p>现在对策有了，带密码锁的盒子有了，信也写好了，但另一个问题来了，密码怎么告诉小h呢，最简单的办法肯定是大p直接把密码告诉小h，但他们两个平时单独约会的时间非常少，每次独处时大p都把心思用在其他地方了，把给密码这件事忘的一干二净。另一个方法是把写有密码的信还通过之前的方法传给小h，但是这样的话中间那个传信的同学就有可能打开信看到密码，把信放在密码盒中就没有任何意义了。</p><p>因为锁子的密码安全传递问题解决不了，大p暂时否定了这个方案。</p><blockquote><p>以上介绍的是对称加密算法，带有密码锁的盒子和密码分别对应的算法和密钥，常见的对称加密算法有AES、DES、3DES、RC5、RC6</p></blockquote><p>因为担心信中的内容被其他人看到，两个人之间的信件交流就越来越少了，这让大p很苦恼。有一天大p在学校小卖部里看到了一种新的密码锁，这种密码锁神奇之处在于它需要配合一对密码来使用，由一个密码锁上的锁头必须由另一个密码才能解开，反之亦然。</p><p>大p立刻来了精神，买了把这样的锁回去，并且生成了两对密码。大p和小h协商好，给每对密码中的每个密码分别起个名字：公钥、私钥，公钥表示这个密码能够随意分发，让任何人得到：可以直接把写有公钥的纸条传给对方，甚至把公钥直接写在黑板上都没有问题，但是私钥只能自己知道，甚至连对方都不能告诉。</p><p>也就是说此时他们两个每人有一个属于自己的私钥。这样只需要每次写完信后，用对方的的公钥把盒子锁上，对方拿到后用自己的私钥解开盒子取出信件，写完回信后再用另一方的公钥锁上盒子即可。</p><p>假如</p><ul><li>大p的公钥是abc，私钥是cba；</li><li>小h的公钥是123，私钥是321，流程示意图如下：</li></ul><p><img src="3.png" alt></p><blockquote><p>以上介绍的是非对称加密也叫公钥加密，这套密码算法包含配对的密钥对，分为加密密钥和解密密钥。发送者用加密密钥进行加密，接收者用解密密钥进行解密。加密密钥是公开的，任何人都可以获取，因此加密密钥又称为公钥（public key），解密密钥不能公开，只能自己使用，因此它又称为私钥（private key），常见的公钥加密算法有 RSA</p></blockquote><p>于是两个人又开始频繁的给对方写信了，但是在慢慢使用中，他们两个都人发现了一个问题，这个密码锁的加密和解密的效率很低，简直就是写信5分钟，加/解密2小时。</p><p>后来，大p想到一个方法，他们可以结合两种密码锁，先通过非对称密码锁把之前对称密码锁的密码传给对方，两个人后边直接用对称密码锁来加密解密就可以了。</p><p>为了后边不再出什么漏洞，大p决定对这种方案进行了严格的推敲，推敲过程中他突然意识到一种可怕的情况，虽然他们两个都持有对方的公钥，但他们自己并不知道自己拿到的是不是真的就是对方的公钥，假如中间传信的人里有一个既邪恶又聪明的同学小x，他可能就会想到一种破解方法：</p><ul><li>小x手中有两对他自己生成好的密钥：<ul><li>第一对：公钥xyz，私钥zyx</li><li>第二对：公钥456，私钥654</li></ul></li></ul><p>当大p和小h想要获取对方的公钥时，小x拿到大p的公钥abc后记下来，但是小x却告诉小h：大p的公钥是 xyz（这事小x的公钥），反过来也是，小h的公钥也被小x拿到并且掉了包，打p拿到的也是小x生成的公钥456。</p><p>当大p写完信后用他认为是小h的公钥加密时，实际用的是小x的公钥，小x只需拿到加密的信后用自己的私钥解开看一看，可能再改改信的内容，然后再用小h的公钥把信加密后交给小h，反过来同理。</p><p><img src="4.png" alt></p><p>因为大p是个阴谋论者，所以他相信这样的事情一定是存在的，所以之前所有的加密方案瞬间都因为这种可能有中间人攻击的存在而崩塌了。</p><p>由于现在市面上的密码锁只有这两种，而且大p还在读高中，所以造一种可以防中间人攻击的新型加密锁对他来说难度太大了（真实情况是大p毕业参加工作后依然造不出来），大p决定找到一种方案可以让他和小h拿到的一定是对方的公钥，而不是中间人的。大p想到，既然我们可能会收到中间人的攻击，那么我们能不能也找个可靠的「中间人」来解决这个问题呢。</p><p>找班长来做这个「中间人」最合适不过了，为了防止再出其他幺蛾子，大p和班长进行了面基，班长也有一对自己的密钥，大p让班长当面把公钥给了大p，此时大p可以确定他拿到的班长的公钥一定就是班长的公钥（这个实际是根证书预装进操作系统或浏览器的过程）。</p><p>小h为了让大p（也包括其他追求者）拿到不被篡改的公钥，需要把自己的公钥交给班长，她虽然和班长没有进行面交，但班长经过一系列严格而且复杂的检查确认了这个公钥确确实实是小h的，然后班长会把小h的基本信息（比如姓名、学号）和小h的公钥放在一起，然后对以上内容做一次散列计算后得到一个信息摘要（也叫指纹），这个指纹可以保证只要班长拿到的小h的基本信息或小h的公钥有任何修改，再次散列计算后得到的指纹一定不同。</p><blockquote><p>消息摘要（message digest）函数是一种用于判断数据完整性的算法，也称为散列函数或哈希函数，函数返回的值叫散列值，散列值又称为消息摘要或者指纹（fingerprint）。这种算法是一个不可逆的算法，因此你没法通过消息摘要反向推倒出消息是什么，所以它也称为单向散列函数。常用的散列算法有MD5、SHA。</p></blockquote><p>再之后班长使用自己的私钥把之前计算出来的信息摘要进行了签名（实际就是用私钥对这个值进行了加密），加密后的值我们叫它数字签名，最后把数字签名和原始信息一起打包，生成了最终的数字证书，也就是说数字证书中有两块内容，一块是小h的公钥+小h基本信息组成的明文，另外一块是把明文部分进行散列计算后的值再次通过私钥加密后得到的数字签名。</p><p><img src="5.png" alt></p><p>之后班长把带有自己签名的证书（数字证书）交给了小h。大p找小h索要公钥时，小h只需要把这个数字证书交给他就行了，大p需要用相同的散列算法将明文部分进行计算得到一个散列值a，并且因为大p确定自己手中拿的班长的公钥是可信的，于是大p用班长的公钥对证书中的数字签名进行解密得到得到班长计算出的散列值b，散列值a和散列值b进行比对，如果相同就可以确定明文部分是没有被篡改过的，也就是说此时大p可以相信自己拿到的小h的公钥一定是可靠的了。</p><p>这也印证了一句名言：“<strong>一切计算机问题都可以通过添加中间层解决</strong>”。</p><blockquote><p>上边的部分班长就是认证机构（CA），CA 把用户的姓名、组织、邮箱地址等个人信息收集起来，加上公钥，由 CA 提供数字签名生成公钥证书（Public-Key Certificate）PKC</p></blockquote><p>至此，一套比较完善的数据传输方案就完成了。HTTPS（SSL/TLS）就是在这样一套流程基础之上建立起来的。</p><p>https 简化流程图如下：</p><p><img src="6.png" alt></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;大p在刚刚开始追求小h的时候，正值风华正茂，所以比较喜欢写写书信什么的来交流彼此。由于大p的脸皮比较薄，每次写完信后，并不是把信直接交给小h，而且大部分传信的时间是在上课的时候，所以大p会把信交个离她比较近的一个同学，再由这个同学交给离她更近的同学，最后一步步的传到小h手中
-      
-    
-    </summary>
-    
-    
-      <category term="https" scheme="https://jpanj.com/tags/https/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>大p故事会001：同步、异步、阻塞、非阻塞那些事</title>
-    <link href="https://jpanj.com/2019/story-sync-async-blocking/"/>
-    <id>https://jpanj.com/2019/story-sync-async-blocking/</id>
-    <published>2019-03-13T01:23:37.000Z</published>
-    <updated>2019-03-13T01:47:04.924Z</updated>
-    
-    <content type="html"><![CDATA[<p>高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。</p><p>小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处于好玩就给这个陌生号码回了过来，但大p 却没有勇气接听，任由手机振动着。当时很流行彩铃，大p 也不例外地设置了彩铃，用的是张震岳的《思念是一种病》，这首歌刚好是当时小h最喜欢的音乐，于是后来小h在想听这首歌的时候就会给这个号码打电话。</p><p>高二那年下了一场暴雪，导致全市所有设施瘫痪，于是学校放假了，刚好那天学校期中考试，也是在这一天大p告诉了小h那个手机号是他的。晚上回家后大p假装很不在乎地发短信问了小h这次考的怎么样，小h很客套的应付了几句，但大p这天异常兴奋，他隐约感受到如果再不做点什么可能就会永远错过了，于是他寻找各种话题和小h聊天，不知不觉从晚上10点聊到了早上5点…</p><p>这之后小h也明白了大p的用意，大p在1个月后向小h表白了，但遭到了小h的拒绝，小h告诉大p学业要紧，等高中毕业后再考虑。</p><p>转眼间高二下学期快要结束了，这一天小h把大p叫到一个没有人的地方，跟大p说：「我答应你之前那件事了，你也答应我，等我回来好吗？」，大p不知道她在说什么，他只听到小h说她同意了，现在的大p 不管什么事情都会答应的，后来大p才知道，小h 是要回s市读高三，然后要在s市参加高考。</p><p>高三，小h去了s市，他们两个每天通过手机短信的方式进行交流（当然是偷偷的），刚开始的时候，大p总是心心念地等着短信回复，每次给小h发过去短信后就茶不思饭不想题也看不进去，只能两眼直勾勾地盯着手机等着短信回来，因为手机是静音所以要想第一时间知道短信到了只能盯着看屏幕有没有亮，这样过了一段时间，大p的成绩一落千丈，因为他有太多的时间花在了等着短信回复上。</p><p>大p认为这样下去也不是办法于是调整了一下自己的心态，每次发完短信后不再一直盯着手机等回复了，而是用这个时间去看书、做题，每过一段时间就查看一下有没有短信过来，虽然大p的成绩慢慢爬了上来，但在这种状态下大p的心里还是需要一直惦记着手机，因为他不知道短信什么时候过来所以要时不时的去看一眼。</p><p>于是大p就想有没有什么办法可以让自己不用频繁去看手机，又能在第一时间知道有短信来了呢，大p想了三天三夜想到了一个主意：用手机的振动功能，打开短信的振动提醒，可以把手机放在裤兜里，每次短信来了可以立刻感受到而且不会被老师发现。大p 像平常一样给小h发了条短信，为了验证这个振动功能的有效性，大p这次还是盯着手机等回复，直到短信回来手机震了，大p确信了方案的可行性。</p><p>此后，大p的学习效率更高了，也可以安心的听课做题了，大p 只需要在手机振动的时候去看短信就行。大p很开心，就这样，高三的时光一闪而过，他们两个约定好要考同一所大学。</p><p>预知后事如何，请听下回分解。</p><h4 id="上边大p用到了4种方案来处理短信这件事："><a href="#上边大p用到了4种方案来处理短信这件事：" class="headerlink" title="上边大p用到了4种方案来处理短信这件事："></a>上边大p用到了4种方案来处理短信这件事：</h4><ul><li>同步阻塞（傻傻的等短信过来）</li><li>同步非阻塞（大p写会作业，检查下手机有没有新短信，这样交替轮询）</li><li>异步阻塞（手机开启振动模式，但大p 还是盯着看。用这种方案的大p很傻，所以大p只尝试了一次）</li><li>异步非阻塞（大p只管学习，手机一震大p就知道短信来了）</li></ul><blockquote><p>阻塞非阻塞都是相对于大p来说的，取决于大p等待短信时的状态。全心投入等短信达到的大p是阻塞的，可以抽出时间来做其他事情的大p是非阻塞的。</p></blockquote><blockquote><p>而同步和异步是对手机来说的，同步需要让大p自己去检查有没有新短信达到，而异步（也就是手机开启振动模式）可以主动告诉大p有短信来了。</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。&lt;/p&gt;
-&lt;p&gt;小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p
-      
-    
-    </summary>
-    
-    
-      <category term="同步" scheme="https://jpanj.com/tags/%E5%90%8C%E6%AD%A5/"/>
-    
-      <category term="异步" scheme="https://jpanj.com/tags/%E5%BC%82%E6%AD%A5/"/>
-    
-      <category term="阻塞" scheme="https://jpanj.com/tags/%E9%98%BB%E5%A1%9E/"/>
-    
-      <category term="非阻塞" scheme="https://jpanj.com/tags/%E9%9D%9E%E9%98%BB%E5%A1%9E/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Java 8 StringJoiner 示例</title>
     <link href="https://jpanj.com/2019/java-8-stringjoiner/"/>
     <id>https://jpanj.com/2019/java-8-stringjoiner/</id>
@@ -463,6 +410,50 @@
         &lt;p&gt;我们在登录服务器，执行一个很耗时的任务时，通常我们会使用 &lt;code&gt;nohup&lt;/code&gt; + &lt;code&gt;&amp;amp;&lt;/code&gt; 的方式执行，如果我们在启动时，忘记加上这 &lt;code&gt;nohup&lt;/code&gt; 该如何补救呢？&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;首先使用 &lt;c
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Neo4j 导入动态类型关系</title>
+    <link href="https://jpanj.com/2018/neo4j-import-dynamic-relationship-type/"/>
+    <id>https://jpanj.com/2018/neo4j-import-dynamic-relationship-type/</id>
+    <published>2018-03-27T09:19:34.000Z</published>
+    <updated>2018-03-27T10:12:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天在构建一批新的关系时，需要用 LOAD CSV 批量导入一些关系数据进去，但是这次的关系类型并不是固定的，而是在文件中指定的，CSV 文件格式如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">AWI9o1sbC5n_pY7tOUdL|AWI96tqyetLN4cQh5GnC|EMERGENCY|紧急联络人</span><br><span class="line">AWI85duqetLN4cQhYTVc|AWI-DASVC5n_pY7tH2i5|EMERGENCY|紧急联络人</span><br><span class="line">AWI85duqetLN4cQhYTVc|AWI-DASVC5n_pY7tH2i5|RELATIVE|Spouse</span><br><span class="line">AWI9-Vm7etLN4cQhC6gp|AWI9lGsNetLN4cQhK_8U|EMERGENCY|紧急联络人</span><br><span class="line">AWI8pkY9etLN4cQhqdrQ|AWI8dIx9C5n_pY7tBKBJ|EMERGENCY|紧急联络人</span><br><span class="line">AWI8pkY9etLN4cQhqdrQ|AWI8dIx9C5n_pY7tBKBJ|OTHER|Other</span><br><span class="line">AWI-ZirYC5n_pY7tIn7b|AWI-d3TaC5n_pY7tUjVr|EMERGENCY|紧急联络人</span><br><span class="line">AWI-ZirYC5n_pY7tIn7b|AWI-d3TaC5n_pY7tUjVr|RELATIVE|Cousin</span><br><span class="line">AWI8UPZ3etLN4cQhsFoT|AWI9ngEwetLN4cQhS4hI|EMERGENCY|紧急联络人</span><br><span class="line">AWI-CJ7jetLN4cQhNwgt|AWI-UkO6etLN4cQhDYhR|EMERGENCY|紧急联络人</span><br></pre></td></tr></table></figure><p>第一列和第二列分别两个 <code>Person</code> 节点的 UUID，第三列是关系类型（type），第四列是关系的名称（name）。</p><p>我刚开始这样写的导入语句：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">USING PERIODIC COMMIT 10000</span><br><span class="line">LOAD CSV FROM &apos;file:////relation_all.csv&apos; AS line FIELDTERMINATOR &apos;|&apos;</span><br><span class="line">MATCH (p1:Person &#123;uuid: line[0]&#125;)</span><br><span class="line">MATCH (p2:Person &#123;uuid: line[1]&#125;)</span><br><span class="line">MERGE (p1)-[:line[2] &#123;name: line[3]&#125;]-&gt;(p2)</span><br></pre></td></tr></table></figure><p>但是发现无法执行，由错误信息可知（下图所示），Neo4j 原始的 LOAD CSV 语句是不支持动态创建关系类型的。</p><p><img src="1.png" alt></p><p>我之前在介绍 <a href="/2017/neo4j-warms-up/">Neo4j 冷启动预热缓存</a> 时介绍过一个插件：<code>APOC</code>，这个插件功能非常强大，比如提供了很多好用的路径算法和强大的函数，之后有机会的话会慢慢介绍，今天介绍一下他的动态创建关系的函数 <code>apoc.create.relationship</code>，函数说明如下：</p><p><code>apoc.create.relationship(person1,&#39;KNOWS&#39;,{key:value,…​}, person2)</code> create relationship with dynamic rel-type</p><p>所以我的导入语句只需要改成：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">USING PERIODIC COMMIT 10000</span><br><span class="line">LOAD CSV FROM &apos;file:////relation_all.csv&apos; AS line FIELDTERMINATOR &apos;|&apos;</span><br><span class="line">MATCH (p1:Person &#123;uuid: line[0]&#125;)</span><br><span class="line">MATCH (p2:Person &#123;uuid: line[1]&#125;)</span><br><span class="line">WITH p1, p2, line</span><br><span class="line">CALL apoc.create.relationship(p1, line[2], &#123;name: line[3]&#125;, p2) YIELD rel</span><br><span class="line">RETURN rel</span><br></pre></td></tr></table></figure><p>就完事大吉了。</p><p>但是考虑到这个 CSV 文件中的关系可能存在重复，所以我通过文档找到了另一个函数：</p><p><code>apoc.merge.relationship(startNode, relType, {key:value, …​}, {key:value, …​}, endNode)</code> - merge relationship with dynamic type</p><p>这个函数中需要传两组 <code>key-value</code>，第一组是用来判断关系是否重复的，第二组是一些其他属性。</p><p>最终的导入语句如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">USING PERIODIC COMMIT 10000</span><br><span class="line">LOAD CSV FROM &apos;file:////relation_all.csv&apos; AS line FIELDTERMINATOR &apos;|&apos;</span><br><span class="line">MATCH (p1:Person &#123;uuid: line[0]&#125;)</span><br><span class="line">MATCH (p2:Person &#123;uuid: line[1]&#125;)</span><br><span class="line">WITH p1, p2, line</span><br><span class="line">CALL apoc.merge.relationship(p1, line[2], &#123;name: line[3]&#125;, &#123;&#125;, p2) YIELD rel</span><br><span class="line">RETURN rel</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天在构建一批新的关系时，需要用 LOAD CSV 批量导入一些关系数据进去，但是这次的关系类型并不是固定的，而是在文件中指定的，CSV 文件格式如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gu
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>hadoop 上传文件时报 Checksum error</title>
+    <link href="https://jpanj.com/2018/hadoop-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E6%97%B6%E6%8A%A5-Checksum-error/"/>
+    <id>https://jpanj.com/2018/hadoop-上传文件时报-Checksum-error/</id>
+    <published>2018-03-23T07:44:46.000Z</published>
+    <updated>2018-03-23T07:52:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天在用 hadoop 上传文件到 HDFS 时，报错：<code>put: Checksum error: file:/home/magneto/fb_friend.csv at 0 exp: 1005486446 got: 441437096</code>。</p><p>经过 Google 发现是因为当前目录下存在一个名为：<code>.fb_friend.csv.crc</code> 的文件，将此文件删除后即可成功上传。</p><p>究其原因是因为 Hadoop 的 CRC 数据校验机制，Hadoop 系统为了保证数据的一致性，会对文件生成相应的校验文件，并在读写的时候进行校验，确保数据的准确性。</p><p>在上传的过程中，Hadoop 将通过 FSInputChecker 判断需要上传的文件是否存在进行校验的 crc 文件，即 <code>.fb_friend.csv.crc</code>，如果存在 crc 文件，将会对其内容一致性进行校验，如果校验失败，则停止上传该文件。</p><p>在使用 <code>hadoop fs -getmerge srcDir destFile</code> 命令时，本地磁盘一定会生成相应的 <code>.crc</code> 文件。</p><p>所以如果需要修改 <code>getmerge</code> 获取的文件的内容，再次上传到 DFS 时，可以采取以下 2 种策略进行规避：</p><ol><li><p>删除 <code>.crc</code> 文件</p></li><li><p>将 <code>getmerge</code> 获取的文件修改后重新命名，如使用 <code>mv</code> 操作，再次上传到 DFS 中。</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天在用 hadoop 上传文件到 HDFS 时，报错：&lt;code&gt;put: Checksum error: file:/home/magneto/fb_friend.csv at 0 exp: 1005486446 got: 441437096&lt;/code&gt;。&lt;/p&gt;
+&lt;
       
     
     </summary>
