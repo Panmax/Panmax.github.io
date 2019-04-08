@@ -121,7 +121,7 @@
 <meta property="og:description" content="最近一段时间学习了一下 GoLang 这门语言，其中提到最多的就是 GoLang 的高性能 &amp;amp; 高并发，所以本着没有对比就没有伤害的原则，我准备将其与另外两个我所掌握的语言（Python、Java）进行一个简单的性能对比。 测试环境我的 MacBook Pro，12个逻辑CPU + 16G内存 测试工具https://github.com/wg/wrk wrk -t8 -c100 -d3">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2019/web-benchmark-for-python-java-golang/1.png">
-<meta property="og:updated_time" content="2019-04-08T07:17:53.340Z">
+<meta property="og:updated_time" content="2019-04-08T07:19:35.926Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python、Java、GoLang 基于 Web 的性能测试">
 <meta name="twitter:description" content="最近一段时间学习了一下 GoLang 这门语言，其中提到最多的就是 GoLang 的高性能 &amp;amp; 高并发，所以本着没有对比就没有伤害的原则，我准备将其与另外两个我所掌握的语言（Python、Java）进行一个简单的性能对比。 测试环境我的 MacBook Pro，12个逻辑CPU + 16G内存 测试工具https://github.com/wg/wrk wrk -t8 -c100 -d3">
@@ -361,7 +361,7 @@
                 
               
 
-              <time title="Created: 2019-04-08 13:47:17 / Modified: 15:17:53" itemprop="dateCreated datePublished" datetime="2019-04-08T13:47:17+08:00">2019-04-08</time>
+              <time title="Created: 2019-04-08 13:47:17 / Modified: 15:19:35" itemprop="dateCreated datePublished" datetime="2019-04-08T13:47:17+08:00">2019-04-08</time>
             
 
             
@@ -439,13 +439,13 @@
 <h4 id="Java-1"><a href="#Java-1" class="headerlink" title="Java"></a>Java</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜ wrk -t8 -c100 -d30s --latency http://127.0.0.1:8082/</span><br><span class="line">Running 30s test @ http://127.0.0.1:8082/</span><br><span class="line">  8 threads and 100 connections</span><br><span class="line">  Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line">    Latency     8.22ms   26.99ms 438.58ms   93.31%</span><br><span class="line">    Req/Sec     6.93k     3.00k   16.38k    50.11%</span><br><span class="line">  Latency Distribution</span><br><span class="line">     50%    1.26ms</span><br><span class="line">     75%    2.09ms</span><br><span class="line">     90%   12.81ms</span><br><span class="line">     99%  132.29ms</span><br><span class="line">  1631200 requests in 30.06s, 194.75MB read</span><br><span class="line">Requests/sec:  54256.97</span><br><span class="line">Transfer/sec:      6.48MB</span><br></pre></td></tr></table></figure>
 <h4 id="GoLang-1"><a href="#GoLang-1" class="headerlink" title="GoLang"></a>GoLang</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">➜ wrk -t8 -c100 -d30s --latency http://127.0.0.1:8083/</span><br><span class="line">Running 30s test @ http://127.0.0.1:8083/</span><br><span class="line">  8 threads and 100 connections</span><br><span class="line">  Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line">    Latency     1.80ms    1.95ms  24.69ms   85.85%</span><br><span class="line">    Req/Sec     8.68k   786.97    11.03k    65.72%</span><br><span class="line">  Latency Distribution</span><br><span class="line">     50%    1.36ms</span><br><span class="line">     75%    2.68ms</span><br><span class="line">     90%    4.32ms</span><br><span class="line">     99%    8.42ms</span><br><span class="line">  2078830 requests in 30.10s, 257.73MB read</span><br><span class="line">Requests/sec:  69064.35</span><br><span class="line">Transfer/sec:      8.56MB</span><br></pre></td></tr></table></figure>
 <hr>
-<p>可以看到，在每秒请求数量（Requests/sec），也就是并发能力方面，测试结果分别为</p>
+<p>可以看到，在每秒请求数量（Requests/sec），也就是并发能力方面，测试结果为：</p>
 <ul>
 <li>Python: <strong>529.21</strong></li>
 <li>Java: <strong>54256.97</strong></li>
 <li>GoLang: <strong>69064.35</strong></li>
 </ul>
-<p>线程平均延迟（Thread Stats - Avg - Latency）</p>
+<p>线程平均延迟（Thread Stats - Avg - Latency）的测试结果为：</p>
 <ul>
 <li>Python: <strong>21.45ms</strong></li>
 <li>Java: <strong>8.22ms</strong></li>
