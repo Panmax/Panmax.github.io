@@ -114,13 +114,14 @@
 
 
   <meta name="description" content="网上介绍 Node 如何安装的文章数不胜数，但我还是决定自己写一篇记录一下，最主要的原因是网上的文章比较混乱，有的建议通过包管理工具安装，还有的让一步步编译源码来安装。 通过包管理工具安装的通常版本不会太新，通过源码安装的方式非常麻烦，还需要提前安装 gcc 之类的，只有极少部分良心博主介绍了通过二进制文件直接安装的方式，但操作上都不是特别规范。 网上已有的文章还有一个很严重的问题，就是没有考虑国">
+<meta name="keywords" content="neo4j">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 安装 node 和 npm">
 <meta property="og:url" content="https://jpanj.com/2019/install-node-and-npm-on-linux/index.html">
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="网上介绍 Node 如何安装的文章数不胜数，但我还是决定自己写一篇记录一下，最主要的原因是网上的文章比较混乱，有的建议通过包管理工具安装，还有的让一步步编译源码来安装。 通过包管理工具安装的通常版本不会太新，通过源码安装的方式非常麻烦，还需要提前安装 gcc 之类的，只有极少部分良心博主介绍了通过二进制文件直接安装的方式，但操作上都不是特别规范。 网上已有的文章还有一个很严重的问题，就是没有考虑国">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-28T05:13:05.425Z">
+<meta property="og:updated_time" content="2019-06-17T08:43:16.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 安装 node 和 npm">
 <meta name="twitter:description" content="网上介绍 Node 如何安装的文章数不胜数，但我还是决定自己写一篇记录一下，最主要的原因是网上的文章比较混乱，有的建议通过包管理工具安装，还有的让一步步编译源码来安装。 通过包管理工具安装的通常版本不会太新，通过源码安装的方式非常麻烦，还需要提前安装 gcc 之类的，只有极少部分良心博主介绍了通过二进制文件直接安装的方式，但操作上都不是特别规范。 网上已有的文章还有一个很严重的问题，就是没有考虑国">
@@ -359,12 +360,24 @@
                 
               
 
-              <time title="Created: 2019-05-28 12:35:22 / Modified: 13:13:05" itemprop="dateCreated datePublished" datetime="2019-05-28T12:35:22+08:00">2019-05-28</time>
+              <time title="Created: 2019-05-28 12:35:22" itemprop="dateCreated datePublished" datetime="2019-05-28T12:35:22+08:00">2019-05-28</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-06-17 16:43:16" itemprop="dateModified" datetime="2019-06-17T16:43:16+08:00">2019-06-17</time>
               
             
           </span>
@@ -437,7 +450,7 @@
 <li><code>/usr/local/bin</code> 目录是给用户放置自己的可执行程序的地方</li>
 </ul>
 <p>所以我推荐将软链放在 <code>/usr/local/bin</code> 目录下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/node/bin/node /usr/local/bin/node</span><br><span class="line">ln -s /opt/node/bin/npm /usr/local/bin/npm</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ln -s /opt/node/bin/node /usr/local/bin/node</span><br><span class="line">ln -s /opt/node/bin/npm /usr/local/bin/npm</span><br><span class="line">ln -s /opt/node/bin/npx /usr/local/bin/npx</span><br></pre></td></tr></table></figure>
 <h4 id="检查是否安装成功"><a href="#检查是否安装成功" class="headerlink" title="检查是否安装成功"></a>检查是否安装成功</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@dc8 ~]# node -v</span><br><span class="line">v10.15.3</span><br><span class="line">[root@dc8 ~]# npm -v</span><br><span class="line">6.4.1</span><br></pre></td></tr></table></figure>
 <h4 id="Done"><a href="#Done" class="headerlink" title="Done"></a>Done</h4>
       
@@ -456,6 +469,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/neo4j/" rel="tag"># neo4j</a>
+          
+        </div>
       
 
       
@@ -553,7 +572,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">134</span>
+                    <span class="site-state-item-count">135</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
