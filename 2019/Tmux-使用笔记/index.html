@@ -113,17 +113,17 @@
 
 
 
-  <meta name="description" content="今天在服务器上用 pip 安装 MySQL-python 时报错，虽然之前处理过很多次，但都没有记录，这次记录一下。 报错如下： 123456789101112131415161718192021222324252627282930313233Downloading/unpacking MySQL-python  Downloading MySQL-python-1.2.5.zip (108kB)">
+  <meta name="description" content="Tmux 是一个用于在终端窗口中运行多个终端会话的工具，即终端复用软件（terminal multiplexer）。 在 Tmux 中可以根据不同的工作任务创建不同的会话，每个会话又可以创建多个窗口来完成不同的工作，每个窗口又可以分割成很多小窗口。这些功能都是非常实用的。 在 Mac OS 中安装：$ brew install tmux 开启 oh-my-zsh tmux 插件：123plugin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决 CentOS 安装 MySQL-python 报错">
-<meta property="og:url" content="https://jpanj.com/2017/centos-fix-python-mysql/index.html">
+<meta property="og:title" content="Tmux 使用笔记">
+<meta property="og:url" content="https://jpanj.com/2019/Tmux-使用笔记/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="今天在服务器上用 pip 安装 MySQL-python 时报错，虽然之前处理过很多次，但都没有记录，这次记录一下。 报错如下： 123456789101112131415161718192021222324252627282930313233Downloading/unpacking MySQL-python  Downloading MySQL-python-1.2.5.zip (108kB)">
+<meta property="og:description" content="Tmux 是一个用于在终端窗口中运行多个终端会话的工具，即终端复用软件（terminal multiplexer）。 在 Tmux 中可以根据不同的工作任务创建不同的会话，每个会话又可以创建多个窗口来完成不同的工作，每个窗口又可以分割成很多小窗口。这些功能都是非常实用的。 在 Mac OS 中安装：$ brew install tmux 开启 oh-my-zsh tmux 插件：123plugin">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-20T02:56:47.000Z">
+<meta property="og:updated_time" content="2019-10-29T04:42:01.194Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决 CentOS 安装 MySQL-python 报错">
-<meta name="twitter:description" content="今天在服务器上用 pip 安装 MySQL-python 时报错，虽然之前处理过很多次，但都没有记录，这次记录一下。 报错如下： 123456789101112131415161718192021222324252627282930313233Downloading/unpacking MySQL-python  Downloading MySQL-python-1.2.5.zip (108kB)">
+<meta name="twitter:title" content="Tmux 使用笔记">
+<meta name="twitter:description" content="Tmux 是一个用于在终端窗口中运行多个终端会话的工具，即终端复用软件（terminal multiplexer）。 在 Tmux 中可以根据不同的工作任务创建不同的会话，每个会话又可以创建多个窗口来完成不同的工作，每个窗口又可以分割成很多小窗口。这些功能都是非常实用的。 在 Mac OS 中安装：$ brew install tmux 开启 oh-my-zsh tmux 插件：123plugin">
 
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2017/centos-fix-python-mysql/">
+  <link rel="canonical" href="https://jpanj.com/2019/Tmux-使用笔记/">
 
 
 
@@ -142,7 +142,7 @@
   };
 </script>
 
-  <title>解决 CentOS 安装 MySQL-python 报错 | 贾攀家</title>
+  <title>Tmux 使用笔记 | 贾攀家</title>
   
 
 
@@ -317,7 +317,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2017/centos-fix-python-mysql/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/Tmux-使用笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -334,7 +334,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">解决 CentOS 安装 MySQL-python 报错
+          <h1 class="post-title" itemprop="name headline">Tmux 使用笔记
               
             
           </h1>
@@ -359,7 +359,7 @@
                 
               
 
-              <time title="Created: 2017-07-20 10:54:42 / Modified: 10:56:47" itemprop="dateCreated datePublished" datetime="2017-07-20T10:54:42+08:00">2017-07-20</time>
+              <time title="Created: 2019-10-29 12:11:25 / Modified: 12:42:01" itemprop="dateCreated datePublished" datetime="2019-10-29T12:11:25+08:00">2019-10-29</time>
             
 
             
@@ -378,8 +378,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/centos-fix-python-mysql/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2017/centos-fix-python-mysql/" itemprop="commentCount"></span>
+                <a href="/2019/Tmux-使用笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/Tmux-使用笔记/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -407,11 +407,37 @@
       
 
       
-        <p>今天在服务器上用 pip 安装 MySQL-python 时报错，虽然之前处理过很多次，但都没有记录，这次记录一下。</p>
-<p>报错如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">Downloading/unpacking MySQL-python</span><br><span class="line">  Downloading MySQL-python-1.2.5.zip (108kB): 108kB downloaded</span><br><span class="line">  Running setup.py egg_info for package MySQL-python</span><br><span class="line">    sh: mysql_config: command not found</span><br><span class="line">    Traceback (most recent call last):</span><br><span class="line">      File &quot;&lt;string&gt;&quot;, line 16, in &lt;module&gt;</span><br><span class="line">      File &quot;/home/jiapan/.virtualenvs/appstore-crawler/build/MySQL-python/setup.py&quot;, line 17, in &lt;module&gt;</span><br><span class="line">        metadata, options = get_config()</span><br><span class="line">      File &quot;setup_posix.py&quot;, line 43, in get_config</span><br><span class="line">        libs = mysql_config(&quot;libs_r&quot;)</span><br><span class="line">      File &quot;setup_posix.py&quot;, line 25, in mysql_config</span><br><span class="line">        raise EnvironmentError(&quot;%s not found&quot; % (mysql_config.path,))</span><br><span class="line">    EnvironmentError: mysql_config not found</span><br><span class="line">    Complete output from command python setup.py egg_info:</span><br><span class="line">    sh: mysql_config: command not found</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line"></span><br><span class="line">  File &quot;&lt;string&gt;&quot;, line 16, in &lt;module&gt;</span><br><span class="line"></span><br><span class="line">  File &quot;/home/jiapan/.virtualenvs/appstore-crawler/build/MySQL-python/setup.py&quot;, line 17, in &lt;module&gt;</span><br><span class="line"></span><br><span class="line">    metadata, options = get_config()</span><br><span class="line"></span><br><span class="line">  File &quot;setup_posix.py&quot;, line 43, in get_config</span><br><span class="line"></span><br><span class="line">    libs = mysql_config(&quot;libs_r&quot;)</span><br><span class="line"></span><br><span class="line">  File &quot;setup_posix.py&quot;, line 25, in mysql_config</span><br><span class="line"></span><br><span class="line">    raise EnvironmentError(&quot;%s not found&quot; % (mysql_config.path,))</span><br><span class="line"></span><br><span class="line">EnvironmentError: mysql_config not found</span><br></pre></td></tr></table></figure>
-<p>解决方法：</p>
-<p><code>sudo yum install python-devel mysql-devel</code></p>
+        <p>Tmux 是一个用于在终端窗口中运行多个终端会话的工具，即终端复用软件（terminal multiplexer）。</p>
+<p>在 Tmux 中可以根据不同的工作任务创建不同的会话，每个会话又可以创建多个窗口来完成不同的工作，每个窗口又可以分割成很多小窗口。这些功能都是非常实用的。</p>
+<h3 id="在-Mac-OS-中安装："><a href="#在-Mac-OS-中安装：" class="headerlink" title="在 Mac OS 中安装："></a>在 Mac OS 中安装：</h3><p><code>$ brew install tmux</code></p>
+<h3 id="开启-oh-my-zsh-tmux-插件："><a href="#开启-oh-my-zsh-tmux-插件：" class="headerlink" title="开启 oh-my-zsh tmux 插件："></a>开启 oh-my-zsh tmux 插件：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins=(</span><br><span class="line">  tmux</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>开启后提供以下快捷命令：</p>
+<ol>
+<li><code>ta &lt;session-name&gt;</code>：接入某个已存在的会话</li>
+<li><code>ts &lt;session-name&gt;</code>：新建一个指定名称的会话</li>
+<li><code>tl</code>：查看当前所有的 Tmux 会话</li>
+<li><code>tksv</code>：用于杀死全部会话</li>
+<li><code>tkss &lt;session-name&gt;</code>：用于杀死某个会话</li>
+</ol>
+<h3 id="最简操作流程"><a href="#最简操作流程" class="headerlink" title="最简操作流程"></a>最简操作流程</h3><ol>
+<li>新建会话 <code>tmux new -s my_sessio</code>n。<ul>
+<li>安装 zsh tmux 插件后可使用 <code>ts my_session</code></li>
+</ul>
+</li>
+<li>在 Tmux 窗口运行所需的程序。</li>
+<li>按下快捷键 <code>Ctrl+b d</code> 将会话分离。</li>
+<li>下次使用时，重新连接到会话 <code>tmux attach-session -t my_session</code>。<ul>
+<li>安装 zsh tmux 插件后可使用 <code>ta my_session</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="常用快捷键："><a href="#常用快捷键：" class="headerlink" title="常用快捷键："></a>常用快捷键：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># session</span><br><span class="line">Ctrl+b d：分离当前会话。</span><br><span class="line">Ctrl+b s：列出所有会话（切换回话）。</span><br><span class="line">Ctrl+b $：重命名当前会话。</span><br><span class="line"></span><br><span class="line"># pane</span><br><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b &quot;：划分上下两个窗格。</span><br><span class="line">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span><br><span class="line">Ctrl+b ;：光标切换到上一个窗格。</span><br><span class="line">Ctrl+b o：光标切换到下一个窗格。</span><br><span class="line">Ctrl+b &#123;：当前窗格左移。</span><br><span class="line">Ctrl+b &#125;：当前窗格右移。</span><br><span class="line">Ctrl+b Ctrl+o：当前窗格上移。</span><br><span class="line">Ctrl+b Alt+o：当前窗格下移。</span><br><span class="line">Ctrl+b x：关闭当前窗格。</span><br><span class="line">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span><br><span class="line">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span><br><span class="line">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span><br><span class="line">Ctrl+b q：显示窗格编号。</span><br><span class="line"></span><br><span class="line"># window</span><br><span class="line">Ctrl+b c：创建一个新窗口，状态栏会显示多个窗口的信息。</span><br><span class="line">Ctrl+b p：切换到上一个窗口（按照状态栏上的顺序）。</span><br><span class="line">Ctrl+b n：切换到下一个窗口。</span><br><span class="line">Ctrl+b &lt;number&gt;：切换到指定编号的窗口，其中的&lt;number&gt;是状态栏上的窗口编号。</span><br><span class="line">Ctrl+b w：从列表中选择窗口。</span><br><span class="line">Ctrl+b ,：窗口重命名。</span><br></pre></td></tr></table></figure>
+<h3 id="解决滚轮无效的问题"><a href="#解决滚轮无效的问题" class="headerlink" title="解决滚轮无效的问题"></a>解决滚轮无效的问题</h3><p>新建 <code>~/.tmux.conf</code> 配置文件后写入如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set-option -g mouse on</span><br><span class="line"></span><br><span class="line">bind -n WheelUpPane if-shell -F -t = &quot;#&#123;mouse_any_flag&#125;&quot; &quot;send-keys -M&quot; &quot;if -Ft= &apos;#&#123;pane_in_mode&#125;&apos; &apos;send-keys -M&apos; &apos;select-pane -t=; copy-mode -e; send-keys -M&apos;&quot;</span><br><span class="line">bind -n WheelDownPane select-pane -t= \; send-keys -M</span><br></pre></td></tr></table></figure>
+<p><strong>需杀掉全部会话（tksv），重新启动新的会话后以上配置才能生效。</strong></p>
+<h3 id="修改历史记录上限"><a href="#修改历史记录上限" class="headerlink" title="修改历史记录上限"></a>修改历史记录上限</h3><p>历史记录默认上限为 2000 行，可通过在配置文件中加入如下配置来进行修改：</p>
+<p><code>set-option -g history-limit 10000</code></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="http://www.ruanyifeng.com/blog/2019/10/tmux.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2019/10/tmux.html</a></p>
 
       
     </div>
@@ -439,8 +465,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/spring-chang-yong-zhu-jie/" rel="next" title="SpringMVC 常用注解">
-                <i class="fa fa-chevron-left"></i> SpringMVC 常用注解
+              <a href="/2019/The-Road-Less-Traveled-ReadNote/" rel="next" title="少有人走的路 阅读笔记">
+                <i class="fa fa-chevron-left"></i> 少有人走的路 阅读笔记
               </a>
             
           </div>
@@ -449,8 +475,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/spring-profiles-active-chuan-tou-xing/" rel="prev" title="--spring.profiles.active 穿透性">
-                --spring.profiles.active 穿透性 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -499,8 +525,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -744,6 +779,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Mac-OS-中安装："><span class="nav-number">1.</span> <span class="nav-text">在 Mac OS 中安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启-oh-my-zsh-tmux-插件："><span class="nav-number">2.</span> <span class="nav-text">开启 oh-my-zsh tmux 插件：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最简操作流程"><span class="nav-number">3.</span> <span class="nav-text">最简操作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用快捷键："><span class="nav-number">4.</span> <span class="nav-text">常用快捷键：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决滚轮无效的问题"><span class="nav-number">5.</span> <span class="nav-text">解决滚轮无效的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改历史记录上限"><span class="nav-number">6.</span> <span class="nav-text">修改历史记录上限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
