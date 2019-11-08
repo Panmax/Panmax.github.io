@@ -126,8 +126,15 @@
 <meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/3.png">
 <meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/5.png">
 <meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/6.png">
+<meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/12.png">
+<meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/13.png">
 <meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/7.png">
-<meta property="og:updated_time" content="2018-02-26T07:50:30.000Z">
+<meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/8.png">
+<meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/9.png">
+<meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/10.png">
+<meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/11.png">
+<meta property="og:image" content="https://jpanj.com/2018/jiapan-macbook/14.gif">
+<meta property="og:updated_time" content="2019-11-08T09:38:25.915Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="贾攀的 Macbook 使用指北">
 <meta name="twitter:description" content="工欲善其事，必先利其器  算起来我用 Macbook 也有三年多的时间了，中间由于一次工作原因，开发环境一直有问题，就重装了一次系统，也仅仅这一次，而且这次其实也是冤枉了系统，当时是因为我的 host 文件没有配置正确导致的，可以说 macOS 是相当稳定的，并且也是开发利器，我写这篇文章的目的主要是为了之后自己在换新的 Macbook 时有记录可寻，同时帮助其他 Macbook 用户来发现一些">
@@ -367,12 +374,24 @@
                 
               
 
-              <time title="Created: 2018-02-26 10:00:33 / Modified: 15:50:30" itemprop="dateCreated datePublished" datetime="2018-02-26T10:00:33+08:00">2018-02-26</time>
+              <time title="Created: 2018-02-26 10:00:33" itemprop="dateCreated datePublished" datetime="2018-02-26T10:00:33+08:00">2018-02-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-11-08 17:38:25" itemprop="dateModified" datetime="2019-11-08T17:38:25+08:00">2019-11-08</time>
               
             
           </span>
@@ -464,11 +483,28 @@
 <h3 id="Keyboard-Maestro：设置快捷键神器"><a href="#Keyboard-Maestro：设置快捷键神器" class="headerlink" title="Keyboard Maestro：设置快捷键神器"></a>Keyboard Maestro：设置快捷键神器</h3><p>我日常用 <code>HHKB</code> 来码字，这个键盘最大的优点就是小巧，最大的缺点也是小巧，很多键是没有的，比如方向键。</p>
 <p>我通过 <code>Keyboard Maestro</code> 来设置一些组合键作为方向键，同时设置另外一些组合键作为 App 启动热键。</p>
 <p>介绍看我另一篇博客：<a href="/2017/使用-KM-处理-HHKB-方向键/">使用-KM-处理-HHKB-方向键/</a></p>
+<h3 id="Karabiner-Elements"><a href="#Karabiner-Elements" class="headerlink" title="Karabiner-Elements"></a>Karabiner-Elements</h3><p>这条是后来补充的，此时我已经将 <code>HHKB</code> 组合实现方向键的功能由楼上的 Keyboard Maestro 改为了 <a href="https://github.com/pqrs-org/Karabiner-Elements" target="_blank" rel="noopener">Karabiner-Elements</a>，Keyboard Maestro 只留下了通过组合键启动应用的功能，Karabiner-Elements 可以更多的对键盘进行自定义，比如为了防止误触发，我开起了敲击 <code>command+q</code> 两次才退出应用的功能，同时还开启了当我接入外接键盘时，自动禁用自带键盘的功能。</p>
+<p><img src="12.png" alt></p>
+<p><img src="13.png" alt></p>
 <hr>
-<h3 id="Go2shell"><a href="#Go2shell" class="headerlink" title="Go2shell"></a>Go2shell</h3><p>当你在 finder 中进入一个目录后，这时你想用命令行在这个目录中做一些操作，你需要手动打开终端然后一层一层 <code>cd</code> 进去。</p>
+<h3 id="Go2shell"><a href="#Go2shell" class="headerlink" title="Go2shell"></a><del>Go2shell</del></h3><blockquote>
+<p>已有楼下的 OpenInTerminal 代替</p>
+</blockquote>
+<p>当你在 finder 中进入一个目录后，这时你想用命令行在这个目录中做一些操作，你需要手动打开终端然后一层一层 <code>cd</code> 进去。</p>
 <p>让 <a href="http://zipzapmac.com/Go2Shell" target="_blank" rel="noopener">Go2shell</a> 来解救你吧，安装完之后，会在你的 finder 上部出现它的 logo，不管你当前在哪个目录，如果你想让你的命令行也进到这个目录中时，只需点一下那个小 logo 就行了：</p>
 <p><img src="7.png" alt></p>
 <hr>
+<h3 id="OpenInTerminal"><a href="#OpenInTerminal" class="headerlink" title="OpenInTerminal"></a>OpenInTerminal</h3><p>比 Go2shell 功能更丰富，<a href="https://github.com/Ji4n1ng/OpenInTerminal" target="_blank" rel="noopener">OpenInTerminal</a> 不仅可以直接打开终端 并 <code>cd</code> 到相应目录，同时还提供了复制路径、用编辑器打开的便捷功能。</p>
+<p><img src="8.png" alt></p>
+<h3 id="Surge"><a href="#Surge" class="headerlink" title="Surge"></a>Surge</h3><p>不多介绍，官方定义为：「高级网络工具箱」。</p>
+<p><img src="9.png" alt></p>
+<h3 id="Things3"><a href="#Things3" class="headerlink" title="Things3"></a>Things3</h3><p>我最喜欢的 GTD 应用，没有之一。</p>
+<p><img src="10.png" alt></p>
+<h3 id="Enpass"><a href="#Enpass" class="headerlink" title="Enpass"></a>Enpass</h3><p>我们普遍都有很多不同的帐号，生活中还有各种重要信息需要记忆，单纯靠脑子真的很难记忆和管理。而所有账号使用同一密码绝对是巨大的安全隐患，因此我们还需要一款安全可靠，而且足够方便使用的密码管理器软件。</p>
+<p>Enpass 是一款安全可靠的跨平台密码管理器软件，提供了包括  Windows、Mac、Linux 以及 iOS、Android 在内的几乎所有平台的客户端，并且提供主流浏览器的一键登录扩展，基本能覆盖你所有的密码应用场景。</p>
+<p><img src="11.png" alt></p>
+<h3 id="Bartender-3"><a href="#Bartender-3" class="headerlink" title="Bartender 3"></a>Bartender 3</h3><p>Bartender 3 是一款Mac菜单栏自定义工具，简单说就是可以将指定的程序图标隐藏起来，需要时呼出。</p>
+<p><img src="14.gif" alt></p>
 <p>TODO…</p>
 
       
@@ -821,7 +857,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#以下神器排名分先后"><span class="nav-number">1.</span> <span class="nav-text">以下神器排名分先后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iTerm2：终端神器"><span class="nav-number">1.1.</span> <span class="nav-text">iTerm2：终端神器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#智能选中"><span class="nav-number">1.1.1.</span> <span class="nav-text">智能选中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#巧用-Command-键"><span class="nav-number">1.1.2.</span> <span class="nav-text">巧用 Command 键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用快捷键"><span class="nav-number">1.1.3.</span> <span class="nav-text">常用快捷键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动完成"><span class="nav-number">1.1.4.</span> <span class="nav-text">自动完成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Expose-Tabs"><span class="nav-number">1.1.5.</span> <span class="nav-text">Exposé Tabs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高亮当前鼠标的位置"><span class="nav-number">1.1.6.</span> <span class="nav-text">高亮当前鼠标的位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配色"><span class="nav-number">1.1.7.</span> <span class="nav-text">配色</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zsh：最强-shell"><span class="nav-number">1.2.</span> <span class="nav-text">zsh：最强 shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Moom：窗口调节神器"><span class="nav-number">1.3.</span> <span class="nav-text">Moom：窗口调节神器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paste：剪切板神器"><span class="nav-number">1.4.</span> <span class="nav-text">Paste：剪切板神器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Keyboard-Maestro：设置快捷键神器"><span class="nav-number">1.5.</span> <span class="nav-text">Keyboard Maestro：设置快捷键神器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go2shell"><span class="nav-number">1.6.</span> <span class="nav-text">Go2shell</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#以下神器排名分先后"><span class="nav-number">1.</span> <span class="nav-text">以下神器排名分先后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iTerm2：终端神器"><span class="nav-number">1.1.</span> <span class="nav-text">iTerm2：终端神器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#智能选中"><span class="nav-number">1.1.1.</span> <span class="nav-text">智能选中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#巧用-Command-键"><span class="nav-number">1.1.2.</span> <span class="nav-text">巧用 Command 键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用快捷键"><span class="nav-number">1.1.3.</span> <span class="nav-text">常用快捷键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动完成"><span class="nav-number">1.1.4.</span> <span class="nav-text">自动完成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Expose-Tabs"><span class="nav-number">1.1.5.</span> <span class="nav-text">Exposé Tabs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高亮当前鼠标的位置"><span class="nav-number">1.1.6.</span> <span class="nav-text">高亮当前鼠标的位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配色"><span class="nav-number">1.1.7.</span> <span class="nav-text">配色</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zsh：最强-shell"><span class="nav-number">1.2.</span> <span class="nav-text">zsh：最强 shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Moom：窗口调节神器"><span class="nav-number">1.3.</span> <span class="nav-text">Moom：窗口调节神器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paste：剪切板神器"><span class="nav-number">1.4.</span> <span class="nav-text">Paste：剪切板神器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Keyboard-Maestro：设置快捷键神器"><span class="nav-number">1.5.</span> <span class="nav-text">Keyboard Maestro：设置快捷键神器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Karabiner-Elements"><span class="nav-number">1.6.</span> <span class="nav-text">Karabiner-Elements</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go2shell"><span class="nav-number">1.7.</span> <span class="nav-text">Go2shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenInTerminal"><span class="nav-number">1.8.</span> <span class="nav-text">OpenInTerminal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Surge"><span class="nav-number">1.9.</span> <span class="nav-text">Surge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Things3"><span class="nav-number">1.10.</span> <span class="nav-text">Things3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Enpass"><span class="nav-number">1.11.</span> <span class="nav-text">Enpass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bartender-3"><span class="nav-number">1.12.</span> <span class="nav-text">Bartender 3</span></a></li></ol></li></ol></div>
             
 
           </div>
