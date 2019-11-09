@@ -113,12 +113,12 @@
 
 
 
-  <meta name="description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ RAID（Redundant Array of Independent Disks），利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实体磁盘。 常见 RAID 等级RA">
+  <meta name="description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks），简称磁盘阵列，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RAID 介绍，为什么不推荐为 HDFS 配置 RAID？">
 <meta property="og:url" content="https://jpanj.com/2019/raid-and-hdfs/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ RAID（Redundant Array of Independent Disks），利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实体磁盘。 常见 RAID 等级RA">
+<meta property="og:description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks），简称磁盘阵列，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2019/raid-and-hdfs/raid0.png">
 <meta property="og:image" content="https://jpanj.com/2019/raid-and-hdfs/raid1.png">
@@ -126,10 +126,10 @@
 <meta property="og:image" content="https://jpanj.com/2019/raid-and-hdfs/raid3.png">
 <meta property="og:image" content="https://jpanj.com/2019/raid-and-hdfs/raid5.png">
 <meta property="og:image" content="https://jpanj.com/2019/raid-and-hdfs/raid6.png">
-<meta property="og:updated_time" content="2019-11-09T10:35:14.439Z">
+<meta property="og:updated_time" content="2019-11-09T10:53:04.937Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RAID 介绍，为什么不推荐为 HDFS 配置 RAID？">
-<meta name="twitter:description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ RAID（Redundant Array of Independent Disks），利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实体磁盘。 常见 RAID 等级RA">
+<meta name="twitter:description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks），简称磁盘阵列，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实">
 <meta name="twitter:image" content="https://jpanj.com/2019/raid-and-hdfs/raid0.png">
 
 
@@ -366,7 +366,7 @@
                 
               
 
-              <time title="Created: 2019-11-09 16:48:57 / Modified: 18:35:14" itemprop="dateCreated datePublished" datetime="2019-11-09T16:48:57+08:00">2019-11-09</time>
+              <time title="Created: 2019-11-09 16:48:57 / Modified: 18:53:04" itemprop="dateCreated datePublished" datetime="2019-11-09T16:48:57+08:00">2019-11-09</time>
             
 
             
@@ -426,7 +426,7 @@
 
       
         <h2 id="RAID"><a href="#RAID" class="headerlink" title="RAID"></a>RAID</h2><p>开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？</p>
-<p><strong>RAID（Redundant Array of Independent Disks）</strong>，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。</p>
+<p><strong>独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks）</strong>，简称磁盘阵列，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。</p>
 <p>简单来说，<code>RAID</code> 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实体磁盘。</p>
 <h2 id="常见-RAID-等级"><a href="#常见-RAID-等级" class="headerlink" title="常见 RAID 等级"></a>常见 RAID 等级</h2><h3 id="RAID-0"><a href="#RAID-0" class="headerlink" title="RAID 0"></a><code>RAID 0</code></h3><p><img src="raid0.png" alt></p>
 <p>假设服务器有 N 块磁盘，<code>RAID 0</code> 是数据在从内存缓冲区写入磁盘时，根据磁盘数量将数据分成 N 份，这些数据同时并发写入 N 块磁盘，使得数据整体写入速度是一块磁盘的 N 倍；读取的时候也一样，所以在所有的级别中，<code>RAID 0</code> 的速度是最快的</p>
