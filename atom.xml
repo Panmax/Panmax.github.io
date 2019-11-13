@@ -50,16 +50,16 @@
     <link href="https://jpanj.com/2019/stop-using-post-increment-in-your-loops/"/>
     <id>https://jpanj.com/2019/stop-using-post-increment-in-your-loops/</id>
     <published>2019-11-12T07:28:59.000Z</published>
-    <updated>2019-11-12T08:57:40.441Z</updated>
+    <updated>2019-11-13T05:14:07.297Z</updated>
     
-    <content type="html"><![CDATA[<blockquote><p>为什么 ++1 通常比 i++ 更好？</p></blockquote><p><img src="1.jpg" alt></p><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>如果你之前写过 for 循环，那么你一定使用过 <code>i++</code> 来增加你的循环变量。</p><p>然而，你是否考虑过为什么要选择这种做法呢？</p><p>我们在执行完 <code>i++</code> 后，<code>i</code> 的值会比它之前大 1，这就是我们想要的结果。但是有很多方法同样可以做到这一点，比如：<code>++i</code>、<code>i++</code> 甚至 <code>i = i + 1</code>。</p><p>接下来，我会介绍两种方法来实现加 1，<code>++i</code> 和 <code>i++</code>，并解释为什么大多数情况下 <code>++i</code> 可能好于 <code>i++</code>。</p><h2 id="后加（i-）"><a href="#后加（i-）" class="headerlink" title="后加（i++）"></a>后加（i++）</h2><p>TODO</p><h2 id="先加（-i）"><a href="#先加（-i）" class="headerlink" title="先加（++i）"></a>先加（++i）</h2><p>TODO</p><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>TODO</p>]]></content>
+    <content type="html"><![CDATA[<blockquote><p>为什么 ++i 通常比 i++ 更好？</p></blockquote><p><img src="1.jpg" alt></p><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>如果你之前写过 for 循环，那么你一定使用过 <code>i++</code> 来增加你的循环变量。</p><p>然而，你是否考虑过为什么要选择这种做法呢？</p><p>我们在执行完 <code>i++</code> 后，<code>i</code> 的值会比它先前大 1，这是我们想要的结果。与此同时还有很多方法可以做到，比如：<code>++i</code> 甚至 <code>i = i + 1</code>。</p><p>接下来，我会对比介绍两种实现变量加 1 的方法：<code>++i</code> 和 <code>i++</code>，并解释为什么大多数情况下 <code>++i</code> 可能好于 <code>i++</code>。</p><h2 id="后递增（i-）"><a href="#后递增（i-）" class="headerlink" title="后递增（i++）"></a>后递增（i++）</h2><p><code>i++</code> 方法（或者叫后递增）是最常见的使用方式。</p><p>在伪代码中，后递增操作符对变量 <code>i</code> 的操作大致如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int j = i;</span><br><span class="line">i = i + 1;</span><br><span class="line">return j;</span><br></pre></td></tr></table></figure><p>由于后递增需要返回 <code>i</code> 的原值而不是返回 <code>i + 1</code> 后的增量值，所以需要将 <code>i</code> 的旧值进行存储。</p><p>这意味着 <code>i++</code> 需要额外的内存来存储这个值，但这是不必要的。因为在大多数情况下，我们并不会使用 <code>i</code> 的旧值，而是直接将其丢弃。</p><h2 id="前递增（-i）"><a href="#前递增（-i）" class="headerlink" title="前递增（++i）"></a>前递增（++i）</h2><p><code>++i</code> 方法（或者叫前递增）比较少见，通常是使用 <code>C</code> 和 <code>C++</code> 的老程序员在用。</p><p>在伪代码中，前递增操作符对变量 <code>i</code> 的操作大致如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i = i + 1;</span><br><span class="line">return i;</span><br></pre></td></tr></table></figure><p>需要注意的是，在前递增中，我们不必保存 <code>i</code> 的旧值，我们只需简单的对它加 1 并返回。这与 <code>for</code> 循环中的经典用例更加匹配：正如上文所说，我们很少需要 <code>i</code> 的旧值。</p><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>看过后递增和前递增之间的区别后，你可能会想到：由于 <code>i</code> 的旧值在后递增中未被使用，因此在编译阶段，编译器将会优化掉这一行，使两个操作符等价。</p><p>对于基本类型来说（如整形）确实如此。</p><p>但是对于复杂类型，例如（在 <code>C++</code> 中）用户自定义类型或带有 <code>+</code> 操作重载的迭代器，编译器就无法对此进行优化了。</p><p>所以如果说在你用不到所要递增变量旧值的情况下，使用前递增运算符要好过（或等价于）后递增。</p>]]></content>
     
     <summary type="html">
     
       
       
         &lt;blockquote&gt;
-&lt;p&gt;为什么 ++1 通常比 i++ 更好？&lt;/p&gt;
+&lt;p&gt;为什么 ++i 通常比 i++ 更好？&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;1.jpg&quot; alt&gt;&lt;/p&gt;
 &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;
