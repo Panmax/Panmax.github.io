@@ -120,13 +120,13 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="事件溯源也许很不错，但这确实增加了系统的复杂性。   什么是事件溯源大多数 Web 应用将系统状态存放在数据库中。 假设让你来做一个在线购物网站的数据库设计，按照传统的数据库设计方案将会有 users、products 和 orders 表 —— 用来代表系统的状态。 再假设你完成了前期的编码工作并发布上线了这个在线购物网站，几周后你的老板想知道用户平均更新电子邮箱的次数。 在这种传统的数据库设">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://jpanj.com/2019/when-to-use-event-sourcing/1.jpeg">
+<meta property="og:image" content="https://jpanj.com/2019/when-to-use-event-sourcing/1.jpg">
 <meta property="og:image" content="https://jpanj.com/2019/when-to-use-event-sourcing/2.png">
-<meta property="og:updated_time" content="2019-11-14T06:19:48.270Z">
+<meta property="og:updated_time" content="2019-11-14T06:24:09.350Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="何时使用事件溯源">
 <meta name="twitter:description" content="事件溯源也许很不错，但这确实增加了系统的复杂性。   什么是事件溯源大多数 Web 应用将系统状态存放在数据库中。 假设让你来做一个在线购物网站的数据库设计，按照传统的数据库设计方案将会有 users、products 和 orders 表 —— 用来代表系统的状态。 再假设你完成了前期的编码工作并发布上线了这个在线购物网站，几周后你的老板想知道用户平均更新电子邮箱的次数。 在这种传统的数据库设">
-<meta name="twitter:image" content="https://jpanj.com/2019/when-to-use-event-sourcing/1.jpeg">
+<meta name="twitter:image" content="https://jpanj.com/2019/when-to-use-event-sourcing/1.jpg">
 
 
 
@@ -362,7 +362,7 @@
                 
               
 
-              <time title="Created: 2019-11-14 14:17:27 / Modified: 14:19:48" itemprop="dateCreated datePublished" datetime="2019-11-14T14:17:27+08:00">2019-11-14</time>
+              <time title="Created: 2019-11-14 14:17:27 / Modified: 14:24:09" itemprop="dateCreated datePublished" datetime="2019-11-14T14:17:27+08:00">2019-11-14</time>
             
 
             
@@ -424,7 +424,7 @@
         <blockquote>
 <p>事件溯源也许很不错，但这确实增加了系统的复杂性。</p>
 </blockquote>
-<p><img src="1.jpeg" alt></p>
+<p><img src="1.jpg" alt></p>
 <h2 id="什么是事件溯源"><a href="#什么是事件溯源" class="headerlink" title="什么是事件溯源"></a>什么是事件溯源</h2><p>大多数 Web 应用将系统<em>状态</em>存放在数据库中。</p>
 <p>假设让你来做一个在线购物网站的数据库设计，按照传统的数据库设计方案将会有 <code>users</code>、<code>products</code> 和 <code>orders</code> 表 —— 用来代表系统的<em>状态</em>。</p>
 <p>再假设你完成了前期的编码工作并发布上线了这个在线购物网站，几周后你的老板想知道用户平均更新电子邮箱的次数。</p>
@@ -440,7 +440,9 @@
 <p>这是让事件溯源派上用场的绝佳场景。</p>
 <p>根据事件溯源设计，你不需要存储系统<em>状态</em>。取而代之的是存储<em>事件</em>。</p>
 <p>比如：当用户注册时，一个 <code>UserCreated</code> 事件被存储。之后当用户更新电子邮箱时，一个 <code>UserChangedEmail</code> 事件被存储。</p>
-<p><img src="2.png" alt><br>事件溯源系统中的用例事件</p>
+<p><img src="2.png" alt="事件溯源系统中的用例事件"></p>
+<center>事件溯源系统中的用例事件</center>
+
 <h2 id="为什么使用事件溯源"><a href="#为什么使用事件溯源" class="headerlink" title="为什么使用事件溯源"></a>为什么使用事件溯源</h2><h3 id="代表我们的思考方式"><a href="#代表我们的思考方式" class="headerlink" title="代表我们的思考方式"></a>代表我们的思考方式</h3><p>在现实世界里，人们思考的是事件：当其他人询问你今天过得怎么样时，你会告诉他们一些发生过的有趣事件，不大可能描述你在某一时刻的确切状态。</p>
 <p>同样，一个领域专家在描述业务流程时谈论的也是一系列事件。通过事件溯源让我们在系统中对其建模变得更加容易。</p>
 <h3 id="容易生成报告"><a href="#容易生成报告" class="headerlink" title="容易生成报告"></a>容易生成报告</h3><p>想知道用户修改了多少次电子邮箱？通过事件溯源，你已经将这些数据详尽记录在案了。</p>
