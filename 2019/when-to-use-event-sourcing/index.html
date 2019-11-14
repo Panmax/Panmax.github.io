@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/favicon.ico?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="事件溯源也许很不错，但这确实增加了系统的复杂性。   什么是事件溯源大多数 Web 应用将系统状态存放在数据库中。 假设让你来做一个在线购物网站的数据库设计，按照传统的数据库设计方案将会有 users、products 和 orders 表 —— 用来代表系统的状态。 再假设你完成了前期的编码工作并发布上线了这个在线购物网站，几周后你的老板想知道用户平均更新电子邮箱的次数。 在这种传统的数据库设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="when-to-use-event-sourcing">
+<meta property="og:url" content="https://jpanj.com/2019/when-to-use-event-sourcing/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="事件溯源也许很不错，但这确实增加了系统的复杂性。   什么是事件溯源大多数 Web 应用将系统状态存放在数据库中。 假设让你来做一个在线购物网站的数据库设计，按照传统的数据库设计方案将会有 users、products 和 orders 表 —— 用来代表系统的状态。 再假设你完成了前期的编码工作并发布上线了这个在线购物网站，几周后你的老板想知道用户平均更新电子邮箱的次数。 在这种传统的数据库设">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2019/when-to-use-event-sourcing/1.jpeg">
+<meta property="og:image" content="https://jpanj.com/2019/when-to-use-event-sourcing/2.png">
+<meta property="og:updated_time" content="2019-11-14T06:18:31.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="when-to-use-event-sourcing">
+<meta name="twitter:description" content="事件溯源也许很不错，但这确实增加了系统的复杂性。   什么是事件溯源大多数 Web 应用将系统状态存放在数据库中。 假设让你来做一个在线购物网站的数据库设计，按照传统的数据库设计方案将会有 users、products 和 orders 表 —— 用来代表系统的状态。 再假设你完成了前期的编码工作并发布上线了这个在线购物网站，几周后你的老板想知道用户平均更新电子邮箱的次数。 在这种传统的数据库设">
+<meta name="twitter:image" content="https://jpanj.com/2019/when-to-use-event-sourcing/1.jpeg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2019/when-to-use-event-sourcing/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>when-to-use-event-sourcing | 贾攀家</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5fa51f35bce35d98c9014cc40e6683f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">贾攀家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Panmax's Blog</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-文章列表">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于我">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-书单">
+    <a href="/book-list/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/when-to-use-event-sourcing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">when-to-use-event-sourcing
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-14 14:17:27 / Modified: 14:18:31" itemprop="dateCreated datePublished" datetime="2019-11-14T14:17:27+08:00">2019-11-14</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/when-to-use-event-sourcing/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/when-to-use-event-sourcing/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/when-to-use-event-sourcing/" class="leancloud_visitors" data-flag-title="when-to-use-event-sourcing">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>事件溯源也许很不错，但这确实增加了系统的复杂性。</p>
+</blockquote>
+<p><img src="1.jpeg" alt></p>
+<h2 id="什么是事件溯源"><a href="#什么是事件溯源" class="headerlink" title="什么是事件溯源"></a>什么是事件溯源</h2><p>大多数 Web 应用将系统<em>状态</em>存放在数据库中。</p>
+<p>假设让你来做一个在线购物网站的数据库设计，按照传统的数据库设计方案将会有 <code>users</code>、<code>products</code> 和 <code>orders</code> 表 —— 用来代表系统的<em>状态</em>。</p>
+<p>再假设你完成了前期的编码工作并发布上线了这个在线购物网站，几周后你的老板想知道用户平均更新电子邮箱的次数。</p>
+<p>在这种传统的数据库设计中，当用户更新电子邮箱时，执行的查询语句大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET email=&apos;newemail@mail.com&apos; WHERE id=1;</span><br></pre></td></tr></table></figure>
+<p>问题在于，我们并没有在数据库中存储修改电子邮件的事件日志。</p>
+<p>你可以创建一个额外的列 <code>event_log</code> 并在每次用户更新电子邮箱后记录一次 <code>user changed email</code>。但这样仍存在一些问题：</p>
+<ul>
+<li>需要额外的开发工作才能支持这个特性</li>
+<li>使得数据库设计更加复杂</li>
+<li>只有在实现这个功能后才能生成这些事件，无法对之前产生过的事件进行追溯</li>
+</ul>
+<p>这是让事件溯源派上用场的绝佳场景。</p>
+<p>根据事件溯源设计，你不需要存储系统<em>状态</em>。取而代之的是存储<em>事件</em>。</p>
+<p>比如：当用户注册时，一个 <code>UserCreated</code> 事件被存储。之后当用户更新电子邮箱时，一个 <code>UserChangedEmail</code> 事件被存储。</p>
+<p><img src="2.png" alt><br>事件溯源系统中的用例事件</p>
+<h2 id="为什么使用事件溯源"><a href="#为什么使用事件溯源" class="headerlink" title="为什么使用事件溯源"></a>为什么使用事件溯源</h2><h3 id="代表我们的思考方式"><a href="#代表我们的思考方式" class="headerlink" title="代表我们的思考方式"></a>代表我们的思考方式</h3><p>在现实世界里，人们思考的是事件：当其他人询问你今天过得怎么样时，你会告诉他们一些发生过的有趣事件，不大可能描述你在某一时刻的确切状态。</p>
+<p>同样，一个领域专家在描述业务流程时谈论的也是一系列事件。通过事件溯源让我们在系统中对其建模变得更加容易。</p>
+<h3 id="容易生成报告"><a href="#容易生成报告" class="headerlink" title="容易生成报告"></a>容易生成报告</h3><p>想知道用户修改了多少次电子邮箱？通过事件溯源，你已经将这些数据详尽记录在案了。</p>
+<p>想知道一个商品在购物车中被用户移除了多少次？只需简单的对 <code>EventRemovedFromCart</code> 事件进行计算就可以了。</p>
+<p>通过事件溯源，你可以对你的数据进行全方位的洞察，同时使生成的报告可以追溯。</p>
+<h3 id="你拥有了可靠的审计日志"><a href="#你拥有了可靠的审计日志" class="headerlink" title="你拥有了可靠的审计日志"></a>你拥有了可靠的审计日志</h3><p>你可以生成审计日志用来准确记录系统如何进入了某个状态。</p>
+<p>比如，考虑一下你的银行账户，事件溯源生成了交易事件的日志，这样就可以清楚的说明为什么你每个月的工资都不够花了。</p>
+<h2 id="为什么不使用事件溯源"><a href="#为什么不使用事件溯源" class="headerlink" title="为什么不使用事件溯源"></a>为什么不使用事件溯源</h2><p>听起来不错，但事件溯源有什么要注意的呢？</p>
+<p>事件溯源增加了系统额外的复杂性，更多的复杂性意味着难以让新进入的开发人员上手，花更多的时间添加新功能并且也让系统更难以维护。</p>
+<p>如果你要构建的是一个规模较小的系统，不需要安全审计日志，此时使用事件溯源方法带来的麻烦可能比它的价值更大。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/stop-using-post-increment-in-your-loops/" rel="next" title="停止在你的循环中使用 i++">
+                <i class="fa fa-chevron-left"></i> 停止在你的循环中使用 i++
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
+            
+              <p class="site-author-name" itemprop="name">Panmax</p>
+              <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">143</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Panmax" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:jiapan.china@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ruirui.me" title="瑞瑞的博客" target="_blank">瑞瑞的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是事件溯源"><span class="nav-number">1.</span> <span class="nav-text">什么是事件溯源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用事件溯源"><span class="nav-number">2.</span> <span class="nav-text">为什么使用事件溯源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代表我们的思考方式"><span class="nav-number">2.1.</span> <span class="nav-text">代表我们的思考方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容易生成报告"><span class="nav-number">2.2.</span> <span class="nav-text">容易生成报告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#你拥有了可靠的审计日志"><span class="nav-number">2.3.</span> <span class="nav-text">你拥有了可靠的审计日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么不使用事件溯源"><span class="nav-number">3.</span> <span class="nav-text">为什么不使用事件溯源</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'gPS1atpl6u5FziDqKf7XW6ms-gzGzoHsz',
+        appKey: 'KioAbSyq7iDATMvbNyctgoLf',
+        placeholder: '我也爱你...',
+        avatar:'hide',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
