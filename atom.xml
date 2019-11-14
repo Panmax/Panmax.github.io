@@ -46,6 +46,28 @@
   </entry>
   
   <entry>
+    <title>离线安装 Python requests 包</title>
+    <link href="https://jpanj.com/2019/install-requests-offline/"/>
+    <id>https://jpanj.com/2019/install-requests-offline/</id>
+    <published>2019-11-14T09:18:14.000Z</published>
+    <updated>2019-11-14T11:15:26.574Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p><code>requests</code> 是一个简单优雅的 Python HTTP 库，相较于 Python 标准库中的 <code>urllib</code> 和 <code>urllib2</code>，<code>requests</code> 更加的便于理解使用。</p></blockquote><h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>由于某地区热点事件持续升温，我们的客户想要通过我们系统的搜索功能导出一批数据，目前我们的搜索结果是不支持导出的，并且搜索功能也是通过调用几个子服务后对数据进行了合并，所以无法直接通过 <code>ElasticSearch</code> 来捞数据。</p><p>我们在评估需求后，预计编写这个统计程序大概需要 1 天的时间，但是客户认为事态紧急，当天就要结果，我们本着顾客就是上帝的原则，又进行了一番讨论，结论是可以写一个类似爬虫的工具，来「爬取」我们自己的搜索接口来拿到这些数据。</p><p>用 <code>Python</code> 来实现最合适不过，而且我对编写爬虫也比较熟悉，所以就才用了最简单粗暴的方法：用 <code>requests</code> 包作为一个 <code>HTTP Client</code> 来收发请求，但是客户现场是个离线环境，之前我们也没有安装过 <code>requests</code>，所以才有了本文：在离线环境中安装 <code>requests</code>。</p><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="资源准备"><a href="#资源准备" class="headerlink" title="资源准备"></a>资源准备</h3><p>为方便后期使用，我将所有用到的文件打包在了一起，可直接解压使用，无需从网上东奔西走寻找资源。</p><p>压缩包内涉及到的文件如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">setuptools-41.1.0.post1.tar</span><br><span class="line">pip-19.2.2.tar.gz</span><br><span class="line">certifi-2019.9.11-py2.py3-none-any.whl</span><br><span class="line">chardet-3.0.4-py2.py3-none-any.whl</span><br><span class="line">idna-2.8-py2.py3-none-any.whl</span><br><span class="line">urllib3-1.25.7-py2.py3-none-any.whl</span><br><span class="line">requests-2.22.0.tar.gz</span><br></pre></td></tr></table></figure><p>打包资源下载链接：<a href="http://developer.jpanj.com/requests-offline.tar.gz" target="_blank" rel="noopener">http://developer.jpanj.com/requests-offline.tar.gz</a></p><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>解压 <code>requests-offline.tar.gz</code> 后进入 requests-offline 目录开始安装。</p><h3 id="安装-setuptools"><a href="#安装-setuptools" class="headerlink" title="安装 setuptools"></a>安装 setuptools</h3><blockquote><p><code>setuptools</code> 能帮助我们更好的创建和分发 Python 的包，尤其是具有复杂依赖关系的包。</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf setuptools-41.1.0.post1.tar.gz</span><br><span class="line">cd setuptools-41.1.0.post1/</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure><h3 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h3><blockquote><p><code>pip</code> 是 Python 官方推荐的包管理工具。</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf pip-19.2.2.tar.gz</span><br><span class="line">cd pip-19.2.2/</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure><h3 id="安装-requests-所需的其他依赖"><a href="#安装-requests-所需的其他依赖" class="headerlink" title="安装 requests 所需的其他依赖"></a>安装 requests 所需的其他依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># CA 认证模块</span><br><span class="line">pip install certifi-2019.9.11-py2.py3-none-any.whl</span><br><span class="line"># 字符编码检测模块</span><br><span class="line">pip install chardet-3.0.4-py2.py3-none-any.whl</span><br><span class="line"># 域名解析模块</span><br><span class="line">pip install idna-2.8-py2.py3-none-any.whl</span><br><span class="line"># 线程安全的 HTTP 库</span><br><span class="line">pip install urllib3-1.25.7-py2.py3-none-any.whl</span><br></pre></td></tr></table></figure><h3 id="安装-requests"><a href="#安装-requests" class="headerlink" title="安装 requests"></a>安装 requests</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf requests-2.22.0.tar.gz</span><br><span class="line">cd requests-2.22.0/</span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>客户是下午两点半提出的需求，内部讨论好实现方案后三点半，我在准备好安装 <code>requests</code> 所需资源后直接奔赴现场，而不是在公司编码完再过去，因为我相信只要有我们的人到达现场客户就可以踏下心来了，同时我也想挑战一下自己，所以本次点亮了一个技能点：现场使用 vi 进行 coding 和 debug。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;requests&lt;/code&gt; 是一个简单优雅的 Python HTTP 库，相较于 Python 标准库中的 &lt;code&gt;urllib&lt;/code&gt; 和 &lt;code&gt;urllib2&lt;/code&gt;，&lt;code&gt;requests&lt;/cod
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>何时使用事件溯源</title>
     <link href="https://jpanj.com/2019/when-to-use-event-sourcing/"/>
     <id>https://jpanj.com/2019/when-to-use-event-sourcing/</id>
@@ -451,28 +473,6 @@
       
         &lt;p&gt;OpenSSH 在用户登录的时候会验证 IP，它根据用户的 IP 使用反向 DNS 找到主机名，再使用 DNS 找到 IP 地址，最后匹配一下登录的 IP 是否合法。如果客户机的 IP 没有域名，或者 DNS 服务器很慢或不通，那么登录就会很花时间。&lt;/p&gt;
 &lt;p&gt;解决办法
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Centos 安装并启用 EPEL 源</title>
-    <link href="https://jpanj.com/2018/centos-install-epel-repo/"/>
-    <id>https://jpanj.com/2018/centos-install-epel-repo/</id>
-    <published>2018-11-24T02:32:05.000Z</published>
-    <updated>2018-11-24T03:10:02.674Z</updated>
-    
-    <content type="html"><![CDATA[<p>Centos 默认提供的软件源资源很少，很多常用软件都没有：如 <code>nginx</code>,<code>htop</code> 等。</p><p>EPEL(Extra Packages for Enterprise Linux) 是由 Fedora Special Interest Group 维护的 Enterprise Linux（RHEL、CentOS）中经常用到的包。</p><p>通过 EPEL 可以很容易地通过 yum 命令从 EPEL 源上获取在 CentOS 自带源上没有的软件。</p><p>首先安装 epel-release：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br></pre></td></tr></table></figure><p>大多数网站到了这一步就告诉你安装好了，但是在我尝试的时候，发现这种方式 EPEL 源默认并不会生效，可以通过下边的命令进行验证：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist | grep epel</span><br></pre></td></tr></table></figure><p>如果发现有类似下边的结果，说明 EPEL 源已生效：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">epel/x86_64           Extra Packages for Enterprise Linux 7 - x86_64      12,716</span><br></pre></td></tr></table></figure><p>如果没有输出这条命令，说明 EPEL 源默认没有开启，在安装软件时还需要手动指定源：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --enablerepo=epel install nginx</span><br></pre></td></tr></table></figure><p>这种方式使用时比较麻烦，我们可以通过修改 EPEL 的配置文件来启用它。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/yum.repos.d/epel.repo</span><br></pre></td></tr></table></figure><p>可以看到里边有多个组，将 <code>[epel]</code> 组内的 <code>enabled=0</code> 改成 <code>enabled=1</code>。</p><p>这样就可以开启 EPEL 源了。</p><blockquote><p>参考：<a href="https://unix.stackexchange.com/questions/165916/trying-to-enable-epel-on-centos-6-and-it-wont-show-in-repolist" target="_blank" rel="noopener">https://unix.stackexchange.com/questions/165916/trying-to-enable-epel-on-centos-6-and-it-wont-show-in-repolist</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Centos 默认提供的软件源资源很少，很多常用软件都没有：如 &lt;code&gt;nginx&lt;/code&gt;,&lt;code&gt;htop&lt;/code&gt; 等。&lt;/p&gt;
-&lt;p&gt;EPEL(Extra Packages for Enterprise Linux) 是由 Fedora Specia
       
     
     </summary>
