@@ -46,11 +46,11 @@
   </entry>
   
   <entry>
-    <title>when-to-use-event-sourcing</title>
+    <title>何时使用事件溯源</title>
     <link href="https://jpanj.com/2019/when-to-use-event-sourcing/"/>
     <id>https://jpanj.com/2019/when-to-use-event-sourcing/</id>
     <published>2019-11-14T06:17:27.000Z</published>
-    <updated>2019-11-14T06:18:31.303Z</updated>
+    <updated>2019-11-14T06:19:48.270Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>事件溯源也许很不错，但这确实增加了系统的复杂性。</p></blockquote><p><img src="1.jpeg" alt></p><h2 id="什么是事件溯源"><a href="#什么是事件溯源" class="headerlink" title="什么是事件溯源"></a>什么是事件溯源</h2><p>大多数 Web 应用将系统<em>状态</em>存放在数据库中。</p><p>假设让你来做一个在线购物网站的数据库设计，按照传统的数据库设计方案将会有 <code>users</code>、<code>products</code> 和 <code>orders</code> 表 —— 用来代表系统的<em>状态</em>。</p><p>再假设你完成了前期的编码工作并发布上线了这个在线购物网站，几周后你的老板想知道用户平均更新电子邮箱的次数。</p><p>在这种传统的数据库设计中，当用户更新电子邮箱时，执行的查询语句大致如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET email=&apos;newemail@mail.com&apos; WHERE id=1;</span><br></pre></td></tr></table></figure><p>问题在于，我们并没有在数据库中存储修改电子邮件的事件日志。</p><p>你可以创建一个额外的列 <code>event_log</code> 并在每次用户更新电子邮箱后记录一次 <code>user changed email</code>。但这样仍存在一些问题：</p><ul><li>需要额外的开发工作才能支持这个特性</li><li>使得数据库设计更加复杂</li><li>只有在实现这个功能后才能生成这些事件，无法对之前产生过的事件进行追溯</li></ul><p>这是让事件溯源派上用场的绝佳场景。</p><p>根据事件溯源设计，你不需要存储系统<em>状态</em>。取而代之的是存储<em>事件</em>。</p><p>比如：当用户注册时，一个 <code>UserCreated</code> 事件被存储。之后当用户更新电子邮箱时，一个 <code>UserChangedEmail</code> 事件被存储。</p><p><img src="2.png" alt><br>事件溯源系统中的用例事件</p><h2 id="为什么使用事件溯源"><a href="#为什么使用事件溯源" class="headerlink" title="为什么使用事件溯源"></a>为什么使用事件溯源</h2><h3 id="代表我们的思考方式"><a href="#代表我们的思考方式" class="headerlink" title="代表我们的思考方式"></a>代表我们的思考方式</h3><p>在现实世界里，人们思考的是事件：当其他人询问你今天过得怎么样时，你会告诉他们一些发生过的有趣事件，不大可能描述你在某一时刻的确切状态。</p><p>同样，一个领域专家在描述业务流程时谈论的也是一系列事件。通过事件溯源让我们在系统中对其建模变得更加容易。</p><h3 id="容易生成报告"><a href="#容易生成报告" class="headerlink" title="容易生成报告"></a>容易生成报告</h3><p>想知道用户修改了多少次电子邮箱？通过事件溯源，你已经将这些数据详尽记录在案了。</p><p>想知道一个商品在购物车中被用户移除了多少次？只需简单的对 <code>EventRemovedFromCart</code> 事件进行计算就可以了。</p><p>通过事件溯源，你可以对你的数据进行全方位的洞察，同时使生成的报告可以追溯。</p><h3 id="你拥有了可靠的审计日志"><a href="#你拥有了可靠的审计日志" class="headerlink" title="你拥有了可靠的审计日志"></a>你拥有了可靠的审计日志</h3><p>你可以生成审计日志用来准确记录系统如何进入了某个状态。</p><p>比如，考虑一下你的银行账户，事件溯源生成了交易事件的日志，这样就可以清楚的说明为什么你每个月的工资都不够花了。</p><h2 id="为什么不使用事件溯源"><a href="#为什么不使用事件溯源" class="headerlink" title="为什么不使用事件溯源"></a>为什么不使用事件溯源</h2><p>听起来不错，但事件溯源有什么要注意的呢？</p><p>事件溯源增加了系统额外的复杂性，更多的复杂性意味着难以让新进入的开发人员上手，花更多的时间添加新功能并且也让系统更难以维护。</p><p>如果你要构建的是一个规模较小的系统，不需要安全审计日志，此时使用事件溯源方法带来的麻烦可能比它的价值更大。</p>]]></content>
     
