@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/favicon.ico?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="创建一个 Telegram 机器人，定时发送消息，并部署到 AWS Lambda。  AWS Lambda 是一项计算服务，可使你无需预配置或管理服务器即可运行代码。  我们要做什么？ 创建一个 Telegram 机器人 自动发送日常信息 把它部署到 AWS Lambda  需要准备什么？ 一个 Telegram 帐号 Python 3.6 Node.js 一个 AWS 帐号  AWS Lamb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不到 40 行代码实现 Telegram 自动发消息机器人">
+<meta property="og:url" content="https://jpanj.com/2019/telegram-bot-send-taily-message/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="创建一个 Telegram 机器人，定时发送消息，并部署到 AWS Lambda。  AWS Lambda 是一项计算服务，可使你无需预配置或管理服务器即可运行代码。  我们要做什么？ 创建一个 Telegram 机器人 自动发送日常信息 把它部署到 AWS Lambda  需要准备什么？ 一个 Telegram 帐号 Python 3.6 Node.js 一个 AWS 帐号  AWS Lamb">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2019/telegram-bot-send-taily-message/head.png">
+<meta property="og:image" content="https://jpanj.com/2019/telegram-bot-send-taily-message/6.png">
+<meta property="og:image" content="https://jpanj.com/2019/telegram-bot-send-taily-message/7.jpg">
+<meta property="og:image" content="https://jpanj.com/2019/telegram-bot-send-taily-message/8.png">
+<meta property="og:image" content="https://jpanj.com/2019/telegram-bot-send-taily-message/9.png">
+<meta property="og:image" content="https://jpanj.com/2019/telegram-bot-send-taily-message/10.png">
+<meta property="og:updated_time" content="2019-11-16T04:48:06.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="不到 40 行代码实现 Telegram 自动发消息机器人">
+<meta name="twitter:description" content="创建一个 Telegram 机器人，定时发送消息，并部署到 AWS Lambda。  AWS Lambda 是一项计算服务，可使你无需预配置或管理服务器即可运行代码。  我们要做什么？ 创建一个 Telegram 机器人 自动发送日常信息 把它部署到 AWS Lambda  需要准备什么？ 一个 Telegram 帐号 Python 3.6 Node.js 一个 AWS 帐号  AWS Lamb">
+<meta name="twitter:image" content="https://jpanj.com/2019/telegram-bot-send-taily-message/head.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2019/telegram-bot-send-taily-message/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>不到 40 行代码实现 Telegram 自动发消息机器人 | 贾攀家</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5fa51f35bce35d98c9014cc40e6683f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">贾攀家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Panmax's Blog</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-文章列表">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于我">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-书单">
+    <a href="/book-list/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/telegram-bot-send-taily-message/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">不到 40 行代码实现 Telegram 自动发消息机器人
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-16 12:45:06 / Modified: 12:48:06" itemprop="dateCreated datePublished" datetime="2019-11-16T12:45:06+08:00">2019-11-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/telegram-bot-send-taily-message/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/telegram-bot-send-taily-message/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/telegram-bot-send-taily-message/" class="leancloud_visitors" data-flag-title="不到 40 行代码实现 Telegram 自动发消息机器人">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="head.png" alt></p>
+<p><em>创建一个 Telegram 机器人，定时发送消息，并部署到 AWS Lambda。</em></p>
+<blockquote>
+<p>AWS Lambda 是一项计算服务，可使你无需预配置或管理服务器即可运行代码。</p>
+</blockquote>
+<h2 id="我们要做什么？"><a href="#我们要做什么？" class="headerlink" title="我们要做什么？"></a>我们要做什么？</h2><ul>
+<li>创建一个 Telegram 机器人</li>
+<li>自动发送日常信息</li>
+<li>把它部署到 <a href="https://aws.amazon.com/lambda/" target="_blank" rel="noopener">AWS Lambda</a></li>
+</ul>
+<h2 id="需要准备什么？"><a href="#需要准备什么？" class="headerlink" title="需要准备什么？"></a>需要准备什么？</h2><ul>
+<li>一个 Telegram 帐号</li>
+<li>Python 3.6</li>
+<li>Node.js</li>
+<li>一个 AWS 帐号</li>
+</ul>
+<p>AWS Lambda 可以在一定配额内免费使用，所以需要避免发送大量请求。</p>
+<p>AWS Lambda 定价方案如下：</p>
+<p><img src="6.png" alt></p>
+<h2 id="创建机器人"><a href="#创建机器人" class="headerlink" title="创建机器人"></a>创建机器人</h2><p>待办清单上的第一件事是创建一个机器人，遵循 Telegram 官方说明：</p>
+<ul>
+<li>在 Teletram 中搜索用户 <code>@BotFather</code>。</li>
+<li>发送命令 <code>/newbot</code> 并为你的机器人指定 <code>name</code> 和 <code>username</code>。</li>
+<li>拿到 token 并记录在一个安全的地方，后边会用到。</li>
+</ul>
+<p>现在机器人准备好了，开始编写代码。</p>
+<h2 id="准备部署设施"><a href="#准备部署设施" class="headerlink" title="准备部署设施"></a>准备部署设施</h2><p>有很多部署 Lambda 的方法，我准备使用 <a href="https://serverless.com/" target="_blank" rel="noopener">serverless</a> 框架，所以我们先来安装它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install serverless --global</span><br></pre></td></tr></table></figure>
+<p>Serverless 的文档中提供了<a href="https://serverless.com/framework/docs/providers/aws/examples/hello-world/python/" target="_blank" rel="noopener">一些范例</a>，还支持生成模板，像下边这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ serverless create --template aws-python3 --path scheduled_telegram_bot</span><br></pre></td></tr></table></figure>
+<p>执行这个命令后，会创建出一个 <code>scheduled_telegram_bot</code> 目录，并已经生成了 3 个文件：<br><code>.gitignore</code>，<code>serverless.yml</code> 和 <code>handler.py</code>。</p>
+<p><code>serverless.yml</code> 文件用来描述：部署什么、何时运行、如何运行。 <code>handler.py</code> 文件包含将要运行的代码，所以我们先来编写它。</p>
+<h2 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h2><p>我们将使用是一个封装好的包来调用 Telegram 的 API：<a href="https://github.com/python-telegram-bot/python-telegram-bot" target="_blank" rel="noopener">python-teletram-bot</a>，创建一个新的文件 <code>requirements.txt</code> 写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python-telegram-bot==12.2.0</span><br></pre></td></tr></table></figure>
+<p>我们需要在程序中导入这个库，不过后边我们会遇到一个问题：由于 <code>python-telegram-bot</code> 不是 AWS Lambda 所提供的标准库，因此我们在部署时需要同时包含这个包中的文件。</p>
+<p>所以我们后边会在本地安装这个包的所有内容。现在让我们来定义一个发送消息的函数，打开 <code>handler.py</code> 修改内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import telegram</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">TOKEN = os.environ[&apos;TELEGRAM_TOKEN&apos;]</span><br><span class="line">CHAT_ID = 000000  # Change this</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def send_message(event, context):</span><br><span class="line">    bot = telegram.Bot(token=TOKEN)</span><br><span class="line">    bot.sendMessage(chat_id=CHAT_ID, text=&apos;Hey there!&apos;)</span><br></pre></td></tr></table></figure>
+<p>你需要把 <code>CHAT_ID</code> 修改为你想让机器人互动的群组、频道或者会话的 ID。获取 ID 的方法如下，我以频道为例：</p>
+<p>首先创建自己的频道，将机器人拉入频道并设置为管理员，随意在频道内发送一个消息。</p>
+<p>添加 <a href="https://telegram.me/getidsbot" target="_blank" rel="noopener">GetIDsBot</a>，并将上边发的那条消息转发给这个机器人，它会返回这个频道相关信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">👤 You</span><br><span class="line"> ├ id: xxxxxxx</span><br><span class="line"> ├ is_bot: false</span><br><span class="line"> ├ first_name: xxxxx</span><br><span class="line"> ├ username: xxxxxx</span><br><span class="line"> ├ language_code: zh-hans (-)</span><br><span class="line"> └ created: ~ 9/2017 (?)</span><br><span class="line"></span><br><span class="line">💬 Origin chat</span><br><span class="line"> ├ id: -1001156324531</span><br><span class="line"> ├ title: Panmax Channel</span><br><span class="line"> └ type: channel</span><br><span class="line"></span><br><span class="line">📃 Message</span><br><span class="line"> ├ message_id: 82</span><br><span class="line"> └ forward_date: Fri, 15 Nov 2019 15:38:41 GMT</span><br></pre></td></tr></table></figure>
+<p>这样可以得到我所在这个频道的 ID 为 <code>-1001156324531</code>。</p>
+<h2 id="部署定义"><a href="#部署定义" class="headerlink" title="部署定义"></a>部署定义</h2><p>现在我们来定义如何运行我们的代码。</p>
+<p>编辑 <code>serverless.yml</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">service: scheduled-telegarm-bot</span><br><span class="line"></span><br><span class="line">frameworkVersion: &quot;&gt;=1.2.0 &lt;2.0.0&quot;</span><br><span class="line"></span><br><span class="line">provider:</span><br><span class="line">  name: aws</span><br><span class="line">  runtime: python3.6</span><br><span class="line">  environment:</span><br><span class="line">    TELEGRAM_TOKEN: $&#123;env:TELEGRAM_TOKEN&#125;</span><br><span class="line"></span><br><span class="line">functions:</span><br><span class="line">  cron:</span><br><span class="line">    handler: handler.send_message</span><br><span class="line">    events:</span><br><span class="line">      - schedule: cron(*/2 * * * ? *)</span><br></pre></td></tr></table></figure>
+<p>这里我们告诉了 AWS 我们所需要的运行环境，并且让它从我们的环境变量中获取 Telegram token，这样我们就不需要把 token 硬编码到代码中了。</p>
+<p>最后我们还定义了一个定时器，声明每两分钟触发一次这个函数。当然，定时器有很多选项，通过这个<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html" target="_blank" rel="noopener">文档</a>可以了解更多配置方式，比如每小时或者每周一发送消息。</p>
+<h2 id="汇总"><a href="#汇总" class="headerlink" title="汇总"></a>汇总</h2><p>我们已经准备好了所有需要的东西。</p>
+<p>好吧，准确来说是几乎所有的东西。我们还需要获取 AWS 的凭证，然后和 token 一样，在部署前设置为环境变量，获取凭证步骤如下：</p>
+<p>通过 AWS 的控制台：</p>
+<p>进入 <em>我的安全凭证</em> - <em>用户</em> - <em>添加用户</em></p>
+<p><img src="7.jpg" alt></p>
+<p>设置用户名并选择<em>编程访问</em></p>
+<p><img src="8.png" alt></p>
+<p>下一步：选择<em>直接附加现有策略</em> - <em>AdministratorAccess</em></p>
+<p><img src="9.png" alt></p>
+<p>下一步会来到添加标签页，直接点击下一步，确认信息无误后点击 <em>创建用户</em>，将 <em>访问密钥 ID</em> 和 <em>私有访问密钥</em> 拷贝并存放起来。</p>
+<p>现在，让我们把 AWS 凭证和 Telegram token 导出到环境变量。打开终端，输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ export AWS_ACCESS_KEY_ID=[your key goes here]</span><br><span class="line">$ export AWS_SECRET_ACCESS_KEY=[your key goes here]</span><br><span class="line">$ export TELEGRAM_TOKEN=[your token goes here]</span><br></pre></td></tr></table></figure>
+<p>在本地安装 Python 的依赖包（这也是 AWS Lambda 所需要的）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip3 install -r requirements.txt -t .</span><br></pre></td></tr></table></figure>
+<p>最后将所有的东西部署到 AWS：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ serverless deploy</span><br></pre></td></tr></table></figure>
+<p>如果前边配置没有问题，会看到如下输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Serverless: Packaging service...</span><br><span class="line">Serverless: Excluding development dependencies...</span><br><span class="line">Serverless: Uploading CloudFormation file to S3...</span><br><span class="line">Serverless: Uploading artifacts...</span><br><span class="line">Serverless: Uploading service scheduled-telegarm-bot.zip file to S3 (5.64 MB)...</span><br><span class="line">Serverless: Validating template...</span><br><span class="line">Serverless: Updating Stack...</span><br><span class="line">Serverless: Checking Stack update progress...</span><br><span class="line">.........</span><br><span class="line">Serverless: Stack update finished...</span><br></pre></td></tr></table></figure>
+<p>完成！机器人会在每 2 分钟给我们发送一次消息。</p>
+<p><img src="10.png" alt></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>AWS Python Scheduled Cron Example：<a href="https://github.com/serverless/examples/tree/master/aws-python-scheduled-cron" target="_blank" rel="noopener">https://github.com/serverless/examples/tree/master/aws-python-scheduled-cron</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/install-requests-offline/" rel="next" title="离线安装 Python requests 包">
+                <i class="fa fa-chevron-left"></i> 离线安装 Python requests 包
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
+            
+              <p class="site-author-name" itemprop="name">Panmax</p>
+              <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">145</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Panmax" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:jiapan.china@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ruirui.me" title="瑞瑞的博客" target="_blank">瑞瑞的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#我们要做什么？"><span class="nav-number">1.</span> <span class="nav-text">我们要做什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要准备什么？"><span class="nav-number">2.</span> <span class="nav-text">需要准备什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建机器人"><span class="nav-number">3.</span> <span class="nav-text">创建机器人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备部署设施"><span class="nav-number">4.</span> <span class="nav-text">准备部署设施</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写代码"><span class="nav-number">5.</span> <span class="nav-text">编写代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署定义"><span class="nav-number">6.</span> <span class="nav-text">部署定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汇总"><span class="nav-number">7.</span> <span class="nav-text">汇总</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'gPS1atpl6u5FziDqKf7XW6ms-gzGzoHsz',
+        appKey: 'KioAbSyq7iDATMvbNyctgoLf',
+        placeholder: '我也爱你...',
+        avatar:'hide',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
