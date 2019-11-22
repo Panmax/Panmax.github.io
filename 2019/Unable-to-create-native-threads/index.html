@@ -113,16 +113,19 @@
 
 
 
-  <meta name="description" content="这里是贾攀叨逼叨的地方">
-<meta property="og:type" content="website">
-<meta property="og:title" content="贾攀家">
-<meta property="og:url" content="https://jpanj.com/categories/小攀说/index.html">
+  <meta name="description" content="抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads">
+<meta property="og:url" content="https://jpanj.com/2019/Unable-to-create-native-threads/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="这里是贾攀叨逼叨的地方">
+<meta property="og:description" content="抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.png">
+<meta property="og:updated_time" content="2019-11-22T11:26:54.993Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="贾攀家">
-<meta name="twitter:description" content="这里是贾攀叨逼叨的地方">
+<meta name="twitter:title" content="解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads">
+<meta name="twitter:description" content="抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参">
+<meta name="twitter:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.png">
 
 
 
@@ -131,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/categories/小攀说/">
+  <link rel="canonical" href="https://jpanj.com/2019/Unable-to-create-native-threads/">
 
 
 
@@ -141,7 +144,7 @@
   };
 </script>
 
-  <title>Category: 小攀说 | 贾攀家</title>
+  <title>解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads | 贾攀家</title>
   
 
 
@@ -198,7 +201,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -296,158 +299,234 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>小攀说<small>Category</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/Unable-to-create-native-threads/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2016/翻出CSDN博客有感/" itemprop="url">
-              
-                <span itemprop="name">翻出CSDN博客有感</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2016-03-14T11:42:37+08:00" content="2016-03-14">
-          03-14
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-22 19:23:33 / Modified: 19:26:54" itemprop="dateCreated datePublished" datetime="2019-11-22T19:23:33+08:00">2019-11-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/Unable-to-create-native-threads/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/Unable-to-create-native-threads/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/Unable-to-create-native-threads/" class="leancloud_visitors" data-flag-title="解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/记一次业务逻辑优化/" itemprop="url">
-              
-                <span itemprop="name">记一次业务逻辑优化</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-12-22T13:57:15+08:00" content="2015-12-22">
-          12-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/自己总结feed流的产生/" itemprop="url">
-              
-                <span itemprop="name">自己总结feed流的产生</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-12-22T13:31:08+08:00" content="2015-12-22">
-          12-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/2016心愿单/" itemprop="url">
-              
-                <span itemprop="name">2016心愿单</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-12-21T10:10:13+08:00" content="2015-12-21">
-          12-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>抛出这个异常的过程大概是这样的：</p>
+<ol>
+<li>Java 程序向 JVM 请求创建一个新的 Java 线程。</li>
+<li>JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。</li>
+<li>操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参数-Xss决定。</li>
+<li>由于各种原因，操作系统创建新的线程可能会失败，下面会详细谈到。</li>
+<li>JVM 抛出 <code>java.lang.OutOfMemoryError: Unable to create new native thread</code> 错误。</li>
+</ol>
+<p>因此关键在于第四步线程创建失败，JVM 就会抛出 <code>OutOfMemoryError</code>，那具体有哪些因素会导致线程创建失败呢？</p>
+<ol>
+<li>JVM 内存大小限制</li>
+<li><code>ulimit -u</code> 限制</li>
+<li>参数 <code>sys.kernel.threads-max</code> 限制</li>
+<li>参数 <code>sys.kernel.pid_max</code> 限制</li>
+</ol>
+<p>第一种失败原因简单说一下：Java 创建一个线程需要消耗一定的栈空间，并通过-Xss参数指定。需要注意的是栈空间如果过小，可能会导致 <code>StackOverflowError</code>，尤其是在递归调用的情况下，但是栈空间过大会占用过多内存。</p>
+<p>下边重点来介绍后边三种失败因素。</p>
+<p>在搞明白 <code>pid_max</code>、<code>ulimit -u</code> 和 <code>thread_max</code> 的区别前，需要先明白进程和线程之间的区别。</p>
+<blockquote>
+<p>一个最典型的区别是，（同一个进程内的）线程运行时共享内存空间，而进程在独立的内存空间中运行。</p>
+</blockquote>
+<h2 id="pid-max"><a href="#pid-max" class="headerlink" title="pid_max"></a>pid_max</h2><p><code>pid_max</code> 参数表示系统全局的 <code>PID</code> 号数值的限制，每一个进程都有 ID，ID 的值超过这个数，进程就会创建失败，<code>pid_max</code> 参数可以通过以下命令查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/kernel/pid_max</span><br></pre></td></tr></table></figure>
+<p>默认情况下，执行以上命令返回 <strong>32768</strong>，这意味着我们可以在系统中同时运行 <strong>32768</strong> 个<strong>进程</strong>，这些<strong>进程</strong>可以在<strong>独立的内存空间中</strong>运行。</p>
+<h3 id="修改方法"><a href="#修改方法" class="headerlink" title="修改方法"></a>修改方法</h3><p><code>echo 65535 &gt; /proc/sys/kernel/pid_max</code></p>
+<p>上面只是临时生效，重启机器后会失效</p>
+<p>永久生效方法：</p>
+<p>在 <code>/etc/sysctl.conf</code> 中添加 <code>kernel.pid_max = 65535</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br><span class="line">kernel.pid_max = 65535</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;kernel.pid_max = 65535&quot; &gt;&gt; /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<h2 id="threads-max"><a href="#threads-max" class="headerlink" title="threads-max"></a>threads-max</h2><p><code>treamd-max</code> 用来限制操作系统全局的线程数，通过以下命令查看 <code>treamd-max</code> 参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/kernel/threads-max</span><br></pre></td></tr></table></figure>
+<p>上边的命令返回 <strong>126406</strong>，这意味着我可以在共享内存空间中拥有 <strong>126406</strong> 个<strong>线程</strong>。</p>
+<h2 id="ulimit-u"><a href="#ulimit-u" class="headerlink" title="ulimit -u"></a>ulimit -u</h2><p><code>limit -u</code> 表示当前用户可以运行的最大<strong>进程数</strong>。</p>
+<h3 id="这个值怎么来的"><a href="#这个值怎么来的" class="headerlink" title="这个值怎么来的"></a>这个值怎么来的</h3><p><code>root</code> 账号下 <code>ulimit -u</code> 得到的值默认是 <code>cat /proc/sys/kernel/threads-max</code> 的值 / 2，即系统线程数的一半。</p>
+<p>普通账号下 <code>ulimit -u</code> 得到的值默认是 <code>/etc/security/limits.d/20-nproc.conf</code>文件中指定的：</p>
+<p><img src="1.png" alt></p>
+<h3 id="修改方式"><a href="#修改方式" class="headerlink" title="修改方式"></a>修改方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -u 65535</span><br></pre></td></tr></table></figure>
+<h3 id="ulimit-受到全局限制"><a href="#ulimit-受到全局限制" class="headerlink" title="ulimit 受到全局限制"></a>ulimit 受到全局限制</h3><p><code>ulimit -u</code> 的值受全局的 <code>kernel.pid_max</code> 的值限制。也就是说如果 <code>kernel.pid_max=1024</code>，那么即使你的 <code>ulimit -u</code> 的值是 63203，用户能打开的最大进程数还是 1024。</p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/go-docker-reload/" rel="next" title="Docker 部署 Go 服务并实现热加载">
+                <i class="fa fa-chevron-left"></i> Docker 部署 Go 服务并实现热加载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -468,8 +547,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -714,6 +802,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pid-max"><span class="nav-number">1.</span> <span class="nav-text">pid_max</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改方法"><span class="nav-number">1.1.</span> <span class="nav-text">修改方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#threads-max"><span class="nav-number">2.</span> <span class="nav-text">threads-max</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ulimit-u"><span class="nav-number">3.</span> <span class="nav-text">ulimit -u</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#这个值怎么来的"><span class="nav-number">3.1.</span> <span class="nav-text">这个值怎么来的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改方式"><span class="nav-number">3.2.</span> <span class="nav-text">修改方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ulimit-受到全局限制"><span class="nav-number">3.3.</span> <span class="nav-text">ulimit 受到全局限制</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -850,6 +954,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
 
   
 

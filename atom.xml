@@ -46,6 +46,30 @@
   </entry>
   
   <entry>
+    <title>解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads</title>
+    <link href="https://jpanj.com/2019/Unable-to-create-native-threads/"/>
+    <id>https://jpanj.com/2019/Unable-to-create-native-threads/</id>
+    <published>2019-11-22T11:23:33.000Z</published>
+    <updated>2019-11-22T11:26:54.993Z</updated>
+    
+    <content type="html"><![CDATA[<p>抛出这个异常的过程大概是这样的：</p><ol><li>Java 程序向 JVM 请求创建一个新的 Java 线程。</li><li>JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。</li><li>操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参数-Xss决定。</li><li>由于各种原因，操作系统创建新的线程可能会失败，下面会详细谈到。</li><li>JVM 抛出 <code>java.lang.OutOfMemoryError: Unable to create new native thread</code> 错误。</li></ol><p>因此关键在于第四步线程创建失败，JVM 就会抛出 <code>OutOfMemoryError</code>，那具体有哪些因素会导致线程创建失败呢？</p><ol><li>JVM 内存大小限制</li><li><code>ulimit -u</code> 限制</li><li>参数 <code>sys.kernel.threads-max</code> 限制</li><li>参数 <code>sys.kernel.pid_max</code> 限制</li></ol><p>第一种失败原因简单说一下：Java 创建一个线程需要消耗一定的栈空间，并通过-Xss参数指定。需要注意的是栈空间如果过小，可能会导致 <code>StackOverflowError</code>，尤其是在递归调用的情况下，但是栈空间过大会占用过多内存。</p><p>下边重点来介绍后边三种失败因素。</p><p>在搞明白 <code>pid_max</code>、<code>ulimit -u</code> 和 <code>thread_max</code> 的区别前，需要先明白进程和线程之间的区别。</p><blockquote><p>一个最典型的区别是，（同一个进程内的）线程运行时共享内存空间，而进程在独立的内存空间中运行。</p></blockquote><h2 id="pid-max"><a href="#pid-max" class="headerlink" title="pid_max"></a>pid_max</h2><p><code>pid_max</code> 参数表示系统全局的 <code>PID</code> 号数值的限制，每一个进程都有 ID，ID 的值超过这个数，进程就会创建失败，<code>pid_max</code> 参数可以通过以下命令查看：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/kernel/pid_max</span><br></pre></td></tr></table></figure><p>默认情况下，执行以上命令返回 <strong>32768</strong>，这意味着我们可以在系统中同时运行 <strong>32768</strong> 个<strong>进程</strong>，这些<strong>进程</strong>可以在<strong>独立的内存空间中</strong>运行。</p><h3 id="修改方法"><a href="#修改方法" class="headerlink" title="修改方法"></a>修改方法</h3><p><code>echo 65535 &gt; /proc/sys/kernel/pid_max</code></p><p>上面只是临时生效，重启机器后会失效</p><p>永久生效方法：</p><p>在 <code>/etc/sysctl.conf</code> 中添加 <code>kernel.pid_max = 65535</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br><span class="line">kernel.pid_max = 65535</span><br></pre></td></tr></table></figure><p>或者：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;kernel.pid_max = 65535&quot; &gt;&gt; /etc/sysctl.conf</span><br></pre></td></tr></table></figure><h2 id="threads-max"><a href="#threads-max" class="headerlink" title="threads-max"></a>threads-max</h2><p><code>treamd-max</code> 用来限制操作系统全局的线程数，通过以下命令查看 <code>treamd-max</code> 参数：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/kernel/threads-max</span><br></pre></td></tr></table></figure><p>上边的命令返回 <strong>126406</strong>，这意味着我可以在共享内存空间中拥有 <strong>126406</strong> 个<strong>线程</strong>。</p><h2 id="ulimit-u"><a href="#ulimit-u" class="headerlink" title="ulimit -u"></a>ulimit -u</h2><p><code>limit -u</code> 表示当前用户可以运行的最大<strong>进程数</strong>。</p><h3 id="这个值怎么来的"><a href="#这个值怎么来的" class="headerlink" title="这个值怎么来的"></a>这个值怎么来的</h3><p><code>root</code> 账号下 <code>ulimit -u</code> 得到的值默认是 <code>cat /proc/sys/kernel/threads-max</code> 的值 / 2，即系统线程数的一半。</p><p>普通账号下 <code>ulimit -u</code> 得到的值默认是 <code>/etc/security/limits.d/20-nproc.conf</code>文件中指定的：</p><p><img src="1.png" alt></p><h3 id="修改方式"><a href="#修改方式" class="headerlink" title="修改方式"></a>修改方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -u 65535</span><br></pre></td></tr></table></figure><h3 id="ulimit-受到全局限制"><a href="#ulimit-受到全局限制" class="headerlink" title="ulimit 受到全局限制"></a>ulimit 受到全局限制</h3><p><code>ulimit -u</code> 的值受全局的 <code>kernel.pid_max</code> 的值限制。也就是说如果 <code>kernel.pid_max=1024</code>，那么即使你的 <code>ulimit -u</code> 的值是 63203，用户能打开的最大进程数还是 1024。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;抛出这个异常的过程大概是这样的：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Java 程序向 JVM 请求创建一个新的 Java 线程。&lt;/li&gt;
+&lt;li&gt;JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Threa
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Docker 部署 Go 服务并实现热加载</title>
     <link href="https://jpanj.com/2019/go-docker-reload/"/>
     <id>https://jpanj.com/2019/go-docker-reload/</id>
@@ -457,27 +481,6 @@
       
         &lt;p&gt;在 Java8 中，&lt;code&gt;java.util&lt;/code&gt; 包中引入了一个新类 &lt;code&gt;StringJoiner&lt;/code&gt;。利用这个类，我们可以使用指定分隔符连接多个字符串，还可以为最终字符串添加前缀和后缀。&lt;/p&gt;
 &lt;p&gt;下边介绍一些 &lt;code&gt;Strin
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>nginx 配置反向代理 + ssl 模板</title>
-    <link href="https://jpanj.com/2019/nginx-reverse-proxy-and-ssl-template/"/>
-    <id>https://jpanj.com/2019/nginx-reverse-proxy-and-ssl-template/</id>
-    <published>2019-02-20T06:52:35.000Z</published>
-    <updated>2019-03-07T06:51:29.025Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name abc.com;</span><br><span class="line">    </span><br><span class="line">    location ^~ /.well-known/acme-challenge/ &#123;</span><br><span class="line">        alias /xxx/xxx/;</span><br><span class="line">        try_files $uri =404;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location / &#123;  // 强制 https 重定向</span><br><span class="line">        rewrite ^(.*)$  https://$host$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name abc.com;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">            proxy_pass http://127.0.0.1:8000;</span><br><span class="line">            proxy_set_header Host $host;</span><br><span class="line">            proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">            proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate      /root/ssl/chained.pem;</span><br><span class="line">    ssl_certificate_key  /root/ssl/domain.key;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 静态网站</span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name xxx.com;</span><br><span class="line"></span><br><span class="line">    root  /www/xxx;</span><br><span class="line">    index index.html;</span><br><span class="line">    error_page  404  /404.html;</span><br><span class="line"></span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate      /root/ssl/chained.pem;</span><br><span class="line">    ssl_certificate_key  /root/ssl/domain.key;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
       
     
     </summary>
