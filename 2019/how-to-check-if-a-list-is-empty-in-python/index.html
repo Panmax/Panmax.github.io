@@ -113,17 +113,19 @@
 
 
 
-  <meta name="description" content="1234567# 查看自己的 hostname➜ hostnamejiapandeMacBook-Pro.local# 将 hostname 加入 hosts127.0.0.1       localhost jiapandeMacBook-Pro.local::1             localhost jiapandeMacBook-Pro.local 参考：https://amsterd">
+  <meta name="description" content="在判断列表是否为空时，你更喜欢哪种方式？决定因素是什么？   在 Python 中有很多检查列表是否是空的方式，在讨论解决方案前，先说一下不同方法涉及到的不同因素。 我们可以把判断表达式可以分为两个阵营：  对空列表的显式比较 对空列表的隐式求值  这意味着什么？ 显式比较我们从显式比较开始说起，无论我们使用列表符号 [] 还是声明空列表的函数 list()，遵循的策略是查看待检查列表是否与空列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Idea 启动 SpringBoot 加速">
-<meta property="og:url" content="https://jpanj.com/2019/fast-idea-in-mac/index.html">
+<meta property="og:title" content="如何在 Python 中判断列表是否为空">
+<meta property="og:url" content="https://jpanj.com/2019/how-to-check-if-a-list-is-empty-in-python/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="1234567# 查看自己的 hostname➜ hostnamejiapandeMacBook-Pro.local# 将 hostname 加入 hosts127.0.0.1       localhost jiapandeMacBook-Pro.local::1             localhost jiapandeMacBook-Pro.local 参考：https://amsterd">
+<meta property="og:description" content="在判断列表是否为空时，你更喜欢哪种方式？决定因素是什么？   在 Python 中有很多检查列表是否是空的方式，在讨论解决方案前，先说一下不同方法涉及到的不同因素。 我们可以把判断表达式可以分为两个阵营：  对空列表的显式比较 对空列表的隐式求值  这意味着什么？ 显式比较我们从显式比较开始说起，无论我们使用列表符号 [] 还是声明空列表的函数 list()，遵循的策略是查看待检查列表是否与空列">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-17T06:22:32.704Z">
+<meta property="og:image" content="https://jpanj.com/2019/how-to-check-if-a-list-is-empty-in-python/1.jpg">
+<meta property="og:updated_time" content="2019-11-24T04:49:54.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Idea 启动 SpringBoot 加速">
-<meta name="twitter:description" content="1234567# 查看自己的 hostname➜ hostnamejiapandeMacBook-Pro.local# 将 hostname 加入 hosts127.0.0.1       localhost jiapandeMacBook-Pro.local::1             localhost jiapandeMacBook-Pro.local 参考：https://amsterd">
+<meta name="twitter:title" content="如何在 Python 中判断列表是否为空">
+<meta name="twitter:description" content="在判断列表是否为空时，你更喜欢哪种方式？决定因素是什么？   在 Python 中有很多检查列表是否是空的方式，在讨论解决方案前，先说一下不同方法涉及到的不同因素。 我们可以把判断表达式可以分为两个阵营：  对空列表的显式比较 对空列表的隐式求值  这意味着什么？ 显式比较我们从显式比较开始说起，无论我们使用列表符号 [] 还是声明空列表的函数 list()，遵循的策略是查看待检查列表是否与空列">
+<meta name="twitter:image" content="https://jpanj.com/2019/how-to-check-if-a-list-is-empty-in-python/1.jpg">
 
 
 
@@ -132,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2019/fast-idea-in-mac/">
+  <link rel="canonical" href="https://jpanj.com/2019/how-to-check-if-a-list-is-empty-in-python/">
 
 
 
@@ -142,7 +144,7 @@
   };
 </script>
 
-  <title>Idea 启动 SpringBoot 加速 | 贾攀家</title>
+  <title>如何在 Python 中判断列表是否为空 | 贾攀家</title>
   
 
 
@@ -317,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/fast-idea-in-mac/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/how-to-check-if-a-list-is-empty-in-python/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -334,7 +336,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Idea 启动 SpringBoot 加速
+          <h1 class="post-title" itemprop="name headline">如何在 Python 中判断列表是否为空
               
             
           </h1>
@@ -359,7 +361,7 @@
                 
               
 
-              <time title="Created: 2019-01-17 14:18:17 / Modified: 14:22:32" itemprop="dateCreated datePublished" datetime="2019-01-17T14:18:17+08:00">2019-01-17</time>
+              <time title="Created: 2019-11-24 11:39:19 / Modified: 12:49:54" itemprop="dateCreated datePublished" datetime="2019-11-24T11:39:19+08:00">2019-11-24</time>
             
 
             
@@ -378,8 +380,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/fast-idea-in-mac/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/fast-idea-in-mac/" itemprop="commentCount"></span>
+                <a href="/2019/how-to-check-if-a-list-is-empty-in-python/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/how-to-check-if-a-list-is-empty-in-python/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +389,7 @@
 
           
           
-             <span id="/2019/fast-idea-in-mac/" class="leancloud_visitors" data-flag-title="Idea 启动 SpringBoot 加速">
+             <span id="/2019/how-to-check-if-a-list-is-empty-in-python/" class="leancloud_visitors" data-flag-title="如何在 Python 中判断列表是否为空">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -418,8 +420,40 @@
       
 
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 查看自己的 hostname</span><br><span class="line">➜ hostname</span><br><span class="line">jiapandeMacBook-Pro.local</span><br><span class="line"></span><br><span class="line"># 将 hostname 加入 hosts</span><br><span class="line">127.0.0.1       localhost jiapandeMacBook-Pro.local</span><br><span class="line">::1             localhost jiapandeMacBook-Pro.local</span><br></pre></td></tr></table></figure>
-<p>参考：<a href="https://amsterdam.luminis.eu/2017/05/10/fixing-slow-startup-time-java-application-running-macos-sierra/" target="_blank" rel="noopener">https://amsterdam.luminis.eu/2017/05/10/fixing-slow-startup-time-java-application-running-macos-sierra/</a></p>
+        <blockquote>
+<p>在判断列表是否为空时，你更喜欢哪种方式？决定因素是什么？</p>
+</blockquote>
+<p><img src="1.jpg" alt></p>
+<p>在 Python 中有很多检查列表是否是空的方式，在讨论解决方案前，先说一下不同方法涉及到的不同因素。</p>
+<p>我们可以把判断表达式可以分为两个阵营：</p>
+<ol>
+<li>对空列表的显式比较</li>
+<li>对空列表的隐式求值</li>
+</ol>
+<p>这意味着什么？</p>
+<h2 id="显式比较"><a href="#显式比较" class="headerlink" title="显式比较"></a>显式比较</h2><p>我们从显式比较开始说起，无论我们使用列表符号 <code>[]</code> 还是声明空列表的函数 <code>list()</code>，遵循的策略是查看待检查列表是否与空列表完全相等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 都是用来创建空列表</span><br><span class="line">a = []</span><br><span class="line">b = list()</span><br><span class="line">print(a == b) # True</span><br></pre></td></tr></table></figure>
+<p>另外，我们可以使用 len() 函数返回列表中的元素个数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line">if len(a) == 0:</span><br><span class="line">   print(&quot;The list is empty&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="隐式求值"><a href="#隐式求值" class="headerlink" title="隐式求值"></a>隐式求值</h2><p>和显式比较相反，隐式求值遵循的策略是：将空列表求值为布尔值的 <code>False</code>，将有元素填充的列表求值为布尔值的 <code>True</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line">b = [1]</span><br><span class="line">if a:</span><br><span class="line">   print(&quot;Evaluated True&quot;)</span><br><span class="line">else:</span><br><span class="line">   print(&quot;Evaluated False&quot;)</span><br><span class="line">if b:</span><br><span class="line">   print(&quot;Evaluated True&quot;)</span><br><span class="line">else:</span><br><span class="line">   print(&quot;Evaluated False&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 输出</span><br><span class="line">Evaluated False</span><br><span class="line">Evaluated True</span><br></pre></td></tr></table></figure>
+<p>那么，显式比较和隐式求值有什么区别呢？</p>
+<p>很多人习惯于使用显式比较的方式。但是如果你遵循鸭子类型的设计风格，那么会更加偏向于使用的是隐式方法。</p>
+<h2 id="什么是鸭子类型"><a href="#什么是鸭子类型" class="headerlink" title="什么是鸭子类型"></a>什么是鸭子类型</h2><p>「鸭子类型」这个此来自以下短语：</p>
+<blockquote>
+<p>当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。</p>
+</blockquote>
+<p>从功能上讲，这是对对象实际数据类型压力较小的一种确认。在鸭子类型中，关注点在于对象的行为，能作什么（比如，可迭代 iterable）；而不是关注对象所属的类型。鸭子类型在动态语言中经常使用，非常灵活。</p>
+<p>鸭子类型优先考虑便利性而非安全性，从而可以使用更灵活的代码来适应更广泛的用途，它不会像传统方式那么严格。</p>
+<h2 id="我们应该使用哪种方式？"><a href="#我们应该使用哪种方式？" class="headerlink" title="我们应该使用哪种方式？"></a>我们应该使用哪种方式？</h2><p>当我们越了解隐式求值，就越倾向于使用这种方式，因为我们知道空列表将被求值为 <code>False</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line">print(bool(a)) # False</span><br></pre></td></tr></table></figure>
+<p>这使得我们可以合并那些很长的检查表达式，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 之前</span><br><span class="line">if isinstance(a, list) and len(a) &gt; 0:</span><br><span class="line">   print(&quot;Processing list...&quot;)</span><br><span class="line"># 之后</span><br><span class="line">if a:</span><br><span class="line">   print(&quot;Processing list...&quot;)</span><br></pre></td></tr></table></figure>
+<p>当然，最终的选择还取决于这个本次检查的意图：</p>
+<ul>
+<li>如果你检查空列表是为了对其进行迭代，那么隐式求值是更合适的方法。</li>
+<li>如果你检查空列表是为了在之后调用列表中的方法，那么可以考虑使用显式比较来同时验证数据类型。</li>
+</ul>
 
       
     </div>
@@ -447,8 +481,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/docker-mysql-utf8mb4/" rel="next" title="docker 部署 MySQL 使用 utf8mb4 字符集">
-                <i class="fa fa-chevron-left"></i> docker 部署 MySQL 使用 utf8mb4 字符集
+              <a href="/2019/Unable-to-create-native-threads/" rel="next" title="一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因">
+                <i class="fa fa-chevron-left"></i> 一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因
               </a>
             
           </div>
@@ -457,8 +491,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/nginx-reverse-proxy-and-ssl-template/" rel="prev" title="nginx 配置反向代理 + ssl 模板">
-                nginx 配置反向代理 + ssl 模板 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -507,8 +541,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -752,6 +795,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#显式比较"><span class="nav-number">1.</span> <span class="nav-text">显式比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐式求值"><span class="nav-number">2.</span> <span class="nav-text">隐式求值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是鸭子类型"><span class="nav-number">3.</span> <span class="nav-text">什么是鸭子类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们应该使用哪种方式？"><span class="nav-number">4.</span> <span class="nav-text">我们应该使用哪种方式？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
