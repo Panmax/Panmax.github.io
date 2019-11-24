@@ -113,19 +113,19 @@
 
 
 
-  <meta name="description" content="和现实世界类似, JVM 中的线程也需要内存空间来执行自己的任务. 如果线程数量太多会发生什么？   抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要">
+  <meta name="description" content="作为 Java 程序员，我们几乎都会碰到 java.lang.OutOfMemoryError 异常。   JVM 在抛出 java.lang.OutOfMemoryError 时，除了会打印出一行描述信息，还会打印堆栈跟踪，因此我们可以通过这些信息来找到导致异常的原因。 其中一种异常是 java.lang.OutOfMemoryError: Unable to create native th">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因">
 <meta property="og:url" content="https://jpanj.com/2019/Unable-to-create-native-threads/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="和现实世界类似, JVM 中的线程也需要内存空间来执行自己的任务. 如果线程数量太多会发生什么？   抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要">
+<meta property="og:description" content="作为 Java 程序员，我们几乎都会碰到 java.lang.OutOfMemoryError 异常。   JVM 在抛出 java.lang.OutOfMemoryError 时，除了会打印出一行描述信息，还会打印堆栈跟踪，因此我们可以通过这些信息来找到导致异常的原因。 其中一种异常是 java.lang.OutOfMemoryError: Unable to create native th">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.jpeg">
 <meta property="og:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.png">
-<meta property="og:updated_time" content="2019-11-24T04:32:48.163Z">
+<meta property="og:updated_time" content="2019-11-24T04:44:24.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因">
-<meta name="twitter:description" content="和现实世界类似, JVM 中的线程也需要内存空间来执行自己的任务. 如果线程数量太多会发生什么？   抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要">
+<meta name="twitter:description" content="作为 Java 程序员，我们几乎都会碰到 java.lang.OutOfMemoryError 异常。   JVM 在抛出 java.lang.OutOfMemoryError 时，除了会打印出一行描述信息，还会打印堆栈跟踪，因此我们可以通过这些信息来找到导致异常的原因。 其中一种异常是 java.lang.OutOfMemoryError: Unable to create native th">
 <meta name="twitter:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.jpeg">
 
 
@@ -379,7 +379,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-11-24 12:32:48" itemprop="dateModified" datetime="2019-11-24T12:32:48+08:00">2019-11-24</time>
+                <time title="Modified: 2019-11-24 12:44:24" itemprop="dateModified" datetime="2019-11-24T12:44:24+08:00">2019-11-24</time>
               
             
           </span>
@@ -434,9 +434,11 @@
 
       
         <blockquote>
-<p>和现实世界类似, JVM 中的线程也需要内存空间来执行自己的任务. 如果线程数量太多会发生什么？</p>
+<p>作为 Java 程序员，我们几乎都会碰到 java.lang.OutOfMemoryError 异常。</p>
 </blockquote>
 <p><img src="1.jpeg" alt></p>
+<p>JVM 在抛出 <code>java.lang.OutOfMemoryError</code> 时，除了会打印出一行描述信息，还会打印堆栈跟踪，因此我们可以通过这些信息来找到导致异常的原因。</p>
+<p>其中一种异常是 <code>java.lang.OutOfMemoryError: Unable to create native threads</code>，我们通过这篇文章来彻底搞懂它。</p>
 <p>抛出这个异常的过程大概是这样的：</p>
 <ol>
 <li>Java 程序向 JVM 请求创建一个新的 Java 线程。</li>
