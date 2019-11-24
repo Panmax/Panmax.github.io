@@ -113,19 +113,20 @@
 
 
 
-  <meta name="description" content="抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参">
+  <meta name="description" content="和现实世界类似, JVM 中的线程也需要内存空间来执行自己的任务. 如果线程数量太多会发生什么？   抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads">
+<meta property="og:title" content="一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因">
 <meta property="og:url" content="https://jpanj.com/2019/Unable-to-create-native-threads/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参">
+<meta property="og:description" content="和现实世界类似, JVM 中的线程也需要内存空间来执行自己的任务. 如果线程数量太多会发生什么？   抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.jpeg">
 <meta property="og:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.png">
-<meta property="og:updated_time" content="2019-11-22T11:26:54.993Z">
+<meta property="og:updated_time" content="2019-11-24T04:32:48.163Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads">
-<meta name="twitter:description" content="抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参">
-<meta name="twitter:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.png">
+<meta name="twitter:title" content="一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因">
+<meta name="twitter:description" content="和现实世界类似, JVM 中的线程也需要内存空间来执行自己的任务. 如果线程数量太多会发生什么？   抛出这个异常的过程大概是这样的：  Java 程序向 JVM 请求创建一个新的 Java 线程。 JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。 操作系统尝试创建一个新的 Native Thread，需要">
+<meta name="twitter:image" content="https://jpanj.com/2019/Unable-to-create-native-threads/1.jpeg">
 
 
 
@@ -144,7 +145,7 @@
   };
 </script>
 
-  <title>解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads | 贾攀家</title>
+  <title>一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因 | 贾攀家</title>
   
 
 
@@ -336,7 +337,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads
+          <h1 class="post-title" itemprop="name headline">一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因
               
             
           </h1>
@@ -361,12 +362,24 @@
                 
               
 
-              <time title="Created: 2019-11-22 19:23:33 / Modified: 19:26:54" itemprop="dateCreated datePublished" datetime="2019-11-22T19:23:33+08:00">2019-11-22</time>
+              <time title="Created: 2019-11-22 19:23:33" itemprop="dateCreated datePublished" datetime="2019-11-22T19:23:33+08:00">2019-11-22</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-11-24 12:32:48" itemprop="dateModified" datetime="2019-11-24T12:32:48+08:00">2019-11-24</time>
               
             
           </span>
@@ -389,7 +402,7 @@
 
           
           
-             <span id="/2019/Unable-to-create-native-threads/" class="leancloud_visitors" data-flag-title="解决 java.lang.OutOfMemoryError: Unable to create native threads Unable-to-create-native-threads">
+             <span id="/2019/Unable-to-create-native-threads/" class="leancloud_visitors" data-flag-title="一篇文章彻底明白出现 OutOfMemoryError: Unable to create native threads 的原因">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -420,7 +433,11 @@
       
 
       
-        <p>抛出这个异常的过程大概是这样的：</p>
+        <blockquote>
+<p>和现实世界类似, JVM 中的线程也需要内存空间来执行自己的任务. 如果线程数量太多会发生什么？</p>
+</blockquote>
+<p><img src="1.jpeg" alt></p>
+<p>抛出这个异常的过程大概是这样的：</p>
 <ol>
 <li>Java 程序向 JVM 请求创建一个新的 Java 线程。</li>
 <li>JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。</li>
@@ -436,6 +453,9 @@
 <li>参数 <code>sys.kernel.pid_max</code> 限制</li>
 </ol>
 <p>第一种失败原因简单说一下：Java 创建一个线程需要消耗一定的栈空间，并通过-Xss参数指定。需要注意的是栈空间如果过小，可能会导致 <code>StackOverflowError</code>，尤其是在递归调用的情况下，但是栈空间过大会占用过多内存。</p>
+<p>同时还要注意，对于一个 32 位 Java 应用来说，用户进程空间是 4GB，内核占用 1GB，那么用户空间就剩下 3GB，因此它能创建的线程数大致可以通过这个公式算出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Max memory（3GB） = [-Xmx] + [-XX:MaxMetaSpaceSize] + number_of_threads * [-Xss]</span><br></pre></td></tr></table></figure>
+<p>不过对于 64 位的应用，由于虚拟进程空间近乎无限大，因此不会因为线程栈过大而耗尽虚拟地址空间。但是请你注意，64 位的 Java 进程能分配的最大内存数仍然受物理内存大小的限制。</p>
 <p>下边重点来介绍后边三种失败因素。</p>
 <p>在搞明白 <code>pid_max</code>、<code>ulimit -u</code> 和 <code>thread_max</code> 的区别前，需要先明白进程和线程之间的区别。</p>
 <blockquote>
