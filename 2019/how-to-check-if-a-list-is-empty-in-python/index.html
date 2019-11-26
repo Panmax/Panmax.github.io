@@ -121,7 +121,7 @@
 <meta property="og:description" content="在判断列表是否为空时，你更喜欢哪种方式？决定因素是什么？   在 Python 中有很多检查列表是否是空的方式，在讨论解决方案前，先说一下不同方法涉及到的不同因素。 我们可以把判断表达式可以分为两个阵营：  对空列表的显式比较 对空列表的隐式求值  这意味着什么？ 显式比较我们从显式比较开始说起，无论我们使用列表符号 [] 还是声明空列表的函数 list()，遵循的策略是查看待检查列表是否与空列">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2019/how-to-check-if-a-list-is-empty-in-python/1.jpg">
-<meta property="og:updated_time" content="2019-11-24T04:49:54.903Z">
+<meta property="og:updated_time" content="2019-11-26T11:11:45.593Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在 Python 中判断列表是否为空">
 <meta name="twitter:description" content="在判断列表是否为空时，你更喜欢哪种方式？决定因素是什么？   在 Python 中有很多检查列表是否是空的方式，在讨论解决方案前，先说一下不同方法涉及到的不同因素。 我们可以把判断表达式可以分为两个阵营：  对空列表的显式比较 对空列表的隐式求值  这意味着什么？ 显式比较我们从显式比较开始说起，无论我们使用列表符号 [] 还是声明空列表的函数 list()，遵循的策略是查看待检查列表是否与空列">
@@ -361,12 +361,24 @@
                 
               
 
-              <time title="Created: 2019-11-24 11:39:19 / Modified: 12:49:54" itemprop="dateCreated datePublished" datetime="2019-11-24T11:39:19+08:00">2019-11-24</time>
+              <time title="Created: 2019-11-24 11:39:19" itemprop="dateCreated datePublished" datetime="2019-11-24T11:39:19+08:00">2019-11-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-11-26 19:11:45" itemprop="dateModified" datetime="2019-11-26T19:11:45+08:00">2019-11-26</time>
               
             
           </span>
@@ -439,11 +451,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line">b = [1]</span><br><span class="line">if a:</span><br><span class="line">   print(&quot;Evaluated True&quot;)</span><br><span class="line">else:</span><br><span class="line">   print(&quot;Evaluated False&quot;)</span><br><span class="line">if b:</span><br><span class="line">   print(&quot;Evaluated True&quot;)</span><br><span class="line">else:</span><br><span class="line">   print(&quot;Evaluated False&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 输出</span><br><span class="line">Evaluated False</span><br><span class="line">Evaluated True</span><br></pre></td></tr></table></figure>
 <p>那么，显式比较和隐式求值有什么区别呢？</p>
 <p>很多人习惯于使用显式比较的方式。但是如果你遵循鸭子类型的设计风格，那么会更加偏向于使用的是隐式方法。</p>
-<h2 id="什么是鸭子类型"><a href="#什么是鸭子类型" class="headerlink" title="什么是鸭子类型"></a>什么是鸭子类型</h2><p>「鸭子类型」这个此来自以下短语：</p>
+<h2 id="什么是鸭子类型"><a href="#什么是鸭子类型" class="headerlink" title="什么是鸭子类型"></a>什么是鸭子类型</h2><p>「鸭子类型」这个词来自以下短语：</p>
 <blockquote>
 <p>当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。</p>
 </blockquote>
-<p>从功能上讲，这是对对象实际数据类型压力较小的一种确认。在鸭子类型中，关注点在于对象的行为，能作什么（比如，可迭代 iterable）；而不是关注对象所属的类型。鸭子类型在动态语言中经常使用，非常灵活。</p>
+<p>从功能上讲，这是对对象实际数据类型压力较小的一种确认。在鸭子类型中，关注点在于对象的行为，能做什么（比如，可迭代 iterable）；而不是关注对象所属的类型。鸭子类型在动态语言中经常使用，非常灵活。</p>
 <p>鸭子类型优先考虑便利性而非安全性，从而可以使用更灵活的代码来适应更广泛的用途，它不会像传统方式那么严格。</p>
 <h2 id="我们应该使用哪种方式？"><a href="#我们应该使用哪种方式？" class="headerlink" title="我们应该使用哪种方式？"></a>我们应该使用哪种方式？</h2><p>当我们越了解隐式求值，就越倾向于使用这种方式，因为我们知道空列表将被求值为 <code>False</code>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line">print(bool(a)) # False</span><br></pre></td></tr></table></figure>
