@@ -113,16 +113,19 @@
 
 
 
-  <meta name="description" content="这里是贾攀叨逼叨的地方">
-<meta property="og:type" content="website">
-<meta property="og:title" content="贾攀家">
-<meta property="og:url" content="https://jpanj.com/archives/2017/12/index.html">
+  <meta name="description" content="COPY 和 ADD 都是 Dockerfile 中的指令，有着类似的作用。它们允许我们将文件从特定位置复制到 Docker 镜像中。 COPYCOPY 指令从 &amp;lt;src&amp;gt; 复制新的文件或目录，并将它们添加到 Docker 容器文件系统的 &amp;lt;dest&amp;gt; 的路径下。 COPY 有两种格式：  COPY [--chown=&amp;lt;user&amp;gt;:&amp;lt;group&amp;gt;]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dockerfile 下 ADD 与 COPY 的区别">
+<meta property="og:url" content="https://jpanj.com/2019/dockerfile-add-vs-copy/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="这里是贾攀叨逼叨的地方">
+<meta property="og:description" content="COPY 和 ADD 都是 Dockerfile 中的指令，有着类似的作用。它们允许我们将文件从特定位置复制到 Docker 镜像中。 COPYCOPY 指令从 &amp;lt;src&amp;gt; 复制新的文件或目录，并将它们添加到 Docker 容器文件系统的 &amp;lt;dest&amp;gt; 的路径下。 COPY 有两种格式：  COPY [--chown=&amp;lt;user&amp;gt;:&amp;lt;group&amp;gt;]">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2019/dockerfile-add-vs-copy/1.png">
+<meta property="og:updated_time" content="2019-11-27T01:22:21.012Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="贾攀家">
-<meta name="twitter:description" content="这里是贾攀叨逼叨的地方">
+<meta name="twitter:title" content="Dockerfile 下 ADD 与 COPY 的区别">
+<meta name="twitter:description" content="COPY 和 ADD 都是 Dockerfile 中的指令，有着类似的作用。它们允许我们将文件从特定位置复制到 Docker 镜像中。 COPYCOPY 指令从 &amp;lt;src&amp;gt; 复制新的文件或目录，并将它们添加到 Docker 容器文件系统的 &amp;lt;dest&amp;gt; 的路径下。 COPY 有两种格式：  COPY [--chown=&amp;lt;user&amp;gt;:&amp;lt;group&amp;gt;]">
+<meta name="twitter:image" content="https://jpanj.com/2019/dockerfile-add-vs-copy/1.png">
 
 
 
@@ -131,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/archives/2017/12/">
+  <link rel="canonical" href="https://jpanj.com/2019/dockerfile-add-vs-copy/">
 
 
 
@@ -141,7 +144,7 @@
   };
 </script>
 
-  <title>Archive | 贾攀家</title>
+  <title>Dockerfile 下 ADD 与 COPY 的区别 | 贾攀家</title>
   
 
 
@@ -198,7 +201,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,7 +250,7 @@
         
         
           
-          <li class="menu-item menu-item-文章列表 menu-item-active">
+          <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
@@ -296,197 +299,225 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
+  
 
-      
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/dockerfile-add-vs-copy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">Dockerfile 下 ADD 与 COPY 的区别
+              
+            
+          </h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-27 09:15:14 / Modified: 09:22:21" itemprop="dateCreated datePublished" datetime="2019-11-27T09:15:14+08:00">2019-11-27</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2017">2017</h1>
-          </div>
-        
-        
 
-        
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/dockerfile-add-vs-copy/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/dockerfile-add-vs-copy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/2019/dockerfile-add-vs-copy/" class="leancloud_visitors" data-flag-title="Dockerfile 下 ADD 与 COPY 的区别">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/cookies-max-age-vs-expires/" itemprop="url">
-              
-                <span itemprop="name">Http Cookies 中 Max-age 和 Expires 有什么区别？</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2017-12-21T16:32:48+08:00" content="2017-12-21">
-          12-21
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/neo4j-warms-up/" itemprop="url">
-              
-                <span itemprop="name">Neo4j 冷启动预热缓存</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2017-12-18T17:45:23+08:00" content="2017-12-18">
-          12-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/关于情景的一点点思考/" itemprop="url">
-              
-                <span itemprop="name">关于情景的一点点思考</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2017-12-11T18:33:02+08:00" content="2017-12-11">
-          12-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/基于前后端分离的CAS对接方案/" itemprop="url">
-              
-                <span itemprop="name">基于前后端分离的CAS对接方案</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2017-12-08T10:03:13+08:00" content="2017-12-08">
-          12-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p><img src="1.png" alt></p>
+<p><code>COPY</code> 和 <code>ADD</code> 都是 <code>Dockerfile</code> 中的指令，有着类似的作用。它们允许我们将文件从特定位置复制到 Docker 镜像中。</p>
+<h2 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h2><p><code>COPY</code> 指令从 <code>&lt;src&gt;</code> 复制新的文件或目录，并将它们添加到 Docker 容器文件系统的 <code>&lt;dest&gt;</code> 的路径下。</p>
+<p><code>COPY</code> 有两种格式：</p>
+<ul>
+<li><code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code></li>
+<li><code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code>（包含空格的路径使用这种格式）</li>
+</ul>
+<h2 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h2><p><code>ADD</code> 有两种格式：</p>
+<ul>
+<li><code>ADD [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code></li>
+<li><code>ADD [--chown=&lt;user&gt;:&lt;group&gt;] [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code>（包含空格的路径使用这种格式）</li>
+</ul>
+<h2 id="从-URL-复制的-Dockerfile-最佳实践"><a href="#从-URL-复制的-Dockerfile-最佳实践" class="headerlink" title="从 URL 复制的 Dockerfile 最佳实践"></a>从 URL 复制的 Dockerfile 最佳实践</h2><p>通过 URL 进行复制的效率通常很低，最佳实践是使用其他策略来包含所需的远程文件。</p>
+<p><code>COPY</code> 只支持基础的复制：将本地文件复制到容器中。</p>
+<p>而 ADD 有一些额外的功能 ：</p>
+<ul>
+<li>ADD 指令可以让你使用 URL 作为 <code>&lt;src&gt;</code> 参数。当遇到 URL 时候，可以通过 URL 下载文件并且复制到 <code>&lt;dest&gt;</code>。</li>
+<li>ADD 的另一个特性是自动解压文件的能力。如果 <code>&lt;src&gt;</code> 参数是一个可识别压缩格式（tar, gzip, bzip2, …）的本地文件（无法实现同时下载并解压），就会被解压到指定容器文件系统的路径 <code>&lt;dest&gt;</code> 下。</li>
+</ul>
+<p>因此，<code>ADD</code> 的最佳用途是将本地压缩包文件自动提取到镜像中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ADD code.tar.gz /app/</span><br></pre></td></tr></table></figure>
+<p>由于镜像的体积很重要，所以强烈建议不要使用 <code>ADD</code> 从远程 URL 获取文件，我们应该使用 <code>curl</code> 或 <code>wget</code> 来代替。这样我们可以在解压后删除这些不再需要的文件，同时还也可以避免在镜像中生成额外的层。</p>
+<p>我们应该避免以下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ADD http://example.com/big.tar.xz /usr/src/things/</span><br><span class="line">RUN tar -xJf /usr/src/things/big.tar.xz -C /usr/src/things \</span><br><span class="line">    &amp;&amp; make -C /usr/src/things all \</span><br><span class="line">    &amp;&amp; rm -f /usr/src/things/big.tar.xz</span><br></pre></td></tr></table></figure>
+<p>这个压缩包解压后，<code>rm</code> 命令处于独立的镜像层。</p>
+<p>我们可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RUN mkdir -p /usr/src/things \</span><br><span class="line">    &amp;&amp; curl -SL http://example.com/big.tar.xz \</span><br><span class="line">    | tar -xJC /usr/src/things \</span><br><span class="line">    &amp;&amp; make -C /usr/src/things all</span><br></pre></td></tr></table></figure>
+<p><code>curl</code> 会下载这个压缩包并通过管道传给 <code>tar</code> 命令进行解压，这样也就不会在文件系统中留下这个压缩文件了。</p>
+<p>对于不需要自动解压的文件或目录，应该始终使用 <code>COPY</code>。</p>
+<p>最后，认准一个原则：总是使用 <code>COPY</code>（除非我们明确需要 <code>ADD</code>）。</p>
 
       
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/how-to-check-if-a-list-is-empty-in-python/" rel="next" title="如何在 Python 中判断列表是否为空">
+                <i class="fa fa-chevron-left"></i> 如何在 Python 中判断列表是否为空
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -507,8 +538,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -753,6 +793,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#COPY"><span class="nav-number">1.</span> <span class="nav-text">COPY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ADD"><span class="nav-number">2.</span> <span class="nav-text">ADD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从-URL-复制的-Dockerfile-最佳实践"><span class="nav-number">3.</span> <span class="nav-text">从 URL 复制的 Dockerfile 最佳实践</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -889,6 +945,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
 
   
 
