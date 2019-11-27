@@ -121,7 +121,7 @@
 <meta property="og:description" content="COPY 和 ADD 都是 Dockerfile 中的指令，有着类似的作用。它们允许我们将文件从特定位置复制到 Docker 镜像中。 COPYCOPY 指令从 &amp;lt;src&amp;gt; 复制新的文件或目录，并将它们添加到 Docker 容器文件系统的 &amp;lt;dest&amp;gt; 的路径下。 COPY 有两种格式：  COPY [--chown=&amp;lt;user&amp;gt;:&amp;lt;group&amp;gt;]">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2019/dockerfile-add-vs-copy/1.png">
-<meta property="og:updated_time" content="2019-11-27T01:22:21.012Z">
+<meta property="og:updated_time" content="2019-11-27T01:27:52.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dockerfile 下 ADD 与 COPY 的区别">
 <meta name="twitter:description" content="COPY 和 ADD 都是 Dockerfile 中的指令，有着类似的作用。它们允许我们将文件从特定位置复制到 Docker 镜像中。 COPYCOPY 指令从 &amp;lt;src&amp;gt; 复制新的文件或目录，并将它们添加到 Docker 容器文件系统的 &amp;lt;dest&amp;gt; 的路径下。 COPY 有两种格式：  COPY [--chown=&amp;lt;user&amp;gt;:&amp;lt;group&amp;gt;]">
@@ -361,7 +361,7 @@
                 
               
 
-              <time title="Created: 2019-11-27 09:15:14 / Modified: 09:22:21" itemprop="dateCreated datePublished" datetime="2019-11-27T09:15:14+08:00">2019-11-27</time>
+              <time title="Created: 2019-11-27 09:15:14 / Modified: 09:27:52" itemprop="dateCreated datePublished" datetime="2019-11-27T09:15:14+08:00">2019-11-27</time>
             
 
             
@@ -438,7 +438,7 @@
 <p>而 ADD 有一些额外的功能 ：</p>
 <ul>
 <li>ADD 指令可以让你使用 URL 作为 <code>&lt;src&gt;</code> 参数。当遇到 URL 时候，可以通过 URL 下载文件并且复制到 <code>&lt;dest&gt;</code>。</li>
-<li>ADD 的另一个特性是自动解压文件的能力。如果 <code>&lt;src&gt;</code> 参数是一个可识别压缩格式（tar, gzip, bzip2, …）的本地文件（无法实现同时下载并解压），就会被解压到指定容器文件系统的路径 <code>&lt;dest&gt;</code> 下。</li>
+<li>ADD 的另一个特性是自动解压文件的能力。如果 <code>&lt;src&gt;</code> 参数是一个可识别压缩格式（tar, gzip, bzip2, …）的<strong>本地文件</strong>（<em>注：无法实现同时下载并解压</em>），就会被解压到指定容器文件系统的路径 <code>&lt;dest&gt;</code> 下。</li>
 </ul>
 <p>因此，<code>ADD</code> 的最佳用途是将本地压缩包文件自动提取到镜像中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ADD code.tar.gz /app/</span><br></pre></td></tr></table></figure>
