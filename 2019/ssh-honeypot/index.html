@@ -113,18 +113,18 @@
 
 
 
-  <meta name="description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，你永远不知道会有多少双眼睛在盯着你。 一直知道我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，感受下在这个">
+  <meta name="description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，永远不知道会有多少双眼睛在盯着你。 基于这个信条，我相信我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑我也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过蜜罐技术自制一个暴力破解字典库">
 <meta property="og:url" content="https://jpanj.com/2019/ssh-honeypot/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，你永远不知道会有多少双眼睛在盯着你。 一直知道我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，感受下在这个">
+<meta property="og:description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，永远不知道会有多少双眼睛在盯着你。 基于这个信条，我相信我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑我也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2019/ssh-honeypot/1.jpg">
-<meta property="og:updated_time" content="2019-11-28T09:10:42.592Z">
+<meta property="og:updated_time" content="2019-11-28T09:15:30.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过蜜罐技术自制一个暴力破解字典库">
-<meta name="twitter:description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，你永远不知道会有多少双眼睛在盯着你。 一直知道我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，感受下在这个">
+<meta name="twitter:description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，永远不知道会有多少双眼睛在盯着你。 基于这个信条，我相信我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑我也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，">
 <meta name="twitter:image" content="https://jpanj.com/2019/ssh-honeypot/1.jpg">
 
 
@@ -361,7 +361,7 @@
                 
               
 
-              <time title="Created: 2019-11-28 17:02:51 / Modified: 17:10:42" itemprop="dateCreated datePublished" datetime="2019-11-28T17:02:51+08:00">2019-11-28</time>
+              <time title="Created: 2019-11-28 17:02:51 / Modified: 17:15:30" itemprop="dateCreated datePublished" datetime="2019-11-28T17:02:51+08:00">2019-11-28</time>
             
 
             
@@ -424,22 +424,21 @@
 <blockquote>
 <p>蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。</p>
 </blockquote>
-<p>互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，你永远不知道会有多少双眼睛在盯着你。</p>
-<p>一直知道我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。</p>
-<p>前段时间突发奇想，是否可以监听下 22 端口，感受下在这个黑暗丛林中来自各方的打击？继而有想到，既然来感受打击，为何不把这些打击详细记录一下，假以时日，我是不是就可以得到一个「森林常用爆破密码库」了。</p>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>说干就干，找了我在米国的一个服务器来部署蜜罐程序。修改 ssh 默认端口号的步骤就不再介绍了，直奔主题。</p>
-<p>为了方便，我通过 docker 来部署，只需 1 行命令：</p>
+<p>互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，永远不知道会有多少双眼睛在盯着你。</p>
+<p>基于这个信条，我相信我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑我也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。</p>
+<p>前段时间突发奇想，是否可以监听下 22 端口，感受下在这个黑暗丛林中来自各方的打击？继而有想到，既然来感受打击，为何不把这些打击详细记录一下，假以时日，我是不是就可以得到一个「丛林常用爆破密码库」了？</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>说干就干，选择了一个米国的服务器来部署蜜罐程序。修改 ssh 默认端口号的步骤就不再介绍了，直奔主题。</p>
+<p>为了方便，我通过 Docker 来部署，只需 1 行命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --name ssh-honeypot -p 22:22 txt3rob/docker-ssh-honey</span><br></pre></td></tr></table></figure>
-<p>这里用 docker 启动了一个 ssh 蜜罐镜像，然后把蜜罐的 22 端口映射到本地 22 端口，验证一下 22 端口的开放情况：</p>
+<p>这里用 Docker 启动了一个 ssh 蜜罐镜像，然后把蜜罐的 22 端口映射到本地 22 端口，验证一下 22 端口的开放情况：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># lsof -i:22</span><br><span class="line">COMMAND     PID USER   FD   TYPE   DEVICE SIZE/OFF NODE NAME</span><br><span class="line">docker-pr 20832 root    4u  IPv6 22035968      0t0  TCP *:ssh (LISTEN)</span><br></pre></td></tr></table></figure>
 <p>后边就坐等蜜罐来收集登录信息吧。</p>
-<p>程序默认把登录日志输出到 docker 容器的控制台中，日志格式如下：</p>
+<p>程序默认把登录日志输出到 Docker 容器的控制台中，日志格式如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Thu Nov  7 17:59:00 2019] 187.189.55.192 root 123456</span><br><span class="line">[Thu Nov  7 17:59:00 2019] 187.189.55.192 root password</span><br><span class="line">[Thu Nov  7 17:59:00 2019] 187.189.55.192 root default</span><br><span class="line">[Thu Nov  7 17:59:01 2019] 187.189.55.192 root root</span><br><span class="line">[Thu Nov  7 17:59:01 2019] 187.189.55.192 root 000000</span><br><span class="line">[Thu Nov  7 17:59:01 2019] 187.189.55.192 root 111111</span><br><span class="line">[Thu Nov  7 17:59:01 2019] 187.189.55.192 root password</span><br></pre></td></tr></table></figure>
-<p>我们可以通过管道（|） + 重定向（&gt;）的方式把结果导出出来：</p>
+<p>我们可以通过管道（<code>|</code>） + 重定向（<code>&gt;</code>）的方式把结果导出出来：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs  $(docker ps -f name=ssh-honeypot -q) | grep -v &apos;Error exchanging&apos; | grep -v &apos;Session&apos; | awk &apos;&#123;print $6, $7, $8&#125;&apos; &gt; ./ssh_password.log</span><br></pre></td></tr></table></figure>
-<p>上边命令只保留了 ip、username、password 三列，同时过滤掉了程序自己打印的日志（包含 Session、或者 Error exchanging 的行）。</p>
-<p>拿到数据后须要再进行一下简单的清洗</p>
-<p>去掉行首行尾的空格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i &apos;s/^[ \t]*//g&apos; ssh_password.log</span><br><span class="line">sed -i &apos;s/[ \t]*$//g&apos; ssh_password.log</span><br></pre></td></tr></table></figure></p>
+<p>上边命令只保留了 ip、username、password 三列，同时过滤掉了程序自己打印的日志（包含 <code>Session</code>或者 <code>Error exchanging</code> 的行）。</p>
+<h3 id="拿到数据后须要再进行一下简单的清洗："><a href="#拿到数据后须要再进行一下简单的清洗：" class="headerlink" title="拿到数据后须要再进行一下简单的清洗："></a>拿到数据后须要再进行一下简单的清洗：</h3><p>去掉行首行尾的空格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i &apos;s/^[ \t]*//g&apos; ssh_password.log</span><br><span class="line">sed -i &apos;s/[ \t]*$//g&apos; ssh_password.log</span><br></pre></td></tr></table></figure></p>
 <p>去除空行</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &apos;/^$/d&apos; ssh_password.log</span><br></pre></td></tr></table></figure>
 <p>去掉数据结尾的 <code>^M</code></p>
@@ -808,7 +807,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#部署"><span class="nav-number">1.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#收网"><span class="nav-number">2.</span> <span class="nav-text">收网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用用户名的-top5："><span class="nav-number">2.1.</span> <span class="nav-text">统计常用用户名的 top5：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用密码的-top5："><span class="nav-number">2.2.</span> <span class="nav-text">统计常用密码的 top5：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用用户名密码组合的-top5："><span class="nav-number">2.3.</span> <span class="nav-text">统计常用用户名密码组合的 top5：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于安全"><span class="nav-number">3.</span> <span class="nav-text">关于安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#部署"><span class="nav-number">1.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拿到数据后须要再进行一下简单的清洗："><span class="nav-number">1.1.</span> <span class="nav-text">拿到数据后须要再进行一下简单的清洗：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#收网"><span class="nav-number">2.</span> <span class="nav-text">收网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用用户名的-top5："><span class="nav-number">2.1.</span> <span class="nav-text">统计常用用户名的 top5：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用密码的-top5："><span class="nav-number">2.2.</span> <span class="nav-text">统计常用密码的 top5：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用用户名密码组合的-top5："><span class="nav-number">2.3.</span> <span class="nav-text">统计常用用户名密码组合的 top5：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于安全"><span class="nav-number">3.</span> <span class="nav-text">关于安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
