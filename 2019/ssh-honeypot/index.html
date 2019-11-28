@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/favicon.ico?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，你永远不知道会有多少双眼睛在盯着你。 一直知道我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，感受下在这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过蜜罐技术自制一个破解字典库">
+<meta property="og:url" content="https://jpanj.com/2019/ssh-honeypot/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，你永远不知道会有多少双眼睛在盯着你。 一直知道我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，感受下在这个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2019/ssh-honeypot/1.jpg">
+<meta property="og:updated_time" content="2019-11-28T09:10:22.230Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过蜜罐技术自制一个破解字典库">
+<meta name="twitter:description" content="蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。  互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，你永远不知道会有多少双眼睛在盯着你。 一直知道我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。 前段时间突发奇想，是否可以监听下 22 端口，感受下在这个">
+<meta name="twitter:image" content="https://jpanj.com/2019/ssh-honeypot/1.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2019/ssh-honeypot/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>通过蜜罐技术自制一个破解字典库 | 贾攀家</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5fa51f35bce35d98c9014cc40e6683f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">贾攀家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Panmax's Blog</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-文章列表">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于我">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-书单">
+    <a href="/book-list/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/ssh-honeypot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">通过蜜罐技术自制一个破解字典库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-28 17:02:51 / Modified: 17:10:22" itemprop="dateCreated datePublished" datetime="2019-11-28T17:02:51+08:00">2019-11-28</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/ssh-honeypot/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/ssh-honeypot/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/ssh-honeypot/" class="leancloud_visitors" data-flag-title="通过蜜罐技术自制一个破解字典库">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="1.jpg" alt></p>
+<blockquote>
+<p>蜜罐指具有缺陷的，用于吸引网络的计算机病毒侵占以便用于病毒的研究和破解的计算机 。</p>
+</blockquote>
+<p>互联网就像一个黑暗丛林，当你拥有一个面向公网的服务器时，你永远不知道会有多少双眼睛在盯着你。</p>
+<p>一直知道我的几台 vps 经常受到各种 ssh 的暴力破解的骚扰，为了安全考虑也早就把默认 ssh 端口号 22 改为了某个随机值（有些事运营商强行修改）。</p>
+<p>前段时间突发奇想，是否可以监听下 22 端口，感受下在这个黑暗丛林中来自各方的打击？继而有想到，既然来感受打击，为何不把这些打击详细记录一下，假以时日，我是不是就可以得到一个「森林常用爆破密码库」了。</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>说干就干，找了我在米国的一个服务器来部署蜜罐程序。修改 ssh 默认端口号的步骤就不再介绍了，直奔主题。</p>
+<p>为了方便，我通过 docker 来部署，只需 1 行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --name ssh-honeypot -p 22:22 txt3rob/docker-ssh-honey</span><br></pre></td></tr></table></figure>
+<p>这里用 docker 启动了一个 ssh 蜜罐镜像，然后把蜜罐的 22 端口映射到本地 22 端口，验证一下 22 端口的开放情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># lsof -i:22</span><br><span class="line">COMMAND     PID USER   FD   TYPE   DEVICE SIZE/OFF NODE NAME</span><br><span class="line">docker-pr 20832 root    4u  IPv6 22035968      0t0  TCP *:ssh (LISTEN)</span><br></pre></td></tr></table></figure>
+<p>后边就坐等蜜罐来收集登录信息吧。</p>
+<p>程序默认把登录日志输出到 docker 容器的控制台中，日志格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Thu Nov  7 17:59:00 2019] 187.189.55.192 root 123456</span><br><span class="line">[Thu Nov  7 17:59:00 2019] 187.189.55.192 root password</span><br><span class="line">[Thu Nov  7 17:59:00 2019] 187.189.55.192 root default</span><br><span class="line">[Thu Nov  7 17:59:01 2019] 187.189.55.192 root root</span><br><span class="line">[Thu Nov  7 17:59:01 2019] 187.189.55.192 root 000000</span><br><span class="line">[Thu Nov  7 17:59:01 2019] 187.189.55.192 root 111111</span><br><span class="line">[Thu Nov  7 17:59:01 2019] 187.189.55.192 root password</span><br></pre></td></tr></table></figure>
+<p>我们可以通过管道（|） + 重定向（&gt;）的方式把结果导出出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs  $(docker ps -f name=ssh-honeypot -q) | grep -v &apos;Error exchanging&apos; | grep -v &apos;Session&apos; | awk &apos;&#123;print $6, $7, $8&#125;&apos; &gt; ./ssh_password.log</span><br></pre></td></tr></table></figure>
+<p>上边命令只保留了 ip、username、password 三列，同时过滤掉了程序自己打印的日志（包含 Session、或者 Error exchanging 的行）。</p>
+<p>拿到数据后须要再进行一下简单的清洗</p>
+<p>去掉行首行尾的空格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i &apos;s/^[ \t]*//g&apos; ssh_password.log</span><br><span class="line">sed -i &apos;s/[ \t]*$//g&apos; ssh_password.log</span><br></pre></td></tr></table></figure></p>
+<p>去除空行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &apos;/^$/d&apos; ssh_password.log</span><br></pre></td></tr></table></figure>
+<p>去掉数据结尾的 <code>^M</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dos2unix -f ssh_password.log</span><br></pre></td></tr></table></figure>
+<h2 id="收网"><a href="#收网" class="headerlink" title="收网"></a>收网</h2><p>运行三周后，我一共收到了 1340万+ 的用户名密码（看到结果后有些震惊），去重后（<code>cat ssh_password.log | awk &#39;{print $2$3}&#39; | uniq -c | wc -l</code>）也有 1290万，之后我对这些数据进行了统计。</p>
+<h3 id="统计常用用户名的-top5："><a href="#统计常用用户名的-top5：" class="headerlink" title="统计常用用户名的 top5："></a>统计常用用户名的 top5：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># awk &apos;$2!=&quot;&quot; &#123;sum[$2]+=1&#125; END &#123;for(k in sum) print k &quot;:&quot; sum[k]&#125;&apos; ssh_password.log  | sort -n -r -k 2 -t &apos;:&apos; | head -n 5</span><br><span class="line">admin:7179731</span><br><span class="line">root:6236949</span><br><span class="line">test:1062</span><br><span class="line">guest:814</span><br><span class="line">mysql:799</span><br></pre></td></tr></table></figure>
+<h3 id="统计常用密码的-top5："><a href="#统计常用密码的-top5：" class="headerlink" title="统计常用密码的 top5："></a>统计常用密码的 top5：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># awk &apos;$3!=&quot;&quot; &#123;sum[$3]+=1&#125; END &#123;for(k in sum) print k &quot;:&quot; sum[k]&#125;&apos; ssh_password.log  | sort -n -r -k 2 -t &apos;:&apos; | head -n 5</span><br><span class="line">admin:727668</span><br><span class="line">12345:726670</span><br><span class="line">1234:726205</span><br><span class="line">password:725527</span><br><span class="line">default:724872</span><br></pre></td></tr></table></figure>
+<h3 id="统计常用用户名密码组合的-top5："><a href="#统计常用用户名密码组合的-top5：" class="headerlink" title="统计常用用户名密码组合的 top5："></a>统计常用用户名密码组合的 top5：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># awk &apos;$2!=&quot;&quot; &#123;sum[$2&quot;_&quot;$3]+=1&#125; END &#123;for(k in sum) print k &quot;:&quot; sum[k]&#125;&apos; ssh_password.log  | sort -n -r -k 2 -t &apos;:&apos; | head -n 5</span><br><span class="line">admin_admin:478249</span><br><span class="line">admin_1234:478020</span><br><span class="line">admin_pfsense:477780</span><br><span class="line">admin_12345:477733</span><br><span class="line">admin_admin1234:477222</span><br></pre></td></tr></table></figure>
+<p>数据很有意思，也确实是我们最常用的那些用户名密码。</p>
+<h2 id="关于安全"><a href="#关于安全" class="headerlink" title="关于安全"></a>关于安全</h2><p>简单通过修改 ssh 端口号的方式也不是最为稳妥的方法，真正安全的做法应该是：</p>
+<ol>
+<li>配置 ssh 密钥</li>
+<li>禁用密码登录</li>
+<li>配置 ssh ip 登录白名单</li>
+</ol>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>我把我的蜜罐中采到的蜂蜜分享出来，下载链接：<a href="http://developer.jpanj.com/ssh_password.log" target="_blank" rel="noopener">http://developer.jpanj.com/ssh_password.log</a></p>
+<p>大家一起来享用这份喜悦吧。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/dockerfile-add-vs-copy/" rel="next" title="Dockerfile 下 ADD 与 COPY 的区别">
+                <i class="fa fa-chevron-left"></i> Dockerfile 下 ADD 与 COPY 的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
+            
+              <p class="site-author-name" itemprop="name">Panmax</p>
+              <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">151</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Panmax" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:jiapan.china@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ruirui.me" title="瑞瑞的博客" target="_blank">瑞瑞的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#部署"><span class="nav-number">1.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#收网"><span class="nav-number">2.</span> <span class="nav-text">收网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用用户名的-top5："><span class="nav-number">2.1.</span> <span class="nav-text">统计常用用户名的 top5：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用密码的-top5："><span class="nav-number">2.2.</span> <span class="nav-text">统计常用密码的 top5：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计常用用户名密码组合的-top5："><span class="nav-number">2.3.</span> <span class="nav-text">统计常用用户名密码组合的 top5：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于安全"><span class="nav-number">3.</span> <span class="nav-text">关于安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'gPS1atpl6u5FziDqKf7XW6ms-gzGzoHsz',
+        appKey: 'KioAbSyq7iDATMvbNyctgoLf',
+        placeholder: '我也爱你...',
+        avatar:'hide',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
