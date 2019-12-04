@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/favicon.ico?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="云技术已经彻底改变了我们管理应用程序的方式，尽管很多公司早已不再使用物理服务器，但他们仍然从服务器的角度来看待他们的系统。  如果我们试图把服务器的概念忘掉，并开始把基于云的应用程序视为工作流、分布式逻辑和外部管理的数据存储，会是什么情况？ 本文文我们一起探讨下 Serverless。 和其它软件开发趋势一样，Serverless 并没有一个清晰的概念，它可以用在两种不同但又有些相似的领域：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Serverless 入门">
+<meta property="og:url" content="https://jpanj.com/2019/serverless-introduce/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="云技术已经彻底改变了我们管理应用程序的方式，尽管很多公司早已不再使用物理服务器，但他们仍然从服务器的角度来看待他们的系统。  如果我们试图把服务器的概念忘掉，并开始把基于云的应用程序视为工作流、分布式逻辑和外部管理的数据存储，会是什么情况？ 本文文我们一起探讨下 Serverless。 和其它软件开发趋势一样，Serverless 并没有一个清晰的概念，它可以用在两种不同但又有些相似的领域：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2019/serverless-introduce/1.png">
+<meta property="og:image" content="https://jpanj.com/2019/serverless-introduce/2.png">
+<meta property="og:updated_time" content="2019-12-04T01:59:58.047Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Serverless 入门">
+<meta name="twitter:description" content="云技术已经彻底改变了我们管理应用程序的方式，尽管很多公司早已不再使用物理服务器，但他们仍然从服务器的角度来看待他们的系统。  如果我们试图把服务器的概念忘掉，并开始把基于云的应用程序视为工作流、分布式逻辑和外部管理的数据存储，会是什么情况？ 本文文我们一起探讨下 Serverless。 和其它软件开发趋势一样，Serverless 并没有一个清晰的概念，它可以用在两种不同但又有些相似的领域：">
+<meta name="twitter:image" content="https://jpanj.com/2019/serverless-introduce/1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2019/serverless-introduce/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Serverless 入门 | 贾攀家</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5fa51f35bce35d98c9014cc40e6683f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">贾攀家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Panmax's Blog</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-文章列表">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于我">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-书单">
+    <a href="/book-list/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/serverless-introduce/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Serverless 入门
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-04 09:58:00 / Modified: 09:59:58" itemprop="dateCreated datePublished" datetime="2019-12-04T09:58:00+08:00">2019-12-04</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/serverless-introduce/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/serverless-introduce/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/serverless-introduce/" class="leancloud_visitors" data-flag-title="Serverless 入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="1.png" alt></p>
+<blockquote>
+<p>云技术已经彻底改变了我们管理应用程序的方式，尽管很多公司早已不再使用物理服务器，但他们仍然从服务器的角度来看待他们的系统。</p>
+</blockquote>
+<p>如果我们试图把服务器的概念忘掉，并开始把基于云的应用程序视为工作流、分布式逻辑和外部管理的数据存储，会是什么情况？</p>
+<p>本文文我们一起探讨下 Serverless。</p>
+<p>和其它软件开发趋势一样，Serverless 并没有一个清晰的概念，它可以用在两种不同但又有些相似的领域：</p>
+<ul>
+<li>Serverless 最初是用来描述那些结合第三方、云托管来管理服务器端逻辑和状态的应用。通常是一些「富客户端」应用，比如单页 web 应用或者手机 APP，它们可以使用第三方提供的庞大生态系统来进行云端存储（比如：国内的 LeanCloud，国外的 Parse、Firbase）。这些类型的服务之前被称为「后端即服务」或「BaaS」。</li>
+<li>Serverless 还可以表示另一种情况，开发人员仍然编写服务器端应用代码，但是与传统架构不同，这个应用运行在无状态的容器中，这些容器是事件触发、短暂（可能只调用一次）并且由第三方来管理的。这种做法通常被理解为「函数即服务」或「FaaS」。AWS Lambda 是目前提供「函数即服务」的实现之一。</li>
+</ul>
+<p>尽管有 Serverless 这个名字，但实际并不是在没有服务器的情况下运行代码。之所以使用「无服务器计算（serverless computing）」这个名称，是因为拥有系统的企业或个人不必为运行后端应用而采购、租用、配置服务器或虚拟机。</p>
+<p>Serverless 有以下优势：</p>
+<ul>
+<li>无服务器管理（无需管理任何形式的服务器）</li>
+<li>按执行付费（空闲时无需付费）</li>
+<li>自动伸缩（基于需求伸缩）</li>
+<li>函数作为应用逻辑单元</li>
+</ul>
+<p>Serverless 模式鼓励将开发重点放在定义明确的业务逻辑单元上，而无需考虑如何部署、扩容或其它一些过早优化。因此开发成果也应该是单个功能或模块，而不是一个具有大范围功能的服务。Serverless 将开发人员从部署的麻烦中解放出来，使得他们能够专注于按照逻辑封装应用。</p>
+<p>一个典型的例子是将图片上传到文件存储，此事件调用一个 Serverless 函数，这个函数创建图片的缩略图然后把该缩略图存入文件存储中，并将缩略图位置记录在 NoSQL 数据库中。数据写入 NoSQL 数据库的事件可能还会触发其他函数。这个缩略图创建函数只需按需运行，唯一的成本是调用该函数的次数。</p>
+<p>Serverless 的缺点是应用监控和调试将会变得困难，只能依靠服务产生的日志记录。同时，在有服务间调用事件时，可能会出现供应商锁定。现有的 IDE 对 Serverless 函数支持也不够友好。</p>
+<h2 id="简单-HTTP-服务示例"><a href="#简单-HTTP-服务示例" class="headerlink" title="简单 HTTP 服务示例"></a>简单 HTTP 服务示例</h2><blockquote>
+<p>Serverless 框架 —— 可以构建由微服务组成的应用，这些微服务在响应事件时运行，并且可以自动扩容、只在运行期间收费。</p>
+</blockquote>
+<p>下边的例子将演示如何实现一个简单的 <code>HTTP GET</code> 端点，调用它时会返回当前的时间。内部函数名为 <code>currentTime</code>，HTTP 端点为 <code>ping</code>。</p>
+<h3 id="快速上手-Serverless"><a href="#快速上手-Serverless" class="headerlink" title="快速上手 Serverless"></a>快速上手 Serverless</h3><ul>
+<li>通过 npm 安装 serverless 程序</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g serverless</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置安全凭证<ul>
+<li><a href="https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/credentials.md" target="_blank" rel="noopener">https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/credentials.md</a></li>
+</ul>
+</li>
+<li>创建服务</li>
+</ul>
+<p>我们需要创建 <code>handler.js</code> 和 <code>serverless.yml</code> 文件来描述和部署我们的 severless 函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// handler.js</span><br><span class="line"></span><br><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">module.exports.endpoint = (event, context, callback) =&gt; &#123;</span><br><span class="line">  const response = &#123;</span><br><span class="line">    statusCode: 200,</span><br><span class="line">    body: JSON.stringify(&#123;</span><br><span class="line">      message: `Hello, the current time is $&#123;new Date().toTimeString()&#125;.`,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  callback(null, response);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// serverless.yml</span><br><span class="line"></span><br><span class="line">service: serverless-simple-http-endpoint</span><br><span class="line"></span><br><span class="line">frameworkVersion: &quot;&gt;=1.1.0 &lt;2.0.0&quot;</span><br><span class="line"></span><br><span class="line">provider:</span><br><span class="line">  name: aws</span><br><span class="line">  runtime: nodejs8.11</span><br><span class="line"></span><br><span class="line">functions:</span><br><span class="line">  currentTime:</span><br><span class="line">    handler: handler.endpoint</span><br><span class="line">    events:</span><br><span class="line">      - http:</span><br><span class="line">          path: ping</span><br><span class="line">          method: get</span><br></pre></td></tr></table></figure>
+<h3 id="本地函数调用"><a href="#本地函数调用" class="headerlink" title="本地函数调用"></a>本地函数调用</h3><p>在命令行中执行下边的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serverless invoke local --function currentTime</span><br></pre></td></tr></table></figure>
+<p>返回结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;statusCode&quot;: 200,</span><br><span class="line">    &quot;body&quot;: &quot;&#123;\&quot;message\&quot;:\&quot;Hello, the current time is 21:46:18 GMT+0800 (CST).\&quot;&#125;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>部署我们的应用只需执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serverless deploy</span><br></pre></td></tr></table></figure>
+<p>在安全凭证配置正确的情况下会看到类似下边的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Serverless: Packaging service...</span><br><span class="line">Serverless: Excluding development dependencies...</span><br><span class="line">Serverless: Uploading CloudFormation file to S3...</span><br><span class="line">Serverless: Uploading artifacts...</span><br><span class="line">Serverless: Uploading service serverless-simple-http-endpoint.zip file to S3 (331 B)...</span><br><span class="line">Serverless: Validating template...</span><br><span class="line">Serverless: Updating Stack...</span><br><span class="line">Serverless: Checking Stack update progress...</span><br><span class="line">..............................</span><br><span class="line">Serverless: Stack update finished...</span><br><span class="line">Service Information</span><br><span class="line">service: serverless-simple-http-endpoint</span><br><span class="line">stage: dev</span><br><span class="line">region: us-east-1</span><br><span class="line">stack: serverless-simple-http-endpoint-dev</span><br><span class="line">resources: 11</span><br><span class="line">api keys:</span><br><span class="line">  None</span><br><span class="line">endpoints:</span><br><span class="line">  GET - https://qnye7m4dwf.execute-api.us-east-1.amazonaws.com/dev/ping</span><br><span class="line">functions:</span><br><span class="line">  currentTime: serverless-simple-http-endpoint-dev-currentTime</span><br><span class="line">layers:</span><br><span class="line">  None</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>现在，我们可以直接调用 AWS Lambda 服务，并且可以同时获取执行日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">serverless invoke --function currentTime --log</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;statusCode&quot;: 200,</span><br><span class="line">    &quot;body&quot;: &quot;&#123;\&quot;message\&quot;:\&quot;Hello, the current time is 14:03:57 GMT+0000 (UTC).\&quot;&#125;&quot;</span><br><span class="line">&#125;</span><br><span class="line">--------------------------------------------------------------------</span><br><span class="line">START RequestId: 002cbcce-fda6-4d84-98a2-2fb19d325812 Version: $LATEST</span><br><span class="line">END RequestId: 002cbcce-fda6-4d84-98a2-2fb19d325812</span><br><span class="line">REPORT RequestId: 002cbcce-fda6-4d84-98a2-2fb19d325812	Duration: 0.61 ms	Billed Duration: 100 ms	Memory Size: 1024 MB	Max Memory Used: 59 MB</span><br></pre></td></tr></table></figure>
+<p>或者使用如 <code>curl</code> 等工具发送一个 <code>HTTP</code> 请求来查看结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl https://qnye7m4dwf.execute-api.us-east-1.amazonaws.com/dev/ping</span><br><span class="line"></span><br><span class="line">&#123;&quot;message&quot;:&quot;Hello, the current time is 14:03:49 GMT+0000 (UTC).&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>甚至可以直接由浏览器查看结果：</p>
+<p><img src="2.png" alt></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/fat-nutrition-and-meal/" rel="next" title="我对肥胖、营养与三餐的看法">
+                <i class="fa fa-chevron-left"></i> 我对肥胖、营养与三餐的看法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
+            
+              <p class="site-author-name" itemprop="name">Panmax</p>
+              <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">153</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Panmax" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:jiapan.china@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ruirui.me" title="瑞瑞的博客" target="_blank">瑞瑞的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单-HTTP-服务示例"><span class="nav-number">1.</span> <span class="nav-text">简单 HTTP 服务示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速上手-Serverless"><span class="nav-number">1.1.</span> <span class="nav-text">快速上手 Serverless</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地函数调用"><span class="nav-number">1.2.</span> <span class="nav-text">本地函数调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署"><span class="nav-number">1.3.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">1.4.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'gPS1atpl6u5FziDqKf7XW6ms-gzGzoHsz',
+        appKey: 'KioAbSyq7iDATMvbNyctgoLf',
+        placeholder: '我也爱你...',
+        avatar:'hide',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
