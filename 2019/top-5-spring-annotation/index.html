@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/favicon.ico?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Java 中注解的引入改变了 Java 开发人员配置应用的方式。注解在 Java 的 1.5 版本中引入进来，它使开发人员能够在代码中维护配置而不必依赖于外部配置文件。   注解是可以添加到 Java 类、方法、变量、参数或者包中的一种语法元数据。 Spring 框架推荐开发人员通过使用它提供的大量内置注解来配置应用。在这篇文章中，我们重点介绍 Spring Core 框架中最常用的几个注解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 中最常用的 5 个注解">
+<meta property="og:url" content="https://jpanj.com/2019/top-5-spring-annotation/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="Java 中注解的引入改变了 Java 开发人员配置应用的方式。注解在 Java 的 1.5 版本中引入进来，它使开发人员能够在代码中维护配置而不必依赖于外部配置文件。   注解是可以添加到 Java 类、方法、变量、参数或者包中的一种语法元数据。 Spring 框架推荐开发人员通过使用它提供的大量内置注解来配置应用。在这篇文章中，我们重点介绍 Spring Core 框架中最常用的几个注解。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2019/top-5-spring-annotation/1.jpeg">
+<meta property="og:updated_time" content="2019-12-07T04:48:19.946Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring 中最常用的 5 个注解">
+<meta name="twitter:description" content="Java 中注解的引入改变了 Java 开发人员配置应用的方式。注解在 Java 的 1.5 版本中引入进来，它使开发人员能够在代码中维护配置而不必依赖于外部配置文件。   注解是可以添加到 Java 类、方法、变量、参数或者包中的一种语法元数据。 Spring 框架推荐开发人员通过使用它提供的大量内置注解来配置应用。在这篇文章中，我们重点介绍 Spring Core 框架中最常用的几个注解。">
+<meta name="twitter:image" content="https://jpanj.com/2019/top-5-spring-annotation/1.jpeg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2019/top-5-spring-annotation/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring 中最常用的 5 个注解 | 贾攀家</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5fa51f35bce35d98c9014cc40e6683f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">贾攀家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Panmax's Blog</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-文章列表">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于我">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-书单">
+    <a href="/book-list/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2019/top-5-spring-annotation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring 中最常用的 5 个注解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-12-07 12:46:15 / Modified: 12:48:19" itemprop="dateCreated datePublished" datetime="2019-12-07T12:46:15+08:00">2019-12-07</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/top-5-spring-annotation/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2019/top-5-spring-annotation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/top-5-spring-annotation/" class="leancloud_visitors" data-flag-title="Spring 中最常用的 5 个注解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Java 中注解的引入改变了 Java 开发人员配置应用的方式。注解在 Java 的 1.5 版本中引入进来，它使开发人员能够在代码中维护配置而不必依赖于外部配置文件。</p>
+</blockquote>
+<p><img src="1.jpeg" alt></p>
+<p>注解是可以添加到 Java 类、方法、变量、参数或者包中的一种语法元数据。</p>
+<p>Spring 框架推荐开发人员通过使用它提供的大量内置注解来配置应用。在这篇文章中，我们重点介绍 <code>Spring Core</code> 框架中最常用的几个注解。</p>
+<h2 id="1-Autowired-注解"><a href="#1-Autowired-注解" class="headerlink" title="1. @Autowired 注解"></a>1. @Autowired 注解</h2><p>这个注解用于声明类中的依赖项。基于这个注解，Spring DI 框架可以注入对应的依赖。<code>@Autowired</code> 可以用在构造函数、属性和 <code>setter</code> 方法上。它是 JSR-330（Java 依赖注入）<code>@Inject</code> 注解的替代方法。</p>
+<h3 id="属性注入"><a href="#属性注入" class="headerlink" title="属性注入"></a>属性注入</h3><p>下面的代码演示了如何将属性作为依赖项注入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line">public class UserController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private UserRepository userRepository;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Setter-方法注入"><a href="#Setter-方法注入" class="headerlink" title="Setter 方法注入"></a>Setter 方法注入</h3><p>也可以通过 <code>setter</code> 方法完成依赖注入，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line">public class UserController &#123;</span><br><span class="line"></span><br><span class="line">    private UserRepository userRepository;</span><br><span class="line"></span><br><span class="line">    public UserRepository getUserRepository() &#123;</span><br><span class="line">        return userRepository;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    public void setUserRepository(UserRepository userRepository) &#123;</span><br><span class="line">        this.userRepository = userRepository;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="构造函数注入"><a href="#构造函数注入" class="headerlink" title="构造函数注入"></a>构造函数注入</h3><p>还可以在构造函数上使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line">public class UserController &#123;</span><br><span class="line"></span><br><span class="line">    private UserRepository userRepository;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    public UserController(UserRepository userRepository) &#123;</span><br><span class="line">        this.userRepository = userRepository;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-Bean-注解"><a href="#2-Bean-注解" class="headerlink" title="2. @Bean 注解"></a>2. @Bean 注解</h2><p>这个注解应用在方法上，并生成由 Spring 管理的 bean。Spring 配置类通常包含 bean 声明。通常，应用的 <code>POJO</code> 部分被声明为 Spring 组件，并且 Spring 提供的组件扫描机制会在 Spring IoC 容器中自动创建 <code>bean</code>。但是，当 <code>POJO</code> 的代码不可用并且我们需要创建 Sprint 管理的 <code>bean</code> 时，<code>@bean</code> 注解就会非常有用。</p>
+<p>以下代码演示了 <code>@Bean</code> 注解的用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">public class SampleConfiguration &#123;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public User user()&#123;</span><br><span class="line">        return new User();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name = &quot;admin&quot;, initMethod = &quot;&quot;, destroyMethod = &quot;&quot;)</span><br><span class="line">    public Admin admin()&#123;</span><br><span class="line">        return new Admin();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此外，这个注解还提供给了一些属性用以管理 <code>bean</code> 配置，例如：名称、初始化方法、销毁方法等。</p>
+<h2 id="3-Value-注解"><a href="#3-Value-注解" class="headerlink" title="3. @Value 注解"></a>3. @Value 注解</h2><p>Spring 的 <code>@Value</code> 注解非常有用，可以方便地使用 Spring 表达式语言（Spring Expression Language，SpEL）提供默认值或控制变量的值。</p>
+<h3 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h3><p>在下边的示例中，<code>name</code> 变量配置了 <code>@Value</code> 注解。如果实例化 <code>User</code> 类时没有为 <code>name</code> 提供值，就会使用 <code>@Value</code> 配置的默认值 <code>default-user</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.beans.factory.annotation.Value;</span><br><span class="line"></span><br><span class="line">public class User &#123;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;default-user&quot;)</span><br><span class="line">    private String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="从环境中读取属性"><a href="#从环境中读取属性" class="headerlink" title="从环境中读取属性"></a>从环境中读取属性</h3><p>下面的示例演示如何从环境中读取一个值并赋给变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;NAME&#125;&quot;)</span><br><span class="line">    private String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用-Spring-表达式语言"><a href="#使用-Spring-表达式语言" class="headerlink" title="使用 Spring 表达式语言"></a>使用 Spring 表达式语言</h3><p>下边的示例演示如何使用 Spring 表达式语言来获取值并赋值给变量。注意这里使用了 <code>#</code> 来替代之前使用的 <code>$</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;#&#123;systemProperties[&apos;user.name&apos;]&#125;&quot;)</span><br><span class="line">    private String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-Profile-注解"><a href="#4-Profile-注解" class="headerlink" title="4. @Profile 注解"></a>4. @Profile 注解</h2><p>在开发的生命周期中，应用会经历多个环境和阶段。比如，<code>dev</code>、<code>test</code>、<code>uat</code>（预发布）、<code>industry</code>（生产）等。根据不同的环境和阶段，需要有不同的配置。在这种情况下，<code>@Profile</code> 注解非常方便，它使开发人员可以灵活地控制应该激活的组件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Profile(&quot;dev&quot;)</span><br><span class="line">public class DevDataSource &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Profile(&quot;test&quot;)</span><br><span class="line">public class QADataSource &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上边的示例中，我们提供了两个配置，一个用于 <code>dev</code> 环境，另一个用于 <code>test</code> 环境。根据环境类型，我们可以提供不同的配置，Spring 将会确保加载与之对应的配置。</p>
+<h2 id="5-Import-注解"><a href="#5-Import-注解" class="headerlink" title="5. @Import 注解"></a>5. @Import 注解</h2><p><code>@Import</code> 注解使我们可以将一个或多个组件的配置导入到另一个配置类中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@Import(SampleConfiguration.class)</span><br><span class="line">public class AnotherConfiguration &#123;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public Product product()&#123;</span><br><span class="line">        return new Product();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上边的配置类中，我们导入了另一个配置类中定义的配置。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文我们演示了在 Spring 应用开发中使用最频繁的一些注解。尽管有大量的 Spring 注解，但那些注解在大多数 Spring 应用中用到的不多。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/serverless-introduce/" rel="next" title="Serverless 入门">
+                <i class="fa fa-chevron-left"></i> Serverless 入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+                2019 Flags <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
+            
+              <p class="site-author-name" itemprop="name">Panmax</p>
+              <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">154</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Panmax" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:jiapan.china@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bohanzhang.com" title="伯函的窝" target="_blank">伯函的窝</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://ruirui.me" title="瑞瑞的博客" target="_blank">瑞瑞的博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Autowired-注解"><span class="nav-number">1.</span> <span class="nav-text">1. @Autowired 注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性注入"><span class="nav-number">1.1.</span> <span class="nav-text">属性注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Setter-方法注入"><span class="nav-number">1.2.</span> <span class="nav-text">Setter 方法注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数注入"><span class="nav-number">1.3.</span> <span class="nav-text">构造函数注入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Bean-注解"><span class="nav-number">2.</span> <span class="nav-text">2. @Bean 注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Value-注解"><span class="nav-number">3.</span> <span class="nav-text">3. @Value 注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认值"><span class="nav-number">3.1.</span> <span class="nav-text">默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从环境中读取属性"><span class="nav-number">3.2.</span> <span class="nav-text">从环境中读取属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Spring-表达式语言"><span class="nav-number">3.3.</span> <span class="nav-text">使用 Spring 表达式语言</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Profile-注解"><span class="nav-number">4.</span> <span class="nav-text">4. @Profile 注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Import-注解"><span class="nav-number">5.</span> <span class="nav-text">5. @Import 注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'gPS1atpl6u5FziDqKf7XW6ms-gzGzoHsz',
+        appKey: 'KioAbSyq7iDATMvbNyctgoLf',
+        placeholder: '我也爱你...',
+        avatar:'hide',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
