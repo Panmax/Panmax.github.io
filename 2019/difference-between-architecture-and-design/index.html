@@ -122,7 +122,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2019/difference-between-architecture-and-design/0.jpeg">
 <meta property="og:image" content="https://jpanj.com/2019/difference-between-architecture-and-design/1.png">
-<meta property="og:updated_time" content="2019-12-09T06:12:05.895Z">
+<meta property="og:updated_time" content="2019-12-09T07:04:11.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊软件架构和软件设计">
 <meta name="twitter:description" content="很多人并不了解软件架构和软件设计之间的区别。即使对于开发人员来说，对两者的界限也很模糊，他们可能还会把架构模式和设计模式中的内容搞混。作为一名开发人员，我想简述一下这些概念并解释软件设计和软件架构之间的区别。另外，我还会证明为什么软件架构和软件设计对我们来说很重要。 软件架构的定义简单来说，软件架构是将软件特性（如灵活性、可伸缩性、可行性和安全性）转换为满足技术和业务期望的结构化解决方案的过程。">
@@ -362,7 +362,7 @@
                 
               
 
-              <time title="Created: 2019-12-09 12:04:21 / Modified: 14:12:05" itemprop="dateCreated datePublished" datetime="2019-12-09T12:04:21+08:00">2019-12-09</time>
+              <time title="Created: 2019-12-09 12:04:21 / Modified: 15:04:11" itemprop="dateCreated datePublished" datetime="2019-12-09T12:04:21+08:00">2019-12-09</time>
             
 
             
@@ -439,7 +439,7 @@
 <p><code>SOLID</code> 指的是单一职责原则（<strong>S</strong>ingle Responsibility）、开闭原则（<strong>O</strong>pen Closed）、里式替换原则（<strong>L</strong>iskov substitution）、接口隔离原则（<strong>I</strong>nterface Segregation）和依赖反转原则（<strong>D</strong>ependency Inversion）。</p>
 <ul>
 <li><strong>单一职责原则</strong>意味着每个类只有一个单一的目的和责任。</li>
-<li><strong>开闭原则</strong>：一个类应该对扩展开放、对修改封闭。简单来说，我们可以修改这个类添加更多的功能，但前提是不能破坏使用了这个类的代码现有调用方式。</li>
+<li><strong>开闭原则</strong>：一个类应该对扩展开放、对修改关闭。详细表述以下就是，添加一个新的功能应该是，在已有代码基础上扩展代码（新增模块、类、方法等），而非修改已有代码（修改模块、类、方法等）。</li>
 <li><strong>里式替换原则</strong>：这个原则指导开发人员任何情况下使用继承都不要破坏应用逻辑。举个例子，如果子类 <code>XyClass</code> 继承自 <code>AbClass</code>，那么 <code>XyClass</code> 不可以改变父类已实现功能的行为。因此你可以放心地使用 <code>XyClass</code> 对象而不是 <code>AbClass</code> 对象，而不用担心破坏应用的逻辑。</li>
 <li><strong>接口隔离原则</strong>：简单来说，因为一个类可以实现多个接口，所以应该合理的组织代码，使一个类无需被迫实现与其目的无关的方法。因此，要把接口分好类。</li>
 <li><strong>依赖反转原则</strong>：如果你遵循 TDD（测试驱动开发Test-Driven Development）的方式进行应用开发，那么你就会知道将代码解耦对于可测试性和模块化是多么重要。举个例子，如果 <code>Order</code> 类依赖于 <code>User</code> 类，那么 <code>User</code> 对象应该在 <code>Order</code> 类之外进行实例化。</li>
