@@ -122,7 +122,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2019/difference-between-architecture-and-design/0.jpeg">
 <meta property="og:image" content="https://jpanj.com/2019/difference-between-architecture-and-design/1.png">
-<meta property="og:updated_time" content="2019-12-09T06:09:25.857Z">
+<meta property="og:updated_time" content="2019-12-09T06:12:05.895Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊软件架构和软件设计">
 <meta name="twitter:description" content="很多人并不了解软件架构和软件设计之间的区别。即使对于开发人员来说，对两者的界限也很模糊，他们可能还会把架构模式和设计模式中的内容搞混。作为一名开发人员，我想简述一下这些概念并解释软件设计和软件架构之间的区别。另外，我还会证明为什么软件架构和软件设计对我们来说很重要。 软件架构的定义简单来说，软件架构是将软件特性（如灵活性、可伸缩性、可行性和安全性）转换为满足技术和业务期望的结构化解决方案的过程。">
@@ -362,7 +362,7 @@
                 
               
 
-              <time title="Created: 2019-12-09 12:04:21 / Modified: 14:09:25" itemprop="dateCreated datePublished" datetime="2019-12-09T12:04:21+08:00">2019-12-09</time>
+              <time title="Created: 2019-12-09 12:04:21 / Modified: 14:12:05" itemprop="dateCreated datePublished" datetime="2019-12-09T12:04:21+08:00">2019-12-09</time>
             
 
             
@@ -453,9 +453,9 @@
 <p>第二种：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Shape shape = ShapeFactory.getShape(&quot;SQUARE&quot;);</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class ShapeFactory &#123;</span><br><span class="line">   public static Shape getShape(String shapeType)&#123;</span><br><span class="line">      if(shapeType == null)&#123;</span><br><span class="line">         return null;</span><br><span class="line">      &#125;        </span><br><span class="line">      if(shapeType.equalsIgnoreCase(&quot;CIRCLE&quot;))&#123;</span><br><span class="line">         return new Circle();</span><br><span class="line">      &#125; else if(shapeType.equalsIgnoreCase(&quot;RECTANGLE&quot;))&#123;</span><br><span class="line">         return new Rectangle();</span><br><span class="line">      &#125; else if(shapeType.equalsIgnoreCase(&quot;SQUARE&quot;))&#123;</span><br><span class="line">         return new Square();</span><br><span class="line">      &#125;</span><br><span class="line">      return null;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我更喜欢第二种方式，有三点原因。首先一个调用者想创建一个对象，只要知道其名称就可以了。其次扩展性高，如果想增加一个形状，只要扩展 <code>ShapeFactory</code> 工厂类就可以。最后屏蔽了具体的实现，调用者只用关心 <code>Shape</code> 接口，即使需要传额外参数来进行实例化，调用者也无需去关心。</p>
+<p>我更喜欢第二种方式，有三点原因。首先一个调用者想创建一个对象，只要知道其名称就可以了。其次扩展性高，如果想增加一个新的形状，只要扩展 <code>ShapeFactory</code> 工厂类就可以。最后屏蔽了具体的实现，调用者只用关心 <code>Shape</code> 接口，即使需要传额外参数来进行实例化，调用者也无需去关心。</p>
 <h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><p><strong>适配器模式</strong>是结构设计模式之一。根据这个名字可以判断出，我们可以期望它把类的意外用法转为我们所预期的用法。</p>
-<p>假如我们的应用要调用了百度的 API，我们需要在发起请求前调用 <code>getBaiduToken()</code> 获取 token。我们在 20 多个不同的地方调用了这个函数。之后百度在发布的新版本中把这个函数改名为了 <code>getAccessToken()</code>。</p>
+<p>假如我们的应用要调用了百度的 API，需要在发起请求前需要调用 <code>getBaiduToken()</code> 获取 token。我们在 20 多个不同的地方调用了这个函数。之后百度在发布的新版本中把这个函数改名为了 <code>getAccessToken()</code>。</p>
 <p>现在我们必须在应用代码的所有位置找到并替换这个函数名，或者可以创建一个适配器类：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class BaiduAdapter &#123;</span><br><span class="line"></span><br><span class="line">    public static String getToken() &#123;</span><br><span class="line">        Baidu baidu = new Baidu();</span><br><span class="line">        String token = baidu.getBaiduToken;</span><br><span class="line">        return token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>应用中的调用改为：</p>
