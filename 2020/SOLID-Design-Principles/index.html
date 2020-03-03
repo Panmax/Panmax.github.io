@@ -131,7 +131,7 @@
 <meta property="og:image" content="https://jpanj.com/2020/SOLID-Design-Principles/8.jpg">
 <meta property="og:image" content="https://jpanj.com/2020/SOLID-Design-Principles/9.png">
 <meta property="og:image" content="https://jpanj.com/2020/SOLID-Design-Principles/10.png">
-<meta property="og:updated_time" content="2020-03-03T02:26:31.770Z">
+<meta property="og:updated_time" content="2020-03-03T02:33:52.781Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SOLID 面向对象编程和设计的五个基本原则">
 <meta name="twitter:description" content="先来看下维基百科对 SOLID 的介绍：  在程序设计领域，SOLID 是由罗伯特·C·马丁在 21 世纪早期引入的记忆术首字母缩略字，指代了面向对象编程和面向对象设计的五个基本原则。当这些原则被一起应用时，它们使得一个程序员开发一个容易进行软件维护和扩展的系统变得更加可能。  SOLID 是以下五个单词的缩写：  Single Responsibility Principle（单一职责原则）">
@@ -400,7 +400,7 @@
                 
               
 
-              <time title="Created: 2020-03-03 10:04:52 / Modified: 10:26:31" itemprop="dateCreated datePublished" datetime="2020-03-03T10:04:52+08:00">2020-03-03</time>
+              <time title="Created: 2020-03-03 10:04:52 / Modified: 10:33:52" itemprop="dateCreated datePublished" datetime="2020-03-03T10:04:52+08:00">2020-03-03</time>
             
 
             
@@ -485,8 +485,8 @@
 <p>站在<strong>不同的应用场景</strong>、<strong>不同阶段的需求</strong>背景下，对 <code>UserInfo</code> 类的职责是否单一的判定，可能都是不一样的：</p>
 <ul>
 <li>如果在这个社交产品中，用户的地址信息跟其他信息一样，只是单纯地用来展示，那 UserInfo 现在的设计就是合理的。</li>
-<li>如果这个社交产品发展得比较好，之后又在产品中添加了电商的模块，用户的地址信息还会用在电商物流中，那我们最好将地址信息从 UserInfo 中拆分出来，独立成用户物流信息（或者叫地址信息、收货信息等）。</li>
-<li>如果做这个社交产品的公司发展得越来越好，公司内部又开发出了跟多其他产品（可以理解为其他 App）。公司希望支持统一账号系统，也就是用户一个账号可以在公司内部的所有产品中登录。这个时候，我们就需要继续对 UserInfo 进行拆分，将跟身份认证相关的信息（比如，email、telephone 等）抽取成独立的类。</li>
+<li>如果这个社交产品发展得比较好，之后又在产品中添加了电商的模块，用户的地址信息还会用在电商物流中，那我们最好将地址信息从 <code>UserInfo</code> 中拆分出来，独立成用户物流信息（或者叫地址信息、收货信息等）。</li>
+<li>如果做这个社交产品的公司发展得越来越好，公司内部又开发出了跟多其他产品（可以理解为其他 App）。公司希望支持统一账号系统，也就是用户一个账号可以在公司内部的所有产品中登录。这个时候，我们就需要继续对 <code>UserInfo</code> 进行拆分，将跟身份认证相关的信息（比如，email、telephone 等）抽取成独立的类。</li>
 </ul>
 <blockquote>
 <p>在某种应用场景或者当下的需求背景下，一个类的设计可能已经满足单一职责原则了，但如果换个应用场景或着在未来的某个需求背景下，可能就不满足了，需要继续拆分成粒度更细的类。</p>
@@ -553,7 +553,7 @@
 <p>现在，如果我们需要添加一个功能，当每秒钟接口超时请求个数，超过某个预先设置的最大阈值时，我们也要触发告警发送通知。</p>
 <h3 id="不遵循开闭原则的修改"><a href="#不遵循开闭原则的修改" class="headerlink" title="不遵循开闭原则的修改"></a>不遵循开闭原则的修改</h3><p>主要的改动有两处：</p>
 <ol>
-<li>修改 <code>check()</code> 函数的入参，添加一个新的统计数据 timeoutCount，表示超时接口请求数</li>
+<li>修改 <code>check()</code> 函数的入参，添加一个新的统计数据 <code>timeoutCount</code>，表示超时接口请求数</li>
 <li>在 <code>check()</code> 函数中添加新的告警逻辑</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class Alert &#123;</span><br><span class="line">  // ...省略AlertRule/Notification属性和构造函数...</span><br><span class="line">  </span><br><span class="line">  // 改动一：添加参数timeoutCount</span><br><span class="line">  public void check(String api, long requestCount, long errorCount, long timeoutCount, long durationOfSeconds) &#123;</span><br><span class="line">    long tps = requestCount / durationOfSeconds;</span><br><span class="line">    if (tps &gt; rule.getMatchedRule(api).getMaxTps()) &#123;</span><br><span class="line">      notification.notify(NotificationEmergencyLevel.URGENCY, &quot;...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (errorCount &gt; rule.getMatchedRule(api).getMaxErrorCount()) &#123;</span><br><span class="line">      notification.notify(NotificationEmergencyLevel.SEVERE, &quot;...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    // 改动二：添加接口超时处理逻辑</span><br><span class="line">    long timeoutTps = timeoutCount / durationOfSeconds;</span><br><span class="line">    if (timeoutTps &gt; rule.getMatchedRule(api).getMaxTimeoutTps()) &#123;</span><br><span class="line">      notification.notify(NotificationEmergencyLevel.URGENCY, &quot;...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -563,7 +563,7 @@
 <li>修改了 <code>check()</code> 函数，相应的单元测试都需要修改</li>
 </ol>
 <p>粗暴一点说，<strong>当我们在代码中看到 if/else 或者 switch/case 关键字的时候，基本可以判断违反开闭原则了。</strong></p>
-<h3 id="遵循开闭原则的修改"><a href="#遵循开闭原则的修改" class="headerlink" title="遵循开闭原则的修改"></a>遵循开闭原则的修改</h3><p>重构一下之前的 Alert 代码，让它的扩展性更好一些：</p>
+<h3 id="遵循开闭原则的修改"><a href="#遵循开闭原则的修改" class="headerlink" title="遵循开闭原则的修改"></a>遵循开闭原则的修改</h3><p>重构一下之前的 <code>Alert</code> 代码，让它的扩展性更好一些：</p>
 <ol>
 <li>将 <code>check()</code> 函数的多个入参封装成 <code>ApiStatInfo</code> 类</li>
 <li>引入 <code>handler</code> 的概念，将 <code>if</code> 判断逻辑分散在各个 <code>handler</code> 中</li>
@@ -572,13 +572,13 @@
 <p>现在我们基于重构之后的代码来实现<strong>每秒钟接口超时请求个数超过某个最大阈值就告警</strong>的新功能就方便多了。</p>
 <p>不考虑调用方修改的情况下，实现方只需进行两处的改动：</p>
 <ol>
-<li>在 ApiStatInfo 类中添加新的属性 timeoutCount</li>
-<li>添加新的 TimeoutAlertHander 类</li>
+<li>在 <code>ApiStatInfo</code> 类中添加新的属性 <code>timeoutCount</code></li>
+<li>添加新的 <code>TimeoutAlertHander</code> 类</li>
 </ol>
 <p>调用方的改动也很简单：</p>
 <ol>
-<li>把 TimeoutAlertHander 类的实例注册到 alert 对象中</li>
-<li>为 apiStatInfo 对象 设置 timeoutCOunt 的值。</li>
+<li>把 <code>TimeoutAlertHander</code> 类的实例注册到 <code>alert</code> 对象中</li>
+<li>为 <code>apiStatInfo</code> 对象 设置 <code>timeoutCOunt</code> 的值。</li>
 </ol>
 <p>修改后代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class Alert &#123; // 代码未改动... &#125;</span><br><span class="line">public class ApiStatInfo &#123;//省略constructor/getter/setter方法</span><br><span class="line">  private String api;</span><br><span class="line">  private long requestCount;</span><br><span class="line">  private long errorCount;</span><br><span class="line">  private long durationOfSeconds;</span><br><span class="line">  private long timeoutCount; // 改动一：添加新字段</span><br><span class="line">&#125;</span><br><span class="line">public abstract class AlertHandler &#123; //代码未改动... &#125;</span><br><span class="line">public class TpsAlertHandler extends AlertHandler &#123;//代码未改动...&#125;</span><br><span class="line">public class ErrorAlertHandler extends AlertHandler &#123;//代码未改动...&#125;</span><br><span class="line">// 改动二：添加新的handler</span><br><span class="line">public class TimeoutAlertHandler extends AlertHandler &#123;//省略代码...&#125;</span><br><span class="line"></span><br><span class="line">public class ApplicationContext &#123;</span><br><span class="line">  private AlertRule alertRule;</span><br><span class="line">  private Notification notification;</span><br><span class="line">  private Alert alert;</span><br><span class="line">  </span><br><span class="line">  public void initializeBeans() &#123;</span><br><span class="line">    alertRule = new AlertRule(/*.省略参数.*/); //省略一些初始化代码</span><br><span class="line">    notification = new Notification(/*.省略参数.*/); //省略一些初始化代码</span><br><span class="line">    alert = new Alert();</span><br><span class="line">    alert.addAlertHandler(new TpsAlertHandler(alertRule, notification));</span><br><span class="line">    alert.addAlertHandler(new ErrorAlertHandler(alertRule, notification));</span><br><span class="line">    // 改动三：注册handler</span><br><span class="line">    alert.addAlertHandler(new TimeoutAlertHandler(alertRule, notification));</span><br><span class="line">  &#125;</span><br><span class="line">  //...省略其他未改动代码...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line">  public static void main(String[] args) &#123;</span><br><span class="line">    ApiStatInfo apiStatInfo = new ApiStatInfo();</span><br><span class="line">    // ...省略apiStatInfo的set字段代码</span><br><span class="line">    apiStatInfo.setTimeoutCount(289); // 改动四：设置tiemoutCount值</span><br><span class="line">    ApplicationContext.getInstance().getAlert().check(apiStatInfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -616,18 +616,18 @@
 <p>通俗地详细点说：程序中，所有使用基类的地方，都应该可以用子类代替。</p>
 <h3 id="里氏替换原则示例-1"><a href="#里氏替换原则示例-1" class="headerlink" title="里氏替换原则示例 1"></a>里氏替换原则示例 1</h3><p>如下代码中，父类 <code>Transporter</code> 使用 <code>org.apache.http</code> 库中的 <code>HttpClient</code> 类来传输网络数据。子类 <code>SecurityTransporter</code> 继承父类 <code>Transporter</code>，增加了额外的功能，支持传输 <code>appId</code> 和 <code>appToken</code> 安全认证信息。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class Transporter &#123;</span><br><span class="line">  private HttpClient httpClient;</span><br><span class="line">  </span><br><span class="line">  public Transporter(HttpClient httpClient) &#123;</span><br><span class="line">    this.httpClient = httpClient;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public Response sendRequest(Request request) &#123;</span><br><span class="line">    // ...use httpClient to send request</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class SecurityTransporter extends Transporter &#123;</span><br><span class="line">  private String appId;</span><br><span class="line">  private String appToken;</span><br><span class="line"></span><br><span class="line">  public SecurityTransporter(HttpClient httpClient, String appId, String appToken) &#123;</span><br><span class="line">    super(httpClient);</span><br><span class="line">    this.appId = appId;</span><br><span class="line">    this.appToken = appToken;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public Response sendRequest(Request request) &#123;</span><br><span class="line">    if (StringUtils.isNotBlank(appId) &amp;&amp; StringUtils.isNotBlank(appToken)) &#123;</span><br><span class="line">      request.addPayload(&quot;app-id&quot;, appId);</span><br><span class="line">      request.addPayload(&quot;app-token&quot;, appToken);</span><br><span class="line">    &#125;</span><br><span class="line">    return super.sendRequest(request);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;    </span><br><span class="line">  public void demoFunction(Transporter transporter) &#123;    </span><br><span class="line">    Reuqest request = new Request();</span><br><span class="line">    //...省略设置request中数据值的代码...</span><br><span class="line">    Response response = transporter.sendRequest(request);</span><br><span class="line">    //...省略其他逻辑...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 里式替换原则</span><br><span class="line">Demo demo = new Demo();</span><br><span class="line">demo.demofunction(new SecurityTransporter(/*省略参数*/););</span><br></pre></td></tr></table></figure>
-<p>子类 SecurityTransporter 的设计完全符合里式替换原则，可以替换父类出现的任何位置，并且原来代码的逻辑行为不变且正确性也没有被破坏。</p>
+<p>子类 <code>SecurityTransporter</code> 的设计完全符合里式替换原则，可以替换父类出现的任何位置，并且原来代码的逻辑行为不变且正确性也没有被破坏。</p>
 <p>这样看来里氏替换原则不就是简单利用了多态地特性吗？我们再通过一个反例来看下这两者的区别：</p>
 <blockquote>
 <p>通俗地说，接口（抽象类）的多个实现就是多态。多态可以让程序在编程时面向接口进行编程，在运行期绑定具体类，从而使得类之间不需要直接耦合，就可以关联组合，构成一个更强大的整体对外服务。</p>
 </blockquote>
-<p>我们对刚刚那个例子中 SecurityTransporter 类的 sendRequest() 方法稍加改造一下。</p>
+<p>我们对刚刚那个例子中 <code>SecurityTransporter</code> 类的 <code>sendRequest()</code> 方法稍加改造一下。</p>
 <ul>
-<li>改造前，如果 appId 或者 appToken 没有设置，我们就不做校验；</li>
-<li>改造后，如果 appId 或者 appToken 没有设置，则直接抛出 NoAuthorizationRuntimeException 未授权异常。</li>
+<li>改造前，如果 <code>appId</code> 或者 <code>appToken</code> 没有设置，我们就不做校验；</li>
+<li>改造后，如果 <code>appId</code> 或者 <code>appToken</code> 没有设置，则直接抛出 <code>NoAuthorizationRuntimeException</code> 未授权异常。</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SecurityTransporter extends Transporter &#123;</span><br><span class="line">  //...省略其他代码..</span><br><span class="line">  @Override</span><br><span class="line">  public Response sendRequest(Request request) &#123;</span><br><span class="line">    if (StringUtils.isBlank(appId) || StringUtils.isBlank(appToken)) &#123;</span><br><span class="line">      throw new NoAuthorizationRuntimeException(...);</span><br><span class="line">    &#125;</span><br><span class="line">    request.addPayload(&quot;app-id&quot;, appId);</span><br><span class="line">    request.addPayload(&quot;app-token&quot;, appToken);</span><br><span class="line">    return super.sendRequest(request);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>改造之后的代码仍然可以通过 Java 的多态语法，动态地用子类 SecurityTransporter 来替换父类 Transporter，也并不会导致程序编译或者运行报错。但是，从设计思路上来讲，SecurityTransporter 的设计是不符合里式替换原则的。</p>
+<p>改造之后的代码仍然可以通过 Java 的多态语法，动态地用子类 <code>SecurityTransporter</code> 来替换父类 Transporter，也并不会导致程序编译或者运行报错。但是，从设计思路上来讲，SecurityTransporter 的设计是不符合里式替换原则的。</p>
 <p>虽然从定义描述和代码实现上来看，多态和里式替换有点类似，但它们关注的角度是不一样的。</p>
 <ul>
 <li>多态是面向对象编程的一大特性，也是面向对象编程语言的一种语法。它是一种代码<strong>实现的思路</strong>。</li>
@@ -635,7 +635,7 @@
 </ul>
 <p>所以，判断子类的设计实现是否违背里式替换原则，还有一个<strong>小窍门</strong>，那就是拿父类的<strong>单元测试</strong>去验证子类的代码。如果某些单元测试运行失败，就有可能说明，子类的设计实现没有完全地遵守父类的约定，子类有可能违背了里式替换原则。</p>
 <h3 id="里氏替换原则示例-2"><a href="#里氏替换原则示例-2" class="headerlink" title="里氏替换原则示例 2"></a>里氏替换原则示例 2</h3><p>我们来看个违反历史替换原则的例子：</p>
-<p>Circle 和 Square 继承了基类 Shape，然后在应用的方法中，根据输入 Shape 对象类型进行判断，根据对象类型选择不同的绘图函数将图形画出来。</p>
+<p><code>Circle</code> 和 <code>Square</code> 继承了基类 <code>Shape</code>，然后在应用的方法中，根据输入 <code>Shape</code> 对象类型进行判断，根据对象类型选择不同的绘图函数将图形画出来。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void drawShape(Shape shape) &#123;</span><br><span class="line">    if (shape.type == Shape.Circle ) &#123;</span><br><span class="line">        drawCircle((Circle) shape);</span><br><span class="line">    &#125; else if (shape.type == Shape.Square) &#123;</span><br><span class="line">        drawSquare((Square) shape);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        ……</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这种写法的代码既常见又糟糕，它同时违反了开闭原则和里氏替换原则。</p>
 <ul>
@@ -740,7 +740,7 @@
 <p>这里给出一个例子，分别用非依赖注入和依赖注入来实现同一个需求：<code>Notification</code> 类负责消息推送，依赖 <code>MessageSender</code> 类实现推送商品促销、验证码等消息给用户。</p>
 <p>代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 非依赖注入实现方式</span><br><span class="line">public class Notification &#123;</span><br><span class="line">  private MessageSender messageSender;</span><br><span class="line">  </span><br><span class="line">  public Notification() &#123;</span><br><span class="line">    this.messageSender = new MessageSender(); //此处有点像hardcode</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public void sendMessage(String cellphone, String message) &#123;</span><br><span class="line">    //...省略校验逻辑等...</span><br><span class="line">    this.messageSender.send(cellphone, message);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MessageSender &#123;</span><br><span class="line">  public void send(String cellphone, String message) &#123;</span><br><span class="line">    //....</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 使用Notification</span><br><span class="line">Notification notification = new Notification();</span><br><span class="line"></span><br><span class="line">// 依赖注入的实现方式</span><br><span class="line">public class Notification &#123;</span><br><span class="line">  private MessageSender messageSender;</span><br><span class="line">  </span><br><span class="line">  // 通过构造函数将messageSender传递进来</span><br><span class="line">  public Notification(MessageSender messageSender) &#123;</span><br><span class="line">    this.messageSender = messageSender;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public void sendMessage(String cellphone, String message) &#123;</span><br><span class="line">    //...省略校验逻辑等...</span><br><span class="line">    this.messageSender.send(cellphone, message);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">//使用Notification</span><br><span class="line">MessageSender messageSender = new MessageSender();</span><br><span class="line">Notification notification = new Notification(messageSender);</span><br></pre></td></tr></table></figure>
-<p>通过依赖注入的方式来将依赖的类对象传递进来，这样就提高了代码的扩展性，我们可以灵活地替换依赖的类（将 MessageSender 定义成接口）。</p>
+<p>通过依赖注入的方式来将依赖的类对象传递进来，这样就提高了代码的扩展性，我们可以灵活地替换依赖的类（将 <code>MessageSender</code> 定义成接口）。</p>
 <h3 id="依赖注入框架（DI-Framework）"><a href="#依赖注入框架（DI-Framework）" class="headerlink" title="依赖注入框架（DI Framework）"></a>依赖注入框架（DI Framework）</h3><p>在实际的软件开发中，一些项目可能会涉及几十、上百、甚至几百个类，类对象的创建和依赖注入会变得非常复杂。如果这部分工作都是靠程序员自己写代码来完成，容易出错且开发成本也比较高。而对象创建和依赖注入的工作，本身跟具体的业务无关，我们完全可以抽象成框架来自动完成。</p>
 <p>这个框架就是“依赖注入框架”。我们只需要通过依赖注入框架提供的扩展点，简单配置一下所有需要创建的类对象、类与类之间的依赖关系，就可以实现由框架来自动创建对象、管理对象的生命周期、依赖注入等原本需要程序员来做的事情。</p>
 <p>常见的依赖注入框架有：Google Guice、Java Spring、Pico Container、Butterfly Container 等。</p>
@@ -760,8 +760,8 @@
 <p>这样设计的问题在于，<code>Button</code> 依赖 <code>Lamp</code>，那么对 <code>Lamp</code> 的任何改动，都可能会使 <code>Button</code> 受到牵连，做出联动的改变。同时，我们也无法重用 <code>Button</code> 类。</p>
 <p>解决之道就是将这个设计中的依赖于实现，重构为依赖于抽象。这里的抽象就是：打开关闭目标对象。</p>
 <ul>
-<li>由 Button 定义一个抽象接口 <code>ButtonServer</code>，在 <code>ButtonServer</code> 中描述抽象：打开、关闭目标对象</li>
-<li>由具体的目标对象，比如 Lamp 实现这个接口，从而完成 Button 控制 Lamp 这一功能需求</li>
+<li>由 <code>Button</code> 定义一个抽象接口 <code>ButtonServer</code>，在 <code>ButtonServer</code> 中描述抽象：打开、关闭目标对象</li>
+<li>由具体的目标对象，比如 <code>Lamp</code> 实现这个接口，从而完成 <code>Button</code> 控制 <code>Lamp</code> 这一功能需求</li>
 </ul>
 <p><img src="10.png" alt></p>
 <p>通过这样一种依赖倒置，<code>Button</code> 不再依赖 <code>Lamp</code>，而是依赖抽象 <code>ButtonServer</code>，而 <code>Lamp</code> 也依赖 <code>ButtonServer</code>，高层模块和低层模块都依赖抽象。Lamp 的改动不会再影响 <code>Button</code>，而 <code>Button</code> 可以复用控制其他目标对象，比如电机，或者任何由按钮控制的设备，只要这些设备实现 <code>ButtonServer</code> 接口就可以了。</p>
@@ -770,7 +770,7 @@
 <ol>
 <li>应用代码中多使用抽象接口，尽量避免使用那些多变的具体实现类。</li>
 <li>不要继承具体类，如果一个类在设计之初不是抽象类，那么尽量不要去继承它。对具体类的继承是一种强依赖关系，维护的时候难以改变。</li>
-<li>不要重写（<code></code>Override）包含具体实现的函数。</li>
+<li>不要重写（<code>Override</code>）包含具体实现的函数。</li>
 </ol>
 <blockquote>
 <p>软件开发有时候像变魔术一样，常常表现出违反常识的特性，让人目眩神晕，而这正是软件编程这门艺术的魅力所在，感受到这种魅力，在自己的软件设计开发中体现出这种魅力，你就迈进了软件高手的大门。</p>
