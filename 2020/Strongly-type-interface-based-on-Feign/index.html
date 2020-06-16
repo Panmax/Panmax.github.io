@@ -120,10 +120,14 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="强弱类型语言众所周知编程语言有强弱类型之分，进一步还有动态和静态之分。比如 Java、C# 是强类型的（strongly typed）静态语言，Javascript、PHP 是弱类型的（weakly typed）动态语言。 强类型静态语言常常被称为类型安全（type safe）语言，一般在会编译期间进行强制类型检查，提前避免一些类型错误。弱类型动态语言虽然也有类型的概念，但是比较松散灵活，而且大多">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-06-15T02:46:07.461Z">
+<meta property="og:image" content="https://jpanj.com/2020/Strongly-type-interface-based-on-Feign/1.png">
+<meta property="og:image" content="https://jpanj.com/2020/Strongly-type-interface-based-on-Feign/2.png">
+<meta property="og:image" content="https://jpanj.com/2020/Strongly-type-interface-based-on-Feign/3.png">
+<meta property="og:updated_time" content="2020-06-16T01:56:17.921Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于 Feign 实现强类型接口">
 <meta name="twitter:description" content="强弱类型语言众所周知编程语言有强弱类型之分，进一步还有动态和静态之分。比如 Java、C# 是强类型的（strongly typed）静态语言，Javascript、PHP 是弱类型的（weakly typed）动态语言。 强类型静态语言常常被称为类型安全（type safe）语言，一般在会编译期间进行强制类型检查，提前避免一些类型错误。弱类型动态语言虽然也有类型的概念，但是比较松散灵活，而且大多">
+<meta name="twitter:image" content="https://jpanj.com/2020/Strongly-type-interface-based-on-Feign/1.png">
 
 
 
@@ -388,12 +392,24 @@
                 
               
 
-              <time title="Created: 2020-06-15 10:15:22 / Modified: 10:46:07" itemprop="dateCreated datePublished" datetime="2020-06-15T10:15:22+08:00">2020-06-15</time>
+              <time title="Created: 2020-06-15 10:15:22" itemprop="dateCreated datePublished" datetime="2020-06-15T10:15:22+08:00">2020-06-15</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-06-16 09:56:17" itemprop="dateModified" datetime="2020-06-16T09:56:17+08:00">2020-06-16</time>
               
             
           </span>
@@ -450,17 +466,17 @@
         <h3 id="强弱类型语言"><a href="#强弱类型语言" class="headerlink" title="强弱类型语言"></a>强弱类型语言</h3><p>众所周知编程语言有强弱类型之分，进一步还有动态和静态之分。比如 Java、C# 是强类型的（<strong>strongly typed</strong>）静态语言，Javascript、PHP 是弱类型的（<strong>weakly typed</strong>）动态语言。</p>
 <p>强类型静态语言常常被称为类型安全（<strong>type safe</strong>）语言，一般在会编译期间进行强制类型检查，提前避免一些类型错误。弱类型动态语言虽然也有类型的概念，但是比较松散灵活，而且大多是解释型语言，一般没有强制类型检查，类型问题一般要在运行期才能暴露出来。</p>
 <p>强弱类型的语言各有优劣、相互补充，各有适用的场景。比如服务端开发经常用强类型的，前端 Web 界面经常会用 Javascript 这种弱类型语言。</p>
-<p>// TODO 补一张图</p>
+<p><img src="1.png" alt="1.png"></p>
 <h3 id="强弱类型-API"><a href="#强弱类型-API" class="headerlink" title="强弱类型 API"></a>强弱类型 API</h3><p>对于服务 API 也有强弱类型之分，传统的 RPC 服务一般是强类型的，RPC 通常采用订制的二进制协议对消息进行编码和解码，采用 TCP 传输消息。RPC 服务通常有严格的契约（<strong>contract</strong>），开发服务器前先要定义 IDL（<strong>Interface Definition Language</strong>），用 IDL 来定义契约，再通过契约自动生成强类型的服务端和客户端的接口。服务调用的时候直接使用强类型客户端，不需要手动进行消息的编码和解码，gRPC 和 Apache Thrift 是目前两款主流的 RPC 框架。</p>
 <p>而现在的大部分 Restful 服务通常是弱类型的，Rest 通常采用 Json 作为传输消息，使用 HTTP 作为传输协议，Restful 服务通常没有严格的契约的概念，使用普通的 HTTP Client 就可以调用，但是调用方通常需要对 Json 消息进行手动编码和解码的工作。在现实世界当中，大部分服务框架都是弱类型 Restful 的服务框架，比方说 Java 生态当中的 SpringBoot 可以认为是目前主流的弱类型 Restful 框架之一。</p>
-<p>// TODO 补一张图</p>
+<p><img src="2.png" alt="2.png"></p>
 <p>当然以上区分并不是业界标准，只是个人基于经验总结出来的一种区分的方法。</p>
 <h3 id="强弱类型-API-优劣"><a href="#强弱类型-API-优劣" class="headerlink" title="强弱类型 API 优劣"></a>强弱类型 API 优劣</h3><p>强类型服务接口的好处是：接口规范、自动代码生成、自动编码解码、编译期自动类型检查。强类型接口的好处也带来不利的一面：首先是客户端和服务端强耦合，任何一方升级改动可能会造成另一方 break，另外自动代码生成需要工具支持，而开发这些工具的成本也比较高。其次强类型接口开发测试不太友好，一般的浏览器、Postman 这样的工具无法直接访问强类型接口。</p>
 <p>弱类型服务接口的好处是客户端和服务器端不强耦合，不需要开发特别的代码生成工具，一般的 HTTP Client就可以调用，开发测试友好，不同的浏览器、Postman 可以轻松访问。弱类型服务接口的不足是需要调用方手动编码解码消息、没有自动代码的生成、没有编译器接口类型检查、代码不容易规范、开发效率相对低，而且容易出现运行期的错误。</p>
 <p>有没有办法结合强弱类型服务接口各自的好处同时又规避他们的不足呢？</p>
 <p>我们的做法是在 Spring Rest 弱类型接口的基础上借助 Spring Feign 支持的强类型接口的特性实现强类型 Rest 接口的调用机制，同时兼备强弱类型接口的好处。</p>
 <p>首先我们来介绍下 <code>Spring Feign</code>，<code>Spring Feign</code> 本质上是一种动态代理机制（Dynamic Proxy），只需要我们给出 <code>Restful API</code> 对应的 Java 接口，它就可以在运行期动态的拼装出对应接口的强类型客户端。拼装出的客户端的结构和请求响应流程如下图所示：</p>
-<p>// TODO</p>
+<p><img src="3.png" alt="3.png"></p>
 <ol>
 <li>客户应用发起一个请求并传入一个 <code>Request Bean</code>，这个请求通过 Java 接口首先被动态代理截获</li>
 <li>通过相应的编码器（<code>Encoder</code>）进行编码，成为 <code>Request Json</code></li>
