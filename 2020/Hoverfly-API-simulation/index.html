@@ -113,22 +113,22 @@
 
 
 
-  <meta name="description" content="在说明什么是服务虚拟化前，先介绍另外两个常见的概念： MockMock 代指那些仅记录它们的调用信息的对象，在测试断言中我们需要验证 Mock 被进行了符合期望的调用。当我们并不希望真的调用生产环境下的代码或者在测试中难于验证真实代码执行效果的时候，我们会用 Mock 来替代那些真实的对象。 Mock 典型的例子即是对邮件发送服务的测试，我们并不希望每次进行测试的时候都发送一封邮件，毕竟我们很难">
+  <meta name="description" content="在说明什么是服务虚拟化前，先介绍另外两个常见的概念： MockMock 代指那些仅记录它们的调用信息的对象，在测试断言中我们需要验证 Mock 被进行了符合期望的调用。当我们并不希望真的调用生产环境下的代码或者在测试中难于验证真实代码执行效果的时候，我们会用 Mock 来替代那些真实的对象。 Mock 典型的例子即是对邮件发送服务的测试，我们并不希望每次进行测试的时候都发送一封邮件，毕竟我们很">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Hoverfly 虚拟化服务">
 <meta property="og:url" content="https://jpanj.com/2020/Hoverfly-API-simulation/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="在说明什么是服务虚拟化前，先介绍另外两个常见的概念： MockMock 代指那些仅记录它们的调用信息的对象，在测试断言中我们需要验证 Mock 被进行了符合期望的调用。当我们并不希望真的调用生产环境下的代码或者在测试中难于验证真实代码执行效果的时候，我们会用 Mock 来替代那些真实的对象。 Mock 典型的例子即是对邮件发送服务的测试，我们并不希望每次进行测试的时候都发送一封邮件，毕竟我们很难">
+<meta property="og:description" content="在说明什么是服务虚拟化前，先介绍另外两个常见的概念： MockMock 代指那些仅记录它们的调用信息的对象，在测试断言中我们需要验证 Mock 被进行了符合期望的调用。当我们并不希望真的调用生产环境下的代码或者在测试中难于验证真实代码执行效果的时候，我们会用 Mock 来替代那些真实的对象。 Mock 典型的例子即是对邮件发送服务的测试，我们并不希望每次进行测试的时候都发送一封邮件，毕竟我们很">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2020/Hoverfly-API-simulation/0.jpg">
 <meta property="og:image" content="https://jpanj.com/2020/Hoverfly-API-simulation/1.png">
 <meta property="og:image" content="https://jpanj.com/2020/Hoverfly-API-simulation/2.png">
 <meta property="og:image" content="https://jpanj.com/2020/Hoverfly-API-simulation/3.png">
 <meta property="og:image" content="https://jpanj.com/2020/Hoverfly-API-simulation/4.png">
-<meta property="og:updated_time" content="2020-06-28T02:34:33.104Z">
+<meta property="og:updated_time" content="2020-06-28T02:50:22.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Hoverfly 虚拟化服务">
-<meta name="twitter:description" content="在说明什么是服务虚拟化前，先介绍另外两个常见的概念： MockMock 代指那些仅记录它们的调用信息的对象，在测试断言中我们需要验证 Mock 被进行了符合期望的调用。当我们并不希望真的调用生产环境下的代码或者在测试中难于验证真实代码执行效果的时候，我们会用 Mock 来替代那些真实的对象。 Mock 典型的例子即是对邮件发送服务的测试，我们并不希望每次进行测试的时候都发送一封邮件，毕竟我们很难">
+<meta name="twitter:description" content="在说明什么是服务虚拟化前，先介绍另外两个常见的概念： MockMock 代指那些仅记录它们的调用信息的对象，在测试断言中我们需要验证 Mock 被进行了符合期望的调用。当我们并不希望真的调用生产环境下的代码或者在测试中难于验证真实代码执行效果的时候，我们会用 Mock 来替代那些真实的对象。 Mock 典型的例子即是对邮件发送服务的测试，我们并不希望每次进行测试的时候都发送一封邮件，毕竟我们很">
 <meta name="twitter:image" content="https://jpanj.com/2020/Hoverfly-API-simulation/0.jpg">
 
 
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="Created: 2020-06-28 10:22:14 / Modified: 10:34:33" itemprop="dateCreated datePublished" datetime="2020-06-28T10:22:14+08:00">2020-06-28</time>
+              <time title="Created: 2020-06-28 10:22:14 / Modified: 10:50:22" itemprop="dateCreated datePublished" datetime="2020-06-28T10:22:14+08:00">2020-06-28</time>
             
 
             
@@ -453,7 +453,8 @@
       
 
       
-        <p><img src="0.jpg" alt></p>
+        <div style="width:70%;margin:auto"><img src="0.jpg" alt></div>
+
 <p>在说明什么是服务虚拟化前，先介绍另外两个常见的概念：</p>
 <h3 id="Mock"><a href="#Mock" class="headerlink" title="Mock"></a>Mock</h3><p>Mock 代指那些仅记录它们的调用信息的对象，在测试断言中我们需要验证 Mock 被进行了符合期望的调用。当我们并不希望真的调用生产环境下的代码或者在测试中难于验证真实代码执行效果的时候，我们会用 Mock 来替代那些真实的对象。</p>
 <p>Mock 典型的例子即是对邮件发送服务的测试，我们并不希望每次进行测试的时候都发送一封邮件，毕竟我们很难去验证邮件是否真的被发出了或者被接收了，我们更多地关注于邮件服务是否按照我们的预期在合适的业务流中被调用。</p>
@@ -503,7 +504,8 @@
 <p>时间快进到了 100 年后。</p>
 <p>到这里，我们已经成功模拟了一个API端点，虽然我们这次演示了 curl 命令，但是在时间的测试中，应该由正在测试的应用程序向 Hoverfly 发起请求。一旦 Hoverfly 存储了请求和响应的数据，我们就不再需要访问真正的服务了，可以控制 Hoverfly 返回准确的响应。</p>
 <h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>Hoverfly 还有一个可视化的管理页面，可以访问：<a href="http://localhost:8888/" target="_blank" rel="noopener">http://localhost:8888/</a> 来进行查看，也可以通过这个界面来进行模式间的切换。</p>
-<p><img src="4.png" alt></p>
+<div style="width:70%;margin:auto"><img src="4.png" alt></div>
+
 <p>因为 hoverctl 提供了比较友好的交互命令，所以这个页面的用途不是太大。</p>
 <h3 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h3><p>使用 Hoverfly 这样的虚拟服务化工具，主要的好处是资源占用少、初始化速度快，因此我们可以在开发电脑上虚拟化出比实际更多的服务，也可以快速集成测试中使用的 Hoverfly。</p>
 
