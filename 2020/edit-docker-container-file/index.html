@@ -121,7 +121,7 @@
 <meta property="og:description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2020/edit-docker-container-file/0.jpg">
-<meta property="og:updated_time" content="2020-07-20T02:45:57.151Z">
+<meta property="og:updated_time" content="2020-07-20T02:51:12.426Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编辑 docker 容器中的文件">
 <meta name="twitter:description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中">
@@ -398,7 +398,7 @@
                 
               
 
-              <time title="Created: 2020-07-20 10:27:16 / Modified: 10:45:57" itemprop="dateCreated datePublished" datetime="2020-07-20T10:27:16+08:00">2020-07-20</time>
+              <time title="Created: 2020-07-20 10:27:16 / Modified: 10:51:12" itemprop="dateCreated datePublished" datetime="2020-07-20T10:27:16+08:00">2020-07-20</time>
             
 
             
@@ -459,12 +459,12 @@
       
         <div style="width:70%;margin:auto"><img src="0.jpg" alt></div>
 
-<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><h4 id="为什么要这样做？"><a href="#为什么要这样做？" class="headerlink" title="为什么要这样做？"></a>为什么要这样做？</h4><p>实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><h3 id="为什么要这样做？"><a href="#为什么要这样做？" class="headerlink" title="为什么要这样做？"></a>为什么要这样做？</h3><p>实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。</p>
 <p>只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中的多于软件包，并将验证后的结果持久化到镜像中。</p>
 <p>另外需要提醒的一点是，当我们在一个运行着的容器中编辑一个文件后需要确保所依赖这个文件的进程收到了文件编辑的通知并进行了配置更新，如果没有类似的通知机制，需要手动重启这些进程使修改生效。</p>
 <p>本文假设你所使用的容器中没有 vi 等文本编辑工具，我们以 <code>openjdk:11</code> 作为演示镜像：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜ docker run -it openjdk:11 bash</span><br><span class="line">root@d0fb3a0b527c:/# vi Lol.java</span><br><span class="line">bash: vi: command not found</span><br><span class="line">root@d0fb3a0b527c:/#</span><br></pre></td></tr></table></figure>
-<h3 id="下面介绍五种常用方法："><a href="#下面介绍五种常用方法：" class="headerlink" title="下面介绍五种常用方法："></a>下面介绍五种常用方法：</h3><h4 id="方法1：使用挂载"><a href="#方法1：使用挂载" class="headerlink" title="方法1：使用挂载"></a>方法1：使用挂载</h4><p>准备 Dockerfile：</p>
+<h2 id="下面介绍五种常用方法："><a href="#下面介绍五种常用方法：" class="headerlink" title="下面介绍五种常用方法："></a>下面介绍五种常用方法：</h2><h3 id="方法1：使用挂载"><a href="#方法1：使用挂载" class="headerlink" title="方法1：使用挂载"></a>方法1：使用挂载</h3><p>准备 Dockerfile：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:11</span><br><span class="line">WORKDIR &quot;/app&quot;</span><br></pre></td></tr></table></figure>
 <p>编译镜像：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t lol .</span><br></pre></td></tr></table></figure>
@@ -838,7 +838,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要这样做？"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要这样做？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面介绍五种常用方法："><span class="nav-number">2.</span> <span class="nav-text">下面介绍五种常用方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法1：使用挂载"><span class="nav-number">2.1.</span> <span class="nav-text">方法1：使用挂载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2：安装编辑器"><span class="nav-number">3.</span> <span class="nav-text">方法2：安装编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法3：将文件拷贝到正在运行的容器中"><span class="nav-number">4.</span> <span class="nav-text">方法3：将文件拷贝到正在运行的容器中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法4：使用-Linux-工具"><span class="nav-number">5.</span> <span class="nav-text">方法4：使用 Linux 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法5：使用远程-vim（或其他编辑器）"><span class="nav-number">6.</span> <span class="nav-text">方法5：使用远程 vim（或其他编辑器）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要这样做？"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要这样做？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下面介绍五种常用方法："><span class="nav-number">2.</span> <span class="nav-text">下面介绍五种常用方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1：使用挂载"><span class="nav-number">2.1.</span> <span class="nav-text">方法1：使用挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2：安装编辑器"><span class="nav-number">2.2.</span> <span class="nav-text">方法2：安装编辑器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法3：将文件拷贝到正在运行的容器中"><span class="nav-number">2.3.</span> <span class="nav-text">方法3：将文件拷贝到正在运行的容器中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法4：使用-Linux-工具"><span class="nav-number">2.4.</span> <span class="nav-text">方法4：使用 Linux 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法5：使用远程-vim（或其他编辑器）"><span class="nav-number">2.5.</span> <span class="nav-text">方法5：使用远程 vim（或其他编辑器）</span></a></li></ol></li></ol></div>
             
 
           </div>
