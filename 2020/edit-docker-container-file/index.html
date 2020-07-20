@@ -121,7 +121,7 @@
 <meta property="og:description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2020/edit-docker-container-file/0.jpg">
-<meta property="og:updated_time" content="2020-07-20T02:41:39.446Z">
+<meta property="og:updated_time" content="2020-07-20T02:43:53.702Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编辑 docker 容器中的文件">
 <meta name="twitter:description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中的">
@@ -398,7 +398,7 @@
                 
               
 
-              <time title="Created: 2020-07-20 10:27:16 / Modified: 10:41:39" itemprop="dateCreated datePublished" datetime="2020-07-20T10:27:16+08:00">2020-07-20</time>
+              <time title="Created: 2020-07-20 10:27:16 / Modified: 10:43:53" itemprop="dateCreated datePublished" datetime="2020-07-20T10:27:16+08:00">2020-07-20</time>
             
 
             
@@ -487,7 +487,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim scp://root@localhost:2222//app/Lol.java</span><br></pre></td></tr></table></figure>
 <p>注：在 vi 中需要先执行 <code>:set bt=acwrite</code> 命令再去编辑文件，相关讨论见：<a href="https://github.com/vim/vim/issues/2329" target="_blank" rel="noopener">https://github.com/vim/vim/issues/2329</a></p>
 <p>编辑完成保存并退出后，可以使用下边的命令来验证文件确实被创建和保存了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it lol cat /app/Lol.java</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it lol cat /app/Lol.java</span><br></pre></td></tr></table></figure>
 
       
     </div>
