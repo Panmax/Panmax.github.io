@@ -113,18 +113,18 @@
 
 
 
-  <meta name="description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中的">
+  <meta name="description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编辑 docker 容器中的文件">
 <meta property="og:url" content="https://jpanj.com/2020/edit-docker-container-file/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中的">
+<meta property="og:description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2020/edit-docker-container-file/0.jpg">
-<meta property="og:updated_time" content="2020-07-20T02:43:53.702Z">
+<meta property="og:updated_time" content="2020-07-20T02:45:57.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编辑 docker 容器中的文件">
-<meta name="twitter:description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中的">
+<meta name="twitter:description" content="写在前面为什么要这样做？实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。 只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中">
 <meta name="twitter:image" content="https://jpanj.com/2020/edit-docker-container-file/0.jpg">
 
 
@@ -398,7 +398,7 @@
                 
               
 
-              <time title="Created: 2020-07-20 10:27:16 / Modified: 10:43:53" itemprop="dateCreated datePublished" datetime="2020-07-20T10:27:16+08:00">2020-07-20</time>
+              <time title="Created: 2020-07-20 10:27:16 / Modified: 10:45:57" itemprop="dateCreated datePublished" datetime="2020-07-20T10:27:16+08:00">2020-07-20</time>
             
 
             
@@ -457,7 +457,8 @@
       
 
       
-        <p><img src="0.jpg" alt></p>
+        <div style="width:70%;margin:auto"><img src="0.jpg" alt></div>
+
 <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><h4 id="为什么要这样做？"><a href="#为什么要这样做？" class="headerlink" title="为什么要这样做？"></a>为什么要这样做？</h4><p>实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。</p>
 <p>只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中的多于软件包，并将验证后的结果持久化到镜像中。</p>
 <p>另外需要提醒的一点是，当我们在一个运行着的容器中编辑一个文件后需要确保所依赖这个文件的进程收到了文件编辑的通知并进行了配置更新，如果没有类似的通知机制，需要手动重启这些进程使修改生效。</p>
