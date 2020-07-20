@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2020-07-10T04:17:55.302Z</updated>
+  <updated>2020-07-20T02:41:39.446Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>编辑 docker 容器中的文件</title>
+    <link href="https://jpanj.com/2020/edit-docker-container-file/"/>
+    <id>https://jpanj.com/2020/edit-docker-container-file/</id>
+    <published>2020-07-20T02:27:16.000Z</published>
+    <updated>2020-07-20T02:41:39.446Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="0.jpg" alt></p><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><h4 id="为什么要这样做？"><a href="#为什么要这样做？" class="headerlink" title="为什么要这样做？"></a>为什么要这样做？</h4><p>实际上我们并不需要也不建议直接编辑容器中的文件。Docker 容器是不可变的工作单元，用于运行单个、特定的进程。镜像应该在没有任何干预的情况下够建和运行。</p><p>只有在开发期间，对 Docker 容器中的文件进行编辑可能才有些用处，这让我们在无需重新够建镜像的状态下验证我们的修改是否达到了预期的效果，可以达到节省时间、提高开发效率的目的，但是在完成验证后，应该删除添加到镜像中的多于软件包，并将验证后的结果持久化到镜像中。</p><p>另外需要提醒的一点是，当我们在一个运行着的容器中编辑一个文件后需要确保所依赖这个文件的进程收到了文件编辑的通知并进行了配置更新，如果没有类似的通知机制，需要手动重启这些进程使修改生效。</p><p>本文假设你所使用的容器中没有 vi 等文本编辑工具，我们以 <code>openjdk:11</code> 作为演示镜像：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜ docker run -it openjdk:11 bash</span><br><span class="line">root@d0fb3a0b527c:/# vi Lol.java</span><br><span class="line">bash: vi: command not found</span><br><span class="line">root@d0fb3a0b527c:/#</span><br></pre></td></tr></table></figure><h3 id="下面介绍五种常用方法："><a href="#下面介绍五种常用方法：" class="headerlink" title="下面介绍五种常用方法："></a>下面介绍五种常用方法：</h3><h4 id="方法1：使用挂载"><a href="#方法1：使用挂载" class="headerlink" title="方法1：使用挂载"></a>方法1：使用挂载</h4><p>准备 Dockerfile：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:11</span><br><span class="line">WORKDIR &quot;/app&quot;</span><br></pre></td></tr></table></figure><p>编译镜像：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t lol .</span><br></pre></td></tr></table></figure><p>最后，运行带有挂载的容器：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -it --name=lol -v $PWD/app-vol:/app lol bash</span><br></pre></td></tr></table></figure><p>如果本地 <code>$PWD/app-vol</code> 目录不存在，会被自动创建。此后在 <code>$PWD/app-vol</code> 下的文件操作会映射在容器的 <code>/app</code> 目录下。</p><h3 id="方法2：安装编辑器"><a href="#方法2：安装编辑器" class="headerlink" title="方法2：安装编辑器"></a>方法2：安装编辑器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -it --name=lol lol bash</span><br><span class="line"></span><br><span class="line">root@4b72fbabb0af:/app# apt-get update</span><br><span class="line">root@4b72fbabb0af:/app# apt-get -y install vim</span><br></pre></td></tr></table></figure><p>如果需要重复使用，更好的做法是写在 Dockerfile 中：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:11</span><br><span class="line">RUN [&quot;apt-get&quot;, &quot;update&quot;]</span><br><span class="line">RUN [&quot;apt-get&quot;, &quot;-y&quot;, &quot;install&quot;, &quot;vim&quot;]</span><br><span class="line">WORKDIR &quot;/app&quot;</span><br></pre></td></tr></table></figure><h3 id="方法3：将文件拷贝到正在运行的容器中"><a href="#方法3：将文件拷贝到正在运行的容器中" class="headerlink" title="方法3：将文件拷贝到正在运行的容器中"></a>方法3：将文件拷贝到正在运行的容器中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp Lol.java lol:/app</span><br></pre></td></tr></table></figure><p>另一个与之类似的方法是将 docker exec 和 cat 结合使用，下边的命令同样把 Lol.java 文件复制到了正在运行的容器中：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -i lol sh -c &apos;cat &gt; /app/Lol.java&apos; &lt; Lol.java</span><br></pre></td></tr></table></figure><h3 id="方法4：使用-Linux-工具"><a href="#方法4：使用-Linux-工具" class="headerlink" title="方法4：使用 Linux 工具"></a>方法4：使用 Linux 工具</h3><p>虽然容器中通常没有安装编辑工具，但是其他 Linux 工具，如：sed, awk, echo, cat, cut 等是具备的，可以派上用场。比如 sed 和 awk 可以编辑文件的适当位置，还可以将 echo, cat, cut 联合起来并借助强大的重定向流创建和编辑文件。正如前文所示，这些工具可以与 docker exec 命令结合使用，从而发挥更强大的威力。</p><h3 id="方法5：使用远程-vim（或其他编辑器）"><a href="#方法5：使用远程-vim（或其他编辑器）" class="headerlink" title="方法5：使用远程 vim（或其他编辑器）"></a>方法5：使用远程 vim（或其他编辑器）</h3><p>这种方法只是为了开拓思路，并不会在实际中使用。</p><p>修改 Dockerfile：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:11</span><br><span class="line">RUN [&quot;apt-get&quot;, &quot;update&quot;]</span><br><span class="line">RUN [&quot;apt-get&quot;, &quot;install&quot;, &quot;-y&quot;, &quot;openssh-server&quot;]</span><br><span class="line">RUN mkdir /var/run/sshd</span><br><span class="line">RUN echo &apos;root:lollol0&apos; | chpasswd</span><br><span class="line">RUN sed -i &apos;s/#PermitRootLogin prohibit-password/PermitRootLogin yes/&apos; /etc/ssh/sshd_config</span><br><span class="line">RUN [&quot;/etc/init.d/ssh&quot;, &quot;start&quot;]</span><br><span class="line">EXPOSE 22</span><br><span class="line">WORKDIR &quot;/app&quot;</span><br><span class="line">CMD [&quot;/usr/sbin/sshd&quot;, &quot;-D&quot;]</span><br></pre></td></tr></table></figure><p>因为我们要借助 <code>scp</code> 来远程进行文件编辑，所以需要安装 <code>openssh-server</code> 并开放其端口。</p><p>编译并运行：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t lol .</span><br><span class="line">docker run --rm -p 2222:22 -d --name=lol lol</span><br></pre></td></tr></table></figure><p>现在我们可以使用以下命令来编辑 Lol.java 文件了：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim scp://root@localhost:2222//app/Lol.java</span><br></pre></td></tr></table></figure><p>注：在 vi 中需要先执行 <code>:set bt=acwrite</code> 命令再去编辑文件，相关讨论见：<a href="https://github.com/vim/vim/issues/2329" target="_blank" rel="noopener">https://github.com/vim/vim/issues/2329</a></p><p>编辑完成保存并退出后，可以使用下边的命令来验证文件确实被创建和保存了：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it lol cat /app/Lol.java</span><br><span class="line">`</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;0.jpg&quot; alt&gt;&lt;/p&gt;
+&lt;h3 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h3&gt;&lt;h4 id=&quot;为什么要这样做？&quot;&gt;&lt;a href=&quot;#为什么要这样做？
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>免登陆查看 Kibana Dashboard</title>
@@ -456,27 +478,6 @@
     
     
       <category term="flag" scheme="https://jpanj.com/tags/flag/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>好书推荐：《数据密集型应用系统设计》</title>
-    <link href="https://jpanj.com/2019/Designing-Data-Intensive-Application/"/>
-    <id>https://jpanj.com/2019/Designing-Data-Intensive-Application/</id>
-    <published>2019-12-29T03:38:29.000Z</published>
-    <updated>2019-12-29T04:06:19.866Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天推荐一本我近期读到的质量很高的技术书（也可以说是我今年读到的最好的一本技术类书籍）：《数据密集型应用系统设计》，属于「动物书」系列，封面是一只野猪。这本书我从上个月 18 号开始读，每天拿出一个半小时左右阅读，于昨天（12月28号）读完，刚好用了 40 天，全书 500 多页，也算是一本大部头了。</p><p><img src="1.png" alt></p><p>本书作者 Martin Kleppmann 是英国剑桥大学分布式系统方向的研究员。之前在 LinkedIn 和 Rapportive 等互联网公司做过软件工程师，负责大规模数据基础设施建设。在阅读过程中，我多次惊叹作者的知识面简直广得惊人，也善于举一反三，知识之间互相关联。</p><p><img src="2.jpeg" alt></p><p>全书脉络清晰，分为三个部分：</p><p>第一部分介绍数据相关的基本思想，包括如何评价一个数据库（第一章），数据在逻辑上如何组织（第二章），在磁盘中如何分布（第三章），在表现上如何编码（第四章）。这些思想是一个数据系统的基本，无论它是单机的，还是分布式的。</p><p>第二部分介绍分布式环境下的技术，包括复制（第五章）、分区（第六章）、分布式事务与共识（第七、八、九章）。这些技术大多是基于同构系统的，分布式事务虽然也能在异构系统中应用，但是复杂度要高很多。</p><p>第三部分介绍异构系统中数据的处理技术，包括批处理（第十章）和流处理（第十一章），最后提出一种以流处理为主的异步数据处理方案，有可能在日后成为构建应用的主流方案（第十二章）。</p><p>作者在最后一小节还讨论了大数据的伦理问题，尽管在现实世界中、在金钱利益面前，可能无人理会这些事情，但是这些夫子自道，还是很体现作者情怀，可以说这也是全书升华的地方，同时让我对作者肃然起敬再次 +1。</p><p>书中把软件开发中（以后端为主）常用的技术本质、来龙去脉、使用场景、优点劣势都讲得非常清楚，并且讲解得深入浅出，把复杂的东西简单化，可见作者文笔之深厚。这一本书中囊括了几乎所有数据处理相关工作中可能遇到的内容，而且还提供了非常好的实操性。书中很多问题我在实际场景中也都遇到过，读起来使我醍醐灌顶、击节扼腕，每每读到我之前踩坑的地方都会想：如果我能早点读到这本书能少走很多弯路。</p><p>书中的配图也很到位，大部分是流程图，有时候文字读不懂的地方，看到配图就会明白，我贴几张图感受一下：</p><p>ETL 介绍：</p><p><img src="3.png" alt></p><p>出现脏读的场景：</p><p><img src="4.png" alt></p><p>跨多个数据中心的多主复制：</p><p><img src="5.png" alt></p><p>最后再来说一下本书中的一些瑕疵，中文版中有不少错别字，而且有些词汇前后翻译不一致，可能会给读者的阅读带来困扰，尤其是第三部分，明显感觉到译者不太用心了。</p><p>本书英文版名为：《Designing Data-Intensive Application》，出版于 17 年 3 月份。这本书在网上有个开源的翻译版本，是因为那个开源作者在 17 年读完英文版后，觉得写得很好，而此时国内又没有出版计划，所以在 Github 开始了翻译的漫漫长路。中国的官方版本直到 18 年 9 月才发布，所以阅读过程中实际上可以对照两个版本一起来学习。开源版在线阅读地址：<a href="https://vonng.gitbooks.io/ddia-cn/content/" target="_blank" rel="noopener">https://vonng.gitbooks.io/ddia-cn/content/</a></p><p>最后再立个 Flag，这本书我会在 2020 年进行 2 刷。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;今天推荐一本我近期读到的质量很高的技术书（也可以说是我今年读到的最好的一本技术类书籍）：《数据密集型应用系统设计》，属于「动物书」系列，封面是一只野猪。这本书我从上个月 18 号开始读，每天拿出一个半小时左右阅读，于昨天（12月28号）读完，刚好用了 40 天，全书 500
-      
-    
-    </summary>
-    
     
   </entry>
   
