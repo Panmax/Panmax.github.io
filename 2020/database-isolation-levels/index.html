@@ -126,8 +126,8 @@
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/4.png">
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/5.png">
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/6.png">
-<meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/1.png">
-<meta property="og:updated_time" content="2020-07-23T08:36:54.218Z">
+<meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/1.jpg">
+<meta property="og:updated_time" content="2020-07-23T08:40:33.666Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库隔离级别简介">
 <meta name="twitter:description" content="数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别的异同。 RU(READ-UNCOMMITTED) - 能读到未提交的数据RU 级别，实际上就是完全不隔离。每个进行中事务的中间状态，对其他事务都是可见的，所以有可能会出现「脏读」。 RU 举例  用户1设置 x=3，在用户1的事务未提交之前，用户2">
@@ -404,7 +404,7 @@
                 
               
 
-              <time title="Created: 2020-07-23 16:21:25 / Modified: 16:36:54" itemprop="dateCreated datePublished" datetime="2020-07-23T16:21:25+08:00">2020-07-23</time>
+              <time title="Created: 2020-07-23 16:21:25 / Modified: 16:40:33" itemprop="dateCreated datePublished" datetime="2020-07-23T16:21:25+08:00">2020-07-23</time>
             
 
             
@@ -504,7 +504,7 @@
 <li>然后用户1再执行相同的插入语句时，就会报主键冲突错误，但是由于事务的隔离性，它执行查询的时候，却查不到这条 ID 为 1000 的流水，就像出现了“幻觉”一样，这就是幻读。</li>
 </ul>
 <p>在实际业务中，很少能遇到幻读，即使遇到，也基本不会影响到数据准确性。</p>
-<h3 id="最后用一张表格总结一下上边的内容："><a href="#最后用一张表格总结一下上边的内容：" class="headerlink" title="最后用一张表格总结一下上边的内容："></a>最后用一张表格总结一下上边的内容：</h3><div style="width:70%;margin:auto"><img src="1.png" alt></div>
+<h3 id="最后用一张表格总结一下上边的内容："><a href="#最后用一张表格总结一下上边的内容：" class="headerlink" title="最后用一张表格总结一下上边的内容："></a>最后用一张表格总结一下上边的内容：</h3><div style="width:70%;margin:auto"><img src="1.jpg" alt></div>
 
 
 
