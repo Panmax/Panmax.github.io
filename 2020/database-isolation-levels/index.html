@@ -127,7 +127,7 @@
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/5.png">
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/6.png">
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/1.jpg">
-<meta property="og:updated_time" content="2020-07-23T08:40:33.666Z">
+<meta property="og:updated_time" content="2020-07-27T01:57:13.975Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库隔离级别简介">
 <meta name="twitter:description" content="数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别的异同。 RU(READ-UNCOMMITTED) - 能读到未提交的数据RU 级别，实际上就是完全不隔离。每个进行中事务的中间状态，对其他事务都是可见的，所以有可能会出现「脏读」。 RU 举例  用户1设置 x=3，在用户1的事务未提交之前，用户2">
@@ -404,12 +404,24 @@
                 
               
 
-              <time title="Created: 2020-07-23 16:21:25 / Modified: 16:40:33" itemprop="dateCreated datePublished" datetime="2020-07-23T16:21:25+08:00">2020-07-23</time>
+              <time title="Created: 2020-07-23 16:21:25" itemprop="dateCreated datePublished" datetime="2020-07-23T16:21:25+08:00">2020-07-23</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-07-27 09:57:13" itemprop="dateModified" datetime="2020-07-27T09:57:13+08:00">2020-07-27</time>
               
             
           </span>
@@ -506,7 +518,12 @@
 <p>在实际业务中，很少能遇到幻读，即使遇到，也基本不会影响到数据准确性。</p>
 <h3 id="最后用一张表格总结一下上边的内容："><a href="#最后用一张表格总结一下上边的内容：" class="headerlink" title="最后用一张表格总结一下上边的内容："></a>最后用一张表格总结一下上边的内容：</h3><div style="width:70%;margin:auto"><img src="1.jpg" alt></div>
 
-
+<ul>
+<li><code>RU</code> 级别隔即没有任何隔离，存在脏读、不可重复读、幻读的风险</li>
+<li><code>RC</code> 可以避免脏读，还是会存在不可重复读和幻读</li>
+<li><code>NR</code> 可以避免脏读和不可重复读（通常通过一致性快照），但无法避免幻读</li>
+<li>只有 <code>SERIALIZABLE</code> 才可以避免幻读</li>
+</ul>
 
       
     </div>
