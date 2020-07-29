@@ -113,13 +113,14 @@
 
 
 
-  <meta name="description" content="在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系统。在这段时间内，运维团队会停止旧的版本，部署新的版本并检查一切是否恢复正常。 但是现在，由于微服务的出现，我们会不断地将各服务的新版本部署到生产环境中，不能简单的认为部署就意味着停机，因为这样系统会一直有不同部分处于停机状态，我们需要考虑新的部署策略。">
+  <meta name="description" content="在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系统。在这段时间内，运维团队会停止旧的版本，部署新的版本并检查一切是否恢复正常。 但是现在，由于微服务的出现，我们会不断地将各服务的新版本部署到生产环境中，不能简单的认为部署就意味着停机，因为这样系统会一直有不同部分处于停机状态，我们需要考虑新的部署策">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常见部署策略介绍">
 <meta property="og:url" content="https://jpanj.com/2020/deployment-strategy-introduce/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系统。在这段时间内，运维团队会停止旧的版本，部署新的版本并检查一切是否恢复正常。 但是现在，由于微服务的出现，我们会不断地将各服务的新版本部署到生产环境中，不能简单的认为部署就意味着停机，因为这样系统会一直有不同部分处于停机状态，我们需要考虑新的部署策略。">
+<meta property="og:description" content="在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系统。在这段时间内，运维团队会停止旧的版本，部署新的版本并检查一切是否恢复正常。 但是现在，由于微服务的出现，我们会不断地将各服务的新版本部署到生产环境中，不能简单的认为部署就意味着停机，因为这样系统会一直有不同部分处于停机状态，我们需要考虑新的部署策">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2020/deployment-strategy-introduce/0.jpg">
 <meta property="og:image" content="https://jpanj.com/2020/deployment-strategy-introduce/1.png">
 <meta property="og:image" content="https://jpanj.com/2020/deployment-strategy-introduce/2.png">
 <meta property="og:image" content="https://jpanj.com/2020/deployment-strategy-introduce/3.png">
@@ -130,11 +131,11 @@
 <meta property="og:image" content="https://jpanj.com/2020/deployment-strategy-introduce/8.png">
 <meta property="og:image" content="https://jpanj.com/2020/deployment-strategy-introduce/9.png">
 <meta property="og:image" content="https://jpanj.com/2020/deployment-strategy-introduce/10.png">
-<meta property="og:updated_time" content="2020-07-29T09:14:23.113Z">
+<meta property="og:updated_time" content="2020-07-29T10:40:41.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常见部署策略介绍">
-<meta name="twitter:description" content="在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系统。在这段时间内，运维团队会停止旧的版本，部署新的版本并检查一切是否恢复正常。 但是现在，由于微服务的出现，我们会不断地将各服务的新版本部署到生产环境中，不能简单的认为部署就意味着停机，因为这样系统会一直有不同部分处于停机状态，我们需要考虑新的部署策略。">
-<meta name="twitter:image" content="https://jpanj.com/2020/deployment-strategy-introduce/1.png">
+<meta name="twitter:description" content="在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系统。在这段时间内，运维团队会停止旧的版本，部署新的版本并检查一切是否恢复正常。 但是现在，由于微服务的出现，我们会不断地将各服务的新版本部署到生产环境中，不能简单的认为部署就意味着停机，因为这样系统会一直有不同部分处于停机状态，我们需要考虑新的部署策">
+<meta name="twitter:image" content="https://jpanj.com/2020/deployment-strategy-introduce/0.jpg">
 
 
 
@@ -407,7 +408,7 @@
                 
               
 
-              <time title="Created: 2020-07-29 16:44:03 / Modified: 17:14:23" itemprop="dateCreated datePublished" datetime="2020-07-29T16:44:03+08:00">2020-07-29</time>
+              <time title="Created: 2020-07-29 16:44:03 / Modified: 18:40:41" itemprop="dateCreated datePublished" datetime="2020-07-29T16:44:03+08:00">2020-07-29</time>
             
 
             
@@ -466,7 +467,9 @@
       
 
       
-        <p>在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系统。在这段时间内，运维团队会停止旧的版本，部署新的版本并检查一切是否恢复正常。</p>
+        <div style="width:70%;margin:auto"><img src="0.jpg" alt></div>
+
+<p>在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系统。在这段时间内，运维团队会停止旧的版本，部署新的版本并检查一切是否恢复正常。</p>
 <p>但是现在，由于微服务的出现，我们会不断地将各服务的新版本部署到生产环境中，不能简单的认为部署就意味着停机，因为这样系统会一直有不同部分处于停机状态，我们需要考虑新的部署策略。</p>
 <p>本文将介绍 6 种常见的部署策略：单目标部署、一次性全部部署、最小服务部署、滚动部署、蓝/绿部署、金丝雀部署，每种策略背后的理念都如其名。</p>
 <h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><p>为了更好地介绍和对比这些策略，我们先来说明一组术语：</p>
