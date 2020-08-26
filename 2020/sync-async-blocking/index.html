@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="去年的时候以一篇比较尬的故事（同步、异步、阻塞、非阻塞那些事）的形式介绍了一下阻塞、非阻塞 I/O 与同步、异步 I/O的区别和联系，这次重新把知识点总结一下，这篇只留下干货，湿货继续看那篇故事。 从应用程序角度根据应用程序是否阻塞自身运行，可以把 I/O 分为阻塞 I/O 和非阻塞 I/O。  所谓阻塞 I/O，是指应用程序在执行 I/O 操作后，如果没有获得响应，就会阻塞当前线程，不能执行其他">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-08-26T08:18:22.172Z">
+<meta property="og:updated_time" content="2020-08-26T08:19:48.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="再论《阻塞、非阻塞 I&#x2F;O 与同步、异步 I&#x2F;O》">
 <meta name="twitter:description" content="去年的时候以一篇比较尬的故事（同步、异步、阻塞、非阻塞那些事）的形式介绍了一下阻塞、非阻塞 I/O 与同步、异步 I/O的区别和联系，这次重新把知识点总结一下，这篇只留下干货，湿货继续看那篇故事。 从应用程序角度根据应用程序是否阻塞自身运行，可以把 I/O 分为阻塞 I/O 和非阻塞 I/O。  所谓阻塞 I/O，是指应用程序在执行 I/O 操作后，如果没有获得响应，就会阻塞当前线程，不能执行其他">
@@ -396,7 +396,7 @@
                 
               
 
-              <time title="Created: 2020-08-26 15:39:12 / Modified: 16:18:22" itemprop="dateCreated datePublished" datetime="2020-08-26T15:39:12+08:00">2020-08-26</time>
+              <time title="Created: 2020-08-26 15:39:12 / Modified: 16:19:48" itemprop="dateCreated datePublished" datetime="2020-08-26T15:39:12+08:00">2020-08-26</time>
             
 
             
@@ -473,13 +473,13 @@
 </ul>
 <h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>比如在 Linux I/O 调用中：</p>
 <ul>
-<li>系统调用 read 是同步读，所以，在没有得到磁盘数据前，read 不会响应应用程序。</li>
-<li>而 aio_read 是异步读，系统收到 AIO 读请求后不等处理就返回了，而具体的 read 结果，再通过回调异步通知应用程序。</li>
+<li>系统调用 <code>read</code> 是同步读，所以，在没有得到磁盘数据前，<code>read</code> 不会响应应用程序。</li>
+<li>而 <code>aio_read</code> 是异步读，系统收到 <code>AIO</code> 读请求后不等处理就返回了，而具体的 <code>read</code> 结果，再通过回调异步通知应用程序。</li>
 </ul>
 <p>再如，在网络套接字的接口中：</p>
 <ul>
-<li>使用 send() 直接向套接字发送数据时，如果套接字没有设置 O_NONBLOCK 标识，那么 send() 操作就会一直阻塞，当前线程也没法去做其他事情。</li>
-<li>当然，如果你用了 epoll，系统会告诉你这个套接字的状态，那就可以用非阻塞的方式使用。当这个套接字不可写的时候，你可以去做其他事情，比如读写其他套接字。</li>
+<li>使用 <code>send()</code> 直接向套接字发送数据时，如果套接字没有设置 <code>O_NONBLOCK</code> 标识，那么 <code>send()</code> 操作就会一直阻塞，当前线程也没法去做其他事情。</li>
+<li>当然，如果你用了 <code>epoll</code>，系统会告诉你这个套接字的状态，那就可以用非阻塞的方式使用。当这个套接字不可写的时候，你可以去做其他事情，比如读写其他套接字。</li>
 </ul>
 
       
