@@ -127,7 +127,7 @@
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/5.png">
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/6.png">
 <meta property="og:image" content="https://jpanj.com/2020/database-isolation-levels/1.jpg">
-<meta property="og:updated_time" content="2020-07-27T01:57:13.975Z">
+<meta property="og:updated_time" content="2020-09-07T07:48:56.115Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库隔离级别简介">
 <meta name="twitter:description" content="数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别的异同。 RU(READ-UNCOMMITTED) - 能读到未提交的数据RU 级别，实际上就是完全不隔离。每个进行中事务的中间状态，对其他事务都是可见的，所以有可能会出现「脏读」。 RU 举例  用户1设置 x=3，在用户1的事务未提交之前，用户2">
@@ -421,7 +421,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-07-27 09:57:13" itemprop="dateModified" datetime="2020-07-27T09:57:13+08:00">2020-07-27</time>
+                <time title="Modified: 2020-09-07 15:48:56" itemprop="dateModified" datetime="2020-09-07T15:48:56+08:00">2020-09-07</time>
               
             
           </span>
@@ -493,7 +493,7 @@
 <p>在 RR 隔离级别下，在一个事务进行过程中，对于同一条数据，每次读到的结果总是相同的，无论其他会话是否已经更新了这条数据，这就是「可重复读」。</p>
 <h3 id="不可重复读导致的问题"><a href="#不可重复读导致的问题" class="headerlink" title="不可重复读导致的问题"></a>不可重复读导致的问题</h3><div style="width:70%;margin:auto"><img src="5.png" alt></div>
 
-<p>假设用户在银行有 1000 块钱，分别存放在两个账户上，每个账户 500。现在有这样一笔转账交易从账户1转 100 到账户2。如果用户在他提交转账请求之后而银行系统执行转账的过程中间，来查看两个账户的余额，他有可能看到帐号1收到转账前的余额（500元），和帐号2完成钱款转出后的余额（500元）。对于用户来说，貌似他的账户总共只有 900 元，有 100 元消失了。</p>
+<p>假设用户在银行有 1000 块钱，分别存放在两个账户上，每个账户 500。现在有这样一笔转账交易从账户1转 100 到账户2。如果用户在他提交转账请求之后而银行系统执行转账的过程中间，来查看两个账户的余额，他有可能看到帐号1收到转账前的余额（500元），和帐号2完成钱款转出后的余额（400元）。对于用户来说，貌似他的账户总共只有 900 元，有 100 元消失了。</p>
 <p>这种异常现象称为不可重复读（nonrepeatable read）或<strong>读倾斜（read skew）</strong>。</p>
 <h2 id="SERIALIZABLE-串行化"><a href="#SERIALIZABLE-串行化" class="headerlink" title="SERIALIZABLE - 串行化"></a>SERIALIZABLE - 串行化</h2><p>串行化隔离通常被认为是最强的隔离级别。它保证即使事物可能会并行执行，但最终的结果与每次一个即串行执行结果相同。不过由于这种隔离级别性能较差，所以在实际开发中很少被用到，以下是三种实现串行化的技术方案：</p>
 <ul>
