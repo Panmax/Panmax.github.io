@@ -121,7 +121,7 @@
 <meta property="og:description" content="今天算是入职新公司的第一天，配置好开发环境后，尝试用 GoLand 来启动服务，结果报了：Version of Delve is too old for this version of Go (maximum supported version 1.13, suppress this error with --check-go-version=false) 这个错误。 查询后发现这个是 Jet">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2020/resolve-old-goland-delve-bug/0.jpg">
-<meta property="og:updated_time" content="2020-10-09T12:40:34.294Z">
+<meta property="og:updated_time" content="2020-10-09T12:52:26.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决低版本 GoLand 启动服务报 Version of Delve is too old for this version of Go">
 <meta name="twitter:description" content="今天算是入职新公司的第一天，配置好开发环境后，尝试用 GoLand 来启动服务，结果报了：Version of Delve is too old for this version of Go (maximum supported version 1.13, suppress this error with --check-go-version=false) 这个错误。 查询后发现这个是 Jet">
@@ -398,7 +398,7 @@
                 
               
 
-              <time title="Created: 2020-10-09 20:35:55 / Modified: 20:40:34" itemprop="dateCreated datePublished" datetime="2020-10-09T20:35:55+08:00">2020-10-09</time>
+              <time title="Created: 2020-10-09 20:35:55 / Modified: 20:52:26" itemprop="dateCreated datePublished" datetime="2020-10-09T20:35:55+08:00">2020-10-09</time>
             
 
             
@@ -462,13 +462,10 @@
 <p>今天算是入职新公司的第一天，配置好开发环境后，尝试用 GoLand 来启动服务，结果报了：<code>Version of Delve is too old for this version of Go (maximum supported version 1.13, suppress this error with --check-go-version=false)</code> 这个错误。</p>
 <p>查询后发现这个是 JetBrain 在将 delve 嵌入到 他们的 IDE 时导致的 bug，按照官方的说法是升级 IDE 就可以解决了。详细讨论见这个 issue：<a href="https://github.com/go-delve/delve/issues/1710" target="_blank" rel="noopener">https://github.com/go-delve/delve/issues/1710</a></p>
 <p>但是我的 ToolBox 在 Check for updates 时没有响应，所以需要通过其他方式进行了解决。</p>
-<h3 id="更新-dlv，并将-GoLand-中的-dlv-路径指向更新后的路径"><a href="#更新-dlv，并将-GoLand-中的-dlv-路径指向更新后的路径" class="headerlink" title="更新 dlv，并将 GoLand 中的 dlv 路径指向更新后的路径"></a>更新 dlv，并将 GoLand 中的 dlv 路径指向更新后的路径</h3><ol>
-<li>go get -u github.com/go-delve/delve/cmd/dlv</li>
-<li>在命令行中输入 echo <code>go env | grep GOPATH | cut -d &quot;\&quot;&quot; -f 2</code>/bin/dlv，并将打印的路径复制下来，比如我的：<br> <code>➜ echo</code>go env | grep GOPATH | cut -d “\”” -f 2<code>/bin/dlv
- /Users/jiapan/go/bin/dlv</code></li>
-<li>在 GoLand 中 Help -&gt; Edit Custom Properties（之前没编辑过会提示新建）</li>
-<li>新增一项 <code>dlv.path={你复制的路径}</code>，比如我的：<br> <code>dlv.path=/Users/jiapan/go/bin/dlv</code></li>
-</ol>
+<h3 id="更新-dlv，并将-GoLand-中的-dlv-路径指向更新后的路径"><a href="#更新-dlv，并将-GoLand-中的-dlv-路径指向更新后的路径" class="headerlink" title="更新 dlv，并将 GoLand 中的 dlv 路径指向更新后的路径"></a>更新 dlv，并将 GoLand 中的 dlv 路径指向更新后的路径</h3><p>1) <code>go get -u github.com/go-delve/delve/cmd/dlv</code><br>2) 执行以下命令并将打印的路径复制下来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜ echo `go env | grep GOPATH | cut -d &quot;\&quot;&quot; -f 2`/bin/dlv</span><br><span class="line"></span><br><span class="line"># 以下是打印的结果，进行复制</span><br><span class="line">/Users/jiapan/go/bin/dlv`</span><br></pre></td></tr></table></figure>
+<p>3) 在 GoLand 中 Help -&gt; Edit Custom Properties（之前没编辑过会提示新建）<br>4) 新增一项 <code>dlv.path={你复制的路径}</code>，比如我的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dlv.path=/Users/jiapan/go/bin/dlv</span><br></pre></td></tr></table></figure>
 <p>再次启动服务，问题解决。</p>
 <blockquote>
 <p>delve 是 go 语言的 debug 工具，delve 的意思是：钻研、探索，用这个来命名一个 debug 工具还是非常形象的。</p>
