@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2020-10-16T12:21:45.869Z</updated>
+  <updated>2020-11-04T10:52:49.852Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GoLand Protobuf 语法检查</title>
+    <link href="https://jpanj.com/2020/goland-protobuf-syntax-check/"/>
+    <id>https://jpanj.com/2020/goland-protobuf-syntax-check/</id>
+    <published>2020-11-04T10:50:33.000Z</published>
+    <updated>2020-11-04T10:52:49.852Z</updated>
+    
+    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpg" alt></div><p>公司的服务间调用使用的 gRPC，所以开发过程中需要写一些 <code>.proto</code> 文件来生成 <code>pb</code>，写的时候借助语法检查可以更高效一些。</p><p>GoLand 中提供了一个叫 <code>Protoco Buffer Editor</code> 的插件，但是这个插件在我的环境中是有 bug 的，无法处理 import 进来的包。</p><p>询问同事他们的都没有问题，所以我从网上查了一下这个问题，网上推荐的插件名叫 <code>Protobuf Support</code>，显然我的 IDE 的插件市场中没有这个插件，又借助搜索引擎找到了这个插件的描述页面，看到已经被打上 deprecated 的标签了。</p><div style="width:70%;margin:auto"><img src="1.png" alt></div><p>我猜测这个插件之前可以用，后来被官方下掉了，我的同事们是在下掉之前安装的，为了印证我的想法，所以查看了同事的插件名，果然是 <code>Protobuf Support</code>。</p><p>好歹顺着官方页面找到了GitHub 的地址 <a href="https://github.com/ksprojects/protobuf-jetbrains-plugin" target="_blank" rel="noopener">https://github.com/ksprojects/protobuf-jetbrains-plugin</a> ，又在 <a href="https://github.com/ksprojects/protobuf-jetbrains-plugin/releases/tag/v0.13.0" target="_blank" rel="noopener">Releases</a> 页面中找到了插件的压缩包，通过压缩包在本地进行了安装，并 disable 了 <code>Protoco Buffer Editor</code> 插件，重启 GoLand 后问题解决。</p><hr><p>今天一下午光处理坑了，上线了一个限流功能，一直没有拿到打点数据，和治理组同事检查了所有地方都没有问题，最后治理组同事想起来，需要触发限流后才会打点，在监控中看到数据。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;0.jpg&quot; alt&gt;&lt;/div&gt;
+
+&lt;p&gt;公司的服务间调用使用的 gRPC，所以开发过程中需要写一些 &lt;code&gt;.proto&lt;/code&gt; 文件来生成 &lt;code&gt;pb&lt;/code&gt;，写
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>《高效能人士的七个习惯》 脑图 &amp;&amp; 好句</title>
@@ -446,31 +469,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>沟通的艺术第三章《沟通和认同：自我的塑造与展现》脑图</title>
-    <link href="https://jpanj.com/2020/Look-out-Look-in-ch3-mind-map/"/>
-    <id>https://jpanj.com/2020/Look-out-Look-in-ch3-mind-map/</id>
-    <published>2020-04-01T09:30:48.000Z</published>
-    <updated>2020-04-01T09:32:46.841Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="自我的塑造与展现.png" alt="自我的塑造与展现"></p><p>为了更好的 SEO，把大纲放在下边。读者也可根据大纲自行绘制自己的脑图。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">沟通和自我</span><br><span class="line">自我概念与自尊</span><br><span class="line">定义</span><br><span class="line">自我概念是指你对自己所持有的相对稳定的知觉</span><br><span class="line">自尊是你对自我价值的评估</span><br><span class="line">举例</span><br><span class="line">安静</span><br><span class="line">「我简直是个懦夫，所以才会说不出话来」</span><br><span class="line">「我享受倾听甚于讲话」</span><br><span class="line">好辩</span><br><span class="line">「我太强势了，一定很惹人厌」</span><br><span class="line">「我在自己的信念上坚定不移」</span><br><span class="line">自律</span><br><span class="line">「我太小心翼翼了」</span><br><span class="line">「在我开口说或动手之前，我总会深思熟虑」</span><br><span class="line">影响</span><br><span class="line">高自尊的人倾向于认为别人是好的，并且期待被他们接受</span><br><span class="line">低自尊的人认为所有人都一直用批判的眼光看待他们</span><br><span class="line">自我的生物性和社会性根源</span><br><span class="line">说明</span><br><span class="line">生物性：人格在很大程度上是由基因决定的。</span><br><span class="line">社会化：从我们相关的人那里得到的信息在塑造我们的自我概念时扮演了重要的角色</span><br><span class="line">自我概念的形成</span><br><span class="line">反应评价：我们每个人得出的自我概念反应的是我们认为别人看待我们的方式。</span><br><span class="line">重要他人：你的自我评价或评价标准可能因为他人对待你的方式而受到影响。</span><br><span class="line">社会比较：依据他人的对照方式评估自己</span><br><span class="line">自我概念的特征</span><br><span class="line">特征</span><br><span class="line">主观：我们倾向于相信我们的自我概念是准确的，但事实上它很可能被歪曲了。</span><br><span class="line">抗拒改变：我们倾向于坚持一个现存的自我概念，即使有证据显示它是过时的。</span><br><span class="line">接受正面自我的建议</span><br><span class="line">对自己有真实的认知</span><br><span class="line">有切合实际的期望</span><br><span class="line">有改变的意愿</span><br><span class="line">有改变的技巧</span><br><span class="line">文化、性别和认同</span><br><span class="line">文化：孕育我们长大的文化以不着痕迹的方式塑造着我们对自我的理解</span><br><span class="line">大部分西方文化都是高度个人主义的</span><br><span class="line">大部分的亚洲人是倾向于集体主义的</span><br><span class="line">性征和性别：性别角色和性别标签对男人和女人如何看待自己以及如何沟通有着深刻影响。</span><br><span class="line">自我应验预言和沟通</span><br><span class="line">定义：指如果个体对事件的发生有所预期，并且他接下来的行为是建立在这些预期上的，那么这件事的发生会比没有预期更可能成真。</span><br><span class="line">类型</span><br><span class="line">自我强加的预言：指的是你的自我期待对你的行为产生影响</span><br><span class="line">他人强加的预言</span><br><span class="line"></span><br><span class="line">沟通作为印象管理</span><br><span class="line">公开自我和隐私自我</span><br><span class="line">觉知的自我是指你在真诚的自省过程中所相信的自己。（隐私的）</span><br><span class="line">展现的自我是我们想要别人如何看待我们。（公开的）</span><br><span class="line">印象管理的特征</span><br><span class="line">多重身份</span><br><span class="line">合作式的：某一刻发生的事，是由沟通双方及其在长期的交往中积累的经验共同导致的。</span><br><span class="line">深思熟虑或不知不觉：大部分人都在有意识或无意识地，以一种有助于建立在自己和他人眼中的理想身份的方式进行沟通。</span><br><span class="line">为什么要印象管理？</span><br><span class="line">为了开始和经营关系</span><br><span class="line">为了获得别人的顺从 </span><br><span class="line">为了保住别人的颜面</span><br><span class="line">为了探索新的自我</span><br><span class="line">面对面印象管理</span><br><span class="line">举止，由一个沟通者的预言和非语言行为组成</span><br><span class="line">外貌，是人们用来塑造印象的个人化方式</span><br><span class="line">配置，即我们用来影响别人如何看待我们的物理工具</span><br><span class="line">网络印象管理</span><br><span class="line">印象管理和诚实</span><br><span class="line">印象管理意味着选择自己的哪个角色或者哪个部分加以展现</span><br><span class="line"></span><br><span class="line">在关系中的自我坦露</span><br><span class="line">自我坦露的模式</span><br><span class="line">社会穿透</span><br><span class="line">广度</span><br><span class="line">深度</span><br><span class="line">乔哈里视窗</span><br><span class="line">开放区</span><br><span class="line">盲视区</span><br><span class="line">隐藏区</span><br><span class="line">未知区</span><br><span class="line">自我坦露的好处与风险</span><br><span class="line">好处</span><br><span class="line">宣泄：可以提供心理上和情感上的双重慰藉</span><br><span class="line">互惠：一个自我袒露的行为会引发另一个自我袒露行为</span><br><span class="line">自我澄清：通过和他人谈论你的信念、意见、想法、态度和感觉，可以理清你对于这些话题的看法。</span><br><span class="line">自我确认：旨在确认你自我概念中的重要组成部分</span><br><span class="line">关系的建立和维持：开始一段关系是需要一定程度的自我袒露的</span><br><span class="line">社会控制：袒露个人信息会增加你对他人的控制，有时也会增加你对情境的控制</span><br><span class="line">风险</span><br><span class="line">拒绝</span><br><span class="line">负面印象</span><br><span class="line">降低关系满意度</span><br><span class="line">丧失影响力</span><br><span class="line">伤害别人</span><br><span class="line">自我坦露的指导原则</span><br><span class="line">这个人对你而言重要吗？</span><br><span class="line">坦露的方式合适吗？</span><br><span class="line">坦露的风险合理吗？</span><br><span class="line">有建设性影响吗？</span><br><span class="line">你的自我坦露是互惠的吗？</span><br><span class="line">你在道德上有义务坦露吗？</span><br><span class="line"></span><br><span class="line">自我坦露的替代选择</span><br><span class="line">沉默：将自己的想法与感受保留在心中</span><br><span class="line">说谎：善意的谎言被定义为对被告知的人来说是没有恶意的，甚至是有帮助的</span><br><span class="line">模棱两可：当面对是说谎还是说出一个令人不愉快的真相的困境时，沟通者常常会选择一种模棱两可的回答</span><br><span class="line">暗示：暗示要比模棱两可更直接。这是因为模棱两可的说法不要求改变他人的行为，而暗示确实旨在从他人那里得到期待的回应。</span><br><span class="line"></span><br><span class="line">指有意透漏与自己相关信息的过程，而且这些信息通常是重要的、不为人所知的。</span><br><span class="line"></span><br><span class="line">四个步骤</span><br><span class="line">1. 持有某种期待</span><br><span class="line">2. 表现出与期望一致的行为</span><br><span class="line">3. 期待如是发生</span><br><span class="line">4. 强化起初的期待</span><br><span class="line"></span><br><span class="line">原因</span><br><span class="line">过期的信息</span><br><span class="line">歪曲的回馈</span><br><span class="line">完美主义</span><br><span class="line">社会期待</span><br><span class="line"></span><br><span class="line">@Panmax</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;自我的塑造与展现.png&quot; alt=&quot;自我的塑造与展现&quot;&gt;&lt;/p&gt;
-&lt;p&gt;为了更好的 SEO，把大纲放在下边。读者也可根据大纲自行绘制自己的脑图。&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cl
-      
-    
-    </summary>
-    
-    
-      <category term="阅读" scheme="https://jpanj.com/tags/%E9%98%85%E8%AF%BB/"/>
     
   </entry>
   
