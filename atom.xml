@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2020-11-04T10:52:49.852Z</updated>
+  <updated>2020-11-04T10:55:24.008Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://jpanj.com/2020/goland-protobuf-syntax-check/"/>
     <id>https://jpanj.com/2020/goland-protobuf-syntax-check/</id>
     <published>2020-11-04T10:50:33.000Z</published>
-    <updated>2020-11-04T10:52:49.852Z</updated>
+    <updated>2020-11-04T10:55:24.008Z</updated>
     
-    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpg" alt></div><p>公司的服务间调用使用的 gRPC，所以开发过程中需要写一些 <code>.proto</code> 文件来生成 <code>pb</code>，写的时候借助语法检查可以更高效一些。</p><p>GoLand 中提供了一个叫 <code>Protoco Buffer Editor</code> 的插件，但是这个插件在我的环境中是有 bug 的，无法处理 import 进来的包。</p><p>询问同事他们的都没有问题，所以我从网上查了一下这个问题，网上推荐的插件名叫 <code>Protobuf Support</code>，显然我的 IDE 的插件市场中没有这个插件，又借助搜索引擎找到了这个插件的描述页面，看到已经被打上 deprecated 的标签了。</p><div style="width:70%;margin:auto"><img src="1.png" alt></div><p>我猜测这个插件之前可以用，后来被官方下掉了，我的同事们是在下掉之前安装的，为了印证我的想法，所以查看了同事的插件名，果然是 <code>Protobuf Support</code>。</p><p>好歹顺着官方页面找到了GitHub 的地址 <a href="https://github.com/ksprojects/protobuf-jetbrains-plugin" target="_blank" rel="noopener">https://github.com/ksprojects/protobuf-jetbrains-plugin</a> ，又在 <a href="https://github.com/ksprojects/protobuf-jetbrains-plugin/releases/tag/v0.13.0" target="_blank" rel="noopener">Releases</a> 页面中找到了插件的压缩包，通过压缩包在本地进行了安装，并 disable 了 <code>Protoco Buffer Editor</code> 插件，重启 GoLand 后问题解决。</p><hr><p>今天一下午光处理坑了，上线了一个限流功能，一直没有拿到打点数据，和治理组同事检查了所有地方都没有问题，最后治理组同事想起来，需要触发限流后才会打点，在监控中看到数据。</p>]]></content>
+    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpg" alt></div><p>公司的服务间调用使用的 gRPC，所以开发过程中需要写一些 <code>.proto</code> 文件来生成 <code>pb</code>，写的时候借助语法检查可以更高效一些。</p><p>GoLand 中提供了一个叫 <code>Protoco Buffer Editor</code> 的插件，但是这个插件在我的环境中是有 bug 的，无法处理 import 进来的包。</p><p>询问同事他们的都没有问题，所以我从网上查了一下这个问题，网上推荐的插件名叫 <code>Protobuf Support</code>，显然我的 IDE 的插件市场中没有这个插件，又借助搜索引擎找到了这个插件的描述页面，看到已经被打上 deprecated 的标签了。</p><div style="width:70%;margin:auto"><img src="1.png" alt></div><p>我猜测这个插件之前可以用，后来被官方下掉了，我的同事们是在下掉之前安装的，为了印证我的想法，让其中一个同事看了一下他的插件名，果然是 <code>Protobuf Support</code>。</p><p>好歹顺着官方页面找到了GitHub 的地址 <a href="https://github.com/ksprojects/protobuf-jetbrains-plugin" target="_blank" rel="noopener">https://github.com/ksprojects/protobuf-jetbrains-plugin</a> ，又在 <a href="https://github.com/ksprojects/protobuf-jetbrains-plugin/releases/tag/v0.13.0" target="_blank" rel="noopener">Releases</a> 页面中找到了插件的压缩包，通过压缩包在本地进行了安装，并 disable 了 <code>Protoco Buffer Editor</code> 插件，重启 GoLand 后问题解决。</p><hr><p>今天一下午光处理坑了，上线了一个限流功能，一直没有拿到打点数据，和治理组同事检查了所有地方都没有问题，最后治理组同事想起来，需要触发限流后才会打点，在监控中看到数据。</p>]]></content>
     
     <summary type="html">
     
