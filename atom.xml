@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2020-11-04T10:55:24.008Z</updated>
+  <updated>2020-11-09T06:33:32.390Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>非常好用的代码速查工具 cheat.sh</title>
+    <link href="https://jpanj.com/2020/code-serch-cheat-sh/"/>
+    <id>https://jpanj.com/2020/code-serch-cheat-sh/</id>
+    <published>2020-11-09T06:11:26.000Z</published>
+    <updated>2020-11-09T06:33:32.390Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>cheat.sh 号称自己提供了世界优质技术社区中代码速查表的统一访问。</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://cht.sh/:cht.sh | sudo tee /usr/local/bin/cht.sh</span><br><span class="line">chmod +x /usr/local/bin/cht.sh</span><br></pre></td></tr></table></figure><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>基本的查询命令为：<code>cht.sh 语言 问题关键词</code></p><h3 id="例1：查命令"><a href="#例1：查命令" class="headerlink" title="例1：查命令"></a>例1：查命令</h3><p>比如，你不知道上边安装命令中 <code>tee</code> 是什么意思，可以尝试用下边的命令查看提示：</p><p><code>cht.sh linux tee</code></p><div style="width:70%;margin:auto"><img src="1.png" alt></div><p>由此可以看出 <code>cht.sh</code> 不限于查代码，还可以查命令的用法。</p><h3 id="例2：查函数"><a href="#例2：查函数" class="headerlink" title="例2：查函数"></a>例2：查函数</h3><p>再举个例子，假如我不知道 <code>go</code> 中有没有能够判断字符串中是否包含某个字符的函数，直接使用</p><p><code>cht.sh go string contain</code></p><div style="width:70%;margin:auto"><img src="2.png" alt></div><h3 id="例3：查实现"><a href="#例3：查实现" class="headerlink" title="例3：查实现"></a>例3：查实现</h3><p>或者我想知道 <code>go</code> 中如何反转一个 <code>list</code>：</p><p><code>cht.sh go reverse list</code></p><div style="width:70%;margin:auto"><img src="3.png" alt></div><h2 id="进入交互模式"><a href="#进入交互模式" class="headerlink" title="进入交互模式"></a>进入交互模式</h2><p>想进入 <code>cht.sh</code> 的交互模式，需要先安装 <code>rlwrap</code> 这个工具。</p><p>Mac 安装方式：<code>brew install rlwrap</code></p><p>进入交互模式的命令为：<code>cht.sh --shell</code></p><p>进入交互模式后，就不用再输入 <code>cht.sh</code> 的命令了，直接问问题就可以，比如我想知道 go 中如何将 int 转为 string：</p><div style="width:70%;margin:auto"><img src="4.png" alt></div><p>更进一步，如果想在后续的查询者固定查询某个语言，可以通过 <code>cd</code> 命令，这样在后续的查询中连语言都可以省掉：</p><div style="width:70%;margin:auto"><img src="5.png" alt></div><p>也可以在进入交互界面时指定语言：</p><p><code>cht.sh --shell go</code></p><div style="width:70%;margin:auto"><img src="7.png" alt></div><p>在指定了语言的交互界面中，如果想在不 <code>cd</code> 到其他语言的情况下临时查询其他语言的用法，可以通过以 / 开头 临时指定语言：</p><div style="width:70%;margin:auto"><img src="6.png" alt></div><h3 id="更多用法可以参考项目的-README-md"><a href="#更多用法可以参考项目的-README-md" class="headerlink" title="更多用法可以参考项目的 README.md"></a>更多用法可以参考项目的 README.md</h3><p><a href="https://github.com/chubin/cheat.sh" target="_blank" rel="noopener">https://github.com/chubin/cheat.sh</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;cheat.sh 号称自己提供了世界优质技术社区中代码速查表的统一访问。&lt;/p&gt;
+&lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; cla
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>GoLand Protobuf 语法检查</title>
@@ -442,29 +464,6 @@
       
         &lt;p&gt;&lt;img src=&quot;http://npyzdf.com/wp-content/uploads/2016/07/160714162117_7-1024x768.jpg&quot; alt&gt;&lt;/p&gt;
 
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《关键对话》脑图</title>
-    <link href="https://jpanj.com/2020/Critical-Conversation-mind-map/"/>
-    <id>https://jpanj.com/2020/Critical-Conversation-mind-map/</id>
-    <published>2020-04-15T05:38:16.000Z</published>
-    <updated>2020-04-15T05:40:21.229Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="0.png" alt></p><p>为了更好的 SEO，把大纲放在下边。读者也可根据大纲自行绘制自己的脑图。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">从「心」开始</span><br><span class="line">对话技巧</span><br><span class="line">关注你的真正目的</span><br><span class="line">拒绝做出「傻瓜式选择」</span><br><span class="line">关键问题</span><br><span class="line">我让人感觉自己的目的是什么</span><br><span class="line">我的真正目的是什么</span><br><span class="line">关于自己的</span><br><span class="line">关于他人的</span><br><span class="line">关于我们之间关系的</span><br><span class="line">怎样做才能实现这些真正目的</span><br><span class="line">我不希望怎样</span><br><span class="line">怎样才能真正实现希望的目的，避免不希望实现的目的</span><br><span class="line"></span><br><span class="line">注意观察</span><br><span class="line">对话技巧</span><br><span class="line">关注交谈何时会变成关键对话</span><br><span class="line">关注安全问题</span><br><span class="line">关注你的压力应对方式</span><br><span class="line">关键问题</span><br><span class="line">我正在陷入沉默或暴力状态吗</span><br><span class="line">对方正在陷入沉默或暴力状态吗</span><br><span class="line"></span><br><span class="line">保证安全</span><br><span class="line">对话技巧</span><br><span class="line">在必要时道歉</span><br><span class="line">利用对比法消除误解</span><br><span class="line">利用四步法创建共同目的</span><br><span class="line">关键问题</span><br><span class="line">安全感为什么会出现危机</span><br><span class="line">我是否建立了共目的</span><br><span class="line">我是否保持了彼此尊重</span><br><span class="line">怎样做才能重建安全感</span><br><span class="line"></span><br><span class="line">控制想法</span><br><span class="line">对话技巧</span><br><span class="line">行为模式回顾</span><br><span class="line">区分事实和想法</span><br><span class="line">留意三种「小聪明」</span><br><span class="line">改变主观臆断</span><br><span class="line">关键问题</span><br><span class="line">我的想法是什么</span><br><span class="line">我是否故意忽略自己在这个问题中的责任</span><br><span class="line">一个理智而正常的人为什么会这样做</span><br><span class="line">要想实现真正的目的应该怎么做</span><br><span class="line"></span><br><span class="line">陈述观点</span><br><span class="line">对话技巧</span><br><span class="line">分享事实经过</span><br><span class="line">说出你的想法</span><br><span class="line">征询对方观点</span><br><span class="line">做出试探表述</span><br><span class="line">鼓励做出尝试</span><br><span class="line">关键问题</span><br><span class="line">我是否对对方观点完全开放</span><br><span class="line">我讨论的是不是真正的问题</span><br><span class="line">我是否自信地表达自己的观点</span><br><span class="line"></span><br><span class="line">了解动机</span><br><span class="line">对话技巧</span><br><span class="line">询问观点</span><br><span class="line">确认感受</span><br><span class="line">重新描述</span><br><span class="line">主动引导</span><br><span class="line">赞同</span><br><span class="line">补充</span><br><span class="line">比较</span><br><span class="line">关键问题</span><br><span class="line">我是否积极了解对方的看法</span><br><span class="line">我是否努力避免不必要的不合</span><br><span class="line"></span><br><span class="line">开始行动</span><br><span class="line">对话技巧</span><br><span class="line">决定如何决策</span><br><span class="line">记录决策并进行监督检查</span><br><span class="line">关键问题</span><br><span class="line">我们应当怎样决策</span><br><span class="line">何人何时完成何种任务</span><br><span class="line">如何对任务实施检查评估</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;0.png&quot; alt&gt;&lt;/p&gt;
-&lt;p&gt;为了更好的 SEO，把大纲放在下边。读者也可根据大纲自行绘制自己的脑图。&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;
       
     
     </summary>
