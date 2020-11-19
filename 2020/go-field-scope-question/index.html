@@ -113,18 +113,18 @@
 
 
 
-  <meta name="description" content="昨天写代码的时候因为变量作用域的问题被坑了好久，在这里记录一下，避免今后再犯。 先看下面这段代码，大致功能是为传进来的引用填充一个带有自增的 ID 的对象，同时这个 ID 中不能包含 4。这个自增ID 我是使用 Redis 的 incr 来维护的。 1234567891011121314151617181920func fillNewUserLiveRightAttribute(ctx con">
+  <meta name="description" content="昨天写代码的时候因为变量作用域的问题被坑了好久，在这里记录一下，避免今后再犯。 先看下面这段代码，大致功能是为传进来的引用填充一个带有自增的 ID 的对象，同时这个 ID 中不能包含 4，自增 ID 是使用 Redis 的 incr 来维护的。 1234567891011121314151617181920func fillNewUserLiveRightAttribute(ctx conte">
 <meta property="og:type" content="article">
 <meta property="og:title" content="由于粗心，Go 变量作用域导致的问题">
 <meta property="og:url" content="https://jpanj.com/2020/go-field-scope-question/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="昨天写代码的时候因为变量作用域的问题被坑了好久，在这里记录一下，避免今后再犯。 先看下面这段代码，大致功能是为传进来的引用填充一个带有自增的 ID 的对象，同时这个 ID 中不能包含 4。这个自增ID 我是使用 Redis 的 incr 来维护的。 1234567891011121314151617181920func fillNewUserLiveRightAttribute(ctx con">
+<meta property="og:description" content="昨天写代码的时候因为变量作用域的问题被坑了好久，在这里记录一下，避免今后再犯。 先看下面这段代码，大致功能是为传进来的引用填充一个带有自增的 ID 的对象，同时这个 ID 中不能包含 4，自增 ID 是使用 Redis 的 incr 来维护的。 1234567891011121314151617181920func fillNewUserLiveRightAttribute(ctx conte">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://jpanj.com/2020/go-field-scope-question/0.jpg">
-<meta property="og:updated_time" content="2020-11-19T09:02:48.668Z">
+<meta property="og:updated_time" content="2020-11-19T09:03:52.317Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="由于粗心，Go 变量作用域导致的问题">
-<meta name="twitter:description" content="昨天写代码的时候因为变量作用域的问题被坑了好久，在这里记录一下，避免今后再犯。 先看下面这段代码，大致功能是为传进来的引用填充一个带有自增的 ID 的对象，同时这个 ID 中不能包含 4。这个自增ID 我是使用 Redis 的 incr 来维护的。 1234567891011121314151617181920func fillNewUserLiveRightAttribute(ctx con">
+<meta name="twitter:description" content="昨天写代码的时候因为变量作用域的问题被坑了好久，在这里记录一下，避免今后再犯。 先看下面这段代码，大致功能是为传进来的引用填充一个带有自增的 ID 的对象，同时这个 ID 中不能包含 4，自增 ID 是使用 Redis 的 incr 来维护的。 1234567891011121314151617181920func fillNewUserLiveRightAttribute(ctx conte">
 <meta name="twitter:image" content="https://jpanj.com/2020/go-field-scope-question/0.jpg">
 
 
@@ -398,7 +398,7 @@
                 
               
 
-              <time title="Created: 2020-11-19 16:53:04 / Modified: 17:02:48" itemprop="dateCreated datePublished" datetime="2020-11-19T16:53:04+08:00">2020-11-19</time>
+              <time title="Created: 2020-11-19 16:53:04 / Modified: 17:03:52" itemprop="dateCreated datePublished" datetime="2020-11-19T16:53:04+08:00">2020-11-19</time>
             
 
             
@@ -460,7 +460,7 @@
         <div style="width:70%;margin:auto"><img src="0.jpg" alt></div>
 
 <p>昨天写代码的时候因为变量作用域的问题被坑了好久，在这里记录一下，避免今后再犯。</p>
-<p>先看下面这段代码，大致功能是为传进来的引用填充一个带有自增的 <code>ID</code> 的对象，同时这个 <code>ID</code> 中不能包含 4。这个自增ID 我是使用 Redis 的 <code>incr</code> 来维护的。</p>
+<p>先看下面这段代码，大致功能是为传进来的引用填充一个带有自增的 <code>ID</code> 的对象，同时这个 <code>ID</code> 中不能包含 4，自增 <code>ID</code> 是使用 Redis 的 <code>incr</code> 来维护的。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">func fillNewUserLiveRightAttribute(ctx context.Context, userLiveRight *po.UserLiveRight, right *po.LiveRight) error &#123;</span><br><span class="line">	if right.Type == util.LiveRightTypeMystery &#123;</span><br><span class="line">		var incrId int64</span><br><span class="line">		// 跳过 ID 中包含 4 的情况</span><br><span class="line">		for &#123;</span><br><span class="line">			incrId, err := cache.GetUserLiveRightCacheRepository().GetUserLiveRightIncrID(ctx, right.ID)</span><br><span class="line">			if err != nil &#123;</span><br><span class="line">				return err</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			incrIdStr := strconv.FormatInt(incrId, 10)</span><br><span class="line"></span><br><span class="line">			if !strings.Contains(incrIdStr, &quot;4&quot;) &#123;</span><br><span class="line">				break</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		userLiveRight.Attribute = &amp;po.UserLiveRightAttribute&#123;ID: incrId&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>但是之后发现填充进去的 <code>ID</code> 永远是 0，检查了一下 Redis 中 那个自增 ID 也确实存在。</p>
 <p>这里当时还饶了一下远路，因为那个 <code>Attribute</code>  字段在数据库中使用 jsonb 存储的，所以我前期先检查了插入时执行的 <code>SQL</code> 语句，发现每次 <code>Attribute</code> 都是打印的 <code>{}</code>，就以为是我自己没有赋上值。真实的原因是我指定了 <code>Attribute</code> 中的 <code>ID</code> 字段在转 Json 时启用 <code>omitempty</code> ，即：</p>
