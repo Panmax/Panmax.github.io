@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2020-11-23T02:39:41.916Z</updated>
+  <updated>2020-11-23T02:42:05.157Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://jpanj.com/2020/big-sur-turn-on-HiDPI/"/>
     <id>https://jpanj.com/2020/big-sur-turn-on-HiDPI/</id>
     <published>2020-11-23T02:34:05.000Z</published>
-    <updated>2020-11-23T02:39:41.916Z</updated>
+    <updated>2020-11-23T02:42:05.157Z</updated>
     
-    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpeg" alt></div><p>上周我的电脑升级了 Big Sur，果不其然之前配置的 HiDPI 失效了。而且这次苹果做了更严格的限制，即便禁用 SIP 也无法对系统目录进行修改了。</p><p>网上找了很多 Big Sur 开启 HiDPI 的方法，最后找到一种有效的方式，记录在这里，为了方便自己查阅，也希望能帮助到其他人。</p><p>运行命令： <code>bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/xzhih/one-key-hidpi/master/hidpi.sh)&quot;</code></p><p>执行路径为：</p><ol><li>选择自己的外接显示器</li><li>开启HIDPI(同时注入EDID)</li><li>保持原样</li><li>手动输入分辨率</li></ol><p>最后手动输入我需要的分辨率：<code>1920x1080 2560x1440</code>，重启后就可以通过 RDM（<a href="https://github.com/avibrazil/RDM" target="_blank" rel="noopener">https://github.com/avibrazil/RDM</a>） 来开启 HiDPI 了。</p><p>如果无效的话，尝试删除 <code>/Library/Displays/Contents/Resources/Overrides/DisplayVendorID-xxx</code> 目录后再试一次（xxx 为你的 VendorID）。</p><ul><li>我之前一直失败就是用这个方式才成功的，估计是用其他方法写入了脏数据，<code>hidpi.sh</code> 脚本的数据一直写入失败，需要手动删除一下脏数据。</li></ul><div style="width:70%;margin:auto"><img src="1.png" alt></div><p>参考：</p><p><a href="https://github.com/xzhih/one-key-hidpi/issues/136" target="_blank" rel="noopener">https://github.com/xzhih/one-key-hidpi/issues/136</a><br><a href="https://blog.chajian110.com/macOS/32.html" target="_blank" rel="noopener">https://blog.chajian110.com/macOS/32.html</a><br><a href="https://blog.csdn.net/ymyz1229/article/details/109676446" target="_blank" rel="noopener">https://blog.csdn.net/ymyz1229/article/details/109676446</a></p>]]></content>
+    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpeg" alt></div><p>上周我的电脑升级了 Big Sur，果不其然之前配置的 HiDPI 失效了。而且这次苹果做了更严格的限制，即便禁用 SIP 也无法对系统目录进行修改了。</p><p>网上找了很多 Big Sur 开启 HiDPI 的方法，最后找到一种有效的方式，记录在这里，为了方便自己查阅，也希望能帮助到其他人。</p><h3 id="运行下边这条命令："><a href="#运行下边这条命令：" class="headerlink" title="运行下边这条命令："></a>运行下边这条命令：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/xzhih/one-key-hidpi/master/hidpi.sh)&quot;</span><br></pre></td></tr></table></figure><h3 id="执行路径为："><a href="#执行路径为：" class="headerlink" title="执行路径为："></a>执行路径为：</h3><ol><li>选择自己的外接显示器</li><li>开启HIDPI(同时注入EDID)</li><li>保持原样</li><li>手动输入分辨率</li></ol><p>最后手动输入我需要的分辨率：<code>1920x1080 2560x1440</code>，重启后就可以通过 RDM（<a href="https://github.com/avibrazil/RDM" target="_blank" rel="noopener">https://github.com/avibrazil/RDM</a>） 来开启 HiDPI 了。</p><div style="width:70%;margin:auto"><img src="1.png" alt></div><h3 id="如果无效的话"><a href="#如果无效的话" class="headerlink" title="如果无效的话"></a>如果无效的话</h3><p>尝试删除 <code>/Library/Displays/Contents/Resources/Overrides/DisplayVendorID-xxx</code> 目录后再试一次（xxx 为你的 VendorID）。</p><blockquote><p>我之前一直失败就是用这个方式才成功的，估计是用其他方法写入了脏数据，<code>hidpi.sh</code> 脚本的数据一直写入失败，需要手动删除一下脏数据。</p></blockquote><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="https://github.com/xzhih/one-key-hidpi/issues/136" target="_blank" rel="noopener">https://github.com/xzhih/one-key-hidpi/issues/136</a><br><a href="https://blog.chajian110.com/macOS/32.html" target="_blank" rel="noopener">https://blog.chajian110.com/macOS/32.html</a><br><a href="https://blog.csdn.net/ymyz1229/article/details/109676446" target="_blank" rel="noopener">https://blog.csdn.net/ymyz1229/article/details/109676446</a></p>]]></content>
     
     <summary type="html">
     
