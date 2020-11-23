@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2020-11-23T12:08:02.840Z</updated>
+  <updated>2020-11-23T12:14:23.902Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -21,15 +21,15 @@
     <link href="https://jpanj.com/2020/go-make-slice-question/"/>
     <id>https://jpanj.com/2020/go-make-slice-question/</id>
     <published>2020-11-23T10:49:42.000Z</published>
-    <updated>2020-11-23T12:08:02.840Z</updated>
+    <updated>2020-11-23T12:14:23.902Z</updated>
     
-    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpg" alt></div><p>今天又踩到了一个 go 语言的坑，其实也不算坑，本质上还是自己对这门语言的不熟悉。</p><p>来看一下我犯的错误，直接上代码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func Int64ToStrings(ids []int64) []string &#123;</span><br><span class="line">strs := make([]string, len(ids))</span><br><span class="line">for i, id := range ids &#123;</span><br><span class="line">strs = append(strs, strconv.FormatInt(id, 10))</span><br><span class="line">&#125;</span><br><span class="line">return strs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>我的需求很简单，将一个 <code>int64</code> 的切片转为 <code>string</code> 类型的切片，写这段代码的时候想到可以预先分配 <code>slice</code> 的大小，所以写了开头的 <code>make</code>，后边就直接逐个将转为 <code>string</code> 的元素 <code>append</code> 进去了。</p><p>但是，<code>make</code> 时实际已经帮我完成了里边指定数量元素的初始化，即：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s = make([]string, 5) // s == []string&#123;&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;&#125;</span><br></pre></td></tr></table></figure><p>所以我之后再往里边 <code>append</code> 时是往最后一个空字符串后边追加元素。</p><p>修复后的代码如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func Int64ToStrings(ids []int64) []string &#123;</span><br><span class="line">strs := make([]string, len(ids))</span><br><span class="line">for i, id := range ids &#123;</span><br><span class="line">strs[i] = strconv.FormatInt(id, 10)</span><br><span class="line">&#125;</span><br><span class="line">return strs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="1.jpg" alt></div><p>今天又踩到了一个 go 语言的坑，其实也不算坑，本质上还是自己对这门语言的不熟悉。</p><p>来看一下我犯的错误，直接上代码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func Int64ToStrings(ids []int64) []string &#123;</span><br><span class="line">strs := make([]string, len(ids))</span><br><span class="line">for i, id := range ids &#123;</span><br><span class="line">strs = append(strs, strconv.FormatInt(id, 10))</span><br><span class="line">&#125;</span><br><span class="line">return strs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>我的需求很简单，将一个 <code>int64</code> 的切片转为 <code>string</code> 类型的切片，写这段代码的时候想到可以预先分配 <code>slice</code> 的大小，所以写了开头的 <code>make</code>，后边就直接逐个将转为 <code>string</code> 的元素 <code>append</code> 进去了。</p><p>但是，<code>make</code> 时实际已经帮我完成了里边指定数量元素的初始化，即：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s = make([]string, 5) // s == []string&#123;&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;&#125;</span><br></pre></td></tr></table></figure><p>所以我之后再往里边 <code>append</code> 时是往最后一个空字符串后边追加元素。</p><p>修复后的代码如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func Int64ToStrings(ids []int64) []string &#123;</span><br><span class="line">strs := make([]string, len(ids))</span><br><span class="line">for i, id := range ids &#123;</span><br><span class="line">strs[i] = strconv.FormatInt(id, 10)</span><br><span class="line">&#125;</span><br><span class="line">return strs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;0.jpg&quot; alt&gt;&lt;/div&gt;
+        &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;1.jpg&quot; alt&gt;&lt;/div&gt;
 
 &lt;p&gt;今天又踩到了一个 go 语言的坑，其实也不算坑，本质上还是自己对这门语言的不熟悉。&lt;/p&gt;
 &lt;p&gt;来看一下我犯的错误，直接上代码：&lt;/p&gt;
