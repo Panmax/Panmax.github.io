@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2021-02-08T10:40:17.373Z</updated>
+  <updated>2021-02-08T10:43:37.556Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://jpanj.com/2021/domestic-server-speed-github/"/>
     <id>https://jpanj.com/2021/domestic-server-speed-github/</id>
     <published>2021-02-08T10:27:17.000Z</published>
-    <updated>2021-02-08T10:40:17.373Z</updated>
+    <updated>2021-02-08T10:43:37.556Z</updated>
     
-    <content type="html"><![CDATA[<p>众所周知的原因，国内访问 github 的速度非常受限，在个人电脑上还可以挂个代理之类的来提速，但是如果是在服务器上操作的话，配代理就没那么方便了。</p><p>前几天帮朋友在他的服务器上部署一个 github 上的开源项目，clone 的速度真的感人。</p><div style="width:70%;margin:auto"><img src="slow.png" alt></div><p>4k 左右的下载速度。</p><p>可以通过阿里提供的代理来解决，只需要在你的仓库地址前的 <code>github.com</code> 替换为 <code>github.com.cnpmjs.org/</code> 就可以了。</p><p>比如，之前的地址是：<code>https://github.com/gin-gonic/gin</code>，替换后为：<code>https://github.com.cnpmjs.org/gin-gonic/gin</code>。</p><p>效果如下：</p><div style="width:70%;margin:auto"><img src="quick.png" alt></div><p>虽然没有快的飞起，但是已经相当不错了。</p><hr><p>P.S. 域名后边的 <a href="cnpmjs.org">cnpmjs.org</a> 这个地址是提供 npm 加速的，前端童鞋可以通过 cnpm 来实现前端构建的加速。</p>]]></content>
+    <content type="html"><![CDATA[<p>众所周知的原因，国内访问 github 的速度非常受限，在个人电脑上还可以挂个代理之类的来提速，但是如果是在服务器上操作的话，配代理就没那么方便了。</p><p>前几天帮朋友在他的服务器上部署一个 github 上的开源项目，clone 的速度真的感人。</p><div style="width:70%;margin:auto"><img src="slow.png" alt></div><p>4k 左右的下载速度。</p><p>可以通过阿里提供的代理来解决，只需把 rep 地址中的 <code>github.com</code> 替换为 <code>github.com.cnpmjs.org/</code> 就可以了。</p><p>比如，之前的地址是：<code>https://github.com/gin-gonic/gin</code>，替换后为：<code>https://github.com.cnpmjs.org/gin-gonic/gin</code>。</p><p>效果如下：</p><div style="width:70%;margin:auto"><img src="quick.png" alt></div><p>虽然没有快的飞起，但是已经相当不错了。</p><hr><p>P.S. 域名后边的 <a href="cnpmjs.org">cnpmjs.org</a> 这个地址是提供 npm 加速的，前端童鞋可以通过 cnpm 来实现前端构建的加速。</p>]]></content>
     
     <summary type="html">
     
