@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2021-02-25T06:38:53.752Z</updated>
+  <updated>2021-03-18T02:46:45.346Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>16 个问题了解 CDN</title>
+    <link href="https://jpanj.com/2021/cdn-question/"/>
+    <id>https://jpanj.com/2021/cdn-question/</id>
+    <published>2021-03-18T02:00:04.000Z</published>
+    <updated>2021-03-18T02:46:45.346Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="如果你把你的站点部署在-CDN-的后面，网站的-IP-地址是-CDN-还是后端服务器？"><a href="#如果你把你的站点部署在-CDN-的后面，网站的-IP-地址是-CDN-还是后端服务器？" class="headerlink" title="如果你把你的站点部署在 CDN 的后面，网站的 IP 地址是 CDN 还是后端服务器？"></a>如果你把你的站点部署在 CDN 的后面，网站的 IP 地址是 CDN 还是后端服务器？</h3><p> // TODO</p><h3 id="CDN-是否只有一个数据中心用于缓存内容？"><a href="#CDN-是否只有一个数据中心用于缓存内容？" class="headerlink" title="CDN 是否只有一个数据中心用于缓存内容？"></a>CDN 是否只有一个数据中心用于缓存内容？</h3><p> // TODO</p><h3 id="CDN-只会缓存-HTTP-响应的-body（比如图片）吗？"><a href="#CDN-只会缓存-HTTP-响应的-body（比如图片）吗？" class="headerlink" title="CDN 只会缓存 HTTP 响应的 body（比如图片）吗？"></a>CDN 只会缓存 HTTP 响应的 body（比如图片）吗？</h3><p>// TODO</p><h3 id="如果你不小心缓存了错误的内容，是否能立即修复？"><a href="#如果你不小心缓存了错误的内容，是否能立即修复？" class="headerlink" title="如果你不小心缓存了错误的内容，是否能立即修复？"></a>如果你不小心缓存了错误的内容，是否能立即修复？</h3><p>// TODO</p><h3 id="CDN-如何知道它是否应该缓存本次HTTP的响应？"><a href="#CDN-如何知道它是否应该缓存本次HTTP的响应？" class="headerlink" title="CDN 如何知道它是否应该缓存本次HTTP的响应？"></a>CDN 如何知道它是否应该缓存本次HTTP的响应？</h3><p>// TODO</p><h3 id="CDN-可以缓存任何类型的-HTTP-的响应吗？"><a href="#CDN-可以缓存任何类型的-HTTP-的响应吗？" class="headerlink" title="CDN 可以缓存任何类型的 HTTP 的响应吗？"></a>CDN 可以缓存任何类型的 HTTP 的响应吗？</h3><p>// TODO</p><h3 id="CDN-是否可以在你的服务器宕机的情况下继续为你的站点提供服务？"><a href="#CDN-是否可以在你的服务器宕机的情况下继续为你的站点提供服务？" class="headerlink" title="CDN 是否可以在你的服务器宕机的情况下继续为你的站点提供服务？"></a>CDN 是否可以在你的服务器宕机的情况下继续为你的站点提供服务？</h3><p>// TODO</p><h3 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h3><p>// TODO</p><h3 id="CDN-总是对资源进行缓存吗？"><a href="#CDN-总是对资源进行缓存吗？" class="headerlink" title="CDN 总是对资源进行缓存吗？"></a>CDN 总是对资源进行缓存吗？</h3><p>// TODO</p><h3 id="是否可以判断出某个网站使用了-CDN？"><a href="#是否可以判断出某个网站使用了-CDN？" class="headerlink" title="是否可以判断出某个网站使用了 CDN？"></a>是否可以判断出某个网站使用了 CDN？</h3><p>// TODO</p><h3 id="是否能判断出你收到的是一个被缓存的响应？"><a href="#是否能判断出你收到的是一个被缓存的响应？" class="headerlink" title="是否能判断出你收到的是一个被缓存的响应？"></a>是否能判断出你收到的是一个被缓存的响应？</h3><p>// TODO</p><h3 id="及时没有缓存，CDN-是否可以使请求更快？"><a href="#及时没有缓存，CDN-是否可以使请求更快？" class="headerlink" title="及时没有缓存，CDN 是否可以使请求更快？"></a>及时没有缓存，CDN 是否可以使请求更快？</h3><p>// TODO</p><h3 id="如果你的站点只支持-HTTP-1-1，CDN-可以接收-HTTP-2-0-的请求吗？"><a href="#如果你的站点只支持-HTTP-1-1，CDN-可以接收-HTTP-2-0-的请求吗？" class="headerlink" title="如果你的站点只支持 HTTP/1.1，CDN 可以接收 HTTP/2.0 的请求吗？"></a>如果你的站点只支持 HTTP/1.1，CDN 可以接收 HTTP/2.0 的请求吗？</h3><p>// TODO</p><h3 id="是否可以让-CDN-对响应只缓存一段时间（如10分钟）？"><a href="#是否可以让-CDN-对响应只缓存一段时间（如10分钟）？" class="headerlink" title="是否可以让 CDN 对响应只缓存一段时间（如10分钟）？"></a>是否可以让 CDN 对响应只缓存一段时间（如10分钟）？</h3><p>// TODO</p><h3 id="是否允许资源只被浏览器缓存而不被-CDN-缓存？"><a href="#是否允许资源只被浏览器缓存而不被-CDN-缓存？" class="headerlink" title="是否允许资源只被浏览器缓存而不被 CDN 缓存？"></a>是否允许资源只被浏览器缓存而不被 CDN 缓存？</h3><p>// TODO</p><h3 id="如果你用同一个-URL-请求-CDN，但-header-不同，是否会得到相同的缓存响应？"><a href="#如果你用同一个-URL-请求-CDN，但-header-不同，是否会得到相同的缓存响应？" class="headerlink" title="如果你用同一个 URL 请求 CDN，但 header 不同，是否会得到相同的缓存响应？"></a>如果你用同一个 URL 请求 CDN，但 header 不同，是否会得到相同的缓存响应？</h3><p>//TODO</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;如果你把你的站点部署在-CDN-的后面，网站的-IP-地址是-CDN-还是后端服务器？&quot;&gt;&lt;a href=&quot;#如果你把你的站点部署在-CDN-的后面，网站的-IP-地址是-CDN-还是后端服务器？&quot; class=&quot;headerlink&quot; title=&quot;如果你把你的
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>git 子模块使用</title>
@@ -448,29 +469,6 @@
         &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;0.jpg&quot; alt&gt;&lt;/div&gt;
 
 &lt;p&gt;在持续交付和大规模互联网应用流行前，企业一般采用手动的方式进行部署，通常选择活动用户最少的时间（如周末或者凌晨），并且告诉大家需要一段时间来维护系
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>数据库隔离级别简介</title>
-    <link href="https://jpanj.com/2020/database-isolation-levels/"/>
-    <id>https://jpanj.com/2020/database-isolation-levels/</id>
-    <published>2020-07-23T08:21:25.000Z</published>
-    <updated>2020-09-07T07:48:56.115Z</updated>
-    
-    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpg" alt></div><p>数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别的异同。</p><h2 id="RU-READ-UNCOMMITTED-能读到未提交的数据"><a href="#RU-READ-UNCOMMITTED-能读到未提交的数据" class="headerlink" title="RU(READ-UNCOMMITTED) - 能读到未提交的数据"></a>RU(READ-UNCOMMITTED) - 能读到未提交的数据</h2><p>RU 级别，实际上就是完全不隔离。每个进行中事务的中间状态，对其他事务都是可见的，所以有可能会出现「脏读」。</p><h3 id="RU-举例"><a href="#RU-举例" class="headerlink" title="RU 举例"></a>RU 举例</h3><div style="width:70%;margin:auto"><img src="2.png" alt></div><p>用户1设置 <code>x=3</code>，在用户1的事务未提交之前，用户2 执行 <code>get x</code> 时却看到了 <code>x=3</code>。</p><h2 id="RC-READ-COMMITEED-能读到已提交的数据"><a href="#RC-READ-COMMITEED-能读到已提交的数据" class="headerlink" title="RC(READ-COMMITEED) - 能读到已提交的数据"></a>RC(READ-COMMITEED) - 能读到已提交的数据</h2><h3 id="RC-举例"><a href="#RC-举例" class="headerlink" title="RC 举例"></a>RC 举例</h3><div style="width:70%;margin:auto"><img src="3.png" alt></div><p>用户1设置 <code>x=3</code>，在用户1的事务未提交之前，用户2 执行 <code>get x</code> 操作依旧返回的时旧值 <code>2</code>。</p><h2 id="RR-REPEATABLE-READ-可重复读"><a href="#RR-REPEATABLE-READ-可重复读" class="headerlink" title="RR(REPEATABLE-READ) - 可重复读"></a>RR(REPEATABLE-READ) - 可重复读</h2><p>RC 和 RR 唯一的区别在于“是否可重复读”：<strong>在一个事务执行过程中，它能不能读到其他已提交事务对数据的更新，如果能读到数据变化，就是“不可重复读”，否则就是“可重复读”。</strong></p><h3 id="RR-举例"><a href="#RR-举例" class="headerlink" title="RR 举例"></a>RR 举例</h3><p>继续上边的例子，如果用户2 读取 x 是在同一个事务内，那么永远读到的都是事务开始前x的值。也就是说每个事务都从数据库的一致性快照中读取数据。</p><div style="width:70%;margin:auto"><img src="4.png" alt></div><p>在 RR 隔离级别下，在一个事务进行过程中，对于同一条数据，每次读到的结果总是相同的，无论其他会话是否已经更新了这条数据，这就是「可重复读」。</p><h3 id="不可重复读导致的问题"><a href="#不可重复读导致的问题" class="headerlink" title="不可重复读导致的问题"></a>不可重复读导致的问题</h3><div style="width:70%;margin:auto"><img src="5.png" alt></div><p>假设用户在银行有 1000 块钱，分别存放在两个账户上，每个账户 500。现在有这样一笔转账交易从账户1转 100 到账户2。如果用户在他提交转账请求之后而银行系统执行转账的过程中间，来查看两个账户的余额，他有可能看到帐号1收到转账前的余额（500元），和帐号2完成钱款转出后的余额（400元）。对于用户来说，貌似他的账户总共只有 900 元，有 100 元消失了。</p><p>这种异常现象称为不可重复读（nonrepeatable read）或<strong>读倾斜（read skew）</strong>。</p><h2 id="SERIALIZABLE-串行化"><a href="#SERIALIZABLE-串行化" class="headerlink" title="SERIALIZABLE - 串行化"></a>SERIALIZABLE - 串行化</h2><p>串行化隔离通常被认为是最强的隔离级别。它保证即使事物可能会并行执行，但最终的结果与每次一个即串行执行结果相同。不过由于这种隔离级别性能较差，所以在实际开发中很少被用到，以下是三种实现串行化的技术方案：</p><ul><li>严格按照串行顺序执行</li><li>两阶段锁定</li><li>乐观并发控制技术</li></ul><h2 id="隔离级别的要点："><a href="#隔离级别的要点：" class="headerlink" title="隔离级别的要点："></a>隔离级别的要点：</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>客户端读到了其他客户端未提交的写入。</p><h3 id="脏写"><a href="#脏写" class="headerlink" title="脏写"></a>脏写</h3><p>客户端覆盖了另一个客户端尚未提交的写入。</p><h3 id="读倾斜（不可重复读）"><a href="#读倾斜（不可重复读）" class="headerlink" title="读倾斜（不可重复读）"></a>读倾斜（不可重复读）</h3><p>客户端在不同时间点看到了不同值。</p><h3 id="更新丢失"><a href="#更新丢失" class="headerlink" title="更新丢失"></a>更新丢失</h3><p>两个客户端同时执行<strong>读-修改-写入</strong>操作序列，出现了其中一个覆盖了另一个的写入，但又没有包含对方最新值的情况，最终导致了部分修改发生了丢失。</p><h3 id="写倾斜"><a href="#写倾斜" class="headerlink" title="写倾斜"></a>写倾斜</h3><p>事务首先查询数据，根据返回的结果而作出某些决定，然后修改数据库。当事务提交时，支持决定的前提条件已不再成立。</p><h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>事务读取了某些符合查询条件的对象，同时另一个客户端执行写入，改变了先前的查询结果。</p><p>幻读这个概念有些抽象，举例说明一下：</p><div style="width:70%;margin:auto"><img src="6.png" alt></div><ul><li>用户1在一个会话中开启一个事务，准备插入一条 ID 为 1000 的流水记录。查询一下当前流水，不存在 ID 为 1000 的记录，可以安全地插入数据。</li><li>这时候，另外一个会话抢先插入了这条 ID 为 1000 的流水记录。</li><li>然后用户1再执行相同的插入语句时，就会报主键冲突错误，但是由于事务的隔离性，它执行查询的时候，却查不到这条 ID 为 1000 的流水，就像出现了“幻觉”一样，这就是幻读。</li></ul><p>在实际业务中，很少能遇到幻读，即使遇到，也基本不会影响到数据准确性。</p><h3 id="最后用一张表格总结一下上边的内容："><a href="#最后用一张表格总结一下上边的内容：" class="headerlink" title="最后用一张表格总结一下上边的内容："></a>最后用一张表格总结一下上边的内容：</h3><div style="width:70%;margin:auto"><img src="1.jpg" alt></div><ul><li><code>RU</code> 级别隔即没有任何隔离，存在脏读、不可重复读、幻读的风险</li><li><code>RC</code> 可以避免脏读，还是会存在不可重复读和幻读</li><li><code>NR</code> 可以避免脏读和不可重复读（通常通过一致性快照），但无法避免幻读</li><li>只有 <code>SERIALIZABLE</code> 才可以避免幻读</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;0.jpg&quot; alt&gt;&lt;/div&gt;
-
-&lt;p&gt;数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别
       
     
     </summary>
