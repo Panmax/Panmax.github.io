@@ -113,16 +113,17 @@
 
 
 
-  <meta name="description" content="这里是贾攀叨逼叨的地方">
-<meta property="og:type" content="website">
-<meta property="og:title" content="贾攀家">
-<meta property="og:url" content="https://jpanj.com/archives/2020/08/index.html">
+  <meta name="description" content="如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？不可能。 一个事件循环中的所有代码都在一个操作系统线程中运行，所以任何时刻只能有一段代码在运行。 在一个有事件循环的程序中，是否可以有其他线程？是的。 例如，在 node.js 中，所有的 Javascript 代码都在一个线程中运行，但还有其他工作线程来处理网络请求和其他 I/O。 在一个事件循环中，是否由操作系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于事件循环的 15 个问题">
+<meta property="og:url" content="https://jpanj.com/2021/event-loop-questions/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="这里是贾攀叨逼叨的地方">
+<meta property="og:description" content="如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？不可能。 一个事件循环中的所有代码都在一个操作系统线程中运行，所以任何时刻只能有一段代码在运行。 在一个有事件循环的程序中，是否可以有其他线程？是的。 例如，在 node.js 中，所有的 Javascript 代码都在一个线程中运行，但还有其他工作线程来处理网络请求和其他 I/O。 在一个事件循环中，是否由操作系">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-04-13T03:50:51.518Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="贾攀家">
-<meta name="twitter:description" content="这里是贾攀叨逼叨的地方">
+<meta name="twitter:title" content="关于事件循环的 15 个问题">
+<meta name="twitter:description" content="如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？不可能。 一个事件循环中的所有代码都在一个操作系统线程中运行，所以任何时刻只能有一段代码在运行。 在一个有事件循环的程序中，是否可以有其他线程？是的。 例如，在 node.js 中，所有的 Javascript 代码都在一个线程中运行，但还有其他工作线程来处理网络请求和其他 I/O。 在一个事件循环中，是否由操作系">
 
 
 
@@ -131,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/archives/2020/08/">
+  <link rel="canonical" href="https://jpanj.com/2021/event-loop-questions/">
 
 
 
@@ -141,7 +142,7 @@
   };
 </script>
 
-  <title>Archive | 贾攀家</title>
+  <title>关于事件循环的 15 个问题 | 贾攀家</title>
   
 
 
@@ -198,7 +199,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -247,7 +248,7 @@
         
         
           
-          <li class="menu-item menu-item-文章列表 menu-item-active">
+          <li class="menu-item menu-item-文章列表">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
   </li>
@@ -333,95 +334,227 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2020">2020</h1>
-          </div>
-        
-        
-
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2021/event-loop-questions/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/sync-async-blocking/" itemprop="url">
-              
-                <span itemprop="name">再论《阻塞、非阻塞 I/O 与同步、异步 I/O》</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">关于事件循环的 15 个问题
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-08-26T15:39:12+08:00" content="2020-08-26">
-          08-26
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
 
+              
+                
+              
+
+              <time title="Created: 2021-04-13 11:50:05 / Modified: 11:50:51" itemprop="dateCreated datePublished" datetime="2021-04-13T11:50:05+08:00">2021-04-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/event-loop-questions/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2021/event-loop-questions/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2021/event-loop-questions/" class="leancloud_visitors" data-flag-title="关于事件循环的 15 个问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <h2 id="如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？"><a href="#如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？" class="headerlink" title="如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？"></a>如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？</h2><p>不可能。</p>
+<p>一个事件循环中的所有代码都在一个操作系统线程中运行，所以任何时刻只能有一段代码在运行。</p>
+<h2 id="在一个有事件循环的程序中，是否可以有其他线程？"><a href="#在一个有事件循环的程序中，是否可以有其他线程？" class="headerlink" title="在一个有事件循环的程序中，是否可以有其他线程？"></a>在一个有事件循环的程序中，是否可以有其他线程？</h2><p>是的。</p>
+<p>例如，在 <code>node.js</code> 中，所有的 Javascript 代码都在一个线程中运行，但还有其他工作线程来处理网络请求和其他 I/O。</p>
+<h2 id="在一个事件循环中，是否由操作系统来负责调度函数执行的顺序？"><a href="#在一个事件循环中，是否由操作系统来负责调度函数执行的顺序？" class="headerlink" title="在一个事件循环中，是否由操作系统来负责调度函数执行的顺序？"></a>在一个事件循环中，是否由操作系统来负责调度函数执行的顺序？</h2><p>不是。</p>
+<p>例如，用Python的 <code>asyncio</code>，做调度的代码是一个 Python 程序。</p>
+<h2 id="事件循环真的是一个循环吗？（就像像-for-循环或-while-循环？）"><a href="#事件循环真的是一个循环吗？（就像像-for-循环或-while-循环？）" class="headerlink" title="事件循环真的是一个循环吗？（就像像 for 循环或 while 循环？）"></a>事件循环真的是一个循环吗？（就像像 <code>for</code> 循环或 <code>while</code> 循环？）</h2><p>是的。</p>
+<p>通常事件循环都是以<code>while</code>循环的形式实现的，它看起来像这样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while True:</span><br><span class="line">    self._run_once()</span><br><span class="line">    if self._stopping:</span><br><span class="line">        break</span><br></pre></td></tr></table></figure>
+<p>（以上是 Python 的 <code>asyncio</code> 事件循环的实际代码）</p>
+<h2 id="事件循环如何决定下一个函数的运行？"><a href="#事件循环如何决定下一个函数的运行？" class="headerlink" title="事件循环如何决定下一个函数的运行？"></a>事件循环如何决定下一个函数的运行？</h2><p>通过队列。</p>
+<p>当函数准备好运行时，它们会被推到队列中，然后事件循环按顺序执行队列中的函数。</p>
+<h2 id="如果一个网络请求返回，并且它有一个附加的回调，该回调是否会被推送到事件循环的队列中？"><a href="#如果一个网络请求返回，并且它有一个附加的回调，该回调是否会被推送到事件循环的队列中？" class="headerlink" title="如果一个网络请求返回，并且它有一个附加的回调，该回调是否会被推送到事件循环的队列中？"></a>如果一个网络请求返回，并且它有一个附加的回调，该回调是否会被推送到事件循环的队列中？</h2><p>是的。</p>
+<p>当网络请求或其他 I/O 完成后，或者用户点击了某些东西，或者因为该函数计划在那时运行等，函数可能会被推入事件循环的队列中。</p>
+<h2 id="常规函数和异步函数一样吗？"><a href="#常规函数和异步函数一样吗？" class="headerlink" title="常规函数和异步函数一样吗？"></a>常规函数和异步函数一样吗？</h2><p>不一样。</p>
+<p>异步函数特殊之处在于，它们可以被“暂停”并在稍后的事件循环中重新启动。</p>
+<p>例如，在下边这段 Javascript 代码中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">async function panda() &#123;</span><br><span class="line">    let x = 3;</span><br><span class="line">    await elephant();</span><br><span class="line">    let y = 4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>事件循环调度 <code>elephant()</code>，暂停 <code>panda</code>，并在 <code>elephant()</code> 运行完毕后调度 <code>panda()</code> 重新启动。普通的非 <code>async</code> 函数不能像这样暂停和重启。这些可以暂停和重启的异步函数的另一个名字是协程。</p>
+<h2 id="如果你要求事件循环在某个时间运行一个函数（比如-Javascript-中的setTimeout），它能保证在那个时间运行吗？"><a href="#如果你要求事件循环在某个时间运行一个函数（比如-Javascript-中的setTimeout），它能保证在那个时间运行吗？" class="headerlink" title="如果你要求事件循环在某个时间运行一个函数（比如 Javascript 中的setTimeout），它能保证在那个时间运行吗？"></a>如果你要求事件循环在某个时间运行一个函数（比如 Javascript 中的<code>setTimeout</code>），它能保证在那个时间运行吗？</h2><p>不能。</p>
+<p>事件循环会尽力而为，但有时会延迟。</p>
+<h2 id="在-Javascript-中，promises、setTimeout、async-await-和回调是否都使用相同的事件循环？"><a href="#在-Javascript-中，promises、setTimeout、async-await-和回调是否都使用相同的事件循环？" class="headerlink" title="在 Javascript 中，promises、setTimeout、async/await 和回调是否都使用相同的事件循环？"></a>在 Javascript 中，promises、setTimeout、async/await 和回调是否都使用相同的事件循环？</h2><p>是的。</p>
+<p>虽然它们的语法不同，但它们是安排代码稍后运行的不同方式。</p>
+<h2 id="在下边这段代码中，是否可以让事件循环在x-3后中断，然后运行别的东西？"><a href="#在下边这段代码中，是否可以让事件循环在x-3后中断，然后运行别的东西？" class="headerlink" title="在下边这段代码中，是否可以让事件循环在x=3后中断，然后运行别的东西？"></a>在下边这段代码中，是否可以让事件循环在x=3后中断，然后运行别的东西？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = 3;</span><br><span class="line">y = 4;</span><br></pre></td></tr></table></figure>
+<p>不能。</p>
+<p>你需要显式让步给事件循环，让它运行一个不同的函数，例如使用 await</p>
+<h2 id="如果你运行一些CPU密集型的代码，如下，事件循环最终会中断代码吗？"><a href="#如果你运行一些CPU密集型的代码，如下，事件循环最终会中断代码吗？" class="headerlink" title="如果你运行一些CPU密集型的代码，如下，事件循环最终会中断代码吗？"></a>如果你运行一些CPU密集型的代码，如下，事件循环最终会中断代码吗？</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">while(true) &#123; </span><br><span class="line">   i = i * 3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不会。</p>
+<p>通常，你可以通过运行一些 CPU 密集型操作来长时间阻塞事件循环。</p>
+<h2 id="如果你的Web-服务器事件循环中-CPU-的使用率到达100-，当新的-HTTP-请求进来时，是否能够立即响应？"><a href="#如果你的Web-服务器事件循环中-CPU-的使用率到达100-，当新的-HTTP-请求进来时，是否能够立即响应？" class="headerlink" title="如果你的Web 服务器事件循环中 CPU 的使用率到达100%，当新的 HTTP 请求进来时，是否能够立即响应？"></a>如果你的Web 服务器事件循环中 CPU 的使用率到达100%，当新的 HTTP 请求进来时，是否能够立即响应？</h2><p>不能。</p>
+<p>如果你的事件循环的 CPU 总是很忙，那么新进来的事件就不会得到及时处理。</p>
+<h2 id="Javascript代码总是有一个事件循环吗？"><a href="#Javascript代码总是有一个事件循环吗？" class="headerlink" title="Javascript代码总是有一个事件循环吗？"></a>Javascript代码总是有一个事件循环吗？</h2><p>是的。</p>
+<p>至少在 <code>node.js</code> 和浏览器中是这样的，Javascript 代码总是有一个事件循环运行。</p>
+<h2 id="是否存在一个所有的事件循环都在使用标准的事件循环库？"><a href="#是否存在一个所有的事件循环都在使用标准的事件循环库？" class="headerlink" title="是否存在一个所有的事件循环都在使用标准的事件循环库？"></a>是否存在一个所有的事件循环都在使用标准的事件循环库？</h2><p>没有。</p>
+<p>在不同的编程语言中，有很多不同的事件循环实现。</p>
+<h2 id="你可以在任何编程语言中使用事件循环吗？"><a href="#你可以在任何编程语言中使用事件循环吗？" class="headerlink" title="你可以在任何编程语言中使用事件循环吗？"></a>你可以在任何编程语言中使用事件循环吗？</h2><p>可以。</p>
+<p>大多数编程语言并没有像 Javascript 那样的“一切都在事件循环中运行”的模式，但许多语言都有事件循环库。而且从理论上讲，即使还没有自己语言的事件循环库，你也可以编写一个。</p>
+
+      
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/guidetodatamining-points/" rel="next" title="面向程序员的数据挖掘指南-知识点">
+                <i class="fa fa-chevron-left"></i> 面向程序员的数据挖掘指南-知识点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -442,8 +575,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -678,6 +820,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？"><span class="nav-number">1.</span> <span class="nav-text">如果你的程序中只有一个事件循环，没有其他代码，那么是否有可能在同一时间运行两行代码？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在一个有事件循环的程序中，是否可以有其他线程？"><span class="nav-number">2.</span> <span class="nav-text">在一个有事件循环的程序中，是否可以有其他线程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在一个事件循环中，是否由操作系统来负责调度函数执行的顺序？"><span class="nav-number">3.</span> <span class="nav-text">在一个事件循环中，是否由操作系统来负责调度函数执行的顺序？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环真的是一个循环吗？（就像像-for-循环或-while-循环？）"><span class="nav-number">4.</span> <span class="nav-text">事件循环真的是一个循环吗？（就像像 for 循环或 while 循环？）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件循环如何决定下一个函数的运行？"><span class="nav-number">5.</span> <span class="nav-text">事件循环如何决定下一个函数的运行？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果一个网络请求返回，并且它有一个附加的回调，该回调是否会被推送到事件循环的队列中？"><span class="nav-number">6.</span> <span class="nav-text">如果一个网络请求返回，并且它有一个附加的回调，该回调是否会被推送到事件循环的队列中？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常规函数和异步函数一样吗？"><span class="nav-number">7.</span> <span class="nav-text">常规函数和异步函数一样吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果你要求事件循环在某个时间运行一个函数（比如-Javascript-中的setTimeout），它能保证在那个时间运行吗？"><span class="nav-number">8.</span> <span class="nav-text">如果你要求事件循环在某个时间运行一个函数（比如 Javascript 中的setTimeout），它能保证在那个时间运行吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Javascript-中，promises、setTimeout、async-await-和回调是否都使用相同的事件循环？"><span class="nav-number">9.</span> <span class="nav-text">在 Javascript 中，promises、setTimeout、async/await 和回调是否都使用相同的事件循环？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在下边这段代码中，是否可以让事件循环在x-3后中断，然后运行别的东西？"><span class="nav-number">10.</span> <span class="nav-text">在下边这段代码中，是否可以让事件循环在x=3后中断，然后运行别的东西？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果你运行一些CPU密集型的代码，如下，事件循环最终会中断代码吗？"><span class="nav-number">11.</span> <span class="nav-text">如果你运行一些CPU密集型的代码，如下，事件循环最终会中断代码吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果你的Web-服务器事件循环中-CPU-的使用率到达100-，当新的-HTTP-请求进来时，是否能够立即响应？"><span class="nav-number">12.</span> <span class="nav-text">如果你的Web 服务器事件循环中 CPU 的使用率到达100%，当新的 HTTP 请求进来时，是否能够立即响应？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Javascript代码总是有一个事件循环吗？"><span class="nav-number">13.</span> <span class="nav-text">Javascript代码总是有一个事件循环吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#是否存在一个所有的事件循环都在使用标准的事件循环库？"><span class="nav-number">14.</span> <span class="nav-text">是否存在一个所有的事件循环都在使用标准的事件循环库？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你可以在任何编程语言中使用事件循环吗？"><span class="nav-number">15.</span> <span class="nav-text">你可以在任何编程语言中使用事件循环吗？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -814,6 +972,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
 
   
 
