@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2021-04-13T03:50:51.518Z</updated>
+  <updated>2021-04-19T02:42:18.964Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于 TCP 的 14 个问题</title>
+    <link href="https://jpanj.com/2021/tcp-questions/"/>
+    <id>https://jpanj.com/2021/tcp-questions/</id>
+    <published>2021-04-19T02:39:44.000Z</published>
+    <updated>2021-04-19T02:42:18.964Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="每个TCP数据包都有一个源-目的IP地址吗？"><a href="#每个TCP数据包都有一个源-目的IP地址吗？" class="headerlink" title="每个TCP数据包都有一个源/目的IP地址吗？"></a>每个TCP数据包都有一个源/目的IP地址吗？</h2><p><strong>是的</strong></p><p>下边是一个TCP数据包的结构</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-+-+-+-+-+-+-+-+--</span><br><span class="line">| Ethernet header |</span><br><span class="line">+-+-+-+-+-+-+-+-+--</span><br><span class="line">| IP header       |</span><br><span class="line">+-+-+-+-+-+-+-+-+--</span><br><span class="line">| TCP header      |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+</span><br><span class="line">| packet contents |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure><p>这就是为什么我们称它为 「TCP/IP」– TCP数据包总是有一个 IP 头。</p><h2 id="每个TCP数据包都有一个端口号吗？"><a href="#每个TCP数据包都有一个端口号吗？" class="headerlink" title="每个TCP数据包都有一个端口号吗？"></a>每个TCP数据包都有一个端口号吗？</h2><p><strong>是的</strong></p><p>TCP 头中的端口字段为16位。</p><h2 id="TCP连接中发送的第一个数据包是什么？"><a href="#TCP连接中发送的第一个数据包是什么？" class="headerlink" title="TCP连接中发送的第一个数据包是什么？"></a>TCP连接中发送的第一个数据包是什么？</h2><p><strong>SYN</strong></p><p>每个TCP连接都是以三次向握手开始的：</p><ul><li>client: SYN</li><li>server: SYN + ACK</li><li>client: ACK</li></ul><h2 id="如果防火墙拦截了连接，TCP握手能否完成？"><a href="#如果防火墙拦截了连接，TCP握手能否完成？" class="headerlink" title="如果防火墙拦截了连接，TCP握手能否完成？"></a>如果防火墙拦截了连接，TCP握手能否完成？</h2><p><strong>不能</strong></p><p>被防火墙拦截的常见症状是 SYN 数据包发出后无 ACK 返回。</p><h2 id="电子邮件使用TCP吗？"><a href="#电子邮件使用TCP吗？" class="headerlink" title="电子邮件使用TCP吗？"></a>电子邮件使用TCP吗？</h2><p><strong>是的</strong></p><p>电子邮件是通过SMTP发送的，它使用了 TCP。</p><p>FTP、POP3、HTTP/1、HTTP/2、websockets 等很逗互联网协议也都使用了 TCP。</p><h2 id="TCP连接是双向的吗？-客户端和服务器都能发送消息吗？"><a href="#TCP连接是双向的吗？-客户端和服务器都能发送消息吗？" class="headerlink" title="TCP连接是双向的吗？(客户端和服务器都能发送消息吗？)"></a>TCP连接是双向的吗？(客户端和服务器都能发送消息吗？)</h2><p><strong>是的</strong></p><p>一个HTTP 请求/响应 是个 TCP 连接 —— 客户端发送 HTTP 请求，然后服务器发送响应。</p><h2 id="如果服务器发送响应给客户端，客户端能否发送更多数据？"><a href="#如果服务器发送响应给客户端，客户端能否发送更多数据？" class="headerlink" title="如果服务器发送响应给客户端，客户端能否发送更多数据？"></a>如果服务器发送响应给客户端，客户端能否发送更多数据？</h2><p><strong>是的</strong></p><p>例如，websockets 使用 TCP 使客户端和服务器根据需要来回发送数据。</p><h2 id="如果你通过TCP发送一个长消息，是否会被分成多个数据包？"><a href="#如果你通过TCP发送一个长消息，是否会被分成多个数据包？" class="headerlink" title="如果你通过TCP发送一个长消息，是否会被分成多个数据包？"></a>如果你通过TCP发送一个长消息，是否会被分成多个数据包？</h2><p><strong>是的</strong></p><p>数据包有最大限制（通常是1500字节），所以需要将一个 TCP 消息分割成许多数据包。</p><h2 id="当你发送-TCP-数据包时，数据包是否可以按照你发送的顺序到达目的地？"><a href="#当你发送-TCP-数据包时，数据包是否可以按照你发送的顺序到达目的地？" class="headerlink" title="当你发送 TCP 数据包时，数据包是否可以按照你发送的顺序到达目的地？"></a>当你发送 TCP 数据包时，数据包是否可以按照你发送的顺序到达目的地？</h2><p><strong>不是</strong></p><p>无法确保网络数据包会按照你发送的顺序到达。</p><h2 id="负责理解TCP协议的代码在哪？"><a href="#负责理解TCP协议的代码在哪？" class="headerlink" title="负责理解TCP协议的代码在哪？"></a>负责理解TCP协议的代码在哪？</h2><p><strong>通常是在操作系统中</strong></p><p>Linux、Mac、Windows等都有 TCP 实现。如果你愿意，也可以编写自己的TCP实现。</p><h2 id="你的操作系统使用-TCP-数据包中的哪个字段将数据包按正确顺序排列？"><a href="#你的操作系统使用-TCP-数据包中的哪个字段将数据包按正确顺序排列？" class="headerlink" title="你的操作系统使用 TCP 数据包中的哪个字段将数据包按正确顺序排列？"></a>你的操作系统使用 TCP 数据包中的哪个字段将数据包按正确顺序排列？</h2><p><strong>序列号(sequence number)</strong></p><p>数据包的序列号告诉你它在整个数据流中的位置。序列号计算的是字节数，而不是包数。</p><p>下面是一组数据包内容和序列号的例子（每个字符是1个字节）：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-+-+-+-+-+-+-+-+-+-+-</span><br><span class="line">| contents   | seq # |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-</span><br><span class="line">| hello I    |   0   |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-</span><br><span class="line">| x!         |   15  |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-</span><br><span class="line">| &apos;m panma   |   7   |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-</span><br></pre></td></tr></table></figure><p>如果按照正确的顺序排列，这些数据包将重新排列为“hello I’m  panmax!”</p><h2 id="顺序号总是从0开始吗？"><a href="#顺序号总是从0开始吗？" class="headerlink" title="顺序号总是从0开始吗？"></a>顺序号总是从0开始吗？</h2><p><strong>不是</strong></p><p>通常连接中的第一个序列号是一个很大的数字，比如：1737132723，其他序列号都是与这个数字相对的。所以在计算时需要减去第一个序列号。</p><p>如果你在 Wireshark/tcpdump 中查看TCP数据包，它们会进行减法处理，使其看起来像序列号从0开始，让人类更易阅读。</p><h2 id="如果你发送一个-TCP-数据包，如何知道它被接收？"><a href="#如果你发送一个-TCP-数据包，如何知道它被接收？" class="headerlink" title="如果你发送一个 TCP 数据包，如何知道它被接收？"></a>如果你发送一个 TCP 数据包，如何知道它被接收？</h2><p><strong>你会收到一个ACK</strong></p><p>例如，服务器收到了一个序列号为1200的数据包，并且也已收到所有在它之前的数据包，服务器会发送一个序列号为1200的ACK数据包。</p><h2 id="被丢弃的TCP数据包是否会被重试发送？"><a href="#被丢弃的TCP数据包是否会被重试发送？" class="headerlink" title="被丢弃的TCP数据包是否会被重试发送？"></a>被丢弃的TCP数据包是否会被重试发送？</h2><p><strong>是的</strong></p><p>如果客户端(或服务器)在一定时间内没有收到其发送数据包的ACK，它将会重试发送该数据包。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;每个TCP数据包都有一个源-目的IP地址吗？&quot;&gt;&lt;a href=&quot;#每个TCP数据包都有一个源-目的IP地址吗？&quot; class=&quot;headerlink&quot; title=&quot;每个TCP数据包都有一个源/目的IP地址吗？&quot;&gt;&lt;/a&gt;每个TCP数据包都有一个源/目的IP地址
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>关于事件循环的 15 个问题</title>
@@ -445,29 +466,6 @@
 
 &lt;p&gt;服务容器化变得越来越流行，如今大部分的 Web 服务会首选部署在容器中。容器的优点是否也适用于部署数据库？&lt;/p&gt;
 &lt;p&gt;很多文章在分析这个问题时
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Last Day</title>
-    <link href="https://jpanj.com/2020/last-day-in-qianxin/"/>
-    <id>https://jpanj.com/2020/last-day-in-qianxin/</id>
-    <published>2020-09-29T13:06:41.000Z</published>
-    <updated>2020-09-29T13:17:23.386Z</updated>
-    
-    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.JPG" alt></div><p>是的，今天是我在这家公司的最后一天，2017年4月1日-2020年9月29日，3年零6个月，在我目前的职业生涯中是最长的一次经历。在这中间已经有过几次想要离开，但是都以各种各样的理由说服了自己。任何公司都有自己的问题，所以我在这里不会对这家公司进行过多的评判。</p><p>下图分别是我入职时发的动态和离职时的离职证明。</p><div style="width:70%;margin:auto"><img src="1.png" alt></div><div style="width:70%;margin:auto"><img src="2.png" alt></div><p>在这段经历中，也得到了老板的器重，去年年底的时候被任命了「研发总监」，需要管理部门内40+人的研发团队（之前成都的负责人协助我做副手），说实话当时的压力非常的大，尤其是对另一个团队的业务并不是那么了解。好在今年4月份，集团调整了政策，各职能线只能有一个 L3，经过慎重的考虑，老板认为成都负责人对整体业务更熟悉、管理经验更丰富，所以最终任命了他为留下来的研发总监。</p><p>老板当时还跟我做了一些解释，担心我有什么想法。说实话，我对这事还是有些窃喜的，因为压力不至于那么大了，而且我目前不太有意愿投非常大的精力在管理上。私下里也有同事私聊我说你这咋还降了，我云淡风轻的回一句「不重要」。后来我就管理大约一半的研发，也就是做平台开发的这些，加上成都那边有两个小组长的帮助，我的压力少了很多。</p><p>上个月底（8月）的一个周末，我坐下来疏理了一下自己这几年的工作，发觉到自己的成长空间受到了限制、发展方向偏离了主流，于是下定了决心换一份工作了，于是又抽出了 2 小时的时间整理了一份简历出来。周一的时候考虑从哪家开始面起，在看翻看微信的时候，偶然间在一个技术交流群中看到了一条内推「探探」的消息，于是和对方加了好友，让他帮我推探探的直播部门。</p><p>我选择探探的原因，是我在去年学习 Go 期间参与了探探举办的 Gopher China 大会，当时探探给我留下了不错的印象，感受到探探地技术气氛不错。</p><p>探探 HR 效率很高，当天下午就收到了HR的反馈，约了第二天的面试，当天和两个面试官进行了沟通，晚上的时候又约了第三轮面试，当时告诉我是终面。</p><p>第三天上午面完后，HR 反馈说因为职级可以到技术专家，所以需要加一轮交叉面试，约了当天的下午，和四面面试官聊的也有一个小时，当天晚上同时进行了 HR 面。</p><p>第四天我上报了自己的期望薪资，剩下的就是等待反馈了。大概是第二周的周二HR给了我反馈，顺利拿到了 offer。在此之前我已经和老板沟通了我要走的打算，也和一些朋友进行了沟通，很多人都劝我去大厂，让我面面大厂还有朋友主动帮我内推大厂，但我这个人不太爱做选择，而且加上本身没有特别想去大厂的欲望再加上对探探的印象也算不错，于是没有投入太多的精力去进行后边的事情了。其实这里还有一个原因，是我自己并没有为这一次跳槽做太多的事前准备，没有准备面经、八股、刷算法啥的，找到一个自己还算满意的也就定了，希望自己这次选择的是一家「小而美」。</p><blockquote><p>以上大概就是这次的一个跳槽经历。</p></blockquote><p>自从入职这家公司后，从来还没有休过长假，每年的年假都被作废掉，于是在交接的这一个月中，请了一周的假带家人跑北疆玩了一圈，看了看祖国的大好河山，感受了一下什么叫地大物博，顶部图选自旅途中的一张照片。</p><p>说到探探还有一段渊源，我在5年前和一群有趣的人做过一个创业项目，和探探早期的模式非常像（如下图），但是后边因为各种原因失败了，但那次之后我内心深处还是想回到社交这个领域。</p><div style="width:40%;margin:auto"><img src="3.png" alt></div><p>去年在参加 Gopher China 大会的时候脑海中也闪过一个想法，未来如果有机会去探探就好了。</p><p>于是5年后，我回来了。</p><p>Life is a circle.</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;0.JPG&quot; alt&gt;&lt;/div&gt;
-
-&lt;p&gt;是的，今天是我在这家公司的最后一天，2017年4月1日-2020年9月29日，3年零6个月，在我目前的职业生涯中是最长的一次经历。在这中间已经有过
       
     
     </summary>
