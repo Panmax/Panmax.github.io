@@ -113,17 +113,17 @@
 
 
 
-  <meta name="description" content="一个 IPv4 地址有多少位？32 位 比如， 127.0.0.1： 1234  127         0    01111111 00000000     0         100000000 00000001 192.168.1.0/24 代表哪些 IP 地址？192.168.1.0 到 192.168.1.255 192.168.1.0/24 表示与 192.168.1.0 具有相同 2">
+  <meta name="description" content="一个 IPv4 地址有多少位？32 位 比如， 127.0.0.1： 1234  127         0    01111111 00000000     0         100000000 00000001 192.168.1.0/24 代表哪些 IP 地址？192.168.1.0 到 192.168.1.255 192.168.1.0/24 表示所有与 192.168.1.0 前 24">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于 IP 的 11 个问题">
 <meta property="og:url" content="https://jpanj.com/2021/ip-questions/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="一个 IPv4 地址有多少位？32 位 比如， 127.0.0.1： 1234  127         0    01111111 00000000     0         100000000 00000001 192.168.1.0/24 代表哪些 IP 地址？192.168.1.0 到 192.168.1.255 192.168.1.0/24 表示与 192.168.1.0 具有相同 2">
+<meta property="og:description" content="一个 IPv4 地址有多少位？32 位 比如， 127.0.0.1： 1234  127         0    01111111 00000000     0         100000000 00000001 192.168.1.0/24 代表哪些 IP 地址？192.168.1.0 到 192.168.1.255 192.168.1.0/24 表示所有与 192.168.1.0 前 24">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-04-26T12:52:53.299Z">
+<meta property="og:updated_time" content="2021-04-26T12:57:38.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于 IP 的 11 个问题">
-<meta name="twitter:description" content="一个 IPv4 地址有多少位？32 位 比如， 127.0.0.1： 1234  127         0    01111111 00000000     0         100000000 00000001 192.168.1.0/24 代表哪些 IP 地址？192.168.1.0 到 192.168.1.255 192.168.1.0/24 表示与 192.168.1.0 具有相同 2">
+<meta name="twitter:description" content="一个 IPv4 地址有多少位？32 位 比如， 127.0.0.1： 1234  127         0    01111111 00000000     0         100000000 00000001 192.168.1.0/24 代表哪些 IP 地址？192.168.1.0 到 192.168.1.255 192.168.1.0/24 表示所有与 192.168.1.0 前 24">
 
 
 
@@ -396,7 +396,7 @@
                 
               
 
-              <time title="Created: 2021-04-26 20:28:23 / Modified: 20:52:53" itemprop="dateCreated datePublished" datetime="2021-04-26T20:28:23+08:00">2021-04-26</time>
+              <time title="Created: 2021-04-26 20:28:23 / Modified: 20:57:38" itemprop="dateCreated datePublished" datetime="2021-04-26T20:28:23+08:00">2021-04-26</time>
             
 
             
@@ -459,13 +459,13 @@
 <p>比如， 127.0.0.1：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  127         0    </span><br><span class="line">01111111 00000000 </span><br><span class="line">    0         1</span><br><span class="line">00000000 00000001</span><br></pre></td></tr></table></figure>
 <h2 id="192-168-1-0-24-代表哪些-IP-地址？"><a href="#192-168-1-0-24-代表哪些-IP-地址？" class="headerlink" title="192.168.1.0/24 代表哪些 IP 地址？"></a>192.168.1.0/24 代表哪些 IP 地址？</h2><p><strong>192.168.1.0 到 192.168.1.255</strong></p>
-<p>192.168.1.0/24 表示与 192.168.1.0 具有相同 24 位的所有地址</p>
-<p>有 2^(32-24)=256 个这样的IP地址</p>
+<p>192.168.1.0/24 表示所有与 192.168.1.0 前 24 位相同的地址</p>
+<p>有 2^(32-24)=256 个这样的 IP 地址</p>
 <p>这被称为「CIDR 表示法」</p>
-<h2 id="每个-TCP-数据包都有-IP-地址吗？"><a href="#每个-TCP-数据包都有-IP-地址吗？" class="headerlink" title="每个 TCP 数据包都有 IP 地址吗？"></a>每个 TCP 数据包都有 IP 地址吗？</h2><p><strong>是的，它有两个</strong></p>
+<h2 id="每个-TCP-数据包都有-IP-地址吗？"><a href="#每个-TCP-数据包都有-IP-地址吗？" class="headerlink" title="每个 TCP 数据包都有 IP 地址吗？"></a>每个 TCP 数据包都有 IP 地址吗？</h2><p><strong>是的，有两个</strong></p>
 <p>下面是 TCP 包的结构：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+-+-+-+-+-+-+-+-+--+-</span><br><span class="line">|  Ethernet header  |</span><br><span class="line">+-+-+-+-+-+-+-+-+--+-</span><br><span class="line">|  IP header        |</span><br><span class="line">+-+-+-+-+-+-+-+-+--+-</span><br><span class="line">|  TCP header       |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|   packet contents |       </span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure>
-<p>IP 头包含一个源和目的 IP 地址，一个 TTL，一个长度字段，以及其他一些东西。</p>
+<p>IP 头包含一个源和目的 IP 地址，一个 TTL，一个长度字段，以及一些其他东西。</p>
 <h2 id="每个-UDP-数据包都有-IP-地址吗？"><a href="#每个-UDP-数据包都有-IP-地址吗？" class="headerlink" title="每个 UDP 数据包都有 IP 地址吗？"></a>每个 UDP 数据包都有 IP 地址吗？</h2><p><strong>是的</strong></p>
 <p>它的结构与 TCP 数据包相同，只是有一个 UDP 头而非 TCP 头。</p>
 <h2 id="每个-IP-数据包都有端口吗？"><a href="#每个-IP-数据包都有端口吗？" class="headerlink" title="每个 IP 数据包都有端口吗？"></a>每个 IP 数据包都有端口吗？</h2><p><strong>不是</strong></p>
@@ -481,7 +481,9 @@
 </ul>
 <p>127.0.0.0/8 也被保留用于同一台计算机内部的连接。</p>
 <h2 id="如果你的计算机在本地网络上的-IP-地址是-192-168-1-123，它向-google-com-发送了一个数据包，当数据包到达-google-com-时，数据包上的源-IP-地址是-192-168-1-123-吗？"><a href="#如果你的计算机在本地网络上的-IP-地址是-192-168-1-123，它向-google-com-发送了一个数据包，当数据包到达-google-com-时，数据包上的源-IP-地址是-192-168-1-123-吗？" class="headerlink" title="如果你的计算机在本地网络上的 IP 地址是 192.168.1.123，它向 google.com 发送了一个数据包，当数据包到达 google.com 时，数据包上的源 IP 地址是 192.168.1.123 吗？"></a>如果你的计算机在本地网络上的 IP 地址是 192.168.1.123，它向 google.com 发送了一个数据包，当数据包到达 google.com 时，数据包上的源 IP 地址是 192.168.1.123 吗？</h2><p><strong>不是</strong></p>
-<p>192.168.1.123是本地 IP 地址，所以谷歌将无法联系到你的电脑。路由器会改写数据包，将数据包的源 IP 改写为计算机的公网 IP。这被称为「网络地址转换」 或 NAT（network address translation）。</p>
+<p>192.168.1.123是本地 IP 地址，所以谷歌将无法联系到你的电脑</p>
+<p>路由器会改写数据包，将数据包的源 IP 改写为计算机的公网 IP</p>
+<p>这被称为「网络地址转换」 或 NAT（network address translation）</p>
 <h2 id="是否可以发送一个-2M-的-IPv4-数据包？"><a href="#是否可以发送一个-2M-的-IPv4-数据包？" class="headerlink" title="是否可以发送一个 2M 的 IPv4 数据包？"></a>是否可以发送一个 2M 的 IPv4 数据包？</h2><p><strong>不行</strong></p>
 <p>IPv4 数据包的长度字段为 16 位，所以最大长度是 65535。</p>
 <p>在实践中，数据包往往必须比这个数字更小（常见的限制是1500字节）。</p>
