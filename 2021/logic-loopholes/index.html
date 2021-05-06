@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <script type="text/javascript">
+    var host = "jpanj.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+  </script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/favicon.ico?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="五一期间读完了《一本小小的蓝色逻辑书》，这本书不厚，内容很干，总的来说还是比较推荐的。 里边的附录部分列出了一些逻辑上的漏洞，我将其汇总如下：  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见逻辑漏洞">
+<meta property="og:url" content="https://jpanj.com/2021/logic-loopholes/index.html">
+<meta property="og:site_name" content="贾攀家">
+<meta property="og:description" content="五一期间读完了《一本小小的蓝色逻辑书》，这本书不厚，内容很干，总的来说还是比较推荐的。 里边的附录部分列出了一些逻辑上的漏洞，我将其汇总如下：  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jpanj.com/2021/logic-loopholes/常见逻辑漏洞.png">
+<meta property="og:updated_time" content="2021-05-06T02:46:18.594Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常见逻辑漏洞">
+<meta name="twitter:description" content="五一期间读完了《一本小小的蓝色逻辑书》，这本书不厚，内容很干，总的来说还是比较推荐的。 里边的附录部分列出了一些逻辑上的漏洞，我将其汇总如下：  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768">
+<meta name="twitter:image" content="https://jpanj.com/2021/logic-loopholes/常见逻辑漏洞.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="贾攀家" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://jpanj.com/2021/logic-loopholes/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>常见逻辑漏洞 | 贾攀家</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5fa51f35bce35d98c9014cc40e6683f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">贾攀家</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Panmax's Blog</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-文章列表">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章列表</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于我">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于我</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-书单">
+    <a href="/book-list/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-book"></i> <br>书单</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-服务订阅清单">
+    <a href="/sub-list/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-money"></i> <br>服务订阅清单</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2021/logic-loopholes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+      <meta itemprop="image" content="/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀家">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">常见逻辑漏洞
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-05-06 10:38:18 / Modified: 10:46:18" itemprop="dateCreated datePublished" datetime="2021-05-06T10:38:18+08:00">2021-05-06</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/logic-loopholes/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2021/logic-loopholes/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2021/logic-loopholes/" class="leancloud_visitors" data-flag-title="常见逻辑漏洞">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>五一期间读完了《一本小小的蓝色逻辑书》，这本书不厚，内容很干，总的来说还是比较推荐的。</p>
+<p>里边的附录部分列出了一些逻辑上的漏洞，我将其汇总如下：</p>
+<p><img src="常见逻辑漏洞.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><span class="line"># 常见逻辑漏洞</span><br><span class="line"></span><br><span class="line">## 因为语言为题导致的逻辑漏洞</span><br><span class="line"></span><br><span class="line">### 模棱两可</span><br><span class="line"></span><br><span class="line">- 说明：指一个字或词在不同上下文中可以有不同的含义。</span><br><span class="line">- 举例：所有地方的赌博活动都应该被合法化，因为我们根本无法避免这件事。赌博就是人生不可分割的一部分。只要一坐到方向盘后面或者说出自己的结婚誓言，我们就是在赌博。</span><br><span class="line"></span><br><span class="line">### 用不同的字眼表达同一个意思</span><br><span class="line"></span><br><span class="line">- 说明：讲话者通过静心选择用词，来为自己的行为辩解，虽然他用语不同，表达的却是同一个意思。</span><br><span class="line">- 举例：我没说瞎话，我只是稍微夸大了一下事实罢了。</span><br><span class="line"></span><br><span class="line">## 因为「糟糕」的论据而导致的逻辑漏洞</span><br><span class="line"></span><br><span class="line">### 以偏概全</span><br><span class="line"></span><br><span class="line">- 说明：当我们急于做出总结，只根据一小撮样本就得出某个结论时，就容易犯以偏概全的错误。</span><br><span class="line">- 举例：我去过凤凰城三次，每次那里都在下雨所以凤凰城肯定是一座多雨的城市。</span><br><span class="line"></span><br><span class="line">### 循环推理</span><br><span class="line"></span><br><span class="line">- 说明：当我们根据一个前提得出结论，而该结论本身又是前提的前提时，我们就是在犯循环推理错误。</span><br><span class="line">- 举例：威利先生的办公桌总是乱七八糟的，因为他这人能力不行。桌面乱说明他思维混乱，这只能说明一件事：他不胜任自己的工作。</span><br><span class="line"></span><br><span class="line">### 反面论据</span><br><span class="line"></span><br><span class="line">- 说明：我们仅仅因为一件事『没有被证明是错的』就断定他是对的，或者『没有被证明是对的』就断定它是错的，我们的判断就出现了逻辑漏洞。</span><br><span class="line">- 举例：因为公司里的实习生都没有抱怨过薪水太低，所以我们可以自信地说，公司里的实习生对自己的薪水都很满意。</span><br><span class="line"></span><br><span class="line">### 个人偏好</span><br><span class="line"></span><br><span class="line">- 说明：当我们判断一件事情时，只从个人情绪出发，而不考虑实际情况，我们就是在犯这个偏好错误。</span><br><span class="line">- 举例：你怎么能向茜拉咨询婚姻问题呢？难道你不知道她曾因为邮件诈骗而坐过牢吗？</span><br><span class="line"></span><br><span class="line">### 毒水井</span><br><span class="line"></span><br><span class="line">- 说明：当我们过于从一个人的背景，尤其是国籍、种族、性别等来判断其言论时，我们的逻辑就会出问题。</span><br><span class="line">- 举例：你说的话怎么能算数呢？你是从悉尼来的，当然会说悉尼比墨尔本好。</span><br><span class="line"></span><br><span class="line">### 你也好不到哪去</span><br><span class="line"></span><br><span class="line">- 说明：如果我们因为一个人也犯了跟我们一样的错误，就拒绝接受对方的观点，那我们的逻辑也会出问题。</span><br><span class="line">- 举例：父亲：“孩子，你不该喝酒。喝酒伤肝，整天醉醺醺的怎么行？”</span><br><span class="line"></span><br><span class="line">儿子：“老爸，你现在手里不就拿着酒杯吗？”</span><br><span class="line"></span><br><span class="line">### 红鲱鱼</span><br><span class="line"></span><br><span class="line">- 说明：当我们在谈话中视图通过转移话题来回避自己的弱点时，我们就是在犯「红鲱鱼」错误。</span><br><span class="line">- 举例：（上司对下属）：“别跟我说工资太低。我像你这么大的时候，一个星期才赚100美元。”</span><br><span class="line"></span><br><span class="line">### 强求不相关的目标或功能</span><br><span class="line"></span><br><span class="line">- 说明：当我们因为某个规定或计划不能满足某个不相关的目标而拒绝接受它时，我们就在犯这种逻辑错误。</span><br><span class="line">- 举例：皮特：“你真的以为学习逻辑就能解决这个世界的问题吗？”</span><br><span class="line"></span><br><span class="line">蒂凡尼：“应该不能。”</span><br><span class="line"></span><br><span class="line">皮特：“那我们干吗浪费时间学它呢？”</span><br><span class="line"></span><br><span class="line">### 随心所欲</span><br><span class="line"></span><br><span class="line">- 说明：当我们因为自己极其希望某件事是真的（或假的）就去这么假定时，我们就时在犯「随心所欲」的逻辑错误。</span><br><span class="line">- 举例：不管我们的球队之前表现怎么样，这次我们都会在第一轮比赛中打败卫冕冠军。我们的队员都很有信心，铆足了劲儿要大获全胜。</span><br><span class="line"></span><br><span class="line">### 倚老卖老</span><br><span class="line"></span><br><span class="line">- 说明：蒂姆，去安纳波利斯这件事你别太当真了！你们家祖祖辈辈——包括你的父亲、兄弟、祖父、叔父等等——一直都是当兵的，而且以后也会一直留在部队。所以小伙子，你的未来在西点军校！</span><br><span class="line"></span><br><span class="line">### 诉诸公众观点</span><br><span class="line"></span><br><span class="line">- 说明：当我们因为大家都认同某个观点而去接受或支持它们时，就是在犯这个逻辑错误。</span><br><span class="line">- 举例：我要给税法修正案投赞成票。根据最近一项民意测验的结果，在25岁以下的登记选民中，超过三分之二的人都支持修正案。</span><br><span class="line"></span><br><span class="line">### 装可怜</span><br><span class="line"></span><br><span class="line">- 说明：利用对方的同情心，而非事实证据。</span><br><span class="line">- 举例：你一定要给孤儿院捐款。这些孩子生下来就不知道自己的生身父母是谁，更不要说衣食无忧了。</span><br><span class="line"></span><br><span class="line">## 因为错误的假设而导致的逻辑漏洞</span><br><span class="line"></span><br><span class="line">### 非此即彼</span><br><span class="line"></span><br><span class="line">- 说明：不能因为摆在面前的只有两个选择，就认为其中一个必定是对的。很多事情不是「非此即彼」或「非黑即白」的。</span><br><span class="line">- 举例：既然不支持自由贸易，那你一定是支持保护主义了！</span><br><span class="line"></span><br><span class="line">### 中间值</span><br><span class="line"></span><br><span class="line">- 说明：很多人喜欢在两个选择之间取中间值，因为它远离任何一个极端，所以有时这种做法也被称为中庸主义。</span><br><span class="line">- 举例：初中老师相信，学校应该安排固定的课程表。而家长们则认为，学生应该可以自由选课。所以最好的办法就是把二者结合起来。</span><br><span class="line"></span><br><span class="line">### 大杂烩</span><br><span class="line"></span><br><span class="line">- 说明：把局部正确的东西拼在一起，未必就能得到一个正确的结果。</span><br><span class="line">- 举例：布拉德是个不错的年轻男士，珍妮特是个优秀的女士，他们二人一定是完美的一对儿。</span><br><span class="line"></span><br><span class="line">### 局部错误</span><br><span class="line"></span><br><span class="line">- 说明：不能因为整体是对的，就断定其中的每个部分都是正确的。</span><br><span class="line">- 举例：因为车子很重，所以车子上的所有配件都很重。</span><br><span class="line"></span><br><span class="line">### 连续性漏洞</span><br><span class="line"></span><br><span class="line">- 说明：有时人们会觉得一些差异太过渺小，不值得重视，这时就会出现连续性漏洞。</span><br><span class="line">- 举例：每天学一个新单词，提升你的词汇量。拿本中型词典，从头开始背。每天背一个新单词，慢慢你就能翻到最后一页。而且更重要的是，你还能学会英语中几乎所有重要单词。但是有几个人能做到这点呢？</span><br><span class="line"></span><br><span class="line">### 以点攻击面</span><br><span class="line"></span><br><span class="line">- 说明：很多人相信，被归纳的东西很容易被驳倒，因为只要找出一个例外就够了。</span><br><span class="line">- 举例：学生甲：“众所周知，吸烟会缩短人的寿命。”</span><br><span class="line"></span><br><span class="line">学生乙：“是的，可我曾祖父每天一包烟，现在都90多岁了，还是活得好好的，这该怎么解释呢？”</span><br><span class="line"></span><br><span class="line">### 扭曲</span><br><span class="line"></span><br><span class="line">- 说明：指故意歪曲对手的观点，从而达到驳倒对手的目的。</span><br><span class="line">- 举例：正方：“要想提升发展中国家的教育水平，唯一的办法就是多提供一些物质支持，比如说教科书。”</span><br><span class="line"></span><br><span class="line">反方：“你的意思是，不论砍掉多少棵树，都要去印更多课本吗？”</span><br><span class="line"></span><br><span class="line">### 错误的类比</span><br><span class="line"></span><br><span class="line">- 说明：我们不能因为两件事在某一方面或某几个方面比较相似（或者不相似），就断定他们在其他方面也相似（或者不相似）。</span><br><span class="line">- 举例：说到人工鱼饵，我最喜欢的就是拉帕拉鱼饵。今年夏天的时候，我每次用它都能钓到很多小嘴鲈鱼，所以我秋天去钓鳟鱼时一定还会用它。</span><br><span class="line"></span><br><span class="line">### 因果错误</span><br><span class="line"></span><br><span class="line">- 说明：当我们随意把某件事情归因于某个方向时，我们就是在犯因果错误。</span><br><span class="line">- 举例：听说有钱人工作都很努力，所以我要努力工作，让自己变成有钱人。</span><br><span class="line"></span><br><span class="line">### 多米诺错误</span><br><span class="line"></span><br><span class="line">- 说明：我们不能因为一件事会引发另一件事，就断定它会引发随后的一系列事件。也称为「链式反应错误」</span><br><span class="line">- 举例：我并不反对给无家可归的人提供免费食物，但既然提供免费食物，我们就会需要提供免费衣服，然后是免费住宿。很快，我们就要给他们提供固定的年薪了。</span><br><span class="line"></span><br><span class="line">### 赌徒谬误</span><br><span class="line"></span><br><span class="line">- 说明：当我们不是根据事实，而只是根据之前发生的事情来判断未来某件事情发生的概率时（而且这两件事完全独立，毫不相干），我们就是在犯赌徒谬误</span><br><span class="line">- 局里：（父母对医生说）“因为我们已经有三个男孩了，所以我相信，下一个肯定是女孩。”</span><br><span class="line"></span><br><span class="line">### 错误的精确</span><br><span class="line"></span><br><span class="line">- 说明：只随意举出一些看似精确但其实毫无事实根据的数字来证明自己的观点。</span><br><span class="line">- 举例：在莎士比亚的时代，每四个人中就有一个人不喜欢莎士比亚的戏剧。</span><br><span class="line"></span><br><span class="line">## 推理过程中的逻辑错误</span><br><span class="line"></span><br><span class="line">### 断定结果的错误</span><br><span class="line"></span><br><span class="line">- 说明：我们不能因为『当 A 成立时 B 就成立』，就断定『当 B 成立时 A 就成立』。也称为「转化错误」</span><br><span class="line">- 举例：每次去度假时，我都会感觉很放松。所以当我感觉很放松时，我就一定是在度假。</span><br><span class="line"></span><br><span class="line">### 否定前项</span><br><span class="line"></span><br><span class="line">- 说明：我们不能因为『只要 A 成立，B就成里』，就断定『只要 A 不成立，B 就不成立』</span><br><span class="line">- 举例：每次一下雨，地面就变湿。昨夜没下雨，所以地面不可能变湿。</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/ip-questions/" rel="next" title="关于 IP 的 11 个问题">
+                <i class="fa fa-chevron-left"></i> 关于 IP 的 11 个问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.jpeg" alt="Panmax">
+            
+              <p class="site-author-name" itemprop="name">Panmax</p>
+              <p class="site-description motion-element" itemprop="description">这里是贾攀叨逼叨的地方</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">208</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Panmax" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:jiapan.china@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'gPS1atpl6u5FziDqKf7XW6ms-gzGzoHsz',
+        appKey: 'KioAbSyq7iDATMvbNyctgoLf',
+        placeholder: '我也爱你...',
+        avatar:'hide',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
