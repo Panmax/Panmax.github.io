@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2021-05-06T02:51:53.060Z</updated>
+  <updated>2021-05-07T12:39:06.596Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于 Unix 权限的 13 个问题</title>
+    <link href="https://jpanj.com/2021/unix-permission-questions/"/>
+    <id>https://jpanj.com/2021/unix-permission-questions/</id>
+    <published>2021-05-07T12:04:59.000Z</published>
+    <updated>2021-05-07T12:39:06.596Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="文件权限是多少位（bits）？"><a href="#文件权限是多少位（bits）？" class="headerlink" title="文件权限是多少位（bits）？"></a>文件权限是多少位（bits）？</h2><p><strong>12位</strong></p><p>分为 4 个组，每组 3 位。</p><p>例如，<code>4755</code> 对应的是 <code>100 111 101 101</code>。</p><p>下面是各部分对应的内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">100: setuid, setgid, sticky bits</span><br><span class="line">111: user  r/w/x bits</span><br><span class="line">101: group r/w/x bits</span><br><span class="line">101: other r/w/x bits</span><br></pre></td></tr></table></figure><h2 id="当我们运行-ls-l-时，显示的权限是-rwxr-xr-x，这里的-r、w-和-x-是什么意思？"><a href="#当我们运行-ls-l-时，显示的权限是-rwxr-xr-x，这里的-r、w-和-x-是什么意思？" class="headerlink" title="当我们运行 ls -l 时，显示的权限是 -rwxr-xr-x，这里的 r、w 和 x 是什么意思？"></a>当我们运行 ls -l 时，显示的权限是 -rwxr-xr-x，这里的 r、w 和 x 是什么意思？</h2><p><strong>读、写、执行</strong></p><p>每个文件有 3 套 <code>读/写/执行</code> 权限：</p><ul><li>拥有该文件的用户</li><li>拥有该文件的组</li><li>其他用户</li></ul><h2 id="如果一个文件的权限是-0644，拥有该文件的组是否能写这个文件？"><a href="#如果一个文件的权限是-0644，拥有该文件的组是否能写这个文件？" class="headerlink" title="如果一个文件的权限是 0644，拥有该文件的组是否能写这个文件？"></a>如果一个文件的权限是 0644，拥有该文件的组是否能写这个文件？</h2><p><strong>不能</strong></p><p><code>0644</code> 在二进制中是 <code>000 110 100 100</code>。</p><p>说明如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">000</span><br><span class="line">110 拥有该文件的用户可以读写此文件</span><br><span class="line">100 拥有该文件的组可以读此文件</span><br><span class="line">100 其他用户可以读此文件</span><br></pre></td></tr></table></figure><p>所以任何人都可以读取该文件，但只有拥有该文件的用户才可以写文件。</p><h2 id="操作系统内核是否关心你的用户名是什么？"><a href="#操作系统内核是否关心你的用户名是什么？" class="headerlink" title="操作系统内核是否关心你的用户名是什么？"></a>操作系统内核是否关心你的用户名是什么？</h2><p><strong>不关心</strong></p><p>内核基于 <code>用户ID/组ID</code> 进行所有的权限检查 – 用户名和组名的存在只是为了让人类更容易识别和使用。</p><h2 id="如果一个目录被设置为可读权限，这意味着什么？"><a href="#如果一个目录被设置为可读权限，这意味着什么？" class="headerlink" title="如果一个目录被设置为可读权限，这意味着什么？"></a>如果一个目录被设置为可读权限，这意味着什么？</h2><p><strong>意味着你可以列出该目录中的文件</strong></p><p>对于目录来说，下面是<code>读/写/执行</code>的含义：</p><ul><li><strong>读：</strong>你可以列出文件</li><li><strong>写：</strong>你可以创建文件</li><li><strong>执行：</strong>你可以进入该目录并访问其下的文件</li></ul><h2 id="如果一个文件的权限被设置为-0666，这是否意味着任何人都可以阅读它？"><a href="#如果一个文件的权限被设置为-0666，这是否意味着任何人都可以阅读它？" class="headerlink" title="如果一个文件的权限被设置为 0666，这是否意味着任何人都可以阅读它？"></a>如果一个文件的权限被设置为 <code>0666</code>，这是否意味着任何人都可以阅读它？</h2><p><strong>不一定</strong></p><p>如果该文件的父目录的<code>执行位</code>被置为 0，这将使你无法读取该目录下的任何文件。</p><h2 id="如果一个文件的权限被设置为-0000，这是否意味着没有人可以读它？"><a href="#如果一个文件的权限被设置为-0000，这是否意味着没有人可以读它？" class="headerlink" title="如果一个文件的权限被设置为 0000，这是否意味着没有人可以读它？"></a>如果一个文件的权限被设置为 0000，这是否意味着没有人可以读它？</h2><p><strong>不是</strong></p><p>root 可以读写权限为 0000 的文件。</p><h2 id="每个进程都有一个用户ID（UID）吗？"><a href="#每个进程都有一个用户ID（UID）吗？" class="headerlink" title="每个进程都有一个用户ID（UID）吗？"></a>每个进程都有一个用户ID（UID）吗？</h2><p><strong>是的</strong></p><p>当你以用户身份登录时，几乎你启动的所有进程都会把它们的 UID 设置为你的 UID。</p><h2 id="一个进程可以有多个组ID（GID）吗？"><a href="#一个进程可以有多个组ID（GID）吗？" class="headerlink" title="一个进程可以有多个组ID（GID）吗？"></a>一个进程可以有多个组ID（GID）吗？</h2><p><strong>是的</strong></p><p>进程有一个主 GID，也有一个补充（supplementary）组ID列表。文件权限检查将检查进程的任何一个组ID是否与文件的所有者匹配。</p><h2 id="如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该-GID-添加到他们的-GID-列表中？"><a href="#如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该-GID-添加到他们的-GID-列表中？" class="headerlink" title="如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该 GID 添加到他们的 GID 列表中？"></a>如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该 GID 添加到他们的 GID 列表中？</h2><p><strong>不会</strong></p><p>退出并重新登陆后才会生效。</p><h2 id="setuid-位的作用是什么？"><a href="#setuid-位的作用是什么？" class="headerlink" title="setuid 位的作用是什么？"></a><code>setuid</code> 位的作用是什么？</h2><p><strong>在一个可执行文件上，它意味着该进程将以文件所有者的 UID 运行</strong></p><p>例如，passwd（用来修改密码）通常设置了setuid位，因为它需要以 root 身份运行，以便能够写入修改密码的文件。</p><h2 id="一个没有特权的进程有可能改变其-UID-吗？"><a href="#一个没有特权的进程有可能改变其-UID-吗？" class="headerlink" title="一个没有特权的进程有可能改变其 UID 吗？"></a>一个没有特权的进程有可能改变其 UID 吗？</h2><p><strong>不可能</strong></p><p>你必须有超级用户的权限来改变你的 UID。</p><h2 id="为什么-sudo-可以让你以-root-身份运行命令？"><a href="#为什么-sudo-可以让你以-root-身份运行命令？" class="headerlink" title="为什么 sudo 可以让你以 root 身份运行命令？"></a>为什么 sudo 可以让你以 root 身份运行命令？</h2><p><strong>它设置了 setuid 位</strong></p><p>sudo 总是以 root 身份运行，所以如果 /etc/sudoers 表示允许你以 root 身份启动程序，则它将以 root 身份为你启动程序。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;文件权限是多少位（bits）？&quot;&gt;&lt;a href=&quot;#文件权限是多少位（bits）？&quot; class=&quot;headerlink&quot; title=&quot;文件权限是多少位（bits）？&quot;&gt;&lt;/a&gt;文件权限是多少位（bits）？&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;12位&lt;/stron
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>常见逻辑漏洞</title>
@@ -441,29 +462,6 @@
         &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;0.jpg&quot; alt&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;cheat.
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>GoLand Protobuf 语法检查</title>
-    <link href="https://jpanj.com/2020/goland-protobuf-syntax-check/"/>
-    <id>https://jpanj.com/2020/goland-protobuf-syntax-check/</id>
-    <published>2020-11-04T10:50:33.000Z</published>
-    <updated>2020-11-04T10:55:24.008Z</updated>
-    
-    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpg" alt></div><p>公司的服务间调用使用的 gRPC，所以开发过程中需要写一些 <code>.proto</code> 文件来生成 <code>pb</code>，写的时候借助语法检查可以更高效一些。</p><p>GoLand 中提供了一个叫 <code>Protoco Buffer Editor</code> 的插件，但是这个插件在我的环境中是有 bug 的，无法处理 import 进来的包。</p><p>询问同事他们的都没有问题，所以我从网上查了一下这个问题，网上推荐的插件名叫 <code>Protobuf Support</code>，显然我的 IDE 的插件市场中没有这个插件，又借助搜索引擎找到了这个插件的描述页面，看到已经被打上 deprecated 的标签了。</p><div style="width:70%;margin:auto"><img src="1.png" alt></div><p>我猜测这个插件之前可以用，后来被官方下掉了，我的同事们是在下掉之前安装的，为了印证我的想法，让其中一个同事看了一下他的插件名，果然是 <code>Protobuf Support</code>。</p><p>好歹顺着官方页面找到了GitHub 的地址 <a href="https://github.com/ksprojects/protobuf-jetbrains-plugin" target="_blank" rel="noopener">https://github.com/ksprojects/protobuf-jetbrains-plugin</a> ，又在 <a href="https://github.com/ksprojects/protobuf-jetbrains-plugin/releases/tag/v0.13.0" target="_blank" rel="noopener">Releases</a> 页面中找到了插件的压缩包，通过压缩包在本地进行了安装，并 disable 了 <code>Protoco Buffer Editor</code> 插件，重启 GoLand 后问题解决。</p><hr><p>今天一下午光处理坑了，上线了一个限流功能，一直没有拿到打点数据，和治理组同事检查了所有地方都没有问题，最后治理组同事想起来，需要触发限流后才会打点，在监控中看到数据。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;0.jpg&quot; alt&gt;&lt;/div&gt;
-
-&lt;p&gt;公司的服务间调用使用的 gRPC，所以开发过程中需要写一些 &lt;code&gt;.proto&lt;/code&gt; 文件来生成 &lt;code&gt;pb&lt;/code&gt;，写
       
     
     </summary>

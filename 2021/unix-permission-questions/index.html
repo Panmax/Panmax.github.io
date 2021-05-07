@@ -113,22 +113,17 @@
 
 
 
-  <meta name="description" content="本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。 下载 Neo4j首先在 https://neo4j.com/download/ 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。 网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 这个链接 选择另一个操作系统的版本。 安装 Neo4j当文件">
-<meta name="keywords" content="neo4j">
+  <meta name="description" content="文件权限是多少位（bits）？12位 分为 4 个组，每组 3 位。 例如，4755 对应的是 100 111 101 101。 下面是各部分对应的内容： 1234100: setuid, setgid, sticky bits111: user  r/w/x bits101: group r/w/x bits101: other r/w/x bits 当我们运行 ls -l 时，显示的权限是 -">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Neo4j 入门教程 - 安装">
-<meta property="og:url" content="https://jpanj.com/2018/neo4j-tutorial-installation/index.html">
+<meta property="og:title" content="关于 Unix 权限的 13 个问题">
+<meta property="og:url" content="https://jpanj.com/2021/unix-permission-questions/index.html">
 <meta property="og:site_name" content="贾攀家">
-<meta property="og:description" content="本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。 下载 Neo4j首先在 https://neo4j.com/download/ 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。 网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 这个链接 选择另一个操作系统的版本。 安装 Neo4j当文件">
+<meta property="og:description" content="文件权限是多少位（bits）？12位 分为 4 个组，每组 3 位。 例如，4755 对应的是 100 111 101 101。 下面是各部分对应的内容： 1234100: setuid, setgid, sticky bits111: user  r/w/x bits101: group r/w/x bits101: other r/w/x bits 当我们运行 ls -l 时，显示的权限是 -">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-installation/1.png">
-<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-installation/2.png">
-<meta property="og:image" content="https://jpanj.com/2018/neo4j-tutorial-installation/3.png">
-<meta property="og:updated_time" content="2018-02-26T08:04:55.000Z">
+<meta property="og:updated_time" content="2021-05-07T12:39:06.596Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Neo4j 入门教程 - 安装">
-<meta name="twitter:description" content="本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。 下载 Neo4j首先在 https://neo4j.com/download/ 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。 网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 这个链接 选择另一个操作系统的版本。 安装 Neo4j当文件">
-<meta name="twitter:image" content="https://jpanj.com/2018/neo4j-tutorial-installation/1.png">
+<meta name="twitter:title" content="关于 Unix 权限的 13 个问题">
+<meta name="twitter:description" content="文件权限是多少位（bits）？12位 分为 4 个组，每组 3 位。 例如，4755 对应的是 100 111 101 101。 下面是各部分对应的内容： 1234100: setuid, setgid, sticky bits111: user  r/w/x bits101: group r/w/x bits101: other r/w/x bits 当我们运行 ls -l 时，显示的权限是 -">
 
 
 
@@ -137,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="https://jpanj.com/2018/neo4j-tutorial-installation/">
+  <link rel="canonical" href="https://jpanj.com/2021/unix-permission-questions/">
 
 
 
@@ -147,7 +142,7 @@
   };
 </script>
 
-  <title>Neo4j 入门教程 - 安装 | 贾攀家</title>
+  <title>关于 Unix 权限的 13 个问题 | 贾攀家</title>
   
 
 
@@ -359,7 +354,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2018/neo4j-tutorial-installation/">
+    <link itemprop="mainEntityOfPage" href="https://jpanj.com/2021/unix-permission-questions/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Panmax">
@@ -376,7 +371,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Neo4j 入门教程 - 安装
+          <h1 class="post-title" itemprop="name headline">关于 Unix 权限的 13 个问题
               
             
           </h1>
@@ -401,24 +396,12 @@
                 
               
 
-              <time title="Created: 2018-01-11 13:45:06" itemprop="dateCreated datePublished" datetime="2018-01-11T13:45:06+08:00">2018-01-11</time>
+              <time title="Created: 2021-05-07 20:04:59 / Modified: 20:39:06" itemprop="dateCreated datePublished" datetime="2021-05-07T20:04:59+08:00">2021-05-07</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-02-26 16:04:55" itemprop="dateModified" datetime="2018-02-26T16:04:55+08:00">2018-02-26</time>
               
             
           </span>
@@ -432,8 +415,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/neo4j-tutorial-installation/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2018/neo4j-tutorial-installation/" itemprop="commentCount"></span>
+                <a href="/2021/unix-permission-questions/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments: </span> <span class="post-comments-count valine-comment-count" data-xid="/2021/unix-permission-questions/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -441,7 +424,7 @@
 
           
           
-             <span id="/2018/neo4j-tutorial-installation/" class="leancloud_visitors" data-flag-title="Neo4j 入门教程 - 安装">
+             <span id="/2021/unix-permission-questions/" class="leancloud_visitors" data-flag-title="关于 Unix 权限的 13 个问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -472,52 +455,48 @@
       
 
       
-        <p>本篇来简单介绍下如何下载并安装 Neo4j，篇目很短，因为真的很简单。</p>
-<h2 id="下载-Neo4j"><a href="#下载-Neo4j" class="headerlink" title="下载 Neo4j"></a>下载 Neo4j</h2><p>首先在 <a href="https://neo4j.com/download/" target="_blank" rel="noopener">https://neo4j.com/download/</a> 下载 Neo4j。你可以选择企业体验版或者免费的社区版，这里我是用的社区版。点击 Download 按钮即可开始下载。</p>
-<p>网站会自动下载适合您操作系统的文件，如果你不想要这个，可以选择通过 <a href="https://neo4j.com/download/other-releases/" target="_blank" rel="noopener">这个链接</a> 选择另一个操作系统的版本。</p>
-<h2 id="安装-Neo4j"><a href="#安装-Neo4j" class="headerlink" title="安装 Neo4j"></a>安装 Neo4j</h2><p>当文件下载下来后，就可以安装 Neo4j 了。下载页面包含了将 Neo4j 安装到你的操作系统的一步步指导说明，我在这里介绍下 Mac、Windows 和 Linux 的安装。这里列出的说明，是为了让你快速了解安装 Neo4j 所涉及的步骤，实际步骤可能会随着未来的版本而变化，所以请务必按照下载时网站上的说明来进行安装。当你下载 Neo4j 时，Neo4j 会在感谢页面展示这些说明。</p>
-<h3 id="Mac-dmg"><a href="#Mac-dmg" class="headerlink" title="Mac (dmg)"></a>Mac (dmg)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
-<ol>
-<li>打开你刚刚下载好的 dmg 文件</li>
-<li>将 Neo4j 的图标拖拽到你的应用目录中</li>
-<li>在应用目录中打开 Neo4j，你可能会被系统询问是否是你从互联网上下载的这个程序，不要担心，确认即可</li>
-<li>点击 Start 按钮来启动 Neo4j 的服务</li>
-<li>在你的浏览器中打开程序提供给你的 URL</li>
-<li>为 <code>neo4j</code> 账户修改密码</li>
-</ol>
-<h3 id="Linux-Unix-tar-tar-gz"><a href="#Linux-Unix-tar-tar-gz" class="headerlink" title="Linux/Unix (tar/tar.gz)"></a>Linux/Unix (tar/tar.gz)</h3><ol>
-<li>打开你的终端</li>
-<li>使用 <code>tar -xvf &lt;file&gt;</code> 来提取存档的内容。比如 <code>tar -xvf neo4j-community-3.2.8-unix.tar</code>，如果你下载的是 <code>tar.gz</code> 的压缩包，那么使用 <code>tar -zxvf</code> 来进行解压</li>
-<li>使用 <code>$NEO4J_HOME/bin/neo4j console</code> 来运行 Neo4j，或者用 <code>$NEO4J_HOME/bin/neo4j start</code> 让服务进程在后台运行</li>
-<li>在你的本机浏览器访问 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a> </li>
-<li>为 <code>neo4j</code> 账户修改密码</li>
-</ol>
-<h3 id="Windows-exe"><a href="#Windows-exe" class="headerlink" title="Windows (exe)"></a>Windows (exe)</h3><p>这个安装程序包含了运行 Neo4j 所需要的 Java 版本。</p>
-<ol>
-<li>运行你刚刚下载的安装程序，你可能需要给这个程序的安装权限来授权</li>
-<li>按照提示选择运行 Neo4j 的选项</li>
-<li>点击 Start 按钮来启动 Neo4j 服务器</li>
-<li>在浏览器中打开程序提供给你的 URL</li>
-<li>为 <code>neo4j</code> 账户修改密码</li>
-</ol>
-<h3 id="Windows-zip"><a href="#Windows-zip" class="headerlink" title="Windows (zip)"></a>Windows (zip)</h3><ol>
-<li>首先安装 JDK8</li>
-<li>找到压缩包，点击右键进行解压</li>
-<li>把解压出的文件放到服务器的主目录中，顶级目录称为 <code>NEO4J_HOME</code>，比如 <code>D:\neo4j\</code></li>
-<li>使用 zip 包中提供的 <code>Windows PowerShell</code> 来启动和管理 Neo4j</li>
-<li>在浏览器中访问 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a></li>
-<li>为 <code>neo4j</code> 账户修改密码</li>
-</ol>
-<h2 id="启动并连接到-Neo4j-服务"><a href="#启动并连接到-Neo4j-服务" class="headerlink" title="启动并连接到 Neo4j 服务"></a>启动并连接到 Neo4j 服务</h2><h3 id="1-启动服务"><a href="#1-启动服务" class="headerlink" title="1. 启动服务"></a>1. 启动服务</h3><p>这里是一个已经启动起来的 Neo4j 服务，启动方法取决于你的操作系统，我这里用 Mac 来举例，在应用目录中点击 <code>Neo4j Community Edition 3.2.6</code>，点击打开窗口中 Start 按钮即可启动 Neo4j 服务。</p>
-<p><img src="1.png" alt></p>
-<p>服务启动后，在浏览器中打开 <a href="http://localhost:7474" target="_blank" rel="noopener">http://localhost:7474</a> 然后按照提示进行操作。</p>
-<p>下图是我第一次进入的界面（未来版本可能会看到不同的界面）</p>
-<p><img src="2.png" alt></p>
-<h3 id="2-登录"><a href="#2-登录" class="headerlink" title="2. 登录"></a>2. 登录</h3><p>使用界面上提供的用户名和密码来登录，默认的密码是 <code>neo4j</code></p>
-<p>第一次登录时，系统会提示你修改密码</p>
-<h3 id="3-结果"><a href="#3-结果" class="headerlink" title="3. 结果"></a>3. 结果</h3><p>密码修改完成后这个界面将会被展示</p>
-<p><img src="3.png" alt></p>
-<p>在这里，你可以使用当前界面提供的链接来学习更多关于 Neo4j 的知识以及如何创建数据库和运行查询语句</p>
+        <h2 id="文件权限是多少位（bits）？"><a href="#文件权限是多少位（bits）？" class="headerlink" title="文件权限是多少位（bits）？"></a>文件权限是多少位（bits）？</h2><p><strong>12位</strong></p>
+<p>分为 4 个组，每组 3 位。</p>
+<p>例如，<code>4755</code> 对应的是 <code>100 111 101 101</code>。</p>
+<p>下面是各部分对应的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">100: setuid, setgid, sticky bits</span><br><span class="line">111: user  r/w/x bits</span><br><span class="line">101: group r/w/x bits</span><br><span class="line">101: other r/w/x bits</span><br></pre></td></tr></table></figure>
+<h2 id="当我们运行-ls-l-时，显示的权限是-rwxr-xr-x，这里的-r、w-和-x-是什么意思？"><a href="#当我们运行-ls-l-时，显示的权限是-rwxr-xr-x，这里的-r、w-和-x-是什么意思？" class="headerlink" title="当我们运行 ls -l 时，显示的权限是 -rwxr-xr-x，这里的 r、w 和 x 是什么意思？"></a>当我们运行 ls -l 时，显示的权限是 -rwxr-xr-x，这里的 r、w 和 x 是什么意思？</h2><p><strong>读、写、执行</strong></p>
+<p>每个文件有 3 套 <code>读/写/执行</code> 权限：</p>
+<ul>
+<li>拥有该文件的用户</li>
+<li>拥有该文件的组</li>
+<li>其他用户</li>
+</ul>
+<h2 id="如果一个文件的权限是-0644，拥有该文件的组是否能写这个文件？"><a href="#如果一个文件的权限是-0644，拥有该文件的组是否能写这个文件？" class="headerlink" title="如果一个文件的权限是 0644，拥有该文件的组是否能写这个文件？"></a>如果一个文件的权限是 0644，拥有该文件的组是否能写这个文件？</h2><p><strong>不能</strong></p>
+<p><code>0644</code> 在二进制中是 <code>000 110 100 100</code>。</p>
+<p>说明如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">000</span><br><span class="line">110 拥有该文件的用户可以读写此文件</span><br><span class="line">100 拥有该文件的组可以读此文件</span><br><span class="line">100 其他用户可以读此文件</span><br></pre></td></tr></table></figure>
+<p>所以任何人都可以读取该文件，但只有拥有该文件的用户才可以写文件。</p>
+<h2 id="操作系统内核是否关心你的用户名是什么？"><a href="#操作系统内核是否关心你的用户名是什么？" class="headerlink" title="操作系统内核是否关心你的用户名是什么？"></a>操作系统内核是否关心你的用户名是什么？</h2><p><strong>不关心</strong></p>
+<p>内核基于 <code>用户ID/组ID</code> 进行所有的权限检查 – 用户名和组名的存在只是为了让人类更容易识别和使用。</p>
+<h2 id="如果一个目录被设置为可读权限，这意味着什么？"><a href="#如果一个目录被设置为可读权限，这意味着什么？" class="headerlink" title="如果一个目录被设置为可读权限，这意味着什么？"></a>如果一个目录被设置为可读权限，这意味着什么？</h2><p><strong>意味着你可以列出该目录中的文件</strong></p>
+<p>对于目录来说，下面是<code>读/写/执行</code>的含义：</p>
+<ul>
+<li><strong>读：</strong>你可以列出文件</li>
+<li><strong>写：</strong>你可以创建文件</li>
+<li><strong>执行：</strong>你可以进入该目录并访问其下的文件</li>
+</ul>
+<h2 id="如果一个文件的权限被设置为-0666，这是否意味着任何人都可以阅读它？"><a href="#如果一个文件的权限被设置为-0666，这是否意味着任何人都可以阅读它？" class="headerlink" title="如果一个文件的权限被设置为 0666，这是否意味着任何人都可以阅读它？"></a>如果一个文件的权限被设置为 <code>0666</code>，这是否意味着任何人都可以阅读它？</h2><p><strong>不一定</strong></p>
+<p>如果该文件的父目录的<code>执行位</code>被置为 0，这将使你无法读取该目录下的任何文件。</p>
+<h2 id="如果一个文件的权限被设置为-0000，这是否意味着没有人可以读它？"><a href="#如果一个文件的权限被设置为-0000，这是否意味着没有人可以读它？" class="headerlink" title="如果一个文件的权限被设置为 0000，这是否意味着没有人可以读它？"></a>如果一个文件的权限被设置为 0000，这是否意味着没有人可以读它？</h2><p><strong>不是</strong></p>
+<p>root 可以读写权限为 0000 的文件。</p>
+<h2 id="每个进程都有一个用户ID（UID）吗？"><a href="#每个进程都有一个用户ID（UID）吗？" class="headerlink" title="每个进程都有一个用户ID（UID）吗？"></a>每个进程都有一个用户ID（UID）吗？</h2><p><strong>是的</strong></p>
+<p>当你以用户身份登录时，几乎你启动的所有进程都会把它们的 UID 设置为你的 UID。</p>
+<h2 id="一个进程可以有多个组ID（GID）吗？"><a href="#一个进程可以有多个组ID（GID）吗？" class="headerlink" title="一个进程可以有多个组ID（GID）吗？"></a>一个进程可以有多个组ID（GID）吗？</h2><p><strong>是的</strong></p>
+<p>进程有一个主 GID，也有一个补充（supplementary）组ID列表。文件权限检查将检查进程的任何一个组ID是否与文件的所有者匹配。</p>
+<h2 id="如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该-GID-添加到他们的-GID-列表中？"><a href="#如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该-GID-添加到他们的-GID-列表中？" class="headerlink" title="如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该 GID 添加到他们的 GID 列表中？"></a>如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该 GID 添加到他们的 GID 列表中？</h2><p><strong>不会</strong></p>
+<p>退出并重新登陆后才会生效。</p>
+<h2 id="setuid-位的作用是什么？"><a href="#setuid-位的作用是什么？" class="headerlink" title="setuid 位的作用是什么？"></a><code>setuid</code> 位的作用是什么？</h2><p><strong>在一个可执行文件上，它意味着该进程将以文件所有者的 UID 运行</strong></p>
+<p>例如，passwd（用来修改密码）通常设置了setuid位，因为它需要以 root 身份运行，以便能够写入修改密码的文件。</p>
+<h2 id="一个没有特权的进程有可能改变其-UID-吗？"><a href="#一个没有特权的进程有可能改变其-UID-吗？" class="headerlink" title="一个没有特权的进程有可能改变其 UID 吗？"></a>一个没有特权的进程有可能改变其 UID 吗？</h2><p><strong>不可能</strong></p>
+<p>你必须有超级用户的权限来改变你的 UID。</p>
+<h2 id="为什么-sudo-可以让你以-root-身份运行命令？"><a href="#为什么-sudo-可以让你以-root-身份运行命令？" class="headerlink" title="为什么 sudo 可以让你以 root 身份运行命令？"></a>为什么 sudo 可以让你以 root 身份运行命令？</h2><p><strong>它设置了 setuid 位</strong></p>
+<p>sudo 总是以 root 身份运行，所以如果 /etc/sudoers 表示允许你以 root 身份启动程序，则它将以 root 身份为你启动程序。</p>
 
       
     </div>
@@ -536,12 +515,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/neo4j/" rel="tag"># neo4j</a>
-          
-        </div>
-      
 
       
       
@@ -551,8 +524,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/neo4j-tutorial-about/" rel="next" title="Neo4j 入门教程 - 关于 Neo4j">
-                <i class="fa fa-chevron-left"></i> Neo4j 入门教程 - 关于 Neo4j
+              <a href="/2021/logic-loopholes/" rel="next" title="常见逻辑漏洞">
+                <i class="fa fa-chevron-left"></i> 常见逻辑漏洞
               </a>
             
           </div>
@@ -560,10 +533,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/neo4j-tutorial-browser/" rel="prev" title="Neo4j 入门教程 - Neo4j 浏览器">
-                Neo4j 入门教程 - Neo4j 浏览器 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -867,7 +836,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载-Neo4j"><span class="nav-number">1.</span> <span class="nav-text">下载 Neo4j</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Neo4j"><span class="nav-number">2.</span> <span class="nav-text">安装 Neo4j</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mac-dmg"><span class="nav-number">2.1.</span> <span class="nav-text">Mac (dmg)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-Unix-tar-tar-gz"><span class="nav-number">2.2.</span> <span class="nav-text">Linux/Unix (tar/tar.gz)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-exe"><span class="nav-number">2.3.</span> <span class="nav-text">Windows (exe)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-zip"><span class="nav-number">2.4.</span> <span class="nav-text">Windows (zip)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动并连接到-Neo4j-服务"><span class="nav-number">3.</span> <span class="nav-text">启动并连接到 Neo4j 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-启动服务"><span class="nav-number">3.1.</span> <span class="nav-text">1. 启动服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-登录"><span class="nav-number">3.2.</span> <span class="nav-text">2. 登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-结果"><span class="nav-number">3.3.</span> <span class="nav-text">3. 结果</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件权限是多少位（bits）？"><span class="nav-number">1.</span> <span class="nav-text">文件权限是多少位（bits）？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#当我们运行-ls-l-时，显示的权限是-rwxr-xr-x，这里的-r、w-和-x-是什么意思？"><span class="nav-number">2.</span> <span class="nav-text">当我们运行 ls -l 时，显示的权限是 -rwxr-xr-x，这里的 r、w 和 x 是什么意思？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果一个文件的权限是-0644，拥有该文件的组是否能写这个文件？"><span class="nav-number">3.</span> <span class="nav-text">如果一个文件的权限是 0644，拥有该文件的组是否能写这个文件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统内核是否关心你的用户名是什么？"><span class="nav-number">4.</span> <span class="nav-text">操作系统内核是否关心你的用户名是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果一个目录被设置为可读权限，这意味着什么？"><span class="nav-number">5.</span> <span class="nav-text">如果一个目录被设置为可读权限，这意味着什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果一个文件的权限被设置为-0666，这是否意味着任何人都可以阅读它？"><span class="nav-number">6.</span> <span class="nav-text">如果一个文件的权限被设置为 0666，这是否意味着任何人都可以阅读它？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果一个文件的权限被设置为-0000，这是否意味着没有人可以读它？"><span class="nav-number">7.</span> <span class="nav-text">如果一个文件的权限被设置为 0000，这是否意味着没有人可以读它？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#每个进程都有一个用户ID（UID）吗？"><span class="nav-number">8.</span> <span class="nav-text">每个进程都有一个用户ID（UID）吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个进程可以有多个组ID（GID）吗？"><span class="nav-number">9.</span> <span class="nav-text">一个进程可以有多个组ID（GID）吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该-GID-添加到他们的-GID-列表中？"><span class="nav-number">10.</span> <span class="nav-text">如果你把一个用户添加到一个组，以该用户身份运行的现有进程是否会自动将该 GID 添加到他们的 GID 列表中？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setuid-位的作用是什么？"><span class="nav-number">11.</span> <span class="nav-text">setuid 位的作用是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个没有特权的进程有可能改变其-UID-吗？"><span class="nav-number">12.</span> <span class="nav-text">一个没有特权的进程有可能改变其 UID 吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么-sudo-可以让你以-root-身份运行命令？"><span class="nav-number">13.</span> <span class="nav-text">为什么 sudo 可以让你以 root 身份运行命令？</span></a></li></ol></div>
             
 
           </div>
