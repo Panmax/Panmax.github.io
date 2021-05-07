@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="文件权限是多少位（bits）？12位 分为 4 个组，每组 3 位。 例如，4755 对应的是 100 111 101 101。 下面是各部分对应的内容： 1234100: setuid, setgid, sticky bits111: user  r/w/x bits101: group r/w/x bits101: other r/w/x bits 当我们运行 ls -l 时，显示的权限是 -">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-05-07T12:39:06.596Z">
+<meta property="og:updated_time" content="2021-05-07T12:46:55.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于 Unix 权限的 13 个问题">
 <meta name="twitter:description" content="文件权限是多少位（bits）？12位 分为 4 个组，每组 3 位。 例如，4755 对应的是 100 111 101 101。 下面是各部分对应的内容： 1234100: setuid, setgid, sticky bits111: user  r/w/x bits101: group r/w/x bits101: other r/w/x bits 当我们运行 ls -l 时，显示的权限是 -">
@@ -396,7 +396,7 @@
                 
               
 
-              <time title="Created: 2021-05-07 20:04:59 / Modified: 20:39:06" itemprop="dateCreated datePublished" datetime="2021-05-07T20:04:59+08:00">2021-05-07</time>
+              <time title="Created: 2021-05-07 20:04:59 / Modified: 20:46:55" itemprop="dateCreated datePublished" datetime="2021-05-07T20:04:59+08:00">2021-05-07</time>
             
 
             
@@ -473,7 +473,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">000</span><br><span class="line">110 拥有该文件的用户可以读写此文件</span><br><span class="line">100 拥有该文件的组可以读此文件</span><br><span class="line">100 其他用户可以读此文件</span><br></pre></td></tr></table></figure>
 <p>所以任何人都可以读取该文件，但只有拥有该文件的用户才可以写文件。</p>
 <h2 id="操作系统内核是否关心你的用户名是什么？"><a href="#操作系统内核是否关心你的用户名是什么？" class="headerlink" title="操作系统内核是否关心你的用户名是什么？"></a>操作系统内核是否关心你的用户名是什么？</h2><p><strong>不关心</strong></p>
-<p>内核基于 <code>用户ID/组ID</code> 进行所有的权限检查 – 用户名和组名的存在只是为了让人类更容易识别和使用。</p>
+<p>内核基于 <code>用户ID/组ID</code> 进行所有的权限检查 —— 用户名和组名的存在只是为了让人类更容易识别和使用。</p>
 <h2 id="如果一个目录被设置为可读权限，这意味着什么？"><a href="#如果一个目录被设置为可读权限，这意味着什么？" class="headerlink" title="如果一个目录被设置为可读权限，这意味着什么？"></a>如果一个目录被设置为可读权限，这意味着什么？</h2><p><strong>意味着你可以列出该目录中的文件</strong></p>
 <p>对于目录来说，下面是<code>读/写/执行</code>的含义：</p>
 <ul>
@@ -496,7 +496,8 @@
 <h2 id="一个没有特权的进程有可能改变其-UID-吗？"><a href="#一个没有特权的进程有可能改变其-UID-吗？" class="headerlink" title="一个没有特权的进程有可能改变其 UID 吗？"></a>一个没有特权的进程有可能改变其 UID 吗？</h2><p><strong>不可能</strong></p>
 <p>你必须有超级用户的权限来改变你的 UID。</p>
 <h2 id="为什么-sudo-可以让你以-root-身份运行命令？"><a href="#为什么-sudo-可以让你以-root-身份运行命令？" class="headerlink" title="为什么 sudo 可以让你以 root 身份运行命令？"></a>为什么 sudo 可以让你以 root 身份运行命令？</h2><p><strong>它设置了 setuid 位</strong></p>
-<p>sudo 总是以 root 身份运行，所以如果 /etc/sudoers 表示允许你以 root 身份启动程序，则它将以 root 身份为你启动程序。</p>
+<p>sudo 总是以 root 身份运行。</p>
+<p>所以如果 <code>/etc/sudoers</code> 允许你以 root 身份启动程序，则它将以 root 身份为你启动程序。</p>
 
       
     </div>
