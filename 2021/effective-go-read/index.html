@@ -121,7 +121,7 @@
 <meta property="og:site_name" content="贾攀家">
 <meta property="og:description" content="前几天把 Effective Go 这本小书读了一下，里边有些比较生疏或者实用的知识点，在此记录。  命名包应当以小写的单个单词来命名，且不应使用下划线或驼峰记法。 另一个约定就是包名应为其源码目录的基本名称。在 src/pkg/encoding/base64 中的包应作为 “encoding/base64” 导入，其包名应为 base64， 而非 encoding_base64 或 encod">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-05-13T06:18:01.166Z">
+<meta property="og:updated_time" content="2021-06-15T02:39:15.592Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Effective Go 查漏补缺">
 <meta name="twitter:description" content="前几天把 Effective Go 这本小书读了一下，里边有些比较生疏或者实用的知识点，在此记录。  命名包应当以小写的单个单词来命名，且不应使用下划线或驼峰记法。 另一个约定就是包名应为其源码目录的基本名称。在 src/pkg/encoding/base64 中的包应作为 “encoding/base64” 导入，其包名应为 base64， 而非 encoding_base64 或 encod">
@@ -414,7 +414,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2021-05-13 14:18:01" itemprop="dateModified" datetime="2021-05-13T14:18:01+08:00">2021-05-13</time>
+                <time title="Modified: 2021-06-15 10:39:15" itemprop="dateModified" datetime="2021-06-15T10:39:15+08:00">2021-06-15</time>
               
             
           </span>
@@ -474,7 +474,7 @@
 <h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><p>包应当以小写的单个单词来命名，且不应使用下划线或驼峰记法。</p>
 <p>另一个约定就是包名应为其源码目录的基本名称。在 <code>src/pkg/encoding/base64</code> 中的包应作为 “encoding/base64” 导入，其包名应为 <code>base64</code>， 而非 <code>encoding_base64</code> 或 <code>encodingBase64</code>。</p>
 <blockquote>
-<p>我们的代码中给包起别名时也应该遵循这个规则，即：livedomain “gitlab.p1staff.com/backend/tantan-live-live/proto”，不应该是 live_domain</p>
+<p>我们的代码中给包起别名时也应该遵循这个规则，即：livedomain “gitlab.xxx.com/backend/xxx-live/proto”，不应该是 live_domain</p>
 </blockquote>
 <p>长命名并不会使其更具可读性。一份有用的说明文档通常比额外的长名更有价值。</p>
 <blockquote>
