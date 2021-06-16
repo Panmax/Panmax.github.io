@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2021-06-07T10:49:40.007Z</updated>
+  <updated>2021-06-16T10:21:27.849Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>配置不规范导致的 bug 复盘</title>
+    <link href="https://jpanj.com/2021/config-file-bug-review/"/>
+    <id>https://jpanj.com/2021/config-file-bug-review/</id>
+    <published>2021-06-16T08:49:55.000Z</published>
+    <updated>2021-06-16T10:21:27.849Z</updated>
+    
+    <content type="html"><![CDATA[<p>昨天晚上我们的推荐服务出现故障，排查到很晚。影响了50多个主播和用户的曝光卡的使用效果，虽然没有产生特别大的事故，但我觉得自己还是有必要做个复盘，毕竟有自己做的不好的地方。</p><h2 id="时间轴"><a href="#时间轴" class="headerlink" title="时间轴"></a>时间轴</h2><ul><li><p>大概21:20分，服务开始有大量错误报警，推荐帧 v2接口和附近动态的 rpc 请求全部进入降级状态。</p></li><li><p>22:00 报错突然降成 0</p></li><li>22:10 又开始报错，23:10 分报错消失</li></ul><h2 id="处理经过"><a href="#处理经过" class="headerlink" title="处理经过"></a>处理经过</h2><p>回顾一下我的排查过程，在报警前几分钟，我更新了本周要扶持的荣耀主播名单，这个名单是一周一换，每周二更新，正常情况下运营会在白天把名单给我，但今天运营晚上19点才给我，当时我在吃饭，吃完饭后因为处理另一个问题就把改配置的事给忘了，晚上到家后才配置上。</p><p>报错时没有想到会是配置的问题，因为这个配置我已经配置好多周了，都没有出过问题，而且是配置完后过了几分钟才开始报错的，看日志报的都是空指针异常，但是没有具体定位是那一行，起初以为是 live 对象缺少字段或者本身为空，加日志看了下并没有问题。</p><p>大概21:53，我想到有没有可能是配置的问题，所以把新增的配置删掉，发现问题并没有解决，到了22:00 的时候突然不报错了，这个时候因为是个整点时间，我怀疑是不是某个活动或者某个有脏数据的主播下播了？心想明天到了公司查下这个时间点下播的主播找找原因。</p><p>因为我前几分钟把荣耀主播的名单下掉了，这个名单需要在凌晨4点生效，所以我看既然没问题了就把配置恢复吧，恢复完配置文件几分钟后，刚要去洗漱就又开始报警。我和另一个同事决定继续加日志排查，一直搞到23点也没发现代码有问题，这时候我决定再下线刚才的配置，下完后没有恢复，不过到了23:10突然降成了0。又等到23:30发现没有报错我才去睡的，因为经历了这么长时间的惊心动魄，凌晨3点才睡着。</p><p>为了验证是不是配置文件导致，第二天早上7点我重新把这份配置上去，7:10又开始报错。删除配置后，7:20恢复。</p><h2 id="故障分析"><a href="#故障分析" class="headerlink" title="故障分析"></a>故障分析</h2><p><strong>为什么会在整10分报错？</strong></p><p>ai 所使用的配置文件在 hbase 中，为了提升效率会定期同步到 redis 一份，resource 类的配置文件我设置的是10分钟同步一次，所以会出现当有配置变更时，整10分钟才会生效。</p><p>为什么要10分钟才加载一次呢，因为我并不知道业务实际会用到哪些，索性把库中所有的配置都 load 了一遍，这会导致 redis 的抖动，不易太频繁。如下图所示</p><p><img src="1.png" alt></p><p>后边我改成了，当下游调用配置时，我会记录下来调用配置的 key，刷新配置时只刷新在用的配置，这样可以做到秒级或者分钟级刷新。</p><p>优化后效果如下：</p><p><img src="2.png" alt></p><p><strong>配置错在了哪里？</strong></p><p>配置中存在重复项，代码中解析这个配置后会转成一个 map，用到了 lambda 表达式</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.collect(Collectors.toMap(Pair::getKey, Pair::getValue);</span><br></pre></td></tr></table></figure><p>可以理解为，key 是主播的 ID，value 是要扶持的量，这段代码当有重复 key 时会报错，解决方法是传入第3个参数，告诉程序当 key 冲突时的 merge 逻辑，因为我这里不关心太具体保留哪个 value，可以简单实现：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.collect(Collectors.toMap(Pair::getKey, Pair::getValue,(value1, value2) -&gt; value2));</span><br></pre></td></tr></table></figure><h2 id="后续优化"><a href="#后续优化" class="headerlink" title="后续优化"></a>后续优化</h2><ul><li>避免7点后（非上线时间）更改线上配置</li><li>运营配置尽量做到 admin 和自动化</li><li>服务出故障后优先想想最近有哪些改动（即使只修改了配置文件）</li><li>配置刷新频率不宜过低</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;昨天晚上我们的推荐服务出现故障，排查到很晚。影响了50多个主播和用户的曝光卡的使用效果，虽然没有产生特别大的事故，但我觉得自己还是有必要做个复盘，毕竟有自己做的不好的地方。&lt;/p&gt;
+&lt;h2 id=&quot;时间轴&quot;&gt;&lt;a href=&quot;#时间轴&quot; class=&quot;headerlink&quot;
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>从 Go 语言的 panic 中恢复</title>
@@ -434,29 +456,6 @@
         &lt;p&gt;众所周知的原因，国内访问 github 的速度非常受限，在个人电脑上还可以挂个代理之类的来提速，但是如果是在服务器上操作的话，配代理就没那么方便了。&lt;/p&gt;
 &lt;p&gt;前几天帮朋友在他的服务器上部署一个 github 上的开源项目，clone 的速度真的感人。&lt;/p&gt;
 &lt;div
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>自动备份数据库并上传到 S3</title>
-    <link href="https://jpanj.com/2020/auto-backup-database/"/>
-    <id>https://jpanj.com/2020/auto-backup-database/</id>
-    <published>2020-11-30T02:25:45.000Z</published>
-    <updated>2020-11-30T02:27:21.628Z</updated>
-    
-    <content type="html"><![CDATA[<div style="width:70%;margin:auto"><img src="0.jpg" alt></div><p>我开发的<a href="https://bossku.cn/" target="_blank" rel="noopener">老板管库</a>虽然没太多收入，但是还是有不少的用户量，为了节约成本，我并没有使用厂商提供的云数据库，而是在服务器本地搭了一个 MariaDB 实例。考虑到用户数据安全还是第一位的，所以我每天会通过定时任务的方式进行全量备份，并上传到我的七牛云，脚本如下：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">dir=$(dirname $(readlink -f "$0"))</span><br><span class="line"></span><br><span class="line">filename=bossku_$(date +%Y%m%d%H%M).sql</span><br><span class="line">echo $&#123;filename&#125;</span><br><span class="line">cd $&#123;dir&#125;</span><br><span class="line">mysqldump -h&#123;ipaddress&#125; -P&#123;port&#125; -uroot -p&#123;password&#125; bossku &gt; $&#123;filename&#125;</span><br><span class="line"></span><br><span class="line">qshell rput bosskudb $&#123;filename&#125; $&#123;filename&#125;</span><br></pre></td></tr></table></figure><p>上边的命令会生成一个以执行时间为后缀的 <code>.sql</code> 文件并上传到我的七牛云中名为 bosskudb 的bucket中，同时我还会配置这个 bucket 的生命周期，只保留近7天的数据。这实际上是套比较通用的流程，昨天恰好看到一个 repo：<a href="https://github.com/appleboy/docker-backup-database" target="_blank" rel="noopener">https://github.com/appleboy/docker-backup-database</a> 就是用来提供这套流程的封装的，看到作者又是个自己比较崇拜的开发者，于是准备上手用一用。</p><p>（P.S. appleboy 大神是个非常活跃的 golang开发者，在去年学习 go 的时候就 fo 了他）</p><p>这个工具目前支持备份 PG 和 MySQL 数据库，并上传到 S3（包括支持S3协议的 minio） 或者本地路径下，启用方式也非常方便，写个 docker-compose 文件就可以了。</p><p>以下是我的操作记录：</p><h3 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h3><p>首先在我的 AWS 中新建了一个 bucket，我所选择的区域为亚太地区(香港) ap-east-1，bucket 名为 bossku-db-backup。</p><div style="width:70%;margin:auto"><img src="1.png" alt></div><h3 id="准备-docker-compose-yml-脚本"><a href="#准备-docker-compose-yml-脚本" class="headerlink" title="准备 docker-compose.yml 脚本"></a>准备 docker-compose.yml 脚本</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">backup_mysql:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">appleboy/docker-backup-database:mysql-5.7</span></span><br><span class="line">    <span class="attr">logging:</span></span><br><span class="line">      <span class="attr">options:</span></span><br><span class="line">        <span class="attr">max-size:</span> <span class="string">"100k"</span></span><br><span class="line">        <span class="attr">max-file:</span> <span class="string">"3"</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">STORAGE_DRIVER:</span> <span class="string">s3</span></span><br><span class="line">      <span class="attr">STORAGE_ENDPOINT:</span> <span class="string">s3.amazonaws.com</span></span><br><span class="line">      <span class="attr">STORAGE_BUCKET:</span> <span class="string">bossku-db-backup</span></span><br><span class="line">      <span class="attr">STORAGE_REGION:</span> <span class="string">ap-east-1</span></span><br><span class="line">      <span class="attr">STORAGE_PATH:</span> <span class="string">backup</span></span><br><span class="line">      <span class="attr">STORAGE_SSL:</span> <span class="string">"false"</span></span><br><span class="line">      <span class="attr">STORAGE_INSECURE_SKIP_VERIFY:</span> <span class="string">"false"</span></span><br><span class="line">      <span class="attr">ACCESS_KEY_ID:</span> <span class="string">AKI*******UFT</span></span><br><span class="line">      <span class="attr">SECRET_ACCESS_KEY:</span> <span class="string">4u********************NU</span></span><br><span class="line"></span><br><span class="line">      <span class="attr">DATABASE_DRIVER:</span> <span class="string">mysql</span></span><br><span class="line">      <span class="attr">DATABASE_HOST:</span> <span class="string">&#123;ip&#125;:&#123;port&#125;</span></span><br><span class="line">      <span class="attr">DATABASE_USERNAME:</span> <span class="string">root</span></span><br><span class="line">      <span class="attr">DATABASE_PASSWORD:</span> <span class="string">&#123;password&#125;</span></span><br><span class="line">      <span class="attr">DATABASE_NAME:</span> <span class="string">bossku</span></span><br><span class="line">      <span class="attr">DATABASE_OPTS:</span></span><br><span class="line"></span><br><span class="line">      <span class="attr">TIME_SCHEDULE:</span> <span class="string">"0 0 * * *"</span></span><br><span class="line">      <span class="attr">TIME_LOCATION:</span> <span class="string">Asia/Shanghai</span></span><br></pre></td></tr></table></figure><p><code>ACCESS_KEY_ID</code> 和 <code>SECRET_ACCESS_KEY</code> 获取方式可以查看：<a href="https://aws.amazon.com/cn/blogs/security/wheres-my-secret-access-key/" target="_blank" rel="noopener">Where’s My Secret Access Key?</a>。</p><p>因为我所启动的数据库实例为 MariaDB:10.2，根据<a href="https://mariadb.com/kb/en/system-variable-differences-between-mariadb-and-mysql/" target="_blank" rel="noopener">官方介绍</a>，其所对应的 MySQL 版本为 5.7，所以上边命令中的 image 我指定的是  <code>appleboy/docker-backup-database:mysql-5.7</code>。</p><div style="width:70%;margin:auto"><img src="2.png" alt></div><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>测试的时候，为了方便查看效果，可以将 <code>TIME_SCHEDULE</code> 删掉，这样会立即执行，且执行一次后退出。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 然后观察日志</span><br><span class="line">docker-compose logs -f</span><br><span class="line">Attaching to bossku-db-backup_backup_mysql_1_6cc39ab97f2c</span><br><span class="line">backup_mysql_1_6cc39ab97f2c | $ mysqldump --version</span><br><span class="line">backup_mysql_1_6cc39ab97f2c | mysqldump  Ver 10.13 Distrib 5.7.32, for Linux (x86_64)</span><br><span class="line">backup_mysql_1_6cc39ab97f2c | $ bash -c mysqldump -h &#123;ip&#125; -P &#123;port&#125; -u root bossku | gzip &gt; dump.sql.gz</span><br><span class="line"></span><br><span class="line">bossku-db-backup_backup_mysql_1_6cc39ab97f2c exited with code 0</span><br></pre></td></tr></table></figure><p>可以看到成功了，再到 S3 中验证一下文件有没有上传上来：</p><div style="width:70%;margin:auto"><img src="3.png" alt></div><p>文件也传成功了！</p><p>如果在最后的上传步骤遇到无权限的错误，可以通过尝试调整 bucket 权限来解决。</p><h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>通过日志和上传上来的文件名可以看出，其实他也是通过 <code>mysqldump</code> 先生成备份文件，然后通过 S3 的 SDK 进行上传，同时也是使用了日期最为文件名的命名方式。我也大致看了下代码，所使用的 SDK 为 minio 提供的，这样又可以同时支持上传到 minio 了。</p><p>创新就是将一些已有的东西进行重新组合，比如这里只是将 <code>docker</code>、<code>mysqldump</code>和<code>S3</code> 进行了组合，就创造出了这么一个好用且通用的工具，非常值得学习。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;div style=&quot;width:70%;margin:auto&quot;&gt;&lt;img src=&quot;0.jpg&quot; alt&gt;&lt;/div&gt;
-
-&lt;p&gt;我开发的&lt;a href=&quot;https://bossku.cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;老板管库&lt;/a&gt;虽
       
     
     </summary>
