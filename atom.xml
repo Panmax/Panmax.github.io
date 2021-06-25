@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jpanj.com/"/>
-  <updated>2021-06-16T10:21:27.849Z</updated>
+  <updated>2021-06-25T10:21:37.524Z</updated>
   <id>https://jpanj.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Go 中由切片引起的内存泄露</title>
+    <link href="https://jpanj.com/2021/go-memory-leak-by-slice/"/>
+    <id>https://jpanj.com/2021/go-memory-leak-by-slice/</id>
+    <published>2021-06-25T10:00:20.000Z</published>
+    <updated>2021-06-25T10:21:37.524Z</updated>
+    
+    <content type="html"><![CDATA[<p>与 C/C++ 不同，Go 有 GC，所以我们不需要手动处理内存的分配和释放。不过，我们仍然应该谨慎对待内存泄漏问题。</p><p>来看一个由 <code>slice</code> 引起的内存泄漏案例。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line"> <span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">type</span> Object <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> a []*Object</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">8</span>; i++ &#123;</span><br><span class="line">        a = <span class="built_in">append</span>(a, <span class="built_in">new</span>(Object))</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(<span class="built_in">cap</span>(a), <span class="built_in">len</span>(a)) <span class="comment">// 输出: 8, 8</span></span><br><span class="line">    a = remove(a, <span class="number">5</span>)</span><br><span class="line">    fmt.Println(<span class="built_in">cap</span>(a), <span class="built_in">len</span>(a)) <span class="comment">// 输出: 8, 7</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">remove</span><span class="params">(s []*Object, i <span class="keyword">int</span>)</span> []*<span class="title">Object</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">append</span>(s[:i], s[i+<span class="number">1</span>:]...)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p> 我们可以看到，即使有一个对象被删除，a 的容量仍然是8，这意味着<code>remove</code> 函数可能导致潜在的内存泄漏。</p><h3 id="为什么会发生这种情况？"><a href="#为什么会发生这种情况？" class="headerlink" title="为什么会发生这种情况？"></a>为什么会发生这种情况？</h3><p>来看一个例子</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line"> <span class="string">"fmt"</span></span><br><span class="line">)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// a 和 b 代表同一个数组 [1,2] 的两个部分</span></span><br><span class="line">    a := []<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>&#125;</span><br><span class="line">    b := a[<span class="number">0</span>:<span class="number">1</span>]       </span><br><span class="line">    fmt.Println(a, b)  <span class="comment">// 输出: [1 2] [1] </span></span><br><span class="line">   </span><br><span class="line">  <span class="comment">// 底层数组的容量是2，b在 append 后的长度将是2，只需将b的范围增加到数组[0:1]。</span></span><br><span class="line">  <span class="comment">// array[1]将被改为3，因为 a 和 b 是在同一个数组上，所以a[1]也是3。</span></span><br><span class="line">    b = <span class="built_in">append</span>(b, <span class="number">3</span>)  </span><br><span class="line">    fmt.Println(a, b)  <span class="comment">// 输出: [1 3] [1 3]</span></span><br><span class="line">    </span><br><span class="line">  <span class="comment">// 因为 b 的长度将比数组的容量大3，所以将创建一个新的数组</span></span><br><span class="line">  <span class="comment">// 新数组的容量将是 2*cap(old) = 4</span></span><br><span class="line">    b = <span class="built_in">append</span>(b, <span class="number">4</span>) </span><br><span class="line">    b[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    <span class="comment">// 现在 a 和 b 在不同的数组上</span></span><br><span class="line">    fmt.Println(a, b)           <span class="comment">// 输出: [1 3] [0 3 4]</span></span><br><span class="line">    fmt.Println(<span class="built_in">cap</span>(a), <span class="built_in">cap</span>(b)) <span class="comment">// 输出: 2 4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="如何避免内存泄漏？"><a href="#如何避免内存泄漏？" class="headerlink" title="如何避免内存泄漏？"></a>如何避免内存泄漏？</h3><p>在这种情况下，有两种内存泄漏。</p><h4 id="1-底层数组"><a href="#1-底层数组" class="headerlink" title="1. 底层数组"></a>1. 底层数组</h4><p>基本上我们不需要考虑这个问题。底层数组的容量只会增加，但不会减少，第一个例子已经证明了这一点。如果我们认为容量太大，我们可以创建一个新的 slice，并将原 slice 中的所有元素复制到新 slice 中。这是一个复制操作（时间）和内存使用（空间）之间的权衡。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">remove</span><span class="params">(s []*Object, i <span class="keyword">int</span>)</span> []*<span class="title">Object</span></span> &#123;</span><br><span class="line">    s = <span class="built_in">append</span>(s[:i], s[i+<span class="number">1</span>:]...)</span><br><span class="line">    a := <span class="built_in">make</span>([]*Object, <span class="built_in">len</span>(s))</span><br><span class="line">    <span class="built_in">copy</span>(a, s) <span class="comment">// 时间换空间</span></span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h4 id="2-指向数组元素的内存，其类型为指针"><a href="#2-指向数组元素的内存，其类型为指针" class="headerlink" title="2. 指向数组元素的内存，其类型为指针"></a>2. 指向数组元素的内存，其类型为指针</h4><p><strong>解决方法：将未使用的元素设置为nil</strong>，它将会被 GC 释放。</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">remove</span><span class="params">(s []*Object, i <span class="keyword">int</span>)</span> []*<span class="title">Object</span></span> &#123;</span><br><span class="line">    old := s</span><br><span class="line">    s = <span class="built_in">append</span>(s[:i], s[i+<span class="number">1</span>:]...)</span><br><span class="line">    old[<span class="built_in">len</span>(old)<span class="number">-1</span>] = <span class="literal">nil</span> </span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;与 C/C++ 不同，Go 有 GC，所以我们不需要手动处理内存的分配和释放。不过，我们仍然应该谨慎对待内存泄漏问题。&lt;/p&gt;
+&lt;p&gt;来看一个由 &lt;code&gt;slice&lt;/code&gt; 引起的内存泄漏案例。&lt;/p&gt;
+&lt;figure class=&quot;highlight go&quot;&gt;&lt;
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>配置不规范导致的 bug 复盘</title>
@@ -433,29 +456,6 @@
 
 &lt;p&gt;前几天朋友问我如何在没有 root 权限且无法编辑 Nginx 配置的条件下，搭建一个静态文件服务。&lt;/p&gt;
 &lt;p&gt;我最快想到的是用 Go 写一个
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>国内服务器访问 github 加速</title>
-    <link href="https://jpanj.com/2021/domestic-server-speed-github/"/>
-    <id>https://jpanj.com/2021/domestic-server-speed-github/</id>
-    <published>2021-02-08T10:27:17.000Z</published>
-    <updated>2021-02-08T10:43:37.556Z</updated>
-    
-    <content type="html"><![CDATA[<p>众所周知的原因，国内访问 github 的速度非常受限，在个人电脑上还可以挂个代理之类的来提速，但是如果是在服务器上操作的话，配代理就没那么方便了。</p><p>前几天帮朋友在他的服务器上部署一个 github 上的开源项目，clone 的速度真的感人。</p><div style="width:70%;margin:auto"><img src="slow.png" alt></div><p>4k 左右的下载速度。</p><p>可以通过阿里提供的代理来解决，只需把 rep 地址中的 <code>github.com</code> 替换为 <code>github.com.cnpmjs.org/</code> 就可以了。</p><p>比如，之前的地址是：<code>https://github.com/gin-gonic/gin</code>，替换后为：<code>https://github.com.cnpmjs.org/gin-gonic/gin</code>。</p><p>效果如下：</p><div style="width:70%;margin:auto"><img src="quick.png" alt></div><p>虽然没有快的飞起，但是已经相当不错了。</p><hr><p>P.S. 域名后边的 <a href="cnpmjs.org">cnpmjs.org</a> 这个地址是提供 npm 加速的，前端童鞋可以通过 cnpm 来实现前端构建的加速。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;众所周知的原因，国内访问 github 的速度非常受限，在个人电脑上还可以挂个代理之类的来提速，但是如果是在服务器上操作的话，配代理就没那么方便了。&lt;/p&gt;
-&lt;p&gt;前几天帮朋友在他的服务器上部署一个 github 上的开源项目，clone 的速度真的感人。&lt;/p&gt;
-&lt;div
       
     
     </summary>
