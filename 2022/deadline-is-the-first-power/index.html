@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="我在今年六月份转岗后被邀请加入了公司的架构组，这个组织的意图是提升公司后端整体技术能力。我们规划了每周一次公司内技术分享，一般在周五进行。 本周二下午架构组例会上讨论本周分享内容时，突然被老板点名希望我做一次分享，内容就是上一周他随机挑选 10 个人写了三道算法题，让我围绕这些代码做个代码质量相关的分享。 周二晚上告诉我要周五分享，留给我整理素材、做 PPT 的时间非常紧，所以晚上回家路上我就开始">
+<meta property="og:type" content="article">
+<meta property="og:title" content="deadline 是第一生产力">
+<meta property="og:url" content="https://jiapan.me/2022/deadline-is-the-first-power/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="我在今年六月份转岗后被邀请加入了公司的架构组，这个组织的意图是提升公司后端整体技术能力。我们规划了每周一次公司内技术分享，一般在周五进行。 本周二下午架构组例会上讨论本周分享内容时，突然被老板点名希望我做一次分享，内容就是上一周他随机挑选 10 个人写了三道算法题，让我围绕这些代码做个代码质量相关的分享。 周二晚上告诉我要周五分享，留给我整理素材、做 PPT 的时间非常紧，所以晚上回家路上我就开始">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/deadline-is-the-first-power/20220804155946.png">
+<meta property="og:image" content="https://jiapan.me/2022/deadline-is-the-first-power/20220804160448.png">
+<meta property="og:image" content="https://jiapan.me/2022/deadline-is-the-first-power/20220804161204.png">
+<meta property="og:image" content="https://jiapan.me/2022/deadline-is-the-first-power/20220804162244.png">
+<meta property="og:updated_time" content="2025-07-25T05:41:14.962Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="deadline 是第一生产力">
+<meta name="twitter:description" content="我在今年六月份转岗后被邀请加入了公司的架构组，这个组织的意图是提升公司后端整体技术能力。我们规划了每周一次公司内技术分享，一般在周五进行。 本周二下午架构组例会上讨论本周分享内容时，突然被老板点名希望我做一次分享，内容就是上一周他随机挑选 10 个人写了三道算法题，让我围绕这些代码做个代码质量相关的分享。 周二晚上告诉我要周五分享，留给我整理素材、做 PPT 的时间非常紧，所以晚上回家路上我就开始">
+<meta name="twitter:image" content="https://jiapan.me/2022/deadline-is-the-first-power/20220804155946.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/deadline-is-the-first-power/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>deadline 是第一生产力 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/deadline-is-the-first-power/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          deadline 是第一生产力
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-08-04 16:14:52" itemprop="dateCreated datePublished" datetime="2022-08-04T16:14:52+08:00">2022-08-04</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/deadline-is-the-first-power/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/deadline-is-the-first-power/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我在今年六月份转岗后被邀请加入了公司的架构组，这个组织的意图是提升公司后端整体技术能力。我们规划了每周一次公司内技术分享，一般在周五进行。</p>
+<p>本周二下午架构组例会上讨论本周分享内容时，突然被老板点名希望我做一次分享，内容就是上一周他随机挑选 10 个人写了三道算法题，让我围绕这些代码做个代码质量相关的分享。</p>
+<p>周二晚上告诉我要周五分享，留给我整理素材、做 PPT 的时间非常紧，所以晚上回家路上我就开始收集之前看过的资料，回家后又把《代码整洁之道》这本书翻出来，快速把里边之前标记了重点的地方进行了阅读，大致在脑子里形成了一个提纲。</p>
+<p>第二天一早也就是周三，在 PPT 还没有开始做之前，老板的助理找我要分享的内容介绍，包括主题、听众收益，我基于昨晚的提纲写了一份介绍交给了她，之后我也就按照这些组织我的 PPT。</p>
+<p><img src="20220804155946.png" width="300px" style="margin: 0 auto;"></p>
+<p>之后助理又找我要个人照片，我把去年公司给我拍的一张照片给了它，没想到过了没多久，公司所有投影仪、电视开屏背景就成了我的宣传页，有点受宠若惊。</p>
+<p><img src="20220804160448.png" width="600px" style="margin: 0 auto;"></p>
+<p>也被公司其他同事看到纷纷发来问候：</p>
+<p><img src="20220804161204.png" width="600px" style="margin: 0 auto;"></p>
+<p>找照片的过程也比较坎坷，因为我也没有艺术照啥的，唯一一张正式点的照片就是公司去年给我拍的形象照，当时因为运气好被评为了公司年度优秀员工。公司当时把这张照片修好后的原图发给了我，我只是打开看了下，并没有额外去保存，所以这次再找的时候就找不到了。我平时有清理 Download 目录的习惯，当时那张照片就是放到了 Download 里了。不过我还有另一个习惯，就是每次在清理 Download 前先把这个目录做个备份，将里边所有内容上传到 OneDrive 中，我会在 OneDrive 中建一个今天日期的目录，然后把此时 Download 中所有文件上传进去，再清理掉本地的文件。当然我还会定期把 OneDrive 日期太久远的目录删除，比如超过 1 年的备份，否则容量不太够用。我抱着试一试的态度在 OneDrive 的备份中找这张照片，竟然被我找到了，果然凡事需要留个后路。</p>
+<p><img src="20220804162244.png" width="600px" style="margin: 0 auto;"></p>
+<p>在 Deadline、公司大力宣传的驱动下，我的效率倍增，在今天也就是周四下午完成了第一版的 PPT，自己都感慨效率如此之高，也多亏了之前阅读过的一些资料和书籍，将那些资料结合实际情况做下整理就成了我的 PPT。计划在发布完这篇 blog 后重头过一遍 PPT 做些微调，然后再找个会议室做做练习。</p>
+<p>Keynote 可以将文稿转成 PDF、HTML 等格式，我尝试转成 HTML 后发现就是一个标准的前端项目，有一个 <code>index.html</code> 作为入口，这不就可以放到 Cloudflare 上做一个静态站了吗，于是我把这些文件上传到了 Cloudflare，并关联了我的域名：<a href="https://codestyle.jiapan.me/" target="_blank" rel="noopener">https://codestyle.jiapan.me/</a>，这样就得到了一个可以在线浏览的版本，看了下效果分辨率比原始文档偏低，但又不是不能用🤷🏻‍♂️。</p>
+<p>最后再感叹一声，<strong>Deadline 是第一生产力！</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/land-surfboard-study-week3/" rel="prev" title="陆地冲浪板学习-week3">
+      <i class="fa fa-chevron-left"></i> 陆地冲浪板学习-week3
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/land-surfboard-study-week4/" rel="next" title="陆地冲浪板学习-week4">
+      陆地冲浪板学习-week4 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">359</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
