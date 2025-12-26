@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="今天是国庆节最后一天，可是我极度不想上班，所以又继续请了 2 天假。 最近这大半年来我特别不愿意面对工作，对工作持续性没有热情，偶尔有热情的时候是在纯粹写代码的那几个小时。那几个小时里不用考虑和人打交道，不用考虑怎么在晨会、周会上汇报工作，不用去迎合他人做让自己违心的事。 还有个原因是我不喜欢被当成未成年人那样去管理，我更喜欢靠完全的自驱去工作，和 LD 沟通好「双赢协议」后他的工作就完成了、就">
+<meta name="keywords" content="个人反思,职业倦怠,工作心态,躺平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不想上班">
+<meta property="og:url" content="https://jiapan.me/2022/do-not-want-to-work/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="今天是国庆节最后一天，可是我极度不想上班，所以又继续请了 2 天假。 最近这大半年来我特别不愿意面对工作，对工作持续性没有热情，偶尔有热情的时候是在纯粹写代码的那几个小时。那几个小时里不用考虑和人打交道，不用考虑怎么在晨会、周会上汇报工作，不用去迎合他人做让自己违心的事。 还有个原因是我不喜欢被当成未成年人那样去管理，我更喜欢靠完全的自驱去工作，和 LD 沟通好「双赢协议」后他的工作就完成了、就">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/do-not-want-to-work/0.jpg">
+<meta property="og:image" content="https://jiapan.me/2022/do-not-want-to-work/IMG_1517.jpeg">
+<meta property="og:updated_time" content="2025-12-26T01:28:20.810Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="不想上班">
+<meta name="twitter:description" content="今天是国庆节最后一天，可是我极度不想上班，所以又继续请了 2 天假。 最近这大半年来我特别不愿意面对工作，对工作持续性没有热情，偶尔有热情的时候是在纯粹写代码的那几个小时。那几个小时里不用考虑和人打交道，不用考虑怎么在晨会、周会上汇报工作，不用去迎合他人做让自己违心的事。 还有个原因是我不喜欢被当成未成年人那样去管理，我更喜欢靠完全的自驱去工作，和 LD 沟通好「双赢协议」后他的工作就完成了、就">
+<meta name="twitter:image" content="https://jiapan.me/2022/do-not-want-to-work/0.jpg">
+
+<link rel="canonical" href="https://jiapan.me/2022/do-not-want-to-work/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>不想上班 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/do-not-want-to-work/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          不想上班
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-10-07 20:47:45" itemprop="dateCreated datePublished" datetime="2022-10-07T20:47:45+08:00">2022-10-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生活/" itemprop="url" rel="index"><span itemprop="name">生活</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/do-not-want-to-work/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/do-not-want-to-work/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="0.jpg" width="600px" style="margin: 0 auto;"></p>
+<p>今天是国庆节最后一天，可是我极度不想上班，所以又继续请了 2 天假。</p>
+<p>最近这大半年来我特别不愿意面对工作，对工作持续性没有热情，偶尔有热情的时候是在纯粹写代码的那几个小时。那几个小时里不用考虑和人打交道，不用考虑怎么在晨会、周会上汇报工作，不用去迎合他人做让自己违心的事。</p>
+<p>还有个原因是我不喜欢<strong>被当成未成年人</strong>那样去管理，我更喜欢靠完全的自驱去工作，和 LD 沟通好「双赢协议」后他的工作就完成了、就可以退场了，他所要做的就是做好后勤工作，而不是每天来问一问进度或者开会让每个人秀一下自己的工作量。对我的管理越紧我会越认为是对我的不信任，我也越会以敷衍作为回报。</p>
+<p>另一个对工作不再有热情的原因是认清了一些现实，之前会幻想自己可以靠技术改变世界，靠技术发大财，现在不再有这样的想法了，对技术的热情也没有那么高了，反而会考虑如果可以的话应该在业务方面更深入一些，技术不是核心，至少对于大部分互联网公司是这样的。</p>
+<p>我在刚工作的时候特别喜欢上班，虽然那个时候公司周末不加班，平时 6 点就下班，但我还是会在下班的时间在公司以外的地方写公司的代码。</p>
+<p>我记得很清楚的是自己刚来北京的时候，那时候连房都没有租到，和一个大学认识的朋友一起住在他老家一个哥哥的工作室里，那里白天需要办公，我俩早上起床后把铺盖收到一个橱柜里，晚上再拿出来铺在地上睡觉。我有过几次整晚不睡觉去写代码，而且是非常心甘情愿非常开心地写代码。</p>
+<p>找不到当时打地铺的照片了，只找到一张在那个工作室住了半年后租到房子时要搬家前的一张照片。</p>
+<p><img src="IMG_1517.jpeg" width="600px" style="margin: 0 auto;"></p>
+<p>现在绝对不会再这样做了，现在我晚上到家后连打开电脑的欲望都没有，甚至周末都不想动一下电脑，也不会再去看技术书籍，周末的时候也不会看书了，就纯粹歇着虚度时光，我躺平了，这种躺平给我带来的坏处是技术方面不带成长，好处是我不用再那么频繁的复用抗焦虑药物了，从之前的一周有 4 天要吃药，降低到了现在的一周只需要吃 1-2 次。</p>
+<p>虽然不认可现在公司的所作所为，但我也不想去找工作，我不是面试选手，而且现在整体经济也在下行，我在教育背景、工作履历上都没有优势。</p>
+<p>我发现我现在越来越喜欢读鸡汤书了，因为工作中遇到的都是糟心事，读一读鸡汤多少能给我一些慰藉。</p>
+<p>我甚至已经把工作当成了对自己的一种折磨，比如我不会在工作日吃美食，因为一点吃饭的心情都没有，而且那也是对美食的不尊重，工作日凑合吃一口让自己不至于饿死就行，工作日的时候朋友找我约饭我也都会推掉（不管是中午还是晚上）。这样导致的另一个问题是：到了周末我会暴饮暴食，每周工作日 5 天掉的称周末两天我可以翻倍补回来。国庆节休息这几天我已经涨了 6 斤了🙁。</p>
+<p>去他妈的工作、去他们的 OKR、去他妈的 KPI。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/个人反思/" rel="tag"># 个人反思</a>
+              <a href="/tags/职业倦怠/" rel="tag"># 职业倦怠</a>
+              <a href="/tags/工作心态/" rel="tag"># 工作心态</a>
+              <a href="/tags/躺平/" rel="tag"># 躺平</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/recent-breakfast-burger-king/" rel="prev" title="最近一个月的「汉堡王」早餐心得分享">
+      <i class="fa fa-chevron-left"></i> 最近一个月的「汉堡王」早餐心得分享
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/choice-log-level/" rel="next" title="选择合适的日志级别">
+      选择合适的日志级别 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
