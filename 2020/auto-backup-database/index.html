@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="我开发的老板管库虽然没太多收入，但是还是有不少的用户量，为了节约成本，我并没有使用厂商提供的云数据库，而是在服务器本地搭了一个 MariaDB 实例。考虑到用户数据安全还是第一位的，所以我每天会通过定时任务的方式进行全量备份，并上传到我的七牛云，脚本如下： 12345678910#!/bin/bashdir=$(dirname $(readlink -f &quot;$0&quot;))filename=boss">
+<meta name="keywords" content="数据库备份,Docker,AWS S3,自动化运维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动备份数据库并上传到 S3">
+<meta property="og:url" content="https://jiapan.me/2020/auto-backup-database/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="我开发的老板管库虽然没太多收入，但是还是有不少的用户量，为了节约成本，我并没有使用厂商提供的云数据库，而是在服务器本地搭了一个 MariaDB 实例。考虑到用户数据安全还是第一位的，所以我每天会通过定时任务的方式进行全量备份，并上传到我的七牛云，脚本如下： 12345678910#!/bin/bashdir=$(dirname $(readlink -f &quot;$0&quot;))filename=boss">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2020/auto-backup-database/0.jpg">
+<meta property="og:image" content="https://jiapan.me/2020/auto-backup-database/1.png">
+<meta property="og:image" content="https://jiapan.me/2020/auto-backup-database/2.png">
+<meta property="og:image" content="https://jiapan.me/2020/auto-backup-database/3.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.307Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自动备份数据库并上传到 S3">
+<meta name="twitter:description" content="我开发的老板管库虽然没太多收入，但是还是有不少的用户量，为了节约成本，我并没有使用厂商提供的云数据库，而是在服务器本地搭了一个 MariaDB 实例。考虑到用户数据安全还是第一位的，所以我每天会通过定时任务的方式进行全量备份，并上传到我的七牛云，脚本如下： 12345678910#!/bin/bashdir=$(dirname $(readlink -f &quot;$0&quot;))filename=boss">
+<meta name="twitter:image" content="https://jiapan.me/2020/auto-backup-database/0.jpg">
+
+<link rel="canonical" href="https://jiapan.me/2020/auto-backup-database/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>自动备份数据库并上传到 S3 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2020/auto-backup-database/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自动备份数据库并上传到 S3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-30 10:25:45" itemprop="dateCreated datePublished" datetime="2020-11-30T10:25:45+08:00">2020-11-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/auto-backup-database/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/auto-backup-database/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div style="width:70%;margin:auto"><img src="0.jpg" alt=""></div>
+
+<p>我开发的<a href="https://bossku.cn/" target="_blank" rel="noopener">老板管库</a>虽然没太多收入，但是还是有不少的用户量，为了节约成本，我并没有使用厂商提供的云数据库，而是在服务器本地搭了一个 MariaDB 实例。考虑到用户数据安全还是第一位的，所以我每天会通过定时任务的方式进行全量备份，并上传到我的七牛云，脚本如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">dir=$(dirname $(readlink -f "$0"))</span><br><span class="line"></span><br><span class="line">filename=bossku_$(date +%Y%m%d%H%M).sql</span><br><span class="line">echo $&#123;filename&#125;</span><br><span class="line">cd $&#123;dir&#125;</span><br><span class="line">mysqldump -h&#123;ipaddress&#125; -P&#123;port&#125; -uroot -p&#123;password&#125; bossku &gt; $&#123;filename&#125;</span><br><span class="line"></span><br><span class="line">qshell rput bosskudb $&#123;filename&#125; $&#123;filename&#125;</span><br></pre></td></tr></table></figure>
+<p>上边的命令会生成一个以执行时间为后缀的 <code>.sql</code> 文件并上传到我的七牛云中名为 bosskudb 的bucket中，同时我还会配置这个 bucket 的生命周期，只保留近7天的数据。这实际上是套比较通用的流程，昨天恰好看到一个 repo：<a href="https://github.com/appleboy/docker-backup-database" target="_blank" rel="noopener">https://github.com/appleboy/docker-backup-database</a> 就是用来提供这套流程的封装的，看到作者又是个自己比较崇拜的开发者，于是准备上手用一用。</p>
+<p>（P.S. appleboy 大神是个非常活跃的 golang开发者，在去年学习 go 的时候就 fo 了他）</p>
+<p>这个工具目前支持备份 PG 和 MySQL 数据库，并上传到 S3（包括支持S3协议的 minio） 或者本地路径下，启用方式也非常方便，写个 docker-compose 文件就可以了。</p>
+<p>以下是我的操作记录：</p>
+<h3 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h3><p>首先在我的 AWS 中新建了一个 bucket，我所选择的区域为亚太地区(香港) ap-east-1，bucket 名为 bossku-db-backup。</p>
+<div style="width:70%;margin:auto"><img src="1.png" alt=""></div>
+
+<h3 id="准备-docker-compose-yml-脚本"><a href="#准备-docker-compose-yml-脚本" class="headerlink" title="准备 docker-compose.yml 脚本"></a>准备 docker-compose.yml 脚本</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  backup_mysql:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">appleboy/docker-backup-database:mysql-5.7</span></span><br><span class="line"><span class="attr">    logging:</span></span><br><span class="line"><span class="attr">      options:</span></span><br><span class="line"><span class="attr">        max-size:</span> <span class="string">"100k"</span></span><br><span class="line"><span class="attr">        max-file:</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="attr">      STORAGE_DRIVER:</span> <span class="string">s3</span></span><br><span class="line"><span class="attr">      STORAGE_ENDPOINT:</span> <span class="string">s3.amazonaws.com</span></span><br><span class="line"><span class="attr">      STORAGE_BUCKET:</span> <span class="string">bossku-db-backup</span></span><br><span class="line"><span class="attr">      STORAGE_REGION:</span> <span class="string">ap-east-1</span></span><br><span class="line"><span class="attr">      STORAGE_PATH:</span> <span class="string">backup</span></span><br><span class="line"><span class="attr">      STORAGE_SSL:</span> <span class="string">"false"</span></span><br><span class="line"><span class="attr">      STORAGE_INSECURE_SKIP_VERIFY:</span> <span class="string">"false"</span></span><br><span class="line"><span class="attr">      ACCESS_KEY_ID:</span> <span class="string">AKI*******UFT</span></span><br><span class="line"><span class="attr">      SECRET_ACCESS_KEY:</span> <span class="number">4</span><span class="string">u********************NU</span></span><br><span class="line"></span><br><span class="line"><span class="attr">      DATABASE_DRIVER:</span> <span class="string">mysql</span></span><br><span class="line"><span class="attr">      DATABASE_HOST:</span> <span class="string">&#123;ip&#125;:&#123;port&#125;</span></span><br><span class="line"><span class="attr">      DATABASE_USERNAME:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">      DATABASE_PASSWORD:</span> <span class="string">&#123;password&#125;</span></span><br><span class="line"><span class="attr">      DATABASE_NAME:</span> <span class="string">bossku</span></span><br><span class="line"><span class="attr">      DATABASE_OPTS:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">      TIME_SCHEDULE:</span> <span class="string">"0 0 * * *"</span></span><br><span class="line"><span class="attr">      TIME_LOCATION:</span> <span class="string">Asia/Shanghai</span></span><br></pre></td></tr></table></figure>
+<p><code>ACCESS_KEY_ID</code> 和 <code>SECRET_ACCESS_KEY</code> 获取方式可以查看：<a href="https://aws.amazon.com/cn/blogs/security/wheres-my-secret-access-key/" target="_blank" rel="noopener">Where’s My Secret Access Key?</a>。</p>
+<p>因为我所启动的数据库实例为 MariaDB:10.2，根据<a href="https://mariadb.com/kb/en/system-variable-differences-between-mariadb-and-mysql/" target="_blank" rel="noopener">官方介绍</a>，其所对应的 MySQL 版本为 5.7，所以上边命令中的 image 我指定的是  <code>appleboy/docker-backup-database:mysql-5.7</code>。</p>
+<div style="width:70%;margin:auto"><img src="2.png" alt=""></div>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>测试的时候，为了方便查看效果，可以将 <code>TIME_SCHEDULE</code> 删掉，这样会立即执行，且执行一次后退出。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 然后观察日志</span></span><br><span class="line">docker-compose logs -f</span><br><span class="line">Attaching to bossku-db-backup_backup_mysql_1_6cc39ab97f2c</span><br><span class="line">backup_mysql_1_6cc39ab97f2c | $ mysqldump --version</span><br><span class="line">backup_mysql_1_6cc39ab97f2c | mysqldump  Ver 10.13 Distrib 5.7.32, for Linux (x86_64)</span><br><span class="line">backup_mysql_1_6cc39ab97f2c | $ bash -c mysqldump -h &#123;ip&#125; -P &#123;port&#125; -u root bossku | gzip &gt; dump.sql.gz</span><br><span class="line"></span><br><span class="line">bossku-db-backup_backup_mysql_1_6cc39ab97f2c exited with code 0</span><br></pre></td></tr></table></figure>
+<p>可以看到成功了，再到 S3 中验证一下文件有没有上传上来：</p>
+<div style="width:70%;margin:auto"><img src="3.png" alt=""></div>
+
+<p>文件也传成功了！</p>
+<p>如果在最后的上传步骤遇到无权限的错误，可以通过尝试调整 bucket 权限来解决。</p>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>通过日志和上传上来的文件名可以看出，其实他也是通过 <code>mysqldump</code> 先生成备份文件，然后通过 S3 的 SDK 进行上传，同时也是使用了日期最为文件名的命名方式。我也大致看了下代码，所使用的 SDK 为 minio 提供的，这样又可以同时支持上传到 minio 了。</p>
+<p>创新就是将一些已有的东西进行重新组合，比如这里只是将 <code>docker</code>、<code>mysqldump</code>和<code>S3</code> 进行了组合，就创造出了这么一个好用且通用的工具，非常值得学习。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/数据库备份/" rel="tag"># 数据库备份</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/AWS-S3/" rel="tag"># AWS S3</a>
+              <a href="/tags/自动化运维/" rel="tag"># 自动化运维</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/go-value-for-mistake/" rel="prev" title="使用 Go 语言时没有关注值传递和误用 for 循环导致的 bug">
+      <i class="fa fa-chevron-left"></i> 使用 Go 语言时没有关注值传递和误用 for 循环导致的 bug
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/domestic-server-speed-github/" rel="next" title="国内服务器访问 github 加速">
+      国内服务器访问 github 加速 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备环境"><span class="nav-number">1.</span> <span class="nav-text">准备环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备-docker-compose-yml-脚本"><span class="nav-number">2.</span> <span class="nav-text">准备 docker-compose.yml 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">3.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写在最后"><span class="nav-number">4.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

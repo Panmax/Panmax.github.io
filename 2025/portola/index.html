@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="翻译自：https://www.braintrust.dev/blog/portola TL;DR核心痛点Portola 发现，对于注重情感连接的 AI 伴侣（Tolan），传统的自动化评估（Automated Evals）无法捕捉对话质量、情商和真实感等“软性”指标。 解决方案构建一套基础设施，赋能非技术领域专家（行为研究员、科幻作家、游戏设计师）直接掌控 AI 质量优化的全流程，消除工程瓶颈。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【翻译】Portola 如何赋能领域专家提升 AI 质量">
+<meta property="og:url" content="https://jiapan.me/2025/portola/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="翻译自：https://www.braintrust.dev/blog/portola TL;DR核心痛点Portola 发现，对于注重情感连接的 AI 伴侣（Tolan），传统的自动化评估（Automated Evals）无法捕捉对话质量、情商和真实感等“软性”指标。 解决方案构建一套基础设施，赋能非技术领域专家（行为研究员、科幻作家、游戏设计师）直接掌控 AI 质量优化的全流程，消除工程瓶颈。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【翻译】Portola 如何赋能领域专家提升 AI 质量">
+<meta name="twitter:description" content="翻译自：https://www.braintrust.dev/blog/portola TL;DR核心痛点Portola 发现，对于注重情感连接的 AI 伴侣（Tolan），传统的自动化评估（Automated Evals）无法捕捉对话质量、情商和真实感等“软性”指标。 解决方案构建一套基础设施，赋能非技术领域专家（行为研究员、科幻作家、游戏设计师）直接掌控 AI 质量优化的全流程，消除工程瓶颈。">
+
+<link rel="canonical" href="https://jiapan.me/2025/portola/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>【翻译】Portola 如何赋能领域专家提升 AI 质量 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2025/portola/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【翻译】Portola 如何赋能领域专家提升 AI 质量
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-11-27 17:40:21" itemprop="dateCreated datePublished" datetime="2025-11-27T17:40:21+08:00">2025-11-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LLM/" itemprop="url" rel="index"><span itemprop="name">LLM</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LLM/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LLM/AI/翻译/" itemprop="url" rel="index"><span itemprop="name">翻译</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2025/portola/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2025/portola/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>翻译自：<a href="https://www.braintrust.dev/blog/portola" target="_blank" rel="noopener">https://www.braintrust.dev/blog/portola</a></p>
+<h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><p><strong>核心痛点</strong><br>Portola 发现，对于注重情感连接的 AI 伴侣（Tolan），传统的<strong>自动化评估（Automated Evals）无法捕捉对话质量、情商和真实感</strong>等“软性”指标。</p>
+<p><strong>解决方案</strong><br>构建一套基础设施，<strong>赋能非技术领域专家</strong>（行为研究员、科幻作家、游戏设计师）直接掌控 AI 质量优化的全流程，消除工程瓶颈。</p>
+<p><strong>关键流程</strong></p>
+<ol>
+<li><strong>人工审查与发现</strong>：专家通过阅读真实日志发现特定模式（如语气生硬、过度使用俚语）。</li>
+<li><strong>小数据集策略</strong>：不维护庞大的“黄金数据集”，而是针对每个具体问题创建小型、专注的数据集（10-200个示例）。</li>
+<li><strong>手动评估与迭代</strong>：在 Playground 中进行侧重专家直觉的人工对比测试，而非单纯依赖自动化打分。</li>
+<li><strong>直接部署</strong>：专家可将优化后的提示词直接发布到生产环境，无需工程师介入。</li>
+</ol>
+<p><strong>成果</strong></p>
+<ul>
+<li>每周提示词迭代速度<strong>提升 4 倍</strong>。</li>
+<li>系统性改善了记忆调用、对话自然度及敏感话题处理能力。</li>
+<li><strong>结论</strong>：在主观且情感复杂的 AI 领域，必须让懂用户体验的领域专家拥有端到端的修改权限。</li>
+</ul>
+<hr>
+<p>Portola 开发了 <a href="https://www.tolans.com/" target="_blank" rel="noopener">Tolan</a>，这是一款 AI 陪伴应用，旨在为寻求真实、非恋爱 AI 关系的用户充当一位“外星挚友”。与典型的聊天机器人或生产力助手不同，Tolan 专注于通过自然的语音对话和复杂的记忆系统建立真正的情感连接。随着 Portola 团队构建出一个用户可以真正信任的 AI，他们意识到，对话质量、情商和真实行为的细微差别，是无法仅靠自动化评估（automated evals）来捕捉的。</p>
+<p>在这个案例研究中，我们将探讨 Portola 如何构建其工作流程，以赋能非技术背景的领域专家（包括一名行为研究员、一名科幻作家和一名游戏设计师），让他们每天花费数小时审查日志、整理数据集，并直接将改进后的提示词（prompt）发布到生产环境，而无需受制于工程瓶颈。</p>
+<h2 id="挑战：构建真实的-AI-关系"><a href="#挑战：构建真实的-AI-关系" class="headerlink" title="挑战：构建真实的 AI 关系"></a>挑战：构建真实的 AI 关系</h2><p>“人类将如何与 AI 建立健康的关系？”Portola 的首席执行官 Quinten Farmer 问道。“这就是 Tolan 正在探索的问题。”</p>
+<p>创建一个感觉真实、像人一样的 AI 伴侣，需要在心理学、叙事和对话设计方面具备深厚的领域专业知识。该团队确定了三个对建立用户信任至关重要的因素：</p>
+<h3 id="1-真实的记忆"><a href="#1-真实的记忆" class="headerlink" title="1. 真实的记忆"></a>1. 真实的记忆</h3><p>记忆系统的运作方式需要让人感觉真实，就像朋友记事一样。完美的复述能力并不重要，重要的是记住内容的微妙细节、它何时自然地浮现，以及它如何融入对话中。“当你和你的 Tolan 聊天时，如果他们记住了你生活中的某个细节并将其带入对话，那种感觉真的非常特别，”Quinten 解释道。</p>
+<h3 id="2-真实的镜像反应"><a href="#2-真实的镜像反应" class="headerlink" title="2. 真实的镜像反应"></a>2. 真实的镜像反应</h3><p>Tolan 如何反映和回应用户的情绪及沟通风格必须感觉自然，而非算法化。这涉及词汇选择、对话节奏和情感共鸣，这些都无法简化为简单的指标。</p>
+<h3 id="3-避免-AI-恐怖谷效应"><a href="#3-避免-AI-恐怖谷效应" class="headerlink" title="3. 避免 AI 恐怖谷效应"></a>3. 避免 AI 恐怖谷效应</h3><p>某些提问模式和互动行为会立即向用户发出“这是 AI”的信号，从而打破真实连接的幻觉。诸如问太多的“二选一问题”（例如“你想要华夫饼还是煎饼？”）或过度使用 Z 世代俚语等模式，都需要持续的监控和调整。</p>
+<p>Portola 系统的技术复杂性加剧了这些挑战。他们的提示词管道集成了记忆检索、动态生成的用户上下文、实时语音处理以及用户分享的内容（如照片），从而形成连贯的对话流。这种主观的、基于情境的特质使得对话感觉真实。</p>
+<h2 id="工作流程：从监控到部署"><a href="#工作流程：从监控到部署" class="headerlink" title="工作流程：从监控到部署"></a>工作流程：从监控到部署</h2><p>Portola 建立了一个工作流程，使领域专家能够识别问题、整理数据集、测试解决方案并部署变更——所有这些都无需工程团队的交接。其工作原理如下：</p>
+<h3 id="1-模式识别与数据集整理"><a href="#1-模式识别与数据集整理" class="headerlink" title="1. 模式识别与数据集整理"></a>1. 模式识别与数据集整理</h3><p>Lily Doyle 是他们的行为研究员，她每天大约花一个小时在 Braintrust 中阅读聊天日志，寻找对话质量中的模式。“我会寻找形式和功能上的重复模式。这意味着既要看信息是如何发送的，也要看 Tolan 实际上说了什么。我也会留意用户沮丧的任何迹象，”Lily 解释道。</p>
+<p>当 Lily 通过日志审查、用户反馈或焦点小组会议发现一个重复出现的问题时，她会在 Braintrust 中创建一个标记有特定问题的数据集。每个数据集都是真实对话案例的集合，展示了特定的问题。</p>
+<p>她最近在 Braintrust 中追踪的问题示例包括：</p>
+<ul>
+<li><strong><code>somatic-therapy</code>（躯体治疗）</strong>：Tolan 进行了不必要的躯体治疗式提问，如“你在身体上感觉如何？”</li>
+<li><strong><code>or-questions</code>（二选一问题）</strong>：过多的二元选择题，在对话中感觉不自然。</li>
+<li><strong><code>gen-z-lingo</code>（Z 世代俚语）</strong>：过度使用不符合 Tolan 角色设定的流行俚语。</li>
+</ul>
+<p>Portola 并没有维护一个单一的“黄金数据集”，而是在 Braintrust 中创建针对特定问题的数据集，规模从 10 到 200 个示例不等。“搞一个黄金数据集感觉没啥用，”Lily 解释说。“我们使用的是不同的模型，提示词已经改了八次。变化太快了。”</p>
+<p>Braintrust 的数据集管理为 Portola 带来了几个技术优势：</p>
+<ul>
+<li><strong>专注迭代</strong>：每个数据集针对特定的行为模式，使衡量改进变得更容易。</li>
+<li><strong>数据新鲜</strong>：数据集反映当前的产品状态，而不是成为陈旧的快照。</li>
+<li><strong>快速响应</strong>：新问题可以立即解决，无需更新全面的测试套件。</li>
+<li><strong>保留上下文</strong>：每个数据集通过 Braintrust 的追踪（trace）存储保留了完整的对话上下文。</li>
+</ul>
+<h3 id="2-基于-Playground-的迭代"><a href="#2-基于-Playground-的迭代" class="headerlink" title="2. 基于 Playground 的迭代"></a>2. 基于 Playground 的迭代</h3><p>一旦数据集整理完毕，Lily 就会转移到 Playground（演练场）进行并排的提示词比较。她会手动审查当前提示词与迭代版本的输出，利用她的领域专业知识评估对话质量。</p>
+<p>“我们正在处理的很多东西其实是非常‘软性’（squishy）的，”Lily 解释道。“比如针对用户提供的语境向他们提出最好的问题——这不太容易被量化评估。对于那些往往比较‘软性’的东西，我更喜欢手动操作并使用我自己的判断。”</p>
+<p>这种手动评估方法与典型的机器学习工作流程截然不同，但这却是刻意为之。对于 Portola 来说，对话质量从根本上是主观的且依赖于语境。一个自动化评分器可能会标记某个回复太长，但却忽略了该长度在特定语境下创造了情感共鸣。</p>
+<p>Playground 是 Lily 的主要工作空间，她在那里：</p>
+<ul>
+<li>直接从整理好的日志中加载数据集</li>
+<li>在不同提示词版本之间运行比较测试</li>
+<li>综合考量语气、得体性和情商来审查输出</li>
+<li>记录具体的失败或边缘情况</li>
+<li>与 AI 一起迭代以优化提示词</li>
+</ul>
+<h3 id="3-直接部署，无需工程交接"><a href="#3-直接部署，无需工程交接" class="headerlink" title="3. 直接部署，无需工程交接"></a>3. 直接部署，无需工程交接</h3><p>Portola 工作流程的最后一部分是他们的“提示词即代码”（prompts-as-code）基础设施，这使得领域专家一旦对 Playground 的结果感到满意，就可以直接将更改部署到生产环境。</p>
+<p>“我们的科幻作家可以坐下来，看到他不满意的地方，快速针对它进行测试，然后将他的修改部署到生产环境，”Quinten 解释说。“这相当了不起。”</p>
+<p>这种端到端的自主权彻底改变了 Portola 的迭代速度。非技术领域的专家拥有从问题识别到生产部署的完整周期。</p>
+<h2 id="结果：速度与质量的双重提升"><a href="#结果：速度与质量的双重提升" class="headerlink" title="结果：速度与质量的双重提升"></a>结果：速度与质量的双重提升</h2><h3 id="提示词迭代速度提升-4-倍"><a href="#提示词迭代速度提升-4-倍" class="headerlink" title="提示词迭代速度提升 4 倍"></a>提示词迭代速度提升 4 倍</h3><p>在实施此工作流程之前，更改提示词需要领域专家和工程师之间的协调。现在，领域专家可以识别问题、创建数据集、测试解决方案并发布更改，从而使<strong>每周提示词迭代次数达到原来的 4 倍</strong>。</p>
+<h3 id="对话质量的改进"><a href="#对话质量的改进" class="headerlink" title="对话质量的改进"></a>对话质量的改进</h3><p>团队系统地解决了以下方面的边缘情况：</p>
+<ul>
+<li>记忆系统的行为和真实的召回模式</li>
+<li>自然的对话流程和提问模式</li>
+<li>不同语境下的品牌声音一致性</li>
+<li>对心理健康等敏感话题的得体处理</li>
+</ul>
+<p>该工作流程还使 Portola 能够快速处理模型转换，在切换到新模型时迅速识别并修复退化问题。</p>
+<h2 id="主要收获：赋能领域专家"><a href="#主要收获：赋能领域专家" class="headerlink" title="主要收获：赋能领域专家"></a>主要收获：赋能领域专家</h2><p>Portola 的方法表明，为通过主观、情感复杂的领域构建值得信赖的 AI 系统，需要赋能非技术领域的专家来推动质量改进。他们的工作流程提供了几个经验教训：</p>
+<h3 id="1-不要强行对定性工作使用自动化评估"><a href="#1-不要强行对定性工作使用自动化评估" class="headerlink" title="1. 不要强行对定性工作使用自动化评估"></a>1. 不要强行对定性工作使用自动化评估</h3><p>“分数是有用的，但我们正在处理的很多东西其实是非常‘软性’的，”Lily 指出。对于对话质量、情商和品牌声音，来自领域专家的人类判断与自动化指标同等重要。</p>
+<h3 id="2-创建针对特定问题的数据集"><a href="#2-创建针对特定问题的数据集" class="headerlink" title="2. 创建针对特定问题的数据集"></a>2. 创建针对特定问题的数据集</h3><p>不要维护那些会变质的全面测试套件，而是在问题出现时创建针对特定问题的聚焦数据集。这在保持敏捷性的同时，建立了关于边缘情况和失败模式的机构知识。</p>
+<h3 id="3-在高风险领域拥抱人工审查"><a href="#3-在高风险领域拥抱人工审查" class="headerlink" title="3. 在高风险领域拥抱人工审查"></a>3. 在高风险领域拥抱人工审查</h3><p>在构建用于情感复杂领域（如伴侣关系、心理健康支持或治疗语境）的 AI 时，来自领域专家的人工审查至关重要。使这些互动生效的细微差别是无法仅靠指标来捕捉的。</p>
+<p>为领域专家预留时间，让他们花费数小时审查实际使用情况，并使用 Braintrust 中的人工审查等工具来提高这些时间的效率。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Portola 的工作流程表明，最有能力提高 AI 质量的团队，可能是那些理解你试图创造的用户体验细微差别的非技术领域专家。通过构建基础设施，赋能行为研究员、科幻作家和游戏设计师去识别问题、整理数据集、迭代提示词并将更改直接部署到生产环境，Portola 在迭代速度上实现了 4 倍的提升，同时系统地提高了对话质量。</p>
+<p>如果你正在为自动化评估无法捕捉互动精髓的主观、情感复杂领域构建 AI，请参考 Portola 的做法。投资于可观测性，构建针对特定问题的数据集，并赋能你的领域专家端到端地掌控质量改进周期。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/prompting-one/" rel="prev" title="【翻译】提示工程 (Prompting) 1.1">
+      <i class="fa fa-chevron-left"></i> 【翻译】提示工程 (Prompting) 1.1
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#挑战：构建真实的-AI-关系"><span class="nav-number">1.1.</span> <span class="nav-text">挑战：构建真实的 AI 关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-真实的记忆"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 真实的记忆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-真实的镜像反应"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 真实的镜像反应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-避免-AI-恐怖谷效应"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 避免 AI 恐怖谷效应</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工作流程：从监控到部署"><span class="nav-number">1.2.</span> <span class="nav-text">工作流程：从监控到部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-模式识别与数据集整理"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 模式识别与数据集整理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基于-Playground-的迭代"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 基于 Playground 的迭代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-直接部署，无需工程交接"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 直接部署，无需工程交接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果：速度与质量的双重提升"><span class="nav-number">1.3.</span> <span class="nav-text">结果：速度与质量的双重提升</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#提示词迭代速度提升-4-倍"><span class="nav-number">1.3.1.</span> <span class="nav-text">提示词迭代速度提升 4 倍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对话质量的改进"><span class="nav-number">1.3.2.</span> <span class="nav-text">对话质量的改进</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要收获：赋能领域专家"><span class="nav-number">1.4.</span> <span class="nav-text">主要收获：赋能领域专家</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-不要强行对定性工作使用自动化评估"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 不要强行对定性工作使用自动化评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建针对特定问题的数据集"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 创建针对特定问题的数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-在高风险领域拥抱人工审查"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 在高风险领域拥抱人工审查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">1.5.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

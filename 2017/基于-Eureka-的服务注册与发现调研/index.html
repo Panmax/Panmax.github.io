@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
+<meta name="keywords" content="SpringCloud,微服务,Eureka,服务发现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Eureka 的服务注册与发现调研">
+<meta property="og:url" content="https://jiapan.me/2017/基于-Eureka-的服务注册与发现调研/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2017/基于-Eureka-的服务注册与发现调研/1.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.905Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于 Eureka 的服务注册与发现调研">
+<meta name="twitter:description" content="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。Eureka 由两个组件组成： Eureka 服务器 和 Eureka 客户端。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。 官方对自己的定义是： Eureka is a REST (Representationa">
+<meta name="twitter:image" content="https://jiapan.me/2017/基于-Eureka-的服务注册与发现调研/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2017/基于-Eureka-的服务注册与发现调研/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>基于 Eureka 的服务注册与发现调研 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2017/基于-Eureka-的服务注册与发现调研/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 Eureka 的服务注册与发现调研
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-21 11:31:40" itemprop="dateCreated datePublished" datetime="2017-06-21T11:31:40+08:00">2017-06-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/基于-Eureka-的服务注册与发现调研/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/基于-Eureka-的服务注册与发现调研/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。"><a href="#Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。" class="headerlink" title="Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。"></a><a href="https://github.com/Netflix/eureka" target="_blank" rel="noopener">Eureka</a> 是 Netflix 开源的一款提供服务注册和发现的产品。</h2><p>Eureka 由两个组件组成： <strong>Eureka 服务器</strong> 和 <strong>Eureka 客户端</strong>。Eureka 服务器 用作服务注册服务器。Eureka 客户端 是一个 Java 客户端，用来简化与服务器的交互、作为轮询负载均衡器，并提供服务的故障切换支持。</p>
+<h3 id="官方对自己的定义是："><a href="#官方对自己的定义是：" class="headerlink" title="官方对自己的定义是："></a>官方对自己的定义是：</h3><blockquote>
+<p>Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of load balancing and failover of middle-tier servers.</p>
+</blockquote>
+<h3 id="通俗点讲什么是服务注册发现？"><a href="#通俗点讲什么是服务注册发现？" class="headerlink" title="通俗点讲什么是服务注册发现？"></a>通俗点讲什么是服务注册发现？</h3><p>服务注册与发现就像是在一个聊天室，每个用户来的时候去服务器上注册，这样你的好友们就能看到你，你同时也将获取好友的上线列表。在微服务中，服务就相当于聊天室的用户，而服务注册中心就像聊天室服务器一样。</p>
+<h3 id="Eureka特性"><a href="#Eureka特性" class="headerlink" title="Eureka特性"></a>Eureka特性</h3><ol>
+<li>Eureka Server 具有服务定位/发现的能力，在各个微服务启动时，会通过 Eureka Client 向Eureka Server 进行注册自己的信息（例如网络信息）。 </li>
+<li>一般情况下，微服务启动后，Eureka Client 会周期性向 Eureka Server 发送心跳检测(默认周期为30秒)以注册/更新自己的信息。 </li>
+<li>如果 Eureka Server 在一定时间内(默认90秒)没有收到 Eureka Client 的心跳检测，就会注销掉该微服务点。 </li>
+<li>同时，Eureka Server 本身也是 Eureka Client，多个 Eureka Server 通过复制注册表的方法来完成服务注册表的同步从而达到集群的效果。</li>
+</ol>
+<h3 id="为什么选择-Eureka"><a href="#为什么选择-Eureka" class="headerlink" title="为什么选择 Eureka"></a>为什么选择 Eureka</h3><h4 id="1-它提供了完整的-Service-Registry-和-Service-Discovery-实现"><a href="#1-它提供了完整的-Service-Registry-和-Service-Discovery-实现" class="headerlink" title="1) 它提供了完整的 Service Registry 和 Service Discovery 实现"></a>1) 它提供了完整的 <code>Service Registry</code> 和 <code>Service Discovery</code> 实现</h4><p>首先是提供了完整的实现，并且也经受住了 Netflix 自己的生产环境考验，相对使用起来会比较省心。</p>
+<h4 id="2-和-Spring-Cloud-无缝集成"><a href="#2-和-Spring-Cloud-无缝集成" class="headerlink" title="2) 和 Spring Cloud 无缝集成"></a>2) 和 <code>Spring Cloud</code> 无缝集成</h4><p>服务端和客户端都是 Java 编写的，针对微服务场景，并且和 Netflix 的其他开源项目以及 Spring Cloud 都有着非常好的整合，具备良好的生态。</p>
+<h4 id="3-Open-Source"><a href="#3-Open-Source" class="headerlink" title="3) Open Source"></a>3) Open Source</h4><p>最后一点是开源，由于代码是开源的，所以非常便于我们了解它的实现原理和排查问题。</p>
+<h3 id="Eureka-Server-使用介绍"><a href="#Eureka-Server-使用介绍" class="headerlink" title="Eureka Server 使用介绍"></a>Eureka Server 使用介绍</h3><h4 id="在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server"><a href="#在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server" class="headerlink" title="在 Spring Boot 项目的 pom.xml 中加入 spring-cloud-starter-eureka-server"></a>在 Spring Boot 项目的 pom.xml 中加入 <code>spring-cloud-starter-eureka-server</code></h4><p>使用 Spring Cloud 需要在 pom.xml 中加入 Spring Cloud 的父级引用，让 Spring 帮我们管理依赖版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">   &lt;dependency&gt;</span><br><span class="line">       &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">       &lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="在application-yml中配置"><a href="#在application-yml中配置" class="headerlink" title="在application.yml中配置"></a>在application.yml中配置</h4><p>Eureka 是一个高可用的组件，它没有后端缓存，每一个实例注册之后需要向注册中心发送心跳（因此可以在内存中完成），在默认情况下 Erureka Server 也是一个 Eureka Client，必须要指定一个 Server。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8761</span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: localhost</span><br><span class="line">  client:</span><br><span class="line">    register-with-eureka: false  # 不用将自己注册到Eureka</span><br><span class="line">    fetch-registry: false  # 不用发现Eureka中的服务</span><br><span class="line">    service-url:</span><br><span class="line">      default-zone: http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span><br></pre></td></tr></table></figure>
+<h4 id="添加-Application-java-启动类-添加-EnableEurekaServer-注解"><a href="#添加-Application-java-启动类-添加-EnableEurekaServer-注解" class="headerlink" title="添加 Application.java 启动类 添加 @EnableEurekaServer 注解"></a>添加 Application.java 启动类 添加 <code>@EnableEurekaServer</code> 注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@EnableEurekaServer</span><br><span class="line">public class Application &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Eureka-Client-使用介绍"><a href="#Eureka-Client-使用介绍" class="headerlink" title="Eureka Client 使用介绍"></a>Eureka Client 使用介绍</h3><h4 id="服务注册与服务发现都是使用-Eureka-Client，所以在-Spring-Boot-项目的-pom-xml-中加入"><a href="#服务注册与服务发现都是使用-Eureka-Client，所以在-Spring-Boot-项目的-pom-xml-中加入" class="headerlink" title="服务注册与服务发现都是使用 Eureka Client，所以在 Spring Boot 项目的 pom.xml 中加入"></a>服务注册与服务发现都是使用 Eureka Client，所以在 Spring Boot 项目的 pom.xml 中加入</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="在-application-yml-中加入-Eureka-的-Server-配置"><a href="#在-application-yml-中加入-Eureka-的-Server-配置" class="headerlink" title="在 application.yml 中加入 Eureka 的 Server 配置"></a>在 application.yml 中加入 Eureka 的 Server 配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8762</span><br><span class="line"></span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: service-hi</span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    serviceUrl:</span><br><span class="line">      defaultZone: http://localhost:8761/eureka/</span><br></pre></td></tr></table></figure>
+<p>需要指明 <code>spring.application.name</code>，这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个 name。</p>
+<p>启动上边两个程序后，访问 <code>http://localhost:8761/</code> 可以看到下边的页面，同时看到我们的 <code>service-hi</code> 也注册上来了。</p>
+<p><img src="1.png" alt=""></p>
+<p>在本地调试时出现了这样的问题，如上图所示，中间部分有一行红色大字 <strong>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY’RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.</strong>，原因是 Eureka 的自我保护机制:</p>
+<blockquote>
+<p>Eureka Server 在运行期间，会统计心跳成功率在 15分钟 之内是否低于85%，如果出现低于的情况（在单机调试的时候很容易满足，实际在生产环境上通常是由于网络不稳定导致），Eureka Server 会将当前的实例注册信息保护起来，同时提示这个警告。至于为什么需要有这个自我保护机制，官方的解释是：Service 不是强一致的，所以会有部分情况下没发现新服务导致请求出错，对于Service 发现服务而言，宁可返回某服务 5分钟 之前在哪几个服务器上可用的信息，也不能因为暂时的网络故障而找不到可用的服务器，而不返回任何结果。</p>
+</blockquote>
+<h3 id="其他实现方式比较"><a href="#其他实现方式比较" class="headerlink" title="其他实现方式比较"></a>其他实现方式比较</h3><p>DNS 可以算是最为原始的服务发现系统，但是在服务变更较为频繁，即服务的动态性很强的时候，DNS 记录的传播速度可能会跟不上服务的变更速度，这将导致在一定的时间窗口内无法提供正确的服务位置信息，所以这种方案只适合在比较静态的环境中使用，不适用于微服务。</p>
+<p>基于 ZooKeeper、Etcd 等分布式键值对存储服务来建立服务发现系统在现在看起来 也不是一种很好的方案，一方面是因为它们只能提供基本的数据存储功能，还需要在外围做大量的开发才能形成完整的服务发现方案。另一方面是因为它们都是强一致性系统，在集群发生分区时会优先保证一致性、放弃可用性，而服务发现方案更注重可用性，为了保证可用性可以选择最终一致性，这两方面原因共同导致了 ZooKeeper、Etcd 这类系统越来越远离服务发现方案的备选清单，像 SmartStack 这种依赖 ZooKeeper 的服务发现方案也逐渐发觉 ZooKeeper 成了它的薄弱环节。与 ZooKeeper、Etcd 或者依赖它们的方案不同，Eureka 是个专门为服务发现从零开始开发的项目，Eureka 以可用性为先，可以在多种故障期间保持服务发现和服务注册功能可用，虽然此时会存在一些数据错误，但是 Eureka 的设计原则是“<strong>存在少量的错误数据，总比完全不可用要好</strong>”，并且可以在故障恢复之后按最终一致性进行状态合并，清理掉错误数据。</p>
+<p>Eureka 有个强大的对手 Consul。Consul 是 HashiCorp 公司的商业产品，它有一个开源的基础版本，这个版本在基本的服务发现功能之外，还提供了多数据中心部署能力，包括内存、存储使用情况在内的细粒度服务状态检测能力，和用于服务配置的键值对存储能力（这是一把双刃剑，使用它可以带来便捷，但是也意味着和 Consul 的较强耦合性），这几个能力 Eureka 目前都没有。但是 Consul 对业务的侵入性较大，在与 SpringBoot 项目对接时没有那么方便，而且 Consul 由一家商业软件公司提供，那么必然或多或少的存在商业软件的某些弊端。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SpringCloud/" rel="tag"># SpringCloud</a>
+              <a href="/tags/微服务/" rel="tag"># 微服务</a>
+              <a href="/tags/Eureka/" rel="tag"># Eureka</a>
+              <a href="/tags/服务发现/" rel="tag"># 服务发现</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/接入sentry时遇到的坑/" rel="prev" title="接入 sentry 时遇到的坑">
+      <i class="fa fa-chevron-left"></i> 接入 sentry 时遇到的坑
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/使用-spring-boot-starter-security-集成-CAS-遇到的问题/" rel="next" title="使用 spring-boot-starter-security 集成 CAS 遇到的问题">
+      使用 spring-boot-starter-security 集成 CAS 遇到的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Eureka-是-Netflix-开源的一款提供服务注册和发现的产品。"><span class="nav-number">1.</span> <span class="nav-text">Eureka 是 Netflix 开源的一款提供服务注册和发现的产品。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#官方对自己的定义是："><span class="nav-number">1.1.</span> <span class="nav-text">官方对自己的定义是：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通俗点讲什么是服务注册发现？"><span class="nav-number">1.2.</span> <span class="nav-text">通俗点讲什么是服务注册发现？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka特性"><span class="nav-number">1.3.</span> <span class="nav-text">Eureka特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么选择-Eureka"><span class="nav-number">1.4.</span> <span class="nav-text">为什么选择 Eureka</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-它提供了完整的-Service-Registry-和-Service-Discovery-实现"><span class="nav-number">1.4.1.</span> <span class="nav-text">1) 它提供了完整的 Service Registry 和 Service Discovery 实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-和-Spring-Cloud-无缝集成"><span class="nav-number">1.4.2.</span> <span class="nav-text">2) 和 Spring Cloud 无缝集成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Open-Source"><span class="nav-number">1.4.3.</span> <span class="nav-text">3) Open Source</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-Server-使用介绍"><span class="nav-number">1.5.</span> <span class="nav-text">Eureka Server 使用介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在-Spring-Boot-项目的-pom-xml-中加入-spring-cloud-starter-eureka-server"><span class="nav-number">1.5.1.</span> <span class="nav-text">在 Spring Boot 项目的 pom.xml 中加入 spring-cloud-starter-eureka-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在application-yml中配置"><span class="nav-number">1.5.2.</span> <span class="nav-text">在application.yml中配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加-Application-java-启动类-添加-EnableEurekaServer-注解"><span class="nav-number">1.5.3.</span> <span class="nav-text">添加 Application.java 启动类 添加 @EnableEurekaServer 注解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka-Client-使用介绍"><span class="nav-number">1.6.</span> <span class="nav-text">Eureka Client 使用介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#服务注册与服务发现都是使用-Eureka-Client，所以在-Spring-Boot-项目的-pom-xml-中加入"><span class="nav-number">1.6.1.</span> <span class="nav-text">服务注册与服务发现都是使用 Eureka Client，所以在 Spring Boot 项目的 pom.xml 中加入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在-application-yml-中加入-Eureka-的-Server-配置"><span class="nav-number">1.6.2.</span> <span class="nav-text">在 application.yml 中加入 Eureka 的 Server 配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他实现方式比较"><span class="nav-number">1.7.</span> <span class="nav-text">其他实现方式比较</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

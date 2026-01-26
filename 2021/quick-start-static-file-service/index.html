@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="前几天朋友问我如何在没有 root 权限且无法编辑 Nginx 配置的条件下，搭建一个静态文件服务。 我最快想到的是用 Go 写一个程序，直接在目标机器上执行 Go 编译好的二进制文件，应该不会超过 10 行代码。 本着不重复造轮子的想法（另一个主要原因是朋友当时非常着急），尝试找了找前人造好的轮子，于是找到了这个项目：https://github.com/philippgille/serve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速搭建一个静态文件服务">
+<meta property="og:url" content="https://jiapan.me/2021/quick-start-static-file-service/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="前几天朋友问我如何在没有 root 权限且无法编辑 Nginx 配置的条件下，搭建一个静态文件服务。 我最快想到的是用 Go 写一个程序，直接在目标机器上执行 Go 编译好的二进制文件，应该不会超过 10 行代码。 本着不重复造轮子的想法（另一个主要原因是朋友当时非常着急），尝试找了找前人造好的轮子，于是找到了这个项目：https://github.com/philippgille/serve">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2021/quick-start-static-file-service/1.png">
+<meta property="og:image" content="https://jiapan.me/2021/quick-start-static-file-service/2.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.527Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="快速搭建一个静态文件服务">
+<meta name="twitter:description" content="前几天朋友问我如何在没有 root 权限且无法编辑 Nginx 配置的条件下，搭建一个静态文件服务。 我最快想到的是用 Go 写一个程序，直接在目标机器上执行 Go 编译好的二进制文件，应该不会超过 10 行代码。 本着不重复造轮子的想法（另一个主要原因是朋友当时非常着急），尝试找了找前人造好的轮子，于是找到了这个项目：https://github.com/philippgille/serve">
+<meta name="twitter:image" content="https://jiapan.me/2021/quick-start-static-file-service/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2021/quick-start-static-file-service/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>快速搭建一个静态文件服务 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2021/quick-start-static-file-service/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          快速搭建一个静态文件服务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-14 21:20:44" itemprop="dateCreated datePublished" datetime="2021-02-14T21:20:44+08:00">2021-02-14</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/quick-start-static-file-service/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/quick-start-static-file-service/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div style="width:70%;margin:auto"><img src="1.png" alt=""></div>
+
+<p>前几天朋友问我如何在没有 root 权限且无法编辑 Nginx 配置的条件下，搭建一个静态文件服务。</p>
+<p>我最快想到的是用 Go 写一个程序，直接在目标机器上执行 Go 编译好的二进制文件，应该不会超过 10 行代码。</p>
+<p>本着不重复造轮子的想法（另一个主要原因是朋友当时非常着急），尝试找了找前人造好的轮子，于是找到了这个项目：<a href="https://github.com/philippgille/serve" target="_blank" rel="noopener">https://github.com/philippgille/serve</a>。</p>
+<p>看了一下介绍，和我的想法相同，同时提供了便于扩展的参数，而且提供了各个平台编译好的可执行文件。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Windowns-安装"><a href="#Windowns-安装" class="headerlink" title="Windowns 安装"></a>Windowns 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scoop install serve</span><br></pre></td></tr></table></figure>
+<h3 id="Mac-安装"><a href="#Mac-安装" class="headerlink" title="Mac 安装"></a>Mac 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install philippgille/tap/serve</span><br></pre></td></tr></table></figure>
+<h3 id="Linux-安装"><a href="#Linux-安装" class="headerlink" title="Linux 安装"></a>Linux 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.jpanj.com/serve_v0.3.2_Linux_x64.zip</span><br><span class="line">unzip serve_v0.3.2_Linux_x64.zip .</span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><h3 id="检查-serve-版本"><a href="#检查-serve-版本" class="headerlink" title="检查 serve 版本"></a>检查 serve 版本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ serve -v</span><br><span class="line">serve version: v0.3.2</span><br></pre></td></tr></table></figure>
+<h3 id="服务监听-8100-端口并将当前目录作为静态文件根目录"><a href="#服务监听-8100-端口并将当前目录作为静态文件根目录" class="headerlink" title="服务监听 8100 端口并将当前目录作为静态文件根目录"></a>服务监听 8100 端口并将当前目录作为静态文件根目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ serve -p 8100</span><br><span class="line"></span><br><span class="line">Serving &quot;.&quot; on all network interfaces (0.0.0.0) on HTTP port: 8100</span><br><span class="line"></span><br><span class="line">Local network interfaces and their IP addresses so you can pass one to your colleagues:</span><br><span class="line">      Interface      |  IPv4 Address   |              IPv6 Address</span><br><span class="line">---------------------|-----------------|----------------------------------------</span><br><span class="line">lo                   | 127.0.0.1       | ::1</span><br><span class="line">eth0                 | xxx.xxx.xx.xxx  | fe80::a8aa:ff:fe11:fb4b</span><br><span class="line">docker0              | 172.17.0.1      | fe80::42:1dff:fe8b:c5fe</span><br><span class="line">br-556c0122836a      | 172.24.0.1      | fe80::42:92ff:fe47:2965</span><br><span class="line">vethf6d94b9          |                 | fe80::dcdf:59ff:fe90:c6e3</span><br><span class="line">vethf64d185          |                 | fe80::286e:3eff:fe12:eaf9</span><br><span class="line">veth7259f52          |                 | fe80::34d3:83ff:fe97:612c</span><br><span class="line">veth0e57d69          |                 | fe80::c007:bff:fe1b:2b7b</span><br><span class="line"></span><br><span class="line">You probably want to share:</span><br><span class="line">http://xxx.xxx.xx.xxx:8100</span><br></pre></td></tr></table></figure>
+<h3 id="d-指定文件根目录"><a href="#d-指定文件根目录" class="headerlink" title="-d 指定文件根目录"></a>-d 指定文件根目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ serve -p 8100 -d &quot;/opt&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="a-启用-Basic-认证"><a href="#a-启用-Basic-认证" class="headerlink" title="-a 启用 Basic 认证"></a>-a 启用 Basic 认证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ serve -p 8100 -d &quot;/opt&quot; -a &quot;test:test&quot;</span><br></pre></td></tr></table></figure>
+<div style="width:70%;margin:auto"><img src="2.png" alt=""></div>
+
+<h3 id="s-生成一个自签名证书（7天有效期），开启-https-协议"><a href="#s-生成一个自签名证书（7天有效期），开启-https-协议" class="headerlink" title="-s 生成一个自签名证书（7天有效期），开启 https 协议"></a>-s 生成一个自签名证书（7天有效期），开启 https 协议</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ serve -p 8100 -d &quot;/opt&quot; -a &quot;test:test&quot; -s</span><br></pre></td></tr></table></figure>
+<h3 id="b-指定监听的网络接口，默认为-0-0-0-0"><a href="#b-指定监听的网络接口，默认为-0-0-0-0" class="headerlink" title="-b 指定监听的网络接口，默认为 0.0.0.0"></a>-b 指定监听的网络接口，默认为 0.0.0.0</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ serve -p 8100 -d &quot;/opt&quot; -a &quot;test:test&quot; -b &quot;0.0.0.0&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="h-查看帮助文档"><a href="#h-查看帮助文档" class="headerlink" title="-h 查看帮助文档"></a>-h 查看帮助文档</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ serve -h</span><br><span class="line">Usage of serve:</span><br><span class="line">  -a string</span><br><span class="line">    	Require basic authentication with the given credentials (e.g. -a &quot;alice:secret&quot;)</span><br><span class="line">  -b string</span><br><span class="line">    	Bind to (listen on) a specific interface. &quot;0.0.0.0&quot; is for ALL interfaces. &quot;localhost&quot; disables access from other devices. (default &quot;0.0.0.0&quot;)</span><br><span class="line">  -d string</span><br><span class="line">    	The directory of static files to host (default &quot;.&quot;)</span><br><span class="line">  -h	Print the usage</span><br><span class="line">  -p string</span><br><span class="line">    	Port to serve on. 8080 by default for HTTP, 8443 for HTTPS (when using the -s flag) (default &quot;8080&quot;)</span><br><span class="line">  -s	Serve via HTTPS instead of HTTP. Creates a temporary self-signed certificate for localhost, 127.0.0.1, &lt;hostname&gt;.local, &lt;hostname&gt;.lan, &lt;hostname&gt;.home and the determined LAN IP address</span><br><span class="line">  -t	Test / dry run (just prints the interface table)</span><br><span class="line">  -v	Print the version</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/domestic-server-speed-github/" rel="prev" title="国内服务器访问 github 加速">
+      <i class="fa fa-chevron-left"></i> 国内服务器访问 github 加速
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/struct-method-value-vs-pointer/" rel="next" title="Go 结构体方法值传递与引用传递区别">
+      Go 结构体方法值传递与引用传递区别 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windowns-安装"><span class="nav-number">1.1.</span> <span class="nav-text">Windowns 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mac-安装"><span class="nav-number">1.2.</span> <span class="nav-text">Mac 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-安装"><span class="nav-number">1.3.</span> <span class="nav-text">Linux 安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行"><span class="nav-number">2.</span> <span class="nav-text">运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检查-serve-版本"><span class="nav-number">2.1.</span> <span class="nav-text">检查 serve 版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务监听-8100-端口并将当前目录作为静态文件根目录"><span class="nav-number">2.2.</span> <span class="nav-text">服务监听 8100 端口并将当前目录作为静态文件根目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-指定文件根目录"><span class="nav-number">2.3.</span> <span class="nav-text">-d 指定文件根目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a-启用-Basic-认证"><span class="nav-number">2.4.</span> <span class="nav-text">-a 启用 Basic 认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#s-生成一个自签名证书（7天有效期），开启-https-协议"><span class="nav-number">2.5.</span> <span class="nav-text">-s 生成一个自签名证书（7天有效期），开启 https 协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-指定监听的网络接口，默认为-0-0-0-0"><span class="nav-number">2.6.</span> <span class="nav-text">-b 指定监听的网络接口，默认为 0.0.0.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#h-查看帮助文档"><span class="nav-number">2.7.</span> <span class="nav-text">-h 查看帮助文档</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

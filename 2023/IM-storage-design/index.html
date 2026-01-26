@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="为了查看历史消息或者暂存离线消息，大部分 IM 系统都需要对消息进行服务端存储。下面以一对一的单聊为例介绍一下业界一般是如何设计 IM 消息存储方案的，然后再介绍下 TT 具体是如何做的，有什么区别。 索引和内容独立存储单聊消息的参与方有两个：  发送方 接收方  收发双方的历史消息是相互独立的。我用个例子解释一下： 女神给你发消息说：「今天七夕，给我发个7777红包，我要截图发朋友圈，一会还你」">
+<meta name="keywords" content="架构,系统设计,IM,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IM 系统存储设计">
+<meta property="og:url" content="https://jiapan.me/2023/IM-storage-design/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="为了查看历史消息或者暂存离线消息，大部分 IM 系统都需要对消息进行服务端存储。下面以一对一的单聊为例介绍一下业界一般是如何设计 IM 消息存储方案的，然后再介绍下 TT 具体是如何做的，有什么区别。 索引和内容独立存储单聊消息的参与方有两个：  发送方 接收方  收发双方的历史消息是相互独立的。我用个例子解释一下： 女神给你发消息说：「今天七夕，给我发个7777红包，我要截图发朋友圈，一会还你」">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2023/IM-storage-design/0.png">
+<meta property="og:image" content="https://jiapan.me/2023/IM-storage-design/1.png">
+<meta property="og:image" content="https://jiapan.me/2023/IM-storage-design/2.png">
+<meta property="og:image" content="https://jiapan.me/2023/IM-storage-design/3.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.211Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IM 系统存储设计">
+<meta name="twitter:description" content="为了查看历史消息或者暂存离线消息，大部分 IM 系统都需要对消息进行服务端存储。下面以一对一的单聊为例介绍一下业界一般是如何设计 IM 消息存储方案的，然后再介绍下 TT 具体是如何做的，有什么区别。 索引和内容独立存储单聊消息的参与方有两个：  发送方 接收方  收发双方的历史消息是相互独立的。我用个例子解释一下： 女神给你发消息说：「今天七夕，给我发个7777红包，我要截图发朋友圈，一会还你」">
+<meta name="twitter:image" content="https://jiapan.me/2023/IM-storage-design/0.png">
+
+<link rel="canonical" href="https://jiapan.me/2023/IM-storage-design/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>IM 系统存储设计 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2023/IM-storage-design/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IM 系统存储设计
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-08-29 11:17:39" itemprop="dateCreated datePublished" datetime="2023-08-29T11:17:39+08:00">2023-08-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2023/IM-storage-design/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/IM-storage-design/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>为了查看历史消息或者暂存离线消息，大部分 IM 系统都需要对消息进行服务端存储。下面以一对一的单聊为例介绍一下业界一般是如何设计 IM 消息存储方案的，然后再介绍下 TT 具体是如何做的，有什么区别。</p>
+<h1 id="索引和内容独立存储"><a href="#索引和内容独立存储" class="headerlink" title="索引和内容独立存储"></a>索引和内容独立存储</h1><p>单聊消息的参与方有两个：</p>
+<ul>
+<li>发送方</li>
+<li>接收方</li>
+</ul>
+<p>收发双方的历史消息是相互独立的。我用个例子解释一下：</p>
+<p>女神给你发消息说：「今天七夕，给我发个7777红包，我要截图发朋友圈，一会还你」。你毫不犹豫给女神发了过去。女神在截图前将「今天七夕，给我发个7777红包……」这句话进行了删除。</p>
+<p>相互独立的意思是说，一方删除消息不影响另一方的展示，女神那一侧删了，你这一侧是不受影响的，如果女神赖账不还，你可以把你这边的完整对话记录拿出来和她对峙。</p>
+<p>基于以上逻辑，在设计数据库表结构时我们需要为收发双方维护各自的索引记录。</p>
+<p>由于收发双方看到的消息内容实际是一致的，我们没有必要将内容存储两次，所以可以有一个表来独立存储消息内容。</p>
+<p>「消息内容表」存储消息纬度的基本信息，如：</p>
+<ul>
+<li>消息ID</li>
+<li>消息内容</li>
+<li>消息类型</li>
+<li>消息时间</li>
+</ul>
+<p>收发双方的「消息索引表」通过唯一的消息 ID 来和消息内容进行关联，同时还要有一个枚举字段来记录这是条发送消息还是接收消息。</p>
+<p>假设用户123给用户456发送一条消息，消息存储在关系型数据库中，上边涉及的两张表大致如下：</p>
+<p><img src="0.png" width="600px" style="margin: 0 auto;"></p>
+<p><img src="1.png" width="600px" style="margin: 0 auto;"></p>
+<p>123给456发了一条「你好」的消息，这个动作会在消息内容表中存储一条消息，这条消息的 ID 为1024。</p>
+<p>同时往索引表里存储两条数据：</p>
+<ol>
+<li>用户ID 为123，另一方用户 ID 为456，这是条发出消息，消息 ID 为1024</li>
+<li>用户ID 为456，另一方用户 ID 为123，这是条接收消息，消息 ID 为1024</li>
+</ol>
+<p>业界也常将消息的发出和接收这两个纬度抽象为发件箱和收件箱。</p>
+<h1 id="联系人列表"><a href="#联系人列表" class="headerlink" title="联系人列表"></a>联系人列表</h1><p>一般 IM 系统还需要一个最近联系人列表，来让互动双方快速查找需要聊天的对象，联系人列表一般还会携带两人最近一条聊天消息用于展示。</p>
+<p><img src="2.png" width="600px" style="margin: 0 auto;"></p>
+<p>继续以 123 给 456 发消息为例，除了在内容表和索引表插入记录，还会<strong>更新各自</strong>的最近联系人表。上图中我们将 <code>用户 ID=123 &amp;&amp; 另一方用户 ID=456</code>  和 <code>用户 ID=456 &amp;&amp; 另一方用户 ID=123</code> 的两行数据中的<code>最后一条消息 ID</code> 字段更新为 1024。为了便于客户端排序和展示，很多时候我们还会在最近聊系人表中冗余其他信息，如最后一条消息时间。</p>
+<p>在大部分业务场景中，如果 123 是第一次给 456 发消息，会在发送消息的时候通过其他数据（如互关、好友等）校验双方好友状态，校验通过后给双方创建出联系人记录，这一点 TT 和常规做法略有区别，后文会做介绍。</p>
+<h2 id="联系人列表和消息索引表的区别如下："><a href="#联系人列表和消息索引表的区别如下：" class="headerlink" title="联系人列表和消息索引表的区别如下："></a>联系人列表和消息索引表的区别如下：</h2><ul>
+<li>联系人列表只更新存储收发双方的<strong>最新一条消息</strong>，不存储两人所有的<strong>历史消息</strong></li>
+<li>联系人表的使用场景用于查询某一个人<strong>最近的所有联系人</strong>，是用户<strong>全局</strong>维度</li>
+<li>消息索引表的使用场景一般用于查询收发双方的<strong>历史聊天记录</strong>，是聊天<strong>会话</strong>维度</li>
+<li>收发一条消息时<ul>
+<li>联系人列表为<strong>更新</strong>操作</li>
+<li>消息索引表为<strong>插入</strong>操作</li>
+</ul>
+</li>
+</ul>
+<h1 id="TT-中的-IM-存储设计"><a href="#TT-中的-IM-存储设计" class="headerlink" title="TT 中的 IM 存储设计"></a>TT 中的 IM 存储设计</h1><h2 id="消息表"><a href="#消息表" class="headerlink" title="消息表"></a>消息表</h2><p>TT 中将索引表和内容表进行了合并成了一张消息表，同时通讯录表承担了更多的工作。</p>
+<p><img src="3.png" width="600px" style="margin: 0 auto;"></p>
+<p>要查询 123 和 321 之间的聊天记录时，使用 <code>WHERE ((user_id=123 AND other_user_id=456) OR (user_id=456 AND other_user_id=123))</code> 条件来进行查询。</p>
+<p>这样的好处是要维护的表和冗余的数据更少一些，之前一个 <code>索引表+一个内容表</code> 的形式，每发送一条消息，不算联系人表更新的话，要有3次插入操作：1次内容表插入，2次索引表插入。</p>
+<p>为什么索引表是2次插入，而不是用1次插入来同时写两条数据？考虑到数据量，大部分情况下，索引表会根据主态的用户 ID 进行分片存储，收发双方的数据大概率不在同一分片上，进而导致无法通过一条语句写入两条数据。将索引和内容表合并后，只需要插入1条数据，对于单方可见的消息，我们在消息的一个额外字段中进行描述即可。</p>
+<p>架构本质上是一个需要权衡的过程，这种模式有优点的同时也有缺点。最大的缺点就是使用不够灵活，索引效率不够高效。另一个缺点是发送系统提示类的消息时，只能通过关联双方 ID 来展示在双方的聊天列表中，且同一条系统消息无法复用。</p>
+<p>使用合并后这种方式，在底层消息分片存储上也相对更复杂一些。有索引表的情况下，我们拉取一个用户和另一个用户的记录，不管是收发消息，只需要根据 <code>userID + otherUserID</code> 进行查询就够了。刚刚也提到，这种情况下我们可以将索引数据按照 userID 进行分片，一个用户所有索引数据落在同一个分片上，消息内容表根据消息ID 进行分片。获取到消息索引数据后，根据数据中的消息 ID 进行点查询来获取消息内容，效率很高。</p>
+<p>将索引表和内容表合并后，考虑到收发双法都会使用同一份数据，所以不建议使用用户 ID 进行分片，而是依然用消息 ID 分片，然后将发送方 ID 和接收方 ID 做一个联合索引。在查询双方聊天记录时，需要业务并行查询所有分片节点，然后在内存中进行排序。在我们的场景中，公司将 RocketDB 进行了二次封装，实现了一个自研的高性能关系数据库：TTDB，此类查询在 DB 中完成，不需要在业务代码内处理这个情况，查询效率也很高。TTDB 涉及很多 DB 方面的底层架构，超出了我的知识边界，就不过多进行介绍了。</p>
+<h2 id="会话表"><a href="#会话表" class="headerlink" title="会话表"></a>会话表</h2><p>上文中介绍的联系人表在 TT 中叫 Conversation：会话，两个用户能否发消息就判断两个用户之间有没有会话记录。</p>
+<p>会话是在用户形成互关、配对等可以聊天的关系时，由内部服务提前创建好的。与常规方式不同，常规方式是在用户建第一次发消息时创建联系人。</p>
+<p>当一个用户给另一个用户发消息时，我们只需要校验有没有会话，没有会话就认为这是一个无效请求，直接拒绝掉。</p>
+<h1 id="联系人表的必要性"><a href="#联系人表的必要性" class="headerlink" title="联系人表的必要性"></a>联系人表的必要性</h1><p>最后思考一个问题，在有消息索引表或者 TT 中的消息表的情况下，为什么还需要联系人表（或会话表）？</p>
+<p>联系人表或者会话表的必要性主要考虑以下几点：</p>
+<h2 id="1-方便按最后聊天时间列出所有最近联系过的人"><a href="#1-方便按最后聊天时间列出所有最近联系过的人" class="headerlink" title="1. 方便按最后聊天时间列出所有最近联系过的人"></a>1. 方便按最后聊天时间列出所有最近联系过的人</h2><p>回想一下微信中的聊天列表页，列表中的顺序按照两个用户间最后一条消息时间进行倒排，同时展示最后一条消息内容。如果没有联系人表，我们需要通过消息索引表按照 userID 和 otherUserID 进行分组（group by），然后按时间倒排取(order by)第一条，性能会非常差。</p>
+<h2 id="2-消息未读数维护"><a href="#2-消息未读数维护" class="headerlink" title="2. 消息未读数维护"></a>2. 消息未读数维护</h2><p>正常来说每条消息是有已读、未读字段的，如果要统计未读消息的数量，确实可以通过 SQL 进行未读消息的 count 来得到，但这样也是效率很差，通常的做法是在联系人表上冗余一个未读数字段。</p>
+<h2 id="3-聊天-cell-的单独控制"><a href="#3-聊天-cell-的单独控制" class="headerlink" title="3. 聊天 cell 的单独控制"></a>3. 聊天 cell 的单独控制</h2><p>举个例子，在微信中我可以将对方置为隐藏或删除，在没有联系人表的情况下很难实现。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/架构/" rel="tag"># 架构</a>
+              <a href="/tags/系统设计/" rel="tag"># 系统设计</a>
+              <a href="/tags/IM/" rel="tag"># IM</a>
+              <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/IM-consistency/" rel="prev" title="IM 系统如何保证消息时序的一致性">
+      <i class="fa fa-chevron-left"></i> IM 系统如何保证消息时序的一致性
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/ruined-half-a-day/" rel="next" title="因为没控制好情绪毁了半天休息时间">
+      因为没控制好情绪毁了半天休息时间 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#索引和内容独立存储"><span class="nav-number">1.</span> <span class="nav-text">索引和内容独立存储</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#联系人列表"><span class="nav-number">2.</span> <span class="nav-text">联系人列表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#联系人列表和消息索引表的区别如下："><span class="nav-number">2.1.</span> <span class="nav-text">联系人列表和消息索引表的区别如下：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TT-中的-IM-存储设计"><span class="nav-number">3.</span> <span class="nav-text">TT 中的 IM 存储设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#消息表"><span class="nav-number">3.1.</span> <span class="nav-text">消息表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#会话表"><span class="nav-number">3.2.</span> <span class="nav-text">会话表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#联系人表的必要性"><span class="nav-number">4.</span> <span class="nav-text">联系人表的必要性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-方便按最后聊天时间列出所有最近联系过的人"><span class="nav-number">4.1.</span> <span class="nav-text">1. 方便按最后聊天时间列出所有最近联系过的人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-消息未读数维护"><span class="nav-number">4.2.</span> <span class="nav-text">2. 消息未读数维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-聊天-cell-的单独控制"><span class="nav-number">4.3.</span> <span class="nav-text">3. 聊天 cell 的单独控制</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

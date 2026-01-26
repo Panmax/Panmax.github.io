@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="Gradle的构建生命周期 Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：1234567891011apply plugin: &amp;apos;maven&amp;apos;...uploadArchives &amp;#123;    repositories.mavenDeployer &amp;#123;        repository(url: &amp;quot;http://">
+<meta name="keywords" content="Gradle,构建工具,Java,Groovy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 笔记">
+<meta property="og:url" content="https://jiapan.me/2018/Gradle-笔记/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="Gradle的构建生命周期 Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：1234567891011apply plugin: &amp;apos;maven&amp;apos;...uploadArchives &amp;#123;    repositories.mavenDeployer &amp;#123;        repository(url: &amp;quot;http://">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2018/Gradle-笔记/1.png">
+<meta property="og:image" content="https://jiapan.me/2018/Gradle-笔记/2.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.207Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle 笔记">
+<meta name="twitter:description" content="Gradle的构建生命周期 Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：1234567891011apply plugin: &amp;apos;maven&amp;apos;...uploadArchives &amp;#123;    repositories.mavenDeployer &amp;#123;        repository(url: &amp;quot;http://">
+<meta name="twitter:image" content="https://jiapan.me/2018/Gradle-笔记/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2018/Gradle-笔记/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Gradle 笔记 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2018/Gradle-笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gradle 笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-05 19:44:45" itemprop="dateCreated datePublished" datetime="2018-09-05T19:44:45+08:00">2018-09-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2018/Gradle-笔记/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/Gradle-笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="Gradle的构建生命周期"><a href="#Gradle的构建生命周期" class="headerlink" title="Gradle的构建生命周期"></a>Gradle的构建生命周期</h4><p><img src="1.png" alt=""></p>
+<h4 id="Gradle-项目可以使用-Maven-Plugin-将构建上传到-Maven-仓库中："><a href="#Gradle-项目可以使用-Maven-Plugin-将构建上传到-Maven-仓库中：" class="headerlink" title="Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中："></a>Gradle 项目可以使用 <code>Maven Plugin</code> 将构建上传到 Maven 仓库中：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;maven&apos;</span><br><span class="line">...</span><br><span class="line">uploadArchives &#123;</span><br><span class="line">    repositories.mavenDeployer &#123;</span><br><span class="line">        repository(url: &quot;http://localhost:8088/nexus/content/repositories/snapshots/&quot;) &#123;</span><br><span class="line">            authentication(userName: &quot;admin&quot;, password: &quot;admin123&quot;)</span><br><span class="line">            pom.groupId = &quot;com.juvenxu&quot;</span><br><span class="line">            pom.artifactId = &quot;account-captcha&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="想在-build-时发布版本导-Maven-仓库中，只需要添加一行任务依赖配置即可："><a href="#想在-build-时发布版本导-Maven-仓库中，只需要添加一行任务依赖配置即可：" class="headerlink" title="想在 build 时发布版本导 Maven 仓库中，只需要添加一行任务依赖配置即可："></a>想在 build 时发布版本导 Maven 仓库中，只需要添加一行任务依赖配置即可：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">build.dependsOn &apos;uploadArchives&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="通过-gradle-q-tasks-显示所有的任务"><a href="#通过-gradle-q-tasks-显示所有的任务" class="headerlink" title="通过 gradle -q tasks 显示所有的任务"></a>通过 <code>gradle -q tasks</code> 显示所有的任务</h4><h4 id="任务名称缩写"><a href="#任务名称缩写" class="headerlink" title="任务名称缩写"></a>任务名称缩写</h4><p>Gradle提高效率的一个办法就是能够在命令行输入任务名的驼峰简写，当你的任务名称非常长的时候这很有用</p>
+<h4 id="命令行选项"><a href="#命令行选项" class="headerlink" title="命令行选项"></a>命令行选项</h4><ul>
+<li>-i:Gradle默认不会输出很多信息，你可以使用-i选项改变日志级别为INFO</li>
+<li>-s:如果运行时错误发生打印堆栈信息</li>
+<li>-q:只打印错误信息</li>
+<li>-?-h,–help:打印所有的命令行选项</li>
+<li>-b,–build-file:Gradle默认执行build.gradle脚本，如果想执行其他脚本可以使用这个命令，比如gradle -b test.gradle</li>
+<li>–offline:在离线模式运行build,Gradle只检查本地缓存中的依赖</li>
+<li>-D, –system-prop:Gradle作为JVM进程运行，你可以提供一个系统属性比如：-Dmyprop=myValue</li>
+<li>-P,–project-prop:项目属性可以作为你构建脚本的一个变量，你可以传递一个属性值给build脚本，比如：-Pmyprop=myValue</li>
+<li>tasks:显示项目中所有可运行的任务</li>
+<li>properties:打印你项目中所有的属性值</li>
+</ul>
+<h4 id="指定-Main-Class"><a href="#指定-Main-Class" class="headerlink" title="指定 Main-Class"></a>指定 Main-Class</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jar &#123;</span><br><span class="line">	manifest &#123;</span><br><span class="line">	    attributes &apos;Main-Class&apos;: &apos;com.jpanj.hello.Hello&apos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="gradle-wrapper-的目录结构"><a href="#gradle-wrapper-的目录结构" class="headerlink" title="gradle wrapper 的目录结构"></a>gradle wrapper 的目录结构</h4><p><img src="2.png" alt=""></p>
+<p>所以，<code>gradle目录</code>、<code>gradlew</code> 和 <code>gradlew.bat</code> 都应该放在版本控制内。</p>
+<h4 id="包装器可以根据需求自定义，如访问外网受限时："><a href="#包装器可以根据需求自定义，如访问外网受限时：" class="headerlink" title="包装器可以根据需求自定义，如访问外网受限时："></a>包装器可以根据需求自定义，如访问外网受限时：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">task wrapper(type: Wrapper) &#123;</span><br><span class="line">    //Requested Gradle version</span><br><span class="line">    gradleVersion = &apos;1.2&apos;</span><br><span class="line">    //Target URL to retrieve Gradle wrapper distribution</span><br><span class="line">    distributionUrl = &apos;http://myenterprise.com/gradle/dists&apos;</span><br><span class="line">    //Path where wrapper will be unzipped relative to Gradle home directory</span><br><span class="line">    distributionPath = &apos;gradle-dists&apos;         </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更多包装器的特性查看：<a href="http://gradle.org/docs/current/dsl/org.gradle.api.tasks.wrapper.Wrapper.html" target="_blank" rel="noopener">http://gradle.org/docs/current/dsl/org.gradle.api.tasks.wrapper.Wrapper.html</a></p>
+<h4 id="Gradle允许通过外部属性来定义自己的变量"><a href="#Gradle允许通过外部属性来定义自己的变量" class="headerlink" title="Gradle允许通过外部属性来定义自己的变量"></a>Gradle允许通过外部属性来定义自己的变量</h4><h5 id="外部属性一般存储在键值对中，要添加一个属性，需要使用ext命名空间："><a href="#外部属性一般存储在键值对中，要添加一个属性，需要使用ext命名空间：" class="headerlink" title="外部属性一般存储在键值对中，要添加一个属性，需要使用ext命名空间："></a>外部属性一般存储在键值对中，要添加一个属性，需要使用ext命名空间：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//Only initial declaration of extra property requires you to use ext namespace</span><br><span class="line">project.ext.myProp = &apos;myValue&apos;</span><br><span class="line">ext &#123;</span><br><span class="line">   someOtherProp = 123</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//Using ext namespace to access extra property is optional</span><br><span class="line">assert myProp == &apos;myValue&apos;</span><br><span class="line">println project.someOtherProp</span><br><span class="line">ext.someOtherProp = 567</span><br></pre></td></tr></table></figure>
+<h5 id="外部属性可以定义在一个属性文件中：-通过在-gradle路径-或者项目根目录下的-gradle-properties-文件来定义属性，可以直接注入到项目中："><a href="#外部属性可以定义在一个属性文件中：-通过在-gradle路径-或者项目根目录下的-gradle-properties-文件来定义属性，可以直接注入到项目中：" class="headerlink" title="外部属性可以定义在一个属性文件中： 通过在 /.gradle路径 或者项目根目录下的  gradle.properties 文件来定义属性，可以直接注入到项目中："></a>外部属性可以定义在一个属性文件中： 通过在 <code>/.gradle路径</code> 或者项目根目录下的  <code>gradle.properties</code> 文件来定义属性，可以直接注入到项目中：</h5><p>假设在 <code>gradle.properties</code> 文件中定义了下面的属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exampleProp = myValue</span><br><span class="line">someOtherProp = 455</span><br></pre></td></tr></table></figure>
+<p>可以在项目中访问这两个变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">assert project.exampleProp == &apos;myValue&apos;</span><br><span class="line"></span><br><span class="line">task printGradleProperty &lt;&lt; &#123;</span><br><span class="line">   println &quot;Second property: $someOtherProp&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="定义属性的其他方法"><a href="#定义属性的其他方法" class="headerlink" title="定义属性的其他方法"></a>定义属性的其他方法</h5><ul>
+<li>通过 <code>-P</code> 命令行选项来定义项目属性</li>
+<li>通过 <code>-D</code> 命令行选项来定义系统属性</li>
+<li>环境属性遵循这个模式：<code>ORG_GRADLE_PROJECT_propertyName=someValue</code></li>
+</ul>
+<h4 id="当任务创建的时候你可以添加任意多个动作，每一个任务都有一个动作清单，他们在运行的时候是执行的"><a href="#当任务创建的时候你可以添加任意多个动作，每一个任务都有一个动作清单，他们在运行的时候是执行的" class="headerlink" title="当任务创建的时候你可以添加任意多个动作，每一个任务都有一个动作清单，他们在运行的时候是执行的"></a>当任务创建的时候你可以添加任意多个动作，每一个任务都有一个动作清单，他们在运行的时候是执行的</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">task printVersion &#123;</span><br><span class="line">	//任务的初始声明可以添加first和last动作</span><br><span class="line">    doFirst &#123;</span><br><span class="line">        println &quot;Before reading the project version&quot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    doLast &#123;</span><br><span class="line">        println &quot;Version: $version&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">printVersion.doFirst &#123; println &quot;11111&quot; &#125;</span><br><span class="line">printVersion.doLast &#123; println &quot;22222&quot; &#125;</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; Task :printVersion</span><br><span class="line">11111</span><br><span class="line">Before reading the project version</span><br><span class="line">Version: 0.1</span><br><span class="line">22222</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当你想添加动作的那个任务不是你自己写的时候这会非常有用，你可以添加一些自定义的逻辑，比如你可以添加 <code>doFirst</code> 动作到 <code>compile-Java</code> 任务来检查项目是否包含至少一个 <code>source</code> 文件。</p>
+</blockquote>
+<h4 id="dependsOn方法用来声明一个任务依赖于一个或者多个任务"><a href="#dependsOn方法用来声明一个任务依赖于一个或者多个任务" class="headerlink" title="dependsOn方法用来声明一个任务依赖于一个或者多个任务"></a>dependsOn方法用来声明一个任务依赖于一个或者多个任务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">task first &lt;&lt; &#123; println &quot;first&quot; &#125;</span><br><span class="line">task second &lt;&lt; &#123; println &quot;second&quot; &#125;</span><br><span class="line"></span><br><span class="line">//声明多个依赖</span><br><span class="line">task printVersion(dependsOn: [second, first]) &lt;&lt; &#123;</span><br><span class="line">    logger.quiet &quot;Version: $version&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task third &lt;&lt; &#123; println &quot;third&quot; &#125;</span><br><span class="line">//通过任务名称来声明依赖</span><br><span class="line">third.dependsOn(&apos;printVersion&apos;)</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">first</span><br><span class="line">second</span><br><span class="line">Version: 0.1</span><br><span class="line">third</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Gradle 并不保证依赖的任务能够按顺序执行，<code>dependsOn</code>方法只是定义这些任务应该在这个任务之前执行，但是这些依赖的任务具体怎么执行它并不关心（也就是和 <code>[second, first]</code> 顺序 无关），因为任务不是顺序执行的，就可以并发的执行来提高性能。</p>
+</blockquote>
+<h4 id="可以使用-finalizedBy-使一个任务结束后自动触发另一个"><a href="#可以使用-finalizedBy-使一个任务结束后自动触发另一个" class="headerlink" title="可以使用 finalizedBy 使一个任务结束后自动触发另一个"></a>可以使用 finalizedBy 使一个任务结束后自动触发另一个</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">task first &lt;&lt; &#123; println &quot;first&quot; &#125;</span><br><span class="line">task second &lt;&lt; &#123; println &quot;second&quot; &#125;</span><br><span class="line">//声明first结束后执行second任务</span><br><span class="line">first.finalizedBy second</span><br></pre></td></tr></table></figure>
+<p><code>first</code> 结束后自动触发任务 <code>second</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; Task :first</span><br><span class="line">first</span><br><span class="line"></span><br><span class="line">&gt; Task :second</span><br><span class="line">second</span><br></pre></td></tr></table></figure>
+<h4 id="allprojects-和-subprojects"><a href="#allprojects-和-subprojects" class="headerlink" title="allprojects 和 subprojects"></a>allprojects 和 subprojects</h4><p>你可以用 <code>allprojects</code> 方法给所有的项目添加 <code>group</code> 和 <code>version</code> 属性，由于根项目不需要 Java 插件，你可以使用 <code>subprojects</code> 给所有子项目添加Java插件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    group = &apos;com.manning.gia&apos;</span><br><span class="line">    version = &apos;0.1&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">subprojects &#123;</span><br><span class="line">    apply plugin: &apos;java&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Gradle/" rel="tag"># Gradle</a>
+              <a href="/tags/构建工具/" rel="tag"># 构建工具</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Groovy/" rel="tag"># Groovy</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/shangqiu-video/" rel="prev" title="山丘 - 李宗盛">
+      <i class="fa fa-chevron-left"></i> 山丘 - 李宗盛
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/docker-compose-ELK/" rel="next" title="使用 docker-compose 一键部署 ELK">
+      使用 docker-compose 一键部署 ELK <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradle的构建生命周期"><span class="nav-number">1.</span> <span class="nav-text">Gradle的构建生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradle-项目可以使用-Maven-Plugin-将构建上传到-Maven-仓库中："><span class="nav-number">2.</span> <span class="nav-text">Gradle 项目可以使用 Maven Plugin 将构建上传到 Maven 仓库中：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#想在-build-时发布版本导-Maven-仓库中，只需要添加一行任务依赖配置即可："><span class="nav-number">3.</span> <span class="nav-text">想在 build 时发布版本导 Maven 仓库中，只需要添加一行任务依赖配置即可：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过-gradle-q-tasks-显示所有的任务"><span class="nav-number">4.</span> <span class="nav-text">通过 gradle -q tasks 显示所有的任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务名称缩写"><span class="nav-number">5.</span> <span class="nav-text">任务名称缩写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命令行选项"><span class="nav-number">6.</span> <span class="nav-text">命令行选项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指定-Main-Class"><span class="nav-number">7.</span> <span class="nav-text">指定 Main-Class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gradle-wrapper-的目录结构"><span class="nav-number">8.</span> <span class="nav-text">gradle wrapper 的目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#包装器可以根据需求自定义，如访问外网受限时："><span class="nav-number">9.</span> <span class="nav-text">包装器可以根据需求自定义，如访问外网受限时：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradle允许通过外部属性来定义自己的变量"><span class="nav-number">10.</span> <span class="nav-text">Gradle允许通过外部属性来定义自己的变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#外部属性一般存储在键值对中，要添加一个属性，需要使用ext命名空间："><span class="nav-number">10.1.</span> <span class="nav-text">外部属性一般存储在键值对中，要添加一个属性，需要使用ext命名空间：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#外部属性可以定义在一个属性文件中：-通过在-gradle路径-或者项目根目录下的-gradle-properties-文件来定义属性，可以直接注入到项目中："><span class="nav-number">10.2.</span> <span class="nav-text">外部属性可以定义在一个属性文件中： 通过在 /.gradle路径 或者项目根目录下的  gradle.properties 文件来定义属性，可以直接注入到项目中：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定义属性的其他方法"><span class="nav-number">10.3.</span> <span class="nav-text">定义属性的其他方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当任务创建的时候你可以添加任意多个动作，每一个任务都有一个动作清单，他们在运行的时候是执行的"><span class="nav-number">11.</span> <span class="nav-text">当任务创建的时候你可以添加任意多个动作，每一个任务都有一个动作清单，他们在运行的时候是执行的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dependsOn方法用来声明一个任务依赖于一个或者多个任务"><span class="nav-number">12.</span> <span class="nav-text">dependsOn方法用来声明一个任务依赖于一个或者多个任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可以使用-finalizedBy-使一个任务结束后自动触发另一个"><span class="nav-number">13.</span> <span class="nav-text">可以使用 finalizedBy 使一个任务结束后自动触发另一个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#allprojects-和-subprojects"><span class="nav-number">14.</span> <span class="nav-text">allprojects 和 subprojects</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

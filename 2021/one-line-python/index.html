@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="大学中虽然教授过 C、C++、Java，但我当时选择自学了 Python，并且在工作的前几年也是用的 Python，我非常喜欢这门语言。 虽然我在平时开发时，不喜欢为了让代码精简些、酷炫些而写出匪夷所思的代码，那些代码大部分杂乱无章、可读性差，第二次再读自己的代码就不一定能读懂。但 Python在这方面做得非常好，这也是为什么它经常成为编码挑战、面试手写代码的首选。 下面我对 Python 中用一">
+<meta name="keywords" content="Python,编程技巧,一行代码,代码简洁性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一行 Python 代码能做什么">
+<meta property="og:url" content="https://jiapan.me/2021/one-line-python/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="大学中虽然教授过 C、C++、Java，但我当时选择自学了 Python，并且在工作的前几年也是用的 Python，我非常喜欢这门语言。 虽然我在平时开发时，不喜欢为了让代码精简些、酷炫些而写出匪夷所思的代码，那些代码大部分杂乱无章、可读性差，第二次再读自己的代码就不一定能读懂。但 Python在这方面做得非常好，这也是为什么它经常成为编码挑战、面试手写代码的首选。 下面我对 Python 中用一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一行 Python 代码能做什么">
+<meta name="twitter:description" content="大学中虽然教授过 C、C++、Java，但我当时选择自学了 Python，并且在工作的前几年也是用的 Python，我非常喜欢这门语言。 虽然我在平时开发时，不喜欢为了让代码精简些、酷炫些而写出匪夷所思的代码，那些代码大部分杂乱无章、可读性差，第二次再读自己的代码就不一定能读懂。但 Python在这方面做得非常好，这也是为什么它经常成为编码挑战、面试手写代码的首选。 下面我对 Python 中用一">
+
+<link rel="canonical" href="https://jiapan.me/2021/one-line-python/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>一行 Python 代码能做什么 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2021/one-line-python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一行 Python 代码能做什么
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-11-01 16:35:42" itemprop="dateCreated datePublished" datetime="2021-11-01T16:35:42+08:00">2021-11-01</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/one-line-python/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/one-line-python/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>大学中虽然教授过 C、C++、Java，但我当时选择自学了 Python，并且在工作的前几年也是用的 Python，我非常喜欢这门语言。</p>
+<p>虽然我在平时开发时，不喜欢为了让代码精简些、酷炫些而写出匪夷所思的代码，那些代码大部分杂乱无章、可读性差，第二次再读自己的代码就不一定能读懂。但 Python在这方面做得非常好，这也是为什么它经常成为编码挑战、面试手写代码的首选。</p>
+<p>下面我对 Python 中用一行代码就能解决的问题做了下整理，通过这些代码片段和技巧也能看出这门语言设计的精妙和优雅：</p>
+<h3 id="一个数字的位数之和"><a href="#一个数字的位数之和" class="headerlink" title="一个数字的位数之和"></a>一个数字的位数之和</h3><p>这个单行代码对于计算一个数字的位数之和非常有用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sum_of_digit = lambda x: sum(map(int, str(x)))</span><br><span class="line">output = sum_of_digit(123)</span><br><span class="line">print(&quot;Sum of the digits is: &quot;, output)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">Sum of the digits is: 6</span><br></pre></td></tr></table></figure>
+<h3 id="单一的if-else条件"><a href="#单一的if-else条件" class="headerlink" title="单一的if-else条件"></a>单一的if-else条件</h3><p>在其他语言中，条件式有时看起来有点笨重，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x = 10</span><br><span class="line">y = 5</span><br><span class="line">if x &gt; y:</span><br><span class="line">    print(&quot;x is greater than y&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;y is greater than x&quot;)</span><br></pre></td></tr></table></figure>
+<p>用Python简化它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = 10</span><br><span class="line">y = 5</span><br><span class="line">print(&quot;x is greater than y&quot; if x &gt; y else &quot;y is greater than x&quot;)</span><br></pre></td></tr></table></figure>
+<p>读起来和正常的英语有些像。</p>
+<p>你可以用以下结构在一行代码内形成一个if语句：</p>
+<p><code>&lt;条件-真&gt; if 条件 else &lt;条件-假&gt;</code></p>
+<h3 id="多个if-else条件"><a href="#多个if-else条件" class="headerlink" title="多个if-else条件"></a>多个if-else条件</h3><p>我们有时会使用大量的 <code>if-else</code> 语句，我们使用 <code>elif</code> 关键字，它是其他语言 <code>else if</code> 关键字组合的缩写，这对于转换为单行的python代码来说比较困难，看一个在代码里面使用 <code>elif</code> 的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">x = 200</span><br><span class="line">if x &lt; 20:</span><br><span class="line">    print(&quot;x is less than 20&quot;)</span><br><span class="line">elif x == 200:</span><br><span class="line">    print(&quot;x is equal to 200&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;x is above 20&quot;)</span><br></pre></td></tr></table></figure>
+<p>这段代码将打印第二条语句，即 <code>x is equal to 200</code>。</p>
+<p>现在我们把这段代码转换成一行代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = 200</span><br><span class="line">print(&quot;x is less than 20&quot;) if x &lt; 20 else print(&quot;x is equal to 200&quot;) if x == 200 else print(&quot;x is above 20&quot;)</span><br></pre></td></tr></table></figure>
+<p>这里使用的依然是上一个技巧，只是将其扩展为了多个条件，不过我不建议这样写，它也许很快就会变得难以阅读和维护。你需要权衡好什么时候使用这个技巧。</p>
+<h3 id="字符串反转"><a href="#字符串反转" class="headerlink" title="字符串反转"></a>字符串反转</h3><p>使用字符串切片操作，在一行代码中反转字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">input_string = &quot;Namaste World!&quot;</span><br><span class="line">reversed_string = input_string[::-1]</span><br><span class="line">print(&quot;Reversed string is: &quot;, reversed_string)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">Reversed string is: !dlroW etsamaN</span><br></pre></td></tr></table></figure>
+<h3 id="分配多个变量"><a href="#分配多个变量" class="headerlink" title="分配多个变量"></a>分配多个变量</h3><p>在一行中为每个变量分配不同的值，甚至不同的数据类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name, age, single = ‘jc’, 35, False</span><br></pre></td></tr></table></figure>
+<h3 id="列表推导"><a href="#列表推导" class="headerlink" title="列表推导"></a>列表推导</h3><p>列表推导是一种简单而优雅的方法，它可以从现有的列表中定义和生成新的列表：</p>
+<p>举个例子，生成填充了数字 0 到 4 的列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">scores = []</span><br><span class="line">for x in range (5):</span><br><span class="line">    scores.append(x)</span><br><span class="line">print(scores)</span><br></pre></td></tr></table></figure>
+<p>同样的结果我们可以用列表推导法来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scores = [x for x in range(5)]</span><br><span class="line">print(scores)</span><br></pre></td></tr></table></figure>
+<p>这是 Python 最伟大的功能之一。</p>
+<h3 id="列表推导中的条件式"><a href="#列表推导中的条件式" class="headerlink" title="列表推导中的条件式"></a>列表推导中的条件式</h3><p>继续扩展上一个技巧，如果我们想根据一个条件来跳过一些项呢？</p>
+<p>例如，如果我们只想要奇数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scores = []</span><br><span class="line">for x in range (20):</span><br><span class="line">    if x % 2 == 1:</span><br><span class="line">       scores.append(x)</span><br><span class="line">print(scores)</span><br></pre></td></tr></table></figure>
+<p>在列表推导中使用条件语句同样可以实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scores = [x for x in range(20) if x % 2 == 1]</span><br><span class="line">print(scores)</span><br></pre></td></tr></table></figure>
+<p>优点：列表推理不仅更清晰，而且在大部分情况下其性能也比单次循环好得多。</p>
+<h3 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h3><p>斐波那契数列是一组数字的集合，其中每个数字都是它前面两个数字之和。</p>
+<p>在一行代码中，我们使用列表推理和 <code>for</code> 循环生成一个斐波那契数列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">n=10</span><br><span class="line">fib = [0,1]</span><br><span class="line">[fib.append(fib[-2]+fib[-1]) for _ in range(n)]</span><br><span class="line">print(fib)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]</span><br></pre></td></tr></table></figure>
+<h3 id="合并两个字典"><a href="#合并两个字典" class="headerlink" title="合并两个字典"></a>合并两个字典</h3><p>我们可以使用<code>**</code>操作符在一行代码中合并多个字典。</p>
+<p>我们只需要将字典和<code>**</code>操作符一起传给<code>{}</code>，它就会为我们合并字典：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dictionary1 = &#123;&quot;name&quot;: &quot;Joy&quot;, &quot;age&quot;: 25&#125;</span><br><span class="line">dictionary2 = &#123;&quot;name&quot;: &quot;Joy&quot;, &quot;city&quot;: &quot;New York&quot;&#125;</span><br><span class="line">merged_dict = &#123;**dictionary1, **dictionary2&#125; </span><br><span class="line">print(&quot;Merged dictionary:&quot;, merged_dict)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">Merged dictionary: &#123;&apos;name&apos;: &apos;Joy&apos;, &apos;age&apos;: 25, &apos;city&apos;: &apos;New York&apos;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="交换一个字典中的键和值"><a href="#交换一个字典中的键和值" class="headerlink" title="交换一个字典中的键和值"></a>交换一个字典中的键和值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dict = &#123;&apos;Name&apos;: &apos;Joy&apos;, &apos;Age&apos;: 25, &apos;Language&apos;:&apos;Python&apos;&#125;</span><br><span class="line">result = &#123;v:k for k, v in dict.items()&#125;</span><br><span class="line">print(result)</span><br><span class="line">Output:</span><br><span class="line">&#123;&apos;Joy&apos;: &apos;Name&apos;, 25: &apos;Age&apos;, &apos;Python&apos;: &apos;Language&apos;&#125;</span><br></pre></td></tr></table></figure>
+<p>这个交换键值对的代码非常实用。</p>
+<h3 id="交换变量"><a href="#交换变量" class="headerlink" title="交换变量"></a>交换变量</h3><p>在其他语言中，交换两个变量需要借助第三个变量（一个临时变量）来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tmp = var1</span><br><span class="line">var1 = var2</span><br><span class="line">var2 = tmp</span><br></pre></td></tr></table></figure>
+<p>在Python中，可以直接在一条语句中完成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var1, var2 = var2, var1</span><br></pre></td></tr></table></figure>
+<p>甚至更进一步，可以使用相同的技巧来交换数组中的元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">colors = [&apos;red&apos;, &apos;green&apos;, &apos;blue&apos;]</span><br><span class="line">colors[0], colors[1] = colors[1], colors[0]</span><br><span class="line">print(colors)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">[&apos;green&apos;, &apos;red&apos;, &apos;blue&apos;]</span><br></pre></td></tr></table></figure>
+<h3 id="列表推理中的嵌套循环"><a href="#列表推理中的嵌套循环" class="headerlink" title="列表推理中的嵌套循环"></a>列表推理中的嵌套循环</h3><p>列表推理还可以用在矩阵（多维数组）上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">my_list = [(x, y) for x in [3, 4, 6] for y in [3, 4, 7] if x != y]</span><br><span class="line">print(my_list)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">[(3, 4), (3, 7), (4, 3), (4, 7), (6, 3), (6, 4), (6, 7)]</span><br></pre></td></tr></table></figure>
+<h3 id="字典推理"><a href="#字典推理" class="headerlink" title="字典推理"></a>字典推理</h3><p>与列表推理的概念相同，举个例子，我们需要一个键/值对，其中值是键的平方：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">square_dict = dict()</span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>):</span><br><span class="line">    square_dict[num] = num * num</span><br><span class="line">print(square_dict)</span><br></pre></td></tr></table></figure>
+<p>下面使用字典推导：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">square_dict = &#123; num: num * num <span class="keyword">for</span> num <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>) &#125;</span><br><span class="line">print(square_dict)</span><br></pre></td></tr></table></figure>
+<h3 id="拍平一个列表"><a href="#拍平一个列表" class="headerlink" title="拍平一个列表"></a>拍平一个列表</h3><p>数据工程师经常与列表和多维数据打交道，有时他们需要将多维列表转换成一维的。他们经常使用 <code>numpy</code> 之类的包来做这件事。</p>
+<p>下面的例子展示了如何使用纯 Python 的单行代码来完成同样的工作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">my_list = [[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">4</span>, <span class="number">6</span>], [<span class="number">8</span>, <span class="number">10</span>]]</span><br><span class="line">flattened = [i <span class="keyword">for</span> j <span class="keyword">in</span> my_list <span class="keyword">for</span> i <span class="keyword">in</span> j]</span><br><span class="line">print(flattened)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>]</span><br></pre></td></tr></table></figure>
+<p>是的，这依然时列表推导的一种应用。</p>
+<h3 id="从列表中解构变量"><a href="#从列表中解构变量" class="headerlink" title="从列表中解构变量"></a>从列表中解构变量</h3><p>假设你有一个列表，你想把它前边的几个值捕捉到变量中，其余值都放进另一个列表。这在处理参数的时候会很有用。</p>
+<p>让我们看一个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x, y, *z = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">print(x, y, z)</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line"><span class="number">1</span> <span class="number">2</span> [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="将文件加载到一个列表中"><a href="#将文件加载到一个列表中" class="headerlink" title="将文件加载到一个列表中"></a>将文件加载到一个列表中</h3><p>脚本最常用的一个场景是处理文本文件，特别是将文件的每一行读入到列表中，这样我们就可以对数据进行我们需要的操作了。</p>
+<p>在 Python 中，我们可以用强大的列表推导法将文件所有行读入一个列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">my_list = [line.strip() for line in open(&apos;countries.txt&apos;, &apos;r&apos;)]</span><br><span class="line">print(my_list)</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Python 是一门神奇的语言。今天我展示了几个强大的 Python 技巧，它们将帮助我们开发更优雅、更简单、更高效的代码。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/编程技巧/" rel="tag"># 编程技巧</a>
+              <a href="/tags/一行代码/" rel="tag"># 一行代码</a>
+              <a href="/tags/代码简洁性/" rel="tag"># 代码简洁性</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/my-ideal-work-env/" rel="prev" title="我理想的工作环境">
+      <i class="fa fa-chevron-left"></i> 我理想的工作环境
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/When-Panic-Attacks/" rel="next" title="《伯恩斯焦虑自助疗法》摘抄（未整理）">
+      《伯恩斯焦虑自助疗法》摘抄（未整理） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个数字的位数之和"><span class="nav-number">1.</span> <span class="nav-text">一个数字的位数之和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单一的if-else条件"><span class="nav-number">2.</span> <span class="nav-text">单一的if-else条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个if-else条件"><span class="nav-number">3.</span> <span class="nav-text">多个if-else条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串反转"><span class="nav-number">4.</span> <span class="nav-text">字符串反转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分配多个变量"><span class="nav-number">5.</span> <span class="nav-text">分配多个变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表推导"><span class="nav-number">6.</span> <span class="nav-text">列表推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表推导中的条件式"><span class="nav-number">7.</span> <span class="nav-text">列表推导中的条件式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#斐波那契数列"><span class="nav-number">8.</span> <span class="nav-text">斐波那契数列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合并两个字典"><span class="nav-number">9.</span> <span class="nav-text">合并两个字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交换一个字典中的键和值"><span class="nav-number">10.</span> <span class="nav-text">交换一个字典中的键和值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交换变量"><span class="nav-number">11.</span> <span class="nav-text">交换变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表推理中的嵌套循环"><span class="nav-number">12.</span> <span class="nav-text">列表推理中的嵌套循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字典推理"><span class="nav-number">13.</span> <span class="nav-text">字典推理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拍平一个列表"><span class="nav-number">14.</span> <span class="nav-text">拍平一个列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从列表中解构变量"><span class="nav-number">15.</span> <span class="nav-text">从列表中解构变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将文件加载到一个列表中"><span class="nav-number">16.</span> <span class="nav-text">将文件加载到一个列表中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">17.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

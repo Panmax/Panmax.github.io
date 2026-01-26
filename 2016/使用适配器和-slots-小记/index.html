@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="今天看了一篇关于设计模式方面的资料，再加上前几天看的 __slots__ 的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式， __slots__， __setattr__）优化一下：修改前：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152">
+<meta name="keywords" content="Python,设计模式,代码优化,__slots__">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用适配器模式和__slots__优化代码小记">
+<meta property="og:url" content="https://jiapan.me/2016/使用适配器和-slots-小记/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="今天看了一篇关于设计模式方面的资料，再加上前几天看的 __slots__ 的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式， __slots__， __setattr__）优化一下：修改前：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用适配器模式和__slots__优化代码小记">
+<meta name="twitter:description" content="今天看了一篇关于设计模式方面的资料，再加上前几天看的 __slots__ 的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式， __slots__， __setattr__）优化一下：修改前：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152">
+
+<link rel="canonical" href="https://jiapan.me/2016/使用适配器和-slots-小记/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用适配器模式和__slots__优化代码小记 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2016/使用适配器和-slots-小记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用适配器模式和__slots__优化代码小记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-02-27 12:33:27" itemprop="dateCreated datePublished" datetime="2016-02-27T12:33:27+08:00">2016-02-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/使用适配器和-slots-小记/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/使用适配器和-slots-小记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="今天看了一篇关于设计模式方面的资料，再加上前几天看的-slots-的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式，-slots-，-setattr-）优化一下："><a href="#今天看了一篇关于设计模式方面的资料，再加上前几天看的-slots-的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式，-slots-，-setattr-）优化一下：" class="headerlink" title="今天看了一篇关于设计模式方面的资料，再加上前几天看的 __slots__ 的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式， __slots__， __setattr__）优化一下："></a>今天看了一篇关于<a href="http://blog.jobbole.com/62023/" target="_blank" rel="noopener">设计模式</a>方面的资料，再加上前几天看的 <code>__slots__</code> 的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式， <code>__slots__</code>， <code>__setattr__</code>）优化一下：</h3><h4 id="修改前："><a href="#修改前：" class="headerlink" title="修改前："></a>修改前：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">class UserModel(object):</span><br><span class="line"></span><br><span class="line">    def __init__(self, user_id=None):</span><br><span class="line">        self.user_id = user_id</span><br><span class="line">        self.query = Query(_User)</span><br><span class="line">        </span><br><span class="line">    ...</span><br><span class="line">        </span><br><span class="line">	def update_profile(self, avatar=None, nickname=None, birth=None,</span><br><span class="line">	                       mind=None, height=None, weight=None, sexuality=None, emotion=None,</span><br><span class="line">	                       haunt=None, been=None, company=None, position=None, graduated=None,</span><br><span class="line">	                       industry=None, salary=None, hometown=None):</span><br><span class="line">	    u = self.get_by_id()</span><br><span class="line">	    user_profile = UserProflieModel.get_or_create_user_profile(u)</span><br><span class="line">	</span><br><span class="line">	    if avatar is not None:</span><br><span class="line">	        avatar_file = Query(_File).get(avatar)</span><br><span class="line">	        u.set(&apos;avatar&apos;, avatar_file)</span><br><span class="line">	    if nickname is not None:</span><br><span class="line">	        u.set(&apos;nickname&apos;, nickname)</span><br><span class="line">	    if birth is not None:</span><br><span class="line">	        birthday = datetime.fromtimestamp(birth)</span><br><span class="line">	        u.set(&apos;birthday&apos;, birthday)</span><br><span class="line">	    if mind is not None:</span><br><span class="line">	        if len(mind) &gt; 300:</span><br><span class="line">	            raise LeanCloudError(20504, errmsg.ERRMSG[20504])</span><br><span class="line">	        u.set(&apos;mind&apos;, mind)</span><br><span class="line">	    if height is not None:</span><br><span class="line">	        user_profile.set(&apos;height&apos;, height)</span><br><span class="line">	    if weight is not None:</span><br><span class="line">	        user_profile.set(&apos;weight&apos;, weight)</span><br><span class="line">	    if sexuality is not None:</span><br><span class="line">	        user_profile.set(&apos;sexuality&apos;, sexuality)</span><br><span class="line">	    if emotion is not None:</span><br><span class="line">	        user_profile.set(&apos;emotion&apos;, emotion)</span><br><span class="line">	    if haunt is not None:</span><br><span class="line">	        user_profile.set(&apos;haunt&apos;, haunt)</span><br><span class="line">	    if been is not None:</span><br><span class="line">	        user_profile.set(&apos;been&apos;, been)</span><br><span class="line">	    if company is not None:</span><br><span class="line">	        user_profile.set(&apos;company&apos;, company)</span><br><span class="line">	    if position is not None:</span><br><span class="line">	        user_profile.set(&apos;position&apos;, position)</span><br><span class="line">	    if graduated is not None:</span><br><span class="line">	        user_profile.set(&apos;graduated&apos;, graduated)</span><br><span class="line">	    if industry is not None:</span><br><span class="line">	        user_profile.set(&apos;industry&apos;, industry)</span><br><span class="line">	    if salary is not None:</span><br><span class="line">	        user_profile.set(&apos;salary&apos;, salary)</span><br><span class="line">	    if hometown is not None:</span><br><span class="line">	        region = Query(Region).equal_to(&apos;adcode&apos;, hometown).first()</span><br><span class="line">	        user_profile.set(&apos;hometown&apos;, region)</span><br><span class="line">	</span><br><span class="line">	    try:</span><br><span class="line">	        u.save()</span><br><span class="line">	        user_profile.save()</span><br><span class="line">	    except LeanCloudError as e:</span><br><span class="line">	        logging.error(e)</span><br><span class="line">	        return False</span><br><span class="line">	    return True</span><br></pre></td></tr></table></figure>
+<h4 id="修改后："><a href="#修改后：" class="headerlink" title="修改后："></a>修改后：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">class Account(object):</span><br><span class="line">    __slots__ = (&apos;user_id&apos;, &apos;user&apos;, &apos;user_profile&apos;, &apos;account_money&apos;)</span><br><span class="line"></span><br><span class="line">    def __init__(self, user_id):</span><br><span class="line">        self.user_id = user_id</span><br><span class="line">        self.user = Query(_User).include(&apos;avatar.url&apos;, &apos;password&apos;).get(user_id)</span><br><span class="line">        self.user_profile = UserProflieModel.get_or_create_user_profile(self.user)</span><br><span class="line">        self.account_money = None</span><br><span class="line"></span><br><span class="line">    def __setattr__(self, key, value):</span><br><span class="line">        if key in self.__slots__:</span><br><span class="line">            object.__setattr__(self, key, value)</span><br><span class="line">        elif key in (&apos;height&apos;, &apos;weight&apos;, &apos;sexuality&apos;, &apos;emotion&apos;, &apos;haunt&apos;, &apos;been&apos;, &apos;company&apos;,</span><br><span class="line">                     &apos;position&apos;, &apos;graduated&apos;, &apos;industry&apos;, &apos;salary&apos;, &apos;hometown&apos;) and value is not None:</span><br><span class="line">            if key == &apos;hometown&apos;:</span><br><span class="line">                value = Query(Region).equal_to(&apos;adcode&apos;, value).first()</span><br><span class="line">            self.user_profile.set(key, value)</span><br><span class="line">        elif key in (&apos;avatar&apos;, &apos;nickname&apos;, &apos;birth&apos;, &apos;mind&apos;) and value is not None:</span><br><span class="line">            if key == &apos;avatar&apos;:</span><br><span class="line">                value = Query(_File).get(value)</span><br><span class="line">            elif key == &apos;birth&apos;:</span><br><span class="line">                value = datetime.fromtimestamp(value/1000)</span><br><span class="line">            elif key == &apos;mind&apos;:</span><br><span class="line">                if len(value) &gt; 300:</span><br><span class="line">                    raise LeanCloudError(20504, errmsg.ERRMSG[20504])</span><br><span class="line">            self.user.set(key, value)</span><br><span class="line"></span><br><span class="line">    def save(self):</span><br><span class="line">        self.user.save()</span><br><span class="line">        self.user_profile.save()</span><br><span class="line">        # self.account_money.save()</span><br><span class="line">        </span><br><span class="line">class UserModel(object):</span><br><span class="line"></span><br><span class="line">    def __init__(self, user_id=None):</span><br><span class="line">        self.user_id = user_id</span><br><span class="line">        self.query = Query(_User)</span><br><span class="line">        </span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    def update_profile(self, avatar=None, nickname=None, birth=None,</span><br><span class="line">                       mind=None, height=None, weight=None, sexuality=None, emotion=None,</span><br><span class="line">                       haunt=None, been=None, company=None, position=None, graduated=None,</span><br><span class="line">                       industry=None, salary=None, hometown=None):</span><br><span class="line">        account = Account(self.user_id)</span><br><span class="line">        account.avatar = avatar</span><br><span class="line">        account.nickname = nickname</span><br><span class="line">        account.birth = birth</span><br><span class="line">        account.mind = mind</span><br><span class="line">        account.height = height</span><br><span class="line">        account.weight = weight</span><br><span class="line">        account.sexuality = sexuality</span><br><span class="line">        account.emotion = emotion</span><br><span class="line">        account.haunt = haunt</span><br><span class="line">        account.been = been</span><br><span class="line">        account.company = company</span><br><span class="line">        account.position = position</span><br><span class="line">        account.graduated = graduated</span><br><span class="line">        account.industry = industry</span><br><span class="line">        account.salary = salary</span><br><span class="line">        account.hometown = hometown</span><br><span class="line"></span><br><span class="line">        try:</span><br><span class="line">            account.save()</span><br><span class="line">        except LeanCloudError as e:</span><br><span class="line">            logging.error(e)</span><br><span class="line">            return False</span><br><span class="line">        return True</span><br></pre></td></tr></table></figure>
+<h3 id="感觉自己萌萌哒-｡◕∀◕｡"><a href="#感觉自己萌萌哒-｡◕∀◕｡" class="headerlink" title="感觉自己萌萌哒 (｡◕∀◕｡)"></a>感觉自己萌萌哒 (｡◕∀◕｡)</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+              <a href="/tags/代码优化/" rel="tag"># 代码优化</a>
+              <a href="/tags/slots/" rel="tag"># __slots__</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/Python只能以关键字形式指定参数/" rel="prev" title="Python只能以关键字形式指定参数">
+      <i class="fa fa-chevron-left"></i> Python只能以关键字形式指定参数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/Python中合并两个字典/" rel="next" title="Python中合并两个字典">
+      Python中合并两个字典 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#今天看了一篇关于设计模式方面的资料，再加上前几天看的-slots-的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式，-slots-，-setattr-）优化一下："><span class="nav-number">1.</span> <span class="nav-text">今天看了一篇关于设计模式方面的资料，再加上前几天看的 __slots__ 的用法，想起项目中的更新用户资料相关代码可以用上边的知识（适配器模式， __slots__， __setattr__）优化一下：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改前："><span class="nav-number">1.1.</span> <span class="nav-text">修改前：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改后："><span class="nav-number">1.2.</span> <span class="nav-text">修改后：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#感觉自己萌萌哒-｡◕∀◕｡"><span class="nav-number">2.</span> <span class="nav-text">感觉自己萌萌哒 (｡◕∀◕｡)</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

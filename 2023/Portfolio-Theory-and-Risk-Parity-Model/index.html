@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="投资组合理论和风险平价模型是两种与投资组合管理相关的重要概念，是金融领域中用于优化投资组合的方法。 投资组合理论投资组合理论是由美国经济学家哈里·马科维茨（Harry Markowitz）于20世纪50年代提出的理论框架，也被称为现代投资组合理论（Modern Portfolio Theory，MPT）。该理论旨在帮助投资者在风险和收益之间取得最佳平衡。投资组合理论的核心思想是通过将多种资产组合在">
+<meta name="keywords" content="投资">
+<meta property="og:type" content="article">
+<meta property="og:title" content="投资组合理论 &amp;&amp; 风险平价模型">
+<meta property="og:url" content="https://jiapan.me/2023/Portfolio-Theory-and-Risk-Parity-Model/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="投资组合理论和风险平价模型是两种与投资组合管理相关的重要概念，是金融领域中用于优化投资组合的方法。 投资组合理论投资组合理论是由美国经济学家哈里·马科维茨（Harry Markowitz）于20世纪50年代提出的理论框架，也被称为现代投资组合理论（Modern Portfolio Theory，MPT）。该理论旨在帮助投资者在风险和收益之间取得最佳平衡。投资组合理论的核心思想是通过将多种资产组合在">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.263Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="投资组合理论 &amp;&amp; 风险平价模型">
+<meta name="twitter:description" content="投资组合理论和风险平价模型是两种与投资组合管理相关的重要概念，是金融领域中用于优化投资组合的方法。 投资组合理论投资组合理论是由美国经济学家哈里·马科维茨（Harry Markowitz）于20世纪50年代提出的理论框架，也被称为现代投资组合理论（Modern Portfolio Theory，MPT）。该理论旨在帮助投资者在风险和收益之间取得最佳平衡。投资组合理论的核心思想是通过将多种资产组合在">
+
+<link rel="canonical" href="https://jiapan.me/2023/Portfolio-Theory-and-Risk-Parity-Model/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>投资组合理论 && 风险平价模型 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2023/Portfolio-Theory-and-Risk-Parity-Model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          投资组合理论 && 风险平价模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-10-09 21:45:39" itemprop="dateCreated datePublished" datetime="2023-10-09T21:45:39+08:00">2023-10-09</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2023/Portfolio-Theory-and-Risk-Parity-Model/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/Portfolio-Theory-and-Risk-Parity-Model/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>投资组合理论和风险平价模型是两种与投资组合管理相关的重要概念，是金融领域中用于优化投资组合的方法。</p>
+<h1 id="投资组合理论"><a href="#投资组合理论" class="headerlink" title="投资组合理论"></a>投资组合理论</h1><p>投资组合理论是由美国经济学家哈里·马科维茨（Harry Markowitz）于20世纪50年代提出的理论框架，也被称为现代投资组合理论（Modern Portfolio Theory，MPT）。该理论旨在帮助投资者在风险和收益之间取得最佳平衡。投资组合理论的核心思想是通过将多种资产组合在一起，以最小化给定预期收益水平下的投资组合风险，或在给定风险水平下最大化预期收益。</p>
+<h2 id="辅助理解"><a href="#辅助理解" class="headerlink" title="辅助理解"></a>辅助理解</h2><p>想象一下，你有一个盒子，里面装着各种不同的玩具，比如娃娃、小车和积木。每个玩具就像是不同的投资。现在，假设你想保护你的玩具并确保它们的价值随着时间增长。</p>
+<p>投资组合理论就像是一种决定你的盒子里应该有多少个不同玩具的方法。你要选择适当的玩具组合，这样你才能获得最好的结果。</p>
+<p>但是，这里有个诀窍：不同的玩具有不同的风险和回报。有些玩具可能更有价值，但风险也更大，而其他的可能更安全，但增长速度较慢。所以你需要决定你愿意承担多少风险。</p>
+<p>投资组合理论帮助你找到合适的平衡点。它建议你选择一种玩具组合，这样你就可以把风险分散开来。这意味着如果一个玩具表现不好，其他的玩具仍然可以让你获得回报。</p>
+<p>简而言之，投资组合理论就是帮助你选择合适的玩具组合，以平衡风险，并让你的盒子里的玩具保持增值。</p>
+<h2 id="如何工作"><a href="#如何工作" class="headerlink" title="如何工作"></a>如何工作</h2><p>假设你有1000美元，你有三种不同的投资选项：股票、债券和黄金。</p>
+<p>现代投资组合理论认为，投资者可以通过合理地分配资金来平衡风险和回报。</p>
+<p>首先，你需要了解每种投资的预期回报和风险。假设股票的预期回报是10%，债券是5%，黄金是3%。同时，股票的风险最高，债券次之，黄金的风险最低。</p>
+<p>现代投资组合理论建议你根据你的风险承受能力和目标来分配资金。假设你对风险比较保守，你可以将60%的资金分配给债券，30%分配给股票，剩下的10%分配给黄金。</p>
+<p>通过这样的分配，你在投资组合中平衡了风险和回报。债券的较高配比可以提供稳定的回报，股票的适度配置可以获得更高的回报，黄金的配置可以提供一定的保值功能。</p>
+<p>现代投资组合理论的关键思想是通过将资金分配到不同的资产上，以实现风险的分散化。这样，即使某个资产表现不佳，其他资产仍可以为你的投资组合提供回报。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ol>
+<li>风险分散：投资组合理论强调通过将不同资产以适当的权重组合在一起，实现风险的分散化，从而降低整体投资组合的风险。</li>
+<li>预期回报最大化：投资组合理论帮助投资者在给定风险水平下，寻找最优的资产配置方式，以最大化预期回报。</li>
+<li>考虑相关性：投资组合理论考虑资产之间的相关性，通过选择不同相关性的资产组合，可以实现更有效的投资组合。</li>
+</ol>
+<h2 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h2><ol>
+<li>基于历史数据：投资组合理论通常基于历史数据来估计资产的预期回报和风险，但历史表现不一定能准确预测未来。</li>
+<li>忽略非系统风险：投资组合理论主要关注系统性风险，即与整个市场相关的风险，而忽略了非系统性风险，即与特定公司或行业相关的风险。</li>
+<li>需要大量数据和计算：实施投资组合理论需要大量的数据和计算，包括资产的历史表现、相关性矩阵等，这可能对个体投资者或资源有限的投资者来说是一个挑战。</li>
+</ol>
+<h1 id="风险平价模型"><a href="#风险平价模型" class="headerlink" title="风险平价模型"></a>风险平价模型</h1><p>风险平价模型（Risk Parity Model）是一种投资组合管理方法，旨在通过平等分配投资组合中不同资产的风险，实现更平衡的风险暴露。与传统的投资组合管理方法相比，风险平价模型<strong>更加关注风险分散和资产间的相关性</strong>。</p>
+<p>风险平价起源自一个目标收益率为10%、波动率为10%~12%的投资组合，是美国桥水创始人瑞·达利欧在1996年创立的一个投资原则，既全天候资产配置原则。</p>
+<h2 id="辅助理解-1"><a href="#辅助理解-1" class="headerlink" title="辅助理解"></a>辅助理解</h2><p>现在，想象一下你有一张画纸，上面有很多不同的颜色。每种颜色就像是投资中的不同资产，比如红色代表股票，蓝色代表债券，黄色代表房地产等等。</p>
+<p>风险平价模型就是一种方法，让你在画纸上均匀涂上不同的颜色。这样，每种颜色（也就是每种资产）都有相同的风险，就像画纸上每个区域的颜色一样多。</p>
+<p>为什么要这样做呢？因为不同的颜色（或资产）有不同的风险和回报。有些颜色可能非常亮，表示它们的风险更高，但潜在回报也更大。而有些颜色可能相对较暗，表示它们的风险较低，但潜在回报也较小。</p>
+<p>风险平价模型帮助你确保你的画纸上每个颜色（或资产）的风险都是一样的。这样，如果一个颜色表现不好，其他颜色仍然可以给你带来回报。</p>
+<p>简而言之，风险平价模型就是让你在画纸上均匀地涂上不同的颜色，以确保不同资产的风险是平衡的，并让你的投资更加稳定。</p>
+<h2 id="如何工作-1"><a href="#如何工作-1" class="headerlink" title="如何工作"></a>如何工作</h2><p>假设你有1000美元，你想将其投资于两种不同的资产：股票和债券。</p>
+<p>股票通常风险较高，但潜在回报也更高，而债券被认为更安全，但回报较低。</p>
+<p>在风险平价模型中，你不仅仅是平均分配你的资金到股票和债券上（各500美元），而是根据每种资产的风险来分配你的投资。</p>
+<p>假设股票的风险更高，你决定将70%的投资分配给债券，30%分配给股票。这种分配是根据每种资产的风险贡献应该相等的理念来确定的。</p>
+<p>通过这样做，你在投资组合中平衡了风险。如果股票表现不佳，对债券的较高配置可以帮助抵消损失，并为你的整体投资提供更稳定性。另一方面，如果股票表现出色，较小的配置也不会对整体投资组合的表现产生太大影响。</p>
+<p>风险平价模型旨在通过考虑不同资产的风险来实现资产间的平衡。它帮助你进行投资多样化，并更有效地管理风险。</p>
+<h2 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h2><ol>
+<li>风险平衡：风险平价模型通过平衡不同资产的风险贡献，实现投资组合的风险均衡。这可以帮助投资者降低对任何单个资产的依赖，从而提高整体投资组合的稳定性。</li>
+<li>简单易懂：风险平价模型相对较简单，容易理解和实施。它不需要大量的数据和计算，适用于个体投资者或资源有限的投资者。</li>
+</ol>
+<h2 id="局限性-1"><a href="#局限性-1" class="headerlink" title="局限性"></a>局限性</h2><ol>
+<li>忽略预期回报：风险平价模型关注风险的平衡，但忽略了资产的预期回报。这可能导致在追求风险均衡的同时牺牲了潜在的高回报机会。</li>
+<li>对某些资产不适用：风险平价模型在处理某些特殊资产类别（如复杂衍生品）时可能存在困难，因为这些资产的风险无法简单地衡量和比较。</li>
+</ol>
+<h1 id="投资组合理论与风险平价模型的主要区别"><a href="#投资组合理论与风险平价模型的主要区别" class="headerlink" title="投资组合理论与风险平价模型的主要区别"></a>投资组合理论与风险平价模型的主要区别</h1><h2 id="目标和重点："><a href="#目标和重点：" class="headerlink" title="目标和重点："></a>目标和重点：</h2><ul>
+<li>投资组合理论的目标是在给定风险水平下，最大化投资组合的预期回报。它关注如何通过资产配置来实现最佳的风险-回报权衡。</li>
+<li>风险平价模型的目标是平衡不同资产在整个投资组合中的风险贡献。它强调每个资产对总体风险的贡献应该是相等的。</li>
+</ul>
+<h2 id="风险分散方法"><a href="#风险分散方法" class="headerlink" title="风险分散方法"></a>风险分散方法</h2><ul>
+<li>投资组合理论通过将不同风险和回报特征的资产组合在一起，以实现风险的分散化。它考虑资产之间的相关性，并通过优化资产权重来达到风险分散的目标。</li>
+<li>风险平价模型通过平衡不同资产的风险贡献来实现投资组合的风险分散。它将风险分配给各个资产，以确保它们在整个投资组合中对总体风险的贡献相等。</li>
+</ul>
+<h2 id="考虑因素："><a href="#考虑因素：" class="headerlink" title="考虑因素："></a>考虑因素：</h2><ul>
+<li>投资组合理论考虑了预期回报、风险和资产之间的相关性。它通过优化资产配置来平衡这些因素，以实现最佳的风险-回报组合。</li>
+<li>风险平价模型更关注风险方面，特别是资产的风险贡献。它通过平衡不同资产的风险贡献来实现风险均衡，而对预期回报的考虑相对较少。</li>
+</ul>
+<h2 id="复杂性："><a href="#复杂性：" class="headerlink" title="复杂性："></a>复杂性：</h2><ul>
+<li>投资组合理论在实践中通常需要更多的数据和计算，包括资产的历史表现、相关性矩阵等。它可能需要更多的复杂模型和技术分析来确定最佳的资产配置。</li>
+<li>风险平价模型相对较简单，不需要大量数据和复杂计算。它可以作为一种直观且易于实施的方法，适用于个体投资者或资源有限的投资者。</li>
+</ul>
+<h2 id="关注点："><a href="#关注点：" class="headerlink" title="关注点："></a>关注点：</h2><ul>
+<li>投资组合理论关注整个投资组合的特征和表现，它试图找到最优的资产配置，以实现预期回报和风险的最佳权衡。</li>
+<li>风险平价模型更关注投资组合内部的风险分散，它强调平衡不同资产的风险贡献，以降低整体投资组合的风险。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/投资/" rel="tag"># 投资</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/The-4-most-important-business-financial-indicators/" rel="prev" title="4个最重要的企业财务指标">
+      <i class="fa fa-chevron-left"></i> 4个最重要的企业财务指标
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/why-baoyu-is-gemini/" rel="next" title="为什么我说宝玉是双子座">
+      为什么我说宝玉是双子座 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#投资组合理论"><span class="nav-number">1.</span> <span class="nav-text">投资组合理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#辅助理解"><span class="nav-number">1.1.</span> <span class="nav-text">辅助理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何工作"><span class="nav-number">1.2.</span> <span class="nav-text">如何工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">1.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局限性"><span class="nav-number">1.4.</span> <span class="nav-text">局限性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#风险平价模型"><span class="nav-number">2.</span> <span class="nav-text">风险平价模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#辅助理解-1"><span class="nav-number">2.1.</span> <span class="nav-text">辅助理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何工作-1"><span class="nav-number">2.2.</span> <span class="nav-text">如何工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优点-1"><span class="nav-number">2.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局限性-1"><span class="nav-number">2.4.</span> <span class="nav-text">局限性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#投资组合理论与风险平价模型的主要区别"><span class="nav-number">3.</span> <span class="nav-text">投资组合理论与风险平价模型的主要区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标和重点："><span class="nav-number">3.1.</span> <span class="nav-text">目标和重点：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#风险分散方法"><span class="nav-number">3.2.</span> <span class="nav-text">风险分散方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#考虑因素："><span class="nav-number">3.3.</span> <span class="nav-text">考虑因素：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复杂性："><span class="nav-number">3.4.</span> <span class="nav-text">复杂性：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关注点："><span class="nav-number">3.5.</span> <span class="nav-text">关注点：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

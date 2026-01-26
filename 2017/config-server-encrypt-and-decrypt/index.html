@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="有时候我们会放一些敏感信息到配置中心里，比如线上数据库密码等，我们直接将敏感信息以明文的方式存储于微服务应用的配置文件中是非常危险的，Spring Cloud Config 提供了对属性进行加密解密的功能，以保护配置文件中的信息安全。 在 Spring Cloud Config 中通过在属性值前使用 {cipher} 前缀来标注该内容是一个加密值，当微服务客户端加载配置时，配置中心就会自动为带有">
+<meta name="keywords" content="SpringCloud,Config,加密,微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置中心的加密与解密功能">
+<meta property="og:url" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="有时候我们会放一些敏感信息到配置中心里，比如线上数据库密码等，我们直接将敏感信息以明文的方式存储于微服务应用的配置文件中是非常危险的，Spring Cloud Config 提供了对属性进行加密解密的功能，以保护配置文件中的信息安全。 在 Spring Cloud Config 中通过在属性值前使用 {cipher} 前缀来标注该内容是一个加密值，当微服务客户端加载配置时，配置中心就会自动为带有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/1.png">
+<meta property="og:image" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/2.png">
+<meta property="og:image" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/3.png">
+<meta property="og:image" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/4.png">
+<meta property="og:image" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/5.png">
+<meta property="og:image" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/6.png">
+<meta property="og:image" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/7.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.346Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="配置中心的加密与解密功能">
+<meta name="twitter:description" content="有时候我们会放一些敏感信息到配置中心里，比如线上数据库密码等，我们直接将敏感信息以明文的方式存储于微服务应用的配置文件中是非常危险的，Spring Cloud Config 提供了对属性进行加密解密的功能，以保护配置文件中的信息安全。 在 Spring Cloud Config 中通过在属性值前使用 {cipher} 前缀来标注该内容是一个加密值，当微服务客户端加载配置时，配置中心就会自动为带有">
+<meta name="twitter:image" content="https://jiapan.me/2017/config-server-encrypt-and-decrypt/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2017/config-server-encrypt-and-decrypt/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>配置中心的加密与解密功能 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2017/config-server-encrypt-and-decrypt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          配置中心的加密与解密功能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-03 14:57:09" itemprop="dateCreated datePublished" datetime="2017-08-03T14:57:09+08:00">2017-08-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/config-server-encrypt-and-decrypt/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/config-server-encrypt-and-decrypt/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>有时候我们会放一些敏感信息到配置中心里，比如线上数据库密码等，我们直接将敏感信息以明文的方式存储于微服务应用的配置文件中是非常危险的，Spring Cloud Config 提供了对属性进行加密解密的功能，以保护配置文件中的信息安全。</p>
+<p>在 Spring Cloud Config 中通过在属性值前使用 <code>{cipher}</code> 前缀来标注该内容是一个加密值，当微服务客户端加载配置时，配置中心就会自动为带有 <code>{cipher}</code> 前缀的值进行解密。这里有个需要注意的地方，如果配置文件使用的是 <code>yml</code> 格式的话，一定要用引号将内容包裹起来，<code>properites</code> 的配置文件不需要。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    password: &apos;&#123;cipher&#125;c400dd5d44f112518bbf870894e4b8a60fbc64680073aa535d363c28f038bb77&apos;</span><br></pre></td></tr></table></figure>
+<p>Spring Cloud Config 同时支持对称加密和非对称加密，下边我们只介绍对称加密的使用方式，一般来说只要密钥不被泄露，对称加密的方式就足够了。</p>
+<p>首先我们访问配置中心的 <code>/encrypt/status</code> 路径，可以看到返回结果提示我们还没有设置密钥，需要我们在配置文件中进行设置。</p>
+<p><img src="1.png" alt=""></p>
+<p>在配置中心项目的配置文件 <code>application.yml</code> 中加入以下配置即可（密钥根据根据需要自行修改）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">encrypt:</span><br><span class="line">  key: my-encrypt-key</span><br></pre></td></tr></table></figure>
+<p>然后重新编译后运行，再次访问 <code>/encrypt/status</code> 看到如下错误：</p>
+<p><img src="2.png" alt=""></p>
+<p>这是因为在 JRE 中，自带的 JCE 默认是有长度限制的版本，我们需要从 Oracle 官网下载不限长度的版本：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</a> ，下载解压后可以看到下边三个文件：</p>
+<p><img src="3.png" alt=""></p>
+<p>我们需要将 <code>local_policy.jar</code> 和 <code>US_export_policy.jar</code> 两个文件复制到<br><code>$JAVA_HOME/jre/lib/security</code><br>目录下，在复制前，最好将之前的两个文件进行备份，我将这两个文件放到了 lc0 机器的相应目录中，现在目录中的文件如下：</p>
+<p><img src="4.png" alt=""></p>
+<p>重新运行配置中心，访问 <code>/encrypt/status</code> 可以看到密钥已经生效了，并且配置中心已经支持对配置进行加密了。</p>
+<p><img src="5.png" alt=""></p>
+<p>此时，我们配置中心的加密解密功能就已经可以使用了，可以访问 <code>/encrypt</code> 和 <code>/decrypt</code> 来使用加密和解密功能。这两个端点都是 POST 请求，我们来用 <code>curl</code> 测试下：</p>
+<p><img src="6.png" alt=""></p>
+<p>我们用 <code>my-password</code> 为明文生成了<br><code>49db5b628a4b722ef776262d67c0fa9676de7767e54ecfb2be70df5157677d20</code><br>这个密文，同时又测试了解密功能。</p>
+<h3 id="下边我们在实际情景中运用一下加密解密功能"><a href="#下边我们在实际情景中运用一下加密解密功能" class="headerlink" title="下边我们在实际情景中运用一下加密解密功能"></a>下边我们在实际情景中运用一下加密解密功能</h3><p>在 GitLab 中修改 app-a 的 dev 配置文件，加上如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password: &apos;&#123;cipher&#125;49db5b628a4b722ef776262d67c0fa9676de7767e54ecfb2be70df5157677d20&apos;</span><br></pre></td></tr></table></figure>
+<p>然后在 app-a 中新加一个 Controller:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Value(&quot;$&#123;password&#125;&quot;)</span><br><span class="line">private String password;</span><br><span class="line"> </span><br><span class="line">@RequestMapping(value = &quot;/password&quot;, method = RequestMethod.GET)</span><br><span class="line">public String password() &#123;</span><br><span class="line">    return password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重新编译后运行，访问它的 <code>/password</code> 路径，可以看到结果：</p>
+<p><img src="7.png" alt=""></p>
+<p>我们通过配置 <code>encrypt.key</code> 参数来指定密钥的实现方式采用了对称加密。这种方式实现起来比较简单，只需要配置一个参数即可。另外，我们也可以使用环境变量 <code>ENCRYPT_KEY</code> 来进行配置，让密钥信息外置。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SpringCloud/" rel="tag"># SpringCloud</a>
+              <a href="/tags/Config/" rel="tag"># Config</a>
+              <a href="/tags/加密/" rel="tag"># 加密</a>
+              <a href="/tags/微服务/" rel="tag"># 微服务</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/eureka-config-outside/" rel="prev" title="Eureka Server 外置配置文件">
+      <i class="fa fa-chevron-left"></i> Eureka Server 外置配置文件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/exa-and-zsh-syntax-highlighting/" rel="next" title="exa 和 zsh-syntax-highlighting">
+      exa 和 zsh-syntax-highlighting <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下边我们在实际情景中运用一下加密解密功能"><span class="nav-number">1.</span> <span class="nav-text">下边我们在实际情景中运用一下加密解密功能</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

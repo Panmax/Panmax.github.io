@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="今天推荐一本我近期读到的质量很高的技术书（也可以说是我今年读到的最好的一本技术类书籍）：《数据密集型应用系统设计》，属于「动物书」系列，封面是一只野猪。这本书我从上个月 18 号开始读，每天拿出一个半小时左右阅读，于昨天（12月28号）读完，刚好用了 40 天，全书 500 多页，也算是一本大部头了。  本书作者 Martin Kleppmann 是英国剑桥大学分布式系统方向的研究员。之前在 Li">
+<meta name="keywords" content="分布式系统,数据密集型应用,系统设计,读书推荐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="好书推荐：《数据密集型应用系统设计》">
+<meta property="og:url" content="https://jiapan.me/2019/Designing-Data-Intensive-Application/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="今天推荐一本我近期读到的质量很高的技术书（也可以说是我今年读到的最好的一本技术类书籍）：《数据密集型应用系统设计》，属于「动物书」系列，封面是一只野猪。这本书我从上个月 18 号开始读，每天拿出一个半小时左右阅读，于昨天（12月28号）读完，刚好用了 40 天，全书 500 多页，也算是一本大部头了。  本书作者 Martin Kleppmann 是英国剑桥大学分布式系统方向的研究员。之前在 Li">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2019/Designing-Data-Intensive-Application/1.png">
+<meta property="og:image" content="https://jiapan.me/2019/Designing-Data-Intensive-Application/2.jpeg">
+<meta property="og:image" content="https://jiapan.me/2019/Designing-Data-Intensive-Application/3.png">
+<meta property="og:image" content="https://jiapan.me/2019/Designing-Data-Intensive-Application/4.png">
+<meta property="og:image" content="https://jiapan.me/2019/Designing-Data-Intensive-Application/5.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:56.873Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="好书推荐：《数据密集型应用系统设计》">
+<meta name="twitter:description" content="今天推荐一本我近期读到的质量很高的技术书（也可以说是我今年读到的最好的一本技术类书籍）：《数据密集型应用系统设计》，属于「动物书」系列，封面是一只野猪。这本书我从上个月 18 号开始读，每天拿出一个半小时左右阅读，于昨天（12月28号）读完，刚好用了 40 天，全书 500 多页，也算是一本大部头了。  本书作者 Martin Kleppmann 是英国剑桥大学分布式系统方向的研究员。之前在 Li">
+<meta name="twitter:image" content="https://jiapan.me/2019/Designing-Data-Intensive-Application/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2019/Designing-Data-Intensive-Application/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>好书推荐：《数据密集型应用系统设计》 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2019/Designing-Data-Intensive-Application/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          好书推荐：《数据密集型应用系统设计》
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-29 11:38:29" itemprop="dateCreated datePublished" datetime="2019-12-29T11:38:29+08:00">2019-12-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书/" itemprop="url" rel="index"><span itemprop="name">读书</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/Designing-Data-Intensive-Application/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/Designing-Data-Intensive-Application/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天推荐一本我近期读到的质量很高的技术书（也可以说是我今年读到的最好的一本技术类书籍）：《数据密集型应用系统设计》，属于「动物书」系列，封面是一只野猪。这本书我从上个月 18 号开始读，每天拿出一个半小时左右阅读，于昨天（12月28号）读完，刚好用了 40 天，全书 500 多页，也算是一本大部头了。</p>
+<p><img src="1.png" alt=""></p>
+<p>本书作者 Martin Kleppmann 是英国剑桥大学分布式系统方向的研究员。之前在 LinkedIn 和 Rapportive 等互联网公司做过软件工程师，负责大规模数据基础设施建设。在阅读过程中，我多次惊叹作者的知识面简直广得惊人，也善于举一反三，知识之间互相关联。</p>
+<p><img src="2.jpeg" alt=""></p>
+<p>全书脉络清晰，分为三个部分：</p>
+<p>第一部分介绍数据相关的基本思想，包括如何评价一个数据库（第一章），数据在逻辑上如何组织（第二章），在磁盘中如何分布（第三章），在表现上如何编码（第四章）。这些思想是一个数据系统的基本，无论它是单机的，还是分布式的。</p>
+<p>第二部分介绍分布式环境下的技术，包括复制（第五章）、分区（第六章）、分布式事务与共识（第七、八、九章）。这些技术大多是基于同构系统的，分布式事务虽然也能在异构系统中应用，但是复杂度要高很多。</p>
+<p>第三部分介绍异构系统中数据的处理技术，包括批处理（第十章）和流处理（第十一章），最后提出一种以流处理为主的异步数据处理方案，有可能在日后成为构建应用的主流方案（第十二章）。</p>
+<p>作者在最后一小节还讨论了大数据的伦理问题，尽管在现实世界中、在金钱利益面前，可能无人理会这些事情，但是这些夫子自道，还是很体现作者情怀，可以说这也是全书升华的地方，同时让我对作者肃然起敬再次 +1。</p>
+<p>书中把软件开发中（以后端为主）常用的技术本质、来龙去脉、使用场景、优点劣势都讲得非常清楚，并且讲解得深入浅出，把复杂的东西简单化，可见作者文笔之深厚。这一本书中囊括了几乎所有数据处理相关工作中可能遇到的内容，而且还提供了非常好的实操性。书中很多问题我在实际场景中也都遇到过，读起来使我醍醐灌顶、击节扼腕，每每读到我之前踩坑的地方都会想：如果我能早点读到这本书能少走很多弯路。</p>
+<p>书中的配图也很到位，大部分是流程图，有时候文字读不懂的地方，看到配图就会明白，我贴几张图感受一下：</p>
+<p>ETL 介绍：</p>
+<p><img src="3.png" alt=""></p>
+<p>出现脏读的场景：</p>
+<p><img src="4.png" alt=""></p>
+<p>跨多个数据中心的多主复制：</p>
+<p><img src="5.png" alt=""></p>
+<p>最后再来说一下本书中的一些瑕疵，中文版中有不少错别字，而且有些词汇前后翻译不一致，可能会给读者的阅读带来困扰，尤其是第三部分，明显感觉到译者不太用心了。</p>
+<p>本书英文版名为：《Designing Data-Intensive Application》，出版于 17 年 3 月份。这本书在网上有个开源的翻译版本，是因为那个开源作者在 17 年读完英文版后，觉得写得很好，而此时国内又没有出版计划，所以在 Github 开始了翻译的漫漫长路。中国的官方版本直到 18 年 9 月才发布，所以阅读过程中实际上可以对照两个版本一起来学习。开源版在线阅读地址：<a href="https://vonng.gitbooks.io/ddia-cn/content/" target="_blank" rel="noopener">https://vonng.gitbooks.io/ddia-cn/content/</a></p>
+<p>最后再立个 Flag，这本书我会在 2020 年进行 2 刷。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/分布式系统/" rel="tag"># 分布式系统</a>
+              <a href="/tags/数据密集型应用/" rel="tag"># 数据密集型应用</a>
+              <a href="/tags/系统设计/" rel="tag"># 系统设计</a>
+              <a href="/tags/读书推荐/" rel="tag"># 读书推荐</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/different-of-people/" rel="prev" title="理解人与人大不同">
+      <i class="fa fa-chevron-left"></i> 理解人与人大不同
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/flag-2019/" rel="next" title="2019 Flags">
+      2019 Flags <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

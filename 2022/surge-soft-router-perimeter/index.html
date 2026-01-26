@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="这段时间在家办公，家里的网络无法进行科学上网，不过我的所有设备上都装有 Surge，所以科学上网这件事对我倒是没太大影响，但有一个不方便的点是在需要访问公司内网的一些资源时（比如 Gitlab、有敏感数据的后台），需要先连接上 EasyConnect（即 VPN） 才可以访问。我平时使用 Surge 习惯开启「增强模式」，这样 Surge 可以接管我的全部网络，就不用再在一些软件中单独配置代理了，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Mac 上 使用 Surge 做旁路由的周边搭配">
+<meta property="og:url" content="https://jiapan.me/2022/surge-soft-router-perimeter/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="这段时间在家办公，家里的网络无法进行科学上网，不过我的所有设备上都装有 Surge，所以科学上网这件事对我倒是没太大影响，但有一个不方便的点是在需要访问公司内网的一些资源时（比如 Gitlab、有敏感数据的后台），需要先连接上 EasyConnect（即 VPN） 才可以访问。我平时使用 Surge 习惯开启「增强模式」，这样 Surge 可以接管我的全部网络，就不用再在一些软件中单独配置代理了，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/surge-soft-router-perimeter/Snipaste_2022-06-06_08-05-18.png">
+<meta property="og:image" content="https://jiapan.me/2022/surge-soft-router-perimeter/Snipaste_2022-06-06_08-05-24.png">
+<meta property="og:image" content="https://jiapan.me/2022/surge-soft-router-perimeter/20220606130430.png">
+<meta property="og:image" content="https://jiapan.me/2022/surge-soft-router-perimeter/20220606130449.png">
+<meta property="og:image" content="https://jiapan.me/2022/surge-soft-router-perimeter/Snipaste_2022-06-06_08-06-02.png">
+<meta property="og:image" content="https://jiapan.me/2022/surge-soft-router-perimeter/Snipaste_2022-06-06_08-13-03.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.770Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 Mac 上 使用 Surge 做旁路由的周边搭配">
+<meta name="twitter:description" content="这段时间在家办公，家里的网络无法进行科学上网，不过我的所有设备上都装有 Surge，所以科学上网这件事对我倒是没太大影响，但有一个不方便的点是在需要访问公司内网的一些资源时（比如 Gitlab、有敏感数据的后台），需要先连接上 EasyConnect（即 VPN） 才可以访问。我平时使用 Surge 习惯开启「增强模式」，这样 Surge 可以接管我的全部网络，就不用再在一些软件中单独配置代理了，">
+<meta name="twitter:image" content="https://jiapan.me/2022/surge-soft-router-perimeter/Snipaste_2022-06-06_08-05-18.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/surge-soft-router-perimeter/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>在 Mac 上 使用 Surge 做旁路由的周边搭配 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/surge-soft-router-perimeter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 Mac 上 使用 Surge 做旁路由的周边搭配
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-06-06 13:13:32" itemprop="dateCreated datePublished" datetime="2022-06-06T13:13:32+08:00">2022-06-06</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/surge-soft-router-perimeter/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/surge-soft-router-perimeter/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这段时间在家办公，家里的网络无法进行科学上网，不过我的所有设备上都装有 Surge，所以科学上网这件事对我倒是没太大影响，但有一个不方便的点是在需要访问公司内网的一些资源时（比如 Gitlab、有敏感数据的后台），需要先连接上 EasyConnect（即 VPN） 才可以访问。我平时使用 Surge 习惯开启「增强模式」，这样 Surge 可以接管我的全部网络，就不用再在一些软件中单独配置代理了，比如 iTerm、GoLand、Telegram。不过 EasyConnect 和 Surge 的「增强模式」有冲突，在开启「增强模式」时是无法使用 EasyConnect 的，每次都要先停用「增强模式」才行。具体冲突的原因在原理上我不是很清楚，我猜测是因为它们两个都是要接管所有网卡流量导致的。</p>
+<p>为了解决这个问题，也为了让家里所有设备都能实现无感知地科学上网，同时还可以做一些广告屏蔽和隐私保护，我准备使用我那台早已配淘汰了的 15 年 13 寸 Mac 做一个软路由。我所参考的教程是：<a href="https://qust.me/post/MacSurgeRouter/" target="_blank" rel="noopener">https://qust.me/post/MacSurgeRouter/</a> ，博主还非常贴心的录制了视频：<a href="https://www.youtube.com/watch?v=68lcT7ItyP4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=68lcT7ItyP4</a> 。不管是文章还是视频，都将如何配置软路由介绍的非常详细了，我在本文中补充几点配置好后我们还可以做的那些辅助工作。</p>
+<h2 id="让-Mac-合盖后不休眠"><a href="#让-Mac-合盖后不休眠" class="headerlink" title="让 Mac 合盖后不休眠"></a>让 Mac 合盖后不休眠</h2><p>我一直使用 <a href="https://apps.apple.com/cn/app/amphetamine/id937984704" target="_blank" rel="noopener">Amphetamine</a> 这个小工具来让我的电脑在我需要的时候保持不休眠状态。</p>
+<p>如果我们需要合盖后继续保持让设备不休眠，需要取消掉「当显示器关闭时允许系统休眠」的选项。</p>
+<p><img src="Snipaste_2022-06-06_08-05-18.png" width="50%" style="margin: 0 auto;"></p>
+<p>在取消这个选项时，Amphetamine 会提醒我们安装一个增强工具（Amphetamine EnHancer），用来保护我们的电脑，这里我也建议安装，安装后需要将增强工具内置的两个组件也要安装上才算启用成功。</p>
+<p><img src="Snipaste_2022-06-06_08-05-24.png" width="70%" style="margin: 0 auto;"></p>
+<h2 id="设备断网和低电量提醒"><a href="#设备断网和低电量提醒" class="headerlink" title="设备断网和低电量提醒"></a>设备断网和低电量提醒</h2><p>由于我的 13 寸 Mac 和公司配的 15 寸 Mac 电源适配器相同，所以我经常会让两个设备使用同一个电源，哪个没电了充哪个——我日常都是用自己的M1 Pro 所以不会太频繁给公司电脑充电，用一个电源足够。由于作为软路由的 13 寸 Mac 长时间处于合盖状态，我不知道它的剩余电量，有一次充 15 寸 Mac 后忘了充回去，导致晚上设备因没电关机了。我一开始只是发现手机无法连上 WIFI，以为是信号弱，但是到路由器旁边依然连不上，后来才想到是电脑关机了。因为电脑接管了 DHCP 服务，手机分配不到 IP 自然无法连上。</p>
+<p>为了避免这种情况，同时也为了避免不小心报错网线，我简单写了一个监控脚本来监控设备的状态。</p>
+<p>脚本实现功能如下：</p>
+<ol>
+<li>判断网络状况：定期 ping 一个地址，这个地址我跑在 AWS 的 Lambda 上，服务收到请求后记录最新请求时间，服务自身也会有定时任务检查上一次请求时间和当前时间的差值，如果超过一个阈值，则通过 Bark 给我发个推送。</li>
+<li>监控设备电量：当低于某个阈值时通过 Bark 提醒我。</li>
+</ol>
+<p>可以看出这个监控需要两组脚本，一个是部署在 Lambda 上的，用来判断设备网络情况，另一个是客户端本地用来 ping 服务和监控电量。</p>
+<h3 id="先来看启动在-Lambda-上的-handler："><a href="#先来看启动在-Lambda-上的-handler：" class="headerlink" title="先来看启动在 Lambda 上的  handler："></a>先来看启动在 Lambda 上的  handler：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mac_health</span><span class="params">(event, context)</span>:</span>  </span><br><span class="line">    update = <span class="keyword">False</span>  </span><br><span class="line">    <span class="keyword">if</span> event.get(<span class="string">'queryStringParameters'</span>) <span class="keyword">and</span> event.get(<span class="string">'queryStringParameters'</span>).get(<span class="string">'update'</span>):  </span><br><span class="line">        update = <span class="keyword">True</span>  </span><br><span class="line">  </span><br><span class="line">    t = time.time()  </span><br><span class="line">    ts = int(t)  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span> update: <span class="comment"># 我的Mac发送的携带 ?update=1 的请求，只更新最新时间  </span></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">'/tmp/now.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">            print(<span class="string">"===="</span>)  </span><br><span class="line">            f.write(str(ts))  </span><br><span class="line">            print(ts)  </span><br><span class="line">    <span class="keyword">else</span>: <span class="comment"># 有 cronjob 触发的请求，只判断健康状态  </span></span><br><span class="line">        <span class="keyword">try</span>:  </span><br><span class="line">            f = open(<span class="string">'/tmp/now.txt'</span>, <span class="string">'r'</span>)  </span><br><span class="line">            tmp_ts = f.read()  </span><br><span class="line">            <span class="keyword">if</span> tmp_ts:  </span><br><span class="line">                tmp_ts = int(tmp_ts)  </span><br><span class="line">            <span class="keyword">if</span> ts - tmp_ts &gt; <span class="number">3</span> * <span class="number">60</span>:  </span><br><span class="line">                print(<span class="string">"no heart beat"</span>)  </span><br><span class="line">                requests.get(<span class="string">'https://api.day.app/YOUR_KEY/'</span> + <span class="string">'请注意：你的Mac离线了'</span> + <span class="string">'/'</span> + <span class="string">'请检查网络状态'</span>)  </span><br><span class="line">            <span class="keyword">else</span>:  </span><br><span class="line">                print(<span class="string">"status health"</span>)  </span><br><span class="line">            print(tmp_ts)  </span><br><span class="line">            f.close()  </span><br><span class="line">        <span class="keyword">except</span> Exception:  </span><br><span class="line">            print(<span class="string">"read error"</span>)  </span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">'/tmp/now.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> f:  </span><br><span class="line">                print(<span class="string">"===="</span>)  </span><br><span class="line">                f.write(str(ts))  </span><br><span class="line">                print(ts)  </span><br><span class="line">    <span class="keyword">return</span> &#123;  </span><br><span class="line">        <span class="string">"statusCode"</span>: <span class="number">200</span>,  </span><br><span class="line">        <span class="string">"body"</span>: json.dumps(  </span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="string">"time"</span>: ts  </span><br><span class="line">            &#125;  </span><br><span class="line">        )  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>serverless.yml：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">functions:</span></span><br><span class="line"><span class="attr">  mac_health:</span>  </span><br><span class="line"><span class="attr">    handler:</span> <span class="string">handler.mac_health</span>  </span><br><span class="line"><span class="attr">    events:</span>  </span><br><span class="line"><span class="attr">      - schedule:</span> <span class="string">cron(*/2</span> <span class="string">*</span> <span class="string">*</span> <span class="string">*</span> <span class="string">?</span> <span class="string">*)</span>  </span><br><span class="line"><span class="attr">      - http:</span>  </span><br><span class="line"><span class="attr">          path:</span> <span class="string">mac_health</span>  </span><br><span class="line"><span class="attr">          method:</span> <span class="string">get</span></span><br></pre></td></tr></table></figure>
+<p>这里我不再介绍 Lambda 如何使用，可以参考我之前的其他文章：</p>
+<ul>
+<li><a href="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/">https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/</a></li>
+<li><a href="https://jiapan.me/2022/use-aws-lambda-push-blog-comment/">https://jiapan.me/2022/use-aws-lambda-push-blog-comment/</a></li>
+</ul>
+<p>上边代码我做个补充说明：</p>
+<ul>
+<li>Lambda 是完全无状态的服务，而且随时有可能被 kill 然后启动在其它实例上，所以我们最好不要将最后 ping 时间记录在内存中，如果也不想借助外部存储的话，我们可以借助 <code>/tmp</code> 目录来临时存储这个数据，AWS 为每个 Lambda 提供 500MB <code>/tmp</code> 下的存储空间。</li>
+<li>我在用 Mac 访问 Lambda endpoint 的时候会带上 <code>?update=1</code> 这个参数，这样就可以把最新时间记录下来，而系统通过 cronjob 调用自己的时候不记录时间，只进行时间差判断。</li>
+</ul>
+<h3 id="再来看下Mac断的脚本："><a href="#再来看下Mac断的脚本：" class="headerlink" title="再来看下Mac断的脚本："></a>再来看下Mac断的脚本：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            res = requests.get(<span class="string">"https://xxxxxxxx.execute-api.ap-east-1.amazonaws.com/dev/mac_health?update=1"</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            print(<span class="string">"requests error"</span>)</span><br><span class="line">            time.sleep(<span class="number">10</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        print(res.status_code)</span><br><span class="line">        battery = os.popen(<span class="string">'pmset -g batt | grep -Eo "\d+%" | cut -d% -f1'</span>).read()</span><br><span class="line">        battery = int(battery)</span><br><span class="line">        print(battery)</span><br><span class="line">        <span class="keyword">if</span> battery &lt; <span class="number">50</span>:</span><br><span class="line">            requests.get(<span class="string">'https://api.day.app/YOU_KEY/'</span> + <span class="string">'请注意：你的Mac电量过低'</span> + <span class="string">'/'</span> + <span class="string">'请检查电源状态，剩余电量: %d%%'</span> % (battery,))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"ok"</span>)</span><br><span class="line">        time.sleep(<span class="number">60</span>)</span><br></pre></td></tr></table></figure>
+<p>逻辑也比较简单，这里是通过一个系统 <code>shell</code> 调用来获取的电量。</p>
+<h3 id="将电脑电源拔掉，把报警阈值调到-97-的效果："><a href="#将电脑电源拔掉，把报警阈值调到-97-的效果：" class="headerlink" title="将电脑电源拔掉，把报警阈值调到 97 的效果："></a>将电脑电源拔掉，把报警阈值调到 97 的效果：</h3><p><img src="20220606130430.png" width="50%" style="margin: 0 auto;"></p>
+<h3 id="拔掉网线后的效果："><a href="#拔掉网线后的效果：" class="headerlink" title="拔掉网线后的效果："></a>拔掉网线后的效果：</h3><p><img src="20220606130449.png" width="50%" style="margin: 0 auto;"></p>
+<h2 id="将最大充电量设置为-70"><a href="#将最大充电量设置为-70" class="headerlink" title="将最大充电量设置为 70%"></a>将最大充电量设置为 70%</h2><p>电脑像这样长期插着电源并保持开机状态对电池的损耗非常大，为了避免对电池损耗过快，建议将最大充电量设置为 60%-80% 之间，我们可以借助 <a href="https://github.com/zackelia/bclm" target="_blank" rel="noopener">bclm</a> 这个小工具实现，工具名是 Battery Charge Level Max 的缩写。安装方式参考官方文档，我自己是将二进制包下下来放到 bin（/usr/local/bin） 目录来直接使用的。</p>
+<p>bclm 提供命令非常简单：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 获取当前电池的最大充电量</span></span><br><span class="line">bclm read</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置最大充电量，一定要在最前边加 sudo</span></span><br><span class="line">sudo bclm write 70</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 持久化最大充电量设置，避免覆盖和重启失效</span></span><br><span class="line">sudo bclm persist</span><br></pre></td></tr></table></figure>
+<p><img src="Snipaste_2022-06-06_08-06-02.png" width="50%" style="margin: 0 auto;"></p>
+<p>当前我的剩余电量是 84%，通过其他监控工具可以看到即使我插上充电器，也不会进入充电状态：</p>
+<p><img src="Snipaste_2022-06-06_08-13-03.png" width="50%" style="margin: 0 auto;"></p>
+<p>（电池已经要不行了 👋🏻）</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>软路由用了两周多了，给我最明显的体验是，电视上之前每次开机都要等待的 60 秒广告没有了；因为在我的工作 Mac 上已经不用再运行 Surge，在连公司网络 VPN 时也不用先去关闭 Surge 的 「增强模式」了。</p>
+<p>也存在不方便的地方，我在外边使用手机，通过流量上网的时候要手动打开 Surge，而到家连上 WIFI 后又要手动关闭，如果忘记操作就会有打不开网站的情况。不知道能否通过快捷指令将个操作自动化，我目前还没有找到自动化解决方案。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/storm-in-ward-select/" rel="prev" title="《暴雨下载病房里》节选">
+      <i class="fa fa-chevron-left"></i> 《暴雨下载病房里》节选
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/my-app-seven-deadly-sins/" rel="next" title="我在使用软件时的七宗罪">
+      我在使用软件时的七宗罪 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#让-Mac-合盖后不休眠"><span class="nav-number">1.</span> <span class="nav-text">让 Mac 合盖后不休眠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设备断网和低电量提醒"><span class="nav-number">2.</span> <span class="nav-text">设备断网和低电量提醒</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先来看启动在-Lambda-上的-handler："><span class="nav-number">2.1.</span> <span class="nav-text">先来看启动在 Lambda 上的  handler：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再来看下Mac断的脚本："><span class="nav-number">2.2.</span> <span class="nav-text">再来看下Mac断的脚本：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将电脑电源拔掉，把报警阈值调到-97-的效果："><span class="nav-number">2.3.</span> <span class="nav-text">将电脑电源拔掉，把报警阈值调到 97 的效果：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拔掉网线后的效果："><span class="nav-number">2.4.</span> <span class="nav-text">拔掉网线后的效果：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将最大充电量设置为-70"><span class="nav-number">3.</span> <span class="nav-text">将最大充电量设置为 70%</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

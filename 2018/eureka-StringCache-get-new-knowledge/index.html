@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="今天在读 Eureka 源码时，看到了它里边实现了一个工具类 StringCache 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。 StringCache 实现了一个字符串缓存，代码如下 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
+<meta name="keywords" content="源码分析,Java,缓存,Eureka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阅读 Eureka 的 StringCache 源码 get 到的知识">
+<meta property="og:url" content="https://jiapan.me/2018/eureka-StringCache-get-new-knowledge/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="今天在读 Eureka 源码时，看到了它里边实现了一个工具类 StringCache 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。 StringCache 实现了一个字符串缓存，代码如下 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.489Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阅读 Eureka 的 StringCache 源码 get 到的知识">
+<meta name="twitter:description" content="今天在读 Eureka 源码时，看到了它里边实现了一个工具类 StringCache 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。 StringCache 实现了一个字符串缓存，代码如下 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
+
+<link rel="canonical" href="https://jiapan.me/2018/eureka-StringCache-get-new-knowledge/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>阅读 Eureka 的 StringCache 源码 get 到的知识 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2018/eureka-StringCache-get-new-knowledge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阅读 Eureka 的 StringCache 源码 get 到的知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-15 15:49:24" itemprop="dateCreated datePublished" datetime="2018-01-15T15:49:24+08:00">2018-01-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2018/eureka-StringCache-get-new-knowledge/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/eureka-StringCache-get-new-knowledge/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天在读 Eureka 源码时，看到了它里边实现了一个工具类 <code>StringCache</code> 阅读后我产生了几个疑问，查阅资料后一一进行了解决，受益良多并以此文进行记录。</p>
+<p><code>StringCache</code> 实现了一个字符串缓存，代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">public class StringCache &#123;</span><br><span class="line"></span><br><span class="line">    public static final int LENGTH_LIMIT = 38;</span><br><span class="line"></span><br><span class="line">    private static final StringCache INSTANCE = new StringCache();</span><br><span class="line"></span><br><span class="line">    private final ReadWriteLock lock = new ReentrantReadWriteLock();</span><br><span class="line">    private final Map&lt;String, WeakReference&lt;String&gt;&gt; cache = new WeakHashMap&lt;String, WeakReference&lt;String&gt;&gt;();</span><br><span class="line">    private final int lengthLimit;</span><br><span class="line"></span><br><span class="line">    public StringCache() &#123;</span><br><span class="line">        this(LENGTH_LIMIT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public StringCache(int lengthLimit) &#123;</span><br><span class="line">        this.lengthLimit = lengthLimit;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String cachedValueOf(final String str) &#123;</span><br><span class="line">        if (str != null &amp;&amp; (lengthLimit &lt; 0 || str.length() &lt;= lengthLimit)) &#123;</span><br><span class="line">            // Return value from cache if available</span><br><span class="line">            try &#123;</span><br><span class="line">                lock.readLock().lock();</span><br><span class="line">                WeakReference&lt;String&gt; ref = cache.get(str);</span><br><span class="line">                if (ref != null) &#123;</span><br><span class="line">                    return ref.get();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                lock.readLock().unlock();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // Update cache with new content</span><br><span class="line">            try &#123;</span><br><span class="line">                lock.writeLock().lock();</span><br><span class="line">                WeakReference&lt;String&gt; ref = cache.get(str);</span><br><span class="line">                if (ref != null) &#123;</span><br><span class="line">                    return ref.get();</span><br><span class="line">                &#125;</span><br><span class="line">                cache.put(str, new WeakReference&lt;&gt;(str));</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                lock.writeLock().unlock();</span><br><span class="line">            &#125;</span><br><span class="line">            return str;</span><br><span class="line">        &#125;</span><br><span class="line">        return str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int size() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            lock.readLock().lock();</span><br><span class="line">            return cache.size();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            lock.readLock().unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static String intern(String original) &#123;</span><br><span class="line">        return INSTANCE.cachedValueOf(original);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="什么是字符串常量池？"><a href="#什么是字符串常量池？" class="headerlink" title="什么是字符串常量池？"></a>什么是字符串常量池？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String s = &quot;a&quot; + &quot;bc&quot;;</span><br><span class="line">String t = &quot;ab&quot; + &quot;c&quot;;</span><br><span class="line">System.out.println(s == t);</span><br></pre></td></tr></table></figure>
+<p>上边这段程序会打印 <code>true</code>（尽管我们没有使用正确比较字符串的 <code>equals</code> 方法）</p>
+<p>当编译器优化字符串的字面值时，它看到 <code>s</code> 和 <code>t</code> 有相同的值，因为字符串在 Java 中是不可变的，所以提供同一个字符串对象也是安全的，因此 <code>s</code> 和 <code>t</code> 指向了同一个对象并且节省了一丢丢的内存。</p>
+<p>「字符串常量池」的灵感来源于这样的想法：所有已定义的字符串都存储在一个「池子」中，在创建新的 <code>String</code> 对象前，编译器需要检查这个字符串是否已经被定义，若已经在「池子」中存在就直接拿出来用。</p>
+<p>也就是说 Java 编译器已经用字符串常量池实现了字符串缓存的特性，在我们直接使用双引号来声明 <code>String</code> 对象时会自动利用以上特性，如果不是用双引号声明的，可以用 <code>String</code> 提供的 <code>intern()</code> 方法。<code>intern()</code> 方法会从字符串常量池中查询当前字符串是否存在，若不存在就会将当前字符串放入常量池中。</p>
+<p>示例程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String a1 = &quot;aaa&quot;;</span><br><span class="line">String a2 = &quot;aaa&quot;;</span><br><span class="line">String a3 = new String(&quot;aaa&quot;);</span><br><span class="line">System.out.println(a1 == a2);           // true</span><br><span class="line">System.out.println(a1 == a3);           // false</span><br><span class="line">System.out.println(a1 == a3.intern());  // true</span><br><span class="line"></span><br><span class="line">String b1 = new String(&quot;bbb&quot;).intern();</span><br><span class="line">String b2 = &quot;bbb&quot;;</span><br><span class="line">System.out.println(b1 == b2);           // true</span><br></pre></td></tr></table></figure>
+<h3 id="为什么-Eureka-要再造轮子？"><a href="#为什么-Eureka-要再造轮子？" class="headerlink" title="为什么 Eureka 要再造轮子？"></a>为什么 Eureka 要再造轮子？</h3><p>既然 Java 编译器已经对相同的字符串进行了优化，为什么 Eureka 还要再造一个轮子呢，因为字符串常量池在存储大量的字符串后，会出现严重的性能问题。</p>
+<p>以下解释来自美团点评技术团队编写的 <a href="https://tech.meituan.com/in_depth_understanding_string_intern.html" target="_blank" rel="noopener">深入解析String#intern</a> 一文：</p>
+<blockquote>
+<p>Java 使用 JNI 调用 C++ 实现的 StringTable 的 intern 方法，StringTable 的 intern 方法跟 Java 中的 HashMap 的实现是差不多的，只是不能自动扩容。默认大小是1009。</p>
+</blockquote>
+<blockquote>
+<p>要注意的是，String 的 String Pool 是一个固定大小的 Hashtable，默认值大小长度是1009，如果放进 String Pool 的 String 非常多，就会造成 Hash 冲突严重，从而导致链表会很长，而链表长了后直接会造成的影响就是当调用 String.intern 时性能会大幅下降（因为要一个一个找）。</p>
+</blockquote>
+<p>好了原因解释清楚了，我们来看一下具体实现中有那哪些问题。</p>
+<h3 id="WeakHashMap-和-HashMap-有什么区别？"><a href="#WeakHashMap-和-HashMap-有什么区别？" class="headerlink" title="WeakHashMap 和 HashMap 有什么区别？"></a>WeakHashMap 和 HashMap 有什么区别？</h3><p><code>StringCache</code> 的代码不难理解，大致就是声明一个锁和一个 <code>Map</code>，取值时先获取锁，如果存在就直接从 <code>Map</code>中 <code>get</code> 出来然后返回，不存在就 <code>put</code> 进去作为缓存以便下次使用。</p>
+<p>这里声明的 <code>Map</code> 类型是 <code>WeakHashMap</code>，这种 <code>Map</code> 的特点是，当除了自身有对 <code>key</code> 的引用外，此 <code>key</code> 没有其他引用那么这个 <code>map</code> 会自动丢弃此值。</p>
+<p>示例程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">String a = new String(&quot;a&quot;);</span><br><span class="line">String b = new String(&quot;b&quot;);</span><br><span class="line">Map&lt;String, String&gt; weakmap = new WeakHashMap();</span><br><span class="line">Map&lt;String, String&gt; map = new HashMap();</span><br><span class="line">map.put(a, &quot;aaa&quot;);</span><br><span class="line">map.put(b, &quot;bbb&quot;);</span><br><span class="line"></span><br><span class="line">weakmap.put(a, &quot;aaa&quot;);</span><br><span class="line">weakmap.put(b, &quot;bbb&quot;);</span><br><span class="line"></span><br><span class="line">map.remove(a);</span><br><span class="line">a = null;</span><br><span class="line">b = null;</span><br><span class="line"></span><br><span class="line">System.gc();</span><br><span class="line">Iterator i = map.entrySet().iterator();</span><br><span class="line">while (i.hasNext()) &#123;</span><br><span class="line">    Map.Entry en = (Map.Entry)i.next();</span><br><span class="line">    System.out.println(&quot;map: &quot;+en.getKey()+&quot;:&quot;+en.getValue());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Iterator j = weakmap.entrySet().iterator();</span><br><span class="line">while (j.hasNext()) &#123;</span><br><span class="line">    Map.Entry en = (Map.Entry)j.next();</span><br><span class="line">    System.out.println(&quot;weakmap: &quot;+en.getKey()+&quot;:&quot;+en.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们声明了两个 <code>Map</code> 对象，一个是 <code>HashMap</code>，一个是 <code>WeakHashMap</code>，同时向两个 <code>map</code> 中放入 <code>a</code>、<code>b</code> 两个对象，从 <code>HashMap</code> 中 <code>remove</code>掉 <code>a</code> 并且将 <code>a</code>、<code>b</code> 都指向 <code>null</code> 时，<code>WeakHashMap</code> 中的 <code>a</code> 将自动被回收掉。出现这个状况的原因是，对于 <code>a</code> 对象而言，当从 <code>HashMap</code> 中 <code>remove</code> 掉 <code>a</code> 并且将 <code>a</code> 指向 <code>null</code> 后，除了 <code>WeakHashMap</code> 中还保存 <code>a</code> 外已经没有指向 <code>a</code> 的指针了，所以 <code>WeakHashMap</code> 会自动舍弃掉 <code>a</code>，而对于 <code>b</code> 对象虽然指向了<code>null</code>，但 <code>HashMap</code> 中还有指向 <code>b</code> 的指针，所以 <code>WeakHashMap</code> 将会保留 <code>b</code>。</p>
+<p>以上程序得到的结果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map: b:bbb</span><br><span class="line">weakmap: b:bbb</span><br></pre></td></tr></table></figure>
+<h3 id="WeakReference-和普通的引用有什么区别？"><a href="#WeakReference-和普通的引用有什么区别？" class="headerlink" title="WeakReference 和普通的引用有什么区别？"></a>WeakReference 和普通的引用有什么区别？</h3><p>可以看到我们的 <code>StringCache</code> 中的 <code>Map</code> 值类型用的是 <code>WeakReference&lt;String&gt;</code>，如果你希望能随时取得某对象的信息，但又不想影响此对象的垃圾收集，那么你应该用 <strong>Weak Reference</strong> 来记住此对象，而不是用一般的 <strong>reference</strong>。</p>
+<p>如果不这样用，会导致我们 <code>Map</code> 的值也会引用我们想缓存的字符串，这就导致即使 <code>key</code> 已经没有任何地方引用了，这个 <code>WeakHashMap</code> 也不会丢弃此值。</p>
+<h3 id="ReentrantReadWriteLock-有什么特性？"><a href="#ReentrantReadWriteLock-有什么特性？" class="headerlink" title="ReentrantReadWriteLock 有什么特性？"></a>ReentrantReadWriteLock 有什么特性？</h3><p><code>ReentrantReadWriteLock</code> 是一个读写锁：分为读锁和写锁，多个读锁不互斥，读锁与写锁互斥，这是由 jvm 自己控制的，你只要上好相应的锁即可。如果你的代码只读数据，可以很多人同时读，但不能同时写，那就上读锁；如果你的代码修改数据，只能有一个人在写，且不能同时读取，那就上写锁。总之，读的时候上读锁，写的时候上写锁。</p>
+<h4 id="线程进入读锁的前提条件："><a href="#线程进入读锁的前提条件：" class="headerlink" title="线程进入读锁的前提条件："></a>线程进入读锁的前提条件：</h4><ul>
+<li>没有其他线程的写锁，</li>
+<li>没有写请求或者有写请求，但调用线程和持有锁的线程是同一个</li>
+</ul>
+<h4 id="线程进入写锁的前提条件："><a href="#线程进入写锁的前提条件：" class="headerlink" title="线程进入写锁的前提条件："></a>线程进入写锁的前提条件：</h4><ul>
+<li>没有其他线程的读锁</li>
+<li>没有其他线程的写锁</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/源码分析/" rel="tag"># 源码分析</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/缓存/" rel="tag"># 缓存</a>
+              <a href="/tags/Eureka/" rel="tag"># Eureka</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/neo4j-tutorial-browser/" rel="prev" title="Neo4j 入门教程 - Neo4j 浏览器">
+      <i class="fa fa-chevron-left"></i> Neo4j 入门教程 - Neo4j 浏览器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/neo4j-tutorial-cypher/" rel="next" title="Neo4j 入门教程 - 查询语言 Cypher">
+      Neo4j 入门教程 - 查询语言 Cypher <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是字符串常量池？"><span class="nav-number">1.</span> <span class="nav-text">什么是字符串常量池？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么-Eureka-要再造轮子？"><span class="nav-number">2.</span> <span class="nav-text">为什么 Eureka 要再造轮子？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakHashMap-和-HashMap-有什么区别？"><span class="nav-number">3.</span> <span class="nav-text">WeakHashMap 和 HashMap 有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakReference-和普通的引用有什么区别？"><span class="nav-number">4.</span> <span class="nav-text">WeakReference 和普通的引用有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReentrantReadWriteLock-有什么特性？"><span class="nav-number">5.</span> <span class="nav-text">ReentrantReadWriteLock 有什么特性？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程进入读锁的前提条件："><span class="nav-number">5.1.</span> <span class="nav-text">线程进入读锁的前提条件：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程进入写锁的前提条件："><span class="nav-number">5.2.</span> <span class="nav-text">线程进入写锁的前提条件：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

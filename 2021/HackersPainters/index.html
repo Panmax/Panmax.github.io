@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="译者序自由软件基金会创始人理查德·斯托尔曼说：“出于兴趣而解决某个难题，不管它有没有用，这就是黑客。” 黑客的六条价值观：  使用计算机以及所有有助于了解这个世界本质的事物都不应受到任何限制。任何事情都应该亲手尝试。 信息应该全部免费。 不信任权威，提倡去中心化。 判断一名黑客的水平应该看他的技术能力，而不是看他的学历、年龄或地位等其他标准。 你可以用计算机创造美和艺术。 计算机使生活更美好。">
+<meta name="keywords" content="读书笔记,黑客与画家,编程哲学,创业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《黑客与画家》摘抄">
+<meta property="og:url" content="https://jiapan.me/2021/HackersPainters/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="译者序自由软件基金会创始人理查德·斯托尔曼说：“出于兴趣而解决某个难题，不管它有没有用，这就是黑客。” 黑客的六条价值观：  使用计算机以及所有有助于了解这个世界本质的事物都不应受到任何限制。任何事情都应该亲手尝试。 信息应该全部免费。 不信任权威，提倡去中心化。 判断一名黑客的水平应该看他的技术能力，而不是看他的学历、年龄或地位等其他标准。 你可以用计算机创造美和艺术。 计算机使生活更美好。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.209Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《黑客与画家》摘抄">
+<meta name="twitter:description" content="译者序自由软件基金会创始人理查德·斯托尔曼说：“出于兴趣而解决某个难题，不管它有没有用，这就是黑客。” 黑客的六条价值观：  使用计算机以及所有有助于了解这个世界本质的事物都不应受到任何限制。任何事情都应该亲手尝试。 信息应该全部免费。 不信任权威，提倡去中心化。 判断一名黑客的水平应该看他的技术能力，而不是看他的学历、年龄或地位等其他标准。 你可以用计算机创造美和艺术。 计算机使生活更美好。">
+
+<link rel="canonical" href="https://jiapan.me/2021/HackersPainters/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>《黑客与画家》摘抄 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2021/HackersPainters/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《黑客与画家》摘抄
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-10-20 13:44:36" itemprop="dateCreated datePublished" datetime="2021-10-20T13:44:36+08:00">2021-10-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书/" itemprop="url" rel="index"><span itemprop="name">读书</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/HackersPainters/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/HackersPainters/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="译者序"><a href="#译者序" class="headerlink" title="译者序"></a>译者序</h3><p>自由软件基金会创始人理查德·斯托尔曼说：“出于兴趣而解决某个难题，不管它有没有用，这就是黑客。”</p>
+<p>黑客的六条价值观：</p>
+<ol>
+<li>使用计算机以及所有有助于了解这个世界本质的事物都不应受到任何限制。任何事情都应该亲手尝试。</li>
+<li>信息应该全部免费。</li>
+<li>不信任权威，提倡去中心化。</li>
+<li>判断一名黑客的水平应该看他的技术能力，而不是看他的学历、年龄或地位等其他标准。</li>
+<li>你可以用计算机创造美和艺术。</li>
+<li>计算机使生活更美好。</li>
+</ol>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>人们区分程序员甚至不是看他们写了什么程序，而是看他们使用什么语言。</p>
+<h3 id="1-为什么书呆子不受欢迎"><a href="#1-为什么书呆子不受欢迎" class="headerlink" title="1. 为什么书呆子不受欢迎"></a>1. 为什么书呆子不受欢迎</h3><p>受父母的影响，书呆子被教导追求正确答案，而受欢迎的小孩被教导讨人喜欢。</p>
+<p>青少年在心理上还没有摆脱儿童状态，许多人都会残忍地对待他人。他们折磨书呆子的原因就像拔掉一条蜘蛛腿一样，觉得很好玩。在一个人产生良知之前，折磨就是一种娱乐。</p>
+<p>在任何社会等级制度中，那些对自己没自信的人就会通过虐待他们眼中的下等人来突显自己的身份。我已经意识到，正是因为这个原因，在美国社会中底层白人是对待黑人最残酷的群体。</p>
+<p>不受欢迎是一种传染病，虽然善良的孩子不会去欺负书呆子，但是为了保护自己，也依然会与书呆子保持距离。难怪聪明的小孩读中学时往往是不快乐的。</p>
+<p>公立学校的老师很像监狱的狱卒。看管监狱的人主要关心的是犯人都待在自己应该待的位置。然后，让犯人有东西吃，尽可能不要发生斗殴和伤害事件，这就可以了。除此以外，他们一件事也不愿多管，没必要自找麻烦。所以，他们就听任犯人内部形成各种各样的小集团。</p>
+<p>真实世界的关键并非在于它是由成年人组成的，而在于它的庞大规模使得你做的每件事都能产生真正意义上的效果。</p>
+<p>表面上，学校的使命是教育儿童。事实上，学校的真正目的是把儿童都关在同一个地方，以便大人们白天可以腾出手来把事情做完。</p>
+<p>人类喜欢工作，在世界上大多数地方，你的工作就是你的身份证明。</p>
+<p>以前的青少年似乎也更尊敬成年人，因为成年人都是看得见的专家，会传授他们所要学习的技能。如今的大多数青少年，对他们的家长在遥远的办公室所从事的工作几乎一无所知。他们看不到学校作业与未来走上社会后从事的工作有何联系。</p>
+<p>校园生活的两大恐怖之处——残忍和无聊</p>
+<p>校园生活的真正问题是空虚。</p>
+<h3 id="2-黑客与画家"><a href="#2-黑客与画家" class="headerlink" title="2. 黑客与画家"></a>2. 黑客与画家</h3><p>黑客与画家的共同之处，在于他们都是<strong>创作者</strong>。与作曲家、建筑师、作家一样，黑客和画家都是试图<strong>创作出优秀的作品</strong>。</p>
+<p>黑客的最髙境界是创造规格。</p>
+<p>创造优美事物的方式往往不是从头做起，而是在现有成果的基础上做一些小小的调整，或者将已有的观点用比较新的方式组合起来。</p>
+<p>黑客搞懂“计算理论”（theory of computation）的必要性，与画家搞懂颜料化学成分的必要性差不多大。</p>
+<p>大学里教给我的编程方法都是错的。你把整个程序想清楚的时间点，应该是在编写代码的同时，而不是在编写代码之前，这与作家、画家和建筑师的做法完全一样。</p>
+<p>编程语言首要的特性应该是允许动态扩展（malleable）。编程语言是用来帮助思考程序的，而不是用来表达你已经想好的程序。它应该是一支铅笔，而不是一支钢笔。</p>
+<p>大学和实验室强迫黑客成为科学家，企业强迫黑客成为工程师。</p>
+<p>程序员被当作技工，职责就是将产品经理的“构想”（如果这个词是这么用的话）翻译成代码……。大公司这样安排的原因是为了减少结果的标准差……。但是当你排斥差异的时候，你不仅将失败的可能性排除在外，也将获得高利润的可能性排除在外。</p>
+<p>开发优秀软件的方法之一就是自己创业。</p>
+<p>自己创业的两个问题：</p>
+<ul>
+<li>一个是自己开公司的话，必须处理许许多多与开发软件完全无关的事情。</li>
+<li>另一个问题是赚钱的软件往往不是好玩的软件，两者的重叠度不髙。</li>
+</ul>
+<p>如果你想赚钱，你可能不得不去干那些很麻烦很讨厌的事情，因为这些事情没人愿意义务来干。</p>
+<p>我们面试程序员的时候，主要关注的事情就是业余时间他们写了什么软件。因为如果你不爱一件事，你不可能把它做得真正优秀，要是你很热爱编程，你就不可避免地会开发你自己的项目。</p>
+<p>黑客的出发点是原创，最终得到一个优美的结果；而科学家的出发点是别人优美的结果，最终得到原创性。</p>
+<p>你不能盼望先有一个完美的规格设计，然后再动手编程，这样想是不现实的。如果你预先承认规格设计是不完美的，在编程的时候，就可以根据需要当场修改规格，最终会有一个更好的结果。</p>
+<p>最容易修改的语言就是简短的语言。</p>
+<p>坚持一丝不苟，就能取得优秀的成果。因为那些看不见的细节累加起来，就变得可见了。</p>
+<p>需要合作，但是不要“合”得过头……。正确的合作方法是将项目分割成严格定义的模块，每一个模块由一个人明确负责。模块与模块之间的接口经过精心设计，如果可能的话，最好把文档说明写得像编程语言规范那样清晰。</p>
+<p>通黑客与优秀黑客的所有区别之中，会不会“换位思考”可能是最重要的单个因素。</p>
+<p>判断一个人是否具备“换位思考”的能力有一个好方法，那就是看他怎样向没有技术背景的人解释技术问题。</p>
+<p>如果我只能让别人记住一句关于编程的名言，那么这句名言就是《计算机程序的结构与解释》一书的卷首语：程序写出来是给人看的，附带能在机器上运行。</p>
+<h3 id="3-不能说的话"><a href="#3-不能说的话" class="headerlink" title="3. 不能说的话"></a>3. 不能说的话</h3><p>所谓“流行”（传统观念也是一种流行），本质上就是自己看不见自己的样子。</p>
+<p>历史的常态似乎就是，任何一个年代的人们，都会对一些荒谬的东西深信不疑。</p>
+<p>最令人暴跳如雷的言论，就是被认为说出了真相的言论。</p>
+<p>最先从你头脑中跳出来的想法，往往就是最困扰你、很可能为真的想法。你已经注意到它们，但还没有认真思考过。</p>
+<p>如果某个观点在大部分时空都是不受禁止的，只有我们这个社会才把它当作禁忌，那么很可能是我们出错了。</p>
+<p>孩子眼里的世界是不真实的，是一个被灌输进他们头脑的假想世界。将来当孩子长大以后接触社会，就会发现小时候以为真实的事情，在现实世界中是荒唐可笑的。</p>
+<p>找出不能说的话的四种方式：</p>
+<ol>
+<li>判断言论的真伪</li>
+<li>关注“异端邪说”</li>
+<li>回顾过去</li>
+<li>寻找那些一本正经的卫道者，看看他们到底在捍卫者什么</li>
+</ol>
+<p>流行的时尚产生于某个有影响力的人物，他突发奇想，接着其他人纷纷模仿。</p>
+<p>但是，流行的道德观念不是这样，它们往往不是偶然产生的，而是被刻意创造出来的。如果有些观点我们不能说出口，原因很可能是某些团体不允许我们说。</p>
+<p>如果一个团体强大到无比自信，它根本不会在乎别人的抨击。美国人或者英国人对外国媒体的诋毁就毫不在意。</p>
+<p>大多数的斗争，不管它们实际上争的是什么，都会以思想斗争的形式表现出来。</p>
+<p>优秀作品往往来自于其他人忽视的想法，而最被忽视的想法就是那些被禁止的思想观点。</p>
+<p><strong>智力越高的人，越愿意去思考那些惊世骇俗的思想观点</strong>。这不仅仅因为聪明人本身很积极地寻找传统观念的漏洞，还因为传统观念对他们的束缚力很小，很容易摆脱。从他们的衣着上你就可以看出这一点：<strong>不受传统观念束缚的人，往往也不会穿流行的衣服</strong>。</p>
+<p>做一个异端是有回报的，不仅是在科学领域，在任何有竞争的地方，只要你能看到别人看不到或不敢看的东西，你就有很大的优势。</p>
+<p>训练自己去想那些不能想的事情，你获得的好处会超过所得到的想法本身。</p>
+<p>与笨蛋辩论，你也会变成笨蛋。</p>
+<p>自由思考比畅所欲言更重要……。在思想和言论之间划一条明确的界线。在心里无所不想，但是不一定要说出来……。你的思想是一个地下组织，绝不要把那里发生的事情一股脑说给外人听。</p>
+<p>讨论一个观点会产生更多的观点，不讨论就什么观点也没有。</p>
+<p>如果可能的话，你最好找一些信得过的知己，只与他们畅所欲言、无所不谈。这样不仅可以获得新观点，还可以用来选择朋友。能够一起谈论“异端邪说”并且不会因此气急败坏的人，就是你最应该认识的朋友。</p>
+<p>人们喜欢讨论的许多问题实际上都是很复杂的，马上说出你的想法对你并没有什么好处。</p>
+<p>如果你的思想很保守，你自己不会知道，而且你很可能还会持有相反的看法。</p>
+<p>如果一个命题不是错的，却被加上各种标签，进行压制和批判，那就有问题。</p>
+<h3 id="4-良好的坏习惯"><a href="#4-良好的坏习惯" class="headerlink" title="4. 良好的坏习惯"></a>4. 良好的坏习惯</h3><p>在程序员眼里，“黑客”指的是优秀程序员……。对于程序员来说，“黑客”这个词的字面意思主要就是“精通”，也就是他可以随心所欲地支配计算机。</p>
+<p>警方总是从犯罪动机开始调查。常见的犯罪动机不外乎毒品、金钱、性、仇恨等。满足智力上的好奇心并不在FBI的犯罪动机清单之上。</p>
+<p>在计算机工业的历史上，新技术往往是由外部人员开发的，而且所占的比例可能要高于内部人员。</p>
+<p>一个人们拥有言论自由和行动自由的社会，往往最有可能采纳最优方案，而不是采纳最有权势的人提出的方案。专制国家会变成腐败国家，腐败国家会变成贫穷国家，贫穷国家会变成弱小国家。</p>
+<h3 id="5-另一条路"><a href="#5-另一条路" class="headerlink" title="5. 另一条路"></a>5. 另一条路</h3><p>“你的电脑”这个概念正慢慢成为过去时，取而代之的是“你的数据”。</p>
+<p>如果用户自己的硬盘坏了，他们不会发狂，因为不能去责怪别人；如果一家公司丢失了他们的数据，他们会怀着超乎寻常的怒火，冲着这家公司发飙。</p>
+<p>对于开发者来说，互联网软件与桌面软件最显著的区别就是，前者不是一个单独的代码块。它是许多不同种类程序的集合，而不是一个单独的巨大的二进制文件。设计桌面软件就像设计一幢大楼，而设计互联网软件就像设计<strong>一座城市</strong>：你不仅需要设计建筑物，还要设计道路、路标、公用设施、警察局、消防队，并且制定城市发展规划和紧急事件的应对方案。</p>
+<p>不同的语言适合不同的任务，你应该根据不同场合，挑选最合适的工具。</p>
+<p>这只是公关伎俩啦，我们知道媒体喜欢听到版本号。如果你发布一个大的版本更新（版本号的第一位数发生变动），它们就会以大篇幅报道。</p>
+<p>互联网软件的另一个技术优势在于，你能再现大部分的bug。</p>
+<p>人数越来越多，开会讨论各个部分如何协同工作所需的时间越来越长，无法预见的互相影响越多越大，产生的bug也越多越多。幸运的是，这个过程的逆向也成立：人数越来越少，软件开发的效率将指数式增长。</p>
+<blockquote>
+<p>软件项目是交互关系复杂的工作，需要大量的沟通成本，人力的增加会使沟通成本急剧上升，反而无法达到缩短工期的目的。</p>
+</blockquote>
+<p>互联网软件不仅把开发者与他的代码更紧密地联系在了一起，而且把开发者与他的用户也更紧密联系在了一起。</p>
+<p>一定数量的盗版对软件公司是有好处的。不管你的软件定价多少，有些用户永远都不会购买。如果这样的用户使用盗版，你并没有任何损失。事实上，你反而赚到了，因为你的软件现在多了一个用户，市场影响力就更大了一些，而这个用户可能毕业以后就会出钱购买你的软件。</p>
+<p>只要有可能，商业性公司就会采用一种叫做“价格歧视”（price discrimination）的定价方法，也就是针对不同的客户给出不同的报价，使得利润最大化。软件的定价特别适合采用价格歧视，因为软件的边际成本接近于零。</p>
+<blockquote>
+<p>“边际成本”是一个经济学概念，指下一个单位产品的生产成本。软件的边际成本就是复制代码的成本，所以接近零。这意味着，对软件公司来说，增加一个用户几乎没有增加生产成本。它与价格歧视的关系在于，边际成本越低，厂商的定价空间就越大，它可以针对特定消费者定出很低的价格，从而达到扩大销售、利润最大化的目的。——译者注</p>
+</blockquote>
+<p>如果某样商品购买起来很困难，人们就会改变主意，放弃购买。反过来也成立，如果某样东西易于购买，你就会多买一点。</p>
+<p>大公司付出的高价之中，很大一部分是商家为了让大公司买下这个商品而付出的费用。</p>
+<p>我预计微软会推出某种服务器和桌面电脑的混合产品，让它的桌面操作系统专门与由它控制的服务器协同工作。</p>
+<p>桌面软件迫使用户变成系统管理员，互联网软件则是迫使程序员变成系统管理员：用户的压力变小了，程序员的压力变大了。</p>
+<p>管理企业其实很简单，只要记住两点就可以了：做出用户喜欢的产品，保证开支小于收入。</p>
+<p>如何做出用户喜欢的产品，下面是一些通用规则：</p>
+<ul>
+<li>从制造简洁的产品开始着手，首先要保证你自己愿意使用。</li>
+<li>迅速地做出1.0版，并且不断以改进，整个过程中密切倾听用户的反馈。</li>
+</ul>
+<p>如果竞争对手的产品很糟糕，你也不要自鸣得意。比较软件的标准应该是看对手的软件将来会有什么功能，而不是现在有什么功能。</p>
+<h3 id="6-如何创造财富"><a href="#6-如何创造财富" class="headerlink" title="6. 如何创造财富"></a>6. 如何创造财富</h3><p>如果你想致富，应该怎么做？我认为最好的办法就是自己创业，或者加入创业公司。</p>
+<p>创业公司其实就是解决了某个技术难题的小公司。</p>
+<p>创业公司不是变魔术。它们无法改变创造财富的法则，它们只是代表了财富创造曲线远端上的一点。这里有一个守恒定律：如果你想赚100万美元，就不得不忍受相当于100万美元的痛苦。</p>
+<p>创造有价值的东西就是创造财富。我们需要的东西就是财富。</p>
+<p>财富才是你的目标，金钱不是。……金钱是财富的一种简便的表达方式：金钱有点像流动的财富，两者往往可以互相转化。</p>
+<p>金钱是专业化的副产品。</p>
+<p>金钱就是交换中介，它必须数量稀少，并且便于携带。</p>
+<p>大多数生意的目的是为了创造财富，做出人们真正需要的东西。</p>
+<p>目前还存在的最大的手工艺人群体就是程序员。</p>
+<p>公司不过是一群人在一起工作，共同做出某种人们需要的东西。真正重要的是做出人们需要的东西，而不是加入某个公司。</p>
+<p>大公司会使得每个员工的贡献平均化，这是一个问题。我觉得，大公司最大的困扰就是无法准确测量每个员工的贡献。</p>
+<p>你在工作上投入的精力越多，就越能产生规模效应。</p>
+<p>要致富，你需要两样东西：<strong>可测量性</strong>和<strong>可放大性</strong>。</p>
+<p>任何一个通过自身努力而致富的个人，在他们身上应该都能同时发现可测量性和可放大性。</p>
+<p>如果你有一个令你感到安全的工作，你是不会致富的，因为没有危险，就几乎等于没有可放大性。</p>
+<p>乔布斯曾经说过，创业的成败取决于最早加入公司的那十个人。</p>
+<p>在不考虑其他因素的情况下，一个非常能干的人待在大公司里可能对他本人是一件很糟的事情，因为他的表现被其他不能干的人拖累了。</p>
+<p>创业公司为每个人提供了一条途径，同时获得可测量性和可放大性。</p>
+<p>如果你有一个新点子去找VC，问他是否投资，他首先就会问你几个问题，其中之一就是其他人复制你的模式是否很困难。也就是说，你为竞争对手设置的壁垒有多高。</p>
+<p>大公司不害怕打官司，这对它们是家常便饭。它们很清楚，打官司的成本高昂又很费时。</p>
+<p>如果你有两个选择，就选较难的那个。</p>
+<p>真正创业以后，你的竞争对手决定了你到底要有多辛苦，而他们做出的决定都是一样的：你能吃多少苦，我们就能吃多少苦。</p>
+<p>创业公司如同蚊子，往往只有两种结局，要么赢得一切，要么彻底消失。</p>
+<p>一家大到有能力收购其他公司的公司必然也是一家大到变得很保守的公司，而这些公司内部负责收购的人又比其他人更保守，因为他们多半是从商学院毕业的，没有经历过公司的创业期。他们宁愿花大钱做更安全的选择，所以向他们出售一家已经成功的创业公司要比出售还处在早期阶段的创业公司更容易，即使会让他们付出多得多的价码。</p>
+<p>大多数时候，促成买方掏钱的最好办法不是让买家看到有获利的可能，而是让他们感到<strong>失去机会的恐惧</strong>。</p>
+<p>你以为买家在收购前会做很多研究，搞清楚你的公司到底值多少钱，其实根本不是这么回事。<strong>他们真正在意的只是你拥有的用户数量。</strong></p>
+<p>你开办创业公司不是单纯地为了解决问题，而是为了解决那些用户关心的问题。</p>
+<p>创造人们需要的东西，也就是创造财富。</p>
+<p>为什么欧洲在历史上变得如此强大？……答案（或者至少是近因）可能就是欧洲人接受了一个威力巨大的新观点：<strong>允许赚到大钱的人保住自己的财富。</strong></p>
+<p>只要懂得藏富于民，国家就会变得强大。让书呆子保住他们的血汗钱，你就会无敌于天下。</p>
+<h3 id="7-关注贫富分化"><a href="#7-关注贫富分化" class="headerlink" title="7. 关注贫富分化"></a>7. 关注贫富分化</h3><p>有三个原因使得我们对赚钱另眼相看。</p>
+<ul>
+<li>第一，我们从小被误导的对财富的看法；</li>
+<li>第二，历史上积累财富的方式大多名声不好；</li>
+<li>第三，担心收入差距拉大将对社会产生不利影响。</li>
+</ul>
+<p>财富与金钱是两个概念。金钱只是用来交易财富的一种手段，财富才是有价值的东西，我们购买的商品和服务都属于财富。</p>
+<p>由于每个人创造财富的能力和欲望强烈程度都不一样，所以每个人创造财富的数量很不平等。</p>
+<p>每个人的技能不同，导致收入不同，这才是贫富分化的主要原因，正如逻辑学的“奥卡姆剃刀”原则所说，简单的解释就是最好的解释。</p>
+<p>如果说某种工作的报酬过低，那就相当于说人们的需求不正确。</p>
+<p>封建社会只有两个阶级：贵族与农奴（为贵族服务的人）。中产阶级是一个新的第三类团体，他们出现在城镇中，以制造业和贸易为生。</p>
+<p>创造财富真正取代掠夺和贪污成为致富的最佳方式，并不是发生在中世纪，而是发生在工业革命时代。</p>
+<p>双重误解：对一个已经过时的情况持有错误的看法。</p>
+<ul>
+<li>举例：由于人类历史上主要的致富方式长期以来都是偷窃，所以我们依然对有钱人抱有一种怀疑态度。理想主义的大学生从小受到历史上知名作家的影响，长大后不知不觉保留了孩提时对财富的看法。</li>
+</ul>
+<p>技术应该会引起收入差距的扩大，但是似乎能缩小其他差距。一百年前，富人过着与普通人截然不同的生活。……由于技术的发展，富人的生活与普通人的差距缩小了。</p>
+<p>技术无法使其变得更便宜的唯一东西，就是品牌。</p>
+<p>只要存在对某种商品的需求，技术就会发挥作用，将这种商品的价格变得很低，从而可以大量销售。</p>
+<p>无论在物质上，还是在社会地位上，技术好像都缩小了富人与穷人之间的差距，而不是让这种差距扩大了。</p>
+<p>一个社会需要有富人，这主要不是因为你需要富人的支出创造就业机会，而是因为他们在致富过程做出的事情。……如果你让他致富，他就会造出一台拖拉机，使你不再需要使用马匹耕田了。</p>
+<h3 id="8-防止垃圾邮件的一种方法"><a href="#8-防止垃圾邮件的一种方法" class="headerlink" title="8. 防止垃圾邮件的一种方法"></a>8. 防止垃圾邮件的一种方法</h3><p>每个用户应该都分别有自己的概率分布表，这是根据他收到的邮件对每一个词进行统计后得出的。这样做可以：</p>
+<ol>
+<li>使得过滤器更有效；</li>
+<li>让每个用户自己定义，什么是他眼中的垃圾邮件；</li>
+<li>使得垃圾邮件的发送者无法针对过滤器做出调整（这可能是最大的好处）。</li>
+</ol>
+<h3 id="9-设计者的品味"><a href="#9-设计者的品味" class="headerlink" title="9. 设计者的品味"></a>9. 设计者的品味</h3><p>人类的思想就是没有经过整理的无数杂念的混合。</p>
+<p>优秀设计的原则：</p>
+<ul>
+<li><strong>好设计是简单的设计。</strong>……当你被迫把东西做得很简单时，你就被迫直接面对真正的问题。当你不能用表面的装饰交差时，你就不得不做好真正的本质部分。</li>
+<li><strong>好设计是永不过时的设计。</strong>……如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。……如果你希望自己的作品对未来的人们有吸引力，方法之一就是让你的作品对上几代人有吸引力。</li>
+<li><strong>好设计是解决主要问题的设计。</strong></li>
+<li><strong>好设计是启发性的设计。</strong>……在软件业中，这条原则意味着，你应该为用户提供一些基本模块，使得他们可以随心所欲自由组合，就像玩乐高积木那样。</li>
+<li><strong>好设计通常是有点趣味性的设计。</strong>……幽默感是强壮的一种表现，始终拥有幽默感就代表你对厄运一笑了之，而丧失幽默感则表示你被厄运深深伤到。</li>
+<li><strong>好设计是艰苦的设计。</strong>……人们常常觉得野生动物非常优美，原因就是它们的生活非常艰苦，在外形上不可能有多余的部分了。</li>
+<li><strong>好设计是看似容易的设计。</strong>……在大多数领域，看上去容易的事情，背后都需要大量的练习。练习的作用也许是训练你把刻意为之的事情变成一种自觉的行为。</li>
+<li><strong>好设计是对称的设计。</strong>……对称有两种：重复性对称和递归性对称。……在软件中，能用递归解决的问题通常代表已经找到了最佳解法。</li>
+<li><strong>好设计是模仿大自然的设计。</strong>……我能想象五十年后，小型的无人侦察飞机可以做得完全像鸟一样。</li>
+<li><strong>好设计是一种再设计。</strong>……专家的做法是先完成一个早期原型，然后提出修改计划，最后把早期原型扔掉。……你应该培养对自己的不满。……犯错误是很正常的事情。你不要把犯错看成灾难，要勇于承认、勇于改正。……开源软件因为公开承认自己会有bug，反而使得代码的bug比较少。</li>
+<li><strong>好设计是能够复制的设计。</strong>……把事情做对比原创更重要。</li>
+<li><strong>好设计常常是奇特的设计。</strong>……唯一达到“奇特”的方法，就是追求做出好作品，完成之后再回过头看。</li>
+<li><strong>好设计是成批出现的。</strong>……推动人才成批涌现的最大因素就是，让有天赋的人聚在一起，共同解决某个难题。<strong>互相激励比天赋更重要。</strong></li>
+<li><strong>好设计常常是大胆的设计。</strong>……今天的实验性错误就是明天的新理论。如果你想做出伟大的新成果，那就不能对常识与真理不相吻合之处视而不见，反而应该特别注意才对。……伟大成果的出现常常来源于某人看到一样东西后，心想我能做得比这更好。</li>
+</ul>
+<h3 id="10-编程语言解析"><a href="#10-编程语言解析" class="headerlink" title="10. 编程语言解析"></a>10. 编程语言解析</h3><p>编程语言的一个重要特点：一个操作所需的代码越多，就越难避免bug，也越难发现它们。</p>
+<p>编译器处理的高级语言代码又叫做<strong>源码</strong>。它经过翻译以后产生的机器码就叫做<strong>目标码</strong>。</p>
+<p>开源软件就像一篇经受同行评议的论文。</p>
+<p>程序员的时间要比计算机的时间昂贵得多，后者已经变得很便宜了，所以几乎不值得非常麻烦地用汇编语言开发软件。</p>
+<p>如果你长期使用某种语言，你就会慢慢按照这种语言的思维模式进行思考。所以，后来当你遇到其他任何一种有重大差异的语言，即使那种语言本身并没有任何不对的地方，你也会觉得它极其难用。缺乏经验的程序员对于各种语言优缺点的判断经常被这种心态误导。</p>
+<p>语言设计者之间的最大分歧也许就在于，有些人认为编程语言应该防止程序员干蠢事，另一些人则认为程序员应该可以用编程语言干一切他们想干的事。</p>
+<p>事实上有两种程度的面向对象编程：某些语言允许你以这种风格编程，另一些语言则强迫你一定要这样编程。</p>
+<p>允许你做某事的语言肯定不差于强迫你做某事的语言。所以，至少在这方面我们可以得到明确的结论：你应该使用允许你面向对象编程的语言。至于你最后到底用不用则是另外一个问题了。</p>
+<h3 id="11-百年后的编程语言"><a href="#11-百年后的编程语言" class="headerlink" title="11. 百年后的编程语言"></a>11. 百年后的编程语言</h3><p>无论何时，选择进化的主干可能都是最佳方案。</p>
+<p>那些内核最小、最干净的编程语言才会存在于进化的主干上。</p>
+<p>编程语言进化缓慢的原因在于它们并不是真正的技术。</p>
+<p>随着技术的发展，每一代人都在做上一代人觉得很浪费的事情。</p>
+<p>我觉得一些最好的软件就像论文一样，也就是说，当作者真正开始动手写这些软件的时候，他们其实不知道最后会写出什么结果。</p>
+<p>浪费程序员的时间而不是浪费机器的时间才是真正的无效率。</p>
+<p>另一种消耗硬件性能的方法就是，在应用软件与硬件之间设置很多的软件层。</p>
+<p>除了某些特定的应用软件，一百年后，并行计算不会很流行。如果应用软件真的大量使用并行计算，这就属于过早优化了。</p>
+<p>应用软件运行速度提升的关键在于有一个好的性能分析器帮助指导程序开发。</p>
+<p>新语言更多地以开源项目的形式出现，而不是以研究性项目的形式出现。</p>
+<p>新语言的设计者更多的是本身就需要使用它们的应用软件作者，而不是编译器作者。</p>
+<p>设计新语言的方法之一就是直接写下你想写的程序，不管编译器是否存在，也不管有没有支持它的硬件。……随便什么，只要能让你最省力地写出来就行。</p>
+<h3 id="12-拒绝平庸"><a href="#12-拒绝平庸" class="headerlink" title="12. 拒绝平庸"></a>12. 拒绝平庸</h3><p>真正非常严肃地把黑客作为人生目标的人，应该考虑学习Lisp。</p>
+<p>Lisp没有得到广泛使用的原因就是因为编程语言不仅仅是技术，也是一种习惯性思维，非常难于改变。</p>
+<p>程序员关心的那种强大也许很难正式定义，但是有一个办法可以解释，那就是有一些功能在一种语言中是内置的，但是在另一种语言中需要修改解释器才能做到，那么前者就比后者更强大。</p>
+<p>编程语言的特点之一就是它会使得大多数使用它的人满足于现状，不想改用其他语言。……人类天性变化的速度大大慢于计算机硬件变化的速度，所以编程语言的发展通常比CPU的发展落后一二十年。</p>
+<p>编程语言不一样，与其说它是技术，还不如说是程序员的思考模式。</p>
+<h3 id="13-书呆子的复仇"><a href="#13-书呆子的复仇" class="headerlink" title="13. 书呆子的复仇"></a>13. 书呆子的复仇</h3><p>各种编程语言的编程能力是不相同的。</p>
+<p>编程语言现在的发展不过刚刚赶上1958年Lisp语言的水平。</p>
+<p>使用一种不常见的语言会出现的问题我想到了三个：</p>
+<ol>
+<li>你的程序可能无法很好地与使用其他语言写的程序协同工作；</li>
+<li>你可能找不到很多函数库；</li>
+<li>你可能不容易雇到程序员</li>
+</ol>
+<p>把软件运行在服务器端就可以没有顾忌地使用最先进的技术。</p>
+<p>到目前为止，大家公认少于10个人的团队最适合开发软件。</p>
+<p>选择更强大的编程语言会减少所需要的开发人员数量。因为：</p>
+<ol>
+<li>如果你使用的语言很强大，可能会减少一些编程的工作量，也就不需要那么多黑客了；</li>
+<li>使用更高级语言的黑客可能比别的程序员更聪明</li>
+</ol>
+<p>如果你创业的话，千万不要为了取悦风险投资商或潜在并购方而设计你的产品。</p>
+<p>衡量语言的编程能力的最简单方法可能就是看代码数量。……语言的编程能力越强大，写出来的程序就越短。</p>
+<p>代码的数量很重要，因为开发一个程序所耗费的时间主要取决于程序的长度。</p>
+<p>当团队规模超过某个门槛时，再增加人手只会带来净损失。</p>
+<p>一种出色的工具到了真正优秀的黑客手里，可以发挥出更大的威力。</p>
+<p>程序员使用某种语言能做到的事情是有极限的。</p>
+<p>你的经理其实不关心公司是否真的能获得成功，他真正关心的是不承担决策失败的责任。所以对他个人来说，最安全的做法就是跟随大多数人的选择。……既然我选择的是“业界最佳实践”，如果不成功，项目失败了，那么你也无法指责我，因为做出选择的人不是我，而是整个“业界”。</p>
+<p>编程语言的所谓“业界最佳实践”，实际上不会让你变成最佳，只会让你变得很平常。</p>
+<p>如果你想在软件业获得成功，就使用你知道的最强大的语言，用它解决你知道的最难的问题，并且等待竞争对手的经理做出自甘平庸的选择。</p>
+<h3 id="14-梦寐以求的编程语言"><a href="#14-梦寐以求的编程语言" class="headerlink" title="14. 梦寐以求的编程语言"></a>14. 梦寐以求的编程语言</h3><p>编程语言本来就是为了满足黑客的需要而产生的，当且仅当黑客喜欢一种语言时，这种语言才能成为合格的编程语言。</p>
+<p>虽然语言的核心功能就像大海的深处，很少有变化，但是函数库和开发环境之类的东西就像大海的表面，一直在汹涌澎湃。</p>
+<p>发展最早的20个用户的最好方法可能就是使用特洛伊木马：你让人们使用一种他们需要的应用程序，这个程序偏巧就是用某种新语言开发的。</p>
+<p>一种语言必须是某一个流行的计算机系统的脚本语言（scripting language），才会变得流行。</p>
+<p>黑客欣赏的一个特点就是简洁。</p>
+<p>简洁性是静态类型语言的力所不及之处。……只要计算机可以自己推断出来的事情，都应该让计算机自己去推断。</p>
+<p>语言设计者应该假定他们的目标用户是一个天才，会做出各种他们无法预知的举动，而不是假定目标用户是一个笨手笨脚的傻瓜，需要别人的保护才不会伤到自己。</p>
+<p>对于制造工具的人来说，总是会有用户以违背你本意的方式使用你的工具。</p>
+<p>所谓一次性程序，就是指为了完成某些很简单的临时性任务而在很短时间内写出来的程序。……开发大型程序的另一个方法就是从一次性程序开始，然后不断地改进。</p>
+<p>未来50年中，编程语言的进步很大一部分与函数库有关。</p>
+<p>函数库的设计基础与语言内核一样，都是一个小规模的正交运算符集合。函数库的使用应该符合程序员的直觉，让他可以猜得出哪个函数能满足自己的需要。</p>
+<p>编程时提高代码运行速度的关键是使用好的性能分析器（profiler），而不是使用其他方法，比如精心选择一种静态类型的编程语言。</p>
+<p>一种编程语言要想变得流行，最后一关就是<strong>要经受住时间的考验</strong>。……让别人相信一种新事物是需要时间的。</p>
+<p>大多数人接触新事物时都学会了使用类似的过滤机制。甚至有时要听到别人提起十遍以上他们才会留意。这样做完全是合理的，因为<strong>大多数的热门新商品事后被证明都是浪费时间的噱头，没多久就消失得无影无踪</strong>。</p>
+<p>人们真正注意到你的时候，不是第一眼看到你站在那里，而是发现过了这么久你居然还在那里。</p>
+<p>新技术被市场接纳的方式有两种，一种是自然成长式，另一种是大爆炸式。</p>
+<p>最终来看，自然成长式会比大爆炸式产生更好的技术，能为创始人带来更多的财富。</p>
+<p>著名散文家E.B.怀特说过，<strong>“最好的文字来自不停的修改”</strong>。</p>
+<p>设计一样东西，最重要的一点就是要经常“再设计”，<strong>编程尤其如此，再多的修改都不过分</strong>。</p>
+<p>为了写出优秀软件，你必须同时具备两种互相冲突的信念。一方面，你要<strong>像初生牛犊一样，对自己的能力信心万丈</strong>；另一方面，你又要<strong>像历经沧桑的老人一样，对自己的能力抱着怀疑态度</strong>。在你的大脑中，有一个声音说“千难万险只等闲”，还有一个声音却说“早岁哪知世事艰”。</p>
+<p>你必须对解决难题的可能性保持乐观，同时对当前解法的合理性保持怀疑。</p>
+<p>黑客心目中梦寐以求的语言：这种语言<strong>干净简练</strong>，具有最高层次的抽象和互动性，而且很<strong>容易装备</strong>，可以只用<strong>很少的代码就解决常见的问题</strong>。</p>
+<h3 id="15-设计与研究"><a href="#15-设计与研究" class="headerlink" title="15. 设计与研究"></a>15. 设计与研究</h3><p>设计与研究的区别看来就在于，前者追求“好”（good），后者追求“新”（new）。</p>
+<p>艺术的各个领域有着巨大的差别，但是我觉得任何一个领域的最佳作品都不可能由对用户言听计从的人做出来。</p>
+<p>让用户满意并不等于迎合用户的一切要求。<strong>用户不了解所有可能的选择，也经常弄错自己真正想要的东西</strong>。做一个好的设计师就像做一个好医生一样。你不能头痛医头，脚痛医脚。病人告诉你症状，你必须找出他生病的真正原因，然后针对病因进行治疗。</p>
+<p>除非设定目标用户，否则一种设计的好坏根本无从谈起。</p>
+<p>如果你正在设计某种新东西，就应该尽快拿出原型，听取用户的意见。</p>
+<p>软件功能的增加并不必然带来质量的提高。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+              <a href="/tags/黑客与画家/" rel="tag"># 黑客与画家</a>
+              <a href="/tags/编程哲学/" rel="tag"># 编程哲学</a>
+              <a href="/tags/创业/" rel="tag"># 创业</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/cloudflare-workers-static-site/" rel="prev" title="利用 Cloudflare Workers 托管静态站点">
+      <i class="fa fa-chevron-left"></i> 利用 Cloudflare Workers 托管静态站点
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/my-ideal-work-env/" rel="next" title="我理想的工作环境">
+      我理想的工作环境 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#译者序"><span class="nav-number">1.</span> <span class="nav-text">译者序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-为什么书呆子不受欢迎"><span class="nav-number">3.</span> <span class="nav-text">1. 为什么书呆子不受欢迎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-黑客与画家"><span class="nav-number">4.</span> <span class="nav-text">2. 黑客与画家</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-不能说的话"><span class="nav-number">5.</span> <span class="nav-text">3. 不能说的话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-良好的坏习惯"><span class="nav-number">6.</span> <span class="nav-text">4. 良好的坏习惯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-另一条路"><span class="nav-number">7.</span> <span class="nav-text">5. 另一条路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-如何创造财富"><span class="nav-number">8.</span> <span class="nav-text">6. 如何创造财富</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-关注贫富分化"><span class="nav-number">9.</span> <span class="nav-text">7. 关注贫富分化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-防止垃圾邮件的一种方法"><span class="nav-number">10.</span> <span class="nav-text">8. 防止垃圾邮件的一种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-设计者的品味"><span class="nav-number">11.</span> <span class="nav-text">9. 设计者的品味</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-编程语言解析"><span class="nav-number">12.</span> <span class="nav-text">10. 编程语言解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-百年后的编程语言"><span class="nav-number">13.</span> <span class="nav-text">11. 百年后的编程语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-拒绝平庸"><span class="nav-number">14.</span> <span class="nav-text">12. 拒绝平庸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-书呆子的复仇"><span class="nav-number">15.</span> <span class="nav-text">13. 书呆子的复仇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-梦寐以求的编程语言"><span class="nav-number">16.</span> <span class="nav-text">14. 梦寐以求的编程语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-设计与研究"><span class="nav-number">17.</span> <span class="nav-text">15. 设计与研究</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

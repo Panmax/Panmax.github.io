@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="先来看下维基百科对 SOLID 的介绍：  在程序设计领域，SOLID 是由罗伯特·C·马丁在 21 世纪早期引入的记忆术首字母缩略字，指代了面向对象编程和面向对象设计的五个基本原则。当这些原则被一起应用时，它们使得一个程序员开发一个容易进行软件维护和扩展的系统变得更加可能。  SOLID 是以下五个单词的缩写：  Single Responsibility Principle（单一职责原则）">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SOLID：面向对象设计的五个基本原则">
+<meta property="og:url" content="https://jiapan.me/2020/SOLID-Design-Principles/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="先来看下维基百科对 SOLID 的介绍：  在程序设计领域，SOLID 是由罗伯特·C·马丁在 21 世纪早期引入的记忆术首字母缩略字，指代了面向对象编程和面向对象设计的五个基本原则。当这些原则被一起应用时，它们使得一个程序员开发一个容易进行软件维护和扩展的系统变得更加可能。  SOLID 是以下五个单词的缩写：  Single Responsibility Principle（单一职责原则）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/0.jpeg">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/1.png">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/2.png">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/3.png">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/4.png">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/5.png">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/6.png">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/7.png">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/8.jpg">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/9.png">
+<meta property="og:image" content="https://jiapan.me/2020/SOLID-Design-Principles/10.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.263Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SOLID：面向对象设计的五个基本原则">
+<meta name="twitter:description" content="先来看下维基百科对 SOLID 的介绍：  在程序设计领域，SOLID 是由罗伯特·C·马丁在 21 世纪早期引入的记忆术首字母缩略字，指代了面向对象编程和面向对象设计的五个基本原则。当这些原则被一起应用时，它们使得一个程序员开发一个容易进行软件维护和扩展的系统变得更加可能。  SOLID 是以下五个单词的缩写：  Single Responsibility Principle（单一职责原则）">
+<meta name="twitter:image" content="https://jiapan.me/2020/SOLID-Design-Principles/0.jpeg">
+
+<link rel="canonical" href="https://jiapan.me/2020/SOLID-Design-Principles/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>SOLID：面向对象设计的五个基本原则 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2020/SOLID-Design-Principles/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SOLID：面向对象设计的五个基本原则
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-03 10:04:52" itemprop="dateCreated datePublished" datetime="2020-03-03T10:04:52+08:00">2020-03-03</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/SOLID-Design-Principles/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/SOLID-Design-Principles/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="0.jpeg" alt=""></p>
+<p>先来看下维基百科对 <a href="https://en.wikipedia.org/wiki/SOLID" target="_blank" rel="noopener">SOLID</a> 的介绍：</p>
+<blockquote>
+<p>在程序设计领域，SOLID 是由罗伯特·C·马丁在 21 世纪早期引入的记忆术首字母缩略字，指代了面向对象编程和面向对象设计的五个基本原则。当这些原则被一起应用时，它们使得一个程序员开发一个容易进行软件维护和扩展的系统变得更加可能。</p>
+</blockquote>
+<p><code>SOLID</code> 是以下五个单词的缩写：</p>
+<ul>
+<li>Single Responsibility Principle（单一职责原则）</li>
+<li>Open Closed Principle（开闭原则）</li>
+<li>Liskov Substitution Principle（里氏替换原则）</li>
+<li>Interface Segregation Principle（接口隔离原则）</li>
+<li>Dependency Inversion Principle（依赖倒置原则）</li>
+</ul>
+<h2 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h2><p>单一职责原则的英文是 <strong>Single Responsibility Principle</strong>，缩写为 <strong>SRP</strong>。</p>
+<p>可以从两个角度来理解单一职责原则：</p>
+<ol>
+<li>一个类或者模块只负责完成一个职责（或者功能）。</li>
+<li>一个类，应该只有一个引起它变化的原因。</li>
+</ol>
+<p>对于这两种理解方式，我分别举例来说明。</p>
+<h3 id="一个类或者模块只负责完成一个职责（或者功能）"><a href="#一个类或者模块只负责完成一个职责（或者功能）" class="headerlink" title="一个类或者模块只负责完成一个职责（或者功能）"></a>一个类或者模块只负责完成一个职责（或者功能）</h3><p>这里的模块可以看作比类更加<strong>粗粒度</strong>的代码块，模块中包含多个类，多个类组成一个模块。</p>
+<p>来看下边的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class UserInfo &#123;</span><br><span class="line">    private long userId;</span><br><span class="line">    private String username;</span><br><span class="line">    private String email;</span><br><span class="line">    private String telephone;</span><br><span class="line">    private long createTime;</span><br><span class="line">    private long lastLoginTime;</span><br><span class="line">    private String avatarUrl;</span><br><span class="line">    private String provinceOfAddress; // 省</span><br><span class="line">    private String cityOfAddress; // 市</span><br><span class="line">    private String regionOfAddress; // 区 </span><br><span class="line">    private String detailedAddress; // 详细地址</span><br><span class="line">    // ...省略其他属性和方法...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>站在<strong>不同的应用场景</strong>、<strong>不同阶段的需求</strong>背景下，对 <code>UserInfo</code> 类的职责是否单一的判定，可能都是不一样的：</p>
+<ul>
+<li>如果在这个社交产品中，用户的地址信息跟其他信息一样，只是单纯地用来展示，那 <code>UserInfo</code> 现在的设计就是合理的。</li>
+<li>如果这个社交产品发展得比较好，之后又在产品中添加了电商的模块，用户的地址信息还会用在电商物流中，那我们最好将地址信息从 <code>UserInfo</code> 中拆分出来，独立成用户物流信息（或者叫地址信息、收货信息等）。</li>
+<li>如果做这个社交产品的公司发展得越来越好，公司内部又开发出了跟多其他产品（可以理解为其他 App）。公司希望支持统一账号系统，也就是用户一个账号可以在公司内部的所有产品中登录。这个时候，我们就需要继续对 <code>UserInfo</code> 进行拆分，将跟身份认证相关的信息（比如，email、telephone 等）抽取成独立的类。</li>
+</ul>
+<blockquote>
+<p>在某种应用场景或者当下的需求背景下，一个类的设计可能已经满足单一职责原则了，但如果换个应用场景或着在未来的某个需求背景下，可能就不满足了，需要继续拆分成粒度更细的类。</p>
+</blockquote>
+<h3 id="一个类，应该只有一个引起它变化的原因"><a href="#一个类，应该只有一个引起它变化的原因" class="headerlink" title="一个类，应该只有一个引起它变化的原因"></a>一个类，应该只有一个引起它变化的原因</h3><p>我们这里以一个矩形类 <code>Rectangle</code> 为例，如图所示：</p>
+<p><img src="1.png" alt=""></p>
+<p><code>Rectangle</code> 有两个方法：</p>
+<ul>
+<li>绘图方法 <code>draw()</code></li>
+<li>计算面积方法 <code>area()</code></li>
+</ul>
+<p>现在有两个应用程序要依赖这个 <code>Rectangle</code> 类：</p>
+<ol>
+<li><strong>几何计算应用程序</strong>：只需要计算面积，不需要绘图。</li>
+<li><strong>图形界面应用程序</strong>：绘图的时候，程序需要计算面积。</li>
+</ol>
+<p>在计算机屏幕上绘图是一件非常麻烦的事情，所以对于绘图这个需求来说，需要依赖专门的 GUI 库。一个 GUI 库可能有几十 M 甚至数百 M。</p>
+<p>本来几何计算程序作为一个纯科学计算程序，主要是一些数学计算代码，现在程序打包完，却不得不把一个不相关的 GUI 库也打包进来。本来程序包可能只有几百 K，现在变成了几百 M。</p>
+<p>当图形界面应用程序不得不修改 <code>Rectangle</code> 类的时候，还得重新编译几何计算应用程序，反之亦然。这个情况下，我们就可以说 <code>Rectangle</code> 类有两个引起它变化的原因。</p>
+<p>当然，这里用前一种理解也是可以的（一个类或者模块只负责完成一个职责）：<code>Rectangle</code>承担了两个<strong>职责</strong>，一个是几何形状的计算，一个是在屏幕上绘制图形。</p>
+<p>我们可以将 <code>Rectangle</code> 拆分成两个类：</p>
+<ol>
+<li><code>GeometricRectangle</code>： 这个类负责实现图形面积计算方法 <code>area()</code></li>
+<li><code>Rectangle</code>：只保留单一绘图方法 <code>draw()</code></li>
+</ol>
+<p>现在绘制长方形的时候可以使用计算面积的方法，而几何计算应用程序则不需要依赖一个不相关的绘图方法以及一大堆的 GUI 组件。</p>
+<p>拆分后的类图如下所示：</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="从-Web-应用架构演进看单以职责原则"><a href="#从-Web-应用架构演进看单以职责原则" class="headerlink" title="从 Web 应用架构演进看单以职责原则"></a>从 Web 应用架构演进看单以职责原则</h3><p>从事过 Java Web 开发的老码农都经历过下边这 3 个开发阶段。</p>
+<p><strong>阶段 1</strong>：请求处理以及响应的全部操作都在 <code>Servlet</code> 里，<code>Servlet</code> 获取请求数据，进行逻辑处理，访问数据库，得到处理结果，根据处理结果构造返回的 <code>HTML</code>。</p>
+<p><img src="3.png" alt=""></p>
+<p><strong>阶段 2</strong>：于是后来就有了 <code>JSP</code>，如果说 <code>Servlet</code> 是在程序中输出 <code>HTML</code>，那么 <code>JSP</code> 就是在 <code>HTML</code> 中调用程序。</p>
+<p><img src="4.png" alt=""></p>
+<p>这个阶段，基于 <code>JSP</code> 开发的 Web 程序在职责上进行了一些<strong>最基本</strong>的分离：构造页面的 <code>JSP</code> 和处理逻辑的业务模型分离。</p>
+<p><strong>阶段 3</strong>：各种 MVC 框架的出现，MVC 框架通过控制器将视图与模型彻底分离。</p>
+<p><img src="5.png" alt=""></p>
+<p>有了 MVC，就可以顺理成章地将复杂的业务模型进行分层了。通过分层方式，将业务模型分为业务层、服务层、数据持久层，使各层职责进一步分离，更符合单一职责原则。</p>
+<p><img src="6.png" alt=""></p>
+<blockquote>
+<p>也是因为 MVC 框架的出现，才使得前后端开发成为<strong>两个不同的工种</strong>，前端工程师只做<strong>视图模板开发</strong>，后端工程师只做<strong>业务开发</strong>，彼此之间没有直接的依赖和耦合，各自独立开发、维护自己的代码。</p>
+</blockquote>
+<h3 id="如何判断一个类是否满足单一职责？"><a href="#如何判断一个类是否满足单一职责？" class="headerlink" title="如何判断一个类是否满足单一职责？"></a>如何判断一个类是否满足单一职责？</h3><p>前边提到过，不同的应用场景、不同阶段的需求背景、不同的业务层面，对同一个类的职责是否单一，可能会有不同的判定结果。我们可以通过一些侧面指标来指导我们的判断。</p>
+<p>出现下面这些情况就有可能说明类的设计不满足单一职责原则：</p>
+<ul>
+<li>类中的<strong>代码行数</strong>、函数或者属性过多</li>
+<li>类<strong>依赖</strong>的其他类过多，或者依赖此类的其他类过多</li>
+<li><strong>私有方法</strong>过多</li>
+<li>比较难给类起一个<strong>合适的名字</strong></li>
+<li>类中大量的方法都是<strong>集中操作类中的某几个属性</strong></li>
+</ul>
+<h2 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h2><blockquote>
+<p>开闭原则是所有设计原则中<strong>最有用</strong>的，因为<strong>扩展性</strong>是代码质量<strong>最重要的衡量标准之一</strong>。在 23 种经典设计模式中，大部分设计模式都是为了解决代码的扩展性问题而存在的，<strong>主要遵从的设计原则就是开闭原则</strong>。</p>
+</blockquote>
+<p>开闭原则的英文是 <strong>Open Closed Principle</strong>，缩写为 <strong>OCP</strong>。</p>
+<p>开闭原则说的是：软件实体（模块、类、函数等等）应该对<strong>扩展</strong>是开放的，对<strong>修改</strong>是关闭的。</p>
+<ul>
+<li>对扩展是开放的，意味着软件实体的行为是可扩展的，当<strong>需求变更</strong>的时候，可以对模块进行扩展，使其满足需求变更的要求。</li>
+<li>对修改是关闭的，意味着当对软件实体进行扩展的时候，不需要改动当前的软件实体；不需要修改代码；对于已经完成的类文件不需要重新编辑；对于已经编译打包好的模块，不需要再重新编译。</li>
+</ul>
+<p>两者结合起来表述为：添加一个新的功能应该是，在已有代码基础上扩展代码（新增模块、类、方法等），而非修改已有代码（修改模块、类、方法等）。</p>
+<h3 id="举例说明开闭原则"><a href="#举例说明开闭原则" class="headerlink" title="举例说明开闭原则"></a>举例说明开闭原则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class Alert &#123;</span><br><span class="line">    private AlertRule rule;</span><br><span class="line">    private Notification notification;</span><br><span class="line"></span><br><span class="line">    public Alert(AlertRule rule, Notification notification) &#123;</span><br><span class="line">        this.rule = rule;</span><br><span class="line">        this.notification = notification;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void check(String api, long requestCount, long errorCount,</span><br><span class="line">        long durationOfSeconds) &#123;</span><br><span class="line">        long tps = requestCount / durationOfSeconds;</span><br><span class="line"></span><br><span class="line">        if (tps &gt; rule.getMatchedRule(api).getMaxTps()) &#123;</span><br><span class="line">            notification.notify(NotificationEmergencyLevel.URGENCY, &quot;...&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (errorCount &gt; rule.getMatchedRule(api).getMaxErrorCount()) &#123;</span><br><span class="line">            notification.notify(NotificationEmergencyLevel.SEVERE, &quot;...&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码中的 <code>AlertRule</code> 存储告警规则，可以自由设置。</p>
+<p><code>Notification</code> 是告警通知类，支持邮件、短信、微信、手机等多种通知渠道。</p>
+<p><code>NotificationEmergencyLevel</code> 表示通知的紧急程度，不同的紧急程度对应不同的发送渠道。</p>
+<p>业务逻辑主要集中在 <code>check()</code> 函数中：当接口的 TPS 超过某个预先设置的最大值时，以及当接口请求出错数大于某个最大允许值时，就会触发告警。</p>
+<p>现在，如果我们需要添加一个功能，当每秒钟接口超时请求个数，超过某个预先设置的最大阈值时，我们也要触发告警发送通知。</p>
+<h3 id="不遵循开闭原则的修改"><a href="#不遵循开闭原则的修改" class="headerlink" title="不遵循开闭原则的修改"></a>不遵循开闭原则的修改</h3><p>主要的改动有两处：</p>
+<ol>
+<li>修改 <code>check()</code> 函数的入参，添加一个新的统计数据 <code>timeoutCount</code>，表示超时接口请求数</li>
+<li>在 <code>check()</code> 函数中添加新的告警逻辑</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class Alert &#123;</span><br><span class="line">  // ...省略AlertRule/Notification属性和构造函数...</span><br><span class="line">  </span><br><span class="line">  // 改动一：添加参数timeoutCount</span><br><span class="line">  public void check(String api, long requestCount, long errorCount, long timeoutCount, long durationOfSeconds) &#123;</span><br><span class="line">    long tps = requestCount / durationOfSeconds;</span><br><span class="line">    if (tps &gt; rule.getMatchedRule(api).getMaxTps()) &#123;</span><br><span class="line">      notification.notify(NotificationEmergencyLevel.URGENCY, &quot;...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    if (errorCount &gt; rule.getMatchedRule(api).getMaxErrorCount()) &#123;</span><br><span class="line">      notification.notify(NotificationEmergencyLevel.SEVERE, &quot;...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    // 改动二：添加接口超时处理逻辑</span><br><span class="line">    long timeoutTps = timeoutCount / durationOfSeconds;</span><br><span class="line">    if (timeoutTps &gt; rule.getMatchedRule(api).getMaxTimeoutTps()) &#123;</span><br><span class="line">      notification.notify(NotificationEmergencyLevel.URGENCY, &quot;...&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此进行的代码修改导致将导致以下问题：</p>
+<ol>
+<li>调用这个接口的代码都要做相应的修改</li>
+<li>修改了 <code>check()</code> 函数，相应的单元测试都需要修改</li>
+</ol>
+<p>粗暴一点说，<strong>当我们在代码中看到 if/else 或者 switch/case 关键字的时候，基本可以判断违反开闭原则了。</strong></p>
+<h3 id="遵循开闭原则的修改"><a href="#遵循开闭原则的修改" class="headerlink" title="遵循开闭原则的修改"></a>遵循开闭原则的修改</h3><p>重构一下之前的 <code>Alert</code> 代码，让它的扩展性更好一些：</p>
+<ol>
+<li>将 <code>check()</code> 函数的多个入参封装成 <code>ApiStatInfo</code> 类</li>
+<li>引入 <code>handler</code> 的概念，将 <code>if</code> 判断逻辑分散在各个 <code>handler</code> 中</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public class Alert &#123;</span><br><span class="line">    private List&lt;AlertHandler&gt; alertHandlers = new ArrayList&lt;&gt;();</span><br><span class="line">    public void addAlertHandler(AlertHandler alertHandler) &#123;</span><br><span class="line">        this.alertHandlers.add(alertHandler);</span><br><span class="line">    &#125;</span><br><span class="line">    public void check(ApiStatInfo apiStatInfo) &#123;</span><br><span class="line">        for (AlertHandler handler : alertHandlers) &#123;</span><br><span class="line">            handler.check(apiStatInfo);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class ApiStatInfo &#123;</span><br><span class="line">    //省略constructor/getter/setter方法</span><br><span class="line">    private String api;</span><br><span class="line">    private long requestCount;</span><br><span class="line">    private long errorCount;</span><br><span class="line">    private long durationOfSeconds;</span><br><span class="line">&#125;</span><br><span class="line">public abstract class AlertHandler &#123;</span><br><span class="line">    protected AlertRule rule;</span><br><span class="line">    protected Notification notification;</span><br><span class="line">    public AlertHandler(AlertRule rule, Notification notification) &#123;</span><br><span class="line">        this.rule = rule;</span><br><span class="line">        this.notification = notification;</span><br><span class="line">    &#125;</span><br><span class="line">    public abstract void check(ApiStatInfo apiStatInfo);</span><br><span class="line">&#125;</span><br><span class="line">public class TpsAlertHandler extends AlertHandler &#123;</span><br><span class="line">    public TpsAlertHandler(AlertRule rule, Notification notification) &#123;</span><br><span class="line">        super(rule, notification);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">      public void check(ApiStatInfo apiStatInfo) &#123;</span><br><span class="line">        long tps = apiStatInfo.getRequestCount()/ apiStatInfo.getDurationOfSeconds();</span><br><span class="line">        if (tps &gt; rule.getMatchedRule(apiStatInfo.getApi()).getMaxTps()) &#123;</span><br><span class="line">            notification.notify(NotificationEmergencyLevel.URGENCY, &quot;...&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class ErrorAlertHandler extends AlertHandler &#123;</span><br><span class="line">    public ErrorAlertHandler(AlertRule rule, Notification notification)&#123;</span><br><span class="line">        super(rule, notification);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">      public void check(ApiStatInfo apiStatInfo) &#123;</span><br><span class="line">        if (apiStatInfo.getErrorCount() &gt; rule.getMatchedRule(apiStatInfo.getApi()).getMaxErrorCount()) &#123;</span><br><span class="line">            notification.notify(NotificationEmergencyLevel.SEVERE, &quot;...&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在我们基于重构之后的代码来实现<strong>每秒钟接口超时请求个数超过某个最大阈值就告警</strong>的新功能就方便多了。</p>
+<p>不考虑调用方修改的情况下，实现方只需进行两处的改动：</p>
+<ol>
+<li>在 <code>ApiStatInfo</code> 类中添加新的属性 <code>timeoutCount</code></li>
+<li>添加新的 <code>TimeoutAlertHander</code> 类</li>
+</ol>
+<p>调用方的改动也很简单：</p>
+<ol>
+<li>把 <code>TimeoutAlertHander</code> 类的实例注册到 <code>alert</code> 对象中</li>
+<li>为 <code>apiStatInfo</code> 对象 设置 <code>timeoutCOunt</code> 的值。</li>
+</ol>
+<p>修改后代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class Alert &#123; // 代码未改动... &#125;</span><br><span class="line">public class ApiStatInfo &#123;//省略constructor/getter/setter方法</span><br><span class="line">  private String api;</span><br><span class="line">  private long requestCount;</span><br><span class="line">  private long errorCount;</span><br><span class="line">  private long durationOfSeconds;</span><br><span class="line">  private long timeoutCount; // 改动一：添加新字段</span><br><span class="line">&#125;</span><br><span class="line">public abstract class AlertHandler &#123; //代码未改动... &#125;</span><br><span class="line">public class TpsAlertHandler extends AlertHandler &#123;//代码未改动...&#125;</span><br><span class="line">public class ErrorAlertHandler extends AlertHandler &#123;//代码未改动...&#125;</span><br><span class="line">// 改动二：添加新的handler</span><br><span class="line">public class TimeoutAlertHandler extends AlertHandler &#123;//省略代码...&#125;</span><br><span class="line"></span><br><span class="line">public class ApplicationContext &#123;</span><br><span class="line">  private AlertRule alertRule;</span><br><span class="line">  private Notification notification;</span><br><span class="line">  private Alert alert;</span><br><span class="line">  </span><br><span class="line">  public void initializeBeans() &#123;</span><br><span class="line">    alertRule = new AlertRule(/*.省略参数.*/); //省略一些初始化代码</span><br><span class="line">    notification = new Notification(/*.省略参数.*/); //省略一些初始化代码</span><br><span class="line">    alert = new Alert();</span><br><span class="line">    alert.addAlertHandler(new TpsAlertHandler(alertRule, notification));</span><br><span class="line">    alert.addAlertHandler(new ErrorAlertHandler(alertRule, notification));</span><br><span class="line">    // 改动三：注册handler</span><br><span class="line">    alert.addAlertHandler(new TimeoutAlertHandler(alertRule, notification));</span><br><span class="line">  &#125;</span><br><span class="line">  //...省略其他未改动代码...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line">  public static void main(String[] args) &#123;</span><br><span class="line">    ApiStatInfo apiStatInfo = new ApiStatInfo();</span><br><span class="line">    // ...省略apiStatInfo的set字段代码</span><br><span class="line">    apiStatInfo.setTimeoutCount(289); // 改动四：设置tiemoutCount值</span><br><span class="line">    ApplicationContext.getInstance().getAlert().check(apiStatInfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重构之后的代码更加灵活和易扩展。如果我们要想添加新的告警逻辑，只需要基于扩展的方式创建新的 <code>handler</code> 类即可，不需要改动原来的 <code>check()</code> 函数的逻辑。而且，我们只需要为新的 <code>handler</code> 类添加单元测试，老的单元测试都不会失败，也不用修改。</p>
+<p>开闭原则的<strong>设计初衷</strong>是：只要它没有破坏原有的代码的正常运行，没有破坏原有的单元测试，我们就可以说，这是一个合格的代码改动。</p>
+<p>通过上边举过的例子可以看出：添加一个新功能，不可能任何模块、类、方法的代码都不「修改」，这个是做不到的。我们要做的是尽量让修改操作<strong>更集中、更少、更上层</strong>，尽量让最核心、最复杂的那部分逻辑代码满足开闭原则。</p>
+<p>同样一个代码改动，在<em>粗代码粒度</em>下，被认定为「修改」，在<em>细代码粒度</em>下，又可以被认定为「扩展」。</p>
+<ul>
+<li>比如，改动一，添加属性和方法相当于修改类，在类这个层面，这个代码改动可以被认定为「修改」；</li>
+<li>代码改动并没有修改已有的属性和方法，在方法（及其属性）这一层面，它又可以被认定为「扩展」。</li>
+</ul>
+<h3 id="如何做到「对扩展开放、修改关闭」？"><a href="#如何做到「对扩展开放、修改关闭」？" class="headerlink" title="如何做到「对扩展开放、修改关闭」？"></a>如何做到「对扩展开放、修改关闭」？</h3><h4 id="站在「术」的角度："><a href="#站在「术」的角度：" class="headerlink" title="站在「术」的角度："></a>站在「<strong>术</strong>」的角度：</h4><p>为了尽量写出扩展性好的代码，我们要时刻具备<strong>扩展意识、抽象意识、封装意识</strong>。这些「潜意识」可能比任何开发技巧都重要。</p>
+<h4 id="站在「器」的角度："><a href="#站在「器」的角度：" class="headerlink" title="站在「器」的角度："></a>站在「<strong>器</strong>」的角度：</h4><p>最常用来提高代码扩展性的方法有：<strong>多态、依赖注入、基于接口而非实现编程</strong>，以及大部分的设计模式（比如，装饰、策略、模板、职责链、状态）。</p>
+<h4 id="来看一个遵循开闭原则的例子："><a href="#来看一个遵循开闭原则的例子：" class="headerlink" title="来看一个遵循开闭原则的例子："></a>来看一个遵循开闭原则的例子：</h4><p>结合了多态、依赖注入、基于接口而非实现通过 Kafka 来发送异步消息。</p>
+<ul>
+<li>我们抽象了一组跟具体消息队列（Kafka）无关的异步消息接口</li>
+<li>所有上层系统都依赖这组抽象的接口编程，并且通过依赖注入的方式来调用</li>
+<li>当我们要替换新的消息队列的时候，比如将 Kafka 替换成 RocketMQ，可以很方便地拔掉老的消息队列实现，插入新的消息队列实现。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 这一部分体现了抽象意识</span><br><span class="line">public interface MessageQueue &#123; //... &#125;</span><br><span class="line">public class KafkaMessageQueue implements MessageQueue &#123; //... &#125;</span><br><span class="line">public class RocketMQMessageQueue implements MessageQueue &#123;//...&#125;</span><br><span class="line"></span><br><span class="line">public interface MessageFormatter &#123; //... &#125;</span><br><span class="line">public class JsonMessageFormatter implements MessageFormatter &#123;//...&#125;</span><br><span class="line">public class MessageFormatter implements MessageFormatter &#123;//...&#125;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;</span><br><span class="line">  private MessageQueue msgQueue; // 基于接口而非实现编程</span><br><span class="line">  public Demo(MessageQueue msgQueue) &#123; // 依赖注入</span><br><span class="line">    this.msgQueue = msgQueue;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  // msgFormatter：多态、依赖注入</span><br><span class="line">  public void sendNotification(Notification notification, MessageFormatter msgFormatter) &#123;</span><br><span class="line">    //...    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>实现开闭原则的关键是抽象。</strong>当一个模块依赖的是一个抽象接口的时候，就可以随意对这个抽象接口进行扩展，这个时候，不需要对现有代码进行任何修改，利用接口的多态性，通过增加一个新实现该接口的实现类，就能完成需求变更。</p>
+<p>开闭原则可以说是软件设计<strong>原则的原则</strong>，是软件设计的核心原则，其他的设计原则更偏向<strong>技术性</strong>，具有技术性的指导意义，而开闭原则是<strong>方向性</strong>的，在软件设计的过程中，应该时刻以开闭原则指导、审视自己的设计：当需求变更的时候，现在的设计能否不修改代码就可以实现功能的扩展？如果不是，那么就应该进一步使用其他的设计原则和设计模式去重新设计。</p>
+<h3 id="如何在项目中灵活应用开闭原则？"><a href="#如何在项目中灵活应用开闭原则？" class="headerlink" title="如何在项目中灵活应用开闭原则？"></a>如何在项目中灵活应用开闭原则？</h3><p>写出支持「对扩展开放、对修改关闭」的代码的关键是<strong>预留扩展</strong>点：</p>
+<ul>
+<li>对于一些比较确定的、短期内可能就会扩展，或者需求改动对代码结构影响比较大的情况，或者实现成本不高的扩展点，在编写代码的时候，我们就可以事先做些扩展性设计。</li>
+<li>反之，对于一些不确定未来是否要支持的需求，或者实现起来比较复杂的扩展点，我们可以等到有需求驱动的时候，再通过重构代码的方式来支持扩展的需求。</li>
+</ul>
+<blockquote>
+<p>话外音：这种技术视野的前提是需要在某个领域进行深耕。</p>
+</blockquote>
+<p>最后提醒一下，天下没有免费的午餐，有些情况下，<strong>代码的扩展性会跟可读性相冲突</strong>。很多时候，我们都需要在<strong>扩展性</strong>和<strong>可读性</strong>之间<strong>做权衡</strong>。</p>
+<h2 id="里氏替换原则"><a href="#里氏替换原则" class="headerlink" title="里氏替换原则"></a>里氏替换原则</h2><p>单一职责原则的英文是 <strong>Liskov Substitution Principle</strong>，缩写为 <strong>LSP</strong>。</p>
+<p>官方一些的介绍：子类对象能够替换程序中父类对象出现的任何地方，并且保证原来程序的逻辑行为不变及正确性不被破坏。</p>
+<p>通俗地说就是：<strong>子类型必须能够替换掉它们的基类型。</strong></p>
+<p>通俗地详细点说：程序中，所有使用基类的地方，都应该可以用子类代替。</p>
+<h3 id="里氏替换原则示例-1"><a href="#里氏替换原则示例-1" class="headerlink" title="里氏替换原则示例 1"></a>里氏替换原则示例 1</h3><p>如下代码中，父类 <code>Transporter</code> 使用 <code>org.apache.http</code> 库中的 <code>HttpClient</code> 类来传输网络数据。子类 <code>SecurityTransporter</code> 继承父类 <code>Transporter</code>，增加了额外的功能，支持传输 <code>appId</code> 和 <code>appToken</code> 安全认证信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class Transporter &#123;</span><br><span class="line">  private HttpClient httpClient;</span><br><span class="line">  </span><br><span class="line">  public Transporter(HttpClient httpClient) &#123;</span><br><span class="line">    this.httpClient = httpClient;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public Response sendRequest(Request request) &#123;</span><br><span class="line">    // ...use httpClient to send request</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class SecurityTransporter extends Transporter &#123;</span><br><span class="line">  private String appId;</span><br><span class="line">  private String appToken;</span><br><span class="line"></span><br><span class="line">  public SecurityTransporter(HttpClient httpClient, String appId, String appToken) &#123;</span><br><span class="line">    super(httpClient);</span><br><span class="line">    this.appId = appId;</span><br><span class="line">    this.appToken = appToken;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public Response sendRequest(Request request) &#123;</span><br><span class="line">    if (StringUtils.isNotBlank(appId) &amp;&amp; StringUtils.isNotBlank(appToken)) &#123;</span><br><span class="line">      request.addPayload(&quot;app-id&quot;, appId);</span><br><span class="line">      request.addPayload(&quot;app-token&quot;, appToken);</span><br><span class="line">    &#125;</span><br><span class="line">    return super.sendRequest(request);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Demo &#123;    </span><br><span class="line">  public void demoFunction(Transporter transporter) &#123;    </span><br><span class="line">    Reuqest request = new Request();</span><br><span class="line">    //...省略设置request中数据值的代码...</span><br><span class="line">    Response response = transporter.sendRequest(request);</span><br><span class="line">    //...省略其他逻辑...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 里式替换原则</span><br><span class="line">Demo demo = new Demo();</span><br><span class="line">demo.demofunction(new SecurityTransporter(/*省略参数*/););</span><br></pre></td></tr></table></figure>
+<p>子类 <code>SecurityTransporter</code> 的设计完全符合里式替换原则，可以替换父类出现的任何位置，并且原来代码的逻辑行为不变且正确性也没有被破坏。</p>
+<p>这样看来里氏替换原则不就是简单利用了<strong>多态</strong>的特性吗？我们通过一个反例来看下这两者的区别：</p>
+<blockquote>
+<p>通俗地说，接口（抽象类）的多个实现就是多态。多态可以让程序在编程时面向接口进行编程，在运行期绑定具体类，从而使得类之间不需要直接耦合，就可以关联组合，构成一个更强大的整体对外服务。</p>
+</blockquote>
+<p>我们对刚刚那个例子中 <code>SecurityTransporter</code> 类的 <code>sendRequest()</code> 方法稍加改造一下。</p>
+<ul>
+<li>改造前，如果 <code>appId</code> 或者 <code>appToken</code> 没有设置，我们就不做校验；</li>
+<li>改造后，如果 <code>appId</code> 或者 <code>appToken</code> 没有设置，则直接抛出 <code>NoAuthorizationRuntimeException</code> 未授权异常。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SecurityTransporter extends Transporter &#123;</span><br><span class="line">  //...省略其他代码..</span><br><span class="line">  @Override</span><br><span class="line">  public Response sendRequest(Request request) &#123;</span><br><span class="line">    if (StringUtils.isBlank(appId) || StringUtils.isBlank(appToken)) &#123;</span><br><span class="line">      throw new NoAuthorizationRuntimeException(...);</span><br><span class="line">    &#125;</span><br><span class="line">    request.addPayload(&quot;app-id&quot;, appId);</span><br><span class="line">    request.addPayload(&quot;app-token&quot;, appToken);</span><br><span class="line">    return super.sendRequest(request);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>改造之后的代码仍然可以通过 Java 的多态语法，动态地用子类 <code>SecurityTransporter</code> 来替换父类 <code>Transporter</code>，也并不会导致程序编译或者运行报错。但是，从设计思路上来讲，<code>SecurityTransporter</code> 的设计是不符合里式替换原则的。</p>
+<p>虽然从定义描述和代码实现上来看，多态和里式替换有点类似，但它们关注的角度是不一样的。</p>
+<ul>
+<li>多态是面向对象编程的一大特性，也是面向对象编程语言的一种<em>语法</em>。它是一种代码<strong>实现的思路</strong>。</li>
+<li>里式替换是一种<em>设计原则</em>，是用来<strong>指导继承关系中子类该如何设计</strong>的，子类的设计要保证在替换父类的时候，不改变原有程序的逻辑以及不破坏原有程序的正确性。</li>
+</ul>
+<p>所以，判断子类的设计实现是否违背里式替换原则，还有一个<strong>小窍门</strong>：那就是拿父类的<strong>单元测试</strong>去验证子类的代码。如果某些单元测试运行失败，就有可能说明，子类的设计实现没有完全地遵守父类的约定，子类有可能违背了里式替换原则。</p>
+<h3 id="里氏替换原则示例-2"><a href="#里氏替换原则示例-2" class="headerlink" title="里氏替换原则示例 2"></a>里氏替换原则示例 2</h3><p>我们来看个违反历史替换原则的例子：</p>
+<p><code>Circle</code> 和 <code>Square</code> 继承了基类 <code>Shape</code>，然后在应用的方法中，根据输入 <code>Shape</code> 对象类型进行判断，根据对象类型选择不同的绘图函数将图形画出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void drawShape(Shape shape) &#123;</span><br><span class="line">    if (shape.type == Shape.Circle ) &#123;</span><br><span class="line">        drawCircle((Circle) shape);</span><br><span class="line">    &#125; else if (shape.type == Shape.Square) &#123;</span><br><span class="line">        drawSquare((Square) shape);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        ……</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种写法的代码既常见又糟糕，它同时违反了开闭原则和里氏替换原则。</p>
+<ul>
+<li>首先看到这样的 <code>if/else</code> 代码，就可以判断违反了（我们刚刚在上个部分讲过的）开闭原则：当增加新的 <code>Shape</code> 类型的时候，必须修改这个方法，增加 <code>else if</code> 代码。</li>
+<li>其次也因为同样的原因违反了里氏替换原则：当增加新的<code>Shape</code> 类型的时候，如果没有修改这个方法，没有增加 <code>else if</code> 代码，那么这个新类型就无法替换基类 <code>Shape</code>。 </li>
+</ul>
+<p>要解决这个问题其实也很简单，只需要在基类 <code>Shape</code> 中定义 <code>draw</code> 方法，所有 <code>Shape</code> 的子类，<code>Circle</code>、<code>Square</code> 都实现这个方法就可以了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public abstract Shape&#123;</span><br><span class="line">  public abstract void draw();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面那段 <code>drawShape()</code> 代码也就可以变得更简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void drawShape(Shape shape) &#123;</span><br><span class="line">  shape.draw();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码既满足<strong>开闭原则</strong>：增加新的类型不需要修改任何代码。也满足里氏<strong>替换原则</strong>：在使用基类的这个方法中，可以用子类替换，程序正常运行。</p>
+<h3 id="如何在实践中遵循里氏替换原则"><a href="#如何在实践中遵循里氏替换原则" class="headerlink" title="如何在实践中遵循里氏替换原则"></a>如何在实践中遵循里氏替换原则</h3><p>子类在设计的时候，要遵守父类的行为约定（或者叫协议）。父类定义了函数的行为约定，那子类可以改变函数的内部实现逻辑，但不能改变函数原有的<em>行为约定</em>，这也是我们常说的「Design By Contract」，中文翻译就是「按照协议（契约、约定）来设计」。</p>
+<p>以下是三种常见的违背约定的情况：</p>
+<ol>
+<li>子类违背父类声明要实现的功能<ul>
+<li>如：父类中提供的 <code>sortOrdersByAmount()</code> 订单排序函数，是按照<strong>金额</strong>从小到大来给订单排序的，而子类重写这个 <code>sortOrdersByAmount()</code> 订单排序函数之后，是按照<strong>创建日期</strong>来给订单排序的。那子类的设计就违背里式替换原则。</li>
+</ul>
+</li>
+<li>子类违背父类对输入、输出、异常的约定<ul>
+<li>如：在父类中，某个函数约定：运行出错的时候返回 <code>null</code>；获取数据为空的时候返回空集合（empty collection）。而子类重载函数之后，实现变了，运行出错返回异常（exception），获取不到数据返回 <code>null</code>。</li>
+<li>在父类中，某个函数约定，输入数据可以是任意整数，但子类实现的时候，只允许输入数据是正整数，负数就抛出异常，也就是说，子类对输入的数据的校验比父类更加严格，那子类的设计就违背了里式替换原则。</li>
+<li>在父类中，某个函数约定，只会抛出 <code>ArgumentNullException</code> 异常，那子类的设计实现中只允许抛出 <code>ArgumentNullException</code> 异常，任何其他异常的抛出，都会导致子类违背里式替换原则。</li>
+</ul>
+</li>
+<li>子类违背父类注释中所罗列的任何特殊说明<ul>
+<li>如：父类中定义的 <code>withdraw()</code> 提现函数的注释是这么写的：「用户的提现金额不得超过账户余额……」，而子类重写 <code>withdraw()</code> 函数之后，针对 VIP 账号实现了透支提现的功能，也就是提现金额可以大于账户余额</li>
+</ul>
+</li>
+</ol>
+<p>子类的协议<strong>不能比父类更严格</strong>，否则使用者在用子类替换父类的时候，就会因为更严格的协议而失败。</p>
+<p>在类的继承中，如果父类方法的访问控制是 <code>protected</code>，那么子类 <code>override</code> 这个方法的时候，可以改成是 <code>public</code>，但是不能改成 <code>private</code>。因为 <code>private</code> 的访问控制比 <code>protected</code> 更严格，能使用父类 <code>protected</code> 方法的地方，不能用子类的 <code>private</code> 方法替换，否则就是违反里氏替换原则的。相反，如果子类方法的访问控制改成 <code>public</code> 就没问题，即子类可以有比父类更宽松的协议。同样，子类 <code>override</code> 父类方法的时候，不能将父类的 <code>public</code> 方法改成 <code>protected</code>，否则会出现编译错误。</p>
+<p>实践中，当你<strong>继承一个父类仅仅是为了复用父类中的方法</strong>的时候，那么很有可能你离错误的继承已经不远了。<strong>一个类如果不是为了被继承而设计，那么最好就不要继承它。</strong></p>
+<p>粗暴一点地说，<strong>如果不是抽象类或者接口，最好不要继承它</strong>。</p>
+<p>如果你确实需要使用一个类的方法，最好的办法是<em>组合</em>这个类而不是继承这个类，这就是人们通常说的<strong>组合优于继承</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Class A&#123;</span><br><span class="line"> public Element query(int id)&#123;...&#125;</span><br><span class="line"> public void modify(Element e)&#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Class B&#123;</span><br><span class="line">  private A a;</span><br><span class="line">  public Element select(int id)&#123;</span><br><span class="line">    a.query(id);</span><br><span class="line">  &#125; </span><br><span class="line">   public void modify(Element e)&#123;</span><br><span class="line">     a.modify(e);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a>接口隔离原则</h2><p>接口隔离原则的英文是 <strong>SInterface Segregation Principle</strong>，缩写为 <strong>ISP</strong>。</p>
+<p>这个原则是说：<strong>客户端不应该强迫依赖它不需要的接口</strong>。</p>
+<p>我们可以从三个角度理解「接口」：</p>
+<ul>
+<li>一组 API 接口集合</li>
+<li>单个 API 接口或函数</li>
+<li>OOP 中的接口概念</li>
+</ul>
+<p>下面我们逐个进行说明。</p>
+<h3 id="把「接口」理解为一组-API-接口集合"><a href="#把「接口」理解为一组-API-接口集合" class="headerlink" title="把「接口」理解为一组 API 接口集合"></a>把「接口」理解为一组 API 接口集合</h3><p>在设计微服务或者类库接口的时候，如果部分接口只被部分调用者使用，那我们就需要将这部分接口隔离出来，单独给对应的调用者使用，而不是强迫其他调用者也依赖这部分不会被用到的接口。</p>
+<p>举例说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line">  boolean register(String cellphone, String password);</span><br><span class="line">  boolean login(String cellphone, String password);</span><br><span class="line">  UserInfo getUserInfoById(long id);</span><br><span class="line">  UserInfo getUserInfoByCellphone(String cellphone);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public interface RestrictedUserService &#123;</span><br><span class="line">  boolean deleteUserByCellphone(String cellphone);</span><br><span class="line">  boolean deleteUserById(long id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class UserServiceImpl implements UserService, RestrictedUserService &#123;</span><br><span class="line">  // ...省略实现代码...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>删除用户是一个非常慎重的操作，我们只希望通过后台管理系统来执行，所以这个接口只限于给后台管理系统使用。如果我们把它放到 <code>UserService</code> 中，那所有使用到 <code>UserService</code> 的系统，都可以调用这个接口。不加限制地被其他业务系统调用，就有可能导致误删用户。</p>
+<p>参照接口隔离原则，调用者不应该强迫依赖它不需要的接口，将删除接口单独放到另外一个接口 <code>RestrictedUserService</code> 中，然后将 <code>RestrictedUserService</code> 只打包提供给后台管理系统来使用。</p>
+<h3 id="把「接口」理解为单个-API-接口或函数"><a href="#把「接口」理解为单个-API-接口或函数" class="headerlink" title="把「接口」理解为单个 API 接口或函数"></a>把「接口」理解为单个 API 接口或函数</h3><p>隔离原则就可以理解为：函数的设计要功能单一，不要将多个不同的功能逻辑在一个函数中实现。</p>
+<p>接口隔离原则跟单一职责原则有点类似，不过稍微还是有点区别。</p>
+<ul>
+<li>单一职责原则针对的是<strong>模块、类、接口</strong>的设计</li>
+<li>接口隔离原则相对于单一职责原则，一方面它更侧重于<strong>接口</strong>的设计，另一方面它的<em>思考的角度</em>不同</li>
+</ul>
+<p>接口隔离原则提供了一种判断接口是否职责单一的<em>标准</em>：通过调用者如何使用接口来间接地判定。如果调用者只使用部分接口或接口的部分功能，那接口的设计就不够职责单一。</p>
+<p>举例说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Statistics &#123;</span><br><span class="line">  private Long max;</span><br><span class="line">  private Long min;</span><br><span class="line">  private Long average;</span><br><span class="line">  private Long sum;</span><br><span class="line">  private Long percentile99;</span><br><span class="line">  private Long percentile999;</span><br><span class="line">  //...省略constructor/getter/setter等方法...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public Statistics count(Collection&lt;Long&gt; dataSet) &#123;</span><br><span class="line">  Statistics statistics = new Statistics();</span><br><span class="line">  //...省略计算逻辑...</span><br><span class="line">  return statistics;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，<code>count()</code> 函数的功能不够单一，包含很多不同的统计功能，比如，求最大值、最小值、平均值等等。如果某个统计需求只涉及 <code>Statistics</code> 罗列的统计信息中一部分，而 <code>count()</code> 函数每次都会把所有的统计信息计算一遍，就会做很多无用功，势必影响代码的性能</p>
+<p>按照接口隔离原则，我们应该把 <code>count()</code> 函数拆成几个更小粒度的函数，每个函数负责一个独立的统计功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public Long max(Collection&lt;Long&gt; dataSet) &#123; //... &#125;</span><br><span class="line">public Long min(Collection&lt;Long&gt; dataSet) &#123; //... &#125; </span><br><span class="line">public Long average(Colletion&lt;Long&gt; dataSet) &#123; //... &#125;</span><br><span class="line">// ...省略其他统计函数...</span><br></pre></td></tr></table></figure>
+<h3 id="把「接口」理解为-OOP-中的接口概念"><a href="#把「接口」理解为-OOP-中的接口概念" class="headerlink" title="把「接口」理解为 OOP 中的接口概念"></a>把「接口」理解为 OOP 中的接口概念</h3><p>接口的设计要尽量单一，不要让接口的实现类和调用者，依赖不需要的接口函数或方法。</p>
+<p>使用接口隔离原则，就是<strong>定义多个接口</strong>，不同调用者依赖不同的接口，只看到自己需要的方法。而实现类则实现这些接口，通过多个接口将类内部不同的方法隔离开来。</p>
+<p>那么如果强迫用户依赖他们不需要的方法，会导致什么后果呢？</p>
+<ul>
+<li>一来，用户可以看到这些他们不需要，也不理解的方法，这样无疑会增加他们使用的难度，如果错误地调用了这些方法，就会产生 bug。</li>
+<li>二来，当这些方法如果因为某种原因需要更改的时候，虽然不需要但是依赖这些方法的用户程序也必须做出更改，这是一种不必要的耦合。</li>
+</ul>
+<p>举例说明：</p>
+<h4 id="把「接口」理解为-OOP-中的接口概念-1"><a href="#把「接口」理解为-OOP-中的接口概念-1" class="headerlink" title="把「接口」理解为 OOP 中的接口概念"></a>把「接口」理解为 OOP 中的接口概念</h4><p>假如我们需要开发一个支持根据远程配置中心配置来动态更改缓存配置的缓存服务。</p>
+<p><img src="7.png" alt=""></p>
+<p>这个缓存服务 <code>Client</code> 类的方法主要包含两个部分：</p>
+<ul>
+<li>一部分是缓存服务方法，<code>get()</code>、<code>put()</code>、<code>delete()</code> 这些，这些方法是面向调用者的</li>
+<li>另一部分是配置更新方法 <code>reBuild()</code>，这个方法主要是给远程配置中心调用的</li>
+</ul>
+<p>但是问题是，<code>Cache</code> 类的调用者如果看到 <code>reBuild()</code> 方法，并错误地调用了该方法，就可能导致 <code>Cache</code> 连接被错误重置，导致无法正常使用 <code>Cache</code> 服务。所以必须要将 <code>reBuild()</code> 方法向缓存服务的调用者隐藏，而只对远程配置中心的本地代理开放这个方法。</p>
+<p>我们可以进行如下调整：</p>
+<p>实现类同时实现 <code>Cache</code> 接口和 <code>CacheManageable</code> 接口，其中 <code>Cache</code> 接口提供标准的 <code>Cache</code> 服务方法，应用程序只需要依赖该接口。而 <code>CacheManageable</code> 接口则对外暴露 <code>reBuild()</code> 方法。</p>
+<p><img src="8.jpg" alt=""></p>
+<p>使用接口隔离原则，就是定义多个接口，不同调用者依赖不同的接口，只看到自己需要的方法。而实现类则实现这些接口，通过多个接口将类内部不同的方法隔离开来。</p>
+<h2 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h2><blockquote>
+<p>单一职责原则和开闭原则的原理比较简单，但是，想要在实践中用好却比较难。而依赖倒置原则正好相反。依赖倒置原则用起来比较简单，但概念理解起来比较难。</p>
+</blockquote>
+<p>依赖倒置原则的英文是 <strong>Dependency Inversion Principle</strong>，缩写为 <strong>DIP</strong>。</p>
+<p>依赖倒置原则说的是：<strong>高层模块不依赖低层模块，它们共同依赖同一个抽象，这个抽象接口通常是由高层模块定义，低层模块实现。同时抽象不要依赖具体实现细节，具体实现细节依赖抽象。</strong></p>
+<p>所谓高层模块和低层模块的划分，简单来说就是，在调用链上，<strong>调用者属于高层，被调用者属于低层</strong>。</p>
+<p>在具体讲解依赖倒置原则前，我们先来看几个与之有关的常见概念：控制反转、依赖注入、依赖注入框架。</p>
+<h3 id="控制反转（IOC）"><a href="#控制反转（IOC）" class="headerlink" title="控制反转（IOC）"></a>控制反转（IOC）</h3><p>控制反转是一个比较笼统的<strong>设计思想</strong>，并不是一种具体的<strong>实现方法</strong>，一般用来<strong>指导框架层面的设计</strong>。</p>
+<p>框架提供了一个可扩展的代码骨架，用来组装对象、管理整个执行流程。程序员利用框架进行开发的时候，只需要往预留的扩展点上，添加跟自己业务相关的代码，就可以利用框架来驱动整个程序流程的执行。</p>
+<p>这里的「控制」指的是<strong>对程序执行流程的控制</strong>，而「反转」指的是在没有使用框架之前，程序员<strong>自己控制</strong>整个程序的执行。在使用框架之后，整个程序的执行流程可以通过<strong>框架来控制</strong>。流程的控制权从程序员「反转」到了框架。</p>
+<p>我们举个例子来看一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceTest &#123;</span><br><span class="line">  public static boolean doTest() &#123;</span><br><span class="line">    // ... </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public static void main(String[] args) &#123;//这部分逻辑可以放到框架中</span><br><span class="line">    if (doTest()) &#123;</span><br><span class="line">      System.out.println(&quot;Test succeed.&quot;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      System.out.println(&quot;Test failed.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，所有的流程都由程序员来控制。如果我们抽象出一个下面这样一个框架，我们再来看，如何利用框架来实现同样的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public abstract class TestCase &#123;</span><br><span class="line">  public void run() &#123;</span><br><span class="line">    if (doTest()) &#123;</span><br><span class="line">      System.out.println(&quot;Test succeed.&quot;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      System.out.println(&quot;Test failed.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public abstract boolean doTest();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class JunitApplication &#123;</span><br><span class="line">  private static final List&lt;TestCase&gt; testCases = new ArrayList&lt;&gt;();</span><br><span class="line">  </span><br><span class="line">  public static void register(TestCase testCase) &#123;</span><br><span class="line">    testCases.add(testCase);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public static final void main(String[] args) &#123;</span><br><span class="line">    for (TestCase case: testCases) &#123;</span><br><span class="line">      case.run();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>把这个简化版本的测试框架引入到工程中之后，我们只需要在框架预留的扩展点，也就是 <code>TestCase</code> 类中的 <code>doTest()</code> 抽象函数中，填充具体的测试代码就可以实现之前的功能了，完全不需要写负责执行流程的 <code>main()</code> 函数了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceTest extends TestCase &#123;</span><br><span class="line">  @Override</span><br><span class="line">  public boolean doTest() &#123;</span><br><span class="line">    // ... </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 注册操作还可以通过配置的方式来实现，不需要程序员显示调用register()</span><br><span class="line">JunitApplication.register(new UserServiceTest();</span><br></pre></td></tr></table></figure>
+<p>控制反转的方式有很多，除了依赖注入，还有<em>模板模式</em>等，我们常用的 Spring 框架主要是通过<strong>依赖注入</strong>来实现的控制反转。</p>
+<p>下面我们来看看依赖注入。</p>
+<h3 id="依赖注入（DI）"><a href="#依赖注入（DI）" class="headerlink" title="依赖注入（DI）"></a>依赖注入（DI）</h3><p>依赖注入跟控制反转恰恰相反，它是一种具体的<strong>编码技巧</strong>。</p>
+<p>依赖注入用一句话来概括就是：不通过 <code>new()</code> 的方式在类内部创建依赖类对象，而是将依赖的类对象<strong>在外部创建</strong>好之后，<strong>通过构造函数、函数参数等方式传递</strong>（或注入）给类使用。</p>
+<p>这里给出一个例子，分别用非依赖注入和依赖注入来实现同一个需求：<code>Notification</code> 类负责消息推送，依赖 <code>MessageSender</code> 类实现推送商品促销、验证码等消息给用户。</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">// 非依赖注入实现方式</span><br><span class="line">public class Notification &#123;</span><br><span class="line">  private MessageSender messageSender;</span><br><span class="line">  </span><br><span class="line">  public Notification() &#123;</span><br><span class="line">    this.messageSender = new MessageSender(); //此处有点像hardcode</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public void sendMessage(String cellphone, String message) &#123;</span><br><span class="line">    //...省略校验逻辑等...</span><br><span class="line">    this.messageSender.send(cellphone, message);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MessageSender &#123;</span><br><span class="line">  public void send(String cellphone, String message) &#123;</span><br><span class="line">    //....</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 使用Notification</span><br><span class="line">Notification notification = new Notification();</span><br><span class="line"></span><br><span class="line">// 依赖注入的实现方式</span><br><span class="line">public class Notification &#123;</span><br><span class="line">  private MessageSender messageSender;</span><br><span class="line">  </span><br><span class="line">  // 通过构造函数将messageSender传递进来</span><br><span class="line">  public Notification(MessageSender messageSender) &#123;</span><br><span class="line">    this.messageSender = messageSender;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  public void sendMessage(String cellphone, String message) &#123;</span><br><span class="line">    //...省略校验逻辑等...</span><br><span class="line">    this.messageSender.send(cellphone, message);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">//使用Notification</span><br><span class="line">MessageSender messageSender = new MessageSender();</span><br><span class="line">Notification notification = new Notification(messageSender);</span><br></pre></td></tr></table></figure>
+<p>通过依赖注入的方式来将依赖的类对象传递进来，这样就提高了代码的扩展性，我们可以灵活地替换依赖的类（将 <code>MessageSender</code> 定义成接口）。</p>
+<h3 id="依赖注入框架（DI-Framework）"><a href="#依赖注入框架（DI-Framework）" class="headerlink" title="依赖注入框架（DI Framework）"></a>依赖注入框架（DI Framework）</h3><p>在实际的软件开发中，一些项目可能会涉及几十、上百、甚至几百个类，类对象的创建和依赖注入会变得非常复杂。如果这部分工作都是靠程序员自己写代码来完成，容易出错且开发成本也比较高。而对象创建和依赖注入的工作，本身跟具体的业务无关，我们完全可以抽象成框架来自动完成。</p>
+<p>这个框架就是「依赖注入框架」。我们只需要通过依赖注入框架提供的扩展点，简单配置一下所有需要创建的类对象、类与类之间的依赖关系，就可以实现由框架来自动创建对象、管理对象的生命周期、依赖注入等原本需要程序员来做的事情。</p>
+<p>常见的依赖注入框架有：Google Guice、Java Spring、Pico Container、Butterfly Container 等。</p>
+<blockquote>
+<p>框架的一个特点是，当开发者使用框架开发一个应用程序时，<strong>无需在程序中调用框架的代码</strong>，就可以使用框架的功能特性。比如：</p>
+</blockquote>
+<ul>
+<li>程序不需要调用 Spring 的代码，就可以使用 Spring 的依赖注入、MVC 这些特性，开发出低耦合、高内聚的应用代码</li>
+<li>程序不需要调用 Tomcat 的代码，就可以监听<code>HTTP</code> 协议端口，处理 <code>HTTP</code> 请求</li>
+</ul>
+<h3 id="依赖倒置原则（DIP）"><a href="#依赖倒置原则（DIP）" class="headerlink" title="依赖倒置原则（DIP）"></a>依赖倒置原则（DIP）</h3><p>最后回到我们这部分的主角。</p>
+<p>这条原则主要也是用来<strong>指导框架层面的设计</strong>，跟前面讲到的控制反转类似。</p>
+<p>我们先用 Tomcat 来说明一下这个原则：Tomcat 是运行 Java Web 应用程序的容器。我们编写的 Web 应用程序代码只需要部署在 Tomcat 容器下，便可以被 Tomcat 容器调用执行。按照之前的划分原则，Tomcat 就是高层模块，我们编写的 Web 应用程序代码就是低层模块。Tomcat 和应用程序代码之间并没有直接的依赖关系，两者都依赖同一个「抽象」，也就是 Servlet 规范。Servlet 规范不依赖具体的 Tomcat 容器和应用程序的实现细节，而 Tomcat 容器和应用程序依赖 Servlet 规范。</p>
+<p>再用 JDBC 为例子说明一下依赖倒置原则：我们在 Java 开发中访问数据库，代码并不直接依赖数据库的驱动，而是依赖 JDBC。各种数据库的驱动都实现了 JDBC，当应用程序需要更换数据库的时候，不需要修改任何代码。这正是因为应用代码，也就是<strong>高层模块</strong>，不依赖数据库驱动，而是依赖<strong>抽象</strong> JDBC，而数据库驱动，作为<strong>低层模块</strong>，也依赖 JDBC。</p>
+<p>这里可能会存在一个误区：我们在日常的 Web 开发中， <code>Service</code> 层会依赖 <code>DAO</code> 层提供的接口，但这种依赖并<strong>不是依赖倒置原则！</strong>在依赖倒置原则中，除了具体实现要依赖抽象，<strong>最重要的是，抽象是属于谁的抽象</strong>。</p>
+<p>最后再举一个依赖倒置原则的例子：</p>
+<p><code>Button</code> 按钮控制 <code>Lamp</code> 灯泡，按钮按下的时候，灯泡点亮或者关闭。按照常规的设计思路，我们可能会设计出如下的类图关系，<code>Button</code> 类直接依赖 <code>Lamp</code> 类。</p>
+<p><img src="9.png" alt=""></p>
+<p>这样设计的问题在于，<code>Button</code> 依赖 <code>Lamp</code>，那么对 <code>Lamp</code> 的任何改动，都可能会使 <code>Button</code> 受到牵连，做出联动的改变。同时，我们也无法重用 <code>Button</code> 类。</p>
+<p>解决之道就是将这个设计中的依赖于实现，重构为依赖于抽象。这里的抽象就是：打开关闭目标对象。</p>
+<ul>
+<li>由 <code>Button</code> 定义一个抽象接口 <code>ButtonServer</code>，在 <code>ButtonServer</code> 中描述抽象：打开、关闭目标对象</li>
+<li>由具体的目标对象，比如 <code>Lamp</code> 实现这个接口，从而完成 <code>Button</code> 控制 <code>Lamp</code> 这一功能需求</li>
+</ul>
+<p><img src="10.png" alt=""></p>
+<p>通过这样一种依赖倒置，<code>Button</code> 不再依赖 <code>Lamp</code>，而是依赖抽象 <code>ButtonServer</code>，而 <code>Lamp</code> 也依赖 <code>ButtonServer</code>，高层模块和低层模块都依赖抽象。<code>Lamp</code> 的改动不会再影响 <code>Button</code>，而 <code>Button</code> 可以复用控制其他目标对象，比如电机，或者任何由按钮控制的设备，只要这些设备实现 <code>ButtonServer</code> 接口就可以了。</p>
+<p>依赖倒置原则也被称为好莱坞原则：<strong>Don’t call me，I will call you.</strong> </p>
+<p>遵循依赖倒置原则有这样几个编码守则：</p>
+<ol>
+<li>应用代码中<strong>多使用抽象接口</strong>，尽量避免使用那些多变的具体实现类。</li>
+<li>不要继承具体类，如果一个类在设计之初不是抽象类，那么尽量不要去继承它。对具体类的继承是一种强依赖关系，维护的时候难以改变。</li>
+<li>不要重写（<code>Override</code>）包含具体实现的函数。</li>
+</ol>
+<blockquote>
+<p>软件开发有时候像变魔术一样，常常表现出违反常识的特性，让人目眩神晕，而这正是软件编程这门艺术的魅力所在，感受到这种魅力，在自己的软件设计开发中体现出这种魅力，你就迈进了软件高手的大门。</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>极客时间：<a href="https://time.geekbang.org/column/intro/254" target="_blank" rel="noopener">后端技术面试38讲</a>、<a href="https://time.geekbang.org/column/intro/250" target="_blank" rel="noopener">设计模式之美</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/技术/" rel="tag"># 技术</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/homebrew-china-mirror/" rel="prev" title="Homebrew 修改国内源">
+      <i class="fa fa-chevron-left"></i> Homebrew 修改国内源
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/git-lose-weight/" rel="next" title="GitLab 瘦身方法">
+      GitLab 瘦身方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单一职责原则"><span class="nav-number">1.</span> <span class="nav-text">单一职责原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个类或者模块只负责完成一个职责（或者功能）"><span class="nav-number">1.1.</span> <span class="nav-text">一个类或者模块只负责完成一个职责（或者功能）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个类，应该只有一个引起它变化的原因"><span class="nav-number">1.2.</span> <span class="nav-text">一个类，应该只有一个引起它变化的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从-Web-应用架构演进看单以职责原则"><span class="nav-number">1.3.</span> <span class="nav-text">从 Web 应用架构演进看单以职责原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何判断一个类是否满足单一职责？"><span class="nav-number">1.4.</span> <span class="nav-text">如何判断一个类是否满足单一职责？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开闭原则"><span class="nav-number">2.</span> <span class="nav-text">开闭原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#举例说明开闭原则"><span class="nav-number">2.1.</span> <span class="nav-text">举例说明开闭原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不遵循开闭原则的修改"><span class="nav-number">2.2.</span> <span class="nav-text">不遵循开闭原则的修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遵循开闭原则的修改"><span class="nav-number">2.3.</span> <span class="nav-text">遵循开闭原则的修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何做到「对扩展开放、修改关闭」？"><span class="nav-number">2.4.</span> <span class="nav-text">如何做到「对扩展开放、修改关闭」？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#站在「术」的角度："><span class="nav-number">2.4.1.</span> <span class="nav-text">站在「术」的角度：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#站在「器」的角度："><span class="nav-number">2.4.2.</span> <span class="nav-text">站在「器」的角度：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#来看一个遵循开闭原则的例子："><span class="nav-number">2.4.3.</span> <span class="nav-text">来看一个遵循开闭原则的例子：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在项目中灵活应用开闭原则？"><span class="nav-number">2.5.</span> <span class="nav-text">如何在项目中灵活应用开闭原则？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#里氏替换原则"><span class="nav-number">3.</span> <span class="nav-text">里氏替换原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#里氏替换原则示例-1"><span class="nav-number">3.1.</span> <span class="nav-text">里氏替换原则示例 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#里氏替换原则示例-2"><span class="nav-number">3.2.</span> <span class="nav-text">里氏替换原则示例 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在实践中遵循里氏替换原则"><span class="nav-number">3.3.</span> <span class="nav-text">如何在实践中遵循里氏替换原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口隔离原则"><span class="nav-number">4.</span> <span class="nav-text">接口隔离原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#把「接口」理解为一组-API-接口集合"><span class="nav-number">4.1.</span> <span class="nav-text">把「接口」理解为一组 API 接口集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把「接口」理解为单个-API-接口或函数"><span class="nav-number">4.2.</span> <span class="nav-text">把「接口」理解为单个 API 接口或函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把「接口」理解为-OOP-中的接口概念"><span class="nav-number">4.3.</span> <span class="nav-text">把「接口」理解为 OOP 中的接口概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#把「接口」理解为-OOP-中的接口概念-1"><span class="nav-number">4.3.1.</span> <span class="nav-text">把「接口」理解为 OOP 中的接口概念</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖倒置原则"><span class="nav-number">5.</span> <span class="nav-text">依赖倒置原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制反转（IOC）"><span class="nav-number">5.1.</span> <span class="nav-text">控制反转（IOC）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖注入（DI）"><span class="nav-number">5.2.</span> <span class="nav-text">依赖注入（DI）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖注入框架（DI-Framework）"><span class="nav-number">5.3.</span> <span class="nav-text">依赖注入框架（DI Framework）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖倒置原则（DIP）"><span class="nav-number">5.4.</span> <span class="nav-text">依赖倒置原则（DIP）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

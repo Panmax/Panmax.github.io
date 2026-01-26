@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="今天是端午节，祝各位端午安康。  做靠谱的人作为一名员工，在职场中非常重要的一个品质就是要稳定输出，这很像我们监控指标中经见的 P99。 比如说有这样两个视频 App，一个 App 在打开视频的时候，有 99.99% 的概率会最多缓冲 3s，后面就会顺畅播放视频。另一个 App 有 80% 的概率视频一秒不卡，还有 20% 的概率每一帧都卡，卡到忧伤。如果只能选一个 App，你会选择哪个 App">
+<meta name="keywords" content="效率工具,Things3,GTD,任务管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Panmax 的 Things 实践">
+<meta property="og:url" content="https://jiapan.me/2022/my-things-practice/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="今天是端午节，祝各位端午安康。  做靠谱的人作为一名员工，在职场中非常重要的一个品质就是要稳定输出，这很像我们监控指标中经见的 P99。 比如说有这样两个视频 App，一个 App 在打开视频的时候，有 99.99% 的概率会最多缓冲 3s，后面就会顺畅播放视频。另一个 App 有 80% 的概率视频一秒不卡，还有 20% 的概率每一帧都卡，卡到忧伤。如果只能选一个 App，你会选择哪个 App">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220603104835.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220602063734.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220602065419.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220603094351.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220603094623.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220602070654.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220602070545.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220602070556.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220601055823.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220601060047.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220603103019.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220603103343.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220601055643.png">
+<meta property="og:image" content="https://jiapan.me/2022/my-things-practice/20220601055715.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Panmax 的 Things 实践">
+<meta name="twitter:description" content="今天是端午节，祝各位端午安康。  做靠谱的人作为一名员工，在职场中非常重要的一个品质就是要稳定输出，这很像我们监控指标中经见的 P99。 比如说有这样两个视频 App，一个 App 在打开视频的时候，有 99.99% 的概率会最多缓冲 3s，后面就会顺畅播放视频。另一个 App 有 80% 的概率视频一秒不卡，还有 20% 的概率每一帧都卡，卡到忧伤。如果只能选一个 App，你会选择哪个 App">
+<meta name="twitter:image" content="https://jiapan.me/2022/my-things-practice/20220603104835.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/my-things-practice/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Panmax 的 Things 实践 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/my-things-practice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Panmax 的 Things 实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-06-03 10:34:46" itemprop="dateCreated datePublished" datetime="2022-06-03T10:34:46+08:00">2022-06-03</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/my-things-practice/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/my-things-practice/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>今天是端午节，祝各位端午安康。</p>
+</blockquote>
+<h2 id="做靠谱的人"><a href="#做靠谱的人" class="headerlink" title="做靠谱的人"></a>做靠谱的人</h2><p>作为一名员工，在职场中非常重要的一个品质就是要稳定输出，这很像我们监控指标中经见的 P99。</p>
+<p>比如说有这样两个视频 App，一个 App 在打开视频的时候，有 99.99% 的概率会最多缓冲 3s，后面就会顺畅播放视频。另一个 App 有 80% 的概率视频一秒不卡，还有 20% 的概率每一帧都卡，卡到忧伤。如果只能选一个 App，你会选择哪个 App？我想大部分没有自虐倾向的人都会选择第一个。</p>
+<p>只有长时间稳定输出，老板才放心让我们承担更多、更大的职责，同事们也更愿意和稳定靠谱的同事合作「不求有惊喜，但求无惊吓」。</p>
+<p>说到这里，通过最近发生在自己身上的一件事，获得的感想是，任何寻常的跨部门合作都要认真对待，说不定日会有意想不到的结果。</p>
+<h2 id="Things3"><a href="#Things3" class="headerlink" title="Things3"></a>Things3</h2><p>我可以很自信的说，我绝对是一个靠谱、输出稳定的打工人，而我能做到这一点，除了一些习惯外，给我提供最大帮助的是一款叫 Things3 的任务管理工具。我现在差不多每天的工作事项都是靠 Things3 驱动，说的通俗点是靠 Todo 驱动，这有点像我们常说的 deadline 是第一生产力。</p>
+<p>「君子生非异也，善假於物也。」</p>
+<blockquote>
+<p>下文提到的 Things 皆为 Things3，为了简化称呼我将去掉 3 这个数字。</p>
+</blockquote>
+<p>我用过很多 Todo 类的工具，比如嘀嗒清单、微软的 Todo，Sorted，最终还是留在了 Things，它的界面、交互、易用性吸引了我。</p>
+<p>使用 Things 的好处是我能在每天一早就知道今天有哪些重点工作，一天中想到任何要做的事情都可以记录下来，领导安排的临时工作或者向其他人承诺的事项也可以记录下来，好记性不如烂笔头，人脑不适合存储这种临时的、用完就可以扔的记忆。</p>
+<p>我使用 Things 有 4、5 年了，下面就来介绍下我是如何使用这款工具的。这里我不介绍 GTD 的方法论，只说我的实践。也不会面面俱到介绍 Things 的各种细节，你下载个 Things 跟着首次使用的入门教程走一遍就明白了。</p>
+<p>以下我通过 Things 的 Mac 版本来做演示，手机上的功能完全相同，不管是哪一端体验都非常棒，我自己双端都有在高频使用，路上使用手机端、工作时使用  Mac 端，同时还在手机桌面和 Apple Watch 表盘上放了 Things 的小组件，可以在不打开 App 的时候就看到待办事项。</p>
+<p><img src="20220603104835.png" width="50%" style="margin: 0 auto;"></p>
+<p>另外补充下，Things 的三端（Mac、iOS、iPad）都是要独立收费，手机上的价格还好，但  Mac 上的价格有些感人。</p>
+<h2 id="时间目录"><a href="#时间目录" class="headerlink" title="时间目录"></a>时间目录</h2><p><img src="20220602063734.png" width="50%" style="margin: 0 auto;"></p>
+<p>Things 根据事项要完成的时间分了这些目录：</p>
+<ul>
+<li>收件箱，临时存放或不用分类的琐碎事项；</li>
+<li>今天，时间聚焦到今天；</li>
+<li>计划，也可以理解成日程安排，有具体时间点的事项。</li>
+<li>随时，随时可抽时间完成的事项以及本周临近截至时间（Deadline）需要优先考虑的事项；</li>
+<li>某天，选择了「某天」时间标签的事项，可以用来归集不需要时间点约束的未来待办事项；</li>
+<li>日志簿（完成事项的历史记录）。</li>
+</ul>
+<p>我自己使用的时候只会用到「今天」、「计划」、「日志簿」，其他的几乎不用。</p>
+<h2 id="新建任务到「今日」"><a href="#新建任务到「今日」" class="headerlink" title="新建任务到「今日」"></a>新建任务到「今日」</h2><p>我个人的习惯是，所有新建的任务不管分类、不管是不是一定要今天做，一律先放入「今天」，按照 GTD 的理论应该是先放收件箱。我前边提到，我是靠 Todo 驱动，也就是每天都要把今天的任务消灭掉。这里的消灭可以不必是完成，而是把任务安排到其他更合适的时间或者拆解成更小粒度的任务打散到多天完成。</p>
+<p>举个例子，比如今天周一我接了一个需求，排期要周五上线，我可能因为其他事正在赶工，先在  Things 的「今天」里加上一条「周五上线  xxx 功能」。之后在我不忙的时候，再次打开  Things 就会看到我刚才记录的那件事情，这时候可以根据我的经验将这个任务拆成若干小任务，并安排到后边的时间里，比如：「完成  A 模块开发」并把它安排到周二（可以在「计划」中找到），「完成 B 模块开发」并把它安排到周三，「完成功能测试」并把它安排到周四，「xx 功能上线」并安排到周五。这样后边每一天我都有这个项目的合理进度安排，同时做每一项的时候你都可以给未来的自己留言，比如我周二周三开发完模块  AB，对应的 merge request 可以记录在周五的上线那个事项里，开发过程中修改的配置也可以记录下来，避免上线时忘记。</p>
+<p>下边是一个我前段时间上线功能的截图，：</p>
+<p><img src="20220602065419.png" width="70%" style="margin: 0 auto;"></p>
+<p>里边的 mr 地址和配置项都是在前期开发过程中记下来的，到了上线那天完全不用担心漏掉什么，也不用现去翻找我们的  mr 给其他同事  review。</p>
+<h2 id="用好循环事件"><a href="#用好循环事件" class="headerlink" title="用好循环事件"></a>用好循环事件</h2><p>我们工作和生活中一定有很多枯燥、例行的事项要去完成，如果每个我们都靠脑子记肯定是记不过来的，这种情况下我们可以使用循环事件。</p>
+<p>如下图所示：在「计划」中，事件前边带有一个循环小圆圈标记的就是循环事件，最近我们在家办公，上午下午需要使用钉钉打卡，所以我建了两个循环打卡事件，同时给每个设置了提醒时间，设置提醒时间的事项后边会带有一个小铃铛。</p>
+<p><img src="20220603094351.png" width="70%" style="margin: 0 auto;"></p>
+<p>上边图中国年还可以看到，我有一个叫「日课」的循环项，后边有三条圆点线，表示这个事项中包含有子事项，也就是我给自己约定的每天要做的事情：</p>
+<p><img src="20220603094623.png" width="70%" style="margin: 0 auto;"></p>
+<p>这里边的子事项我会根据近期的工作学习的测重点来进行调整，比如最近我的工作方向要偏重于信息检索相关，所以我加了一项读信息检索导论这本书。</p>
+<p>我之所以没有把这几项作为独立的事项列出来，是因为不想有「红点焦虑」，前边提到我每天是靠 Todo 驱动，当看到有这么多待办项没有做时，会很焦虑，会出现为了消事项而匆忙赶工的情况。把这几项收在一个里边，也表示这几项有一定的宽容度，如果今天时间太紧张，可以只选其中的 1、2 个子项完成就行。</p>
+<p>我把「多邻国学习」放到了外边而没有收入「日课」中，是因为我把这一项作为了一个必选项而不是可选项，我希望学英语这件事情不要中断。</p>
+<h2 id="提醒未来的自己"><a href="#提醒未来的自己" class="headerlink" title="提醒未来的自己"></a>提醒未来的自己</h2><p>下边图中的「Apple Family 收费」和「提公积金」也是我的循环事件，循环时间不进支持每日，还支持每几日、每周几、每月几号等等。</p>
+<p>比如「Apple Family 收费」我设置的是每 3 个月的 15 号提醒，我还记录了每人应收的钱，都需要找谁要钱，如果没有  Things 的帮助我肯定是记不住的。「提公积金」那项我设置了每月 20 号提醒。</p>
+<p>在这张图里还能看到，我在 7 月 20 日安排了一个一次性事件，如果你在很久后有什么事情要做，一定记得要记录下来，并放入「计划」，我个人习惯是将这种很久后的事项放置在提前两三天，提前看到能给我一个预期，留个缓冲时间，毕竟很久后还需要做的事一般都不是什么小事。</p>
+<p><img src="20220602070654.png" width="70%" style="margin: 0 auto;"></p>
+<hr>
+<p><img src="20220602070545.png" width="70%" style="margin: 0 auto;"></p>
+<hr>
+<p><img src="20220602070556.png" width="70%" style="margin: 0 auto;"></p>
+<p>因为每周三需要和组内的同事一起开周会，这之前需要写好周报，会后我需要合大家的周报，所以我给「提交周报、合周报」也建了一个每周三的循环事件，同时在里边把每个人周报的地址进行了记录：</p>
+<p><img src="20220601055823.png" width="70%" style="margin: 0 auto;"></p>
+<h2 id="回顾过往"><a href="#回顾过往" class="headerlink" title="回顾过往"></a>回顾过往</h2><p>职场中我们不免要写周报、月报、年度总结等等，如果自己平时有记录的习惯那还好，如果没有，到写总结的时候一定是大脑空白，仿佛自己失忆了，忘记了自己这段时间忙忙活活干了点啥。</p>
+<p>如果我们用 Things 将工作事项管理起来，在需要的时候通过「日志簿」来回顾就会很方便。比如现在你问我在一月份做了些什么，我只需要翻到一月份部分，看下我当时的记录知道了。</p>
+<p>这些内容有些描述过于简单，其他人也许看不懂，但因为每件事情都是我亲自做的，我看下提示就能明白这说的是什么事，由此可见我们并不需要为每个事项做特别详细的说明，能让自己能看明白就够了。人脑存储能力很强，检索能力很弱，需要借助些外力来补足检索能力。</p>
+<p><img src="20220601060047.png" width="70%" style="margin: 0 auto;"></p>
+<h2 id="管理我的一切"><a href="#管理我的一切" class="headerlink" title="管理我的一切"></a>管理我的一切</h2><p>不止待办事项，实际上我用 Things 管理了我的方方面面。</p>
+<ul>
+<li>待学、待读、待听、待看、待买</li>
+<li>想去的地方</li>
+<li>突发奇想的点子</li>
+<li>想写的博客内容</li>
+<li>阅读收获的金句</li>
+<li>项目中的可优化项</li>
+<li>交代给其他人的任务</li>
+<li>想要尝试的行动</li>
+<li>……</li>
+</ul>
+<p>Things 支持将事项进行分类管理，上边那些事项我没有计划做的时间点，有些只是为了保存起来，这时候我们可以不设置时间，将它收在我们对应的分类中就可以了。</p>
+<p>这里借助的是 Things 提供的创建区域和在区域中创建项目的能力。实际上 Things 的这个功能是用来做更大一些的目标管理的，不过我个人将它作为了一个分类功能来使用。</p>
+<p><img src="20220603103019.png" width="70%" style="margin: 0 auto;"></p>
+<p>比如，我给自己分了个人和公司两大区域，每个区域中建了一些属于这个区域的分类（也就是项目）：</p>
+<p><img src="20220603103343.png" width="70%" style="margin: 0 auto;"></p>
+<p>把所有事情都记录下来还有个好处是，在我无所事事时可以看下这些事项中哪个是我现在有心情可以做的，或者读完一本书后下一本要读什么。</p>
+<h2 id="有待完善的地方"><a href="#有待完善的地方" class="headerlink" title="有待完善的地方"></a>有待完善的地方</h2><p>由于我会有「红点焦虑」的情况，所以想要一个在某个时间点后再出现事项的功能，有些事必须过了某个时间点才能去做。不过我觉得 Things 没有支持这个功能也有它的考虑，「今天」就应该把计划在今天做的事情都列出来，让我们可以提前规划。</p>
+<p>Things 提供了一个退而求其次的方案，将晚上做的事情通过分割线放到下方，在事项上点击右键就可以操作或者使用快捷键 <code>Command + E</code>。</p>
+<p><img src="20220601055643.png" width="70%" style="margin: 0 auto;"></p>
+<p><img src="20220601055715.png" width="70%" style="margin: 0 auto;"></p>
+<h2 id="配合日历订阅使用"><a href="#配合日历订阅使用" class="headerlink" title="配合日历订阅使用"></a>配合日历订阅使用</h2><p>我们再看一眼上边那张图，在「今天」下方显示今日天气状况和今天的节日，这是我在系统的日历中订阅了两个事件，Things 可以将系统日历中的事件列在我们自己事项的上边，就可以实现这样的效果。</p>
+<p>中国节假日事件：</p>
+<p><a href="https://weather-in-calendar.com/cal/weather-cal.php?city=%E5%8C%97%E4%BA%AC%E5%B8%82&amp;units=metric&amp;temperature=day" target="_blank" rel="noopener">https://weather-in-calendar.com/cal/weather-cal.php?city=%E5%8C%97%E4%BA%AC%E5%B8%82&amp;units=metric&amp;temperature=day</a></p>
+<p>北京天气事件：</p>
+<p><a href="https://weather-in-calendar.com/cal/weather-cal.php?city=%E5%8C%97%E4%BA%AC%E5%B8%82&amp;units=metric&amp;temperature=day" target="_blank" rel="noopener">https://weather-in-calendar.com/cal/weather-cal.php?city=%E5%8C%97%E4%BA%AC%E5%B8%82&amp;units=metric&amp;temperature=day</a></p>
+<p>天气事件大家可以根据自己所在城市，在<a href="https://weather-in-calendar.com/" target="_blank" rel="noopener">这个网站</a>生成订阅链接。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>Things 还有一些功能我自己也没有深入探索过，比如标签、截止日期，大家可以自行探索。</p>
+<p>通过这篇文章我梳理了一下自己使用 Things 的习惯，如果大家觉得可行、适用，可以尝试将自己的事项管理起来，做一个「靠谱」的人。</p>
+<p>如果你发现文章中有观点介绍有误或者不明确的地方欢迎留言讨论。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/效率工具/" rel="tag"># 效率工具</a>
+              <a href="/tags/Things3/" rel="tag"># Things3</a>
+              <a href="/tags/GTD/" rel="tag"># GTD</a>
+              <a href="/tags/任务管理/" rel="tag"># 任务管理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/Atomic-Habits-action/" rel="prev" title="《掌控习惯》——读后行动">
+      <i class="fa fa-chevron-left"></i> 《掌控习惯》——读后行动
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/storm-in-ward-select/" rel="next" title="《暴雨下载病房里》节选">
+      《暴雨下载病房里》节选 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#做靠谱的人"><span class="nav-number">1.</span> <span class="nav-text">做靠谱的人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Things3"><span class="nav-number">2.</span> <span class="nav-text">Things3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间目录"><span class="nav-number">3.</span> <span class="nav-text">时间目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建任务到「今日」"><span class="nav-number">4.</span> <span class="nav-text">新建任务到「今日」</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用好循环事件"><span class="nav-number">5.</span> <span class="nav-text">用好循环事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提醒未来的自己"><span class="nav-number">6.</span> <span class="nav-text">提醒未来的自己</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回顾过往"><span class="nav-number">7.</span> <span class="nav-text">回顾过往</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理我的一切"><span class="nav-number">8.</span> <span class="nav-text">管理我的一切</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有待完善的地方"><span class="nav-number">9.</span> <span class="nav-text">有待完善的地方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配合日历订阅使用"><span class="nav-number">10.</span> <span class="nav-text">配合日历订阅使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">11.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

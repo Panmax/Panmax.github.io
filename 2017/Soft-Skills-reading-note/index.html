@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="之前读书大多都囫囵吞枣，雁过无痕，所以这次打算留下点什么，其实我准备写的内容也谈不上什么读书笔记，就是把原文感觉不错的句子记下来，有时再加上一些自己的想法。  对于大多数软件开发人员来说，生产力都是一场巨大的斗争，也是阻碍你成为成功人事的最大障碍（没有之一）。  我自己就是一个有着严重拖延症的人，对时间的管理能力很差，作者提到会在后文给出一个解决方法，我们拭目吧，希望可以对我有所帮助。这句话又可以">
+<meta name="keywords" content="读书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《软技能：代码之外的生存指南》 读书笔记">
+<meta property="og:url" content="https://jiapan.me/2017/Soft-Skills-reading-note/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="之前读书大多都囫囵吞枣，雁过无痕，所以这次打算留下点什么，其实我准备写的内容也谈不上什么读书笔记，就是把原文感觉不错的句子记下来，有时再加上一些自己的想法。  对于大多数软件开发人员来说，生产力都是一场巨大的斗争，也是阻碍你成为成功人事的最大障碍（没有之一）。  我自己就是一个有着严重拖延症的人，对时间的管理能力很差，作者提到会在后文给出一个解决方法，我们拭目吧，希望可以对我有所帮助。这句话又可以">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.265Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《软技能：代码之外的生存指南》 读书笔记">
+<meta name="twitter:description" content="之前读书大多都囫囵吞枣，雁过无痕，所以这次打算留下点什么，其实我准备写的内容也谈不上什么读书笔记，就是把原文感觉不错的句子记下来，有时再加上一些自己的想法。  对于大多数软件开发人员来说，生产力都是一场巨大的斗争，也是阻碍你成为成功人事的最大障碍（没有之一）。  我自己就是一个有着严重拖延症的人，对时间的管理能力很差，作者提到会在后文给出一个解决方法，我们拭目吧，希望可以对我有所帮助。这句话又可以">
+
+<link rel="canonical" href="https://jiapan.me/2017/Soft-Skills-reading-note/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>《软技能：代码之外的生存指南》 读书笔记 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2017/Soft-Skills-reading-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《软技能：代码之外的生存指南》 读书笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-09-19 21:38:31" itemprop="dateCreated datePublished" datetime="2017-09-19T21:38:31+08:00">2017-09-19</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/Soft-Skills-reading-note/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/Soft-Skills-reading-note/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>之前读书大多都囫囵吞枣，雁过无痕，所以这次打算留下点什么，其实我准备写的内容也谈不上什么读书笔记，就是把原文感觉不错的句子记下来，有时再加上一些自己的想法。</p>
+<hr>
+<p>对于大多数软件开发人员来说，生产力都是一场巨大的斗争，也是阻碍你成为成功人事的最大障碍（没有之一）。</p>
+<blockquote>
+<p>我自己就是一个有着严重拖延症的人，对时间的管理能力很差，作者提到会在后文给出一个解决方法，我们拭目吧，希望可以对我有所帮助。这句话又可以联想到其他一些事情，比如可以提高生产力的生产工具，有了趁手的生产工具（包括软件在内）绝对是可以事半功倍的，还有就是既然我们是程序员，能自动化的地方就不要手动去搞，重复性工作交给机器，我们来做创作性的工作就好。</p>
+</blockquote>
+<p>只有你开始把自己当作一个企业去思考时，你才能开始做出良好的商业决策。如果你已经习惯领取一份固定的薪酬，这会很容易导致你产生另一个心态 – 你只是在为某家公司打工。</p>
+<blockquote>
+<p>这里的重点是「把自己当做企业去思考」，把公司作为自己的客户，将自己的地位转为主动，既然你把公司作为了客户，那么你就一定会有其他的潜在客户，所以你就需要学会营销自己。把自己当做一个企业去思考，就需要为自己做一些规划。</p>
+</blockquote>
+<p>你需要做到：</p>
+<ul>
+<li>专注你正在提供怎样的服务，以及如何营销这项服务；</li>
+<li>想方设法提升你的服务；思考你可以专注为哪一特定类型的客户或者行业提供特定的服务；</li>
+<li>集中精力成为以为专家，专门为某一特定类型的客户提供专业的整体服务（作为一个软件开发人员，你只有真正专注于一类客户，才能找到非常好的工作）。</li>
+</ul>
+<blockquote>
+<p>我也有必要专注特定类型的「客户」。</p>
+</blockquote>
+<p>要实现任何目标，都必须先知道目标是什么。</p>
+<p>大目标并不需要这么具体，但是必须足够清晰，能够让你知道自己是在向它前进还是离它越来越远。</p>
+<p>较小的目标可以让你航行在自己的轨道上，激励你保持航向朝着更大的目标前进。</p>
+<blockquote>
+<p>这几句话摘抄自 3 个段落。在接触编程 5 年后的我看来，不同领域的编程思想千差万别，可能站在初级程序员的角度就是写一些增删改查操作，但是深入到一定层次后都是针对某个领域来进行编程，这时需要的不光是你的代码能力，还有你对这个领域的理解程度。比如你在金融行业，你就需要知道很多的金融行业的业务和处理流程，大数据行业，也要了解大数据的业务和解决方案。我说这两个行业的原因是因为我上家公司算是一家金融公司，为什么说算是一家金融公司，因为我觉得它的金融属性并不完全，对外提供的产品都是对其他公司的产品进行包装，这样对于程序员来说，很多底层的业务实际上是接触不到的（我单从程序员的角度说一说就够了，毕竟我觉得那是一家不错的公司）。现在我所在的这家公司以大数据业务为主，所以我给自己的目标是成为大数据领域的专家。再写点题外话，很早之前我是有另一个小目标的，就是成为 Python Web 的专家，但是后来越写越发现 Web 这东西就所能接触到的技术层面不会太深，后来也是比较幸运在几乎没有大数据知识的背景下来到现在这家公司，我觉得这算是一种缘分，给了我更高的追求空间。BigData 专家，我来了！</p>
+</blockquote>
+<p>在软件开发领域，我们大多时候都是与人而非计算机打交道。甚至我们所写的代码首先是供人使用，其次才是让计算机可以理解的。</p>
+<blockquote>
+<p>这句话里边包含两个涵义，作者写到要与人打交道而非计算机，是要我们提升自己人际交际的能力，毕竟想要成为一个 Leader 这种能力是必不可少的。我最早选择程序员这个职业，天真的认为我只需要和计算机对话就够了，几乎不需要做我不擅长的与人交流这件事，但是后来发现我错了，拿最简单的例子来说，你和产品对需求时，如果你连自己的想法也说不出来，我觉得你在实现功能的时候，也很难按照产品的原意来进行。原文的另一个涵义是，你写的代码是给人读的，所以写代码的时候请遵守一些编码规范、命名规范，让别人读你的代码时谈不上赏心悦目，但不至于心里骂娘。这也是我更喜欢写 Python 而不是 Java 的原因。并且我所认识的大多数 Java 程序员是不在乎代码风格这件事的（我说的是事实，真心不是黑）。</p>
+</blockquote>
+<p>一但你贬低他人，削弱他们的成就感，在某种程度上就如同切断了他们的氧气补给，获得的回馈将完全是抓狂和绝望的。</p>
+<blockquote>
+<p>哎呀，鼓励别人这件事我一直学不来怎么办~</p>
+</blockquote>
+<p>我们常常容易犯的一项错误就是，轻率的否决同事的想法，以便于可以提出自己的想法。然而随着你做出这样的错误判断，你往往会发现他们对你的想法充耳不闻，仅仅因为你让他们感觉自己是无足轻重的。</p>
+<blockquote>
+<p>我非常厌恶在我还没说完话就否决我的想法然后自己开始高谈阔论的人，那些人不值得去尊敬。大多数时候他们只是想炫耀一下自己的见闻。当然我自己偶尔也会犯这种错误，今后我会努力改正这个缺点，即便对方的想法有再大的不足，我也尽量等对方说完后再来纠正。</p>
+</blockquote>
+<p>一项又一项的研究表名，奖励积极行为要比惩罚消极行为有效得多。如果你身处管理岗位，这是一条值得遵守的重要原则。如果你想激励他人做出最好的表现，或者希望达到改变的目的，你必须学会管住自己的舌头，只说些鼓励的画。</p>
+<blockquote>
+<p>我经常在别人犯了错误之后抱怨，完成很漂亮的时候会发出赞赏，但是很少鼓励。以后要管住嘴，减少抱怨。有一句话我特别喜欢，原话我忘记了，大致意思是：不要抱怨别人笨，毕竟他们之前没有你这么优越的条件。</p>
+</blockquote>
+<p>你可能会害怕专攻软件开发的某个区域，担心自己陷入很窄的专业领域，从而与其他的工作机会绝缘。虽然专业化确实会把你关在一些工作机会的大门之外，但与此同时它将打开的机会大门要比你用其他方式打开的多得多。</p>
+<blockquote>
+<p>术业有专攻，虽然编程是一大家，但是每个专业领域编写代码时的思考方式是有很大区别的。下文中作者用律师来举例，当我们聘用律师时，如果不傻的话，都会根据我们遇到的官司找这个方向的律师，很少有人聘用通才律师。</p>
+</blockquote>
+<p>待续。。。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书/" rel="tag"># 读书</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/graph-database-thinkerpop/" rel="prev" title="图数据库入门：ThinkerPop 介绍">
+      <i class="fa fa-chevron-left"></i> 图数据库入门：ThinkerPop 介绍
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/titan-edge-label-simple-and-one2one/" rel="next" title="Titan 边标签 SIMPLE 和 ONE2ONE 的区别">
+      Titan 边标签 SIMPLE 和 ONE2ONE 的区别 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

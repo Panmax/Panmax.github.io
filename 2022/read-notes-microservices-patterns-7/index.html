@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="两种查询模式在微服务架构中实现查询操作有两种不同的模式：  API 组合模式：这是最简单的方法，应尽可能使用。它的工作原理是让拥有数据的服务的客户端负责调用服务，并组合服务返回的查询结果。 命令查询职责隔离（CQRS)模式：它比 API 组合模式更强大，但也更复杂。它维护一个或多个视图数据库，其唯一目的是支持查询。  API 组合模式API 组合模式有两种类型的参与者 API 组合器：它通过查询数">
+<meta name="keywords" content="读书笔记,微服务架构设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【阅读笔记】微服务架构设计模式—第7章">
+<meta property="og:url" content="https://jiapan.me/2022/read-notes-microservices-patterns-7/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="两种查询模式在微服务架构中实现查询操作有两种不同的模式：  API 组合模式：这是最简单的方法，应尽可能使用。它的工作原理是让拥有数据的服务的客户端负责调用服务，并组合服务返回的查询结果。 命令查询职责隔离（CQRS)模式：它比 API 组合模式更强大，但也更复杂。它维护一个或多个视图数据库，其唯一目的是支持查询。  API 组合模式API 组合模式有两种类型的参与者 API 组合器：它通过查询数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-7/20220713130806.png">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-7/20220713204935.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【阅读笔记】微服务架构设计模式—第7章">
+<meta name="twitter:description" content="两种查询模式在微服务架构中实现查询操作有两种不同的模式：  API 组合模式：这是最简单的方法，应尽可能使用。它的工作原理是让拥有数据的服务的客户端负责调用服务，并组合服务返回的查询结果。 命令查询职责隔离（CQRS)模式：它比 API 组合模式更强大，但也更复杂。它维护一个或多个视图数据库，其唯一目的是支持查询。  API 组合模式API 组合模式有两种类型的参与者 API 组合器：它通过查询数">
+<meta name="twitter:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-7/20220713130806.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/read-notes-microservices-patterns-7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>【阅读笔记】微服务架构设计模式—第7章 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/read-notes-microservices-patterns-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【阅读笔记】微服务架构设计模式—第7章
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-07-13 21:08:09" itemprop="dateCreated datePublished" datetime="2022-07-13T21:08:09+08:00">2022-07-13</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/read-notes-microservices-patterns-7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/read-notes-microservices-patterns-7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="两种查询模式"><a href="#两种查询模式" class="headerlink" title="两种查询模式"></a>两种查询模式</h2><p>在微服务架构中实现查询操作有两种不同的模式：</p>
+<ul>
+<li><strong>API 组合模式</strong>：这是最简单的方法，应<strong>尽可能使用</strong>。它的工作原理是让拥有数据的服务的客户端负责调用服务，并组合服务返回的查询结果。</li>
+<li><strong>命令查询职责隔离（CQRS)模式</strong>：它比 API 组合模式更强大，但也更复杂。它维护一个或多个<strong>视图数据库</strong>，其唯一目的是支持查询。</li>
+</ul>
+<h2 id="API-组合模式"><a href="#API-组合模式" class="headerlink" title="API 组合模式"></a>API 组合模式</h2><h3 id="API-组合模式有两种类型的参与者"><a href="#API-组合模式有两种类型的参与者" class="headerlink" title="API 组合模式有两种类型的参与者"></a>API 组合模式有两种类型的参与者</h3><ul>
+<li><strong>API 组合器</strong>：它通过查询数据提供方的服务来实现查询操作。</li>
+<li><strong>数据提供方服务</strong>：拥有查询返回的部分数据的服务。</li>
+</ul>
+<h3 id="API-组合模式是否可使用的几个因素："><a href="#API-组合模式是否可使用的几个因素：" class="headerlink" title="API 组合模式是否可使用的几个因素："></a>API 组合模式是否可使用的几个因素：</h3><ul>
+<li>数据分区方式</li>
+<li>拥有数据的服务公开 API 的功能</li>
+<li>服务使用数据库的功能</li>
+</ul>
+<h3 id="担任-API-组合器的三个选择"><a href="#担任-API-组合器的三个选择" class="headerlink" title="担任 API 组合器的三个选择"></a>担任 API 组合器的三个选择</h3><ol>
+<li>由服务的客户端扮演 API 组合器的角色</li>
+<li>实现应用程序外部 API 的 API Gateway 来扮演 API 组合器的角色</li>
+<li>将 API 组合器实现为独立的服务</li>
+</ol>
+<p>API 组合器应尽可能地并行调用提供方服务，最大限度地缩短查询操作的响应时间。</p>
+<h3 id="API-组合模式好处和弊端"><a href="#API-组合模式好处和弊端" class="headerlink" title="API 组合模式好处和弊端"></a>API 组合模式好处和弊端</h3><h4 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h4><ul>
+<li>简单直观</li>
+</ul>
+<h4 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h4><ul>
+<li>增加了额外的开销</li>
+<li>带来可用性降低的风险<ul>
+<li>提高可用性方案：返回缓存数据或不完整数据</li>
+</ul>
+</li>
+<li>缺乏事务数据一致性</li>
+</ul>
+<h2 id="CQRS-模式"><a href="#CQRS-模式" class="headerlink" title="CQRS 模式"></a>CQRS 模式</h2><p>CQRS 是命令查询职责隔离 (Command Query Responsibility Segregation） 的简称，它涉及隔离或问题的分隔。它将持久化数据模型和使用数据的模块分为两部分：命令端和查询端。</p>
+<ul>
+<li>命令端模块和数据模型实现创建、更新和删除操作（缩写为 CUD，例如：HTTP POST、PUT 和 DELETE)。</li>
+<li>查询端模块和数据模型实现查询（例如 HTTP GET)。查询端通过订阅命令端发布的事件，使其数据模型与命令端数据模型保持同步。</li>
+</ul>
+<p><img src="20220713130806.png" width="600px" style="margin: 0 auto;"></p>
+<h3 id="CQRS-好处与弊端"><a href="#CQRS-好处与弊端" class="headerlink" title="CQRS 好处与弊端"></a>CQRS 好处与弊端</h3><h4 id="好处-1"><a href="#好处-1" class="headerlink" title="好处"></a>好处</h4><ul>
+<li>在微服务架构中高效地实现查询。</li>
+<li>高效地实现多种不同的查询类型。</li>
+<li>在基于事件湖源技术的应用程序中实现查询。</li>
+<li>更进一步地实现问题隔离。</li>
+</ul>
+<h4 id="弊端-1"><a href="#弊端-1" class="headerlink" title="弊端"></a>弊端</h4><ul>
+<li>更加复杂的架构。</li>
+<li>处理数据复制导致的延迟。</li>
+</ul>
+<h3 id="CQRS-设计"><a href="#CQRS-设计" class="headerlink" title="CQRS 设计"></a>CQRS 设计</h3><p>CQRS 视图模块包括由一个或多个查询操作组成的 APl。它通过订阅由一个或多个服务发布的事件来更新它的数据库视图，从而实现这些查询操作。</p>
+<p><img src="20220713204935.png" width="600px" style="margin: 0 auto;"></p>
+<ul>
+<li>数据访问模块实现数据库访问逻辑。</li>
+<li><strong>事件处理程序</strong>和<strong>查询 API 模块</strong>使用数据访问模块来更新和查询数据库。<ul>
+<li>事件处理程序模块订阅事件并更新数据库。</li>
+<li>查询 API 模块负责实现查询 API。</li>
+</ul>
+</li>
+</ul>
+<h3 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h3><p>NoSQL 数据库通常具有有限的事务模式和较少的查询功能。在一些情况下， NOSQL 数据库比 SQL 数据库更有优势，包括更灵活的数据模型以及更好的性能和可扩展性。</p>
+<p>NoSQL 数据库通常是 CQRS 视图的一个很好的选择，CQRS 可以利用它们的优势并忽略其弱点。CQRS 视图受益于 NoSQL 数据库更丰富的数据模型和性能。它不受 NoSQL 数据库事务处理能力的限制，因为 CQRS 只需要使用简单的事务并执行一组固定的查询即可。</p>
+<h3 id="判断视图未及时更新的一个思路"><a href="#判断视图未及时更新的一个思路" class="headerlink" title="判断视图未及时更新的一个思路"></a>判断视图未及时更新的一个思路</h3><p>命令和查询模块 API 可以使客户端使用以下方法检测不一致性。</p>
+<ol>
+<li>命令端操作将包含已发布事件的 ID 标记返回给客户端。</li>
+<li>客户端把这个事件有关的 ID 传递给查询操作，如果该事件尚未更新视图，则返回查询错误。视图模块可以使用<strong>重复事件检测机制</strong>来实现这样的功能。</li>
+</ol>
+<h3 id="检测重复事件"><a href="#检测重复事件" class="headerlink" title="检测重复事件"></a>检测重复事件</h3><p><code>OrderHistoryDaoDynamoDb DAO</code> 可以使用名为 <code>«aggregateType&gt;&gt;&lt;&lt;aggregateId&gt;&gt;</code> 的属性跟踪从每个聚合实例接收的事件，其值是接收到的最高事件 ID。如果属性存在且其值小于或等于事件 ID，则事件是重复的。</p>
+<h3 id="增量式构建-CQRS视图"><a href="#增量式构建-CQRS视图" class="headerlink" title="增量式构建 CQRS视图"></a>增量式构建 CQRS视图</h3><ol>
+<li>基于其先前的快照和自创建快照以来发生的事件，定期计算每个聚合实例的快照</li>
+<li>使用快照和任何后续事件创建视图</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+              <a href="/tags/微服务架构设计模式/" rel="tag"># 微服务架构设计模式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/read-notes-microservices-patterns-2/" rel="prev" title="【阅读笔记】微服务架构设计模式—第2章">
+      <i class="fa fa-chevron-left"></i> 【阅读笔记】微服务架构设计模式—第2章
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/must-know-this-thing-to-practice/" rel="next" title="绝知此事要躬行">
+      绝知此事要躬行 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#两种查询模式"><span class="nav-number">1.</span> <span class="nav-text">两种查询模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-组合模式"><span class="nav-number">2.</span> <span class="nav-text">API 组合模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API-组合模式有两种类型的参与者"><span class="nav-number">2.1.</span> <span class="nav-text">API 组合模式有两种类型的参与者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API-组合模式是否可使用的几个因素："><span class="nav-number">2.2.</span> <span class="nav-text">API 组合模式是否可使用的几个因素：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#担任-API-组合器的三个选择"><span class="nav-number">2.3.</span> <span class="nav-text">担任 API 组合器的三个选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API-组合模式好处和弊端"><span class="nav-number">2.4.</span> <span class="nav-text">API 组合模式好处和弊端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#好处"><span class="nav-number">2.4.1.</span> <span class="nav-text">好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#弊端"><span class="nav-number">2.4.2.</span> <span class="nav-text">弊端</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CQRS-模式"><span class="nav-number">3.</span> <span class="nav-text">CQRS 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CQRS-好处与弊端"><span class="nav-number">3.1.</span> <span class="nav-text">CQRS 好处与弊端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#好处-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#弊端-1"><span class="nav-number">3.1.2.</span> <span class="nav-text">弊端</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CQRS-设计"><span class="nav-number">3.2.</span> <span class="nav-text">CQRS 设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NoSQL"><span class="nav-number">3.3.</span> <span class="nav-text">NoSQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判断视图未及时更新的一个思路"><span class="nav-number">3.4.</span> <span class="nav-text">判断视图未及时更新的一个思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测重复事件"><span class="nav-number">3.5.</span> <span class="nav-text">检测重复事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增量式构建-CQRS视图"><span class="nav-number">3.6.</span> <span class="nav-text">增量式构建 CQRS视图</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

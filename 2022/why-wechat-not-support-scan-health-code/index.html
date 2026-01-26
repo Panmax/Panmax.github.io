@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="前天我发了一条朋友圈，内容是：『我有一个问题想问下圈里做客户端开发的朋友：健康宝扫码是个特别频繁的使用场景，为什么微信不支持用自带的「扫一扫」自动跳转到健康宝，而是必须先打开健康宝，使用健康宝扫码？』这条朋友圈收到了不少评论，大家集思广益站在不同角度给了很多回答，为了不辜负大家的劳动成功，我在下文对这些回复做个分类总结，并结合自己的想法来说说我对各个原因的判断。 技术不支持很多评论都认为不能微信扫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么健康宝不支持微信扫码？">
+<meta property="og:url" content="https://jiapan.me/2022/why-wechat-not-support-scan-health-code/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="前天我发了一条朋友圈，内容是：『我有一个问题想问下圈里做客户端开发的朋友：健康宝扫码是个特别频繁的使用场景，为什么微信不支持用自带的「扫一扫」自动跳转到健康宝，而是必须先打开健康宝，使用健康宝扫码？』这条朋友圈收到了不少评论，大家集思广益站在不同角度给了很多回答，为了不辜负大家的劳动成功，我在下文对这些回复做个分类总结，并结合自己的想法来说说我对各个原因的判断。 技术不支持很多评论都认为不能微信扫">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.894Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为什么健康宝不支持微信扫码？">
+<meta name="twitter:description" content="前天我发了一条朋友圈，内容是：『我有一个问题想问下圈里做客户端开发的朋友：健康宝扫码是个特别频繁的使用场景，为什么微信不支持用自带的「扫一扫」自动跳转到健康宝，而是必须先打开健康宝，使用健康宝扫码？』这条朋友圈收到了不少评论，大家集思广益站在不同角度给了很多回答，为了不辜负大家的劳动成功，我在下文对这些回复做个分类总结，并结合自己的想法来说说我对各个原因的判断。 技术不支持很多评论都认为不能微信扫">
+
+<link rel="canonical" href="https://jiapan.me/2022/why-wechat-not-support-scan-health-code/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>为什么健康宝不支持微信扫码？ | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/why-wechat-not-support-scan-health-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为什么健康宝不支持微信扫码？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-06-16 13:37:18" itemprop="dateCreated datePublished" datetime="2022-06-16T13:37:18+08:00">2022-06-16</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/why-wechat-not-support-scan-health-code/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/why-wechat-not-support-scan-health-code/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前天我发了一条朋友圈，内容是：『我有一个问题想问下圈里做客户端开发的朋友：健康宝扫码是个特别频繁的使用场景，为什么微信不支持用自带的「扫一扫」自动跳转到健康宝，而是必须先打开健康宝，使用健康宝扫码？』这条朋友圈收到了不少评论，大家集思广益站在不同角度给了很多回答，为了不辜负大家的劳动成功，我在下文对这些回复做个分类总结，并结合自己的想法来说说我对各个原因的判断。</p>
+<h3 id="技术不支持"><a href="#技术不支持" class="headerlink" title="技术不支持"></a>技术不支持</h3><p>很多评论都认为不能微信扫码的原因是技术上不支持，比如有说 URL 限制的、有说健康码和微信二维码不兼容的还有说数据不互通的等等。</p>
+<p>首先我站在技术角度发表下我的观点：技术上没有任何障碍，健康码本质上也是二维码，二维码的原理都是相同的，就是将一段字符串生成一个设备容易识别的图片。应用扫描图片时先解析成文本，根据文本内容执行不同的动作就可以了，并且二维码和文本互转的编解码标准是统一的。</p>
+<p>另外我朋友圈中居住在北京以外的其他城市的小伙伴，如深圳、新疆、广西都表示他们城市的健康宝是支持直接用微信「扫一扫」的，这直接打破了技术不支持的“谣言”。我的问题也应该改为「为什么<strong>北京</strong>健康宝不支持微信扫码？」才更精确。</p>
+<p>有评论说因为北京健康宝是<strong>北京</strong>的，不是<strong>国家</strong>的，所以微信不愿意花精力来做这个适配，但你看人家深圳不就支持吗，当然可以说因为腾讯总部就在深圳，近水楼台，但广西、新疆也支持了又该怎么说。</p>
+<h3 id="小程序列表渗透率"><a href="#小程序列表渗透率" class="headerlink" title="小程序列表渗透率"></a>小程序列表渗透率</h3><p>有朋友提到，不让用微信扫一扫是为了提升小程序列表的渗透率，这个脑洞开的相当大。</p>
+<p>我们每次打开健康宝都要先下拉展开小程序列表，其他的小程序也会不可避免的被我们看到，同时可以培养我们下拉打开小程序列表的使用习惯，小程序的使用率会大大增加。</p>
+<p>我认为这个原因的可能性也不大，首先在这种关头微信是不会冒着个险来发这么蝇头小利的“国难财”的，还有上边也提到了其他城市是可以用微信二维码扫描的，微信并没有对他们做限制。</p>
+<h3 id="健康宝产品经理考虑不周全"><a href="#健康宝产品经理考虑不周全" class="headerlink" title="健康宝产品经理考虑不周全"></a>健康宝产品经理考虑不周全</h3><p>这个是有可能的，评论区有几个人也提到：「又不是不能用」、「反正体验不好你也要用」。</p>
+<p>这条就不展开聊了，不用恶意来揣摩别人，我只是说有可能但不一定。</p>
+<p>当然还有可能是开发效率低下，当前小程序等待迭代的需求排的太多了，这个低优的功能还没有排上开发日程。</p>
+<p><em>打个岔：不知道北京健康宝的开发人员是不是在事业单位做了个有铁饭碗的程序员？</em></p>
+<h3 id="用户安全性考虑（健康宝产品经理考虑周全）"><a href="#用户安全性考虑（健康宝产品经理考虑周全）" class="headerlink" title="用户安全性考虑（健康宝产品经理考虑周全）"></a>用户安全性考虑（健康宝产品经理考虑周全）</h3><p>最后再来说两个我觉得比较靠谱的原因，第一个原因是为用户安全着想。</p>
+<p>大家都知道微信「扫一扫」支持的场景很多，比如扫商品条码、花草、动物等等，我们最常用的场景是使用扫一扫<strong>付款</strong>，这几年电子支付几乎渗透到了每一个人。产品经理担心出现恶意换码，比如把健康码换成支付码或者其他 URL，这样有可能给人们的财产带来损失，尤其是对智能手机使用不太熟悉的老年人。即便是跳转到其他地方，也会给当时扫码的人们和企业主带来不便。为了避免这种情况的出现，健康宝干脆就只在自己的应用内识别自己的专码，来提升安全性，自然也不会推荐让用户通过微信「扫一扫」进入。</p>
+<h3 id="公民（国家）信息安全性"><a href="#公民（国家）信息安全性" class="headerlink" title="公民（国家）信息安全性"></a>公民（国家）信息安全性</h3><p>我认为比较靠谱的第二个原因就是信息安全问题，如果要让微信「扫一扫」支持跳转，肯定要对外暴露接口（或者 schema），这都或多或少地增加了风险。如果接口鉴权没有做好再加上被图谋不轨的人发现了这个漏洞，那么人们的信息就会有暴露的风险（责任全在美方）。</p>
+<p>综上，我认为北京健康宝没支持微信扫码的原因有以下三个（排名分先后）：</p>
+<ol>
+<li>公民信息安全</li>
+<li>用户财产安全</li>
+<li>在需求列表中</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/sleepless-is-not-harmful/" rel="prev" title="睡眠少究竟有没有危害？">
+      <i class="fa fa-chevron-left"></i> 睡眠少究竟有没有危害？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/doctor-Inconsistent-caliber/" rel="next" title="医生不一致的口径">
+      医生不一致的口径 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#技术不支持"><span class="nav-number">1.</span> <span class="nav-text">技术不支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小程序列表渗透率"><span class="nav-number">2.</span> <span class="nav-text">小程序列表渗透率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#健康宝产品经理考虑不周全"><span class="nav-number">3.</span> <span class="nav-text">健康宝产品经理考虑不周全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户安全性考虑（健康宝产品经理考虑周全）"><span class="nav-number">4.</span> <span class="nav-text">用户安全性考虑（健康宝产品经理考虑周全）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公民（国家）信息安全性"><span class="nav-number">5.</span> <span class="nav-text">公民（国家）信息安全性</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

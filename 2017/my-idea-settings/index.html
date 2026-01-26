@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="本指南理论上适用于 IntelliJ 家的所有产品。  首先来介绍下我自己定义的一些快捷键左右分屏 (Extend Selection): Alt + w写代码时，有时候需要同时打开多份文件，在 IDEA 中有两种分屏方式，一种是上下分，一种是左右分，我觉得上下的方式基本上看不了几行代码，所以我都是使用左右分。默认的快捷键需要用到方向键，但在 HHKB 中使用方向键还需要其他按键组合  代码补全">
+<meta name="keywords" content="效率,配置,IntelliJ IDEA,IDE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的 IDEA 配置指南">
+<meta property="og:url" content="https://jiapan.me/2017/my-idea-settings/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="本指南理论上适用于 IntelliJ 家的所有产品。  首先来介绍下我自己定义的一些快捷键左右分屏 (Extend Selection): Alt + w写代码时，有时候需要同时打开多份文件，在 IDEA 中有两种分屏方式，一种是上下分，一种是左右分，我觉得上下的方式基本上看不了几行代码，所以我都是使用左右分。默认的快捷键需要用到方向键，但在 HHKB 中使用方向键还需要其他按键组合  代码补全">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/1.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/2.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/3.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/4.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/6.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/5.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/9.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/7.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/8.png">
+<meta property="og:image" content="https://jiapan.me/2017/my-idea-settings/10.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.221Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的 IDEA 配置指南">
+<meta name="twitter:description" content="本指南理论上适用于 IntelliJ 家的所有产品。  首先来介绍下我自己定义的一些快捷键左右分屏 (Extend Selection): Alt + w写代码时，有时候需要同时打开多份文件，在 IDEA 中有两种分屏方式，一种是上下分，一种是左右分，我觉得上下的方式基本上看不了几行代码，所以我都是使用左右分。默认的快捷键需要用到方向键，但在 HHKB 中使用方向键还需要其他按键组合  代码补全">
+<meta name="twitter:image" content="https://jiapan.me/2017/my-idea-settings/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2017/my-idea-settings/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>我的 IDEA 配置指南 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2017/my-idea-settings/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          我的 IDEA 配置指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-28 13:53:55" itemprop="dateCreated datePublished" datetime="2017-07-28T13:53:55+08:00">2017-07-28</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/my-idea-settings/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/my-idea-settings/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>本指南理论上适用于 IntelliJ 家的所有产品。</p>
+</blockquote>
+<h3 id="首先来介绍下我自己定义的一些快捷键"><a href="#首先来介绍下我自己定义的一些快捷键" class="headerlink" title="首先来介绍下我自己定义的一些快捷键"></a>首先来介绍下我自己定义的一些快捷键</h3><h4 id="左右分屏-Extend-Selection-Alt-w"><a href="#左右分屏-Extend-Selection-Alt-w" class="headerlink" title="左右分屏 (Extend Selection): Alt + w"></a>左右分屏 (Extend Selection): <code>Alt + w</code></h4><p>写代码时，有时候需要同时打开多份文件，在 IDEA 中有两种分屏方式，一种是上下分，一种是左右分，我觉得上下的方式基本上看不了几行代码，所以我都是使用左右分。默认的快捷键需要用到方向键，但在 HHKB 中使用方向键还需要其他按键组合</p>
+<p><img src="1.png" alt=""></p>
+<h4 id="代码补全-Basic-Control"><a href="#代码补全-Basic-Control" class="headerlink" title="代码补全 (Basic): Control + ,"></a>代码补全 (Basic): <code>Control + ,</code></h4><p>默认的代码补全快捷键为 <code>Control + Space</code>，但是这个组合被我的 iTerm2 的弹出栏占用了，所以我改为了：<code>Control + ,</code></p>
+<h4 id="合并-Git-的修改-Merge-Changes-Alt-m"><a href="#合并-Git-的修改-Merge-Changes-Alt-m" class="headerlink" title="合并 Git 的修改 (Merge Changes): Alt + m"></a>合并 Git 的修改 (Merge Changes): <code>Alt + m</code></h4><h4 id="Fetch-代码-Fetch-Alt-f"><a href="#Fetch-代码-Fetch-Alt-f" class="headerlink" title="Fetch 代码 (Fetch): Alt + f"></a>Fetch 代码 (Fetch): <code>Alt + f</code></h4><h4 id="git-pull-Pull-Shift-Conmmand-p"><a href="#git-pull-Pull-Shift-Conmmand-p" class="headerlink" title="git pull (Pull): Shift + Conmmand + p"></a>git pull (Pull): <code>Shift + Conmmand + p</code></h4><p>因为 push 默认快捷键为 <code>Shift + Command + k</code>，但是 pull 没有默认快捷键，所以我用了这样的组合。</p>
+<h3 id="然后就是我的一些设置"><a href="#然后就是我的一些设置" class="headerlink" title="然后就是我的一些设置"></a>然后就是我的一些设置</h3><h4 id="关闭代码拖拽功能"><a href="#关闭代码拖拽功能" class="headerlink" title="关闭代码拖拽功能"></a>关闭代码拖拽功能</h4><p>代码拖拽是我非常不喜欢的功能，经常不小心误操作，如下图，去掉勾即可。</p>
+<p><img src="2.png" alt=""></p>
+<h4 id="代码提示不区分大小写"><a href="#代码提示不区分大小写" class="headerlink" title="代码提示不区分大小写"></a>代码提示不区分大小写</h4><p>默认的代码补全提示是会区分大小写的，比如我们在 Java 文件中输入 <code>stringBuffer</code> IDEA 是不会帮我们提示的，我们需要输入 <code>StringBuffer</code> 才行。</p>
+<p>如图所示，将选项改为 None 即可。</p>
+<p><img src="3.png" alt=""></p>
+<h4 id="显示内存使用情况"><a href="#显示内存使用情况" class="headerlink" title="显示内存使用情况"></a>显示内存使用情况</h4><p>对于我这种 8G 内存的 Mac 用户来说，打开这个功能很有必要性，而且点击内存信息展示的那个条可以进行部分的内存回收</p>
+<p><img src="4.png" alt=""></p>
+<h4 id="优化-Java-注释"><a href="#优化-Java-注释" class="headerlink" title="优化 Java 注释"></a>优化 Java 注释</h4><p>使用 <code>Command + /</code> 快捷键可以对代码进行注释，IDEA 对 Java 代码的单行注释是把斜杠放在本行最开头，这种注释方式非常丑，所以我修改为将斜杠放在代码之前，并且加一个空格。</p>
+<p><img src="6.png" alt=""></p>
+<p><img src="5.png" alt=""></p>
+<h3 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h3><h4 id="点击右下角戴帽子的小人，可以选择不同的检查等级，在编辑大文件的时候，可以暂时将等级改为-None，提高流畅性"><a href="#点击右下角戴帽子的小人，可以选择不同的检查等级，在编辑大文件的时候，可以暂时将等级改为-None，提高流畅性" class="headerlink" title="点击右下角戴帽子的小人，可以选择不同的检查等级，在编辑大文件的时候，可以暂时将等级改为 None，提高流畅性"></a>点击右下角戴帽子的小人，可以选择不同的检查等级，在编辑大文件的时候，可以暂时将等级改为 None，提高流畅性</h4><p><img src="9.png" alt=""></p>
+<ul>
+<li>Inspections 为最高等级检查，可以检查单词拼写，语法错误，变量使用，方法之间调用等</li>
+<li>Syntax 可以检查单词拼写，简单语法错误</li>
+<li>None 不设置检查</li>
+</ul>
+<h4 id="点击右下角戴帽子的小人，可以看到有一种叫做-Pover-Save-Mode-省电模式-，开启这个模式后-IDEA-会关掉代码检查和提示等功能，可以将这种模式作为一种「阅读模式」来使用。"><a href="#点击右下角戴帽子的小人，可以看到有一种叫做-Pover-Save-Mode-省电模式-，开启这个模式后-IDEA-会关掉代码检查和提示等功能，可以将这种模式作为一种「阅读模式」来使用。" class="headerlink" title="点击右下角戴帽子的小人，可以看到有一种叫做 Pover Save Mode(省电模式)，开启这个模式后 IDEA 会关掉代码检查和提示等功能，可以将这种模式作为一种「阅读模式」来使用。"></a>点击右下角戴帽子的小人，可以看到有一种叫做 Pover Save Mode(省电模式)，开启这个模式后 IDEA 会关掉代码检查和提示等功能，可以将这种模式作为一种「阅读模式」来使用。</h4><h4 id="在展示代码的包时，默认会将一些空的包进行折叠，如果更习惯属性结构的话，可以更具下图来修改的方式进行调整："><a href="#在展示代码的包时，默认会将一些空的包进行折叠，如果更习惯属性结构的话，可以更具下图来修改的方式进行调整：" class="headerlink" title="在展示代码的包时，默认会将一些空的包进行折叠，如果更习惯属性结构的话，可以更具下图来修改的方式进行调整："></a>在展示代码的包时，默认会将一些空的包进行折叠，如果更习惯属性结构的话，可以更具下图来修改的方式进行调整：</h4><p><img src="7.png" alt=""></p>
+<p>调整后</p>
+<p><img src="8.png" alt=""></p>
+<h4 id="IDEA-默认情况下会把只有一行的代码进行折叠，我不喜欢这样，所以会关掉这个特性："><a href="#IDEA-默认情况下会把只有一行的代码进行折叠，我不喜欢这样，所以会关掉这个特性：" class="headerlink" title="IDEA 默认情况下会把只有一行的代码进行折叠，我不喜欢这样，所以会关掉这个特性："></a>IDEA 默认情况下会把只有一行的代码进行折叠，我不喜欢这样，所以会关掉这个特性：</h4><p><img src="10.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/效率/" rel="tag"># 效率</a>
+              <a href="/tags/配置/" rel="tag"># 配置</a>
+              <a href="/tags/IntelliJ-IDEA/" rel="tag"># IntelliJ IDEA</a>
+              <a href="/tags/IDE/" rel="tag"># IDE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/optimization-config-server/" rel="prev" title="对配置中心进行优化">
+      <i class="fa fa-chevron-left"></i> 对配置中心进行优化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/docker-install-rabbitmq/" rel="next" title="使用 Docker 部署 RabbitMQ">
+      使用 Docker 部署 RabbitMQ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#首先来介绍下我自己定义的一些快捷键"><span class="nav-number">1.</span> <span class="nav-text">首先来介绍下我自己定义的一些快捷键</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#左右分屏-Extend-Selection-Alt-w"><span class="nav-number">1.1.</span> <span class="nav-text">左右分屏 (Extend Selection): Alt + w</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码补全-Basic-Control"><span class="nav-number">1.2.</span> <span class="nav-text">代码补全 (Basic): Control + ,</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#合并-Git-的修改-Merge-Changes-Alt-m"><span class="nav-number">1.3.</span> <span class="nav-text">合并 Git 的修改 (Merge Changes): Alt + m</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fetch-代码-Fetch-Alt-f"><span class="nav-number">1.4.</span> <span class="nav-text">Fetch 代码 (Fetch): Alt + f</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-pull-Pull-Shift-Conmmand-p"><span class="nav-number">1.5.</span> <span class="nav-text">git pull (Pull): Shift + Conmmand + p</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#然后就是我的一些设置"><span class="nav-number">2.</span> <span class="nav-text">然后就是我的一些设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭代码拖拽功能"><span class="nav-number">2.1.</span> <span class="nav-text">关闭代码拖拽功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码提示不区分大小写"><span class="nav-number">2.2.</span> <span class="nav-text">代码提示不区分大小写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示内存使用情况"><span class="nav-number">2.3.</span> <span class="nav-text">显示内存使用情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化-Java-注释"><span class="nav-number">2.4.</span> <span class="nav-text">优化 Java 注释</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小技巧"><span class="nav-number">3.</span> <span class="nav-text">小技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#点击右下角戴帽子的小人，可以选择不同的检查等级，在编辑大文件的时候，可以暂时将等级改为-None，提高流畅性"><span class="nav-number">3.1.</span> <span class="nav-text">点击右下角戴帽子的小人，可以选择不同的检查等级，在编辑大文件的时候，可以暂时将等级改为 None，提高流畅性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点击右下角戴帽子的小人，可以看到有一种叫做-Pover-Save-Mode-省电模式-，开启这个模式后-IDEA-会关掉代码检查和提示等功能，可以将这种模式作为一种「阅读模式」来使用。"><span class="nav-number">3.2.</span> <span class="nav-text">点击右下角戴帽子的小人，可以看到有一种叫做 Pover Save Mode(省电模式)，开启这个模式后 IDEA 会关掉代码检查和提示等功能，可以将这种模式作为一种「阅读模式」来使用。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在展示代码的包时，默认会将一些空的包进行折叠，如果更习惯属性结构的话，可以更具下图来修改的方式进行调整："><span class="nav-number">3.3.</span> <span class="nav-text">在展示代码的包时，默认会将一些空的包进行折叠，如果更习惯属性结构的话，可以更具下图来修改的方式进行调整：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IDEA-默认情况下会把只有一行的代码进行折叠，我不喜欢这样，所以会关掉这个特性："><span class="nav-number">3.4.</span> <span class="nav-text">IDEA 默认情况下会把只有一行的代码进行折叠，我不喜欢这样，所以会关掉这个特性：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

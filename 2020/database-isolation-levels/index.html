@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别的异同。 RU(READ-UNCOMMITTED) - 能读到未提交的数据RU 级别，实际上就是完全不隔离。每个进行中事务的中间状态，对其他事务都是可见的，所以有可能会出现「脏读」。 RU 举例  用户1设置 x=3，在用户1的事务未提交之前，用户2">
+<meta name="keywords" content="数据库,事务隔离级别,并发控制,ACID">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库隔离级别简介">
+<meta property="og:url" content="https://jiapan.me/2020/database-isolation-levels/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别的异同。 RU(READ-UNCOMMITTED) - 能读到未提交的数据RU 级别，实际上就是完全不隔离。每个进行中事务的中间状态，对其他事务都是可见的，所以有可能会出现「脏读」。 RU 举例  用户1设置 x=3，在用户1的事务未提交之前，用户2">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2020/database-isolation-levels/0.jpg">
+<meta property="og:image" content="https://jiapan.me/2020/database-isolation-levels/2.png">
+<meta property="og:image" content="https://jiapan.me/2020/database-isolation-levels/3.png">
+<meta property="og:image" content="https://jiapan.me/2020/database-isolation-levels/4.png">
+<meta property="og:image" content="https://jiapan.me/2020/database-isolation-levels/5.png">
+<meta property="og:image" content="https://jiapan.me/2020/database-isolation-levels/6.png">
+<meta property="og:image" content="https://jiapan.me/2020/database-isolation-levels/1.jpg">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.427Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库隔离级别简介">
+<meta name="twitter:description" content="数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别的异同。 RU(READ-UNCOMMITTED) - 能读到未提交的数据RU 级别，实际上就是完全不隔离。每个进行中事务的中间状态，对其他事务都是可见的，所以有可能会出现「脏读」。 RU 举例  用户1设置 x=3，在用户1的事务未提交之前，用户2">
+<meta name="twitter:image" content="https://jiapan.me/2020/database-isolation-levels/0.jpg">
+
+<link rel="canonical" href="https://jiapan.me/2020/database-isolation-levels/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>数据库隔离级别简介 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2020/database-isolation-levels/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库隔离级别简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-23 16:21:25" itemprop="dateCreated datePublished" datetime="2020-07-23T16:21:25+08:00">2020-07-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/database-isolation-levels/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/database-isolation-levels/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div style="width:70%;margin:auto"><img src="0.jpg" alt=""></div>
+
+<p>数据库行业有四种常见的隔离级别，分别是 RU、RC、RR、SERIALIZABLE，其中用到最多的是 RR 和 RR。下边分别看一下这四种隔离级别的异同。</p>
+<h2 id="RU-READ-UNCOMMITTED-能读到未提交的数据"><a href="#RU-READ-UNCOMMITTED-能读到未提交的数据" class="headerlink" title="RU(READ-UNCOMMITTED) - 能读到未提交的数据"></a>RU(READ-UNCOMMITTED) - 能读到未提交的数据</h2><p>RU 级别，实际上就是完全不隔离。每个进行中事务的中间状态，对其他事务都是可见的，所以有可能会出现「脏读」。</p>
+<h3 id="RU-举例"><a href="#RU-举例" class="headerlink" title="RU 举例"></a>RU 举例</h3><div style="width:70%;margin:auto"><img src="2.png" alt=""></div>
+
+<p>用户1设置 <code>x=3</code>，在用户1的事务未提交之前，用户2 执行 <code>get x</code> 时却看到了 <code>x=3</code>。</p>
+<h2 id="RC-READ-COMMITEED-能读到已提交的数据"><a href="#RC-READ-COMMITEED-能读到已提交的数据" class="headerlink" title="RC(READ-COMMITEED) - 能读到已提交的数据"></a>RC(READ-COMMITEED) - 能读到已提交的数据</h2><h3 id="RC-举例"><a href="#RC-举例" class="headerlink" title="RC 举例"></a>RC 举例</h3><div style="width:70%;margin:auto"><img src="3.png" alt=""></div>
+
+
+<p>用户1设置 <code>x=3</code>，在用户1的事务未提交之前，用户2 执行 <code>get x</code> 操作依旧返回的时旧值 <code>2</code>。</p>
+<h2 id="RR-REPEATABLE-READ-可重复读"><a href="#RR-REPEATABLE-READ-可重复读" class="headerlink" title="RR(REPEATABLE-READ) - 可重复读"></a>RR(REPEATABLE-READ) - 可重复读</h2><p>RC 和 RR 唯一的区别在于“是否可重复读”：<strong>在一个事务执行过程中，它能不能读到其他已提交事务对数据的更新，如果能读到数据变化，就是“不可重复读”，否则就是“可重复读”。</strong></p>
+<h3 id="RR-举例"><a href="#RR-举例" class="headerlink" title="RR 举例"></a>RR 举例</h3><p>继续上边的例子，如果用户2 读取 x 是在同一个事务内，那么永远读到的都是事务开始前x的值。也就是说每个事务都从数据库的一致性快照中读取数据。</p>
+<div style="width:70%;margin:auto"><img src="4.png" alt=""></div>
+
+<p>在 RR 隔离级别下，在一个事务进行过程中，对于同一条数据，每次读到的结果总是相同的，无论其他会话是否已经更新了这条数据，这就是「可重复读」。</p>
+<h3 id="不可重复读导致的问题"><a href="#不可重复读导致的问题" class="headerlink" title="不可重复读导致的问题"></a>不可重复读导致的问题</h3><div style="width:70%;margin:auto"><img src="5.png" alt=""></div>
+
+<p>假设用户在银行有 1000 块钱，分别存放在两个账户上，每个账户 500。现在有这样一笔转账交易从账户1转 100 到账户2。如果用户在他提交转账请求之后而银行系统执行转账的过程中间，来查看两个账户的余额，他有可能看到帐号1收到转账前的余额（500元），和帐号2完成钱款转出后的余额（400元）。对于用户来说，貌似他的账户总共只有 900 元，有 100 元消失了。</p>
+<p>这种异常现象称为不可重复读（nonrepeatable read）或<strong>读倾斜（read skew）</strong>。</p>
+<h2 id="SERIALIZABLE-串行化"><a href="#SERIALIZABLE-串行化" class="headerlink" title="SERIALIZABLE - 串行化"></a>SERIALIZABLE - 串行化</h2><p>串行化隔离通常被认为是最强的隔离级别。它保证即使事物可能会并行执行，但最终的结果与每次一个即串行执行结果相同。不过由于这种隔离级别性能较差，所以在实际开发中很少被用到，以下是三种实现串行化的技术方案：</p>
+<ul>
+<li>严格按照串行顺序执行</li>
+<li>两阶段锁定</li>
+<li>乐观并发控制技术</li>
+</ul>
+<h2 id="隔离级别的要点："><a href="#隔离级别的要点：" class="headerlink" title="隔离级别的要点："></a>隔离级别的要点：</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>客户端读到了其他客户端未提交的写入。</p>
+<h3 id="脏写"><a href="#脏写" class="headerlink" title="脏写"></a>脏写</h3><p>客户端覆盖了另一个客户端尚未提交的写入。</p>
+<h3 id="读倾斜（不可重复读）"><a href="#读倾斜（不可重复读）" class="headerlink" title="读倾斜（不可重复读）"></a>读倾斜（不可重复读）</h3><p>客户端在不同时间点看到了不同值。</p>
+<h3 id="更新丢失"><a href="#更新丢失" class="headerlink" title="更新丢失"></a>更新丢失</h3><p>两个客户端同时执行<strong>读-修改-写入</strong>操作序列，出现了其中一个覆盖了另一个的写入，但又没有包含对方最新值的情况，最终导致了部分修改发生了丢失。</p>
+<h3 id="写倾斜"><a href="#写倾斜" class="headerlink" title="写倾斜"></a>写倾斜</h3><p>事务首先查询数据，根据返回的结果而作出某些决定，然后修改数据库。当事务提交时，支持决定的前提条件已不再成立。</p>
+<h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>事务读取了某些符合查询条件的对象，同时另一个客户端执行写入，改变了先前的查询结果。</p>
+<p>幻读这个概念有些抽象，举例说明一下：</p>
+<div style="width:70%;margin:auto"><img src="6.png" alt=""></div>
+
+<ul>
+<li>用户1在一个会话中开启一个事务，准备插入一条 ID 为 1000 的流水记录。查询一下当前流水，不存在 ID 为 1000 的记录，可以安全地插入数据。</li>
+<li>这时候，另外一个会话抢先插入了这条 ID 为 1000 的流水记录。</li>
+<li>然后用户1再执行相同的插入语句时，就会报主键冲突错误，但是由于事务的隔离性，它执行查询的时候，却查不到这条 ID 为 1000 的流水，就像出现了“幻觉”一样，这就是幻读。</li>
+</ul>
+<p>在实际业务中，很少能遇到幻读，即使遇到，也基本不会影响到数据准确性。</p>
+<h3 id="最后用一张表格总结一下上边的内容："><a href="#最后用一张表格总结一下上边的内容：" class="headerlink" title="最后用一张表格总结一下上边的内容："></a>最后用一张表格总结一下上边的内容：</h3><div style="width:70%;margin:auto"><img src="1.jpg" alt=""></div>
+
+<ul>
+<li><code>RU</code> 级别隔即没有任何隔离，存在脏读、不可重复读、幻读的风险</li>
+<li><code>RC</code> 可以避免脏读，还是会存在不可重复读和幻读</li>
+<li><code>NR</code> 可以避免脏读和不可重复读（通常通过一致性快照），但无法避免幻读</li>
+<li>只有 <code>SERIALIZABLE</code> 才可以避免幻读</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/数据库/" rel="tag"># 数据库</a>
+              <a href="/tags/事务隔离级别/" rel="tag"># 事务隔离级别</a>
+              <a href="/tags/并发控制/" rel="tag"># 并发控制</a>
+              <a href="/tags/ACID/" rel="tag"># ACID</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/CPU-performance-mind-map/" rel="prev" title="CPU 性能指标工具脑图">
+      <i class="fa fa-chevron-left"></i> CPU 性能指标工具脑图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/deployment-strategy-introduce/" rel="next" title="常见部署策略介绍">
+      常见部署策略介绍 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RU-READ-UNCOMMITTED-能读到未提交的数据"><span class="nav-number">1.</span> <span class="nav-text">RU(READ-UNCOMMITTED) - 能读到未提交的数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RU-举例"><span class="nav-number">1.1.</span> <span class="nav-text">RU 举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RC-READ-COMMITEED-能读到已提交的数据"><span class="nav-number">2.</span> <span class="nav-text">RC(READ-COMMITEED) - 能读到已提交的数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RC-举例"><span class="nav-number">2.1.</span> <span class="nav-text">RC 举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RR-REPEATABLE-READ-可重复读"><span class="nav-number">3.</span> <span class="nav-text">RR(REPEATABLE-READ) - 可重复读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RR-举例"><span class="nav-number">3.1.</span> <span class="nav-text">RR 举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不可重复读导致的问题"><span class="nav-number">3.2.</span> <span class="nav-text">不可重复读导致的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SERIALIZABLE-串行化"><span class="nav-number">4.</span> <span class="nav-text">SERIALIZABLE - 串行化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离级别的要点："><span class="nav-number">5.</span> <span class="nav-text">隔离级别的要点：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#脏读"><span class="nav-number">5.1.</span> <span class="nav-text">脏读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脏写"><span class="nav-number">5.2.</span> <span class="nav-text">脏写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读倾斜（不可重复读）"><span class="nav-number">5.3.</span> <span class="nav-text">读倾斜（不可重复读）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新丢失"><span class="nav-number">5.4.</span> <span class="nav-text">更新丢失</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写倾斜"><span class="nav-number">5.5.</span> <span class="nav-text">写倾斜</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#幻读"><span class="nav-number">5.6.</span> <span class="nav-text">幻读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后用一张表格总结一下上边的内容："><span class="nav-number">5.7.</span> <span class="nav-text">最后用一张表格总结一下上边的内容：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

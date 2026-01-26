@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="五一期间读完了《一本小小的蓝色逻辑书》，这本书不厚，内容很干，总的来说还是比较推荐的。 里边的附录部分列出了一些逻辑上的漏洞，我将其汇总如下：  常见逻辑漏洞因为语言为题导致的逻辑漏洞模棱两可 说明：指一个字或词在不同上下文中可以有不同的含义。 举例：所有地方的赌博活动都应该被合法化，因为我们根本无法避免这件事。赌博就是人生不可分割的一部分。只要一坐到方向盘后面或者说出自己的结婚誓言，我们就是在赌">
+<meta name="keywords" content="读书笔记,逻辑思维,批判性思维,谬误">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见逻辑漏洞">
+<meta property="og:url" content="https://jiapan.me/2021/logic-loopholes/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="五一期间读完了《一本小小的蓝色逻辑书》，这本书不厚，内容很干，总的来说还是比较推荐的。 里边的附录部分列出了一些逻辑上的漏洞，我将其汇总如下：  常见逻辑漏洞因为语言为题导致的逻辑漏洞模棱两可 说明：指一个字或词在不同上下文中可以有不同的含义。 举例：所有地方的赌博活动都应该被合法化，因为我们根本无法避免这件事。赌博就是人生不可分割的一部分。只要一坐到方向盘后面或者说出自己的结婚誓言，我们就是在赌">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2021/logic-loopholes/常见逻辑漏洞.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.973Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常见逻辑漏洞">
+<meta name="twitter:description" content="五一期间读完了《一本小小的蓝色逻辑书》，这本书不厚，内容很干，总的来说还是比较推荐的。 里边的附录部分列出了一些逻辑上的漏洞，我将其汇总如下：  常见逻辑漏洞因为语言为题导致的逻辑漏洞模棱两可 说明：指一个字或词在不同上下文中可以有不同的含义。 举例：所有地方的赌博活动都应该被合法化，因为我们根本无法避免这件事。赌博就是人生不可分割的一部分。只要一坐到方向盘后面或者说出自己的结婚誓言，我们就是在赌">
+<meta name="twitter:image" content="https://jiapan.me/2021/logic-loopholes/常见逻辑漏洞.png">
+
+<link rel="canonical" href="https://jiapan.me/2021/logic-loopholes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>常见逻辑漏洞 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2021/logic-loopholes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          常见逻辑漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-05-06 10:38:18" itemprop="dateCreated datePublished" datetime="2021-05-06T10:38:18+08:00">2021-05-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书/" itemprop="url" rel="index"><span itemprop="name">读书</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/logic-loopholes/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/logic-loopholes/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>五一期间读完了《一本小小的蓝色逻辑书》，这本书不厚，内容很干，总的来说还是比较推荐的。</p>
+<p>里边的附录部分列出了一些逻辑上的漏洞，我将其汇总如下：</p>
+<p><img src="常见逻辑漏洞.png" alt=""></p>
+<h1 id="常见逻辑漏洞"><a href="#常见逻辑漏洞" class="headerlink" title="常见逻辑漏洞"></a>常见逻辑漏洞</h1><h2 id="因为语言为题导致的逻辑漏洞"><a href="#因为语言为题导致的逻辑漏洞" class="headerlink" title="因为语言为题导致的逻辑漏洞"></a>因为语言为题导致的逻辑漏洞</h2><h3 id="模棱两可"><a href="#模棱两可" class="headerlink" title="模棱两可"></a>模棱两可</h3><ul>
+<li>说明：指一个字或词在不同上下文中可以有不同的含义。</li>
+<li>举例：所有地方的赌博活动都应该被合法化，因为我们根本无法避免这件事。赌博就是人生不可分割的一部分。只要一坐到方向盘后面或者说出自己的结婚誓言，我们就是在赌博。</li>
+</ul>
+<h3 id="用不同的字眼表达同一个意思"><a href="#用不同的字眼表达同一个意思" class="headerlink" title="用不同的字眼表达同一个意思"></a>用不同的字眼表达同一个意思</h3><ul>
+<li>说明：讲话者通过静心选择用词，来为自己的行为辩解，虽然他用语不同，表达的却是同一个意思。</li>
+<li>举例：我没说瞎话，我只是稍微夸大了一下事实罢了。</li>
+</ul>
+<h2 id="因为「糟糕」的论据而导致的逻辑漏洞"><a href="#因为「糟糕」的论据而导致的逻辑漏洞" class="headerlink" title="因为「糟糕」的论据而导致的逻辑漏洞"></a>因为「糟糕」的论据而导致的逻辑漏洞</h2><h3 id="以偏概全"><a href="#以偏概全" class="headerlink" title="以偏概全"></a>以偏概全</h3><ul>
+<li>说明：当我们急于做出总结，只根据一小撮样本就得出某个结论时，就容易犯以偏概全的错误。</li>
+<li>举例：我去过凤凰城三次，每次那里都在下雨所以凤凰城肯定是一座多雨的城市。</li>
+</ul>
+<h3 id="循环推理"><a href="#循环推理" class="headerlink" title="循环推理"></a>循环推理</h3><ul>
+<li>说明：当我们根据一个前提得出结论，而该结论本身又是前提的前提时，我们就是在犯循环推理错误。</li>
+<li>举例：威利先生的办公桌总是乱七八糟的，因为他这人能力不行。桌面乱说明他思维混乱，这只能说明一件事：他不胜任自己的工作。</li>
+</ul>
+<h3 id="反面论据"><a href="#反面论据" class="headerlink" title="反面论据"></a>反面论据</h3><ul>
+<li>说明：我们仅仅因为一件事『没有被证明是错的』就断定他是对的，或者『没有被证明是对的』就断定它是错的，我们的判断就出现了逻辑漏洞。</li>
+<li>举例：因为公司里的实习生都没有抱怨过薪水太低，所以我们可以自信地说，公司里的实习生对自己的薪水都很满意。</li>
+</ul>
+<h3 id="个人偏好"><a href="#个人偏好" class="headerlink" title="个人偏好"></a>个人偏好</h3><ul>
+<li>说明：当我们判断一件事情时，只从个人情绪出发，而不考虑实际情况，我们就是在犯这个偏好错误。</li>
+<li>举例：你怎么能向茜拉咨询婚姻问题呢？难道你不知道她曾因为邮件诈骗而坐过牢吗？</li>
+</ul>
+<h3 id="毒水井"><a href="#毒水井" class="headerlink" title="毒水井"></a>毒水井</h3><ul>
+<li>说明：当我们过于从一个人的背景，尤其是国籍、种族、性别等来判断其言论时，我们的逻辑就会出问题。</li>
+<li>举例：你说的话怎么能算数呢？你是从悉尼来的，当然会说悉尼比墨尔本好。</li>
+</ul>
+<h3 id="你也好不到哪去"><a href="#你也好不到哪去" class="headerlink" title="你也好不到哪去"></a>你也好不到哪去</h3><ul>
+<li>说明：如果我们因为一个人也犯了跟我们一样的错误，就拒绝接受对方的观点，那我们的逻辑也会出问题。</li>
+<li>举例：父亲：“孩子，你不该喝酒。喝酒伤肝，整天醉醺醺的怎么行？”</li>
+</ul>
+<p>儿子：“老爸，你现在手里不就拿着酒杯吗？”</p>
+<h3 id="红鲱鱼"><a href="#红鲱鱼" class="headerlink" title="红鲱鱼"></a>红鲱鱼</h3><ul>
+<li>说明：当我们在谈话中视图通过转移话题来回避自己的弱点时，我们就是在犯「红鲱鱼」错误。</li>
+<li>举例：（上司对下属）：“别跟我说工资太低。我像你这么大的时候，一个星期才赚100美元。”</li>
+</ul>
+<h3 id="强求不相关的目标或功能"><a href="#强求不相关的目标或功能" class="headerlink" title="强求不相关的目标或功能"></a>强求不相关的目标或功能</h3><ul>
+<li>说明：当我们因为某个规定或计划不能满足某个不相关的目标而拒绝接受它时，我们就在犯这种逻辑错误。</li>
+<li>举例：皮特：“你真的以为学习逻辑就能解决这个世界的问题吗？”</li>
+</ul>
+<p>蒂凡尼：“应该不能。”</p>
+<p>皮特：“那我们干吗浪费时间学它呢？”</p>
+<h3 id="随心所欲"><a href="#随心所欲" class="headerlink" title="随心所欲"></a>随心所欲</h3><ul>
+<li>说明：当我们因为自己极其希望某件事是真的（或假的）就去这么假定时，我们就时在犯「随心所欲」的逻辑错误。</li>
+<li>举例：不管我们的球队之前表现怎么样，这次我们都会在第一轮比赛中打败卫冕冠军。我们的队员都很有信心，铆足了劲儿要大获全胜。</li>
+</ul>
+<h3 id="倚老卖老"><a href="#倚老卖老" class="headerlink" title="倚老卖老"></a>倚老卖老</h3><ul>
+<li>说明：蒂姆，去安纳波利斯这件事你别太当真了！你们家祖祖辈辈——包括你的父亲、兄弟、祖父、叔父等等——一直都是当兵的，而且以后也会一直留在部队。所以小伙子，你的未来在西点军校！</li>
+</ul>
+<h3 id="诉诸公众观点"><a href="#诉诸公众观点" class="headerlink" title="诉诸公众观点"></a>诉诸公众观点</h3><ul>
+<li>说明：当我们因为大家都认同某个观点而去接受或支持它们时，就是在犯这个逻辑错误。</li>
+<li>举例：我要给税法修正案投赞成票。根据最近一项民意测验的结果，在25岁以下的登记选民中，超过三分之二的人都支持修正案。</li>
+</ul>
+<h3 id="装可怜"><a href="#装可怜" class="headerlink" title="装可怜"></a>装可怜</h3><ul>
+<li>说明：利用对方的同情心，而非事实证据。</li>
+<li>举例：你一定要给孤儿院捐款。这些孩子生下来就不知道自己的生身父母是谁，更不要说衣食无忧了。</li>
+</ul>
+<h2 id="因为错误的假设而导致的逻辑漏洞"><a href="#因为错误的假设而导致的逻辑漏洞" class="headerlink" title="因为错误的假设而导致的逻辑漏洞"></a>因为错误的假设而导致的逻辑漏洞</h2><h3 id="非此即彼"><a href="#非此即彼" class="headerlink" title="非此即彼"></a>非此即彼</h3><ul>
+<li>说明：不能因为摆在面前的只有两个选择，就认为其中一个必定是对的。很多事情不是「非此即彼」或「非黑即白」的。</li>
+<li>举例：既然不支持自由贸易，那你一定是支持保护主义了！</li>
+</ul>
+<h3 id="中间值"><a href="#中间值" class="headerlink" title="中间值"></a>中间值</h3><ul>
+<li>说明：很多人喜欢在两个选择之间取中间值，因为它远离任何一个极端，所以有时这种做法也被称为中庸主义。</li>
+<li>举例：初中老师相信，学校应该安排固定的课程表。而家长们则认为，学生应该可以自由选课。所以最好的办法就是把二者结合起来。</li>
+</ul>
+<h3 id="大杂烩"><a href="#大杂烩" class="headerlink" title="大杂烩"></a>大杂烩</h3><ul>
+<li>说明：把局部正确的东西拼在一起，未必就能得到一个正确的结果。</li>
+<li>举例：布拉德是个不错的年轻男士，珍妮特是个优秀的女士，他们二人一定是完美的一对儿。</li>
+</ul>
+<h3 id="局部错误"><a href="#局部错误" class="headerlink" title="局部错误"></a>局部错误</h3><ul>
+<li>说明：不能因为整体是对的，就断定其中的每个部分都是正确的。</li>
+<li>举例：因为车子很重，所以车子上的所有配件都很重。</li>
+</ul>
+<h3 id="连续性漏洞"><a href="#连续性漏洞" class="headerlink" title="连续性漏洞"></a>连续性漏洞</h3><ul>
+<li>说明：有时人们会觉得一些差异太过渺小，不值得重视，这时就会出现连续性漏洞。</li>
+<li>举例：每天学一个新单词，提升你的词汇量。拿本中型词典，从头开始背。每天背一个新单词，慢慢你就能翻到最后一页。而且更重要的是，你还能学会英语中几乎所有重要单词。但是有几个人能做到这点呢？</li>
+</ul>
+<h3 id="以点攻击面"><a href="#以点攻击面" class="headerlink" title="以点攻击面"></a>以点攻击面</h3><ul>
+<li>说明：很多人相信，被归纳的东西很容易被驳倒，因为只要找出一个例外就够了。</li>
+<li>举例：学生甲：“众所周知，吸烟会缩短人的寿命。”</li>
+</ul>
+<p>学生乙：“是的，可我曾祖父每天一包烟，现在都90多岁了，还是活得好好的，这该怎么解释呢？”</p>
+<h3 id="扭曲"><a href="#扭曲" class="headerlink" title="扭曲"></a>扭曲</h3><ul>
+<li>说明：指故意歪曲对手的观点，从而达到驳倒对手的目的。</li>
+<li>举例：正方：“要想提升发展中国家的教育水平，唯一的办法就是多提供一些物质支持，比如说教科书。”</li>
+</ul>
+<p>反方：“你的意思是，不论砍掉多少棵树，都要去印更多课本吗？”</p>
+<h3 id="错误的类比"><a href="#错误的类比" class="headerlink" title="错误的类比"></a>错误的类比</h3><ul>
+<li>说明：我们不能因为两件事在某一方面或某几个方面比较相似（或者不相似），就断定他们在其他方面也相似（或者不相似）。</li>
+<li>举例：说到人工鱼饵，我最喜欢的就是拉帕拉鱼饵。今年夏天的时候，我每次用它都能钓到很多小嘴鲈鱼，所以我秋天去钓鳟鱼时一定还会用它。</li>
+</ul>
+<h3 id="因果错误"><a href="#因果错误" class="headerlink" title="因果错误"></a>因果错误</h3><ul>
+<li>说明：当我们随意把某件事情归因于某个方向时，我们就是在犯因果错误。</li>
+<li>举例：听说有钱人工作都很努力，所以我要努力工作，让自己变成有钱人。</li>
+</ul>
+<h3 id="多米诺错误"><a href="#多米诺错误" class="headerlink" title="多米诺错误"></a>多米诺错误</h3><ul>
+<li>说明：我们不能因为一件事会引发另一件事，就断定它会引发随后的一系列事件。也称为「链式反应错误」</li>
+<li>举例：我并不反对给无家可归的人提供免费食物，但既然提供免费食物，我们就会需要提供免费衣服，然后是免费住宿。很快，我们就要给他们提供固定的年薪了。</li>
+</ul>
+<h3 id="赌徒谬误"><a href="#赌徒谬误" class="headerlink" title="赌徒谬误"></a>赌徒谬误</h3><ul>
+<li>说明：当我们不是根据事实，而只是根据之前发生的事情来判断未来某件事情发生的概率时（而且这两件事完全独立，毫不相干），我们就是在犯赌徒谬误</li>
+<li>局里：（父母对医生说）“因为我们已经有三个男孩了，所以我相信，下一个肯定是女孩。”</li>
+</ul>
+<h3 id="错误的精确"><a href="#错误的精确" class="headerlink" title="错误的精确"></a>错误的精确</h3><ul>
+<li>说明：只随意举出一些看似精确但其实毫无事实根据的数字来证明自己的观点。</li>
+<li>举例：在莎士比亚的时代，每四个人中就有一个人不喜欢莎士比亚的戏剧。</li>
+</ul>
+<h2 id="推理过程中的逻辑错误"><a href="#推理过程中的逻辑错误" class="headerlink" title="推理过程中的逻辑错误"></a>推理过程中的逻辑错误</h2><h3 id="断定结果的错误"><a href="#断定结果的错误" class="headerlink" title="断定结果的错误"></a>断定结果的错误</h3><ul>
+<li>说明：我们不能因为『当 A 成立时 B 就成立』，就断定『当 B 成立时 A 就成立』。也称为「转化错误」</li>
+<li>举例：每次去度假时，我都会感觉很放松。所以当我感觉很放松时，我就一定是在度假。</li>
+</ul>
+<h3 id="否定前项"><a href="#否定前项" class="headerlink" title="否定前项"></a>否定前项</h3><ul>
+<li>说明：我们不能因为『只要 A 成立，B就成里』，就断定『只要 A 不成立，B 就不成立』</li>
+<li>举例：每次一下雨，地面就变湿。昨夜没下雨，所以地面不可能变湿。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+              <a href="/tags/逻辑思维/" rel="tag"># 逻辑思维</a>
+              <a href="/tags/批判性思维/" rel="tag"># 批判性思维</a>
+              <a href="/tags/谬误/" rel="tag"># 谬误</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/ip-questions/" rel="prev" title="关于 IP 的 11 个问题">
+      <i class="fa fa-chevron-left"></i> 关于 IP 的 11 个问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/unix-permission-questions/" rel="next" title="关于 Unix 权限的 13 个问题">
+      关于 Unix 权限的 13 个问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见逻辑漏洞"><span class="nav-number">1.</span> <span class="nav-text">常见逻辑漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#因为语言为题导致的逻辑漏洞"><span class="nav-number">1.1.</span> <span class="nav-text">因为语言为题导致的逻辑漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模棱两可"><span class="nav-number">1.1.1.</span> <span class="nav-text">模棱两可</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用不同的字眼表达同一个意思"><span class="nav-number">1.1.2.</span> <span class="nav-text">用不同的字眼表达同一个意思</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#因为「糟糕」的论据而导致的逻辑漏洞"><span class="nav-number">1.2.</span> <span class="nav-text">因为「糟糕」的论据而导致的逻辑漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以偏概全"><span class="nav-number">1.2.1.</span> <span class="nav-text">以偏概全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环推理"><span class="nav-number">1.2.2.</span> <span class="nav-text">循环推理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反面论据"><span class="nav-number">1.2.3.</span> <span class="nav-text">反面论据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#个人偏好"><span class="nav-number">1.2.4.</span> <span class="nav-text">个人偏好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#毒水井"><span class="nav-number">1.2.5.</span> <span class="nav-text">毒水井</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#你也好不到哪去"><span class="nav-number">1.2.6.</span> <span class="nav-text">你也好不到哪去</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#红鲱鱼"><span class="nav-number">1.2.7.</span> <span class="nav-text">红鲱鱼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强求不相关的目标或功能"><span class="nav-number">1.2.8.</span> <span class="nav-text">强求不相关的目标或功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随心所欲"><span class="nav-number">1.2.9.</span> <span class="nav-text">随心所欲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#倚老卖老"><span class="nav-number">1.2.10.</span> <span class="nav-text">倚老卖老</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#诉诸公众观点"><span class="nav-number">1.2.11.</span> <span class="nav-text">诉诸公众观点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装可怜"><span class="nav-number">1.2.12.</span> <span class="nav-text">装可怜</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#因为错误的假设而导致的逻辑漏洞"><span class="nav-number">1.3.</span> <span class="nav-text">因为错误的假设而导致的逻辑漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非此即彼"><span class="nav-number">1.3.1.</span> <span class="nav-text">非此即彼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中间值"><span class="nav-number">1.3.2.</span> <span class="nav-text">中间值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大杂烩"><span class="nav-number">1.3.3.</span> <span class="nav-text">大杂烩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#局部错误"><span class="nav-number">1.3.4.</span> <span class="nav-text">局部错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连续性漏洞"><span class="nav-number">1.3.5.</span> <span class="nav-text">连续性漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以点攻击面"><span class="nav-number">1.3.6.</span> <span class="nav-text">以点攻击面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扭曲"><span class="nav-number">1.3.7.</span> <span class="nav-text">扭曲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误的类比"><span class="nav-number">1.3.8.</span> <span class="nav-text">错误的类比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#因果错误"><span class="nav-number">1.3.9.</span> <span class="nav-text">因果错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多米诺错误"><span class="nav-number">1.3.10.</span> <span class="nav-text">多米诺错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#赌徒谬误"><span class="nav-number">1.3.11.</span> <span class="nav-text">赌徒谬误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误的精确"><span class="nav-number">1.3.12.</span> <span class="nav-text">错误的精确</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推理过程中的逻辑错误"><span class="nav-number">1.4.</span> <span class="nav-text">推理过程中的逻辑错误</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#断定结果的错误"><span class="nav-number">1.4.1.</span> <span class="nav-text">断定结果的错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#否定前项"><span class="nav-number">1.4.2.</span> <span class="nav-text">否定前项</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

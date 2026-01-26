@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="前段时间读了《面向程序员的数据挖掘指南》，原文链接：https://dataminingguide.books.yourtion.com/，把里边的知识点做下整理。 曼哈顿距离x之差的绝对值加上y之差的绝对值 欧几里得距离 勾股定理 闵可夫斯基距离  r = 1 该公式即曼哈顿距离 r = 2 该公式即欧几里得距离 r = ∞ 极大距离  r值越大，单个维度的差值大小会对整体距离有更大的影响。 协">
+<meta name="keywords" content="读书笔记,数据挖掘,机器学习,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向程序员的数据挖掘指南-知识点">
+<meta property="og:url" content="https://jiapan.me/2021/guidetodatamining-points/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="前段时间读了《面向程序员的数据挖掘指南》，原文链接：https://dataminingguide.books.yourtion.com/，把里边的知识点做下整理。 曼哈顿距离x之差的绝对值加上y之差的绝对值 欧几里得距离 勾股定理 闵可夫斯基距离  r = 1 该公式即曼哈顿距离 r = 2 该公式即欧几里得距离 r = ∞ 极大距离  r值越大，单个维度的差值大小会对整体距离有更大的影响。 协">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180502800725.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180503062224.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180503540478.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180503743318.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180504120770.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180504256020.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180504363132.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180504450729.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180504509371.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180504562002.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180504675659.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180504735687.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180505034865.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180506173984.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180506253823.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180506513378.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180506567485.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180506750399.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180506961757.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507023401.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507112641.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507150889.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507222041.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507271022.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507321601.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507539281.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507585991.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507641583.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507784873.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507824668.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507871219.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180507950656.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180508068666.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180508898266.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180508947636.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180509129002.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180509679074.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180509735438.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180510428253.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180510502089.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180510688805.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180510730702.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180510916565.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180510979756.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180511012204.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180511094255.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180511236348.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180511296710.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180511348946.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180511443995.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180511856276.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180511997961.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512064821.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512109821.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512214247.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512279040.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512332435.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512368972.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512440972.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512581633.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512917768.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180512974529.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180513070896.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180513116255.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180513192590.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180513291608.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180513358428.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180513402506.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180513439380.jpg">
+<meta property="og:image" content="https://jiapan.me/2021/guidetodatamining-points/16180513694801.jpg">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.608Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向程序员的数据挖掘指南-知识点">
+<meta name="twitter:description" content="前段时间读了《面向程序员的数据挖掘指南》，原文链接：https://dataminingguide.books.yourtion.com/，把里边的知识点做下整理。 曼哈顿距离x之差的绝对值加上y之差的绝对值 欧几里得距离 勾股定理 闵可夫斯基距离  r = 1 该公式即曼哈顿距离 r = 2 该公式即欧几里得距离 r = ∞ 极大距离  r值越大，单个维度的差值大小会对整体距离有更大的影响。 协">
+<meta name="twitter:image" content="https://jiapan.me/2021/guidetodatamining-points/16180502800725.jpg">
+
+<link rel="canonical" href="https://jiapan.me/2021/guidetodatamining-points/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>面向程序员的数据挖掘指南-知识点 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2021/guidetodatamining-points/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面向程序员的数据挖掘指南-知识点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-10 16:00:30" itemprop="dateCreated datePublished" datetime="2021-04-10T16:00:30+08:00">2021-04-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/guidetodatamining-points/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/guidetodatamining-points/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前段时间读了《面向程序员的数据挖掘指南》，原文链接：<a href="https://dataminingguide.books.yourtion.com/" target="_blank" rel="noopener">https://dataminingguide.books.yourtion.com/</a>，把里边的知识点做下整理。</p>
+<h2 id="曼哈顿距离"><a href="#曼哈顿距离" class="headerlink" title="曼哈顿距离"></a>曼哈顿距离</h2><p>x之差的绝对值加上y之差的绝对值<br><img src="16180502800725.jpg" alt=""></p>
+<h2 id="欧几里得距离"><a href="#欧几里得距离" class="headerlink" title="欧几里得距离"></a>欧几里得距离</h2><p><img src="16180503062224.jpg" alt=""></p>
+<p>勾股定理<br><img src="16180503540478.jpg" alt=""></p>
+<h2 id="闵可夫斯基距离"><a href="#闵可夫斯基距离" class="headerlink" title="闵可夫斯基距离"></a>闵可夫斯基距离</h2><p><img src="16180503743318.jpg" alt=""></p>
+<ul>
+<li>r = 1 该公式即曼哈顿距离</li>
+<li>r = 2 该公式即欧几里得距离</li>
+<li>r = ∞ 极大距离</li>
+</ul>
+<p>r值越大，单个维度的差值大小会对整体距离有更大的影响。</p>
+<h2 id="协同过滤"><a href="#协同过滤" class="headerlink" title="协同过滤"></a>协同过滤</h2><p>利用他人的喜好来进行推荐，也就是说，是大家一起产生的推荐。</p>
+<h2 id="皮尔逊相关系数"><a href="#皮尔逊相关系数" class="headerlink" title="皮尔逊相关系数"></a>皮尔逊相关系数</h2><p>用于衡量两个变量之间的相关性，它的值在-1至1之间，1表示完全吻合，-1表示完全相悖。</p>
+<p>皮尔逊相关系数的计算公式是：<br><img src="16180504120770.jpg" alt=""></p>
+<p>皮尔逊相关系数的近似值：<br><img src="16180504256020.jpg" alt=""></p>
+<h2 id="余弦相似度"><a href="#余弦相似度" class="headerlink" title="余弦相似度"></a>余弦相似度</h2><p><img src="16180504363132.jpg" alt=""></p>
+<p>“·”号表示数量积。</p>
+<p>“||x||”表示向量x的模，计算公式是：<br><img src="16180504450729.jpg" alt=""></p>
+<p>如：<br><img src="16180504509371.jpg" alt=""></p>
+<p>它们的模是：<br><img src="16180504562002.jpg" alt=""></p>
+<p>数量积的计算：<br><img src="16180504675659.jpg" alt=""></p>
+<p>因此余弦相似度是：<br><img src="16180504735687.jpg" alt=""></p>
+<p>余弦相似度的范围从1到-1，1表示完全匹配，-1表示完全相悖。</p>
+<h2 id="应该使用哪种相似度？"><a href="#应该使用哪种相似度？" class="headerlink" title="应该使用哪种相似度？"></a>应该使用哪种相似度？</h2><ul>
+<li>如果数据存在“分数膨胀”问题，就使用皮尔逊相关系数。</li>
+<li>如果数据比较“密集”，变量之间基本都存在公有值，且这些距离数据是非常重要的，那就使用欧几里得或曼哈顿距离。</li>
+<li>如果数据是稀疏的，则使用余弦相似度。</li>
+</ul>
+<h3 id="K最邻近算法"><a href="#K最邻近算法" class="headerlink" title="K最邻近算法"></a>K最邻近算法</h3><p><img src="16180505034865.jpg" alt=""></p>
+<h2 id="用户的评价类型可以分为显式评价和隐式评价"><a href="#用户的评价类型可以分为显式评价和隐式评价" class="headerlink" title="用户的评价类型可以分为显式评价和隐式评价"></a>用户的评价类型可以分为显式评价和隐式评价</h2><ul>
+<li>显式评价指的是用户明确地给出对物品的评价</li>
+<li>所谓隐式评价，就是我们不让用户明确给出对物品的评价，而是通过观察他们的行为来获得偏好信息。<ul>
+<li>另一种隐式评价是用户的实际购买记录</li>
+</ul>
+</li>
+</ul>
+<h2 id="显式评价的问题"><a href="#显式评价的问题" class="headerlink" title="显式评价的问题"></a>显式评价的问题</h2><ul>
+<li>问题1：人们很懒，不愿评价物品</li>
+<li>问题2：人们会撒谎，或存有偏见</li>
+<li>问题3：人们不会更新他们的评论</li>
+</ul>
+<h3 id="基于用户的协同过滤弊端"><a href="#基于用户的协同过滤弊端" class="headerlink" title="基于用户的协同过滤弊端"></a>基于用户的协同过滤弊端</h3><ol>
+<li><strong>扩展性</strong> 上文已经提到，随着用户数量的增加，其计算量也会增加。这种算法在只有几千个用户的情况下能够工作得很好，但达到一百万个用户时就会出现瓶颈。</li>
+<li><strong>稀疏性</strong> 大多数推荐系统中，物品的数量要远大于用户的数量，因此用户仅仅对一小部分物品进行了评价，这就造成了数据的稀疏性。</li>
+</ol>
+<h2 id="基于用户的协同过滤和基于物品的协同过滤区别"><a href="#基于用户的协同过滤和基于物品的协同过滤区别" class="headerlink" title="基于用户的协同过滤和基于物品的协同过滤区别"></a>基于用户的协同过滤和基于物品的协同过滤区别</h2><ul>
+<li>基于用户的协同过滤是通过计算用户之间的距离找出最相似的用户，并将他评价过的物品推荐给目标用户；</li>
+<li><p>而基于物品的协同过滤则是找出最相似的物品，再结合用户的评价来给出推荐结果。</p>
+</li>
+<li><p>基于用户的协同过滤又称为内存型协同过滤，因为我们需要将所有的评价数据都保存在内存中来进行推荐。</p>
+</li>
+<li>基于物品的协同过滤也称为基于模型的协同过滤，因为我们不需要保存所有的评价数据，而是通过构建一个物品相似度模型来做推荐。</li>
+</ul>
+<h2 id="修正的余弦相似度"><a href="#修正的余弦相似度" class="headerlink" title="修正的余弦相似度"></a>修正的余弦相似度</h2><p>修正的余弦相似度是一种基于模型的协同过滤算法。这种算法的优势之一是扩展性好，对于大数据量而言，运算速度快、占用内存少。</p>
+<p>用户的评价标准是不同的，比如喜欢一个歌手时有些人会打4分，有些打5分；不喜欢时有人会打3分，有些则会只给1分。修正的余弦相似度计算时会将用户对物品的评分减去用户所有评分的均值，从而解决这个问题。</p>
+<p><img src="16180506173984.jpg" alt=""></p>
+<p>U表示同时评价过物品i和j的用户集合</p>
+<p><img src="16180506253823.jpg" alt=""></p>
+<p>表示将用户u对物品i的评价值减去用户u对所有物品的评价均值，从而得到修正后的评分。</p>
+<p>s(i,j)表示物品i和j的相似度，分子表示将同时评价过物品i和j的用户的修正评分相乘并求和，分母则是对所有的物品的修正评分做一些汇总处理。</p>
+<h2 id="修正的余弦相似度示例"><a href="#修正的余弦相似度示例" class="headerlink" title="修正的余弦相似度示例"></a>修正的余弦相似度示例</h2><p>计算Kacey Musgraves和Imagine Dragons的相似度<br><img src="16180506513378.jpg" alt=""></p>
+<p>我已经标出了同时评价过这两个歌手的用户，代入到公式中：<br><img src="16180506567485.jpg" alt=""></p>
+<p>所以这两个歌手之间的修正余弦相似度为0.5260</p>
+<h2 id="使用修正余弦相似度进行预测"><a href="#使用修正余弦相似度进行预测" class="headerlink" title="使用修正余弦相似度进行预测"></a>使用修正余弦相似度进行预测</h2><p>比如我想知道David有多喜欢Kacey Musgraves？<br><img src="16180506750399.jpg" alt=""></p>
+<p>p(u,i)表示我们会来预测用户u对物品i的评分，所以p(David, Kacey Musgraves)就表示我们将预测David会给Kacey打多少分。<br>N是一个物品的集合，有如下特性：</p>
+<ul>
+<li>用户u对集合中的物品打过分</li>
+<li>物品i和集合中的物品有相似度数据（即上文中的矩阵）</li>
+</ul>
+<p>Si,N表示物品i和N的相似度，Ru,N表示用户u对物品N的评分。</p>
+<p>为了让公式的计算效果更佳，对物品的评价分值最好介于-1和1之间。<br><img src="16180506961757.jpg" alt=""></p>
+<p>MaxR表示评分系统中的最高分（这里是5），MinR为最低分（这里是1），Ru,N是用户u对物品N的评分，NRu,N则表示修正后的评分（即范围在-1和1之间）。</p>
+<p>若已知NRu,N，求解Ru,N的公式为：<br><img src="16180507023401.jpg" alt=""></p>
+<p>比如一位用户打了2分，那修正后的评分为：<br><img src="16180507112641.jpg" alt=""></p>
+<p>反过来则是：<br><img src="16180507150889.jpg" alt=""></p>
+<p>修正David对各个物品的评分：<br><img src="16180507222041.jpg" alt=""></p>
+<p>结合物品相似度矩阵，代入公式：<br><img src="16180507271022.jpg" alt=""></p>
+<p>将其转换到5星评价体系中：<br><img src="16180507321601.jpg" alt=""></p>
+<h2 id="Slope-One算法"><a href="#Slope-One算法" class="headerlink" title="Slope One算法"></a>Slope One算法</h2><p>一种比较流行的基于物品的协同过滤算法</p>
+<p>分为两个步骤：</p>
+<ul>
+<li>首先需要计算出两两物品之间的差值（可以在夜间批量计算）。</li>
+<li>第二步则是进行预测</li>
+</ul>
+<h2 id="Slope-One算法计算差值"><a href="#Slope-One算法计算差值" class="headerlink" title="Slope One算法计算差值"></a>Slope One算法计算差值</h2><p>计算物品之间差异的公式是：<br><img src="16180507539281.jpg" alt=""></p>
+<p>card(S)表示S中有多少个元素；X表示所有评分值的集合；card(Sj,i(X))则表示同时评价过物品j和i的用户数。</p>
+<p>计算Taylor Swift 和 PSY之间的差值<br><img src="16180507585991.jpg" alt=""></p>
+<p>card(Sj,i(X))的值是2——因为有两个用户（Amy和Ben）同时对PSY和Taylor Swift打过分。</p>
+<p>分子uj-ui表示用户对j的评分减去对i的评分，代入公式得：<br><img src="16180507641583.jpg" alt=""></p>
+<p>即用户们给Taylor Swift的评分比PSY要平均高出两分。</p>
+<h2 id="Slope-One算法更新"><a href="#Slope-One算法更新" class="headerlink" title="Slope One算法更新"></a>Slope One算法更新</h2><p>比如说Taylor Swift和PSY的差值是2，是根据9位用户的评价计算的。当有一个新用户对Taylor Swift打了5分，PSY打了1分时，更新后的差值为：<br><img src="16180507784873.jpg" alt=""></p>
+<p>使用加权的Slope One算法进行预测<br>公式为：<br><img src="16180507824668.jpg" alt=""><br><img src="16180507871219.jpg" alt=""></p>
+<p>PWS1(u)j表示我们将预测用户u对物品i的评分。<br><img src="16180507950656.jpg" alt=""></p>
+<p>表示遍历Ben评价过的所有歌手，除了Whitney Houston以外（也就是-{j}的意思）。</p>
+<p>整个分子的意思是：对于Ben评价过的所有歌手（Whitney Houston除外），找出Whitney Houston和这些歌手之间的差值，并将差值加上Ben对这个歌手的评分。同时，我们要将这个结果乘以同时评价过两位歌手的用户数。</p>
+<p>Ben的评分情况和两两歌手之间的差异值展示如下：<br><img src="16180508068666.jpg" alt=""></p>
+<ol>
+<li>Ben对Taylor Swift打了5分，也就是ui</li>
+<li>Whitney Houston和Taylor Swift的差异是-1，即devj,i</li>
+<li>devj,i + ui = 4</li>
+<li>共有两个用户（Amy和Daisy）同时对Taylor Swift和Whitney Houston做了评价，即cj,i = 2</li>
+<li>那么(devj,i + ui) cj,i = 4 × 2 = 8</li>
+<li>Ben对PSY打了2分</li>
+<li>Whitney Houston和PSY的差异是0.75</li>
+<li>devj,i + ui = 2.75</li>
+<li>有两个用户同时评价了这两位歌手，因此(devj,i + ui) cj,i = 2.75 × 2 = 5.5</li>
+<li>分子：8 + 5.5 = 13.5</li>
+<li>分母：2 + 2 = 4</li>
+<li>预测评分：13.5 ÷ 4 = 3.375</li>
+</ol>
+<h2 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h2><p>在线性代数中，向量（vector）指的是具有大小和方向的几何对象。向量支持多重运算，包括相加、相减及数乘等。</p>
+<ul>
+<li>当我们用这种方式定义特征后，就可以运用线性代数中的向量运算法则了。</li>
+</ul>
+<p>在数据挖掘中，向量则可简单认为是物品的一组特征，比如音乐乐曲的特征。做文本挖掘时，会将一篇文章也用向量来表示——每个元素的位置表示一个特定的单词，这个位置上的值表示单词出现的次数。</p>
+<ul>
+<li>用「向量」一词比用「物品的一组特征」要来的专业</li>
+</ul>
+<h2 id="分类器"><a href="#分类器" class="headerlink" title="分类器"></a>分类器</h2><p>分类器是指通过物品特征来判断它应该属于哪个组或类别的程序。</p>
+<p>分类器程序会基于一组已经做过分类的物品进行学习，从而判断新物品的所属类别。</p>
+<h2 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h2><p>要让数据变得可用我们可以对其进行标准化，最常用的方法是将所有数据都转化为0到1之间的值。</p>
+<p>标准分计算公式：<br><img src="16180508898266.jpg" alt=""></p>
+<p>mean：平均值<br>standard deviation：标准差<br>标准差的计算公式是：<br><img src="16180508947636.jpg" alt=""></p>
+<p>card(x)表示集合x中的元素个数。</p>
+<h3 id="修正的标准分"><a href="#修正的标准分" class="headerlink" title="修正的标准分"></a>修正的标准分</h3><p>计算方法：将标准分公式中的均值改为中位数，将标准差改为绝对偏差。<br><img src="16180509129002.jpg" alt=""></p>
+<p>中位数指的是将所有数据进行排序，取中间的那个值。如果数据量是偶数，则取中间两个数值的均值。</p>
+<p>计算工资的对偏差：<br>首先将所有人按薪水排序，找到中位数，然后计算绝对偏差：<br><img src="16180509679074.jpg" alt=""></p>
+<p>可以计算得出Yun的修正标准分：<br><img src="16180509735438.jpg" alt=""></p>
+<h2 id="是否需要标准化？"><a href="#是否需要标准化？" class="headerlink" title="是否需要标准化？"></a>是否需要标准化？</h2><p>当物品的特征数值尺度不一时，就有必要进行标准化。</p>
+<p>需要进行标准化的情形：</p>
+<ol>
+<li>我们需要通过物品特性来计算距离；</li>
+<li>不同特性之间的尺度相差很大。</li>
+</ol>
+<h2 id="十折交叉验证"><a href="#十折交叉验证" class="headerlink" title="十折交叉验证"></a>十折交叉验证</h2><p>将数据集随机分割成十个等份，每次用9份数据做训练集，1份数据做测试集，如此迭代10次。</p>
+<h2 id="留一法"><a href="#留一法" class="headerlink" title="留一法"></a>留一法</h2><p>在数据挖掘领域，N折交叉验证又称为留一法。</p>
+<p>上面已经提到了留一法的优点之一：我们用几乎所有的数据进行训练，然后用一个数据进行测试。</p>
+<h3 id="留一法的另一个优点是：确定性。"><a href="#留一法的另一个优点是：确定性。" class="headerlink" title="留一法的另一个优点是：确定性。"></a>留一法的另一个优点是：确定性。</h3><p>十折交叉验证是一种不确定的验证。相反，留一法得到的结果总是相同的，这是它的一个优点。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>最大的缺点是计算时间很长。</p>
+<p>留一法的另一个缺点是分层问题。</p>
+<p>在留一法中，所有的测试集都只包含一个数据。所以说，留一法对小数据集是合适的，但大多数情况下我们会选择十折交叉验证。</p>
+<h2 id="混淆矩阵"><a href="#混淆矩阵" class="headerlink" title="混淆矩阵"></a>混淆矩阵</h2><p>表格的行表示测试用例实际所属的类别，列则表示分类器的判断结果。</p>
+<p>混淆矩阵可以帮助我们快速识别出分类器到底在哪些类别上发生了混淆，因此得名。</p>
+<p>这个数据集中有300人，使用十折交叉验证，其混淆矩阵如下：<br><img src="16180510428253.jpg" alt=""></p>
+<p>可以看到，100个体操运动员中有83人分类正确，17人被错误地分到了马拉松一列；92个篮球运动员分类正确，8人被分到了马拉松；85个马拉松运动员分类正确，9人被分到了体操，16人被分到了篮球。</p>
+<p>混淆矩阵的对角线（绿色字体）表示分类正确的人数，因此求得的准确率是：<br><img src="16180510502089.jpg" alt=""></p>
+<p>从混淆矩阵中可以看出分类器的主要问题。</p>
+<p>在这个示例中，我们的分类器可以很好地区分体操运动员和篮球运动员，而马拉松运动员则比较容易和其他两个类别发生混淆。</p>
+<h2 id="Kappa指标"><a href="#Kappa指标" class="headerlink" title="Kappa指标"></a>Kappa指标</h2><p>Kappa指标可以用来评价分类器的效果比随机分类要好多少。</p>
+<p>Kappa指标可以用来衡量我们之前构造的分类器和随机分类器的差异，公式为：<br><img src="16180510688805.jpg" alt=""></p>
+<p>P(c)表示分类器的准确率，P(r)表示随机分类器的准确率。<br><img src="16180510730702.jpg" alt=""></p>
+<h3 id="动手实践"><a href="#动手实践" class="headerlink" title="动手实践"></a>动手实践</h3><p>以下是该分类器的混淆矩阵，尝试计算出它的Kappa指标并予以解释。<br><img src="16180510916565.jpg" alt=""></p>
+<p>准确率 = （50+75+123+170）/600= 0.697</p>
+<p>计算列合计和百分比：<br><img src="16180510979756.jpg" alt=""></p>
+<p>然后根据百分比来填充随机分类器的混淆矩阵：<br><img src="16180511012204.jpg" alt=""></p>
+<p>随机分类器准确率 = (8 + 24 + 51 + 92) / 600 = (175 / 600) = 0.292</p>
+<p>最后，计算Kappa指标：<br><img src="16180511094255.jpg" alt=""></p>
+<p>这说明分类器的效果还是要好过预期的。</p>
+<h2 id="kNN算法"><a href="#kNN算法" class="headerlink" title="kNN算法"></a>kNN算法</h2><p>考察这条新记录周围距离最近的k条记录，而不是只看一条，因此这种方法称为k近邻算法（kNN）。</p>
+<p>每个近邻都有投票权，程序会将新记录判定为得票数最多的分类。比如说，我们使用三个近邻（k = 3），其中两条记录属于体操，一条记录属于马拉松，那我们会判定x为体操。</p>
+<h2 id="KNN-算法预测举例"><a href="#KNN-算法预测举例" class="headerlink" title="KNN 算法预测举例"></a>KNN 算法预测举例</h2><p>我们需要预测Ben对Funky Meters的喜好程度，他的三个近邻分别是Sally、Tara、和Jade。</p>
+<p>下表是这三个人离Ben的距离，以及他们对Funky Meters的评分：<br><img src="16180511236348.jpg" alt=""></p>
+<p>在计算平均值的时候，我希望距离越近的用户影响越大，因此可以对距离取倒数，从而得到下表：<br><img src="16180511296710.jpg" alt=""></p>
+<p>下面，我们把所有的距离倒数除以距离倒数的和（0.2 + 0.1 + 0.067 = 0.367），从而得到评分的权重：<br><img src="16180511348946.jpg" alt=""></p>
+<p>我们可以注意到两件事情：权重之和是1；原始数据中，Sally的距离是Tara的二分之一，这点在权重中体现出来了。</p>
+<p>最后，我们求得平均值，也即预测Ben对Funky Meters的评分：<br><img src="16180511443995.jpg" alt=""></p>
+<h2 id="近邻算法-vs-贝叶斯算法"><a href="#近邻算法-vs-贝叶斯算法" class="headerlink" title="近邻算法 vs 贝叶斯算法"></a>近邻算法 vs 贝叶斯算法</h2><p>近邻算法又称为被动学习算法。这种算法只是将训练集的数据保存起来，在收到测试数据时才会进行计算。</p>
+<p>贝叶斯算法则是一种主动学习算法。它会根据训练集构建起一个模型，并用这个模型来对新的记录进行分类，因此速度会快很多。</p>
+<h2 id="贝叶斯算法的两个优点"><a href="#贝叶斯算法的两个优点" class="headerlink" title="贝叶斯算法的两个优点"></a>贝叶斯算法的两个优点</h2><p>能够给出分类结果的置信度</p>
+<p>它是一种主动学习算法</p>
+<h2 id="概率"><a href="#概率" class="headerlink" title="概率"></a>概率</h2><p>我们用符号P(h)来表示，即事件h发生的概率：</p>
+<ul>
+<li>投掷硬币：P(正面) = 0.5</li>
+<li>掷骰子：P(1) = 1/6</li>
+<li>青少年：P(女生) = 0.5</li>
+</ul>
+<p>P(h|D)来表示D条件下事件h发生的概率。比如：P(女生|弗兰克学院的学生) = 0.86</p>
+<p>计算的公式是：<br><img src="16180511856276.jpg" alt=""></p>
+<h2 id="概率计算"><a href="#概率计算" class="headerlink" title="概率计算"></a>概率计算</h2><p>下表是一些人使用笔记本电脑和手机的品牌：<br><img src="16180511997961.jpg" alt=""></p>
+<p>使用iPhone的概率是多少？<br><img src="16180512064821.jpg" alt=""></p>
+<p>如果已知这个人使用的是Mac笔记本，那他使用iPhone的概率是？<br><img src="16180512109821.jpg" alt=""></p>
+<p>首先计算出同时使用Mac和iPhone的概率：<br><img src="16180512214247.jpg" alt=""></p>
+<p>使用Mac的概率则是：<br><img src="16180512279040.jpg" alt=""></p>
+<p>从而计算得到Mac用户中使用iPhone的概率：<br><img src="16180512332435.jpg" alt=""></p>
+<p>为了简单起见，我们可以直接通过计数得到：<br><img src="16180512368972.jpg" alt=""></p>
+<h2 id="贝叶斯法则"><a href="#贝叶斯法则" class="headerlink" title="贝叶斯法则"></a>贝叶斯法则</h2><p>贝叶斯法则描述了P(h)、P(h|D)、P(D)、以及P(D|h)这四个概率之间的关系：<br><img src="16180512440972.jpg" alt=""></p>
+<p>现实问题中要计算P(h|D)往往是很困难的</p>
+<h2 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h2><p>朴素贝叶斯计算得到的概率其实是真实概率的一种估计，而真实概率是对全量数据做统计得到的。</p>
+<p>在朴素贝叶斯中，概率为0的影响是很大的，甚至会不顾其他概率的大小。此外，抽样统计的另一个问题是会低估真实概率。</p>
+<h3 id="如何解决概率为0的影响？"><a href="#如何解决概率为0的影响？" class="headerlink" title="如何解决概率为0的影响？"></a>如何解决概率为0的影响？</h3><p>解决方法是将公式变为以下形式：<br><img src="16180512581633.jpg" alt=""></p>
+<p>n表示训练集中y类别的记录数；nc表示y类别中值为x的记录数。</p>
+<p>m是一个常数，表示等效样本大小。</p>
+<p>决定常数m的方法有很多，我们这里使用值的类别来作为m，比如投票有赞成和否决两种类别，所以m就为2。</p>
+<p>p则是相应的先验概率，比如说赞成和否决的概率分别是0.5，那p就是0.5。</p>
+<h3 id="标准差"><a href="#标准差" class="headerlink" title="标准差"></a>标准差</h3><p><img src="16180512917768.jpg" alt=""></p>
+<p>标准差是用来衡量数据的离散程度的，如果所有数据都接近于平均值，那标准差也会比较小。</p>
+<p>样本标准差的公式是：<br><img src="16180512974529.jpg" alt=""></p>
+<p>我们把有限集合A的元素个数记为card(A)。例如A={a,b,c}，则card(A)=3</p>
+<h2 id="高斯分布"><a href="#高斯分布" class="headerlink" title="高斯分布"></a>高斯分布</h2><p>正态分布、钟型曲线、高斯分布等术语，他们指的是同一件事：68%的数据会落在标准差为1的范围内，95%的数据会落在标准差为2的范围内：<br><img src="16180513070896.jpg" alt=""></p>
+<p>概率计算公式：<br><img src="16180513116255.jpg" alt=""></p>
+<p>假设我们要计算P(100k|i500)的概率，即购买i500的用户中收入是100,000美元的概率。之前我们计算过购买i500的用户平均收入（106.111）以及样本标准差（21.327），我们用希腊字母μ（读“谬”）来表示平均值，σ（读“西格玛”）来表示标准差。<br><img src="16180513192590.jpg" alt=""></p>
+<p>xi = 100 指的是收入100k<br><img src="16180513291608.jpg" alt=""><br><img src="16180513358428.jpg" alt=""><br><img src="16180513402506.jpg" alt=""></p>
+<p>e是自然常数，约等于2.718。<br><img src="16180513439380.jpg" alt=""></p>
+<h2 id="监督式和非监督式学习"><a href="#监督式和非监督式学习" class="headerlink" title="监督式和非监督式学习"></a>监督式和非监督式学习</h2><p>当我们使用已经标记好分类的数据集进行训练时，这种类型的机器学习称为“监督式学习”。文本分类就是监督式学习的一种。</p>
+<p>如果训练集没有标好分类，那就称为“非监督式学习”，聚类就是一种非监督式学习</p>
+<h2 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h2><p>通过物品特征来计算距离，并自动分类到不同的群集或组中。</p>
+<h2 id="k-means算法可概括为"><a href="#k-means算法可概括为" class="headerlink" title="k-means算法可概括为"></a>k-means算法可概括为</h2><ol>
+<li>随机选取k个元素作为中心点；</li>
+<li>根据距离将各个点分配给中心点；</li>
+<li>计算新的中心点；</li>
+<li>重复2、3，直至满足条件。</li>
+</ol>
+<h2 id="评判聚类结果的好坏"><a href="#评判聚类结果的好坏" class="headerlink" title="评判聚类结果的好坏"></a>评判聚类结果的好坏</h2><p>我们可以使用误差平方和（或称离散程度）来评判聚类结果的好坏，它的计算方法是：计算每个点到中心点的距离平方和。<br><img src="16180513694801.jpg" alt=""></p>
+<p>上面的公式中，第一个求和符号是遍历所有的分类，比如i=1时计算第一个分类，i=2时计算第二个分类，直到计算第k个分类；第二个求和符号是遍历分类中所有的点；Dist指代距离计算公式（如曼哈顿距离、欧几里得距离）；计算数据点x和中心点ci之间的距离，平方后相加。</p>
+<h2 id="k-means"><a href="#k-means" class="headerlink" title="k-means++"></a>k-means++</h2><p>前面我们提到k-means是50年代发明的算法，它的实现并不复杂，但仍是现今最流行的聚类算法。不过它也有一个明显的缺点。在算法一开始需要随机选取k个起始点，正是这个随机会有问题。<br>有时选取的点能产生最佳结果，而有时会让结果变得很差。k-means++则改进了起始点的选取过程，其余的和k-means一致。</p>
+<p>以下是k-means++选取起始点的过程：</p>
+<ol>
+<li>随机选取一个点；</li>
+<li>重复以下步骤，直到选完k个点：<ol>
+<li>计算每个数据点（dp）到各个中心点的距离（D），选取最小的值，记为D(dp)；</li>
+<li>根据D(dp)的概率来随机选取一个点作为中心点。</li>
+</ol>
+</li>
+</ol>
+<p>k-means++选取起始点的方法总结下来就是：第一个点还是随机的，但后续的点就会尽量选择离现有中心点更远的点。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+              <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+              <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+              <a href="/tags/算法/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/docker-compose-hbase/" rel="prev" title="利用 docker-compose，搭建本地 HBase 集群">
+      <i class="fa fa-chevron-left"></i> 利用 docker-compose，搭建本地 HBase 集群
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/event-loop-questions/" rel="next" title="关于事件循环的 15 个问题">
+      关于事件循环的 15 个问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#曼哈顿距离"><span class="nav-number">1.</span> <span class="nav-text">曼哈顿距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#欧几里得距离"><span class="nav-number">2.</span> <span class="nav-text">欧几里得距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闵可夫斯基距离"><span class="nav-number">3.</span> <span class="nav-text">闵可夫斯基距离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协同过滤"><span class="nav-number">4.</span> <span class="nav-text">协同过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#皮尔逊相关系数"><span class="nav-number">5.</span> <span class="nav-text">皮尔逊相关系数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#余弦相似度"><span class="nav-number">6.</span> <span class="nav-text">余弦相似度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应该使用哪种相似度？"><span class="nav-number">7.</span> <span class="nav-text">应该使用哪种相似度？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#K最邻近算法"><span class="nav-number">7.1.</span> <span class="nav-text">K最邻近算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户的评价类型可以分为显式评价和隐式评价"><span class="nav-number">8.</span> <span class="nav-text">用户的评价类型可以分为显式评价和隐式评价</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显式评价的问题"><span class="nav-number">9.</span> <span class="nav-text">显式评价的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于用户的协同过滤弊端"><span class="nav-number">9.1.</span> <span class="nav-text">基于用户的协同过滤弊端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于用户的协同过滤和基于物品的协同过滤区别"><span class="nav-number">10.</span> <span class="nav-text">基于用户的协同过滤和基于物品的协同过滤区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修正的余弦相似度"><span class="nav-number">11.</span> <span class="nav-text">修正的余弦相似度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修正的余弦相似度示例"><span class="nav-number">12.</span> <span class="nav-text">修正的余弦相似度示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用修正余弦相似度进行预测"><span class="nav-number">13.</span> <span class="nav-text">使用修正余弦相似度进行预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slope-One算法"><span class="nav-number">14.</span> <span class="nav-text">Slope One算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slope-One算法计算差值"><span class="nav-number">15.</span> <span class="nav-text">Slope One算法计算差值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slope-One算法更新"><span class="nav-number">16.</span> <span class="nav-text">Slope One算法更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向量"><span class="nav-number">17.</span> <span class="nav-text">向量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类器"><span class="nav-number">18.</span> <span class="nav-text">分类器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准化"><span class="nav-number">19.</span> <span class="nav-text">标准化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修正的标准分"><span class="nav-number">19.1.</span> <span class="nav-text">修正的标准分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#是否需要标准化？"><span class="nav-number">20.</span> <span class="nav-text">是否需要标准化？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十折交叉验证"><span class="nav-number">21.</span> <span class="nav-text">十折交叉验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#留一法"><span class="nav-number">22.</span> <span class="nav-text">留一法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#留一法的另一个优点是：确定性。"><span class="nav-number">22.1.</span> <span class="nav-text">留一法的另一个优点是：确定性。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">22.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混淆矩阵"><span class="nav-number">23.</span> <span class="nav-text">混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kappa指标"><span class="nav-number">24.</span> <span class="nav-text">Kappa指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#动手实践"><span class="nav-number">24.1.</span> <span class="nav-text">动手实践</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kNN算法"><span class="nav-number">25.</span> <span class="nav-text">kNN算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KNN-算法预测举例"><span class="nav-number">26.</span> <span class="nav-text">KNN 算法预测举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#近邻算法-vs-贝叶斯算法"><span class="nav-number">27.</span> <span class="nav-text">近邻算法 vs 贝叶斯算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯算法的两个优点"><span class="nav-number">28.</span> <span class="nav-text">贝叶斯算法的两个优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率"><span class="nav-number">29.</span> <span class="nav-text">概率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概率计算"><span class="nav-number">30.</span> <span class="nav-text">概率计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯法则"><span class="nav-number">31.</span> <span class="nav-text">贝叶斯法则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#朴素贝叶斯"><span class="nav-number">32.</span> <span class="nav-text">朴素贝叶斯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何解决概率为0的影响？"><span class="nav-number">32.1.</span> <span class="nav-text">如何解决概率为0的影响？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准差"><span class="nav-number">32.2.</span> <span class="nav-text">标准差</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高斯分布"><span class="nav-number">33.</span> <span class="nav-text">高斯分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监督式和非监督式学习"><span class="nav-number">34.</span> <span class="nav-text">监督式和非监督式学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚类"><span class="nav-number">35.</span> <span class="nav-text">聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k-means算法可概括为"><span class="nav-number">36.</span> <span class="nav-text">k-means算法可概括为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#评判聚类结果的好坏"><span class="nav-number">37.</span> <span class="nav-text">评判聚类结果的好坏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k-means"><span class="nav-number">38.</span> <span class="nav-text">k-means++</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

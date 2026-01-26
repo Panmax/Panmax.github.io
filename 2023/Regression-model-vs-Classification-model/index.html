@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="在机器学习中，回归模型和分类模型是两种常见的预测模型，它们的主要区别在于其预测目标和输出类型。 预测目标 回归模型的预测目标是连续数值。 回归模型用于预测输出变量的数值，例如房价预测或股票价格预测。 回归模型试图建立输入特征与输出值之间的数值关系。   分类模型的预测目标是离散类别。 分类模型用于将输入实例分配到预定义的类别中，例如垃圾邮件分类或图像识别。 分类模型试图学习输入特征与类别之间的关系">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回归模型 vs 分类模型">
+<meta property="og:url" content="https://jiapan.me/2023/Regression-model-vs-Classification-model/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="在机器学习中，回归模型和分类模型是两种常见的预测模型，它们的主要区别在于其预测目标和输出类型。 预测目标 回归模型的预测目标是连续数值。 回归模型用于预测输出变量的数值，例如房价预测或股票价格预测。 回归模型试图建立输入特征与输出值之间的数值关系。   分类模型的预测目标是离散类别。 分类模型用于将输入实例分配到预定义的类别中，例如垃圾邮件分类或图像识别。 分类模型试图学习输入特征与类别之间的关系">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.263Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="回归模型 vs 分类模型">
+<meta name="twitter:description" content="在机器学习中，回归模型和分类模型是两种常见的预测模型，它们的主要区别在于其预测目标和输出类型。 预测目标 回归模型的预测目标是连续数值。 回归模型用于预测输出变量的数值，例如房价预测或股票价格预测。 回归模型试图建立输入特征与输出值之间的数值关系。   分类模型的预测目标是离散类别。 分类模型用于将输入实例分配到预定义的类别中，例如垃圾邮件分类或图像识别。 分类模型试图学习输入特征与类别之间的关系">
+
+<link rel="canonical" href="https://jiapan.me/2023/Regression-model-vs-Classification-model/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>回归模型 vs 分类模型 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2023/Regression-model-vs-Classification-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          回归模型 vs 分类模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-11-13 18:33:21" itemprop="dateCreated datePublished" datetime="2023-11-13T18:33:21+08:00">2023-11-13</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2023/Regression-model-vs-Classification-model/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/Regression-model-vs-Classification-model/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在机器学习中，回归模型和分类模型是两种常见的预测模型，它们的主要区别在于其预测目标和输出类型。</p>
+<h2 id="预测目标"><a href="#预测目标" class="headerlink" title="预测目标"></a>预测目标</h2><ul>
+<li>回归模型的预测目标是连续数值。<ul>
+<li>回归模型用于预测输出变量的数值，例如房价预测或股票价格预测。</li>
+<li>回归模型试图建立输入特征与输出值之间的数值关系。</li>
+</ul>
+</li>
+<li>分类模型的预测目标是离散类别。<ul>
+<li>分类模型用于将输入实例分配到预定义的类别中，例如垃圾邮件分类或图像识别。</li>
+<li>分类模型试图学习输入特征与类别之间的关系。</li>
+</ul>
+</li>
+</ul>
+<h2 id="输出类型"><a href="#输出类型" class="headerlink" title="输出类型"></a>输出类型</h2><ul>
+<li>回归模型的输出是连续的。<ul>
+<li>回归模型生成一个实数或浮点数作为预测结果，可以是任意精度的数值。</li>
+<li>例如，预测某个人的年龄可以是一个实数，如25.6岁。</li>
+</ul>
+</li>
+<li>分类模型的输出是离散的。<ul>
+<li>分类模型预测样本属于预定义类别的概率或直接预测样本的类别标签。</li>
+<li>例如，对于垃圾邮件分类，模型的输出可以是”垃圾邮件”或”非垃圾邮件”。</li>
+</ul>
+</li>
+</ul>
+<h2 id="小孩子都能懂的回归模型解释"><a href="#小孩子都能懂的回归模型解释" class="headerlink" title="小孩子都能懂的回归模型解释"></a>小孩子都能懂的回归模型解释</h2><p>回归模型就像是一个预测机器，可以帮助我们猜测事物的未来。假设你喜欢吃冰淇淋，而冰淇淋的价格通常会随着天气变化而变化。现在，我们可以观察天气情况和冰淇淋的价格，然后用这些信息来猜测未来的价格。</p>
+<p>比如，如果明天是个炎热的夏天，天气很热，那么冰淇淋的价格可能会比较高，因为很多人想要买冰淇淋来解暑。相反，如果明天是个寒冷的冬天，天气很冷，那么冰淇淋的价格可能会比较低，因为很少人会想要吃冰淇淋。</p>
+<p>回归模型就是通过观察过去的天气和冰淇淋价格的关系，来预测将来的价格。它会考虑到很多因素，例如天气、季节和需求，然后给我们一个猜测的价格。虽然它不能百分之百准确地猜测价格，但它可以给我们一个大概的预测，帮助我们做决策。</p>
+<h2 id="小孩子都能懂的分类模型解释"><a href="#小孩子都能懂的分类模型解释" class="headerlink" title="小孩子都能懂的分类模型解释"></a>小孩子都能懂的分类模型解释</h2><p>分类模型就像是一个分类小助手，可以帮助我们将东西归类。想象一下，你有很多玩具，例如球、娃娃和积木。现在，你想要把它们分类整理，把球放在一起、把娃娃放在一起，积木也放在一起。</p>
+<p>分类模型就是帮助我们做这个分类工作的机器。它会观察玩具的特点，比如形状、颜色和材质，然后根据这些特点把它们分成不同的类别。就像是在玩玩具时，你可以根据它们的外观和特点来决定它们应该放在哪个盒子里。</p>
+<p>分类模型可以帮助我们在很多不同的情况下进行分类，比如识别动物、区分水果、辨别颜色等。它可以根据事物的特征将它们分成不同的组别，让我们更好地理解和组织世界。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="回归模型的应用场景："><a href="#回归模型的应用场景：" class="headerlink" title="回归模型的应用场景："></a>回归模型的应用场景：</h3><ol>
+<li><strong>房价预测</strong>：根据房屋的特征（如面积、卧室数量、地理位置等），预测房屋的价格。</li>
+<li><strong>销售量预测</strong>：根据过去的销售数据、广告投入和季节性因素，预测未来某个产品的销售量。</li>
+<li><strong>股票价格预测</strong>：根据股票过去的价格数据、市场指标和新闻事件，预测股票的未来走势。</li>
+<li><strong>气候模型</strong>：根据历史气象数据、大气压力和温度等因素，预测未来的天气情况。</li>
+<li><strong>医学研究</strong>：根据患者的临床特征和生物标记物，预测患者的疾病风险或治疗效果。</li>
+</ol>
+<h3 id="分类模型的应用场景："><a href="#分类模型的应用场景：" class="headerlink" title="分类模型的应用场景："></a>分类模型的应用场景：</h3><ol>
+<li><strong>垃圾邮件分类</strong>：根据电子邮件的内容、发件人和其他特征，将电子邮件分为垃圾邮件和非垃圾邮件。</li>
+<li><strong>图像识别</strong>：根据图像的特征和内容，将图像分类为不同的对象或场景，如猫、狗、汽车或风景。</li>
+<li><strong>疾病诊断</strong>：根据患者的症状、体征和医学测试结果，将患者的疾病分类为不同的类别，如心脏病、癌症或糖尿病。</li>
+<li><strong>情感分析</strong>：根据文本的情感特征，将文本分类为积极、消极或中性的情感。</li>
+<li><strong>客户细分</strong>：根据客户的行为、偏好和购买历史，将客户分为不同的细分群体，以便进行个性化营销。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/技术/" rel="tag"># 技术</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/why-baoyu-is-gemini/" rel="prev" title="为什么我说宝玉是双子座">
+      <i class="fa fa-chevron-left"></i> 为什么我说宝玉是双子座
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/Why-not-update-for-a-long-time/" rel="next" title="为什么好久没更新了">
+      为什么好久没更新了 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#预测目标"><span class="nav-number">1.</span> <span class="nav-text">预测目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出类型"><span class="nav-number">2.</span> <span class="nav-text">输出类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小孩子都能懂的回归模型解释"><span class="nav-number">3.</span> <span class="nav-text">小孩子都能懂的回归模型解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小孩子都能懂的分类模型解释"><span class="nav-number">4.</span> <span class="nav-text">小孩子都能懂的分类模型解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景"><span class="nav-number">5.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#回归模型的应用场景："><span class="nav-number">5.1.</span> <span class="nav-text">回归模型的应用场景：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类模型的应用场景："><span class="nav-number">5.2.</span> <span class="nav-text">分类模型的应用场景：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

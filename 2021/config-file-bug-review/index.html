@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="昨天晚上我们的推荐服务出现故障，排查到很晚。影响了50多个主播和用户的曝光卡的使用效果，虽然没有产生特别大的事故，但我觉得自己还是有必要做个复盘，毕竟有自己做的不好的地方。 时间轴 大概21:20分，服务开始有大量错误报警，推荐帧 v2接口和附近动态的 rpc 请求全部进入降级状态。  22:00 报错突然降成 0  22:10 又开始报错，23:10 分报错消失  处理经过回顾一下我的排查过程，">
+<meta name="keywords" content="Java,故障复盘,配置管理,线上问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置不规范导致的 bug 复盘">
+<meta property="og:url" content="https://jiapan.me/2021/config-file-bug-review/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="昨天晚上我们的推荐服务出现故障，排查到很晚。影响了50多个主播和用户的曝光卡的使用效果，虽然没有产生特别大的事故，但我觉得自己还是有必要做个复盘，毕竟有自己做的不好的地方。 时间轴 大概21:20分，服务开始有大量错误报警，推荐帧 v2接口和附近动态的 rpc 请求全部进入降级状态。  22:00 报错突然降成 0  22:10 又开始报错，23:10 分报错消失  处理经过回顾一下我的排查过程，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2021/config-file-bug-review/1.png">
+<meta property="og:image" content="https://jiapan.me/2021/config-file-bug-review/2.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.343Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="配置不规范导致的 bug 复盘">
+<meta name="twitter:description" content="昨天晚上我们的推荐服务出现故障，排查到很晚。影响了50多个主播和用户的曝光卡的使用效果，虽然没有产生特别大的事故，但我觉得自己还是有必要做个复盘，毕竟有自己做的不好的地方。 时间轴 大概21:20分，服务开始有大量错误报警，推荐帧 v2接口和附近动态的 rpc 请求全部进入降级状态。  22:00 报错突然降成 0  22:10 又开始报错，23:10 分报错消失  处理经过回顾一下我的排查过程，">
+<meta name="twitter:image" content="https://jiapan.me/2021/config-file-bug-review/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2021/config-file-bug-review/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>配置不规范导致的 bug 复盘 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2021/config-file-bug-review/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          配置不规范导致的 bug 复盘
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-06-16 16:49:55" itemprop="dateCreated datePublished" datetime="2021-06-16T16:49:55+08:00">2021-06-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/config-file-bug-review/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/config-file-bug-review/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>昨天晚上我们的推荐服务出现故障，排查到很晚。影响了50多个主播和用户的曝光卡的使用效果，虽然没有产生特别大的事故，但我觉得自己还是有必要做个复盘，毕竟有自己做的不好的地方。</p>
+<h2 id="时间轴"><a href="#时间轴" class="headerlink" title="时间轴"></a>时间轴</h2><ul>
+<li><p>大概21:20分，服务开始有大量错误报警，推荐帧 v2接口和附近动态的 rpc 请求全部进入降级状态。</p>
+</li>
+<li><p>22:00 报错突然降成 0</p>
+</li>
+<li>22:10 又开始报错，23:10 分报错消失</li>
+</ul>
+<h2 id="处理经过"><a href="#处理经过" class="headerlink" title="处理经过"></a>处理经过</h2><p>回顾一下我的排查过程，在报警前几分钟，我更新了本周要扶持的荣耀主播名单，这个名单是一周一换，每周二更新，正常情况下运营会在白天把名单给我，但今天运营晚上19点才给我，当时我在吃饭，吃完饭后因为处理另一个问题就把改配置的事给忘了，晚上到家后才配置上。</p>
+<p>报错时没有想到会是配置的问题，因为这个配置我已经配置好多周了，都没有出过问题，而且是配置完后过了几分钟才开始报错的，看日志报的都是空指针异常，但是没有具体定位是那一行，起初以为是 live 对象缺少字段或者本身为空，加日志看了下并没有问题。</p>
+<p>大概21:53，我想到有没有可能是配置的问题，所以把新增的配置删掉，发现问题并没有解决，到了22:00 的时候突然不报错了，这个时候因为是个整点时间，我怀疑是不是某个活动或者某个有脏数据的主播下播了？心想明天到了公司查下这个时间点下播的主播找找原因。</p>
+<p>因为我前几分钟把荣耀主播的名单下掉了，这个名单需要在凌晨4点生效，所以我看既然没问题了就把配置恢复吧，恢复完配置文件几分钟后，刚要去洗漱就又开始报警。我和另一个同事决定继续加日志排查，一直搞到23点也没发现代码有问题，这时候我决定再下线刚才的配置，下完后没有恢复，不过到了23:10突然降成了0。又等到23:30发现没有报错我才去睡的，因为经历了这么长时间的惊心动魄，凌晨3点才睡着。</p>
+<p>为了验证是不是配置文件导致，第二天早上7点我重新把这份配置上去，7:10又开始报错。删除配置后，7:20恢复。</p>
+<h2 id="故障分析"><a href="#故障分析" class="headerlink" title="故障分析"></a>故障分析</h2><p><strong>为什么会在整10分报错？</strong></p>
+<p>ai 所使用的配置文件在 hbase 中，为了提升效率会定期同步到 redis 一份，resource 类的配置文件我设置的是10分钟同步一次，所以会出现当有配置变更时，整10分钟才会生效。</p>
+<p>为什么要10分钟才加载一次呢，因为我并不知道业务实际会用到哪些，索性把库中所有的配置都 load 了一遍，这会导致 redis 的抖动，不易太频繁。如下图所示</p>
+<p><img src="1.png" alt=""></p>
+<p>后边我改成了，当下游调用配置时，我会记录下来调用配置的 key，刷新配置时只刷新在用的配置，这样可以做到秒级或者分钟级刷新。</p>
+<p>优化后效果如下：</p>
+<p><img src="2.png" alt=""></p>
+<p><strong>配置错在了哪里？</strong></p>
+<p>配置中存在重复项，代码中解析这个配置后会转成一个 map，用到了 lambda 表达式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.collect(Collectors.toMap(Pair::getKey, Pair::getValue);</span><br></pre></td></tr></table></figure>
+<p>可以理解为，key 是主播的 ID，value 是要扶持的量，这段代码当有重复 key 时会报错，解决方法是传入第3个参数，告诉程序当 key 冲突时的 merge 逻辑，因为我这里不关心太具体保留哪个 value，可以简单实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.collect(Collectors.toMap(Pair::getKey, Pair::getValue,(value1, value2) -&gt; value2));</span><br></pre></td></tr></table></figure>
+<h2 id="后续优化"><a href="#后续优化" class="headerlink" title="后续优化"></a>后续优化</h2><ul>
+<li>避免7点后（非上线时间）更改线上配置</li>
+<li>运营配置尽量做到 admin 和自动化</li>
+<li>服务出故障后优先想想最近有哪些改动（即使只修改了配置文件）</li>
+<li>配置刷新频率不宜过低</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/故障复盘/" rel="tag"># 故障复盘</a>
+              <a href="/tags/配置管理/" rel="tag"># 配置管理</a>
+              <a href="/tags/线上问题/" rel="tag"># 线上问题</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/recovery-form-painc-in-golang/" rel="prev" title="从 Go 语言的 panic 中恢复">
+      <i class="fa fa-chevron-left"></i> 从 Go 语言的 panic 中恢复
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/go-memory-leak-by-slice/" rel="next" title="Go 中由切片引起的内存泄露">
+      Go 中由切片引起的内存泄露 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#时间轴"><span class="nav-number">1.</span> <span class="nav-text">时间轴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理经过"><span class="nav-number">2.</span> <span class="nav-text">处理经过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#故障分析"><span class="nav-number">3.</span> <span class="nav-text">故障分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续优化"><span class="nav-number">4.</span> <span class="nav-text">后续优化</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

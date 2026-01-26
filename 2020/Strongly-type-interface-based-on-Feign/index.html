@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="强弱类型语言众所周知编程语言有强弱类型之分，进一步还有动态和静态之分。比如 Java、C# 是强类型的（strongly typed）静态语言，Javascript、PHP 是弱类型的（weakly typed）动态语言。 强类型静态语言常常被称为类型安全（type safe）语言，一般在会编译期间进行强制类型检查，提前避免一些类型错误。弱类型动态语言虽然也有类型的概念，但是比较松散灵活，而且大多">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Feign 实现强类型接口">
+<meta property="og:url" content="https://jiapan.me/2020/Strongly-type-interface-based-on-Feign/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="强弱类型语言众所周知编程语言有强弱类型之分，进一步还有动态和静态之分。比如 Java、C# 是强类型的（strongly typed）静态语言，Javascript、PHP 是弱类型的（weakly typed）动态语言。 强类型静态语言常常被称为类型安全（type safe）语言，一般在会编译期间进行强制类型检查，提前避免一些类型错误。弱类型动态语言虽然也有类型的概念，但是比较松散灵活，而且大多">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2020/Strongly-type-interface-based-on-Feign/1.png">
+<meta property="og:image" content="https://jiapan.me/2020/Strongly-type-interface-based-on-Feign/2.png">
+<meta property="og:image" content="https://jiapan.me/2020/Strongly-type-interface-based-on-Feign/3.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.266Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于 Feign 实现强类型接口">
+<meta name="twitter:description" content="强弱类型语言众所周知编程语言有强弱类型之分，进一步还有动态和静态之分。比如 Java、C# 是强类型的（strongly typed）静态语言，Javascript、PHP 是弱类型的（weakly typed）动态语言。 强类型静态语言常常被称为类型安全（type safe）语言，一般在会编译期间进行强制类型检查，提前避免一些类型错误。弱类型动态语言虽然也有类型的概念，但是比较松散灵活，而且大多">
+<meta name="twitter:image" content="https://jiapan.me/2020/Strongly-type-interface-based-on-Feign/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2020/Strongly-type-interface-based-on-Feign/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>基于 Feign 实现强类型接口 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2020/Strongly-type-interface-based-on-Feign/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 Feign 实现强类型接口
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-15 10:15:22" itemprop="dateCreated datePublished" datetime="2020-06-15T10:15:22+08:00">2020-06-15</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/Strongly-type-interface-based-on-Feign/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/Strongly-type-interface-based-on-Feign/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="强弱类型语言"><a href="#强弱类型语言" class="headerlink" title="强弱类型语言"></a>强弱类型语言</h3><p>众所周知编程语言有强弱类型之分，进一步还有动态和静态之分。比如 Java、C# 是强类型的（<strong>strongly typed</strong>）静态语言，Javascript、PHP 是弱类型的（<strong>weakly typed</strong>）动态语言。</p>
+<p>强类型静态语言常常被称为类型安全（<strong>type safe</strong>）语言，一般在会编译期间进行强制类型检查，提前避免一些类型错误。弱类型动态语言虽然也有类型的概念，但是比较松散灵活，而且大多是解释型语言，一般没有强制类型检查，类型问题一般要在运行期才能暴露出来。</p>
+<p>强弱类型的语言各有优劣、相互补充，各有适用的场景。比如服务端开发经常用强类型的，前端 Web 界面经常会用 Javascript 这种弱类型语言。</p>
+<p><img src="1.png" alt="1.png"></p>
+<h3 id="强弱类型-API"><a href="#强弱类型-API" class="headerlink" title="强弱类型 API"></a>强弱类型 API</h3><p>对于服务 API 也有强弱类型之分，传统的 RPC 服务一般是强类型的，RPC 通常采用订制的二进制协议对消息进行编码和解码，采用 TCP 传输消息。RPC 服务通常有严格的契约（<strong>contract</strong>），开发服务器前先要定义 IDL（<strong>Interface Definition Language</strong>），用 IDL 来定义契约，再通过契约自动生成强类型的服务端和客户端的接口。服务调用的时候直接使用强类型客户端，不需要手动进行消息的编码和解码，gRPC 和 Apache Thrift 是目前两款主流的 RPC 框架。</p>
+<p>而现在的大部分 Restful 服务通常是弱类型的，Rest 通常采用 Json 作为传输消息，使用 HTTP 作为传输协议，Restful 服务通常没有严格的契约的概念，使用普通的 HTTP Client 就可以调用，但是调用方通常需要对 Json 消息进行手动编码和解码的工作。在现实世界当中，大部分服务框架都是弱类型 Restful 的服务框架，比方说 Java 生态当中的 SpringBoot 可以认为是目前主流的弱类型 Restful 框架之一。</p>
+<p><img src="2.png" alt="2.png"></p>
+<p>当然以上区分并不是业界标准，只是个人基于经验总结出来的一种区分的方法。</p>
+<h3 id="强弱类型-API-优劣"><a href="#强弱类型-API-优劣" class="headerlink" title="强弱类型 API 优劣"></a>强弱类型 API 优劣</h3><p>强类型服务接口的好处是：接口规范、自动代码生成、自动编码解码、编译期自动类型检查。强类型接口的好处也带来不利的一面：首先是客户端和服务端强耦合，任何一方升级改动可能会造成另一方 break，另外自动代码生成需要工具支持，而开发这些工具的成本也比较高。其次强类型接口开发测试不太友好，一般的浏览器、Postman 这样的工具无法直接访问强类型接口。</p>
+<p>弱类型服务接口的好处是客户端和服务器端不强耦合，不需要开发特别的代码生成工具，一般的 HTTP Client就可以调用，开发测试友好，不同的浏览器、Postman 可以轻松访问。弱类型服务接口的不足是需要调用方手动编码解码消息、没有自动代码的生成、没有编译器接口类型检查、代码不容易规范、开发效率相对低，而且容易出现运行期的错误。</p>
+<p>有没有办法结合强弱类型服务接口各自的好处同时又规避他们的不足呢？</p>
+<p>我们的做法是在 Spring Rest 弱类型接口的基础上借助 Spring Feign 支持的强类型接口的特性实现强类型 Rest 接口的调用机制，同时兼备强弱类型接口的好处。</p>
+<p>首先我们来介绍下 <code>Spring Feign</code>，<code>Spring Feign</code> 本质上是一种动态代理机制（Dynamic Proxy），只需要我们给出 <code>Restful API</code> 对应的 Java 接口，它就可以在运行期动态的拼装出对应接口的强类型客户端。拼装出的客户端的结构和请求响应流程如下图所示：</p>
+<p><img src="3.png" alt="3.png"></p>
+<ol>
+<li>客户应用发起一个请求并传入一个 <code>Request Bean</code>，这个请求通过 Java 接口首先被动态代理截获</li>
+<li>通过相应的编码器（<code>Encoder</code>）进行编码，成为 <code>Request Json</code></li>
+<li><code>Request Json</code> 根据需要可以经过一些拦截器（<code>Interceptor</code>）做进一步处理</li>
+<li>处理完之后传递给 HTTP Client，HTTP Client 将 Request Json通过 HTTP 协议发送至服务器端</li>
+<li>当服务端响应回来后，相应的 <code>Response Json</code> 会被 HTTP Client 接收到</li>
+<li>经过一些拦截器做一些响应处理</li>
+<li>转发给解码器（<code>Decoder</code>）解码为 <code>Response Bean</code></li>
+<li>最后 <code>Response Bean</code> 通过 Java 接口返回给调用方</li>
+</ol>
+<p>整个请求响应流程的关键步骤是编码和解码，也就是 Java 对象和 Json 消息的互转，这个过程也被称为序列化和反序列化，另外一种叫法为「Json 对象绑定」。对于一个服务框架而言，序列化、反序列化器的性能对于服务框架性能影响是最大的，也就是说可以认为 <code>Decoder</code> 和 <code>Encoder</code> 决定了服务框架总体的性能。</p>
+<p>虽然我们开发出来的服务是弱类型的 Restful 服务，但是因为有 <code>Spring Feign</code> 的支持，我们只要简单的给出一个强类型的 Java API 接口就自动获得了一个强类型客户端，也就是说利用 <code>Spring Feign</code> 我们可以同时获得强弱类型的好处（编译器自动类型检查、不需要手动编码解码、不需要开发代码生成工具、客户端和服务器端不强耦合），这样可以同时规范代码风格，提升开发测试效率。</p>
+<p>我们可以在项目内为每个微服务提供两个模块，一个是 <strong>API 接口模块</strong>（如 <code>mail-api</code>），另一个是<strong>服务实现模块</strong>（如 <code>mail-svc</code>）。API接口模块内就是强类型的 Java API  接口（包括请求响应的 DTO），可以直接被 Spring Feign 引用并动态拼装出强类型客户端。</p>
+<h3 id="项目结构如下："><a href="#项目结构如下：" class="headerlink" title="项目结构如下："></a>项目结构如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── README.md</span><br><span class="line">├── account</span><br><span class="line">│   ├── Dockerfile</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">│       ├── main</span><br><span class="line">│       └── test</span><br><span class="line">├── account-api</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">│       └── main</span><br><span class="line">├── mail</span><br><span class="line">│   ├── Dockerfile</span><br><span class="line">│   ├── mail.iml</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">│       ├── main</span><br><span class="line">│       └── test</span><br><span class="line">├── mail-api</span><br><span class="line">│   ├── pom.xml</span><br><span class="line">│   └── src</span><br><span class="line">│       └── main</span><br><span class="line">└── pom.xml</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：我这里没有采用 <code>xxx-api</code> 和 <code>xx-svc</code> 的命名方式，直接是 <code>xxx-api</code> 表示 API Client 模块， <code>xxx</code> 为服务实现模块。</p>
+</blockquote>
+<h3 id="我们以用户注册后发送通知邮件来写一个简单的例子。发送邮件-client-定义如下："><a href="#我们以用户注册后发送通知邮件来写一个简单的例子。发送邮件-client-定义如下：" class="headerlink" title="我们以用户注册后发送通知邮件来写一个简单的例子。发送邮件 client 定义如下："></a>我们以用户注册后发送通知邮件来写一个简单的例子。发送邮件 client 定义如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// mail-api/src/main/java/com/demo/mail/client/MailClient.java</span><br><span class="line"></span><br><span class="line">import com.demo.common.api.dto.Response;</span><br><span class="line">import com.demo.mail.dto.EmailSendDTO;</span><br><span class="line">import org.springframework.cloud.openfeign.FeignClient;</span><br><span class="line">import org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestBody;</span><br><span class="line"></span><br><span class="line">import javax.validation.Valid;</span><br><span class="line"></span><br><span class="line">@FeignClient(name = &quot;mail&quot;)</span><br><span class="line">public interface MailClient &#123;</span><br><span class="line">    @PostMapping(path = &quot;/send&quot;)</span><br><span class="line">    Response&lt;Boolean&gt; send(@RequestBody @Valid EmailSendDTO mailSendDTO);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="其中-Response-定义如下："><a href="#其中-Response-定义如下：" class="headerlink" title="其中 Response 定义如下："></a>其中 Response 定义如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class Response&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    private int code = 0;</span><br><span class="line"></span><br><span class="line">    private String message = &quot;OK&quot;;</span><br><span class="line"></span><br><span class="line">    private T data;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="用户服务调用发邮件-API-实现如下："><a href="#用户服务调用发邮件-API-实现如下：" class="headerlink" title="用户服务调用发邮件 API 实现如下："></a>用户服务调用发邮件 API 实现如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">// account/src/main/java/com/demo/account/service/UserService.java</span><br><span class="line"></span><br><span class="line">public class UserService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private final UserRepository userRepository;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private MailClient mailClient;</span><br><span class="line"></span><br><span class="line">    public boolean register(UserDTO userVO) &#123;</span><br><span class="line">        // 忽略参数验证部分代码...</span><br><span class="line"></span><br><span class="line">        User user= userRepository.save(UserDTOConvert.convertTo(userVO));</span><br><span class="line"></span><br><span class="line">        EmailSendDTO mail = EmailSendDTO.builder()</span><br><span class="line">                .to(&quot;user.getEmail()&quot;)</span><br><span class="line">                .subject(&quot;welcome!&quot;)</span><br><span class="line">                .htmlBody(&quot;hello,&quot; + user.getName()).build();</span><br><span class="line">        try &#123;</span><br><span class="line">            Response&lt;Boolean&gt; response = mailClient.send(mail);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            log.error(e.getMessage());</span><br><span class="line">            throw new AppException(SysErrorEnum.SYSTEM_ERROR);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (response.getCode() != 0) &#123;</span><br><span class="line">            throw new ServiceException(response.getCode(), response.getMessage());</span><br><span class="line">        &#125; else if (!response.getData()) &#123;</span><br><span class="line">            throw new ServiceException(AccountErrorEnum.MAIL_SEND_ERROR);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了体现异常处理流程，上边代码仅用于演示，在生产环境下发邮件应该为异步处理，无需检查发送结果。我们在服务内加了全局异常处理，所以直接向上抛出即可。</p>
+<p>最后再补充一点，业界 Restful API 的设计通常采用 HTTP 协议状态码来传递和表达错误语义，但是我们的设计是将错误码打包在一个正常的 Json 消息当中，也就是 Response 当中，这一种称为<strong>封装消息 + 捎带</strong>的设计模式，这样设计的目标是为了支持强类型的客户端同时简化和规范错误处理，如果借用 HTTP 协议状态码来传递和表达错误语义，虽然也可以开发对应的强类型客户端，但是内部的调用处理逻辑就会比较复杂，需要处理各种 HTTP 的错误码，开发成本会比较高。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/技术/" rel="tag"># 技术</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/Backend-Developer-RoadMap/" rel="prev" title="后端开发学习路径">
+      <i class="fa fa-chevron-left"></i> 后端开发学习路径
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/circular-dependence/" rel="next" title="如何解决代码中存在的循环依赖问题">
+      如何解决代码中存在的循环依赖问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#强弱类型语言"><span class="nav-number">1.</span> <span class="nav-text">强弱类型语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强弱类型-API"><span class="nav-number">2.</span> <span class="nav-text">强弱类型 API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强弱类型-API-优劣"><span class="nav-number">3.</span> <span class="nav-text">强弱类型 API 优劣</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目结构如下："><span class="nav-number">4.</span> <span class="nav-text">项目结构如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我们以用户注册后发送通知邮件来写一个简单的例子。发送邮件-client-定义如下："><span class="nav-number">5.</span> <span class="nav-text">我们以用户注册后发送通知邮件来写一个简单的例子。发送邮件 client 定义如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其中-Response-定义如下："><span class="nav-number">6.</span> <span class="nav-text">其中 Response 定义如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户服务调用发邮件-API-实现如下："><span class="nav-number">7.</span> <span class="nav-text">用户服务调用发邮件 API 实现如下：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

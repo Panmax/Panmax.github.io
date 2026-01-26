@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="这段时间在调研 MySQL HA 方面的东西，看到大多数实现方法都是通过虚IP + IP 漂移实现，所以打算先将此过程实现一下。 虚IP，就是一个未分配给真实主机的IP，也就是说对外提供数据库服务器的主机除了有一个真实IP外还有一个虚IP，使用这两个 IP 中的任意一个都可以连接到这台主机，所有项目中数据库链接一项配置的都是这个虚IP，当服务器发生故障无法对外提供服务时，动态将这个虚IP切换到备用">
+<meta name="keywords" content="高可用,负载均衡,Keepalived,IP漂移">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 keepalived 实现虚拟IP + IP漂移">
+<meta property="og:url" content="https://jiapan.me/2018/使用-keepalived-实现虚拟IP-IP漂移/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="这段时间在调研 MySQL HA 方面的东西，看到大多数实现方法都是通过虚IP + IP 漂移实现，所以打算先将此过程实现一下。 虚IP，就是一个未分配给真实主机的IP，也就是说对外提供数据库服务器的主机除了有一个真实IP外还有一个虚IP，使用这两个 IP 中的任意一个都可以连接到这台主机，所有项目中数据库链接一项配置的都是这个虚IP，当服务器发生故障无法对外提供服务时，动态将这个虚IP切换到备用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 keepalived 实现虚拟IP + IP漂移">
+<meta name="twitter:description" content="这段时间在调研 MySQL HA 方面的东西，看到大多数实现方法都是通过虚IP + IP 漂移实现，所以打算先将此过程实现一下。 虚IP，就是一个未分配给真实主机的IP，也就是说对外提供数据库服务器的主机除了有一个真实IP外还有一个虚IP，使用这两个 IP 中的任意一个都可以连接到这台主机，所有项目中数据库链接一项配置的都是这个虚IP，当服务器发生故障无法对外提供服务时，动态将这个虚IP切换到备用">
+
+<link rel="canonical" href="https://jiapan.me/2018/使用-keepalived-实现虚拟IP-IP漂移/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用 keepalived 实现虚拟IP + IP漂移 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2018/使用-keepalived-实现虚拟IP-IP漂移/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 keepalived 实现虚拟IP + IP漂移
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-17 17:22:06" itemprop="dateCreated datePublished" datetime="2018-04-17T17:22:06+08:00">2018-04-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2018/使用-keepalived-实现虚拟IP-IP漂移/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/使用-keepalived-实现虚拟IP-IP漂移/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这段时间在调研 MySQL HA 方面的东西，看到大多数实现方法都是通过虚IP + IP 漂移实现，所以打算先将此过程实现一下。</p>
+<p><strong>虚IP</strong>，就是一个未分配给真实主机的IP，也就是说对外提供数据库服务器的主机除了有一个真实IP外还有一个虚IP，使用这两个 IP 中的任意一个都可以连接到这台主机，所有项目中数据库链接一项配置的都是这个虚IP，当服务器发生故障无法对外提供服务时，动态将这个虚IP切换到备用主机。这个切换的过程我们称之为<strong>IP漂移</strong></p>
+<p>其实现原理主要是靠 TCP/IP 的 ARP 协议。因为 IP 地址只是一个逻辑 地址，在以太网中 MAC 地址才是真正用来进行数据传输的物理地址，每台主机中都有一个 ARP缓存，存储同一个网络内的IP地址与 MAC 地址的对应关系，以太网中的主机发送数据时会先从这个缓存中查询目标 IP 对应的MAC地址，会向这个 MAC 地址发送数据。操作系统会自动维护这个缓存。这就是整个实现的关键。</p>
+<p>我们可以通过 Keepalived 来实现这个过程。 Keepalived 是一个基于 VRRP 协议（Virtual Router Redundancy Protocol，即虚拟路由冗余协议）来实现的LVS（负载均衡器）服务高可用方案，可以利用其来避免单点故障。</p>
+<p>一个 LVS 服务会有2台服务器运行 Keepalived，一台为主服务器（MASTER），另一台为备份服务器（BACKUP），但是对外表现为一个虚拟IP，主服务器会发送特定的消息给备份服务器，当备份服务器收不到这个消息的时候，即主服务器宕机的时候，备份服务器就会接管虚拟IP，这时就需要根据 VRRP 的优先级来选举一个 backup 当 master，保证路由器的高可用，继续提供服务，从而保证了高可用性。</p>
+<h3 id="先来准备两台机器，IP地址如下："><a href="#先来准备两台机器，IP地址如下：" class="headerlink" title="先来准备两台机器，IP地址如下："></a>先来准备两台机器，IP地址如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lc1: 172.24.8.101</span><br><span class="line">lc7: 172.24.8.107</span><br></pre></td></tr></table></figure>
+<p>我们现在要实现添加一个虚IP：<code>172.24.8.150</code>，当 <code>lc1</code> 机器正常时，<code>172.24.8.150</code> 指向 <code>lc1</code>，当 <code>lc1</code> 出现故障时指向 <code>lc7</code>。</p>
+<p>此时通过 <code>ping</code> 可以看到 <code>172.24.8.150</code> 是无法 <code>ping</code> 通的。</p>
+<h3 id="在这两台机器上分别安装-Keepalived"><a href="#在这两台机器上分别安装-Keepalived" class="headerlink" title="在这两台机器上分别安装 Keepalived"></a>在这两台机器上分别安装 Keepalived</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install -y keepalived</span><br></pre></td></tr></table></figure>
+<h3 id="配置-Keepalived"><a href="#配置-Keepalived" class="headerlink" title="配置 Keepalived"></a>配置 Keepalived</h3><p><code>lc1</code> 的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ cat keepalived.conf</span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface enp7s0f0</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 101</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 123456</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        172.24.8.150</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>lc7</code> 的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface enp7s0f0</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 123456</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        172.24.8.150</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="启动-lc1-和-lc7-上的-Keepalived-服务"><a href="#启动-lc1-和-lc7-上的-Keepalived-服务" class="headerlink" title="启动 lc1 和 lc7 上的 Keepalived 服务"></a>启动 lc1 和 lc7 上的 Keepalived 服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart keepalived.service</span><br></pre></td></tr></table></figure>
+<h3 id="将-Keepalived-加入开机启动项"><a href="#将-Keepalived-加入开机启动项" class="headerlink" title="将 Keepalived 加入开机启动项"></a>将 Keepalived 加入开机启动项</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable keepalived.service</span><br></pre></td></tr></table></figure>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>通过 <code>ping 172.24.8.150</code> 发现已经可以通了。</p>
+<h4 id="查看-lc1-的-IP信息"><a href="#查看-lc1-的-IP信息" class="headerlink" title="查看 lc1 的 IP信息"></a>查看 lc1 的 IP信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ip addr show enp7s0f0</span><br><span class="line">2: enp7s0f0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP qlen 1000</span><br><span class="line">    link/ether 6c:92:bf:0d:09:47 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.24.8.101/24 brd 172.24.8.255 scope global enp7s0f0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet 172.24.8.150/32 scope global enp7s0f0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::6e92:bfff:fe0d:947/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<p>其中可以看到 inet 172.24.8.150/32 scope global enp7s0f0，说明现在 lc1 是作为虚拟IP的 master 来运行的。</p>
+<h4 id="查看-lc7-的-IP信息"><a href="#查看-lc7-的-IP信息" class="headerlink" title="查看 lc7 的 IP信息"></a>查看 lc7 的 IP信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ip addr show enp7s0f0</span><br><span class="line">2: enp7s0f0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP qlen 1000</span><br><span class="line">    link/ether 6c:92:bf:0d:21:49 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.24.8.107/24 brd 172.24.8.255 scope global enp7s0f0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::6e92:bfff:fe0d:2149/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<p>此时 lc7 中没有虚拟IP 的信息。</p>
+<h3 id="验证-Failover"><a href="#验证-Failover" class="headerlink" title="验证 Failover"></a>验证 Failover</h3><h4 id="我们手动停止-lc1-上的-Keepalived-服务："><a href="#我们手动停止-lc1-上的-Keepalived-服务：" class="headerlink" title="我们手动停止 lc1 上的 Keepalived 服务："></a>我们手动停止 lc1 上的 Keepalived 服务：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop keepalived.service</span><br></pre></td></tr></table></figure>
+<h4 id="此时-lc1-的-IP信息为："><a href="#此时-lc1-的-IP信息为：" class="headerlink" title="此时 lc1 的 IP信息为："></a>此时 lc1 的 IP信息为：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ip addr show enp7s0f0</span><br><span class="line">2: enp7s0f0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP qlen 1000</span><br><span class="line">    link/ether 6c:92:bf:0d:09:47 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.24.8.101/24 brd 172.24.8.255 scope global enp7s0f0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::6e92:bfff:fe0d:947/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<p>可以看到 lc1 已经不在有 虚拟IP 的信息了。</p>
+<h4 id="查看-lc7-的-IP信息："><a href="#查看-lc7-的-IP信息：" class="headerlink" title="查看 lc7 的 IP信息："></a>查看 lc7 的 IP信息：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ip addr show enp7s0f0</span><br><span class="line">2: enp7s0f0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP qlen 1000</span><br><span class="line">    link/ether 6c:92:bf:0d:21:49 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.24.8.107/24 brd 172.24.8.255 scope global enp7s0f0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet 172.24.8.150/32 scope global enp7s0f0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::6e92:bfff:fe0d:2149/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<p>可以看到 <code>lc7</code> 的 IP信息中 已经有虚拟IP <code>172.24.8.150</code> 的信息了。</p>
+<p>此时如果再把 <code>lc1</code> 上的 Keepalived 启动，可以看到 虚拟IP 又重新绑定到了 <code>lc1</code> 上。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/高可用/" rel="tag"># 高可用</a>
+              <a href="/tags/负载均衡/" rel="tag"># 负载均衡</a>
+              <a href="/tags/Keepalived/" rel="tag"># Keepalived</a>
+              <a href="/tags/IP漂移/" rel="tag"># IP漂移</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/run-in-background/" rel="prev" title="让前台程序转为后台运行">
+      <i class="fa fa-chevron-left"></i> 让前台程序转为后台运行
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/install-jps-on-centos/" rel="next" title="解决在 CentOS 通过 yum 安装的 Java 没有 jps 的问题">
+      解决在 CentOS 通过 yum 安装的 Java 没有 jps 的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#先来准备两台机器，IP地址如下："><span class="nav-number">1.</span> <span class="nav-text">先来准备两台机器，IP地址如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在这两台机器上分别安装-Keepalived"><span class="nav-number">2.</span> <span class="nav-text">在这两台机器上分别安装 Keepalived</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-Keepalived"><span class="nav-number">3.</span> <span class="nav-text">配置 Keepalived</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动-lc1-和-lc7-上的-Keepalived-服务"><span class="nav-number">4.</span> <span class="nav-text">启动 lc1 和 lc7 上的 Keepalived 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将-Keepalived-加入开机启动项"><span class="nav-number">5.</span> <span class="nav-text">将 Keepalived 加入开机启动项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">6.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看-lc1-的-IP信息"><span class="nav-number">6.1.</span> <span class="nav-text">查看 lc1 的 IP信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看-lc7-的-IP信息"><span class="nav-number">6.2.</span> <span class="nav-text">查看 lc7 的 IP信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证-Failover"><span class="nav-number">7.</span> <span class="nav-text">验证 Failover</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们手动停止-lc1-上的-Keepalived-服务："><span class="nav-number">7.1.</span> <span class="nav-text">我们手动停止 lc1 上的 Keepalived 服务：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#此时-lc1-的-IP信息为："><span class="nav-number">7.2.</span> <span class="nav-text">此时 lc1 的 IP信息为：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看-lc7-的-IP信息："><span class="nav-number">7.3.</span> <span class="nav-text">查看 lc7 的 IP信息：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

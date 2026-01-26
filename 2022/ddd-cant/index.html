@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="背景开始前声明，我不相信技术上存在任何银弹，包括微服务、DDD，不要指望用一套方法论或者架构能解决所有问题，能够根据当时的情况（资源、人才、业务）权衡出最符合当时场景的架构，才是一个合格的架构师的价值所在。 在讨论 DDD 时经常会一起讨论的是两种模型，传统贫血模型和 DDD 所推崇的充血模型。对于业务不复杂的系统开发来说，基于贫血模型的传统开发模式简单够用，基于充血模型的 DDD 开发模式有点大">
+<meta name="keywords" content="软件架构,微服务,DDD,领域驱动设计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDD “黑话”指南">
+<meta property="og:url" content="https://jiapan.me/2022/ddd-cant/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="背景开始前声明，我不相信技术上存在任何银弹，包括微服务、DDD，不要指望用一套方法论或者架构能解决所有问题，能够根据当时的情况（资源、人才、业务）权衡出最符合当时场景的架构，才是一个合格的架构师的价值所在。 在讨论 DDD 时经常会一起讨论的是两种模型，传统贫血模型和 DDD 所推崇的充血模型。对于业务不复杂的系统开发来说，基于贫血模型的传统开发模式简单够用，基于充血模型的 DDD 开发模式有点大">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/ddd-cant/20220624105137.png">
+<meta property="og:image" content="https://jiapan.me/2022/ddd-cant/20220624144225.png">
+<meta property="og:image" content="https://jiapan.me/2022/ddd-cant/20220624142308.png">
+<meta property="og:image" content="https://jiapan.me/2022/ddd-cant/20220624145253.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.434Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DDD “黑话”指南">
+<meta name="twitter:description" content="背景开始前声明，我不相信技术上存在任何银弹，包括微服务、DDD，不要指望用一套方法论或者架构能解决所有问题，能够根据当时的情况（资源、人才、业务）权衡出最符合当时场景的架构，才是一个合格的架构师的价值所在。 在讨论 DDD 时经常会一起讨论的是两种模型，传统贫血模型和 DDD 所推崇的充血模型。对于业务不复杂的系统开发来说，基于贫血模型的传统开发模式简单够用，基于充血模型的 DDD 开发模式有点大">
+<meta name="twitter:image" content="https://jiapan.me/2022/ddd-cant/20220624105137.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/ddd-cant/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>DDD “黑话”指南 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/ddd-cant/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DDD “黑话”指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-06-24 16:12:39" itemprop="dateCreated datePublished" datetime="2022-06-24T16:12:39+08:00">2022-06-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/ddd-cant/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/ddd-cant/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>开始前声明，我不相信技术上存在任何银弹，包括微服务、DDD，不要指望用一套方法论或者架构能解决所有问题，能够根据当时的情况（资源、人才、业务）权衡出最符合当时场景的架构，才是一个合格的架构师的价值所在。</p>
+<p>在讨论 DDD 时经常会一起讨论的是两种模型，传统<strong>贫血模型</strong>和 DDD 所推崇的<strong>充血模型</strong>。对于业务不复杂的系统开发来说，基于贫血模型的传统开发模式简单够用，基于充血模型的 DDD 开发模式有点大材小用，无法发挥作用。比如数据统计和分析，DDD 很多方法可能都用不上，或用得并不顺手，而传统的方法很容易就解决了。</p>
+<hr>
+<p>我在大概 19 年左右看过一些 DDD 相关的内容，也在上家公司团队内推行过 DDD 的调研，但限于上家公司对技术升级、培养没有那么看重，并且推行 DDD 对人员的技术要求也比较高，只做了一次内部分享就没再有下文了。</p>
+<p>最近来到新的部门后，这边在推行使用 DDD 来梳理我们的业务架构，从更高的视角审视我们目前的技术架构，用于评估架构是否合理、服务是否应当做一些拆分或者将应该归在一起的业务进行合并。我觉得这个做法是合理并且正确的，DDD 更推崇的是设计思想，可以用这个思想来指导我们做业务建模和服务设计。我们没必要为了 DDD 而 DDD，更不能脱离领域模型来空谈微服务设计。</p>
+<p>由于时间久远，当时看过的内容已经忘的七七八八了，翻开之前看文章时做的一些记录，将 DDD 中常用的 <strong>“黑话”</strong> 回顾一下，记录在下文，尽量和其他人的认知对齐，在交流时能更通畅一些。</p>
+<h2 id="八股图镇楼"><a href="#八股图镇楼" class="headerlink" title="八股图镇楼"></a>八股图镇楼</h2><p><img src="20220624105137.png" alt="20220624105137.png"></p>
+<h2 id="DDD-与微服务的关系："><a href="#DDD-与微服务的关系：" class="headerlink" title="DDD 与微服务的关系："></a>DDD 与微服务的关系：</h2><ul>
+<li>DDD 是一种<strong>架构设计方法</strong>，微服务是一种<strong>架构风格</strong>，两者从本质上都是为了追求高响应力，而从业务视角去分离应用系统建设复杂度的手段。</li>
+<li>两者都强调从业务出发，其核心要义是强调根据业务发展，合理划分领域边界，持续调整现有架构，优化现有代码，以保持架构和代码的生命力，也就是我们常说的<strong>演进式架构</strong>。</li>
+<li>DDD 主要关注：<strong>从业务领域视角划分领域边界</strong>，构建通用语言进行高效沟通，通过业务抽象，建立领域模型，维持业务和代码的逻辑一致性。</li>
+<li>微服务主要关注：运行时的进程间通信、容错和故障隔离，实现去中心化数据管理和去中心化服务治理，关注微服务的独立开发、测试、构建和部署。</li>
+</ul>
+<h2 id="领域"><a href="#领域" class="headerlink" title="领域"></a>领域</h2><p>DDD 的领域就是这个边界内要解决的<strong>业务问题域</strong>。</p>
+<p><img src="20220624144225.png" alt="20220624144225.png"></p>
+<h2 id="子域"><a href="#子域" class="headerlink" title="子域"></a>子域</h2><p>我们把划分出来的多个子领域称为子域，每个子域对应一个更小的问题域或更小的业务范围。</p>
+<p>子域可以根据<strong>自身重要性</strong>和<strong>功能属性</strong>划分为三类子域：</p>
+<ul>
+<li><strong>核心域</strong>：决定了产品和公司核心竞争力，它是业务成功的主要因素和公司的核心竞争力。</li>
+<li><strong>通用域</strong>：没有太多个性化的诉求，同时被多个子域使用的通用功能子域，如认证、权限。</li>
+<li><strong>支持域</strong>：不包含决定产品和公司核心竞争力的功能，也不包含通用功能的子域，如数据代码类的数据字典系统</li>
+</ul>
+<h2 id="限界上下文"><a href="#限界上下文" class="headerlink" title="限界上下文"></a>限界上下文</h2><p>用来封装通用语言和领域对象，提供上下文环境，保证在领域之内的一些术语、业务相关对象等（通用语言）有一个确切的含义，没有二义性。</p>
+<p>可以将限界上下文拆解为两个词：限界和上下文</p>
+<ul>
+<li>限界就是领域的边界</li>
+<li>而上下文则是语义环境</li>
+</ul>
+<p><strong>理论上</strong>限界上下文就是微服务的边界。</p>
+<h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><p>聚合就是由<strong>业务和逻辑紧密关联的实体和值对象组合而成的</strong>，聚合是<strong>数据修改和持久化的基本单元</strong>，每一个聚合对应一个仓储，实现数据的持久化。</p>
+<h3 id="聚合的特点："><a href="#聚合的特点：" class="headerlink" title="聚合的特点："></a>聚合的特点：</h3><p>高内聚、低耦合，它是领域模型中最底层的边界，可以作为拆分微服务的最小单位。</p>
+<p>一个微服务可以包含多个聚合，聚合之间的边界是微服务内天然的逻辑边界。</p>
+<p><strong>聚合的一个设计原则</strong>：在边界之外使用最终一致性。一次事务最多只能更改一个聚合的状态。如果一次业务操作涉及多个聚合状态的更改，应采用领域事件的最终一致性。</p>
+<h3 id="聚合根"><a href="#聚合根" class="headerlink" title="聚合根"></a>聚合根</h3><ul>
+<li>根据业务单一职责和高内聚原则，定义了聚合内部应该包含哪些实体和值对象</li>
+<li>主要目的是为了避免由于复杂数据模型缺少统一的业务规则控制，而导致聚合、实体之间数据不一致性的问题。</li>
+<li>如果把聚合比作组织，那聚合根就是这个组织的负责人。聚合根也称为根实体，它不仅是实体，还是聚合的管理者。</li>
+</ul>
+<h4 id="聚合根的特点："><a href="#聚合根的特点：" class="headerlink" title="聚合根的特点："></a>聚合根的特点：</h4><p>聚合根是实体，有实体的特点，具有全局唯一标识，有独立的生命周期。</p>
+<ul>
+<li>一个聚合只有一个聚合根，聚合根在聚合内对实体和值对象采用直接对象引用的方式进行组织和协调。</li>
+<li>聚合根与聚合根之间通过 ID 关联的方式实现聚合之间的协同。</li>
+</ul>
+<h3 id="领域服务"><a href="#领域服务" class="headerlink" title="领域服务"></a>领域服务</h3><p>如果一个业务动作或行为<strong>跨多个实体</strong>，我们就需要设计领域服务。</p>
+<ul>
+<li>领域服务通过对多个实体和实体方法进行<strong>组合</strong>，完成<strong>核心业务逻辑</strong>。</li>
+<li>领域服务是位于<strong>实体方法之上</strong>和<strong>应用服务之下</strong>的一层业务逻辑。</li>
+</ul>
+<p>在微服务内部，实体的方法被领域服务组合和封装，领域服务又被应用服务组合和封装。</p>
+<h3 id="仓储"><a href="#仓储" class="headerlink" title="仓储"></a>仓储</h3><p>每一个聚合都有一个仓储，仓储主要用来完成数据查询和持久化操作。</p>
+<h3 id="领域事件"><a href="#领域事件" class="headerlink" title="领域事件"></a>领域事件</h3><p>领域事件是领域模型中非常重要的一部分，用来表示领域中发生的事件。一个领域事件将导致进一步的业务操作，在实现业务解耦的同时，还有助于形成完整的业务闭环。</p>
+<p>如果发生某种事件后，会触发进一步的操作，那么这个事件很可能就是<strong>领域事件</strong>。</p>
+<p>领域事件驱动设计可以切断领域模型之间的强依赖关系，事件发布完成后，发布方不必关心后续订阅方事件处理是否成功，这样可以实现领域模型的解耦，维护领域模型的独立性和数据的一致性。</p>
+<p>在领域模型映射到微服务系统架构时，领域事件可以解耦微服务，微服务之间的数据不必要求强一致性，而是基于事件的<strong>最终一致性</strong>。</p>
+<p>通过领域事件驱动的<strong>异步化</strong>机制，可以推动业务流程和数据在各个不同微服务之间的流转，实现微服务的<strong>解耦</strong>，减轻微服务之间服务调用的压力，提升用户体验。</p>
+<h2 id="实体"><a href="#实体" class="headerlink" title="实体"></a>实体</h2><p>在 DDD 中有这样一类对象，它们拥有唯一标识符，且标识符在历经各种状态变更后仍能保持一致。对这些对象而言，重要的不是其属性，而是其延续性和标识，对象的延续性和标识会跨越甚至超出软件的生命周期。我们把这样的对象称为实体。</p>
+<p>在代码模型中，实体的表现形式是实体类，这个类包含了实体的属性和方法，通过这些方法实现实体自身的业务逻辑。</p>
+<p><strong>聚合根</strong>是一种<strong>特殊的实体</strong>，它有自己的属性和方法。聚合根可以实现聚合之间的对象引用，还可以引用聚合内的所有实体。</p>
+<h3 id="实体的特点：有-ID-标识，通过-ID-判断相等性，ID-在聚合内唯一即可。"><a href="#实体的特点：有-ID-标识，通过-ID-判断相等性，ID-在聚合内唯一即可。" class="headerlink" title="实体的特点：有 ID 标识，通过 ID 判断相等性，ID 在聚合内唯一即可。"></a>实体的特点：有 ID 标识，通过 ID 判断相等性，ID 在聚合内唯一即可。</h3><ul>
+<li>状态可变，它依附于聚合根，其生命周期由聚合根管理。</li>
+<li>实体一般会持久化，但与数据库持久化对象不一定是一对一的关系。</li>
+<li>实体可以引用聚合内的聚合根、实体和值对象。</li>
+</ul>
+<h2 id="值对象"><a href="#值对象" class="headerlink" title="值对象"></a>值对象</h2><p>通过对象属性值来识别的对象，它将多个相关属性组合为一个概念整体。在 DDD 中用来描述领域的特定方面，并且是一个<strong>没有标识符</strong>的对象，叫作值对象。</p>
+<p>值对象创建后就<strong>不允许修改</strong>了，只能用另外一个值对象来整体替换。</p>
+<h3 id="值对象的特点：无-ID，不可变，无生命周期，用完即扔。"><a href="#值对象的特点：无-ID，不可变，无生命周期，用完即扔。" class="headerlink" title="值对象的特点：无 ID，不可变，无生命周期，用完即扔。"></a>值对象的特点：无 ID，不可变，无生命周期，用完即扔。</h3><ul>
+<li>值对象之间通过属性值判断相等性。</li>
+<li>它的核心本质是值，是一组概念完整的属性组成的集合，用于描述实体的状态和特征。</li>
+<li>值对象尽量只引用值对象。</li>
+</ul>
+<h3 id="实体-vs-值对象"><a href="#实体-vs-值对象" class="headerlink" title="实体 vs 值对象"></a>实体 vs 值对象</h3><p>实体和值对象是组成领域模型的基础单元。</p>
+<ul>
+<li>实体一般对应业务对象，它<strong>具有业务属性和业务行为</strong></li>
+<li>值对象主要是属性集合，对<strong>实体的状态和特征进行描述</strong></li>
+</ul>
+<p>实体是看得到、摸得着的实实在在的业务对象，实体具有业务属性、业务行为和业务逻辑。而值对象只是若干个属性的集合，只有数据初始化操作和有限的不涉及修改数据的行为，基本不包含业务逻辑。值对象的属性集虽然在物理上独立出来了，但在逻辑上它仍然是实体属性的一部分，用于描述实体的特征。</p>
+<h3 id="聚合与实体、值对象的关系"><a href="#聚合与实体、值对象的关系" class="headerlink" title="聚合与实体、值对象的关系"></a>聚合与实体、值对象的关系</h3><p>领域模型内的实体和值对象就好比个体，而能让实体和值对象协同工作的组织就是聚合，它用来确保这些领域对象在实现共同的业务逻辑时，能保证数据的一致性。</p>
+<p>聚合就是由业务和逻辑紧密关联的实体和值对象组合而成的，聚合是数据修改和持久化的基本单元，每一个聚合对应一个仓储，实现数据的持久化。</p>
+<p>聚合之间通过聚合根 ID 关联引用，如果需要访问其它聚合的实体，就要先访问聚合根，再导航到聚合内部实体，外部对象不能直接访问聚合内实体。</p>
+<h3 id="领域事件基本属性至少包括："><a href="#领域事件基本属性至少包括：" class="headerlink" title="领域事件基本属性至少包括："></a>领域事件基本属性至少包括：</h3><ul>
+<li>事件<strong>唯一标识</strong></li>
+<li>发生<strong>时间</strong></li>
+<li>事件<strong>类型</strong></li>
+<li>事件<strong>源</strong></li>
+</ul>
+<h3 id="数据一致性"><a href="#数据一致性" class="headerlink" title="数据一致性"></a>数据一致性</h3><p>聚合内数据强一致性，而聚合之间数据最终一致性。</p>
+<p>在一次事务中，最多只能更改一个聚合的状态。如果一次业务操作涉及多个聚合状态的更改，应采用领域事件的方式异步修改相关的聚合，实现聚合之间的解耦。</p>
+<h2 id="产品愿景"><a href="#产品愿景" class="headerlink" title="产品愿景"></a>产品愿景</h2><p>产品愿景是对产品顶层价值设计，对产品目标用户、核心价值、差异化竞争点等信息达成一致，避免产品偏离方向。</p>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><p>场景分析是从用户视角出发，探索业务领域中的典型场景，产出领域中需要支撑的场景分类、用例操作以及不同子域之间的依赖关系，用以支撑领域建模。</p>
+<h2 id="领域建模"><a href="#领域建模" class="headerlink" title="领域建模"></a>领域建模</h2><p>领域建模是通过对业务和问题域进行分析，建立领域模型。</p>
+<ul>
+<li><strong>向上</strong>通过限界上下文指导<strong>微服务边界设计</strong></li>
+<li><strong>向下</strong>通过聚合指导<strong>实体对象设计</strong></li>
+</ul>
+<h2 id="DDD-战略设计和战术设计"><a href="#DDD-战略设计和战术设计" class="headerlink" title="DDD 战略设计和战术设计"></a>DDD 战略设计和战术设计</h2><p><strong>战略设计</strong>主要从<strong>业务视角</strong>出发，建立业务领域模型，划分领域边界，建立通用语言的限界上下文，限界上下文可以作为微服务设计的参考边界。</p>
+<p><strong>战术设计</strong>则从<strong>技术视角</strong>出发，侧重于领域模型的技术实现，完成软件开发和落地，包括：聚合根、实体、值对象、领域服务、应用服务和资源库等代码逻辑的设计和实现。</p>
+<h2 id="服务的封装和调用方式"><a href="#服务的封装和调用方式" class="headerlink" title="服务的封装和调用方式"></a>服务的封装和调用方式</h2><h3 id="1-应用服务的组合和编排"><a href="#1-应用服务的组合和编排" class="headerlink" title="1. 应用服务的组合和编排"></a>1. 应用服务的组合和编排</h3><p>应用服务会对多个领域服务进行组合和编排，暴露给用户接口层，供前端应用调用。</p>
+<h3 id="2-领域服务的组合封装"><a href="#2-领域服务的组合封装" class="headerlink" title="2. 领域服务的组合封装"></a>2. 领域服务的组合封装</h3><p>领域服务会对多个实体和实体方法进行组合和编排，供应用服务调用。</p>
+<h3 id="3-实体方法的封装"><a href="#3-实体方法的封装" class="headerlink" title="3. 实体方法的封装"></a>3. 实体方法的封装</h3><p>实体方法是最底层的原子业务逻辑。</p>
+<p><img src="20220624142308.png" alt="20220624142308.png"></p>
+<h2 id="DDD-的设计过程："><a href="#DDD-的设计过程：" class="headerlink" title="DDD 的设计过程："></a>DDD 的设计过程：</h2><ol>
+<li>在事件风暴中，我们会梳理出业务过程中的<strong>用户操作、事件以及外部依赖关系</strong>等，根据这些要素梳理出实体等<strong>领域对象</strong>。</li>
+<li>根据实体对象之间的业务关联性，将业务紧密相关的多个实体进行组合形成聚合，聚合之间是第一层边界。</li>
+<li>根据业务及语义边界等因素将一个或者多个聚合<strong>划定在一个限界上下文内</strong>，形成领域模型，限界上下文之间的边界是第二层边界。</li>
+</ol>
+<h2 id="领域对象设计过程"><a href="#领域对象设计过程" class="headerlink" title="领域对象设计过程"></a>领域对象设计过程</h2><ol>
+<li>设计实体</li>
+<li>找出聚合根</li>
+<li>设计值对象</li>
+<li>设计领域事件</li>
+<li>设计领域服务</li>
+<li>设计仓储</li>
+</ol>
+<h2 id="DDD-分层架构从上到下依次是"><a href="#DDD-分层架构从上到下依次是" class="headerlink" title="DDD 分层架构从上到下依次是"></a>DDD 分层架构从上到下依次是</h2><h3 id="用户接口层"><a href="#用户接口层" class="headerlink" title="用户接口层"></a>用户接口层</h3><p>用户接口层负责向用户显示信息和解释用户指令。这里的用户可能是：用户、程序、自动化测试和批处理脚本等等。</p>
+<h3 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h3><p>应用层是很薄的一层，理论上不应该有业务规则或逻辑，主要面向用例和流程相关的操作。</p>
+<h3 id="领域层"><a href="#领域层" class="headerlink" title="领域层"></a>领域层</h3><p>领域层的作用是<strong>实现企业核心业务逻辑</strong>，通过各种校验手段保证业务的正确性。</p>
+<p>领域层包含聚合根、实体、值对象、领域服务等领域模型中的领域对象。</p>
+<h3 id="基础层"><a href="#基础层" class="headerlink" title="基础层"></a>基础层</h3><ul>
+<li>基础层是贯穿所有层的，它的作用就是为其它各层提供通用的技术和基础服务，包括第三方工具、驱动、消息中间件、网关、文件、缓存以及数据库等。比较常见的功能还是提供数据库持久化。</li>
+</ul>
+<p><img src="20220624145253.png" alt="20220624145253.png"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>DDD 实战</li>
+<li>设计模式之美</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/软件架构/" rel="tag"># 软件架构</a>
+              <a href="/tags/微服务/" rel="tag"># 微服务</a>
+              <a href="/tags/DDD/" rel="tag"># DDD</a>
+              <a href="/tags/领域驱动设计/" rel="tag"># 领域驱动设计</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/quantify-drink-water/" rel="prev" title="量化喝水量">
+      <i class="fa fa-chevron-left"></i> 量化喝水量
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/how-cdn-work/" rel="next" title="CDN 是如何工作的？">
+      CDN 是如何工作的？ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八股图镇楼"><span class="nav-number">2.</span> <span class="nav-text">八股图镇楼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDD-与微服务的关系："><span class="nav-number">3.</span> <span class="nav-text">DDD 与微服务的关系：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#领域"><span class="nav-number">4.</span> <span class="nav-text">领域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子域"><span class="nav-number">5.</span> <span class="nav-text">子域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限界上下文"><span class="nav-number">6.</span> <span class="nav-text">限界上下文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合"><span class="nav-number">7.</span> <span class="nav-text">聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合的特点："><span class="nav-number">7.1.</span> <span class="nav-text">聚合的特点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合根"><span class="nav-number">7.2.</span> <span class="nav-text">聚合根</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#聚合根的特点："><span class="nav-number">7.2.1.</span> <span class="nav-text">聚合根的特点：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#领域服务"><span class="nav-number">7.3.</span> <span class="nav-text">领域服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仓储"><span class="nav-number">7.4.</span> <span class="nav-text">仓储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#领域事件"><span class="nav-number">7.5.</span> <span class="nav-text">领域事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体"><span class="nav-number">8.</span> <span class="nav-text">实体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实体的特点：有-ID-标识，通过-ID-判断相等性，ID-在聚合内唯一即可。"><span class="nav-number">8.1.</span> <span class="nav-text">实体的特点：有 ID 标识，通过 ID 判断相等性，ID 在聚合内唯一即可。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#值对象"><span class="nav-number">9.</span> <span class="nav-text">值对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#值对象的特点：无-ID，不可变，无生命周期，用完即扔。"><span class="nav-number">9.1.</span> <span class="nav-text">值对象的特点：无 ID，不可变，无生命周期，用完即扔。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实体-vs-值对象"><span class="nav-number">9.2.</span> <span class="nav-text">实体 vs 值对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合与实体、值对象的关系"><span class="nav-number">9.3.</span> <span class="nav-text">聚合与实体、值对象的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#领域事件基本属性至少包括："><span class="nav-number">9.4.</span> <span class="nav-text">领域事件基本属性至少包括：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据一致性"><span class="nav-number">9.5.</span> <span class="nav-text">数据一致性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产品愿景"><span class="nav-number">10.</span> <span class="nav-text">产品愿景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景分析"><span class="nav-number">11.</span> <span class="nav-text">场景分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#领域建模"><span class="nav-number">12.</span> <span class="nav-text">领域建模</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDD-战略设计和战术设计"><span class="nav-number">13.</span> <span class="nav-text">DDD 战略设计和战术设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务的封装和调用方式"><span class="nav-number">14.</span> <span class="nav-text">服务的封装和调用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-应用服务的组合和编排"><span class="nav-number">14.1.</span> <span class="nav-text">1. 应用服务的组合和编排</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-领域服务的组合封装"><span class="nav-number">14.2.</span> <span class="nav-text">2. 领域服务的组合封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-实体方法的封装"><span class="nav-number">14.3.</span> <span class="nav-text">3. 实体方法的封装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDD-的设计过程："><span class="nav-number">15.</span> <span class="nav-text">DDD 的设计过程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#领域对象设计过程"><span class="nav-number">16.</span> <span class="nav-text">领域对象设计过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDD-分层架构从上到下依次是"><span class="nav-number">17.</span> <span class="nav-text">DDD 分层架构从上到下依次是</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户接口层"><span class="nav-number">17.1.</span> <span class="nav-text">用户接口层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用层"><span class="nav-number">17.2.</span> <span class="nav-text">应用层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#领域层"><span class="nav-number">17.3.</span> <span class="nav-text">领域层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础层"><span class="nav-number">17.4.</span> <span class="nav-text">基础层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">18.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

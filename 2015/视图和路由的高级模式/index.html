@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="视图和路由的高级模式 视图装饰器Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。 123@decorator_functiondef decorated():	pass 如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。`@app.route`">
+<meta name="keywords" content="Python,Web开发,Flask,路由">
+<meta property="og:type" content="article">
+<meta property="og:title" content="explore flask 视图和路由的高级模式">
+<meta property="og:url" content="https://jiapan.me/2015/视图和路由的高级模式/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="视图和路由的高级模式 视图装饰器Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。 123@decorator_functiondef decorated():	pass 如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。`@app.route`">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2015/视图和路由的高级模式/1.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.915Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="explore flask 视图和路由的高级模式">
+<meta name="twitter:description" content="视图和路由的高级模式 视图装饰器Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。 123@decorator_functiondef decorated():	pass 如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。`@app.route`">
+<meta name="twitter:image" content="https://jiapan.me/2015/视图和路由的高级模式/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2015/视图和路由的高级模式/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>explore flask 视图和路由的高级模式 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2015/视图和路由的高级模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          explore flask 视图和路由的高级模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2015-10-03 22:15:16" itemprop="dateCreated datePublished" datetime="2015-10-03T22:15:16+08:00">2015-10-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/exploreflask/" itemprop="url" rel="index"><span itemprop="name">exploreflask</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2015/视图和路由的高级模式/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2015/视图和路由的高级模式/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="视图和路由的高级模式"><a href="#视图和路由的高级模式" class="headerlink" title="视图和路由的高级模式"></a>视图和路由的高级模式</h2><p><img src="1.png" alt=""></p>
+<h3 id="视图装饰器"><a href="#视图装饰器" class="headerlink" title="视图装饰器"></a>视图装饰器</h3><p>Python装饰器是用来改变其他函数的函数。当装饰函数被调用，这个装饰器被调用替代。然后装饰器能够才去行动，修改参数，停止执行或者调用原函数。我们能使用装饰器来包装视图来运行他们执行前的代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@decorator_function</span><br><span class="line">def decorated():</span><br><span class="line">	pass</span><br></pre></td></tr></table></figure>
+<p>如果你浏览过Flask的教程，你可能很熟悉这个代码块中的语法。<a href="mailto:`@app.route" target="_blank" rel="noopener">`@app.route</a>`Flask应用中是用来匹配URL到视图函数的装饰器。</p>
+<p>来看一些其他你能够在你的Flask应用中使用的装饰器。</p>
+<a id="more"></a>
+<h4 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h4><p>Flask-Login扩展使可以很容易的实现一个登录系统。出了处理用户认证的细节，Flask-Login给了我们一个装饰器用来限制某些视图给已经认证的用户：<code>@login_required</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># app.py</span><br><span class="line"></span><br><span class="line">from flask import render_template</span><br><span class="line">from flask.ext.login import login_required, current_user</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def index():</span><br><span class="line">	return render_template(&quot;index.html&quot;)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/dashboard&apos;)</span><br><span class="line">@login_required</span><br><span class="line">def account():</span><br><span class="line">	return render_template(&quot;account.html&quot;)</span><br></pre></td></tr></table></figure>
+<h5 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h5><p>@app.route应该永远是最远的视图装饰器。</p>
+<hr>
+<p>只有被认证的用户将能够访问<em>/dashboard</em>路由。我们能配置Flask-Login让没有认证的用户跳转到登录页面，返回一个HTTP 401状态或者任何其他我们希望他们做的。</p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><p>在<a href="http://flask-login.readthedocs.org/en/latest/" target="_blank" rel="noopener">官方文档</a>阅读更多关于Flask-Login的使用。</p>
+<hr>
+<h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h4><p>想象一篇提及到我们应用的文章刚刚发表在CNN和其他新闻站点。我们每秒钟获得成千上万的请求。我们的主页为每个请求前往数据库多次，所以这一切注意力都放慢下来到爬行。我们如何让速度快速加快，因此所有这些访问者就不会错过我们的站点。</p>
+<p>这里有很多好的回答，但是这个部分是关于缓存的，所以我们将要谈谈关于缓存的东西。明确来说，我们将要使用<a href="http://pythonhosted.org/Flask-Cache/" target="_blank" rel="noopener">Flask-Cache</a>扩展。这个扩展提供给我们一个装饰器，我们可以用在我们的主页视图上用来在一段时间内缓存响应。</p>
+<p>Flask-Cache 能够被配置和很多不同的缓存后端一起工作。一个流行的选择是<a href="http://redis.io/" target="_blank" rel="noopener">Redis</a>，这个我们可以简答设置和使用。假定Flask-Cache已经被配置完成，这段代码块展示我们的装饰器视图是什么样子的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># app.py</span><br><span class="line"></span><br><span class="line">from flask.ext.cache import Cache</span><br><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app = Flask()</span><br><span class="line"></span><br><span class="line"># We&apos;d normally include configuration settings in this call</span><br><span class="line">cache = Cache(app)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">@cache.cached(timeout=60)</span><br><span class="line">def index():</span><br><span class="line">	[...] # Make a few database calls to get the information we need</span><br><span class="line">	return render_template(</span><br><span class="line">		&apos;index.html&apos;,</span><br><span class="line">		latest_posts=latest_posts,</span><br><span class="line">		recent_users=recent_users,</span><br><span class="line">		recent_photos=recent_photos</span><br><span class="line">	)</span><br></pre></td></tr></table></figure>
+<p>现在这个函数将会每60秒只运行一次，这时候缓存过期。这个响应将会被保存在我们的缓存中并且为任何有障碍的请求从这里获取响应。</p>
+<h5 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h5><p>Flask-Cache 也让我们<strong>memoize</strong>函数或者缓存用确定参数调用的函数的结果。我们甚至能够缓存计算昂贵的Jinja2模板片段。</p>
+<hr>
+<h4 id="自定义装饰器"><a href="#自定义装饰器" class="headerlink" title="自定义装饰器"></a>自定义装饰器</h4><p>在这部分，让我们想象我们有一个应用来让我们的用户每个月付费，如果一个用户的账户到期了，我们将会跳转他们到结账页面并且告诉他们去升级。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># myapp/util.py</span><br><span class="line"></span><br><span class="line">from functools import wraps</span><br><span class="line">from datetime import datetime</span><br><span class="line"></span><br><span class="line">from flask import flash, redirect, url_for</span><br><span class="line"></span><br><span class="line">from flask.ext.login import current_user</span><br><span class="line"></span><br><span class="line">def check_expired(func):</span><br><span class="line">	@wraps(func)</span><br><span class="line">	def decorated_function(*args, **kwargs):</span><br><span class="line">		if datetime.utcnow() &gt; current_user.account_expires:</span><br><span class="line">			flash(&quot;Your account has expired. Update your billing info.&quot;)</span><br><span class="line">			return redirect(url_for(&apos;account_billing&apos;))</span><br><span class="line">		return func(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">	return decorated_function</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>行数</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>当一个函数被<code>@check_expried</code>装饰，<code>check_expried()</code>被调用并且被装饰的函数被作为参数传递。</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>@warps</code>是一个装饰器用来做一些簿记，使<code>被装饰的函数()</code>显示为<code>func()</code>的文档和调试的目的。这使这个函数的行为更正常一点。</td>
+</tr>
+<tr>
+<td>12</td>
+<td>。。。</td>
+</tr>
+<tr>
+<td>16</td>
+<td>。。。</td>
+</tr>
+</tbody>
+</table>
+<p>当我们把装饰器叠在一起时，最上边的装饰器将会第一个运行，然后调用下一行的函数：视图函数或者下一个装饰器之一。装饰器语法只是一点点语法糖。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># This code:</span><br><span class="line">@foo</span><br><span class="line">@bar</span><br><span class="line">def one():</span><br><span class="line">	pass</span><br><span class="line"></span><br><span class="line">r1 = one()</span><br><span class="line"></span><br><span class="line"># is the same as this code:</span><br><span class="line">def two():</span><br><span class="line">	pass</span><br><span class="line"></span><br><span class="line">two = foo(bar(two))</span><br><span class="line">r2 = two()</span><br><span class="line"></span><br><span class="line">r1 == r2 # True</span><br></pre></td></tr></table></figure>
+<p>这个代码块使用我们自定义装饰器和来自Flask-Login扩展的<code>@login_required</code>装饰器展示一个例子。我们能使用多个装饰器通过把他们叠在一起。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># myapp/views.py</span><br><span class="line"></span><br><span class="line">from flask import render_template</span><br><span class="line"></span><br><span class="line">from flask.ext.login import login_required</span><br><span class="line"></span><br><span class="line">from . import app</span><br><span class="line">from .util import check_expired</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/use_app&apos;)</span><br><span class="line">@login_required</span><br><span class="line">@check_expired</span><br><span class="line">def use_app():</span><br><span class="line">	&quot;&quot;&quot;Use our amazing app.&quot;&quot;&quot;</span><br><span class="line">	# [...]</span><br><span class="line">	return render_template(&apos;use_app.html&apos;)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/account/billing&apos;)</span><br><span class="line">@login_required</span><br><span class="line">def account_billing():</span><br><span class="line">	&quot;&quot;&quot;Update your billing info.&quot;&quot;&quot;</span><br><span class="line">	# [...]</span><br><span class="line">	return render_template(&apos;account/billing.html&apos;)</span><br></pre></td></tr></table></figure>
+<p>现在当一个用户尝试访问 /<em>user_app</em>，<code>check_expired()</code>将会在运行这个视图函数前确定他们的账户没有过期。</p>
+<h5 id="注意-2"><a href="#注意-2" class="headerlink" title="注意"></a>注意</h5><p>在<a href="http://docs.python.org/2/library/functools.html#functools.wraps" target="_blank" rel="noopener">Python docs</a>了解更多关于<code>warps()</code>函数的作用。</p>
+<hr>
+<h3 id="URL转换器"><a href="#URL转换器" class="headerlink" title="URL转换器"></a>URL转换器</h3><h4 id="内置转换器"><a href="#内置转换器" class="headerlink" title="内置转换器"></a>内置转换器</h4><p>当你在Flask里定义一个路由，你能够指定它的一部分转换成Python变量并且传递给视图函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/user/&lt;username&gt;&apos;)</span><br><span class="line">def profile(username):</span><br><span class="line">	pass</span><br></pre></td></tr></table></figure>
+<p>无论。。URL标签<code>&lt;username&gt;</code>将会被传递到视图作为username参数。你也能够指定一个转换器在变量被传到视图前过滤它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/user/id/&lt;int:user_id&gt;&apos;)</span><br><span class="line">def profile(user_id):</span><br><span class="line">	pass</span><br></pre></td></tr></table></figure>
+<p>在这个代码块，这个URL <em><a href="http://myapp.com/user/id/Q29kZUxlc3NvbiEh" target="_blank" rel="noopener">http://myapp.com/user/id/Q29kZUxlc3NvbiEh</a></em> 将会返回404代码-未找到。这是因为这个URL的部分被支持变成整型实际上是一个字符串。</p>
+<p>我们还可以有第二个视图来查找字符串。这会被<em>/user/id/Q29kZUxlc3NvbiEh/</em>调用，与此同时第一个会被<em>/user/id/124</em>调用。</p>
+<p>这个表展示Flask的内置URL转换器。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>。。。</td>
+</tr>
+<tr>
+<td>int</td>
+<td>。。。</td>
+</tr>
+<tr>
+<td>float</td>
+<td>。。。</td>
+</tr>
+<tr>
+<td>path</td>
+<td>。。。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="自定义转换器"><a href="#自定义转换器" class="headerlink" title="自定义转换器"></a>自定义转换器</h4><p>我们同样可以自定义转换器来满足我们度需要。在Reddit上（一个流行的连接分享站点），用户创建和主持主题讨论型社区和链接分享。一些例子是<em>/r/python</em>和<em>/r/flask</em>，被表示为URL的路径：分别是<em>reddit.com/r/python</em>和<em>reddit.com/r/flask</em>。一个Reddit有意思的功能是你能够观看来自多个子reddits的文章通过加号作为连接多个名字，例如<em>reddit.com/r/python+flask</em>。</p>
+<p>我们可以在我们自己的Flask应用中使用自定义转换器实线这个功能。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Web开发/" rel="tag"># Web开发</a>
+              <a href="/tags/Flask/" rel="tag"># Flask</a>
+              <a href="/tags/路由/" rel="tag"># 路由</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/组织你的项目/" rel="prev" title="explore flask 组织你的项目">
+      <i class="fa fa-chevron-left"></i> explore flask 组织你的项目
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/记录第一次玩阿里云/" rel="next" title="记录第一次玩阿里云">
+      记录第一次玩阿里云 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#视图和路由的高级模式"><span class="nav-number">1.</span> <span class="nav-text">视图和路由的高级模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#视图装饰器"><span class="nav-number">1.1.</span> <span class="nav-text">视图装饰器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#认证"><span class="nav-number">1.1.1.</span> <span class="nav-text">认证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#警告"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">警告</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注意"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存"><span class="nav-number">1.1.2.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义装饰器"><span class="nav-number">1.1.3.</span> <span class="nav-text">自定义装饰器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意-2"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#URL转换器"><span class="nav-number">1.2.</span> <span class="nav-text">URL转换器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内置转换器"><span class="nav-number">1.2.1.</span> <span class="nav-text">内置转换器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义转换器"><span class="nav-number">1.2.2.</span> <span class="nav-text">自定义转换器</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

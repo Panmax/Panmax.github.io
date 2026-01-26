@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="作为 Java 程序员，我们几乎都会碰到 java.lang.OutOfMemoryError 异常。   JVM 在抛出 java.lang.OutOfMemoryError 时，除了会打印出一行描述信息，还会打印堆栈跟踪，因此我们可以通过这些信息来找到导致异常的原因。 其中一种异常是 java.lang.OutOfMemoryError: Unable to create native th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="五分钟彻底解决 OutOfMemoryError: Unable to create native threads">
+<meta property="og:url" content="https://jiapan.me/2019/Unable-to-create-native-threads/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="作为 Java 程序员，我们几乎都会碰到 java.lang.OutOfMemoryError 异常。   JVM 在抛出 java.lang.OutOfMemoryError 时，除了会打印出一行描述信息，还会打印堆栈跟踪，因此我们可以通过这些信息来找到导致异常的原因。 其中一种异常是 java.lang.OutOfMemoryError: Unable to create native th">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2019/Unable-to-create-native-threads/1.jpeg">
+<meta property="og:image" content="https://jiapan.me/2019/Unable-to-create-native-threads/1.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="五分钟彻底解决 OutOfMemoryError: Unable to create native threads">
+<meta name="twitter:description" content="作为 Java 程序员，我们几乎都会碰到 java.lang.OutOfMemoryError 异常。   JVM 在抛出 java.lang.OutOfMemoryError 时，除了会打印出一行描述信息，还会打印堆栈跟踪，因此我们可以通过这些信息来找到导致异常的原因。 其中一种异常是 java.lang.OutOfMemoryError: Unable to create native th">
+<meta name="twitter:image" content="https://jiapan.me/2019/Unable-to-create-native-threads/1.jpeg">
+
+<link rel="canonical" href="https://jiapan.me/2019/Unable-to-create-native-threads/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>五分钟彻底解决 OutOfMemoryError: Unable to create native threads | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2019/Unable-to-create-native-threads/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          五分钟彻底解决 OutOfMemoryError: Unable to create native threads
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-22 19:23:33" itemprop="dateCreated datePublished" datetime="2019-11-22T19:23:33+08:00">2019-11-22</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/Unable-to-create-native-threads/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/Unable-to-create-native-threads/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>作为 Java 程序员，我们几乎都会碰到 java.lang.OutOfMemoryError 异常。</p>
+</blockquote>
+<p><img src="1.jpeg" alt=""></p>
+<p>JVM 在抛出 <code>java.lang.OutOfMemoryError</code> 时，除了会打印出一行描述信息，还会打印堆栈跟踪，因此我们可以通过这些信息来找到导致异常的原因。</p>
+<p>其中一种异常是 <code>java.lang.OutOfMemoryError: Unable to create native threads</code>，我们通过这篇文章来彻底搞懂它。</p>
+<p>抛出这个异常的过程大概是这样的：</p>
+<ol>
+<li>Java 程序向 JVM 请求创建一个新的 Java 线程。</li>
+<li>JVM 本地代码（Native Code）代理该请求，通过调用操作系统 API 去创建一个操作系统级别的线程 Native Thread。</li>
+<li>操作系统尝试创建一个新的 Native Thread，需要同时分配一些内存给该线程，每一个 Native Thread 都有一个线程栈，线程栈的大小由 JVM 参数-Xss决定。</li>
+<li>由于各种原因，操作系统创建新的线程可能会失败，下面会详细谈到。</li>
+<li>JVM 抛出 <code>java.lang.OutOfMemoryError: Unable to create new native thread</code> 错误。</li>
+</ol>
+<p>因此关键在于第四步线程创建失败，JVM 就会抛出 <code>OutOfMemoryError</code>，那具体有哪些因素会导致线程创建失败呢？</p>
+<ol>
+<li>JVM 内存大小限制</li>
+<li><code>ulimit -u</code> 限制</li>
+<li>参数 <code>sys.kernel.threads-max</code> 限制</li>
+<li>参数 <code>sys.kernel.pid_max</code> 限制</li>
+</ol>
+<p>第一种失败原因简单说一下：Java 创建一个线程需要消耗一定的栈空间，并通过-Xss参数指定。需要注意的是栈空间如果过小，可能会导致 <code>StackOverflowError</code>，尤其是在递归调用的情况下，但是栈空间过大会占用过多内存。</p>
+<p>同时还要注意，对于一个 32 位 Java 应用来说，用户进程空间是 4GB，内核占用 1GB，那么用户空间就剩下 3GB，因此它能创建的线程数大致可以通过这个公式算出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Max memory（3GB） = [-Xmx] + [-XX:MaxMetaSpaceSize] + number_of_threads * [-Xss]</span><br></pre></td></tr></table></figure>
+<p>不过对于 64 位的应用，由于虚拟进程空间近乎无限大，因此不会因为线程栈过大而耗尽虚拟地址空间。但是请你注意，64 位的 Java 进程能分配的最大内存数仍然受物理内存大小的限制。</p>
+<p>下边重点来介绍后边三种失败因素。</p>
+<p>在搞明白 <code>pid_max</code>、<code>ulimit -u</code> 和 <code>thread_max</code> 的区别前，需要先明白进程和线程之间的区别。</p>
+<blockquote>
+<p>一个最典型的区别是，（同一个进程内的）线程运行时共享内存空间，而进程在独立的内存空间中运行。</p>
+</blockquote>
+<h2 id="pid-max"><a href="#pid-max" class="headerlink" title="pid_max"></a>pid_max</h2><p><code>pid_max</code> 参数表示系统全局的 <code>PID</code> 号数值的限制，每一个进程都有 ID，ID 的值超过这个数，进程就会创建失败，<code>pid_max</code> 参数可以通过以下命令查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/kernel/pid_max</span><br></pre></td></tr></table></figure>
+<p>默认情况下，执行以上命令返回 <strong>32768</strong>，这意味着我们可以在系统中同时运行 <strong>32768</strong> 个<strong>进程</strong>，这些<strong>进程</strong>可以在<strong>独立的内存空间中</strong>运行。</p>
+<h3 id="修改方法"><a href="#修改方法" class="headerlink" title="修改方法"></a>修改方法</h3><p><code>echo 65535 &gt; /proc/sys/kernel/pid_max</code></p>
+<p>上面只是临时生效，重启机器后会失效</p>
+<p>永久生效方法：</p>
+<p>在 <code>/etc/sysctl.conf</code> 中添加 <code>kernel.pid_max = 65535</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br><span class="line">kernel.pid_max = 65535</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;kernel.pid_max = 65535&quot; &gt;&gt; /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<h2 id="threads-max"><a href="#threads-max" class="headerlink" title="threads-max"></a>threads-max</h2><p><code>treamd-max</code> 用来限制操作系统全局的线程数，通过以下命令查看 <code>treamd-max</code> 参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/kernel/threads-max</span><br></pre></td></tr></table></figure>
+<p>上边的命令返回 <strong>126406</strong>，这意味着我可以在共享内存空间中拥有 <strong>126406</strong> 个<strong>线程</strong>。</p>
+<h2 id="ulimit-u"><a href="#ulimit-u" class="headerlink" title="ulimit -u"></a>ulimit -u</h2><p><code>limit -u</code> 表示当前用户可以运行的最大<strong>进程数</strong>。</p>
+<h3 id="这个值怎么来的"><a href="#这个值怎么来的" class="headerlink" title="这个值怎么来的"></a>这个值怎么来的</h3><p><code>root</code> 账号下 <code>ulimit -u</code> 得到的值默认是 <code>cat /proc/sys/kernel/threads-max</code> 的值 / 2，即系统线程数的一半。</p>
+<p>普通账号下 <code>ulimit -u</code> 得到的值默认是 <code>/etc/security/limits.d/20-nproc.conf</code>文件中指定的：</p>
+<p><img src="1.png" alt=""></p>
+<h3 id="修改方式"><a href="#修改方式" class="headerlink" title="修改方式"></a>修改方式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -u 65535</span><br></pre></td></tr></table></figure>
+<h3 id="ulimit-受到全局限制"><a href="#ulimit-受到全局限制" class="headerlink" title="ulimit 受到全局限制"></a>ulimit 受到全局限制</h3><p><code>ulimit -u</code> 的值受全局的 <code>kernel.pid_max</code> 的值限制。也就是说如果 <code>kernel.pid_max=1024</code>，那么即使你的 <code>ulimit -u</code> 的值是 63203，用户能打开的最大进程数还是 1024。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/go-docker-reload/" rel="prev" title="Docker 部署 Go 服务并实现热加载">
+      <i class="fa fa-chevron-left"></i> Docker 部署 Go 服务并实现热加载
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/how-to-check-if-a-list-is-empty-in-python/" rel="next" title="如何在 Python 中判断列表是否为空">
+      如何在 Python 中判断列表是否为空 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pid-max"><span class="nav-number">1.</span> <span class="nav-text">pid_max</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改方法"><span class="nav-number">1.1.</span> <span class="nav-text">修改方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#threads-max"><span class="nav-number">2.</span> <span class="nav-text">threads-max</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ulimit-u"><span class="nav-number">3.</span> <span class="nav-text">ulimit -u</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#这个值怎么来的"><span class="nav-number">3.1.</span> <span class="nav-text">这个值怎么来的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改方式"><span class="nav-number">3.2.</span> <span class="nav-text">修改方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ulimit-受到全局限制"><span class="nav-number">3.3.</span> <span class="nav-text">ulimit 受到全局限制</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

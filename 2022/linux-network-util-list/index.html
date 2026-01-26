@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="ping「这些计算机还在线吗？」 curl发送任何你需要的 HTTP 请求。 httpie和 curl 一样，但操作更简单 wget下载文件 tc流量控制命令，可以降低其他人的网速 dig / nslookup「这个域名的 IP 地址是多少？」（DNS 查询） whois「这个域名注册了吗？」 ssh安全的 shell scp通过 SSH 协议拷贝文件 rsync只拷贝有过改动的文件（通过 SSH">
+<meta name="keywords" content="Linux,运维,命令行,网络工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 常用网络工具清单">
+<meta property="og:url" content="https://jiapan.me/2022/linux-network-util-list/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="ping「这些计算机还在线吗？」 curl发送任何你需要的 HTTP 请求。 httpie和 curl 一样，但操作更简单 wget下载文件 tc流量控制命令，可以降低其他人的网速 dig / nslookup「这个域名的 IP 地址是多少？」（DNS 查询） whois「这个域名注册了吗？」 ssh安全的 shell scp通过 SSH 协议拷贝文件 rsync只拷贝有过改动的文件（通过 SSH">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 常用网络工具清单">
+<meta name="twitter:description" content="ping「这些计算机还在线吗？」 curl发送任何你需要的 HTTP 请求。 httpie和 curl 一样，但操作更简单 wget下载文件 tc流量控制命令，可以降低其他人的网速 dig / nslookup「这个域名的 IP 地址是多少？」（DNS 查询） whois「这个域名注册了吗？」 ssh安全的 shell scp通过 SSH 协议拷贝文件 rsync只拷贝有过改动的文件（通过 SSH">
+
+<link rel="canonical" href="https://jiapan.me/2022/linux-network-util-list/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Linux 常用网络工具清单 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/linux-network-util-list/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 常用网络工具清单
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-08-28 11:15:37" itemprop="dateCreated datePublished" datetime="2022-08-28T11:15:37+08:00">2022-08-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/linux-network-util-list/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/linux-network-util-list/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h2><p>「这些计算机还在线吗？」</p>
+<h2 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h2><p>发送任何你需要的 HTTP 请求。</p>
+<h2 id="httpie"><a href="#httpie" class="headerlink" title="httpie"></a>httpie</h2><p>和 curl 一样，但操作更简单</p>
+<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><p>下载文件</p>
+<h2 id="tc"><a href="#tc" class="headerlink" title="tc"></a>tc</h2><p>流量控制命令，可以降低其他人的网速</p>
+<h2 id="dig-nslookup"><a href="#dig-nslookup" class="headerlink" title="dig / nslookup"></a>dig / nslookup</h2><p>「这个域名的 IP 地址是多少？」（DNS 查询）</p>
+<h2 id="whois"><a href="#whois" class="headerlink" title="whois"></a>whois</h2><p>「这个域名注册了吗？」</p>
+<h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><p>安全的 shell</p>
+<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><p>通过 SSH 协议拷贝文件</p>
+<h2 id="rsync"><a href="#rsync" class="headerlink" title="rsync"></a>rsync</h2><p>只拷贝有过改动的文件（通过 SSH 协议）</p>
+<h2 id="ngrep"><a href="#ngrep" class="headerlink" title="ngrep"></a>ngrep</h2><p>网络版的 grep 命令</p>
+<h2 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h2><p>「把 80 端口的所有网络包展示给我！」</p>
+<h2 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h2><p>通过 GUI 查看 tcpdump 抓的包</p>
+<h2 id="tshark"><a href="#tshark" class="headerlink" title="tshark"></a>tshark</h2><p>非常强大的网络报分析命令行工具</p>
+<h2 id="tcpflow"><a href="#tcpflow" class="headerlink" title="tcpflow"></a>tcpflow</h2><p>抓取与聚合 TCP 流</p>
+<h2 id="ifconfig"><a href="#ifconfig" class="headerlink" title="ifconfig"></a>ifconfig</h2><p>「我的 IP 地址是多少？」</p>
+<h2 id="route"><a href="#route" class="headerlink" title="route"></a>route</h2><p>查看和修改路由表</p>
+<h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><p>用于代替 ifconfig、route 等其他命令</p>
+<h2 id="arp"><a href="#arp" class="headerlink" title="arp"></a>arp</h2><p>查看你的 ARP 表</p>
+<h2 id="mitmproxy"><a href="#mitmproxy" class="headerlink" title="mitmproxy"></a>mitmproxy</h2><p>具有 SSL/TLS 功能的交互式拦截侦听代理</p>
+<blockquote>
+<p>MITM 是 Man-in-the-middle 的缩写。</p>
+</blockquote>
+<h2 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h2><p>网络连接端扫描软件</p>
+<h2 id="zenmap"><a href="#zenmap" class="headerlink" title="zenmap"></a>zenmap</h2><p>nmap 的 GUI 版本</p>
+<h2 id="p0f"><a href="#p0f" class="headerlink" title="p0f"></a>p0f</h2><p>被动网络指纹识别工具</p>
+<h2 id="openvpn"><a href="#openvpn" class="headerlink" title="openvpn"></a>openvpn</h2><p>VPN 软件</p>
+<h2 id="wireguard"><a href="#wireguard" class="headerlink" title="wireguard"></a>wireguard</h2><p>新的 VPN 软件</p>
+<h2 id="nc"><a href="#nc" class="headerlink" title="nc"></a>nc</h2><p>Netcat，手动建立 TCP 连接</p>
+<h2 id="socat"><a href="#socat" class="headerlink" title="socat"></a>socat</h2><p>Netcat 的加强版，主要特点是在两个数据流之间建立通道</p>
+<h2 id="telnet"><a href="#telnet" class="headerlink" title="telnet"></a>telnet</h2><p>类似于 ssh，但不安全</p>
+<h2 id="ftp-sftp"><a href="#ftp-sftp" class="headerlink" title="ftp / sftp"></a>ftp / sftp</h2><p>用于文件拷贝，sftp 是基于 ssh 的。</p>
+<h2 id="netstat-ss-lsof-fuser"><a href="#netstat-ss-lsof-fuser" class="headerlink" title="netstat / ss / lsof / fuser"></a>netstat / ss / lsof / fuser</h2><p>「服务器的哪些端口号被占用了？」</p>
+<h2 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h2><p>配置防火墙和 NAT</p>
+<h2 id="nftables"><a href="#nftables" class="headerlink" title="nftables"></a>nftables</h2><p>新版 iptables</p>
+<h2 id="hping3"><a href="#hping3" class="headerlink" title="hping3"></a>hping3</h2><p>TCP/IP 数据包组装/分析工具</p>
+<h2 id="traceroute-mtr"><a href="#traceroute-mtr" class="headerlink" title="traceroute / mtr"></a>traceroute / mtr</h2><p>「数据包到达服务器的路径是什么？」</p>
+<h2 id="tcptraceroute"><a href="#tcptraceroute" class="headerlink" title="tcptraceroute"></a>tcptraceroute</h2><p>使用 TCP 包代替 ICMP 包的 traceroute 命令</p>
+<blockquote>
+<p>现代网络广泛使用防火墙，导致传统路由跟踪工具发出的（ICMP应答（ICMP echo）或UDP）数据包都被过滤掉了，所以无法进行完整的路由跟踪。尽管如此，许多情况下，防火墙会准许TCP数据包通过防火墙到达指定端口，这些端口是主机内防火墙背后的一些程序和外界连接用的。通过发送TCP SYN数据包来代替UDP或者ICMP应答数据包，tcptraceroute可以穿透大多数防火墙。</p>
+</blockquote>
+<h2 id="ethtool"><a href="#ethtool" class="headerlink" title="ethtool"></a>ethtool</h2><p>管理物理以太网连接和网卡</p>
+<h2 id="iw-iwconfig"><a href="#iw-iwconfig" class="headerlink" title="iw / iwconfig"></a>iw / iwconfig</h2><p>管理无线网络设备的配置工具</p>
+<h2 id="sysctl"><a href="#sysctl" class="headerlink" title="sysctl"></a>sysctl</h2><p>配置 Linux 内核的网络栈</p>
+<h2 id="openssl"><a href="#openssl" class="headerlink" title="openssl"></a>openssl</h2><p>用 SSL 证书做任何事</p>
+<h2 id="stunnel"><a href="#stunnel" class="headerlink" title="stunnel"></a>stunnel</h2><p>为不安全的服务器做一个SSL代理</p>
+<h2 id="iptraf-nethogs-iftop-ntop"><a href="#iptraf-nethogs-iftop-ntop" class="headerlink" title="iptraf / nethogs / iftop / ntop"></a>iptraf / nethogs / iftop / ntop</h2><p>查看什么在占用带宽</p>
+<h2 id="ab-nload-iperf"><a href="#ab-nload-iperf" class="headerlink" title="ab / nload / iperf"></a>ab / nload / iperf</h2><p>基准测试工具</p>
+<h2 id="python-m-SimpleHTTPServer"><a href="#python-m-SimpleHTTPServer" class="headerlink" title="python -m SimpleHTTPServer"></a>python -m SimpleHTTPServer</h2><p>搭建当前目录下的文件服务器</p>
+<h2 id="ipcalc"><a href="#ipcalc" class="headerlink" title="ipcalc"></a>ipcalc</h2><p>IP 地址计算器，比如查看 <code>13.21.2.3/15</code> 是什么意思</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~ ➜ ipcalc 13.21.2.3/15</span><br><span class="line"></span><br><span class="line">Address:   13.21.2.3            00001101.0001010 1.00000010.00000011</span><br><span class="line">Netmask:   255.254.0.0 = 15     11111111.1111111 0.00000000.00000000</span><br><span class="line">Wildcard:  0.1.255.255          00000000.0000000 1.11111111.11111111</span><br><span class="line">=&gt;</span><br><span class="line">Network:   13.20.0.0/15         00001101.0001010 0.00000000.00000000</span><br><span class="line">HostMin:   13.20.0.1            00001101.0001010 0.00000000.00000001</span><br><span class="line">HostMax:   13.21.255.254        00001101.0001010 1.11111111.11111110</span><br><span class="line">Broadcast: 13.21.255.255        00001101.0001010 1.11111111.11111111</span><br><span class="line">Hosts/Net: 131070                Class A</span><br></pre></td></tr></table></figure>
+<h2 id="nsenter"><a href="#nsenter" class="headerlink" title="nsenter"></a>nsenter</h2><p>进入一个容器进程的网络命名空间</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/运维/" rel="tag"># 运维</a>
+              <a href="/tags/命令行/" rel="tag"># 命令行</a>
+              <a href="/tags/网络工具/" rel="tag"># 网络工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/start-leetcode/" rel="prev" title="开始刷 leetcode 了">
+      <i class="fa fa-chevron-left"></i> 开始刷 leetcode 了
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/system-design-cache/" rel="next" title="日拱一卒 - 缓存">
+      日拱一卒 - 缓存 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ping"><span class="nav-number">1.</span> <span class="nav-text">ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#curl"><span class="nav-number">2.</span> <span class="nav-text">curl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#httpie"><span class="nav-number">3.</span> <span class="nav-text">httpie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wget"><span class="nav-number">4.</span> <span class="nav-text">wget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tc"><span class="nav-number">5.</span> <span class="nav-text">tc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dig-nslookup"><span class="nav-number">6.</span> <span class="nav-text">dig / nslookup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#whois"><span class="nav-number">7.</span> <span class="nav-text">whois</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ssh"><span class="nav-number">8.</span> <span class="nav-text">ssh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scp"><span class="nav-number">9.</span> <span class="nav-text">scp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsync"><span class="nav-number">10.</span> <span class="nav-text">rsync</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ngrep"><span class="nav-number">11.</span> <span class="nav-text">ngrep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcpdump"><span class="nav-number">12.</span> <span class="nav-text">tcpdump</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wireshark"><span class="nav-number">13.</span> <span class="nav-text">wireshark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tshark"><span class="nav-number">14.</span> <span class="nav-text">tshark</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcpflow"><span class="nav-number">15.</span> <span class="nav-text">tcpflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ifconfig"><span class="nav-number">16.</span> <span class="nav-text">ifconfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#route"><span class="nav-number">17.</span> <span class="nav-text">route</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ip"><span class="nav-number">18.</span> <span class="nav-text">ip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#arp"><span class="nav-number">19.</span> <span class="nav-text">arp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mitmproxy"><span class="nav-number">20.</span> <span class="nav-text">mitmproxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nmap"><span class="nav-number">21.</span> <span class="nav-text">nmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zenmap"><span class="nav-number">22.</span> <span class="nav-text">zenmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#p0f"><span class="nav-number">23.</span> <span class="nav-text">p0f</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#openvpn"><span class="nav-number">24.</span> <span class="nav-text">openvpn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wireguard"><span class="nav-number">25.</span> <span class="nav-text">wireguard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nc"><span class="nav-number">26.</span> <span class="nav-text">nc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#socat"><span class="nav-number">27.</span> <span class="nav-text">socat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#telnet"><span class="nav-number">28.</span> <span class="nav-text">telnet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ftp-sftp"><span class="nav-number">29.</span> <span class="nav-text">ftp / sftp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#netstat-ss-lsof-fuser"><span class="nav-number">30.</span> <span class="nav-text">netstat / ss / lsof / fuser</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iptables"><span class="nav-number">31.</span> <span class="nav-text">iptables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nftables"><span class="nav-number">32.</span> <span class="nav-text">nftables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hping3"><span class="nav-number">33.</span> <span class="nav-text">hping3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#traceroute-mtr"><span class="nav-number">34.</span> <span class="nav-text">traceroute / mtr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcptraceroute"><span class="nav-number">35.</span> <span class="nav-text">tcptraceroute</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ethtool"><span class="nav-number">36.</span> <span class="nav-text">ethtool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iw-iwconfig"><span class="nav-number">37.</span> <span class="nav-text">iw / iwconfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sysctl"><span class="nav-number">38.</span> <span class="nav-text">sysctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#openssl"><span class="nav-number">39.</span> <span class="nav-text">openssl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stunnel"><span class="nav-number">40.</span> <span class="nav-text">stunnel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iptraf-nethogs-iftop-ntop"><span class="nav-number">41.</span> <span class="nav-text">iptraf / nethogs / iftop / ntop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ab-nload-iperf"><span class="nav-number">42.</span> <span class="nav-text">ab / nload / iperf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-m-SimpleHTTPServer"><span class="nav-number">43.</span> <span class="nav-text">python -m SimpleHTTPServer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ipcalc"><span class="nav-number">44.</span> <span class="nav-text">ipcalc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nsenter"><span class="nav-number">45.</span> <span class="nav-text">nsenter</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

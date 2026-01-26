@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3">
+<meta name="keywords" content="CAS,认证,前后端分离,JWT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于前后端分离的CAS对接方案">
+<meta property="og:url" content="https://jiapan.me/2017/基于前后端分离的CAS对接方案/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.906Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于前后端分离的CAS对接方案">
+<meta name="twitter:description" content="最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3">
+
+<link rel="canonical" href="https://jiapan.me/2017/基于前后端分离的CAS对接方案/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>基于前后端分离的CAS对接方案 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2017/基于前后端分离的CAS对接方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于前后端分离的CAS对接方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-08 10:03:13" itemprop="dateCreated datePublished" datetime="2017-12-08T10:03:13+08:00">2017-12-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/基于前后端分离的CAS对接方案/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/基于前后端分离的CAS对接方案/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近开发的项目，需要对接公司已有的 CAS 服务，之前的项目都是用的传统模式（后端渲染或前后端不分离）来开发的，所以后端可以很容易的实现控制跳转，完成校验，写入 Cookies 等逻辑。在传统的开发模式下，使用 session-cookie 可以保证接口安全，在没有登录的情况下访问关键数据会跳转到登录界面或者请求失败。而使用 REStful API 之后，session-cookie 存在以下 3 个问题：</p>
+<ul>
+<li>客户端除了浏览器，可能还包括手机端 APP，对于手机端而言，管理 cookie 是一件麻烦的事情</li>
+<li>RESTful 风格的 API 不建议使用 cookie</li>
+<li>Cookie 本身有一个缺陷，不能跨域</li>
+</ul>
+<p>解决这个问题的方案是让前端传数据时，在 URL 参数中或者 header 中携带一个 参数，我们成这个参数为 token，后端通过这个 token 来判断用户身份，这样可以免去对 Cookies 的管理。</p>
+<p>顺着这个思路，我们很容易想到一种方案，就是后端维护一个 <code>Map</code>，<code>key</code> 值为 <code>token</code>，<code>value</code> 为用户信息，这样只要用户登录时生成这个 <code>key</code> 后，放到 <code>Map</code> 中，然后将 <code>key</code> 返回给前端就行了，但是这样做有个很严重的问题，<code>Map</code> 是在内存中的，如果后端服务为集群时，还需要做 <code>key</code> 同步，非常麻烦，当然也有人会提出可以将后端生成的 <code>token</code> 和对应的用户信息放在 键-值 数据库中，这样就不用考虑同步问题了，当然这样做没有什么问题，但是会额外引入基础组件（我们现在做第一版，为了快速开发，不打算引入太多的组件），而且还要保证键值数据库的高可用性。</p>
+<p>这里我使用了一个更加优雅的方案：JSON Web Token</p>
+<p>JSON Web Token（JWT）是一个非常轻巧的规范。这个规范允许我们使用 JWT 在用户和服务器之间传递安全可靠的信息。</p>
+<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成:"></a>JWT的组成:</h3><p>一个JWT实际上就是一个字符串，它由三部分组成，头部、载荷与签名。</p>
+<h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）:"></a>载荷（Payload）:</h4><p>Payload 是 JWT 存储信息的部分。Payload 也是一个 json 数据，每一个 json 的 key-value 称为一个声明。</p>
+<p>我们将用户信息描述成一个 json 对象。其中添加了一些其他的信息，帮助今后收到这个 JWT 的服务器理解这个 JWT 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;iss&quot;: &quot;Panmax JWT&quot;,</span><br><span class="line">    &quot;iat&quot;: 1441593502,</span><br><span class="line">    &quot;exp&quot;: 1441594722,</span><br><span class="line">    &quot;aud&quot;: &quot;www.example.com&quot;,</span><br><span class="line">    &quot;sub&quot;: &quot;jrocket@example.com&quot;,</span><br><span class="line">    &quot;user_id&quot;: 1,</span><br><span class="line">    &quot;username&quot;: &quot;jiapan&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里面的前五个字段都是由JWT的标准所定义的</p>
+<ul>
+<li>iss: 该JWT的签发者</li>
+<li>sub: 该JWT所面向的用户</li>
+<li>aud: 接收该JWT的一方</li>
+<li>exp(expires):  JWT 的过期时间，是一个 unxi 时间戳</li>
+<li>iat(issued at): JWT 的签发时间，是一个 unix 时间戳</li>
+</ul>
+<p>上面这个 payload 中，<code>user_id</code> 和 <code>username</code> 为自定义声明。</p>
+<p>将上面的 json 对象进行<strong>base64编码</strong>可以得到下面的字符串。这个字符串我们将它称作JWT的Payload（载荷）。</p>
+<p><code>ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p>
+<blockquote>
+<p>注：Base64是一种编码，也就是说，它是可以被翻译回原来的样子来的。它并不是一种加密过程。</p>
+</blockquote>
+<h4 id="头部（Header）"><a href="#头部（Header）" class="headerlink" title="头部（Header）"></a>头部（Header）</h4><p>WT还需要一个头部，头部用于描述关于该JWT的最基本的信息，例如其类型以及签名所用的算法等。这也可以被表示成一个JSON对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;typ&quot;: &quot;JWT&quot;,</span><br><span class="line">  &quot;alg&quot;: &quot;HS256&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，我们说明了这是一个 JWT，并且我们所用的签名算法（后面会提到）是 HS256 算法。</p>
+<p>对它也要进行Base64编码，之后的字符串就成了 JWT 的 Header（头部）。</p>
+<p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9</code></p>
+<h4 id="签名（签名）"><a href="#签名（签名）" class="headerlink" title="签名（签名）"></a>签名（签名）</h4><p>将上面的两个编码后的字符串都用句号.连接在一起（头部在前），就形成了</p>
+<p><code>ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIkhTMjU2Igp9.ewogICAgImlzcyI6ICJQYW5tYXggSldUIiwKICAgICJpYXQiOiAxNDQxNTkzNTAyLAogICAgImV4cCI6IDE0NDE1OTQ3MjIsCiAgICAiYXVkIjogInd3dy5leGFtcGxlLmNvbSIsCiAgICAic3ViIjogImpyb2NrZXRAZXhhbXBsZS5jb20iLAogICAgInVzZXJfaWQiOiAxLAogICAgInVzZXJuYW1lIjogImppYXBhbiIKfQ==</code></p>
+<p>最后，我们将上面拼接完的字符串用 HS256 算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。加密之后，得到一串加密字符串，最后把这串加密字符串也是用 . 拼接在 header.payload 后面，形成完整的 JWT。</p>
+<p>最终生成的JWT格式如下：</p>
+<p><code>xxx.yyy.zzz</code></p>
+<p>这里签名的目的是为了保证 payload 数据的完整性。如果 JWT 在传输过程中被第三方劫持，中间人对 header.payload 进行修改，并且使用自己的密钥重新签名。服务端收到中间人修改过的 JWT，使用自己的密钥对 header.payload 进行再次加密，由于中间人和服务端使用的是不同的密钥签名，所以服务端再次加密的结果肯定和中间人加密的结果不一致，由此可以断定该 JWT 被恶意篡改。</p>
+<p>经过上边的介绍，我们可以看出 JWT 中 Payload 的信息是可以解码会明文的，也就是说信息会泄露，所以 JWT 中不应该存放任何敏感信息，用于登录时我们只需放入用户ID或者用户名就可以了，不要把身份号或者密码等信息放入JWT中，应该让后端拿到用户ID或者用户名后进行查询得到身份证号等隐私信息。</p>
+<p>好的，以上就是JWT的科普部分，下边介绍下我这边CAS对接实现方案。</p>
+<p>我单独写了一个服务，命名为 hodor(hold the door)，作为一个中间层来验证 CAS ticket 并且根据用户信息生成 JWT Token。</p>
+<p>我们用 zuul 作为网关服务，当请求过来后，网关判断有没有携带 token，并且判断 token 的有效性，我们需要把网关里验证 jwt 的密钥和 hodor 中生成 jwt 的密钥设置为相同的字符串就可以完成验证工作。</p>
+<p>当网关验证 token 没有被篡改并且还在有效期内后，从 Payload 中取出我们需要的信息，将这些信息明文放在 header 中继续往后请求各个应用，对于应用来说从网关过来的请求是可信的，直接从头中取出相应的用户名或者ID就行了。这里有一个坑，就是网关将信息放入 header 的时候，只能传 ASCII 编码字符串，我们的 CAS 返回用户信息时会同时返回中文姓名，所以中文在传入 header 时，需要做 urlencode 处理，同时应用内接受时也需要做 urldecode。</p>
+<p>如果没有携带 token 或 token 无效，网关会返回 HTTP 401 错误，前端收到这个返回码后，会跳转到 CAS 认证地址，让用户来登录。同时 service 是前端配置好的一个地址，当用户登录成功后，会回到前端配置好那个地址，前端拿到 CAS 给的 ticket 后，用这个 ticket 和申请 ticket 时的 service 来请求我写的 hodor 服务，hodor根据 ticket 和service 来完成ticket验证工作，获取用户信息，生成jwt，返回给前端，前端保存这个 token，再之后的请求中携带这个 token 来访问就行了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CAS/" rel="tag"># CAS</a>
+              <a href="/tags/认证/" rel="tag"># 认证</a>
+              <a href="/tags/前后端分离/" rel="tag"># 前后端分离</a>
+              <a href="/tags/JWT/" rel="tag"># JWT</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/titan-edge-label-simple-and-one2one/" rel="prev" title="Titan 边标签 SIMPLE 和 ONE2ONE 的区别">
+      <i class="fa fa-chevron-left"></i> Titan 边标签 SIMPLE 和 ONE2ONE 的区别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/关于情景的一点点思考/" rel="next" title="关于情景的一点点思考">
+      关于情景的一点点思考 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT的组成"><span class="nav-number">1.</span> <span class="nav-text">JWT的组成:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#载荷（Payload）"><span class="nav-number">1.1.</span> <span class="nav-text">载荷（Payload）:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#头部（Header）"><span class="nav-number">1.2.</span> <span class="nav-text">头部（Header）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#签名（签名）"><span class="nav-number">1.3.</span> <span class="nav-text">签名（签名）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

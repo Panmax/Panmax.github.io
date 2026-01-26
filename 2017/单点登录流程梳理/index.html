@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="之前研究了一段时间的单点登录系统，在这里做一下流程上的总结吧。 先说下我对几个词的认识：我觉得 统一认证、单点登录、集中认证、统一登录 这几个词的想表达的目的都是一样的，都是提供一个登录中心或者叫认证中心的地方，当某个系统需要用户进行登录时，统一跳转到这里来进行处理。 进入正文： 假定一个场景，现在有系统A(a.com)、系统B(b.com)、和认证中心(sso.com)。我们想实现的效果是，其中">
+<meta name="keywords" content="CAS,单点登录,SSO,认证">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单点登录流程梳理">
+<meta property="og:url" content="https://jiapan.me/2017/单点登录流程梳理/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="之前研究了一段时间的单点登录系统，在这里做一下流程上的总结吧。 先说下我对几个词的认识：我觉得 统一认证、单点登录、集中认证、统一登录 这几个词的想表达的目的都是一样的，都是提供一个登录中心或者叫认证中心的地方，当某个系统需要用户进行登录时，统一跳转到这里来进行处理。 进入正文： 假定一个场景，现在有系统A(a.com)、系统B(b.com)、和认证中心(sso.com)。我们想实现的效果是，其中">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2017/单点登录流程梳理/1.png">
+<meta property="og:image" content="https://jiapan.me/2017/单点登录流程梳理/2.png">
+<meta property="og:image" content="https://jiapan.me/2017/单点登录流程梳理/3.png">
+<meta property="og:image" content="https://jiapan.me/2017/单点登录流程梳理/4.png">
+<meta property="og:image" content="https://jiapan.me/2017/单点登录流程梳理/5.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单点登录流程梳理">
+<meta name="twitter:description" content="之前研究了一段时间的单点登录系统，在这里做一下流程上的总结吧。 先说下我对几个词的认识：我觉得 统一认证、单点登录、集中认证、统一登录 这几个词的想表达的目的都是一样的，都是提供一个登录中心或者叫认证中心的地方，当某个系统需要用户进行登录时，统一跳转到这里来进行处理。 进入正文： 假定一个场景，现在有系统A(a.com)、系统B(b.com)、和认证中心(sso.com)。我们想实现的效果是，其中">
+<meta name="twitter:image" content="https://jiapan.me/2017/单点登录流程梳理/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2017/单点登录流程梳理/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>单点登录流程梳理 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2017/单点登录流程梳理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单点登录流程梳理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-15 09:47:02" itemprop="dateCreated datePublished" datetime="2017-06-15T09:47:02+08:00">2017-06-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/单点登录流程梳理/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/单点登录流程梳理/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>之前研究了一段时间的单点登录系统，在这里做一下流程上的总结吧。</p>
+<p>先说下我对几个词的认识：我觉得 <strong>统一认证、单点登录、集中认证、统一登录</strong> 这几个词的想表达的目的都是一样的，都是提供一个登录中心或者叫认证中心的地方，当某个系统需要用户进行登录时，统一跳转到这里来进行处理。</p>
+<p>进入正文：</p>
+<p>假定一个场景，现在有系统A(a.com)、系统B(b.com)、和认证中心(sso.com)。我们想实现的效果是，其中一个系统登录一次后，访问其他系统的需要登录页面时无需再次手动提交帐号密码。</p>
+<p>注意：我这里说的是无需再次输入帐号密码，内部的登录流程还是要执行的，只是不需要用户的参与。</p>
+<p>下边是基于 CAS 的 SSO 的流程介绍：</p>
+<p>用户通过浏览器访问系统A <code>www.a.com/pageA</code>，这个 <code>pageA</code> 是个需要登录才能访问的页面，系统A发现用户没有登录，这时候系统A需要做一个额外的操作，就是重定向到认证中心: <code>www.sso.com/login?service=www.a.com/pageA</code>。</p>
+<p>这个 <code>service</code> 参数的作用其实可以认为是一个回跳的 <code>url</code>，将来通过认证后，还要重定向到系统A，所以其实用 <code>redirect</code> 可能更合适一些，但是在这里还有一个作用就是注册服务，简单来说注册服务为的是让我们的认证中心能够知道有哪些系统在我们这里完成过登录，其中一个重要目的是为了完成单点退出的功能，单点退出的一会我再来介绍。</p>
+<p>接下来浏览器会用 <code>www.sso.com/login?service=www.a.com/pageA</code> 访问认证中心，认证中心一看没登录过，就会展示一个登录框让用户去登录，登录成功以后，认证中心要做几件重要的事情：</p>
+<ol>
+<li>建立一个 <code>session</code></li>
+<li>创建一个 <code>ticket</code> （可以认为是个随机字符串）</li>
+<li>重定向到系统A，同时把 ticket 放在 url 中： <code>www.a.com/pageA?ticket=T123</code> 与此同时之前建立 session 对应的 cookie 也会发送给浏览器，比如： <code>Set cookie : ssoid=1234, sso.com</code></li>
+</ol>
+<p>到这里会产生一个疑惑，为什么认证中心要写一个 <code>cookie</code>，其他系统由于跨域的限制根本读不到它啊。</p>
+<p>对于这个问题的回答是， <code>sso.com</code> 产生的 <code>cookie</code> 不是给其他系统用的（至于是给谁用的一会会说明），注意那个 <code>ticket</code>，这个东西是个重要标识，系统拿到以后需要再次向认证中心验证。所以 <code>ticket</code> 才是系统们要用到的东西。</p>
+<p><img src="1.png" alt=""></p>
+<p>系统A拿着这个 <code>ticket</code>，去问下认证中心：这是您签发的 <code>ticket</code> 吗，认证中心确认无误后，系统A就可以认为用户在认证中心登录过了。这时候系统A应该为这个用户建立 <code>session</code> 然后返回 <code>pageA</code> 的资源。也就是说，系统A也需要给浏览器发一个属于自己的 cookie：<code>Set cookie : sessionid=xxxx, a.com</code>。这时候浏览器实际上有两个 cookie，一个是系统A发的，一个是认证中心发的。</p>
+<p>当用户再次访问系统A的另一个需要登录的页面时，因为系统A已经在浏览器中放入了自己的cookie，就知道它登录过了，不需要再次到认证中心去了。</p>
+<p><img src="2.png" alt=""></p>
+<p>接下来看看，当用户访问系统A时已经通过认证中心登录了，再访问系统B <code>www.b.com/pageB</code> 时是什么样的情况。</p>
+<p>其实和首次访问 <code>www.a.com/pageA</code> 非常类似，<strong>唯一不同就是不需要用户输入用户名密码来登录了</strong>，因为浏览器已经有了认证中心的 cookie，直接发送给 <code>www.sso.com</code> 就可以了。这里解释了我上边提到的认证中心写入浏览器 cookie 的用途。</p>
+<p><img src="3.png" alt=""></p>
+<p>同样，认证中心会返回 <code>ticket</code>，系统B需要做验证。</p>
+<p><img src="4.png" alt=""></p>
+<p>整个流程的本质是一个认证中心的 <code>cookie</code>，加上多个子系统的 <code>cookie</code> 而已。</p>
+<p>下边来说说单点退出的原理。</p>
+<p>单点退出的作用是用户在一个地方退出，所有系统都要进行退出。这怎么来实现呢。还记得我前边提到的注册服务吗？没错，就是使用之前登录时给认证中心传的 <code>service</code> 参数，认证中心记录下来都有哪些系统进行过登录，当用户访问认证中心的 <code>/logout</code> 需要退出的时候，认证中心需要把自己的会话和 cookie 干掉，然后给之前注册过那些服务的地址发送退出登录的请求，默认是对根路径发一个 <code>POST</code> 请求，<code>Body</code> 中携带一些字段，比如比如之前登录时用到的<code>ticket</code>，这时候各个子系统根据传过来的这个 <code>ticket</code> 来将对应的用户 <code>session</code> 干掉即可。</p>
+<p>所以用户在系统A点击退出登录后，系统A取消本地会话然后重定向到认证中心的退出登录地址，剩下的交给认证中心来处理就好了。这里也可以传一个回跳地址参数，当认证中心完成退出后，可以再跳会到设置的地址。</p>
+<blockquote>
+<p>我觉得用户在一个系统中退出登录时，系统此时结不结束会话其实都可以，因为最终还是要被认证中心调用一次退出。</p>
+</blockquote>
+<p>说一个我做单点退出时遇到的坑，由于我把 CAS Server 部署在了机房中的一台设备上，然后在我本地启了一个 WEB 服务，这个时候登录填的 <code>service</code> 是 <code>127.0.0.1:8081/xxx</code> 登录完之后的重定向是没有问题的，但是当我访问 CAS Logout 页面后，再访问我的系统，发现并没有退出登录，也没有访问退出登录的记录。原因是我注册服务时的 <code>127.0.0.1</code> 这个url认证中心根本访问不到。</p>
+<p>后来我在本地起了一个 CAS Server 再次验证后没有问题。</p>
+<p>还有人问道那个 <code>ticket</code> 如果被其他人截获了，岂不是就可以冒充我来登录了？并不会。</p>
+<p>首先来说，默认情况下，CAS 要求子系统和它之间的通讯为 <code>https</code> ，再有就是这个 <code>ticket</code> 只有一次有效性，验证一次后即失效，而且有效期还很短，默认我记得只有5秒。最重要的是即便这个 <code>ticket</code> 被其他人获取了也没啥用，验证这个 <code>ticket</code> 时，还需要带上申请这个 <code>ticket</code> 时的 <code>url</code> 信息，而且认证中心鉴定 <code>ticket</code> 为真后也只是返回用户的用户名、认证时间等最基本的信息，由于子系统没有拿到这些信息，所以对于子系统来说，你还是没有登录的。</p>
+<p>最后敬上官方的 CAS 协议流程图</p>
+<p><img src="5.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CAS/" rel="tag"># CAS</a>
+              <a href="/tags/单点登录/" rel="tag"># 单点登录</a>
+              <a href="/tags/SSO/" rel="tag"># SSO</a>
+              <a href="/tags/认证/" rel="tag"># 认证</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/优化blog速度/" rel="prev" title="优化 blog 速度">
+      <i class="fa fa-chevron-left"></i> 优化 blog 速度
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/将博客部署到七牛/" rel="next" title="将博客部署到七牛">
+      将博客部署到七牛 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="软件架构定义抽象定义：计算机系统的软件架构是构建这个系统所需要的一组结构，包括软件元素、它们之间的关系以及两者的属性。 更容易理解的定义：应用程序的架构是将软件分解为元素（element）和这些元素之间的关系（relation）。 4+1 视图模型应用程序的架构可以从多个视角来看：  逻辑视图：开发人员创建的软件元素。 实现视图：构建编译系统的输出。 进程视图：运行时的组件。 部署视图：进程如何映">
+<meta name="keywords" content="读书笔记,微服务架构设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【阅读笔记】微服务架构设计模式—第2章">
+<meta property="og:url" content="https://jiapan.me/2022/read-notes-microservices-patterns-2/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="软件架构定义抽象定义：计算机系统的软件架构是构建这个系统所需要的一组结构，包括软件元素、它们之间的关系以及两者的属性。 更容易理解的定义：应用程序的架构是将软件分解为元素（element）和这些元素之间的关系（relation）。 4+1 视图模型应用程序的架构可以从多个视角来看：  逻辑视图：开发人员创建的软件元素。 实现视图：构建编译系统的输出。 进程视图：运行时的组件。 部署视图：进程如何映">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-2/20220712181316.png">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-2/20220712181309.png">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-2/20220712181300.png">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-2/20220712181240.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.552Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【阅读笔记】微服务架构设计模式—第2章">
+<meta name="twitter:description" content="软件架构定义抽象定义：计算机系统的软件架构是构建这个系统所需要的一组结构，包括软件元素、它们之间的关系以及两者的属性。 更容易理解的定义：应用程序的架构是将软件分解为元素（element）和这些元素之间的关系（relation）。 4+1 视图模型应用程序的架构可以从多个视角来看：  逻辑视图：开发人员创建的软件元素。 实现视图：构建编译系统的输出。 进程视图：运行时的组件。 部署视图：进程如何映">
+<meta name="twitter:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-2/20220712181316.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/read-notes-microservices-patterns-2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>【阅读笔记】微服务架构设计模式—第2章 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/read-notes-microservices-patterns-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【阅读笔记】微服务架构设计模式—第2章
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-07-12 19:12:19" itemprop="dateCreated datePublished" datetime="2022-07-12T19:12:19+08:00">2022-07-12</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/read-notes-microservices-patterns-2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/read-notes-microservices-patterns-2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="软件架构定义"><a href="#软件架构定义" class="headerlink" title="软件架构定义"></a>软件架构定义</h2><p>抽象定义：计算机系统的软件架构是构建这个系统所需要的一组结构，包括软件元素、它们之间的关系以及两者的属性。</p>
+<p>更容易理解的定义：应用程序的架构是将软件分解为元素（element）和这些元素之间的关系（relation）。</p>
+<h2 id="4-1-视图模型"><a href="#4-1-视图模型" class="headerlink" title="4+1 视图模型"></a>4+1 视图模型</h2><p>应用程序的架构可以从多个视角来看：</p>
+<ul>
+<li>逻辑视图：开发人员创建的软件元素。</li>
+<li>实现视图：构建编译系统的输出。</li>
+<li>进程视图：运行时的组件。</li>
+<li>部署视图：进程如何映射到机器。</li>
+<li>+1 是指场景，它负责把视图串联在一起。</li>
+</ul>
+<p><img src="20220712181316.png" alt="20220712181316.png"></p>
+<h2 id="应用程序两个层面的需求"><a href="#应用程序两个层面的需求" class="headerlink" title="应用程序两个层面的需求"></a>应用程序两个层面的需求</h2><p>功能性需求：决定一个应用程序<strong>做什么</strong>。<br>非功能性需求：决定一个应用程序在运行时的<strong>质量</strong>。</p>
+<h2 id="六边形架构风格"><a href="#六边形架构风格" class="headerlink" title="六边形架构风格"></a>六边形架构风格</h2><p>六边形架构风格选择<strong>以业务逻辑为中心</strong>的方式组织逻辑视图。</p>
+<p><img src="20220712181309.png" alt="20220712181309.png"></p>
+<h3 id="出入站端口"><a href="#出入站端口" class="headerlink" title="出入站端口"></a>出入站端口</h3><ul>
+<li>入站端口的一个实例是服务接口，它定义服务的公共方法。</li>
+<li>出站端口是业务逻辑调用外部系统的方式。</li>
+</ul>
+<h3 id="出入站适配器"><a href="#出入站适配器" class="headerlink" title="出入站适配器"></a>出入站适配器</h3><ul>
+<li>入站适配器通过<strong>调用入站端口</strong>来处理来自外部世界的请求。<ul>
+<li>Spring MVC Controller</li>
+<li>订阅消息的消息代理客户端</li>
+</ul>
+</li>
+<li>出站适配器<strong>实现出站端口</strong>，并通过调用外部应用程序或服务处理来自业务逻辑的请求。<ul>
+<li>访问数据库的操作的数据访问对象（DAO)类</li>
+<li>调用远程服务的代理类</li>
+<li>发布事件</li>
+</ul>
+</li>
+</ul>
+<p>六边形架构风格的一个重要好处是它将业务逻辑与适配器中包含的表示层和数据访问层的逻辑分离开来。业务逻辑不依赖于表示层逻辑或数据访问层逻辑。</p>
+<h2 id="松耦合"><a href="#松耦合" class="headerlink" title="松耦合"></a>松耦合</h2><p>松耦合服务是改善开发效率、提升可维护性和可测试性的关键。小的、松耦合的服务更容易被理解、修改和测试。</p>
+<p>保证数据的私有属性是实现松耦合的前提之一。</p>
+<h2 id="服务的定义"><a href="#服务的定义" class="headerlink" title="服务的定义"></a>服务的定义</h2><p>服务是一个单一的、可独立部署的软件组件，它实现了一些有用的功能。</p>
+<p>服务的 API 封装了其内部实现。</p>
+<h2 id="微服务架构模式"><a href="#微服务架构模式" class="headerlink" title="微服务架构模式"></a>微服务架构模式</h2><p>将应用程序构建为松耦合、可独立部署的一组服务。</p>
+<p>定义应用程序架构的三步式流程：</p>
+<ol>
+<li>定义系统操作<ol>
+<li>创建由关键类组成的抽象领域模型<ul>
+<li>用户故事中提及的<strong>名词</strong></li>
+</ul>
+</li>
+<li>确定系统操作<ul>
+<li>用户故事中提及的<strong>动词</strong></li>
+</ul>
+</li>
+</ol>
+</li>
+<li>定义分解服务<ul>
+<li>方法 1：采用业务能力进行服务拆分</li>
+<li>方法 2：根据子域进行服务拆分</li>
+</ul>
+</li>
+<li>定义服务 API 和写作方式</li>
+</ol>
+<h3 id="定义应用程序架构过程图"><a href="#定义应用程序架构过程图" class="headerlink" title="定义应用程序架构过程图"></a>定义应用程序架构过程图</h3><p><img src="20220712181300.png" alt="20220712181300.png"></p>
+<h3 id="定义系统操作过程图"><a href="#定义系统操作过程图" class="headerlink" title="定义系统操作过程图"></a>定义系统操作过程图</h3><p><img src="20220712181240.png" alt="20220712181240.png"></p>
+<h2 id="服务分解后的几个障碍"><a href="#服务分解后的几个障碍" class="headerlink" title="服务分解后的几个障碍"></a>服务分解后的几个障碍</h2><ol>
+<li>网络延迟</li>
+<li>可用性</li>
+<li>数据一致性</li>
+<li>上帝类</li>
+</ol>
+<h2 id="两类系统操作"><a href="#两类系统操作" class="headerlink" title="两类系统操作"></a>两类系统操作</h2><ul>
+<li>命令型：创建、更新或删除数据的系统操作。</li>
+<li>查询型：查询和读取数据的系统操作。</li>
+</ul>
+<h2 id="根据子域进行服务拆分"><a href="#根据子域进行服务拆分" class="headerlink" title="根据子域进行服务拆分"></a>根据子域进行服务拆分</h2><p>领域驱动为每一个子域定义单独的领域模型。</p>
+<ul>
+<li>子域是领域的一部分</li>
+<li>领域是 DDD 中用来描述应用程序问题域的一个术语</li>
+</ul>
+<p>DDD 把领域模型的边界称为<strong>限界上下文</strong>（bounded context)。</p>
+<p>我们可以通过 DDD 的方式定义子域，并<strong>把子域对应为每一个服务</strong>，这样就完成了微服务架构的设计工作。</p>
+<h2 id="微服务架构应遵循单一职责原则和闭包原则："><a href="#微服务架构应遵循单一职责原则和闭包原则：" class="headerlink" title="微服务架构应遵循单一职责原则和闭包原则："></a>微服务架构应遵循单一职责原则和闭包原则：</h2><ul>
+<li>单一职责原则：设计小的、内聚的、仅仅含有单一职责的服务。这会缩小服务的大小并提升它的稳定性。</li>
+<li>闭包原则：把根据同样原因进行变化的服务放在一个组件内。这样做可以控制服务的数量，当需求发生变化时，变更和部署也更加容易。理想情况下，一个变更只会影响一个团队和一个服务。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+              <a href="/tags/微服务架构设计模式/" rel="tag"># 微服务架构设计模式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/event-sourcing-vs-event-driven-architectures/" rel="prev" title="事件溯源与事件驱动架构的区别">
+      <i class="fa fa-chevron-left"></i> 事件溯源与事件驱动架构的区别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/read-notes-microservices-patterns-7/" rel="next" title="【阅读笔记】微服务架构设计模式—第7章">
+      【阅读笔记】微服务架构设计模式—第7章 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#软件架构定义"><span class="nav-number">1.</span> <span class="nav-text">软件架构定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-视图模型"><span class="nav-number">2.</span> <span class="nav-text">4+1 视图模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用程序两个层面的需求"><span class="nav-number">3.</span> <span class="nav-text">应用程序两个层面的需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六边形架构风格"><span class="nav-number">4.</span> <span class="nav-text">六边形架构风格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#出入站端口"><span class="nav-number">4.1.</span> <span class="nav-text">出入站端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#出入站适配器"><span class="nav-number">4.2.</span> <span class="nav-text">出入站适配器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#松耦合"><span class="nav-number">5.</span> <span class="nav-text">松耦合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务的定义"><span class="nav-number">6.</span> <span class="nav-text">服务的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微服务架构模式"><span class="nav-number">7.</span> <span class="nav-text">微服务架构模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义应用程序架构过程图"><span class="nav-number">7.1.</span> <span class="nav-text">定义应用程序架构过程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义系统操作过程图"><span class="nav-number">7.2.</span> <span class="nav-text">定义系统操作过程图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务分解后的几个障碍"><span class="nav-number">8.</span> <span class="nav-text">服务分解后的几个障碍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两类系统操作"><span class="nav-number">9.</span> <span class="nav-text">两类系统操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据子域进行服务拆分"><span class="nav-number">10.</span> <span class="nav-text">根据子域进行服务拆分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微服务架构应遵循单一职责原则和闭包原则："><span class="nav-number">11.</span> <span class="nav-text">微服务架构应遵循单一职责原则和闭包原则：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

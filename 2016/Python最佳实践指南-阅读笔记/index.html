@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="创建将0到19连接起来的字符串12345678nums = []for n in range(20):  nums.append(str(n))print &amp;quot;&amp;quot;.join(nums)# 更好的写法nums = [str(n) for n in range(20)]print &amp;quot;&amp;quot;.join(nums) 拼接多个已有的字符串1234567foo = &amp;apos">
+<meta name="keywords" content="读书笔记,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python最佳实践指南 阅读笔记">
+<meta property="og:url" content="https://jiapan.me/2016/Python最佳实践指南-阅读笔记/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="创建将0到19连接起来的字符串12345678nums = []for n in range(20):  nums.append(str(n))print &amp;quot;&amp;quot;.join(nums)# 更好的写法nums = [str(n) for n in range(20)]print &amp;quot;&amp;quot;.join(nums) 拼接多个已有的字符串1234567foo = &amp;apos">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.263Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python最佳实践指南 阅读笔记">
+<meta name="twitter:description" content="创建将0到19连接起来的字符串12345678nums = []for n in range(20):  nums.append(str(n))print &amp;quot;&amp;quot;.join(nums)# 更好的写法nums = [str(n) for n in range(20)]print &amp;quot;&amp;quot;.join(nums) 拼接多个已有的字符串1234567foo = &amp;apos">
+
+<link rel="canonical" href="https://jiapan.me/2016/Python最佳实践指南-阅读笔记/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Python最佳实践指南 阅读笔记 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2016/Python最佳实践指南-阅读笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python最佳实践指南 阅读笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-07-05 16:58:24" itemprop="dateCreated datePublished" datetime="2016-07-05T16:58:24+08:00">2016-07-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Code/" itemprop="url" rel="index"><span itemprop="name">Code</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2016/Python最佳实践指南-阅读笔记/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/Python最佳实践指南-阅读笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="创建将0到19连接起来的字符串"><a href="#创建将0到19连接起来的字符串" class="headerlink" title="创建将0到19连接起来的字符串"></a>创建将0到19连接起来的字符串</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">nums = []</span><br><span class="line">for n in range(20):</span><br><span class="line">  nums.append(str(n))</span><br><span class="line">print &quot;&quot;.join(nums)</span><br><span class="line"></span><br><span class="line"># 更好的写法</span><br><span class="line">nums = [str(n) for n in range(20)]</span><br><span class="line">print &quot;&quot;.join(nums)</span><br></pre></td></tr></table></figure>
+<h3 id="拼接多个已有的字符串"><a href="#拼接多个已有的字符串" class="headerlink" title="拼接多个已有的字符串"></a>拼接多个已有的字符串</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">foo = &apos;foo&apos;</span><br><span class="line">bar = &apos;bar&apos;</span><br><span class="line"></span><br><span class="line">foobar = foo + bar  # 好的做法</span><br><span class="line"></span><br><span class="line">foo += &apos;ooo&apos;  # 不好的做法, 应该这么做:</span><br><span class="line">foo = &apos;&apos;.join([foo, &apos;ooo&apos;])</span><br></pre></td></tr></table></figure>
+<h3 id="也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。"><a href="#也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。" class="headerlink" title="也可以使用 % 格式运算符来连接确定数量的字符串，但 PEP 3101 建议使用 str.format() 替代 % 操作符。"></a>也可以使用 <a href="http://docs.python.org/library/stdtypes.html#string-formatting" target="_blank" rel="noopener">%</a> 格式运算符来连接确定数量的字符串，但 <a href="https://www.python.org/dev/peps/pep-3101" target="_blank" rel="noopener">PEP 3101</a> 建议使用 <a href="http://docs.python.org/library/stdtypes.html#str.format" target="_blank" rel="noopener">str.format()</a> 替代 % 操作符。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">foo = &apos;foo&apos;</span><br><span class="line">bar = &apos;bar&apos;</span><br><span class="line"></span><br><span class="line">foobar = &apos;%s%s&apos; % (foo, bar) # 可行</span><br><span class="line">foobar = &apos;&#123;0&#125;&#123;1&#125;&apos;.format(foo, bar) # 更好</span><br><span class="line">foobar = &apos;&#123;foo&#125;&#123;bar&#125;&apos;.format(foo=foo, bar=bar) # 最好</span><br></pre></td></tr></table></figure>
+<h3 id="不要重复使用命名"><a href="#不要重复使用命名" class="headerlink" title="不要重复使用命名"></a>不要重复使用命名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">items = &apos;a b c d&apos;  # 首先指向字符串...</span><br><span class="line">items = items.split(&apos; &apos;)  # ...变为列表</span><br><span class="line">items = set(items)  # ...再变为集合</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>重复使用命名对效率并没有提升：赋值时无论如何都要创建新的对象。然而随着复杂度的 提升，赋值语句被其他代码包括 ‘if’ 分支和循环分开，使得更难查明指定变量的类型。 在某些代码的做法中，例如函数编程，推荐的是从不重复对同一个变量命名赋值。Java 内的实现方式是使用 ‘final’ 关键字。Python并没有 ‘final’ 关键字而且这与它的哲学 相悖。尽管如此，避免给同一个变量命名重复赋值仍是是个好的做法，并且有助于掌握 可变与不可变类型的概念。</p>
+</blockquote>
+<h3 id="考虑该不该用任意参数列表-args"><a href="#考虑该不该用任意参数列表-args" class="headerlink" title="考虑该不该用任意参数列表(*args)"></a>考虑该不该用任意参数列表(*args)</h3><blockquote>
+<p>如果一个函数接受的参数列表具有 相同的性质，通常把它定义成一个参数，这个参数是一个列表或者其他任何序列会更清晰。</p>
+</blockquote>
+<h3 id="函数单个出口可能更好"><a href="#函数单个出口可能更好" class="headerlink" title="函数单个出口可能更好"></a>函数单个出口可能更好</h3><blockquote>
+<p>当一个函数在其正常过程中有多个主要出口点时，它会变得难以调试和返回其 结果，所以保持单个出口点可能会更好。这也将有助于提取某些代码路径，而且多个出口点 很有可能意味着这里需要重构。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def complex_function(a, b, c):</span><br><span class="line">    if not a:</span><br><span class="line">        return None  # 抛出一个异常可能会更好</span><br><span class="line">    if not b:</span><br><span class="line">        return None  # 抛出一个异常可能会更好</span><br><span class="line"></span><br><span class="line">    # 一些复杂的代码试着用a,b,c来计算x</span><br><span class="line">    # 如果成功了，抵制住返回x的诱惑</span><br><span class="line">    if not x:</span><br><span class="line">        # 一些关于x的计算的Plan-B</span><br><span class="line">    return x</span><br></pre></td></tr></table></figure>
+<h3 id="常见Python习语"><a href="#常见Python习语" class="headerlink" title="常见Python习语"></a>常见Python习语</h3><ul>
+<li>解包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for index, item in enumerate(some_list):</span><br><span class="line">    # 使用index和item做一些工作</span><br><span class="line">    </span><br><span class="line">a, b = b, a</span><br><span class="line"></span><br><span class="line">a, (b, c) = 1, (2, 3)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建一个被忽略的变量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">filename = &apos;foobar.txt&apos;</span><br><span class="line">basename, __, ext = filename.rpartition(&apos;.&apos;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建一个含N个对象的列表</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">four_nones = [None] * 4</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建一个含N个列表的列表</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">four_lists = [[] for __ in xrange(4)]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>根据列表来创建字符串</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">letters = [&apos;s&apos;, &apos;p&apos;, &apos;a&apos;, &apos;m&apos;]</span><br><span class="line">word = &apos;&apos;.join(letters)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在集合体（collection）中查找一个项</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = set([&apos;s&apos;, &apos;p&apos;, &apos;a&apos;, &apos;m&apos;])</span><br><span class="line">l = [&apos;s&apos;, &apos;p&apos;, &apos;a&apos;, &apos;m&apos;]</span><br><span class="line"></span><br><span class="line">def lookup_set(s):</span><br><span class="line">    return &apos;s&apos; in s</span><br><span class="line"></span><br><span class="line">def lookup_list(l):</span><br><span class="line">    return &apos;s&apos; in l</span><br></pre></td></tr></table></figure>
+<p>在下列场合在使用集合或者字典而不是列表，通常会是个好主意：</p>
+<p>集合体中包含大量的项<br>你将在集合体中重复地查找项<br>你没有重复的项</p>
+<h3 id="你不需要明确地比较一个值是True，或者None，或者0"><a href="#你不需要明确地比较一个值是True，或者None，或者0" class="headerlink" title="你不需要明确地比较一个值是True，或者None，或者0"></a>你不需要明确地比较一个值是True，或者None，或者0</h3><h4 id="糟糕"><a href="#糟糕" class="headerlink" title="糟糕"></a>糟糕</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if attr == True:</span><br><span class="line">    print &apos;True!&apos;</span><br><span class="line"></span><br><span class="line">if attr == None:</span><br><span class="line">    print &apos;attr is None!&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="优雅"><a href="#优雅" class="headerlink" title="优雅"></a>优雅</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 检查值</span><br><span class="line">if attr:</span><br><span class="line">    print &apos;attr is truthy!&apos;</span><br><span class="line"></span><br><span class="line"># 或者做相反的检查</span><br><span class="line">if not attr:</span><br><span class="line">    print &apos;attr is falsey!&apos;</span><br><span class="line"></span><br><span class="line"># or, since None is considered false, explicitly check for it</span><br><span class="line">if attr is None:</span><br><span class="line">    print &apos;attr is None!&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="访问字典元素"><a href="#访问字典元素" class="headerlink" title="访问字典元素"></a>访问字典元素</h3><h4 id="糟糕-1"><a href="#糟糕-1" class="headerlink" title="糟糕"></a>糟糕</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;&apos;hello&apos;: &apos;world&apos;&#125;</span><br><span class="line">if d.has_key(&apos;hello&apos;):</span><br><span class="line">    print d[&apos;hello&apos;]    # 打印 &apos;world&apos;</span><br><span class="line">else:</span><br><span class="line">    print &apos;default_value&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="优雅-1"><a href="#优雅-1" class="headerlink" title="优雅"></a>优雅</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;&apos;hello&apos;: &apos;world&apos;&#125;</span><br><span class="line"></span><br><span class="line">print d.get(&apos;hello&apos;, &apos;default_value&apos;) # 打印 &apos;world&apos;</span><br><span class="line">print d.get(&apos;thingy&apos;, &apos;default_value&apos;) # 打印 &apos;default_value&apos;</span><br><span class="line"></span><br><span class="line"># Or:</span><br><span class="line">if &apos;hello&apos; in d:</span><br><span class="line">    print d[&apos;hello&apos;]</span><br></pre></td></tr></table></figure>
+<h3 id="在每次函数调用中，通过使用指示没有提供参数的默认参数-None-通常是-个好选择），来创建一个新的对象。"><a href="#在每次函数调用中，通过使用指示没有提供参数的默认参数-None-通常是-个好选择），来创建一个新的对象。" class="headerlink" title="在每次函数调用中，通过使用指示没有提供参数的默认参数 None 通常是 个好选择），来创建一个新的对象。"></a>在每次函数调用中，通过使用指示没有提供参数的默认参数 <a href="http://docs.python.org/library/constants.html#None" target="_blank" rel="noopener">None</a> 通常是 个好选择），来创建一个新的对象。</h3><h4 id="举例："><a href="#举例：" class="headerlink" title="举例："></a>举例：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def append_to(element, to=[]):</span><br><span class="line">    to.append(element)</span><br><span class="line">    return to</span><br></pre></td></tr></table></figure>
+<p>你可能认为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">my_list = append_to(12)</span><br><span class="line">print my_list  # [12]</span><br><span class="line"></span><br><span class="line">my_other_list = append_to(42)</span><br><span class="line">print my_other_list  # [42]</span><br></pre></td></tr></table></figure>
+<p>实际结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># [12]</span><br><span class="line"></span><br><span class="line"># [12, 42]</span><br></pre></td></tr></table></figure>
+<p>当函数被定义时，一个新的列表就被创建一次 ，而且同一个列表在每次成功的调用中都被使用。</p>
+<p>当函数被定义时，Python的默认参数就被创建 一次，而不是每次调用函数的时候创建。 这意味着，如果你使用一个可变默认参数并改变了它，你 将会 在未来所有对此函数的 调用中改变这个对象。</p>
+<h3 id="迟绑定闭包"><a href="#迟绑定闭包" class="headerlink" title="迟绑定闭包"></a>迟绑定闭包</h3><h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def create_multipliers():</span><br><span class="line">    return [lambda x : i * x for i in range(5)]</span><br><span class="line">    </span><br><span class="line">for multiplier in create_multipliers():</span><br><span class="line">    print multiplier(2)</span><br></pre></td></tr></table></figure>
+<p>你期望的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0</span><br><span class="line">2</span><br><span class="line">4</span><br><span class="line">6</span><br><span class="line">8</span><br></pre></td></tr></table></figure>
+<p>实际结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">8</span><br><span class="line">8</span><br><span class="line">8</span><br><span class="line">8</span><br><span class="line">8</span><br></pre></td></tr></table></figure>
+<p>五个函数被创建了，它们全都用4乘以 x 。</p>
+<p>Python的闭包是 迟绑定 。 这意味着闭包中用到的变量的值，是在内部函数被调用时查询得到的。</p>
+<p>这里，不论 任何 返回的函数是如何被调用的， i 的值是调用时在周围作用域中查询到的。 接着，循环完成， i 的值最终变成了4。</p>
+<h4 id="这个陷阱并不和-lambda-有关，不通定义也会这样"><a href="#这个陷阱并不和-lambda-有关，不通定义也会这样" class="headerlink" title="这个陷阱并不和 lambda 有关，不通定义也会这样"></a>这个陷阱并不和 lambda 有关，不通定义也会这样</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def create_multipliers():</span><br><span class="line">    multipliers = []</span><br><span class="line"></span><br><span class="line">    for i in range(5):</span><br><span class="line">        def multiplier(x):</span><br><span class="line">            return i * x</span><br><span class="line">        multipliers.append(multiplier)</span><br><span class="line"></span><br><span class="line">    return multipliers</span><br></pre></td></tr></table></figure>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>最一般的解决方案可以说是有点取巧（hack）。由于 Python 拥有为函数默认参数 赋值的行为,你可以创建一个立即绑定参数的闭包,像下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def create_multipliers():</span><br><span class="line">    return [lambda x, i=i : i * x for i in range(5)]</span><br></pre></td></tr></table></figure>
+<p>或者，可以使用 <code>function.partial</code> 函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from functools import partial</span><br><span class="line">from operator import mul</span><br><span class="line"></span><br><span class="line">def create_multipliers():</span><br><span class="line">    return [partial(mul, i) for i in range(5)]</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/JavaScript-查漏补缺/" rel="prev" title="JavaScript 查漏补缺">
+      <i class="fa fa-chevron-left"></i> JavaScript 查漏补缺
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/functools-wraps-的作用/" rel="next" title="functools.wraps 的作用">
+      functools.wraps 的作用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建将0到19连接起来的字符串"><span class="nav-number">1.</span> <span class="nav-text">创建将0到19连接起来的字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拼接多个已有的字符串"><span class="nav-number">2.</span> <span class="nav-text">拼接多个已有的字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#也可以使用-格式运算符来连接确定数量的字符串，但-PEP-3101-建议使用-str-format-替代-操作符。"><span class="nav-number">3.</span> <span class="nav-text">也可以使用 % 格式运算符来连接确定数量的字符串，但 PEP 3101 建议使用 str.format() 替代 % 操作符。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不要重复使用命名"><span class="nav-number">4.</span> <span class="nav-text">不要重复使用命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#考虑该不该用任意参数列表-args"><span class="nav-number">5.</span> <span class="nav-text">考虑该不该用任意参数列表(*args)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数单个出口可能更好"><span class="nav-number">6.</span> <span class="nav-text">函数单个出口可能更好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见Python习语"><span class="nav-number">7.</span> <span class="nav-text">常见Python习语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#你不需要明确地比较一个值是True，或者None，或者0"><span class="nav-number">8.</span> <span class="nav-text">你不需要明确地比较一个值是True，或者None，或者0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#糟糕"><span class="nav-number">8.1.</span> <span class="nav-text">糟糕</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优雅"><span class="nav-number">8.2.</span> <span class="nav-text">优雅</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问字典元素"><span class="nav-number">9.</span> <span class="nav-text">访问字典元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#糟糕-1"><span class="nav-number">9.1.</span> <span class="nav-text">糟糕</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优雅-1"><span class="nav-number">9.2.</span> <span class="nav-text">优雅</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在每次函数调用中，通过使用指示没有提供参数的默认参数-None-通常是-个好选择），来创建一个新的对象。"><span class="nav-number">10.</span> <span class="nav-text">在每次函数调用中，通过使用指示没有提供参数的默认参数 None 通常是 个好选择），来创建一个新的对象。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#举例："><span class="nav-number">10.1.</span> <span class="nav-text">举例：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迟绑定闭包"><span class="nav-number">11.</span> <span class="nav-text">迟绑定闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#举例"><span class="nav-number">11.1.</span> <span class="nav-text">举例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这个陷阱并不和-lambda-有关，不通定义也会这样"><span class="nav-number">11.2.</span> <span class="nav-text">这个陷阱并不和 lambda 有关，不通定义也会这样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方案"><span class="nav-number">11.3.</span> <span class="nav-text">解决方案</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="由于项目代码中存放了一些大文件在 git 仓库中（比如训练后的模型数据），所以最近收到公司的通知，需要给 git 进行瘦身。 本文内容是摘自公司的通知。  提前告知 瘦身将从此库中永久删除此文件，且无法恢复。包括所有“分支”中的引用，所有“Tag”中的引用，连同提交此文件的log记录也一并清除。  请在操作之前将要永久删除的文件备份，并记录目录位置。待瘦身结束后，将此大文件以「LFS」的形式">
+<meta name="keywords" content="Git,GitLab,Git LFS,仓库优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitLab 瘦身方法">
+<meta property="og:url" content="https://jiapan.me/2020/git-lose-weight/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="由于项目代码中存放了一些大文件在 git 仓库中（比如训练后的模型数据），所以最近收到公司的通知，需要给 git 进行瘦身。 本文内容是摘自公司的通知。  提前告知 瘦身将从此库中永久删除此文件，且无法恢复。包括所有“分支”中的引用，所有“Tag”中的引用，连同提交此文件的log记录也一并清除。  请在操作之前将要永久删除的文件备份，并记录目录位置。待瘦身结束后，将此大文件以「LFS」的形式">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2020/git-lose-weight/0.jpeg">
+<meta property="og:image" content="https://jiapan.me/2020/git-lose-weight/1.png">
+<meta property="og:image" content="https://jiapan.me/2020/git-lose-weight/2.png">
+<meta property="og:image" content="https://jiapan.me/2020/git-lose-weight/3.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.596Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GitLab 瘦身方法">
+<meta name="twitter:description" content="由于项目代码中存放了一些大文件在 git 仓库中（比如训练后的模型数据），所以最近收到公司的通知，需要给 git 进行瘦身。 本文内容是摘自公司的通知。  提前告知 瘦身将从此库中永久删除此文件，且无法恢复。包括所有“分支”中的引用，所有“Tag”中的引用，连同提交此文件的log记录也一并清除。  请在操作之前将要永久删除的文件备份，并记录目录位置。待瘦身结束后，将此大文件以「LFS」的形式">
+<meta name="twitter:image" content="https://jiapan.me/2020/git-lose-weight/0.jpeg">
+
+<link rel="canonical" href="https://jiapan.me/2020/git-lose-weight/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>GitLab 瘦身方法 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2020/git-lose-weight/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GitLab 瘦身方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-05 13:31:57" itemprop="dateCreated datePublished" datetime="2020-03-05T13:31:57+08:00">2020-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/git-lose-weight/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/git-lose-weight/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="0.jpeg" alt=""></p>
+<blockquote>
+<p>由于项目代码中存放了一些大文件在 git 仓库中（比如训练后的模型数据），所以最近收到公司的通知，需要给 git 进行瘦身。</p>
+<p>本文内容是摘自公司的通知。</p>
+</blockquote>
+<h2 id="提前告知"><a href="#提前告知" class="headerlink" title="提前告知"></a>提前告知</h2><ul>
+<li><p>瘦身将从此库中永久删除此文件，且无法恢复。包括所有“分支”中的引用，所有“Tag”中的引用，连同提交此文件的log记录也一并清除。</p>
+</li>
+<li><p>请在操作之前将要永久删除的文件备份，并记录目录位置。待瘦身结束后，将此大文件以「LFS」的形式 commit 到此库中。 详见《GitLab lfs 使用》。</p>
+</li>
+</ul>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><ol>
+<li><p>先在本地对 git 库瘦身，再镜像推送到 GitLab 新创建的库。</p>
+</li>
+<li><p>待新库测试稳定后，通知管理员将旧的 git 库归档，组内使用新库，新/旧库 rename 互换。</p>
+</li>
+</ol>
+<h2 id="操作步骤：（大库瘦身需要几个小时，请提前注销组员权限）"><a href="#操作步骤：（大库瘦身需要几个小时，请提前注销组员权限）" class="headerlink" title="操作步骤：（大库瘦身需要几个小时，请提前注销组员权限）"></a>操作步骤：（大库瘦身需要几个小时，请提前注销组员权限）</h2><h3 id="1-需要瘦身的库-git-clone-–bare-到本地"><a href="#1-需要瘦身的库-git-clone-–bare-到本地" class="headerlink" title="1. 需要瘦身的库 git clone –bare 到本地"></a>1. 需要瘦身的库 git clone –bare 到本地</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone --bare https://git.server.com/group/name.git</span><br></pre></td></tr></table></figure>
+<h3 id="2-查看-git-库空间大小"><a href="#2-查看-git-库空间大小" class="headerlink" title="2. 查看 git 库空间大小"></a>2. 查看 git 库空间大小</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh ./name.git</span><br></pre></td></tr></table></figure>
+<h3 id="3-查看历史上哪些文件庞大（检查所有分支）"><a href="#3-查看历史上哪些文件庞大（检查所有分支）" class="headerlink" title="3. 查看历史上哪些文件庞大（检查所有分支）"></a>3. 查看历史上哪些文件庞大（检查所有分支）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd name.git</span><br><span class="line">git verify-pack -v ./objects/pack/*.idx | sort -k 3 -n | tail -10</span><br></pre></td></tr></table></figure>
+<p>查询结果对应关系：&lt;<code>SHA-1</code>&gt; &lt;类型&gt; &lt;<code>size</code>&gt; &lt;<code>size-in-packfile</code>&gt; &lt;<code>offset-in-packfile</code>&gt;</p>
+<p>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">950dae43f100f6586884893eab3b258a09da1076 blob   173244608 172458659 28056</span><br><span class="line">d969843d33706a6d1f0d2ef9576ce8baa95d6786 blob   188144087 188196487 204238271</span><br><span class="line">dd99138acfdbfbe40ce8caed731fbe077f087a82 blob   225264868 208815706 184299</span><br><span class="line">006dcd011a0a1d31a3066634befcda6c8fd60d0d blob   255858144 236934769 453966523</span><br><span class="line">50703d1627abf7d3a1a4a6447ae5c001c2cdd263 blob   255858144 236936133 690901292</span><br><span class="line">92dbd0d8f1eaf303a2deac80cfeb9fa7f3f864f1 blob   255858144 236936851 1640249530</span><br><span class="line">9631c6903a73bda0d218e7cc19cfc513fbcf01a2 blob   255858144 236935865 1166376569</span><br><span class="line">b5fe73bc6dcc740e28a4ee414483b0d712dc05fa blob   255858144 236936876 1877186381</span><br><span class="line">b79e9f47640942b4e3fd035ced4140366b645376 blob   255858144 236937096 1403312434</span><br><span class="line">fd6ca8cebdb65c89f2d392f3143ba3cdadfdbddd blob   257557808 238539144 927837425</span><br></pre></td></tr></table></figure>
+<h3 id="4-查看大文件名称，排名前-10，从小到大，检索-5G-库需要-1-分钟"><a href="#4-查看大文件名称，排名前-10，从小到大，检索-5G-库需要-1-分钟" class="headerlink" title="4. 查看大文件名称，排名前 10，从小到大，检索 5G 库需要 1 分钟"></a>4. 查看大文件名称，排名前 10，从小到大，检索 5G 库需要 1 分钟</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rev-list --objects --all | grep &quot;$(git verify-pack -v ./objects/pack/*.idx | sort -k 3 -n | tail -10 | awk &apos;&#123;print$1&#125;&apos;)&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="5-删除历史文件，删除5G库需要15分钟（此步永久删除，对所有分支-tag-log-的删除操作）"><a href="#5-删除历史文件，删除5G库需要15分钟（此步永久删除，对所有分支-tag-log-的删除操作）" class="headerlink" title="5. 删除历史文件，删除5G库需要15分钟（此步永久删除，对所有分支 /tag/log 的删除操作）"></a>5. 删除历史文件，删除5G库需要15分钟（此步永久删除，对所有分支 /tag/log 的删除操作）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git filter-branch --force --index-filter &apos;git rm -rf --cached --ignore-unmatch folder/file1 folder/file2 folder/file3&apos; --prune-empty --tag-name-filter cat -- --all</span><br></pre></td></tr></table></figure>
+<p><code>filter-branch</code> 是让 git 重写每一个分支</p>
+<ul>
+<li><code>--force</code> 假如遇到冲突也让 git 强制执行。</li>
+<li><code>--index-filter</code> 重写索引的过滤器。</li>
+<li><code>--prune-empty</code> 如果修改后的提交为空则扔掉不要。</li>
+<li><code>--tag-name-filter</code> 表示对每一个 tag 如何重命名，重命名的命令紧跟在后面，当前的 tag<br>名会从标注输入送给后面的命令，用 cat 就表示保持 tag 名不变。<br>紧跟着的 <code>--</code> 表示分割符，最后的 <code>--all</code> 表示对所有的分支和 tag 都考虑在内。</li>
+</ul>
+<h3 id="6-删除GIT缓存记录里的内容"><a href="#6-删除GIT缓存记录里的内容" class="headerlink" title="6. 删除GIT缓存记录里的内容"></a>6. 删除GIT缓存记录里的内容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ./refs/original/</span><br></pre></td></tr></table></figure>
+<h3 id="7-对-git-log-处理，任何时间运行-git-reflog-命令可以查看当前的状态"><a href="#7-对-git-log-处理，任何时间运行-git-reflog-命令可以查看当前的状态" class="headerlink" title="7. 对 git log 处理，任何时间运行 git reflog 命令可以查看当前的状态"></a>7. 对 git log 处理，任何时间运行 git reflog 命令可以查看当前的状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reflog expire --expire=now --all</span><br></pre></td></tr></table></figure>
+<h3 id="8-在进行-repack-前需要将所有对这些-commits-的引用去除"><a href="#8-在进行-repack-前需要将所有对这些-commits-的引用去除" class="headerlink" title="8. 在进行 repack 前需要将所有对这些 commits 的引用去除"></a>8. 在进行 repack 前需要将所有对这些 commits 的引用去除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git repack -A -d</span><br></pre></td></tr></table></figure>
+<h3 id="9-执行-gc-压缩"><a href="#9-执行-gc-压缩" class="headerlink" title="9. 执行 gc 压缩"></a>9. 执行 gc 压缩</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git gc --aggressive --prune=now</span><br></pre></td></tr></table></figure>
+<p><code>--aggressive</code> 最大限度的压缩，会比较缓慢</p>
+<h3 id="10-检查完整性"><a href="#10-检查完整性" class="headerlink" title="10. 检查完整性"></a>10. 检查完整性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fsck --full --unreachable</span><br></pre></td></tr></table></figure>
+<h3 id="11-再次查看-git-空间大小"><a href="#11-再次查看-git-空间大小" class="headerlink" title="11. 再次查看 .git 空间大小"></a>11. 再次查看 .git 空间大小</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh ../name.git</span><br></pre></td></tr></table></figure>
+<h2 id="联系-gitlab-管理员"><a href="#联系-gitlab-管理员" class="headerlink" title="联系 gitlab 管理员"></a>联系 gitlab 管理员</h2><ol>
+<li>联系管理员创建新的 git 库</li>
+<li>将瘦身后的 git 库镜像推送到 gitlab<ul>
+<li><code>git push --mirror https://git.server.com/group/name_new.git</code></li>
+</ul>
+</li>
+<li>测试使用新的库</li>
+<li>将旧库 rename 并归档，新库 rename 成旧库名字</li>
+<li>将大文件以 LFS 形式 <code>commit</code> 到新库中</li>
+<li>恢复新库的人员权限，通知大家使用</li>
+</ol>
+<hr>
+<h2 id="GitLab-LFS-使用方法"><a href="#GitLab-LFS-使用方法" class="headerlink" title="GitLab LFS 使用方法"></a>GitLab LFS 使用方法</h2><h3 id="Linux-安装"><a href="#Linux-安装" class="headerlink" title="Linux 安装"></a>Linux 安装</h3><p>git lfs 要求 <code>git &gt;= 1.8.2</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install git-lfs -y</span><br></pre></td></tr></table></figure>
+<h3 id="MacOS-安装"><a href="#MacOS-安装" class="headerlink" title="MacOS 安装"></a>MacOS 安装</h3><p>运行 <code>brew install git-lfs</code> 即可</p>
+<h3 id="Windows-安装"><a href="#Windows-安装" class="headerlink" title="Windows 安装"></a>Windows 安装</h3><p>git 版本大于 2.12</p>
+<p>关闭 Windows 的 ssl 校验</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.sslVerify false</span><br></pre></td></tr></table></figure>
+<p><img src="1.png" alt=""></p>
+<h2 id="申请-git-lfs-仓库"><a href="#申请-git-lfs-仓库" class="headerlink" title="申请 git lfs 仓库"></a>申请 git lfs 仓库</h2><p>走流程申请一个 aritfactory –git lfs 仓库</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="告诉-lfs-需要管理的大文件"><a href="#告诉-lfs-需要管理的大文件" class="headerlink" title="告诉 lfs 需要管理的大文件"></a>告诉 lfs 需要管理的大文件</h3><p>比如 <code>3.pdf</code>，运行命令 <code>git lfs track 3.pdf</code>，会产生 <code>git lfs</code> 管理文件 <code>.gitattributes</code></p>
+<p>支持通配符比如 <code>git lfs track *.exe</code></p>
+<h3 id="添加-lfsconfig-文件，指定-git-lfs-文件存放位置"><a href="#添加-lfsconfig-文件，指定-git-lfs-文件存放位置" class="headerlink" title="添加 .lfsconfig 文件，指定 git lfs 文件存放位置"></a>添加 <code>.lfsconfig</code> 文件，指定 <code>git lfs</code> 文件存放位置</h3><p>我申请的 git lfs 仓库叫做 <code>git-lfs</code></p>
+<p>登陆 aritfactory 后，如下操作：</p>
+<p><img src="2.png" alt=""></p>
+<ol start="3">
+<li>同时提交 <code>.gitattributes</code>、<code>.lfsconfig</code>、<code>3.pdf</code>，然后在 gitlab 中查看</li>
+</ol>
+<p><img src="3.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"># Git</a>
+              <a href="/tags/GitLab/" rel="tag"># GitLab</a>
+              <a href="/tags/Git-LFS/" rel="tag"># Git LFS</a>
+              <a href="/tags/仓库优化/" rel="tag"># 仓库优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/SOLID-Design-Principles/" rel="prev" title="SOLID：面向对象设计的五个基本原则">
+      <i class="fa fa-chevron-left"></i> SOLID：面向对象设计的五个基本原则
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/Look-out-Look-in-ch8-mind-map/" rel="next" title="沟通的艺术第八章《倾听：不止是听见》脑图">
+      沟通的艺术第八章《倾听：不止是听见》脑图 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#提前告知"><span class="nav-number">1.</span> <span class="nav-text">提前告知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理"><span class="nav-number">2.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作步骤：（大库瘦身需要几个小时，请提前注销组员权限）"><span class="nav-number">3.</span> <span class="nav-text">操作步骤：（大库瘦身需要几个小时，请提前注销组员权限）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-需要瘦身的库-git-clone-–bare-到本地"><span class="nav-number">3.1.</span> <span class="nav-text">1. 需要瘦身的库 git clone –bare 到本地</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-查看-git-库空间大小"><span class="nav-number">3.2.</span> <span class="nav-text">2. 查看 git 库空间大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查看历史上哪些文件庞大（检查所有分支）"><span class="nav-number">3.3.</span> <span class="nav-text">3. 查看历史上哪些文件庞大（检查所有分支）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-查看大文件名称，排名前-10，从小到大，检索-5G-库需要-1-分钟"><span class="nav-number">3.4.</span> <span class="nav-text">4. 查看大文件名称，排名前 10，从小到大，检索 5G 库需要 1 分钟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-删除历史文件，删除5G库需要15分钟（此步永久删除，对所有分支-tag-log-的删除操作）"><span class="nav-number">3.5.</span> <span class="nav-text">5. 删除历史文件，删除5G库需要15分钟（此步永久删除，对所有分支 /tag/log 的删除操作）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-删除GIT缓存记录里的内容"><span class="nav-number">3.6.</span> <span class="nav-text">6. 删除GIT缓存记录里的内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-对-git-log-处理，任何时间运行-git-reflog-命令可以查看当前的状态"><span class="nav-number">3.7.</span> <span class="nav-text">7. 对 git log 处理，任何时间运行 git reflog 命令可以查看当前的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-在进行-repack-前需要将所有对这些-commits-的引用去除"><span class="nav-number">3.8.</span> <span class="nav-text">8. 在进行 repack 前需要将所有对这些 commits 的引用去除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-执行-gc-压缩"><span class="nav-number">3.9.</span> <span class="nav-text">9. 执行 gc 压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-检查完整性"><span class="nav-number">3.10.</span> <span class="nav-text">10. 检查完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-再次查看-git-空间大小"><span class="nav-number">3.11.</span> <span class="nav-text">11. 再次查看 .git 空间大小</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联系-gitlab-管理员"><span class="nav-number">4.</span> <span class="nav-text">联系 gitlab 管理员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitLab-LFS-使用方法"><span class="nav-number">5.</span> <span class="nav-text">GitLab LFS 使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-安装"><span class="nav-number">5.1.</span> <span class="nav-text">Linux 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MacOS-安装"><span class="nav-number">5.2.</span> <span class="nav-text">MacOS 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-安装"><span class="nav-number">5.3.</span> <span class="nav-text">Windows 安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请-git-lfs-仓库"><span class="nav-number">6.</span> <span class="nav-text">申请 git lfs 仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">7.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#告诉-lfs-需要管理的大文件"><span class="nav-number">7.1.</span> <span class="nav-text">告诉 lfs 需要管理的大文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加-lfsconfig-文件，指定-git-lfs-文件存放位置"><span class="nav-number">7.2.</span> <span class="nav-text">添加 .lfsconfig 文件，指定 git lfs 文件存放位置</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

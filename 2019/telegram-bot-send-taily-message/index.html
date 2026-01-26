@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="创建一个 Telegram 机器人，定时发送消息，并部署到 AWS Lambda。  AWS Lambda 是一项计算服务，可使你无需预配置或管理服务器即可运行代码。  我们要做什么？ 创建一个 Telegram 机器人 自动发送日常信息 把它部署到 AWS Lambda  需要准备什么？ 一个 Telegram 帐号 Python 3.6 Node.js 一个 AWS 帐号  AWS Lamb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不到 40 行代码实现 Telegram 自动发消息机器人">
+<meta property="og:url" content="https://jiapan.me/2019/telegram-bot-send-taily-message/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="创建一个 Telegram 机器人，定时发送消息，并部署到 AWS Lambda。  AWS Lambda 是一项计算服务，可使你无需预配置或管理服务器即可运行代码。  我们要做什么？ 创建一个 Telegram 机器人 自动发送日常信息 把它部署到 AWS Lambda  需要准备什么？ 一个 Telegram 帐号 Python 3.6 Node.js 一个 AWS 帐号  AWS Lamb">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2019/telegram-bot-send-taily-message/head.png">
+<meta property="og:image" content="https://jiapan.me/2019/telegram-bot-send-taily-message/6.png">
+<meta property="og:image" content="https://jiapan.me/2019/telegram-bot-send-taily-message/7.jpg">
+<meta property="og:image" content="https://jiapan.me/2019/telegram-bot-send-taily-message/8.png">
+<meta property="og:image" content="https://jiapan.me/2019/telegram-bot-send-taily-message/9.png">
+<meta property="og:image" content="https://jiapan.me/2019/telegram-bot-send-taily-message/10.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.800Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="不到 40 行代码实现 Telegram 自动发消息机器人">
+<meta name="twitter:description" content="创建一个 Telegram 机器人，定时发送消息，并部署到 AWS Lambda。  AWS Lambda 是一项计算服务，可使你无需预配置或管理服务器即可运行代码。  我们要做什么？ 创建一个 Telegram 机器人 自动发送日常信息 把它部署到 AWS Lambda  需要准备什么？ 一个 Telegram 帐号 Python 3.6 Node.js 一个 AWS 帐号  AWS Lamb">
+<meta name="twitter:image" content="https://jiapan.me/2019/telegram-bot-send-taily-message/head.png">
+
+<link rel="canonical" href="https://jiapan.me/2019/telegram-bot-send-taily-message/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>不到 40 行代码实现 Telegram 自动发消息机器人 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2019/telegram-bot-send-taily-message/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          不到 40 行代码实现 Telegram 自动发消息机器人
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-16 12:45:06" itemprop="dateCreated datePublished" datetime="2019-11-16T12:45:06+08:00">2019-11-16</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/telegram-bot-send-taily-message/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/telegram-bot-send-taily-message/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="head.png" alt=""></p>
+<p><em>创建一个 Telegram 机器人，定时发送消息，并部署到 AWS Lambda。</em></p>
+<blockquote>
+<p>AWS Lambda 是一项计算服务，可使你无需预配置或管理服务器即可运行代码。</p>
+</blockquote>
+<h2 id="我们要做什么？"><a href="#我们要做什么？" class="headerlink" title="我们要做什么？"></a>我们要做什么？</h2><ul>
+<li>创建一个 Telegram 机器人</li>
+<li>自动发送日常信息</li>
+<li>把它部署到 <a href="https://aws.amazon.com/lambda/" target="_blank" rel="noopener">AWS Lambda</a></li>
+</ul>
+<h2 id="需要准备什么？"><a href="#需要准备什么？" class="headerlink" title="需要准备什么？"></a>需要准备什么？</h2><ul>
+<li>一个 Telegram 帐号</li>
+<li>Python 3.6</li>
+<li>Node.js</li>
+<li>一个 AWS 帐号</li>
+</ul>
+<p>AWS Lambda 可以在一定配额内免费使用，所以需要避免发送大量请求。</p>
+<p>AWS Lambda 定价方案如下：</p>
+<p><img src="6.png" alt=""></p>
+<h2 id="创建机器人"><a href="#创建机器人" class="headerlink" title="创建机器人"></a>创建机器人</h2><p>待办清单上的第一件事是创建一个机器人，遵循 Telegram 官方说明：</p>
+<ul>
+<li>在 Teletram 中搜索用户 <code>@BotFather</code>。</li>
+<li>发送命令 <code>/newbot</code> 并为你的机器人指定 <code>name</code> 和 <code>username</code>。</li>
+<li>拿到 token 并记录在一个安全的地方，后边会用到。</li>
+</ul>
+<p>现在机器人准备好了，开始编写代码。</p>
+<h2 id="准备部署设施"><a href="#准备部署设施" class="headerlink" title="准备部署设施"></a>准备部署设施</h2><p>有很多部署 Lambda 的方法，我准备使用 <a href="https://serverless.com/" target="_blank" rel="noopener">serverless</a> 框架，所以我们先来安装它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install serverless --global</span><br></pre></td></tr></table></figure>
+<p>Serverless 的文档中提供了<a href="https://serverless.com/framework/docs/providers/aws/examples/hello-world/python/" target="_blank" rel="noopener">一些范例</a>，还支持生成模板，像下边这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ serverless create --template aws-python3 --path scheduled_telegram_bot</span><br></pre></td></tr></table></figure>
+<p>执行这个命令后，会创建出一个 <code>scheduled_telegram_bot</code> 目录，并已经生成了 3 个文件：<br><code>.gitignore</code>，<code>serverless.yml</code> 和 <code>handler.py</code>。</p>
+<p><code>serverless.yml</code> 文件用来描述：部署什么、何时运行、如何运行。 <code>handler.py</code> 文件包含将要运行的代码，所以我们先来编写它。</p>
+<h2 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h2><p>我们将使用是一个封装好的包来调用 Telegram 的 API：<a href="https://github.com/python-telegram-bot/python-telegram-bot" target="_blank" rel="noopener">python-teletram-bot</a>，创建一个新的文件 <code>requirements.txt</code> 写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python-telegram-bot==12.2.0</span><br></pre></td></tr></table></figure>
+<p>我们需要在程序中导入这个库，不过后边我们会遇到一个问题：由于 <code>python-telegram-bot</code> 不是 AWS Lambda 所提供的标准库，因此我们在部署时需要同时包含这个包中的文件。</p>
+<p>所以我们后边会在本地安装这个包的所有内容。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requirements.txt --target=.</span><br></pre></td></tr></table></figure>
+<p>现在让我们来定义一个发送消息的函数，打开 <code>handler.py</code> 修改内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import telegram</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">TOKEN = os.environ[&apos;TELEGRAM_TOKEN&apos;]</span><br><span class="line">CHAT_ID = 000000  # Change this</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def send_message(event, context):</span><br><span class="line">    bot = telegram.Bot(token=TOKEN)</span><br><span class="line">    bot.sendMessage(chat_id=CHAT_ID, text=&apos;Hey there!&apos;)</span><br></pre></td></tr></table></figure>
+<p>你需要把 <code>CHAT_ID</code> 修改为你想让机器人互动的群组、频道或者会话的 ID。获取 ID 的方法如下，我以频道为例：</p>
+<p>首先创建自己的频道，将机器人拉入频道并设置为管理员，随意在频道内发送一个消息。</p>
+<p>添加 <a href="https://telegram.me/getidsbot" target="_blank" rel="noopener">GetIDsBot</a>，并将上边发的那条消息转发给这个机器人，它会返回这个频道相关信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">👤 You</span><br><span class="line"> ├ id: xxxxxxx</span><br><span class="line"> ├ is_bot: false</span><br><span class="line"> ├ first_name: xxxxx</span><br><span class="line"> ├ username: xxxxxx</span><br><span class="line"> ├ language_code: zh-hans (-)</span><br><span class="line"> └ created: ~ 9/2017 (?)</span><br><span class="line"></span><br><span class="line">💬 Origin chat</span><br><span class="line"> ├ id: -1001156324531</span><br><span class="line"> ├ title: Panmax Channel</span><br><span class="line"> └ type: channel</span><br><span class="line"></span><br><span class="line">📃 Message</span><br><span class="line"> ├ message_id: 82</span><br><span class="line"> └ forward_date: Fri, 15 Nov 2019 15:38:41 GMT</span><br></pre></td></tr></table></figure>
+<p>这样可以得到我所在这个频道的 ID 为 <code>-1001156324531</code>。</p>
+<h2 id="部署定义"><a href="#部署定义" class="headerlink" title="部署定义"></a>部署定义</h2><p>现在我们来定义如何运行我们的代码。</p>
+<p>编辑 <code>serverless.yml</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">service: scheduled-telegarm-bot</span><br><span class="line"></span><br><span class="line">frameworkVersion: &quot;&gt;=1.2.0 &lt;2.0.0&quot;</span><br><span class="line"></span><br><span class="line">provider:</span><br><span class="line">  name: aws</span><br><span class="line">  runtime: python3.6</span><br><span class="line">  environment:</span><br><span class="line">    TELEGRAM_TOKEN: $&#123;env:TELEGRAM_TOKEN&#125;</span><br><span class="line"></span><br><span class="line">functions:</span><br><span class="line">  cron:</span><br><span class="line">    handler: handler.send_message</span><br><span class="line">    events:</span><br><span class="line">      - schedule: cron(*/2 * * * ? *)</span><br></pre></td></tr></table></figure>
+<p>这里我们告诉了 AWS 我们所需要的运行环境，并且让它从我们的环境变量中获取 Telegram token，这样我们就不需要把 token 硬编码到代码中了。</p>
+<p>最后我们还定义了一个定时器，声明每两分钟触发一次这个函数。当然，定时器有很多选项，通过这个<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html" target="_blank" rel="noopener">文档</a>可以了解更多配置方式，比如每小时或者每周一发送消息。</p>
+<h2 id="汇总"><a href="#汇总" class="headerlink" title="汇总"></a>汇总</h2><p>我们已经准备好了所有需要的东西。</p>
+<p>好吧，准确来说是几乎所有的东西。我们还需要获取 AWS 的凭证，然后和 token 一样，在部署前设置为环境变量，获取凭证步骤如下：</p>
+<p>通过 AWS 的控制台：</p>
+<p>进入 <em>我的安全凭证</em> - <em>用户</em> - <em>添加用户</em></p>
+<p><img src="7.jpg" alt=""></p>
+<p>设置用户名并选择<em>编程访问</em></p>
+<p><img src="8.png" alt=""></p>
+<p>下一步：选择<em>直接附加现有策略</em> - <em>AdministratorAccess</em></p>
+<p><img src="9.png" alt=""></p>
+<p>下一步会来到添加标签页，直接点击下一步，确认信息无误后点击 <em>创建用户</em>，将 <em>访问密钥 ID</em> 和 <em>私有访问密钥</em> 拷贝并存放起来。</p>
+<p>现在，让我们把 AWS 凭证和 Telegram token 导出到环境变量。打开终端，输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ export AWS_ACCESS_KEY_ID=[your key goes here]</span><br><span class="line">$ export AWS_SECRET_ACCESS_KEY=[your key goes here]</span><br><span class="line">$ export TELEGRAM_TOKEN=[your token goes here]</span><br></pre></td></tr></table></figure>
+<p>在本地安装 Python 的依赖包（这也是 AWS Lambda 所需要的）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip3 install -r requirements.txt -t .</span><br></pre></td></tr></table></figure>
+<p>最后将所有的东西部署到 AWS：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ serverless deploy</span><br></pre></td></tr></table></figure>
+<p>如果前边配置没有问题，会看到如下输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Serverless: Packaging service...</span><br><span class="line">Serverless: Excluding development dependencies...</span><br><span class="line">Serverless: Uploading CloudFormation file to S3...</span><br><span class="line">Serverless: Uploading artifacts...</span><br><span class="line">Serverless: Uploading service scheduled-telegarm-bot.zip file to S3 (5.64 MB)...</span><br><span class="line">Serverless: Validating template...</span><br><span class="line">Serverless: Updating Stack...</span><br><span class="line">Serverless: Checking Stack update progress...</span><br><span class="line">.........</span><br><span class="line">Serverless: Stack update finished...</span><br></pre></td></tr></table></figure>
+<p>完成！机器人会在每 2 分钟给我们发送一次消息。</p>
+<p><img src="10.png" alt=""></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>AWS Python Scheduled Cron Example：<a href="https://github.com/serverless/examples/tree/master/aws-python-scheduled-cron" target="_blank" rel="noopener">https://github.com/serverless/examples/tree/master/aws-python-scheduled-cron</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/install-requests-offline/" rel="prev" title="离线安装 Python requests 包">
+      <i class="fa fa-chevron-left"></i> 离线安装 Python requests 包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/real-world-go-interface/" rel="next" title="用一个现实世界中的例子介绍 Go 接口">
+      用一个现实世界中的例子介绍 Go 接口 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#我们要做什么？"><span class="nav-number">1.</span> <span class="nav-text">我们要做什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要准备什么？"><span class="nav-number">2.</span> <span class="nav-text">需要准备什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建机器人"><span class="nav-number">3.</span> <span class="nav-text">创建机器人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备部署设施"><span class="nav-number">4.</span> <span class="nav-text">准备部署设施</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写代码"><span class="nav-number">5.</span> <span class="nav-text">编写代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署定义"><span class="nav-number">6.</span> <span class="nav-text">部署定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汇总"><span class="nav-number">7.</span> <span class="nav-text">汇总</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

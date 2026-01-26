@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="如果你把你的站点部署在 CDN 的后面，网站的 IP 地址是 CDN 还是后端服务器？ 是 CDN 的 IP  所有请求都会发到 CDN，然后 CDN 在需要的情况下向后端服务器发出请求。 CDN 是否只有一个数据中心用于缓存内容？ 不是 CDN 会将内容缓存在不同地区的多个服务器上，这样你的用户无论在哪里都能迅速得到响应。 CDN 只会缓存 HTTP 响应的 body（比如图片）吗？不是 它可以">
+<meta name="keywords" content="性能优化,CDN,网络,缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 CDN 的灵魂 16 问">
+<meta property="og:url" content="https://jiapan.me/2021/cdn-question/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="如果你把你的站点部署在 CDN 的后面，网站的 IP 地址是 CDN 还是后端服务器？ 是 CDN 的 IP  所有请求都会发到 CDN，然后 CDN 在需要的情况下向后端服务器发出请求。 CDN 是否只有一个数据中心用于缓存内容？ 不是 CDN 会将内容缓存在不同地区的多个服务器上，这样你的用户无论在哪里都能迅速得到响应。 CDN 只会缓存 HTTP 响应的 body（比如图片）吗？不是 它可以">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.323Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于 CDN 的灵魂 16 问">
+<meta name="twitter:description" content="如果你把你的站点部署在 CDN 的后面，网站的 IP 地址是 CDN 还是后端服务器？ 是 CDN 的 IP  所有请求都会发到 CDN，然后 CDN 在需要的情况下向后端服务器发出请求。 CDN 是否只有一个数据中心用于缓存内容？ 不是 CDN 会将内容缓存在不同地区的多个服务器上，这样你的用户无论在哪里都能迅速得到响应。 CDN 只会缓存 HTTP 响应的 body（比如图片）吗？不是 它可以">
+
+<link rel="canonical" href="https://jiapan.me/2021/cdn-question/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>关于 CDN 的灵魂 16 问 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2021/cdn-question/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于 CDN 的灵魂 16 问
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-18 10:00:04" itemprop="dateCreated datePublished" datetime="2021-03-18T10:00:04+08:00">2021-03-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/cdn-question/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/cdn-question/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="如果你把你的站点部署在-CDN-的后面，网站的-IP-地址是-CDN-还是后端服务器？"><a href="#如果你把你的站点部署在-CDN-的后面，网站的-IP-地址是-CDN-还是后端服务器？" class="headerlink" title="如果你把你的站点部署在 CDN 的后面，网站的 IP 地址是 CDN 还是后端服务器？"></a>如果你把你的站点部署在 CDN 的后面，网站的 IP 地址是 CDN 还是后端服务器？</h3><p> <strong>是 CDN 的 IP</strong></p>
+<p> 所有请求都会发到 CDN，然后 CDN 在需要的情况下向后端服务器发出请求。</p>
+<h3 id="CDN-是否只有一个数据中心用于缓存内容？"><a href="#CDN-是否只有一个数据中心用于缓存内容？" class="headerlink" title="CDN 是否只有一个数据中心用于缓存内容？"></a>CDN 是否只有一个数据中心用于缓存内容？</h3><p> <strong>不是</strong></p>
+<p>CDN 会将内容缓存在不同地区的多个服务器上，这样你的用户无论在哪里都能迅速得到响应。</p>
+<h3 id="CDN-只会缓存-HTTP-响应的-body（比如图片）吗？"><a href="#CDN-只会缓存-HTTP-响应的-body（比如图片）吗？" class="headerlink" title="CDN 只会缓存 HTTP 响应的 body（比如图片）吗？"></a>CDN 只会缓存 HTTP 响应的 body（比如图片）吗？</h3><p><strong>不是</strong></p>
+<p>它可以缓存整个 HTTP 响应，包括状态码和响应头。</p>
+<p>所以，举例来说，如果你的服务器不小心返回了 404，CDN 将这个响应进行了缓存，那么即使服务器已经恢复，你的网站仍然可能是 404。</p>
+<h3 id="如果你不小心缓存了错误的内容，是否能清理掉？"><a href="#如果你不小心缓存了错误的内容，是否能清理掉？" class="headerlink" title="如果你不小心缓存了错误的内容，是否能清理掉？"></a>如果你不小心缓存了错误的内容，是否能清理掉？</h3><p><strong>是的</strong></p>
+<p>CDN 提供方通常有清除缓存的方法。不过有时需要几分钟才能完成（CDN 可能要去告诉世界各地的数百台服务器来清理它们的缓存）。</p>
+<p>你可以选择从缓存中只删除特定文件或者删除所有缓存的文件。</p>
+<h3 id="CDN-如何知道它应该把-HTTP-响应放在缓存中？"><a href="#CDN-如何知道它应该把-HTTP-响应放在缓存中？" class="headerlink" title="CDN 如何知道它应该把 HTTP 响应放在缓存中？"></a>CDN 如何知道它应该把 HTTP 响应放在缓存中？</h3><p><strong>依赖于客户端的请求</strong></p>
+<p>当 CDN 收到一个资源请求时，它会从你的服务器上请求资源，然后会把资源放在它的缓存中，这样下次就不用再到你的服务器上请求了。</p>
+<h3 id="CDN-可以缓存任何类型的-HTTP-的响应吗？"><a href="#CDN-可以缓存任何类型的-HTTP-的响应吗？" class="headerlink" title="CDN 可以缓存任何类型的 HTTP 的响应吗？"></a>CDN 可以缓存任何类型的 HTTP 的响应吗？</h3><p><strong>是的</strong></p>
+<p>如果你要求 CDN 进行缓存，它通常可以缓存任何你想要的 HTTP 响应，比如可以将响应头设置为： <code>Cache-Control: public; max-age=3600</code>。</p>
+<p>不过大多数 CDN 会对缓存内容的大小进行限制，所以你可能无法缓存一个电影。</p>
+<h3 id="CDN-是否可以在你的服务器宕机的情况下继续为你的站点提供服务？"><a href="#CDN-是否可以在你的服务器宕机的情况下继续为你的站点提供服务？" class="headerlink" title="CDN 是否可以在你的服务器宕机的情况下继续为你的站点提供服务？"></a>CDN 是否可以在你的服务器宕机的情况下继续为你的站点提供服务？</h3><p><strong>也许</strong></p>
+<p>即使你的服务器没有运行，CDN 也可以继续提供缓存页面。</p>
+<p>但是如果你告诉它只缓存一定时间（比如 1 小时），内容可能会在一段时间后过期，无法访问。而如果内容根本没有被缓存，CDN 也帮不了你。</p>
+<h3 id="如果你在-CDN-后面的网站使用-TLS，CDN-能读取你未加密的网站流量吗？"><a href="#如果你在-CDN-后面的网站使用-TLS，CDN-能读取你未加密的网站流量吗？" class="headerlink" title="如果你在 CDN 后面的网站使用 TLS，CDN 能读取你未加密的网站流量吗？"></a>如果你在 CDN 后面的网站使用 TLS，CDN 能读取你未加密的网站流量吗？</h3><p><strong>是的</strong></p>
+<p>如果你想让CDN缓存内容，它需要能够解密和读取。</p>
+<p>通常人们处理这个问题的方法是，只把静态内容（如 CSS/JS/图片）放在 CDN 后面的域名上，而使用一个单独的域名来处理带有用户数据的请求。例如，<a href="https://github.githubassets.com/" target="_blank" rel="noopener">https://github.githubassets.com/</a> 在 CDN 后面，但<a href="https://github.com" target="_blank" rel="noopener">https://github.com</a> 不是。</p>
+<h3 id="CDN-总是对资源进行缓存吗？"><a href="#CDN-总是对资源进行缓存吗？" class="headerlink" title="CDN 总是对资源进行缓存吗？"></a>CDN 总是对资源进行缓存吗？</h3><p><strong>不是</strong></p>
+<p>如果你想，可以配置你的 CDN 不进行缓存，只是代理每个请求到你的后端服务器。</p>
+<h3 id="是否可以判断出某个网站使用了-CDN？"><a href="#是否可以判断出某个网站使用了-CDN？" class="headerlink" title="是否可以判断出某个网站使用了 CDN？"></a>是否可以判断出某个网站使用了 CDN？</h3><p><strong>是的</strong></p>
+<p>你通常可以从 <code>header</code> 中找出答案：运行curl -I <a href="https://jiapan.me，看看我使用的是什么" target="_blank" rel="noopener">https://jiapan.me，看看我使用的是什么</a> CDN。</p>
+<h3 id="是否能判断出你收到的是一个被缓存的响应？"><a href="#是否能判断出你收到的是一个被缓存的响应？" class="headerlink" title="是否能判断出你收到的是一个被缓存的响应？"></a>是否能判断出你收到的是一个被缓存的响应？</h3><p><strong>是的</strong></p>
+<p>CDN 通常会设置一个响应头，比如 <code>x-cache: HIT</code>，你可以用它来判断是缓存命中还是缓存失效。</p>
+<h3 id="及时没有缓存，CDN-是否可以使请求更快？"><a href="#及时没有缓存，CDN-是否可以使请求更快？" class="headerlink" title="及时没有缓存，CDN 是否可以使请求更快？"></a>及时没有缓存，CDN 是否可以使请求更快？</h3><p><strong>是的</strong></p>
+<ol>
+<li>CDN通常可以在离客户端更近的地方终止 TLS，这意味着 TLS 握手可以快很多。如果你的后端服务器离客户端很远，这可以节省一秒左右的时间。这样做的原因是，它经常会与后端服务器保持一个开放的 TLS 连接，所以它不必每次都重新建立一个新的连接。</li>
+<li>它可能比客户机有更快的路由连接到你的后端服务器。</li>
+<li>CDN还可以通过更多的方式来提高性能!</li>
+</ol>
+<h3 id="如果你的站点只支持-HTTP-1-1，CDN-可以接收-HTTP-2-0-的请求吗？"><a href="#如果你的站点只支持-HTTP-1-1，CDN-可以接收-HTTP-2-0-的请求吗？" class="headerlink" title="如果你的站点只支持 HTTP/1.1，CDN 可以接收 HTTP/2.0 的请求吗？"></a>如果你的站点只支持 HTTP/1.1，CDN 可以接收 HTTP/2.0 的请求吗？</h3><p><strong>大部分情况下可以</strong></p>
+<p>许多CDN可以透明地将 <code>HTTP/2</code> 请求翻译成 <code>HTTP/1</code> 请求到你的后端服务器，所以你可以在不做任何工作的情况下获得 <code>HTTP/2</code> 的很多性能优势。</p>
+<h3 id="是否可以让-CDN-对响应只缓存一段时间（如10分钟）？"><a href="#是否可以让-CDN-对响应只缓存一段时间（如10分钟）？" class="headerlink" title="是否可以让 CDN 对响应只缓存一段时间（如10分钟）？"></a>是否可以让 CDN 对响应只缓存一段时间（如10分钟）？</h3><p><strong>是的</strong></p>
+<p>您可以通过设置 <code>Cache-Control</code> 响应头来实现，比如 <code>Cache-Control: max-age=600</code>。</p>
+<h3 id="是否允许资源只被浏览器缓存而不被-CDN-缓存？"><a href="#是否允许资源只被浏览器缓存而不被-CDN-缓存？" class="headerlink" title="是否允许资源只被浏览器缓存而不被 CDN 缓存？"></a>是否允许资源只被浏览器缓存而不被 CDN 缓存？</h3><p><strong>是的</strong></p>
+<p>你可以通过设置 <code>Cache-Control: private, max-age=3600</code> 来实现。<code>private</code> 意味着内容只能存储在浏览器的缓存中，而不是 CDN 的缓存中。</p>
+<h3 id="如果你用同一个-URL-请求-CDN，但-header-不同，是否会得到相同的缓存响应？"><a href="#如果你用同一个-URL-请求-CDN，但-header-不同，是否会得到相同的缓存响应？" class="headerlink" title="如果你用同一个 URL 请求 CDN，但 header 不同，是否会得到相同的缓存响应？"></a>如果你用同一个 URL 请求 CDN，但 header 不同，是否会得到相同的缓存响应？</h3><p><strong>视情况而定</strong></p>
+<p>默认情况下，会得到相同的响应。但如果服务器设置了 <code>Vary:</code> 头，那么 CDN 将为该头的每个值存储不同的缓存值。</p>
+<p>例如，<code>Vary: Accept-Encoding</code> 将使 CDN 同时存储压缩和非压缩版本。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+              <a href="/tags/CDN/" rel="tag"># CDN</a>
+              <a href="/tags/网络/" rel="tag"># 网络</a>
+              <a href="/tags/缓存/" rel="tag"># 缓存</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/git-submodule/" rel="prev" title="git 子模块使用">
+      <i class="fa fa-chevron-left"></i> git 子模块使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/docker-compose-hbase/" rel="next" title="利用 docker-compose，搭建本地 HBase 集群">
+      利用 docker-compose，搭建本地 HBase 集群 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#如果你把你的站点部署在-CDN-的后面，网站的-IP-地址是-CDN-还是后端服务器？"><span class="nav-number">1.</span> <span class="nav-text">如果你把你的站点部署在 CDN 的后面，网站的 IP 地址是 CDN 还是后端服务器？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN-是否只有一个数据中心用于缓存内容？"><span class="nav-number">2.</span> <span class="nav-text">CDN 是否只有一个数据中心用于缓存内容？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN-只会缓存-HTTP-响应的-body（比如图片）吗？"><span class="nav-number">3.</span> <span class="nav-text">CDN 只会缓存 HTTP 响应的 body（比如图片）吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果你不小心缓存了错误的内容，是否能清理掉？"><span class="nav-number">4.</span> <span class="nav-text">如果你不小心缓存了错误的内容，是否能清理掉？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN-如何知道它应该把-HTTP-响应放在缓存中？"><span class="nav-number">5.</span> <span class="nav-text">CDN 如何知道它应该把 HTTP 响应放在缓存中？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN-可以缓存任何类型的-HTTP-的响应吗？"><span class="nav-number">6.</span> <span class="nav-text">CDN 可以缓存任何类型的 HTTP 的响应吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN-是否可以在你的服务器宕机的情况下继续为你的站点提供服务？"><span class="nav-number">7.</span> <span class="nav-text">CDN 是否可以在你的服务器宕机的情况下继续为你的站点提供服务？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果你在-CDN-后面的网站使用-TLS，CDN-能读取你未加密的网站流量吗？"><span class="nav-number">8.</span> <span class="nav-text">如果你在 CDN 后面的网站使用 TLS，CDN 能读取你未加密的网站流量吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN-总是对资源进行缓存吗？"><span class="nav-number">9.</span> <span class="nav-text">CDN 总是对资源进行缓存吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#是否可以判断出某个网站使用了-CDN？"><span class="nav-number">10.</span> <span class="nav-text">是否可以判断出某个网站使用了 CDN？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#是否能判断出你收到的是一个被缓存的响应？"><span class="nav-number">11.</span> <span class="nav-text">是否能判断出你收到的是一个被缓存的响应？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#及时没有缓存，CDN-是否可以使请求更快？"><span class="nav-number">12.</span> <span class="nav-text">及时没有缓存，CDN 是否可以使请求更快？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果你的站点只支持-HTTP-1-1，CDN-可以接收-HTTP-2-0-的请求吗？"><span class="nav-number">13.</span> <span class="nav-text">如果你的站点只支持 HTTP/1.1，CDN 可以接收 HTTP/2.0 的请求吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#是否可以让-CDN-对响应只缓存一段时间（如10分钟）？"><span class="nav-number">14.</span> <span class="nav-text">是否可以让 CDN 对响应只缓存一段时间（如10分钟）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#是否允许资源只被浏览器缓存而不被-CDN-缓存？"><span class="nav-number">15.</span> <span class="nav-text">是否允许资源只被浏览器缓存而不被 CDN 缓存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果你用同一个-URL-请求-CDN，但-header-不同，是否会得到相同的缓存响应？"><span class="nav-number">16.</span> <span class="nav-text">如果你用同一个 URL 请求 CDN，但 header 不同，是否会得到相同的缓存响应？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

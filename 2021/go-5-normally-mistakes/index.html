@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="1. 循环中使用循环时下边几个容易尝试混乱的编码方式我们要尽量避免。 1.1 对循环的变量进行引用考虑到效率，在进行循环遍历过程中，迭代出的变量会赋值到同一个地址。这可能会导致无意识的错误。 123456789in := []int&amp;#123;1, 2, 3&amp;#125;var out []*intfor  _, v := range in &amp;#123;	out = append(out, &amp;amp">
+<meta name="keywords" content="编程陷阱,并发,Go,性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 中 5 个常见错误">
+<meta property="og:url" content="https://jiapan.me/2021/go-5-normally-mistakes/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="1. 循环中使用循环时下边几个容易尝试混乱的编码方式我们要尽量避免。 1.1 对循环的变量进行引用考虑到效率，在进行循环遍历过程中，迭代出的变量会赋值到同一个地址。这可能会导致无意识的错误。 123456789in := []int&amp;#123;1, 2, 3&amp;#125;var out []*intfor  _, v := range in &amp;#123;	out = append(out, &amp;amp">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.599Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go 中 5 个常见错误">
+<meta name="twitter:description" content="1. 循环中使用循环时下边几个容易尝试混乱的编码方式我们要尽量避免。 1.1 对循环的变量进行引用考虑到效率，在进行循环遍历过程中，迭代出的变量会赋值到同一个地址。这可能会导致无意识的错误。 123456789in := []int&amp;#123;1, 2, 3&amp;#125;var out []*intfor  _, v := range in &amp;#123;	out = append(out, &amp;amp">
+
+<link rel="canonical" href="https://jiapan.me/2021/go-5-normally-mistakes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Go 中 5 个常见错误 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2021/go-5-normally-mistakes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Go 中 5 个常见错误
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-02-20 17:49:13" itemprop="dateCreated datePublished" datetime="2021-02-20T17:49:13+08:00">2021-02-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/go-5-normally-mistakes/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/go-5-normally-mistakes/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-循环中"><a href="#1-循环中" class="headerlink" title="1. 循环中"></a>1. 循环中</h2><p>使用循环时下边几个容易尝试混乱的编码方式我们要尽量避免。</p>
+<h3 id="1-1-对循环的变量进行引用"><a href="#1-1-对循环的变量进行引用" class="headerlink" title="1.1 对循环的变量进行引用"></a>1.1 对循环的变量进行引用</h3><p>考虑到效率，在进行循环遍历过程中，迭代出的变量会赋值到同一个地址。这可能会导致无意识的错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">in := []int&#123;1, 2, 3&#125;</span><br><span class="line"></span><br><span class="line">var out []*int</span><br><span class="line">for  _, v := range in &#123;</span><br><span class="line">	out = append(out, &amp;v)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fmt.Println(&quot;Values:&quot;, *out[0], *out[1], *out[2])</span><br><span class="line">fmt.Println(&quot;Addresses:&quot;, out[0], out[1], out[2])</span><br></pre></td></tr></table></figure>
+<p>以上代码得到的结果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Values: 3 3 3</span><br><span class="line">Addresses: 0xc000014188 0xc000014188 0xc000014188</span><br></pre></td></tr></table></figure>
+<p>原因很容易解释：每次迭代时我们将 <code>v</code> 的地址追加到 <code>out</code> 切片中，前边提到，<code>v</code> 在每次遍历时为同一个变量，在输出的第二行可以看到打印出了相同的地址。</p>
+<p>简单的修复方法是，将每一次的迭代出的变量复制给一个新的变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">in := []int&#123;1, 2, 3&#125;</span><br><span class="line"></span><br><span class="line">var out []*int</span><br><span class="line">for  _, v := range in &#123;</span><br><span class="line">	v := v</span><br><span class="line">	out = append(out, &amp;v)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fmt.Println(&quot;Values:&quot;, *out[0], *out[1], *out[2])</span><br><span class="line">fmt.Println(&quot;Addresses:&quot;, out[0], out[1], out[2])</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Values: 1 2 3</span><br><span class="line">Addresses: 0xc0000b6010 0xc0000b6018 0xc0000b6020</span><br></pre></td></tr></table></figure>
+<p>同样的问题会出现在将迭代出的变量用在 Goroutine 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list := []int&#123;1, 2, 3&#125;</span><br><span class="line"></span><br><span class="line">for _, v := range list &#123;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		fmt.Printf(&quot;%d &quot;, v)</span><br><span class="line">	&#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 3 3</span><br></pre></td></tr></table></figure>
+<p>这个 bug 也可以使用上边提到的方法解决。（注：如果不在 Goroutine 中执行，上边的代码是没有问题的）</p>
+<h3 id="1-2-在循环中调用-WaitGroup-Wait"><a href="#1-2-在循环中调用-WaitGroup-Wait" class="headerlink" title="1.2 在循环中调用 WaitGroup.Wait"></a>1.2 在循环中调用 WaitGroup.Wait</h3><p>下边代码循环中的 <code>group.Wait()</code> 会被阻塞，导致无法执行后边的循环。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var wg sync.WaitGroup</span><br><span class="line">wg.Add(len(tasks))</span><br><span class="line">for _, t := range tasks &#123;</span><br><span class="line">	go func(t *task) &#123; </span><br><span class="line">		defer group.Done()</span><br><span class="line">	&#125;(t)</span><br><span class="line">	group.Wait()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正确的写法是把 <code>Wait()</code> 放在循环外：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var wg sync.WaitGroup</span><br><span class="line">wg.Add(len(tasks))</span><br><span class="line">for _, t := range tasks &#123;</span><br><span class="line">	go func(t *task) &#123; </span><br><span class="line">		defer group.Done()</span><br><span class="line">	&#125;(t)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">group.Wait()</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-在循环中使用-defer"><a href="#1-3-在循环中使用-defer" class="headerlink" title="1.3 在循环中使用 defer"></a>1.3 在循环中使用 defer</h3><p>只有当函数返回时，<code>defer</code> 才会被执行。除非你知道你在做什么，否则不应该将 <code>defer</code> 用在循环中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var mutex sync.Mutex</span><br><span class="line">type Person struct &#123;</span><br><span class="line">	Age int</span><br><span class="line">&#125;</span><br><span class="line">persons := make([]Person, 10)</span><br><span class="line">for _, p := range persons &#123;</span><br><span class="line">	mutex.Lock()</span><br><span class="line">	defer mutex.Unlock()</span><br><span class="line">	p.Age = 13</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上边的例子中，在完成第一次循环后，之后的循环无法获得互斥锁从而被阻塞。应该改成下边的显性释放锁的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var mutex sync.Mutex</span><br><span class="line">type Person struct &#123;</span><br><span class="line">	Age int</span><br><span class="line">&#125;</span><br><span class="line">persons := make([]Person, 10)</span><br><span class="line">for _, p := range persons &#123;</span><br><span class="line">	mutex.Lock()</span><br><span class="line"></span><br><span class="line">	p.Age = 13</span><br><span class="line">	mutex.Unlock()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你确实需要在循环中使用 <code>defer</code>，可以考虑将工作委托给另一个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var mutex sync.Mutex</span><br><span class="line">type Person struct &#123;</span><br><span class="line">	Age int</span><br><span class="line">&#125;</span><br><span class="line">persons := make([]Person, 10)</span><br><span class="line">for _, p := range persons &#123;</span><br><span class="line">	func() &#123;</span><br><span class="line">		mutex.Lock()</span><br><span class="line">		defer mutex.Unlock()</span><br><span class="line">		p.Age = 13</span><br><span class="line">	&#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-往-unbuffered-channel-中发送数据"><a href="#2-往-unbuffered-channel-中发送数据" class="headerlink" title="2. 往 unbuffered channel 中发送数据"></a>2. 往 unbuffered channel 中发送数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">func doReq(timeout time.Duration) obj &#123;</span><br><span class="line">	ch :=make(chan obj)</span><br><span class="line">	go func() &#123;</span><br><span class="line">		obj := do()</span><br><span class="line">		ch &lt;- obj</span><br><span class="line">	&#125; ()</span><br><span class="line">	select &#123;</span><br><span class="line">	case result = &lt;- ch :</span><br><span class="line">		return result</span><br><span class="line">	case&lt;- time.After(timeout):</span><br><span class="line">		return nil </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边的代码模拟这样一个行为：超时前获得到结果将结果返回，若超时则返回 nil。</p>
+<p>我们通过一个 Goroutine 异步获取结果，并通过一个 <code>channel</code> 配合 <code>select</code> 来阻塞代码往后执行。</p>
+<p>上边代码使用了 <code>unbuffered channel</code>，这会导致的问题是，如果代码因超时提前返回了，Goroutine 在获取到结果后，会阻塞在 <code>ch &lt;- obj</code> 这一行（因为没有其他的 Goroutine 来读取这个 <code>channle</code>），从而这个 Goroutine 无法退出，进而会发生 Goroutine 泄露。</p>
+<p>解决方法是使用一个长度为 1 的 <code>buffered channel</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">func doReq(timeout time.Duration) obj &#123;</span><br><span class="line">	ch := make(chan obj, 1)</span><br><span class="line">	go func() &#123;</span><br><span class="line">		obj := do()</span><br><span class="line">		ch &lt;- result</span><br><span class="line">	&#125; ()</span><br><span class="line">	select &#123;</span><br><span class="line">	case result = &lt;- ch :</span><br><span class="line">		return result</span><br><span class="line">	case&lt;- time.After(timeout):</span><br><span class="line">		return nil </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有一种修复方式是在 Goroutine 中使用一个 <code>select</code> 配合一个空的 <code>default</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">select &#123; </span><br><span class="line">case ch &lt;- result: </span><br><span class="line">default:</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>当没有其他 Goroutine 来读取这个 <code>channel</code> 时，会走到 <code>default</code> 行为，这个 Goroutine 也就可以正常退出了。</p>
+<h2 id="3-不使用接口"><a href="#3-不使用接口" class="headerlink" title="3. 不使用接口"></a>3. 不使用接口</h2><p>接口可以使代码更具灵活性，是在代码中引入多态的一种方法。接口允许我们关注一组行为而非特定类型。不使用接口不会有错误产生，但会让我们的代码看起来不那么优雅、不具有可扩展性。</p>
+<p>在众多接口中，<code>io.Reader</code> 和 <code>io.Writer</code> 可能是最受欢迎的一对。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">type Reader interface &#123;</span><br><span class="line">    Read(p []byte) (n int, err error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Writer interface &#123;</span><br><span class="line">    Write(p []byte) (n int, err error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这些接口非常强大， 假设我们需要将一个对象写入一个文件，可以这样定义一个 <code>Save</code> 方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func (o *obj) Save(file os.File) error</span><br></pre></td></tr></table></figure>
+<p>如果明天我们有需要将这个文件写入 <code>http.ResponseWriter</code> 呢？我们可不想重新定义一个新的方法，这时 <code>io.Writer</code> 就派上用场了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">func (o *obj) Save(w io.Writer) error</span><br></pre></td></tr></table></figure>
+<p>还需明白的一点是：我们应该只关心我们要使用的行为。在上边的例子中，使用 <code>io.ReadWriteCloser</code> 虽然也行得通，但如果我们只用到了 <code>Write</code> 方法，就不是特别好的实践了。<strong>接口面积越大，抽象能力越弱。</strong></p>
+<p>因此，在大部分情况下，我们应关注行为而不是具体类型。</p>
+<h2 id="4-struct-中未考虑字段声明顺序"><a href="#4-struct-中未考虑字段声明顺序" class="headerlink" title="4. struct 中未考虑字段声明顺序"></a>4. struct 中未考虑字段声明顺序</h2><p>下边的代码不会出现错误，但会有使用更多的内存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">type BadOrderedPerson struct &#123;</span><br><span class="line">	Veteran bool   // 1 byte</span><br><span class="line">	Name    string // 16 byte</span><br><span class="line">	Age     int32  // 4 byte</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边的 <code>struct</code> 看起来会分配 21 bytes 的内存，但实际上分配的是 32 bytes。出现这个情况原因是<a href="https://en.wikipedia.org/wiki/Data_structure_alignment" target="_blank" rel="noopener">数据结构对齐</a>。在 64 位架构中，内存以 8 bytes 为一个连续单元，改成下边的声明顺序可以优化到分配 24 bytes：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">type OrderedPerson struct &#123;</span><br><span class="line">	Name    string</span><br><span class="line">	Age     int32</span><br><span class="line">	Veteran bool</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在频繁使用不合理字段顺序的类型时，会导致额外的内存开销。</p>
+<p>不过，我们也不必手动计算和优化结构体内存，可以使用 <code>go tool</code> 提供的 <strong><a href="https://github.com/golang/tools" target="_blank" rel="noopener">fieldalignment</a></strong> 工具来检测并修复不合理的声明顺序。</p>
+<h3 id="fieldalignment-安装："><a href="#fieldalignment-安装：" class="headerlink" title="fieldalignment 安装："></a>fieldalignment 安装：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH</span><br><span class="line">git clone git@github.com:golang/tools.git src/golang.org/x/tools</span><br><span class="line">src/golang.org/x/tools/go/analysis/passes/fieldalignment/cmd/fieldalignment</span><br><span class="line">go install</span><br></pre></td></tr></table></figure>
+<h3 id="fieldalignment-使用"><a href="#fieldalignment-使用" class="headerlink" title="fieldalignment 使用"></a>fieldalignment 使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜ fieldalignment .</span><br><span class="line">/Users/jiapan/Projects/tantan-live-distribution/app/domain/recommend_service.go:179:30: struct of size 88 could be 80</span><br><span class="line">/Users/jiapan/Projects/tantan-live-distribution/app/domain/voice_recommend_service.go:63:35: struct with 40 pointer bytes could be 24</span><br><span class="line"></span><br><span class="line">// 修复字段顺序</span><br><span class="line">➜ fieldalignment -fix .</span><br></pre></td></tr></table></figure>
+<h2 id="5-test-时未使用-race-检测器"><a href="#5-test-时未使用-race-检测器" class="headerlink" title="5. test 时未使用 race 检测器"></a>5. test 时未使用 race 检测器</h2><p>数据竞争会导致一些很迷的问题，而且通常是在部署一段时间后才会发生。所以此类问题在并发系统中是最常见而且最难排查的 bug。为了更方便找出此类 bug，Go 1.1 中引入了一个内置的数据竞争检测器，只需加上 <code>-race</code> 标识就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ go test -race pkg    // to test the package</span><br><span class="line">$ go run -race pkg.go  // to run the source file</span><br><span class="line">$ go build -race       // to build the package</span><br><span class="line">$ go install -race pkg // to install the package</span><br></pre></td></tr></table></figure>
+<p>当开启竞争检测器时，编译器会记录代码对内存进行了何时、何种方式的访问，同时 <code>runtime</code> 监控共享变量的非同步访问。</p>
+<p>发现数据竞争时，竞争检测器会打印包含访问冲突的调用栈记录，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">WARNING: DATA RACE</span><br><span class="line">Read by goroutine 185:</span><br><span class="line">  net.(*pollServer).AddFD()</span><br><span class="line">      src/net/fd_unix.go:89 +0x398</span><br><span class="line">  net.(*pollServer).WaitWrite()</span><br><span class="line">      src/net/fd_unix.go:247 +0x45</span><br><span class="line">  net.(*netFD).Write()</span><br><span class="line">      src/net/fd_unix.go:540 +0x4d4</span><br><span class="line">  net.(*conn).Write()</span><br><span class="line">      src/net/net.go:129 +0x101</span><br><span class="line">  net.func·060()</span><br><span class="line">      src/net/timeout_test.go:603 +0xaf</span><br><span class="line">Previous write by goroutine 184:</span><br><span class="line">  net.setWriteDeadline()</span><br><span class="line">      src/net/sockopt_posix.go:135 +0xdf</span><br><span class="line">  net.setDeadline()</span><br><span class="line">      src/net/sockopt_posix.go:144 +0x9c</span><br><span class="line">  net.(*conn).SetDeadline()</span><br><span class="line">      src/net/net.go:161 +0xe3</span><br><span class="line">  net.func·061()</span><br><span class="line">      src/net/timeout_test.go:616 +0x3ed</span><br><span class="line">Goroutine 185 (running) created at:</span><br><span class="line">  net.func·061()</span><br><span class="line">      src/net/timeout_test.go:609 +0x288</span><br><span class="line">Goroutine 184 (running) created at:</span><br><span class="line">  net.TestProlongTimeout()</span><br><span class="line">      src/net/timeout_test.go:618 +0x298</span><br><span class="line">  testing.tRunner()</span><br><span class="line">      src/testing/testing.go:301 +0xe8</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>写在最后：人类从历史中学到的唯一教训，就是人类无法从历史中学到任何教训。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/编程陷阱/" rel="tag"># 编程陷阱</a>
+              <a href="/tags/并发/" rel="tag"># 并发</a>
+              <a href="/tags/Go/" rel="tag"># Go</a>
+              <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/struct-method-value-vs-pointer/" rel="prev" title="Go 结构体方法值传递与引用传递区别">
+      <i class="fa fa-chevron-left"></i> Go 结构体方法值传递与引用传递区别
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/git-submodule/" rel="next" title="git 子模块使用">
+      git 子模块使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-循环中"><span class="nav-number">1.</span> <span class="nav-text">1. 循环中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-对循环的变量进行引用"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 对循环的变量进行引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-在循环中调用-WaitGroup-Wait"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 在循环中调用 WaitGroup.Wait</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-在循环中使用-defer"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 在循环中使用 defer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-往-unbuffered-channel-中发送数据"><span class="nav-number">2.</span> <span class="nav-text">2. 往 unbuffered channel 中发送数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-不使用接口"><span class="nav-number">3.</span> <span class="nav-text">3. 不使用接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-struct-中未考虑字段声明顺序"><span class="nav-number">4.</span> <span class="nav-text">4. struct 中未考虑字段声明顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fieldalignment-安装："><span class="nav-number">4.1.</span> <span class="nav-text">fieldalignment 安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fieldalignment-使用"><span class="nav-number">4.2.</span> <span class="nav-text">fieldalignment 使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-test-时未使用-race-检测器"><span class="nav-number">5.</span> <span class="nav-text">5. test 时未使用 race 检测器</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

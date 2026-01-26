@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="我在去年和前年主导了公司两个产品后端的技术选型和整体架构，并分别尝试了两种源码组织模式：多仓库和单体仓库。对两种仓库的利弊也有了很大程度上的感受，基于这个前提对这两种模式做个总结。  阅读本文后你会明白：什么是单体仓库？为什么 Google 采用单体仓库？ 单体应用和微服务应用在介绍单体仓库和多仓库前，先来说说什么叫单体应用和微服务应用。 微服务相比单体应用最大的好处是可以独立的开发测试部署和">
+<meta name="keywords" content="微服务,版本控制,单体仓库,多仓库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单体仓库与多仓库——两种源码组织模式介绍">
+<meta property="og:url" content="https://jiapan.me/2020/multi-repo-vs-mono-repo/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="我在去年和前年主导了公司两个产品后端的技术选型和整体架构，并分别尝试了两种源码组织模式：多仓库和单体仓库。对两种仓库的利弊也有了很大程度上的感受，基于这个前提对这两种模式做个总结。  阅读本文后你会明白：什么是单体仓库？为什么 Google 采用单体仓库？ 单体应用和微服务应用在介绍单体仓库和多仓库前，先来说说什么叫单体应用和微服务应用。 微服务相比单体应用最大的好处是可以独立的开发测试部署和">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2020/multi-repo-vs-mono-repo/1.jpeg">
+<meta property="og:image" content="https://jiapan.me/2020/multi-repo-vs-mono-repo/2.jpg">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.113Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单体仓库与多仓库——两种源码组织模式介绍">
+<meta name="twitter:description" content="我在去年和前年主导了公司两个产品后端的技术选型和整体架构，并分别尝试了两种源码组织模式：多仓库和单体仓库。对两种仓库的利弊也有了很大程度上的感受，基于这个前提对这两种模式做个总结。  阅读本文后你会明白：什么是单体仓库？为什么 Google 采用单体仓库？ 单体应用和微服务应用在介绍单体仓库和多仓库前，先来说说什么叫单体应用和微服务应用。 微服务相比单体应用最大的好处是可以独立的开发测试部署和">
+<meta name="twitter:image" content="https://jiapan.me/2020/multi-repo-vs-mono-repo/1.jpeg">
+
+<link rel="canonical" href="https://jiapan.me/2020/multi-repo-vs-mono-repo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>单体仓库与多仓库——两种源码组织模式介绍 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2020/multi-repo-vs-mono-repo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单体仓库与多仓库——两种源码组织模式介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-12 12:18:57" itemprop="dateCreated datePublished" datetime="2020-01-12T12:18:57+08:00">2020-01-12</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/multi-repo-vs-mono-repo/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/multi-repo-vs-mono-repo/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="1.jpeg" alt=""></p>
+<blockquote>
+<p>我在去年和前年主导了公司两个产品后端的技术选型和整体架构，并分别尝试了两种源码组织模式：多仓库和单体仓库。对两种仓库的利弊也有了很大程度上的感受，基于这个前提对这两种模式做个总结。</p>
+</blockquote>
+<p>阅读本文后你会明白：什么是单体仓库？为什么 Google 采用单体仓库？</p>
+<h2 id="单体应用和微服务应用"><a href="#单体应用和微服务应用" class="headerlink" title="单体应用和微服务应用"></a>单体应用和微服务应用</h2><p>在介绍单体仓库和多仓库前，先来说说什么叫单体应用和微服务应用。</p>
+<p>微服务相比单体应用最大的好处是可以独立的开发测试部署和扩展。单体应用一般采用单体仓库，但是微服务的代码仓库该如何组织呢？一定是每个服务一个仓库吗？</p>
+<p>其实也不一定，针对微服务的代码组织，业界有两种主要的实践，一种是多仓库（<code>multi-repo</code>）也就是每个服务开一个源码仓库，另一种叫单体仓库（<code>mono-repo</code>）所有源码都在同一个仓库中，尽管整个应用采用的微服务架构。</p>
+<p><img src="2.jpg" alt=""></p>
+<h2 id="多仓库"><a href="#多仓库" class="headerlink" title="多仓库"></a>多仓库</h2><p>单体仓库和多仓库都是有利有弊的。</p>
+<h3 id="多仓库的好处是显而易见的："><a href="#多仓库的好处是显而易见的：" class="headerlink" title="多仓库的好处是显而易见的："></a>多仓库的好处是显而易见的：</h3><ol>
+<li>每一个服务都有一个独立的仓库，职责单一。</li>
+<li>代码量和复杂性受控，服务由不同的团队独立维护、边界清晰。</li>
+<li>单个服务也易于自治开发测试部署和扩展，不需要集中管理集中协调。</li>
+</ol>
+<h3 id="多仓库存在的问题："><a href="#多仓库存在的问题：" class="headerlink" title="多仓库存在的问题："></a>多仓库存在的问题：</h3><ol>
+<li>项目代码不容易规范。每个团队容易各自为政，随意引入依赖，code review 无法集中开展，代码风格各不相同。</li>
+<li>项目集成和部署会比较麻烦。虽然每个项目服务易于集成和部署，但是整个应用集成和部署的时候由于仓库分散就需要集中的管理和协调。</li>
+<li>开发人员缺乏对整个项目的整体认知。开发人员一般只关心自己的服务代码，看不到项目整体，造成缺乏对项目整体架构和业务目标整体性的理解。</li>
+<li>项目间冗余代码多。每个服务一个服务一个仓库，势必造成团队在开发的时候走捷径，不断地重复造轮子而不是去优先重用其他团队开发的代码。</li>
+</ol>
+<h2 id="单体仓库"><a href="#单体仓库" class="headerlink" title="单体仓库"></a>单体仓库</h2><p>单体仓库可以解决部分上边提到的问题。</p>
+<h3 id="单体仓库的好处："><a href="#单体仓库的好处：" class="headerlink" title="单体仓库的好处："></a>单体仓库的好处：</h3><ol>
+<li>易于规范代码。所有的代码在一个仓库当中就可以标准化依赖管理，集中开展 code review，规范化代码的风格。</li>
+<li>易于集成和部署。所有的代码在一个仓库里面，配合自动化构建工具，可以做到一键构建、一键部署，一般不需要特别的集中管理和协调。</li>
+<li>易于理解项目整体。开发人员可以把整个项目加载到本地的 IDE 当中，进行 code review，也可以直接在本地部署调试，方便开发人员把握整体的技术架构和业务目标。</li>
+<li>易于重用。所有的代码都在一个仓库中，开发人员开发的时候比较容易发现和重用已有的代码，而不是去重复造轮子，开发人员（通过 IDE 的支持）容易对现有代码进行重构，可以抽取出一些公共的功能进一步提升代码的质量和复用度。</li>
+</ol>
+<p>在工业界，世界上采用单体仓库管理源码的公司并不少，如 Google、Facebook、Twitter 这些互联网巨头，包括通过去年B站泄露的源码也可以看出，B站也是用的单体仓库进行的管理。虽然这些公司系统庞大、服务众多，内部研发团队人数众多，但是依然采用了单体仓库并且都很成功。</p>
+<p>单体仓库也是有弊端的，随着公司业务团队规模的变大，单一的代码库会变得越来越庞大复杂性也呈极度的上升，所以这些互联网巨头之所以能够玩转单体仓库，一般都有独立的代码管理和集成团队进行支持，也有配套的自动化构建工具来支持，如 Google 自研的面向单体仓库的构建工具 Bazel：<a href="https://bazel.build/" target="_blank" rel="noopener">https://bazel.build/</a> 和 Facebook 的 Buck：<a href="https://buck.build/" target="_blank" rel="noopener">https://buck.build/</a>。</p>
+<p>初创公司在早期服务不是特别多的情况下，采用单体仓库比较合适。</p>
+<p>##总结：</p>
+<p>微服务架构并不是主张所有的东西都要独立自治，至少代码仓库就可以集中管理，而且这也是业界的最佳实践之一。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/微服务/" rel="tag"># 微服务</a>
+              <a href="/tags/版本控制/" rel="tag"># 版本控制</a>
+              <a href="/tags/单体仓库/" rel="tag"># 单体仓库</a>
+              <a href="/tags/多仓库/" rel="tag"># 多仓库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/flag-2019/" rel="prev" title="2019 Flags">
+      <i class="fa fa-chevron-left"></i> 2019 Flags
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/actors-and-csp-introduce/" rel="next" title="Actors 和 CSP 并发模型介绍">
+      Actors 和 CSP 并发模型介绍 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单体应用和微服务应用"><span class="nav-number">1.</span> <span class="nav-text">单体应用和微服务应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多仓库"><span class="nav-number">2.</span> <span class="nav-text">多仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多仓库的好处是显而易见的："><span class="nav-number">2.1.</span> <span class="nav-text">多仓库的好处是显而易见的：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多仓库存在的问题："><span class="nav-number">2.2.</span> <span class="nav-text">多仓库存在的问题：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单体仓库"><span class="nav-number">3.</span> <span class="nav-text">单体仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单体仓库的好处："><span class="nav-number">3.1.</span> <span class="nav-text">单体仓库的好处：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

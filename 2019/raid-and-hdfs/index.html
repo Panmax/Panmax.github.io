@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks），简称磁盘阵列，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RAID 介绍，为什么不推荐为 HDFS 配置 RAID？">
+<meta property="og:url" content="https://jiapan.me/2019/raid-and-hdfs/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks），简称磁盘阵列，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2019/raid-and-hdfs/raid0.png">
+<meta property="og:image" content="https://jiapan.me/2019/raid-and-hdfs/raid1.png">
+<meta property="og:image" content="https://jiapan.me/2019/raid-and-hdfs/raid10.png">
+<meta property="og:image" content="https://jiapan.me/2019/raid-and-hdfs/raid3.png">
+<meta property="og:image" content="https://jiapan.me/2019/raid-and-hdfs/raid5.png">
+<meta property="og:image" content="https://jiapan.me/2019/raid-and-hdfs/raid6.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.542Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RAID 介绍，为什么不推荐为 HDFS 配置 RAID？">
+<meta name="twitter:description" content="RAID开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？ 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks），简称磁盘阵列，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。 简单来说，RAID 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实">
+<meta name="twitter:image" content="https://jiapan.me/2019/raid-and-hdfs/raid0.png">
+
+<link rel="canonical" href="https://jiapan.me/2019/raid-and-hdfs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>RAID 介绍，为什么不推荐为 HDFS 配置 RAID？ | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2019/raid-and-hdfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RAID 介绍，为什么不推荐为 HDFS 配置 RAID？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-09 16:48:57" itemprop="dateCreated datePublished" datetime="2019-11-09T16:48:57+08:00">2019-11-09</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/raid-and-hdfs/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/raid-and-hdfs/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="RAID"><a href="#RAID" class="headerlink" title="RAID"></a>RAID</h2><p>开始前先来思考一个问题，如果一个文件的大小超过了一块磁盘的大小，该如何存储？</p>
+<p><strong>独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks）</strong>，简称磁盘阵列，利用虚拟化存储技术把多个磁盘组合起来，成为一个或多个磁盘阵列组，目的为提升性能或数据冗余，或是两者同时提升。</p>
+<p>简单来说，<code>RAID</code> 把多个磁盘组合成为一个逻辑磁盘，因此，操作系统只会把它当作一个实体磁盘。</p>
+<h2 id="常见-RAID-等级"><a href="#常见-RAID-等级" class="headerlink" title="常见 RAID 等级"></a>常见 RAID 等级</h2><h3 id="RAID-0"><a href="#RAID-0" class="headerlink" title="RAID 0"></a><code>RAID 0</code></h3><p><img src="raid0.png" alt=""></p>
+<p>假设服务器有 N 块磁盘，<code>RAID 0</code> 是数据在从内存缓冲区写入磁盘时，根据磁盘数量将数据分成 N 份，这些数据同时并发写入 N 块磁盘，使得数据整体写入速度是一块磁盘的 N 倍；读取的时候也一样，所以在所有的级别中，<code>RAID 0</code> 的速度是最快的</p>
+<p>但是 <code>RAID 0</code> 不做数据备份，N 块磁盘中只要有一块损坏，数据完整性就被破坏，其他磁盘的数据也都无法使用了。</p>
+<h3 id="RAID-1"><a href="#RAID-1" class="headerlink" title="RAID 1"></a><code>RAID 1</code></h3><p><img src="raid1.png" alt=""></p>
+<p><code>RAID 1</code> 是数据在写入磁盘时，将一份数据同时写入两块磁盘，这样任何一块磁盘损坏都不会导致数据丢失，插入一块新磁盘就可以通过复制数据的方式自动修复，具有极高的可靠性，<code>RAID 1</code> 的数据安全性在所有的 <code>RAID</code> 级别上来说是最好的。但无论用多少磁盘做 <code>RAID 1</code>，仅算一个磁盘的容量，是所有 <code>RAID</code> 中磁盘利用率最低的一个级别。</p>
+<p><code>RAID 1</code> 在一些多线程操作系统中能有很好的读取速度，理论上<strong>读取速度</strong>等于磁盘数量的倍数，与 <code>RAID 0</code> 相同。写入速度有微小的降低。</p>
+<h3 id="RAID-10"><a href="#RAID-10" class="headerlink" title="RAID 10"></a><code>RAID 10</code></h3><p><img src="raid10.png" alt=""></p>
+<p>结合 <code>RAID 0</code> 和 <code>RAID 1</code> 两种方案构成了 <code>RAID 10</code>，它是将所有磁盘 N 平均分成两份，数据同时在两份磁盘写入，相当于 <code>RAID 1</code>；但是平分成两份，在每一份磁盘（也就是 N/2 块磁盘）里面，利用 <code>RAID 0</code> 技术并发读写，这样既提高可靠性又改善性能。不过 <code>RAID 10</code> 的磁盘利用率较低，有一半的磁盘用来写备份数据。</p>
+<h3 id="RAID-3"><a href="#RAID-3" class="headerlink" title="RAID 3"></a><code>RAID 3</code></h3><p><img src="raid3.png" alt=""></p>
+<p>RAID 3 可以在数据写入磁盘的时候，将数据分成 N-1 份，并发写入 N-1 块磁盘，并在第 N 块磁盘记录校验数据，这样任何一块磁盘损坏（包括校验数据磁盘），都可以利用其他 N-1 块磁盘的数据修复。</p>
+<p>由于数据内的比特分散在不同的磁盘上，因此就算要读取一小段数据资料都可能需要所有的磁盘进行工作，所以这种规格比较适于读取大量数据时使用。</p>
+<p>在数据修改较多的场景中，任何磁盘数据的修改，都会导致第 N 块磁盘重写校验数据。频繁写入的后果是第 N 块磁盘比其他磁盘更容易损坏，需要频繁更换，所以 <code>RAID 3</code> 很少在实践中使用。</p>
+<h3 id="RAID-5"><a href="#RAID-5" class="headerlink" title="RAID 5"></a><code>RAID 5</code></h3><p><img src="raid5.png" alt=""></p>
+<p>相比 <code>RAID 3</code>，<code>RAID 5</code> 是使用更多的方案。<code>RAID 5</code> 和 <code>RAID 3</code> 很相似，但是校验数据不是写入第 N 块磁盘，而是螺旋式地写入所有磁盘中。这样校验数据的修改也被平均到所有磁盘上，避免 <code>RAID 3</code> 频繁写坏一块磁盘的情况。</p>
+<p><code>RAID 5</code> 至少需要三块磁盘，<code>RAID 5</code> 不是对存储的数据进行备份，而是把数据和相对应的奇偶校验信息存储到组成 <code>RAID 5</code> 的各个磁盘上，并且奇偶校验信息和相对应的数据分别存储于不同的磁盘上。当 <code>RAID 5</code> 的一个磁盘数据发生损坏后，可以利用剩下的数据和相应的奇偶校验信息去恢复被损坏的数据。<code>RAID 5</code> 可以理解为是 <code>RAID 0</code> 和 <code>RAID 1</code> 的折衷方案。</p>
+<h3 id="RAID-6"><a href="#RAID-6" class="headerlink" title="RAID 6"></a><code>RAID 6</code></h3><p><img src="raid6.png" alt=""></p>
+<p>如果数据需要很高的可靠性，在出现同时损坏两块磁盘的情况下（或者运维管理水平比较落后，坏了一块磁盘但是迟迟没有更换，导致又坏了一块磁盘），仍然需要修复数据，这时候可以使用 <code>RAID 6</code>。</p>
+<p>与 <code>RAID 5</code> 相比 <code>RAID 6</code> 增加第二个独立的奇偶校验信息块。两个独立的奇偶系统使用不同的算法，数据的可靠性非常高，任意两块磁盘同时失效时不会影响数据完整性。</p>
+<h2 id="各种-RAID-技术比较"><a href="#各种-RAID-技术比较" class="headerlink" title="各种 RAID 技术比较"></a>各种 RAID 技术比较</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">RAID类型</th>
+<th style="text-align:center">访问速度</th>
+<th style="text-align:center">数据可靠性</th>
+<th style="text-align:center">磁盘利用率</th>
+<th style="text-align:center">目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">RAID 0</td>
+<td style="text-align:center">很快</td>
+<td style="text-align:center">很低</td>
+<td style="text-align:center">100%</td>
+<td style="text-align:center">追求最大容量、速度</td>
+</tr>
+<tr>
+<td style="text-align:center">RAID 1</td>
+<td style="text-align:center">很慢</td>
+<td style="text-align:center">很高</td>
+<td style="text-align:center">50%</td>
+<td style="text-align:center">追求最大安全性</td>
+</tr>
+<tr>
+<td style="text-align:center">RAID 10</td>
+<td style="text-align:center">中等</td>
+<td style="text-align:center">很高</td>
+<td style="text-align:center">50%</td>
+<td style="text-align:center">总和 RAID 0/1 优点，理论速度较快</td>
+</tr>
+<tr>
+<td style="text-align:center">RAID 5</td>
+<td style="text-align:center">较快</td>
+<td style="text-align:center">很高</td>
+<td style="text-align:center">(N-1)/N</td>
+<td style="text-align:center">追求最大容量、最小预算</td>
+</tr>
+<tr>
+<td style="text-align:center">RAID 6</td>
+<td style="text-align:center">较快</td>
+<td style="text-align:center">较 RAID 5 高</td>
+<td style="text-align:center">(N-2)/N</td>
+<td style="text-align:center">同 RAID 5，但更安全</td>
+</tr>
+</tbody>
+</table>
+<h2 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h2><p><code>RAID</code> 可以看作是一种垂直伸缩，一台计算机集成更多的磁盘实现数据更大规模、更安全可靠的存储以及更快的访问速度。而 <code>HDFS</code> 则是水平伸缩，通过添加更多的服务器实现数据更大、更快、更安全存储与访问。</p>
+<p><code>Hadoop</code> 分布式文件系统 <code>HDFS</code> 的设计目标是管理数以千计的服务器、数以万计的磁盘，将这么大规模的服务器计算资源当作一个单一的存储系统进行管理，对应用程序提供数以 <code>PB</code> 计的存储容量，让应用程序像使用普通文件系统一样存储大规模的文件数据。</p>
+<h3 id="为什么不推荐为-HDFS-配置-RAID？"><a href="#为什么不推荐为-HDFS-配置-RAID？" class="headerlink" title="为什么不推荐为 HDFS 配置 RAID？"></a>为什么不推荐为 HDFS 配置 RAID？</h3><p><code>HDFS</code> 已经为同一个文件保留了多个副本，如果磁盘发生故障 <code>HDFS</code> 可以将其恢复。<code>HDFS</code> 同样可以一次从多个节点（DataNode）读取数据，如果使用 <code>RAID 1</code>，将浪费更多的存储空间，如果使用 <code>RAID 0</code>，产生失败的可能性会提升 N 倍（N = 磁盘数量）。使用 <code>RAID 5/6</code> 的话，读写速度将受到影响，也更昂贵。</p>
+<p>不过由于 <code>NameNode</code> 在 <code>HDFS</code> 中容易出现单点故障，因此需要更可靠的硬件配置，所以建议在 <code>NameNode</code> 上使用 <code>RAID</code>。</p>
+<h3 id="其他说明"><a href="#其他说明" class="headerlink" title="其他说明"></a>其他说明</h3><p>在一些 Master 处理节点上，如：Hive 的 <code>MetaStore</code>，也推荐使用 <code>RAID</code>。同时建议为所有的系统盘配置 <code>RAID</code>，你不会希望仅仅因为系统盘故障而导致节点故障。</p>
+<p>对于 ElasticSearch，其本身也提供了很好的 <code>HA</code> 机制，同样无需使用 <code>RAID</code>。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>回到开头的那个问题，我的回答是：</p>
+<ul>
+<li>单机时代：<code>RAID</code></li>
+<li>分布式时代：分布式文件系统</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/8-ridiculous-distributed-assumptions/" rel="prev" title="8 条荒谬的分布式假设">
+      <i class="fa fa-chevron-left"></i> 8 条荒谬的分布式假设
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/stop-using-post-increment-in-your-loops/" rel="next" title="停止在你的循环中使用 i++">
+      停止在你的循环中使用 i++ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RAID"><span class="nav-number">1.</span> <span class="nav-text">RAID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见-RAID-等级"><span class="nav-number">2.</span> <span class="nav-text">常见 RAID 等级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-0"><span class="nav-number">2.1.</span> <span class="nav-text">RAID 0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-1"><span class="nav-number">2.2.</span> <span class="nav-text">RAID 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-10"><span class="nav-number">2.3.</span> <span class="nav-text">RAID 10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-3"><span class="nav-number">2.4.</span> <span class="nav-text">RAID 3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-5"><span class="nav-number">2.5.</span> <span class="nav-text">RAID 5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-6"><span class="nav-number">2.6.</span> <span class="nav-text">RAID 6</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各种-RAID-技术比较"><span class="nav-number">3.</span> <span class="nav-text">各种 RAID 技术比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS"><span class="nav-number">4.</span> <span class="nav-text">HDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么不推荐为-HDFS-配置-RAID？"><span class="nav-number">4.1.</span> <span class="nav-text">为什么不推荐为 HDFS 配置 RAID？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他说明"><span class="nav-number">4.2.</span> <span class="nav-text">其他说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

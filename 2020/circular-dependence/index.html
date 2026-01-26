@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="代码中存在的循环依赖问题跟代码的维护工作有很大关系，也是日常开发中经常会碰到的一个问题。    任何系统在开发了一段时间之后随着业务功能和代码数量的不断增加，代码之间的调用与被调用关系也会变得越来越复杂，各个类和组件之间就会存在出乎开发人员想象的复杂关系。 一种常见的复杂关系为类与类之间的循环依赖关系。   所谓循环依赖，简单来说就是一个类A会引用类B中的方法，而反过来类B也会引用类A中的方">
+<meta name="keywords" content="循环依赖,代码重构,设计模式,软件架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何解决代码中存在的循环依赖问题">
+<meta property="og:url" content="https://jiapan.me/2020/circular-dependence/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="代码中存在的循环依赖问题跟代码的维护工作有很大关系，也是日常开发中经常会碰到的一个问题。    任何系统在开发了一段时间之后随着业务功能和代码数量的不断增加，代码之间的调用与被调用关系也会变得越来越复杂，各个类和组件之间就会存在出乎开发人员想象的复杂关系。 一种常见的复杂关系为类与类之间的循环依赖关系。   所谓循环依赖，简单来说就是一个类A会引用类B中的方法，而反过来类B也会引用类A中的方">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/0.jpg">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/1.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/2.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/3.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/4.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/5.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/6.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/11.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/7.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/12.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/8.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/9.png">
+<meta property="og:image" content="https://jiapan.me/2020/circular-dependence/13.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.324Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何解决代码中存在的循环依赖问题">
+<meta name="twitter:description" content="代码中存在的循环依赖问题跟代码的维护工作有很大关系，也是日常开发中经常会碰到的一个问题。    任何系统在开发了一段时间之后随着业务功能和代码数量的不断增加，代码之间的调用与被调用关系也会变得越来越复杂，各个类和组件之间就会存在出乎开发人员想象的复杂关系。 一种常见的复杂关系为类与类之间的循环依赖关系。   所谓循环依赖，简单来说就是一个类A会引用类B中的方法，而反过来类B也会引用类A中的方">
+<meta name="twitter:image" content="https://jiapan.me/2020/circular-dependence/0.jpg">
+
+<link rel="canonical" href="https://jiapan.me/2020/circular-dependence/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>如何解决代码中存在的循环依赖问题 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2020/circular-dependence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何解决代码中存在的循环依赖问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-22 13:58:11" itemprop="dateCreated datePublished" datetime="2020-06-22T13:58:11+08:00">2020-06-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/circular-dependence/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/circular-dependence/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div style="width:70%;margin:auto"><img src="0.jpg" alt=""></div>
+
+<blockquote>
+<p>代码中存在的循环依赖问题跟代码的维护工作有很大关系，也是日常开发中经常会碰到的一个问题。</p>
+</blockquote>
+<div style="width:70%;margin:auto"><img src="1.png" alt=""></div>
+
+<p>任何系统在开发了一段时间之后随着业务功能和代码数量的不断增加，代码之间的调用与被调用关系也会变得越来越复杂，各个类和组件之间就会存在出乎开发人员想象的复杂关系。</p>
+<p>一种常见的复杂关系为类与类之间的循环依赖关系。</p>
+<div style="width:70%;margin:auto"><img src="2.png" alt=""></div>
+
+<p>所谓循环依赖，简单来说就是一个类A会引用类B中的方法，而反过来类B也会引用类A中的方法，这就导致两者之间有了一种相互引用的关系，从而形成循环依赖。</p>
+<p><strong>合理的系统架构</strong>以及<strong>持续的重构优化</strong>工作能够减轻这种复杂关系，但是如果有效识别系统中存在的循环依赖，仍然是开发人员面临的一个很大的挑战。主要原因在于类之间的循环依赖存在<strong>传递性</strong>。</p>
+<p>举个例子：如果系统中只存在类A和类B，那么他们之间的依赖关系就非常容易识别。</p>
+<div style="width:70%;margin:auto"><img src="3.png" alt=""></div>
+
+<p>如果再来一个类C，那么这三个类之间的组合就有很多种情况了。</p>
+<div style="width:70%;margin:auto"><img src="4.png" alt=""></div>
+
+<p>如果一个系统中存在几十个类，那么他们之间的依赖关系就很难通过简单的关系图进行逐一列举。一般的系统中类的数量显然不止几十个。更宽泛地讲，<strong>类之间的这种循环依赖关系也可以扩展到组件级别</strong>。产生组件之间的循环依赖的原因在于：组件1中的类A与组件2中的类B之间存在循环依赖，从而导致组件与组件之间产生了循环依赖关系。</p>
+<div style="width:70%;margin:auto"><img src="5.png" alt=""></div>
+
+<p>在软件设计领域有一条公认的设计原则：<strong>无环依赖原则</strong>。</p>
+<p>无环依赖原则：在组件之间不应该存在循环依赖关系。通过将系统划分为不同的可发布组件，对某一个组件的修改所产生的影响，可以不扩展到其他组件。</p>
+<p>所谓的无环依赖指的是在包的依赖关系中不允许存在环，也就是说包之间的依赖关系必须是一个直接的无环图。</p>
+<p>下面我们通过一个具体的代码示例，介绍一下组件之间循环依赖的产生过程。也是在为本文要介绍的如何消除循环依赖做好准备工作。</p>
+<p>现在我们正在开发一款健康管理类APP，每个用户都有一份自己的健康档案，档案中记录着用户当前的<strong>健康等级</strong>，以及一系列可以让用户更加健康的任务列表（如：忌烟酒、慢跑）。用户<strong>当前的等级</strong>是和用户所需要完成的<strong>任务列表</strong>挂钩的，任务列表越多，说明越不健康，对应的健康等级也就越低（最低为1、最高为3）。</p>
+<p>用户可以通过完成APP所指定的任务来获取一定的积分，这个积分的计算过程取决于这个用户当前的健康等级。也就是说不同的等级之下同一个任务所产生的积分也是不一样的。而每个任务也有自己的初始积分，每个任务最终所能得到的积分算法为 <code>12 / &lt;当前的等级&gt; + &lt;任务初始积分&gt;</code>，健康等级越低，做任务所能得到的积分也就越高，这样可以鼓励用户多做任务。</p>
+<p>背景就介绍到这里，对于这个常见我们可以抽象出两个类：一个是代表档案的 <code>HealthRecord</code> 类、另一个是代表健康任务的 <code>HealthTask</code> 类。</p>
+<div style="width:70%;margin:auto"><img src="6.png" alt=""></div>
+
+<p>其中 <code>HealthRecord</code> 类中提供了一个获取健康等级的方法 <code>getHealthLevel()</code> 来计算健康等级，同时也提供了添加任务的方法 <code>addTask()</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class HealthRecord &#123;</span><br><span class="line"></span><br><span class="line">    private List&lt;HealthTask&gt; tasks = new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public Integer getHealthLevel() &#123;</span><br><span class="line">        if (tasks.size() &gt; 5) &#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        if (tasks.size() &lt; 2) &#123;</span><br><span class="line">            return 3;</span><br><span class="line">        &#125;</span><br><span class="line">        return 2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void addTask(String taskName, Integer initialHealthPoint) &#123;</span><br><span class="line">        HealthTask task = new HealthTask(this, taskName, initialHealthPoint);</span><br><span class="line">        tasks.add(task);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;HealthTask&gt; getTasks() &#123;</span><br><span class="line">        return tasks;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的 <code>HealthTask</code> 中，显然应该包含对 <code>HealthRecord</code> 的引用，同时也实现了计算任务积分的方法 <code>calculateHealthPointForTask()</code>，<code>calculateHealthPointForTask()</code> 方法中用到了 <code>HealthRecord</code> 中的健康等级信息 <code>getHealthLevel()</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public class HealthTask &#123;</span><br><span class="line"></span><br><span class="line">    private HealthRecord record;</span><br><span class="line"></span><br><span class="line">    private String taskName;</span><br><span class="line"></span><br><span class="line">    private Integer initialHealthPoint;</span><br><span class="line"></span><br><span class="line">    public HealthTask(HealthRecord record, String taskName, Integer initialHealthPoint) &#123;</span><br><span class="line">        this.record = record;</span><br><span class="line">        this.taskName = taskName;</span><br><span class="line">        this.initialHealthPoint = initialHealthPoint;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer calculateHealthPointForTask() &#123;</span><br><span class="line">        Integer healthPointFromHealthLevel = 12 / record.getHealthLevel();</span><br><span class="line"></span><br><span class="line">        return initialHealthPoint + healthPointFromHealthLevel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getTaskName() &#123;</span><br><span class="line">        return taskName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getInitialHealthPoint() &#123;</span><br><span class="line">        return initialHealthPoint;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不难看出，<code>HealthRecord</code> 和 <code>HealthTask</code> 之间存在明显的相互依赖关系。</p>
+<p>我们可以使用 IDEA 自带的 Analyze Dependency Matrix 对包含 <code>HealthRecord</code> 和 <code>HealthTask</code> 类的包进行分析，得出系统中存在循环依赖代码的提示。</p>
+<div style="width:70%;margin:auto"><img src="11.png" alt=""></div>
+
+<p>Analyze Dependency Matrix 的使用细节可以参考官方文档：<a href="https://www.jetbrains.com/help/idea/dsm-analysis.html" target="_blank" rel="noopener">https://www.jetbrains.com/help/idea/dsm-analysis.html</a>，这里我们只关心是否存在循环依赖，也就是那个红色的框框。</p>
+<p>通过上边的例子，我们了解了如何有效识别代码中存在循环依赖的问题，下边再来看看如何消除代码中的循环依赖。</p>
+<p>软件行业有一句非常经典的话：「<strong>当我们在碰到一个问题无从下手时，不妨考虑一下是否可以通过加一层的方法来解决</strong>」。消除循环依赖的基本思路也是一样的，有三种常见的方法：提取中介者、转移业务逻辑、采用回调接口。</p>
+<h3 id="提取中介者"><a href="#提取中介者" class="headerlink" title="提取中介者"></a>提取中介者</h3><p>提取中介者方法也被称为<strong>关系上移</strong>，其核心思想就是<strong>把两个相互依赖的组件中的交互部分抽象出来形成一个新的组件</strong>，而这个新的组件包含着原有两个组件的引用，这样就把循环依赖关系剥离出来，并提取到一个专门的中介者的组件中。</p>
+<div style="width:70%;margin:auto"><img src="7.png" alt=""></div>
+
+<p>这个中介者组件的实现也不难，可以通过提供一个计算积分的方法对循环依赖进行剥离，这个方法同时依赖 <code>HealthRecord</code> 和 <code>HealthTask</code> 对象，并实现了原有 <code>HealthTask</code> 中根据 <code>HealthRecord</code> 的健康等级信息计算积分的业务逻辑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class HealthPointMediator &#123;</span><br><span class="line"> </span><br><span class="line">    private HealthRecord record;</span><br><span class="line"> </span><br><span class="line">    public HealthPointMediator(HealthRecord record) &#123;</span><br><span class="line">        this.record = record;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public Integer calculateHealthPointForTask(HealthTask task) &#123;</span><br><span class="line">        Integer healthPointFromHealthLevel = 12 / record.getHealthLevel();</span><br><span class="line">        return task.getInitialHealthPoint() + healthPointFromHealthLevel;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到上边的 <code>calculateHealthPointForTask()</code> 方法中，我们从 <code>HealthRecord</code> 中获取了等级，然后再从传入的 <code>HealthTask</code> 中获取初始积分，从而完成了对整个积分的计算过程，这个时候的<code>HealthTask</code> 就变得非常简单了，因为已经不包含任何有关 <code>HealthRecord</code> 的依赖。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class HealthTask &#123;</span><br><span class="line"></span><br><span class="line">    private String taskName;</span><br><span class="line"></span><br><span class="line">    private Integer initialHealthPoint;</span><br><span class="line"></span><br><span class="line">    public HealthTask(String taskName, Integer initialHealthPoint) &#123;</span><br><span class="line">        this.taskName = taskName;</span><br><span class="line">        this.initialHealthPoint = initialHealthPoint;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getTaskName() &#123;</span><br><span class="line">        return taskName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getInitialHealthPoint() &#123;</span><br><span class="line">        return initialHealthPoint;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下边针对「提取中介者」这种消除循环依赖的实现方法来编写一个测试用例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class HealthPointTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HealthRecord record = new HealthRecord();</span><br><span class="line">        record.addTask(&quot;忌烟酒&quot;, 5);</span><br><span class="line">        record.addTask(&quot;每周跑步3次&quot;, 4);</span><br><span class="line">        record.addTask(&quot;每天喝2升水&quot;, 4);</span><br><span class="line">        record.addTask(&quot;晚上10点按时睡觉&quot;, 3);</span><br><span class="line">        record.addTask(&quot;晚上8点后不再吃东西&quot;, 1);</span><br><span class="line"></span><br><span class="line">        HealthPointMediator mediator = new HealthPointMediator(record);</span><br><span class="line"></span><br><span class="line">        for (HealthTask task : record.getTasks()) &#123;</span><br><span class="line">            System.out.println(mediator.calculateHealthPointForTask(task));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>HealthRecord</code> 中我们创建了 5 个 <code>HealthTask</code>，并赋予了不同的初始积分。然后通过 <code>HealthPointMediator</code> 这个中间者分别对每个 <code>Task</code> 进行积分计算。最后我们再次使用 Analyze Dependency Matrix 分析下当前的代码是否有循环依赖。</p>
+<div style="width:70%;margin:auto"><img src="12.png" alt=""></div>
+
+<p>可以发现这次代码中已经不存在任何的环了。</p>
+<h3 id="转移业务逻辑"><a href="#转移业务逻辑" class="headerlink" title="转移业务逻辑"></a>转移业务逻辑</h3><p>转移业务逻辑也被称为<strong>关系下移</strong>，其实现思路在于<strong>提取一个专门的业务组件</strong> <code>HealthLevelHandler</code> 来完成对健康等级的计算过程，<code>HealthTask</code> 原有的对 <code>HealthRecord</code> 的依赖，就转移到了对 <code>HealthLevelHandler</code> 的依赖，而 <code>HealthLevelHandler</code> 本身是不需要依赖任何业务对象的。</p>
+<div style="width:70%;margin:auto"><img src="8.png" alt=""></div>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class HealthLevelHandler &#123;</span><br><span class="line"></span><br><span class="line">    private Integer taskCount;</span><br><span class="line"></span><br><span class="line">    public HealthLevelHandler(Integer taskCount) &#123;</span><br><span class="line">        this.taskCount = taskCount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getHealthLevel() &#123;</span><br><span class="line">        if (taskCount &gt; 5) &#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        if (taskCount &lt; 2) &#123;</span><br><span class="line">            return 3;</span><br><span class="line">        &#125;</span><br><span class="line">        return 2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HealthLevelHandler</code> 的实现也不难，包含了对等级的计算过程，具体到这里就是实现 <code>getHealthLevel()</code> 方法，随着业务组件的提取，<code>HealthRecord</code> 需要做相应的改造，<code>getHealthPointHandler</code> 就封装了对 <code>HealthLevelHandler</code> 的创建过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class HealthRecord &#123;</span><br><span class="line"></span><br><span class="line">    private List&lt;HealthTask&gt; tasks = new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public HealthLevelHandler getHealthLevelHandler() &#123;</span><br><span class="line">        return new HealthLevelHandler(tasks.size());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void addTask(String taskName, Integer initialHealthPoint) &#123;</span><br><span class="line">        HealthTask task = new HealthTask(taskName, initialHealthPoint);</span><br><span class="line">        tasks.add(task);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;HealthTask&gt; getTasks() &#123;</span><br><span class="line">        return tasks;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的 <code>HealthTask</code> 也需要进行改造：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class HealthTask &#123;</span><br><span class="line"> </span><br><span class="line">    private String taskName;</span><br><span class="line"> </span><br><span class="line">    private Integer initialHealthPoint;</span><br><span class="line"> </span><br><span class="line">    public HealthTask(String taskName, Integer initialHealthPoint) &#123;</span><br><span class="line">        this.taskName = taskName;</span><br><span class="line">        this.initialHealthPoint = initialHealthPoint;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public Integer calculateHealthPointForTask(HealthLevelHandler handler) &#123;</span><br><span class="line">        Integer healthPointFromHealthLevel = 12 / handler.getHealthLevel();</span><br><span class="line"> </span><br><span class="line">        return initialHealthPoint + healthPointFromHealthLevel;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public String getTaskName() &#123;</span><br><span class="line">        return taskName;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public Integer getInitialHealthPoint() &#123;</span><br><span class="line">        return initialHealthPoint;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>calculateHealthPointForTask()</code> 方法中，传入一个 <code>HealthLevelHandler</code>  来获取等级，然后根据获取的等级计算最终的积分。</p>
+<p>最后我们对测试类进行改造：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class HealthPointTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HealthRecord record = new HealthRecord();</span><br><span class="line">        record.addTask(&quot;忌烟酒&quot;, 5);</span><br><span class="line">        record.addTask(&quot;每周跑步3次&quot;, 4);</span><br><span class="line">        record.addTask(&quot;每天喝2升水&quot;, 4);</span><br><span class="line">        record.addTask(&quot;晚上10点按时睡觉&quot;, 3);</span><br><span class="line">        record.addTask(&quot;晚上8点后不再吃东西&quot;, 1);</span><br><span class="line"></span><br><span class="line">        HealthLevelHandler handler = record.getHealthPointHandler();</span><br><span class="line"></span><br><span class="line">        for (HealthTask task : record.getTasks()) &#123;</span><br><span class="line">            System.out.println(task.calculateHealthPointForTask(handler));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在 <code>HealthTask</code> 和 <code>HealthRecord</code>  都已经只剩下对 <code>HealthLevelHandler</code> 的依赖了。</p>
+<h3 id="采用回调接口"><a href="#采用回调接口" class="headerlink" title="采用回调接口"></a>采用回调接口</h3><p>所谓的回调本质上就是一种双向的调用关系，也就是说被调用方在调用别人的同时也会被别人所调用。</p>
+<p>我们可以提取一个用于计算健康等级的业务接口（<code>HealthLevelHandler</code>），然后让 <code>HealthRecord</code> 去实现这个接口，<code>HealthTask</code> 在计算积分的时候只需要依赖这个业务接口而不需要关心这个接口的具体实现类。</p>
+<div style="width:70%;margin:auto"><img src="9.png" alt=""></div>
+
+<p>我们同样将这个接口命名为 <code>HealthLevelHandler</code>，包含一个计算健康等级的方法定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface HealthLevelHandler &#123;</span><br><span class="line"></span><br><span class="line">    Integer getHealthLevel();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这个接口，<code>HealthTask</code> 就再不存在对 <code>HealthRecord</code> 的依赖，而是在构造函数中注入 <code>Handler</code> 接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public class HealthTask &#123;</span><br><span class="line"></span><br><span class="line">    private String taskName;</span><br><span class="line"></span><br><span class="line">    private Integer initialHealthPoint;</span><br><span class="line"></span><br><span class="line">    private HealthLevelHandler handler;</span><br><span class="line"></span><br><span class="line">    public HealthTask(String taskName, Integer initialHealthPoint, HealthLevelHandler handler) &#123;</span><br><span class="line">        this.taskName = taskName;</span><br><span class="line">        this.initialHealthPoint = initialHealthPoint;</span><br><span class="line">        this.handler = handler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer calculateHealthPointForTask() &#123;</span><br><span class="line">        Integer healthPointFromHealthLevel = 12 / handler.getHealthLevel();</span><br><span class="line"></span><br><span class="line">        return initialHealthPoint + healthPointFromHealthLevel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getTaskName() &#123;</span><br><span class="line">        return taskName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Integer getInitialHealthPoint() &#123;</span><br><span class="line">        return initialHealthPoint;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里的 <code>calculateHealthPointForTask()</code> 方法中，我们也只会使用 <code>Handler</code> 接口所提供的方法来获取所需的健康等级，并计算积分。</p>
+<p>现在的 <code>HealthRecord</code> 需要实现 <code>HealLevelHandler</code> 接口，并提供计算健康等级的具体业务逻辑：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class HealthRecord implements HealthLevelHandler &#123;</span><br><span class="line"></span><br><span class="line">    private List&lt;HealthTask&gt; tasks = new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Integer getHealthLevel() &#123;</span><br><span class="line">        if (tasks.size() &gt; 5) &#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        if (tasks.size() &lt; 2) &#123;</span><br><span class="line">            return 3;</span><br><span class="line">        &#125;</span><br><span class="line">        return 2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void addTask(String taskName, Integer initialHealthPoint) &#123;</span><br><span class="line">        HealthTask task = new HealthTask(taskName, initialHealthPoint, this);</span><br><span class="line">        tasks.add(task);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;HealthTask&gt; getTasks() &#123;</span><br><span class="line">        return tasks;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>addTask()</code> 方法中，当创建 <code>HealthTask</code> 时，<code>HealthRecord</code> 需要把自己作为一个参数传入到 <code>HealthTask</code> 的构造函数中，这样我们就通过回调方法完成了对系统的改造。</p>
+<p>采用回调方法，测试用例的代码业务变得更加简洁：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class HealthPointTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        HealthRecord record = new HealthRecord();</span><br><span class="line">        record.addTask(&quot;忌烟酒&quot;, 5);</span><br><span class="line">        record.addTask(&quot;每周跑步3次&quot;, 4);</span><br><span class="line">        record.addTask(&quot;每天喝2升水&quot;, 4);</span><br><span class="line">        record.addTask(&quot;晚上10点按时睡觉&quot;, 3);</span><br><span class="line">        record.addTask(&quot;晚上8点后不再吃东西&quot;, 1);</span><br><span class="line"></span><br><span class="line">        for (HealthTask task : record.getTasks()) &#123;</span><br><span class="line">            System.out.println(task.calculateHealthPointForTask());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们没有发现除了 <code>HealthRecord</code> 和 <code>HealthTask</code> 之外的任何第三方对象，同样也可以使用 Analyze Dependency Matrix 来验证当前系统中是否存在循环依赖关系。</p>
+<p>最后我放一张整体分析结果，从上到下依次为：回调接口、不采用任何措施、提取中介者、转移业务逻辑。</p>
+<div style="width:70%;margin:auto"><img src="13.png" alt=""></div>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对于处理循环依赖问题而言，难点在于当识别了系统中存在循环依赖场景时如何采用一种合适的方法对代码进行重构。在日常开发过程中，有三种常见的消除循环依赖的方法，可以根据场景进行灵活的应用。</p>
+<p>一般而言<strong>回调方法是优先推荐</strong>的，因为它将依赖关系抽象成了接口：一来方便后续的扩展，二来从测试用例中也可以看出这种方式不需要改变系统的使用过程。</p>
+<p>在无法改变现有类的内存结构时，也就是说无法为现有类添加新的接口实现关系时，可采<strong>取提取中介者</strong>和<strong>转移业务逻辑</strong>这两种实现方式。其中提取中介者的方法相对比较固定，结构上与设计模式的中介者模式也比较类似。而转移业务逻辑需要根据具体的场景进行分析，具有最大的灵活性。</p>
+<p>本文中的示例代码见：<a href="https://github.com/Panmax/CircularDependenceExample" target="_blank" rel="noopener">https://github.com/Panmax/CircularDependenceExample</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/循环依赖/" rel="tag"># 循环依赖</a>
+              <a href="/tags/代码重构/" rel="tag"># 代码重构</a>
+              <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+              <a href="/tags/软件架构/" rel="tag"># 软件架构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/Strongly-type-interface-based-on-Feign/" rel="prev" title="基于 Feign 实现强类型接口">
+      <i class="fa fa-chevron-left"></i> 基于 Feign 实现强类型接口
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/nginx-too-many-open-files/" rel="next" title="解决 CentOS 7 下 Nginx 报 Too many open files">
+      解决 CentOS 7 下 Nginx 报 Too many open files <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#提取中介者"><span class="nav-number">1.</span> <span class="nav-text">提取中介者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转移业务逻辑"><span class="nav-number">2.</span> <span class="nav-text">转移业务逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#采用回调接口"><span class="nav-number">3.</span> <span class="nav-text">采用回调接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

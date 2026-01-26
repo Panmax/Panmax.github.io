@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="本文只讨论请求进入数据中心后的负载均衡方案，DNS 负载均衡不在讨论范围内。 负载均衡（Load Balancing）定义：调度后方的多台机器，以统一的接口对外提供服务，承担此职责的技术组件。 总体来说负载均衡只有两种：  四层负载均衡 七层负载均衡  四层负载均衡的优势是性能高，七层负载均衡的优势是功能强。 “四层”的来历：“四层负载均衡”其实是多种均衡器工作模式的统称，“四层”的意思是说这些工">
+<meta name="keywords" content="负载均衡,网络架构,四层负载均衡,七层负载均衡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="负载均衡方案介绍">
+<meta property="og:url" content="https://jiapan.me/2022/load-balancing/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="本文只讨论请求进入数据中心后的负载均衡方案，DNS 负载均衡不在讨论范围内。 负载均衡（Load Balancing）定义：调度后方的多台机器，以统一的接口对外提供服务，承担此职责的技术组件。 总体来说负载均衡只有两种：  四层负载均衡 七层负载均衡  四层负载均衡的优势是性能高，七层负载均衡的优势是功能强。 “四层”的来历：“四层负载均衡”其实是多种均衡器工作模式的统称，“四层”的意思是说这些工">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/load-balancing/20220208191529.png">
+<meta property="og:image" content="https://jiapan.me/2022/load-balancing/20220208185001.png">
+<meta property="og:image" content="https://jiapan.me/2022/load-balancing/20220208185159.png">
+<meta property="og:image" content="https://jiapan.me/2022/load-balancing/20220208183959.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="负载均衡方案介绍">
+<meta name="twitter:description" content="本文只讨论请求进入数据中心后的负载均衡方案，DNS 负载均衡不在讨论范围内。 负载均衡（Load Balancing）定义：调度后方的多台机器，以统一的接口对外提供服务，承担此职责的技术组件。 总体来说负载均衡只有两种：  四层负载均衡 七层负载均衡  四层负载均衡的优势是性能高，七层负载均衡的优势是功能强。 “四层”的来历：“四层负载均衡”其实是多种均衡器工作模式的统称，“四层”的意思是说这些工">
+<meta name="twitter:image" content="https://jiapan.me/2022/load-balancing/20220208191529.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/load-balancing/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>负载均衡方案介绍 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/load-balancing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          负载均衡方案介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-02-08 19:20:25" itemprop="dateCreated datePublished" datetime="2022-02-08T19:20:25+08:00">2022-02-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/load-balancing/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/load-balancing/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文只讨论请求进入数据中心后的负载均衡方案，DNS 负载均衡不在讨论范围内。</p>
+<p>负载均衡（Load Balancing）定义：调度后方的多台机器，以统一的接口对外提供服务，承担此职责的技术组件。</p>
+<p>总体来说负载均衡只有两种：</p>
+<ul>
+<li>四层负载均衡</li>
+<li>七层负载均衡</li>
+</ul>
+<p>四层负载均衡的优势是性能高，七层负载均衡的优势是功能强。</p>
+<p><strong>“四层”的来历</strong>：“四层负载均衡”其实是多种均衡器工作模式的统称，“四层”的意思是说这些工作模式的共同特点是<strong>维持着同一个 TCP 连接</strong>，而不是说它只工作在第四层，如：</p>
+<ul>
+<li>通过改写  MAC 实现的负载均衡（又叫数据链路层负载）工作在二层</li>
+<li>通过改写  IP 实现的负载均衡（又叫网络层负载均衡）工作在三层</li>
+</ul>
+<p>出于习惯和方便，现在几乎所有的资料都把它们统称为四层负载均衡。</p>
+<p>如果在某些资料上看见“二层负载均衡”、“三层负载均衡”的表述，描述就是它们工作的层次。</p>
+<p>对于一些大的网站，一般会采用 DNS+四层负载+七层负载的方式进行多层次负载均衡。</p>
+<h2 id="四层负载均衡"><a href="#四层负载均衡" class="headerlink" title="四层负载均衡"></a>四层负载均衡</h2><h3 id="数据链路层负载均衡"><a href="#数据链路层负载均衡" class="headerlink" title="数据链路层负载均衡"></a>数据链路层负载均衡</h3><p>数据链路层负载均衡所做的工作，是修改请求的数据帧中的 MAC 目标地址，让用户原本是发送给负载均衡器的请求的数据帧，被二层交换机根据新的 MAC 目标地址转发到服务器集群中对应的服务器的网卡上，这样真实服务器就获得了一个原本目标并不是发送给它的数据帧。</p>
+<p>负载均衡服务器和集群内的真实服务器配置相同的<a href="https://en.wikipedia.org/wiki/Virtual_IP_address" target="_blank" rel="noopener">虚拟 IP 地址</a>（Virtual IP Address，VIP），也就是说，在网络通信的 IP 层面，负载均衡服务器变更 MAC 地址的操作是透明的，不影响 TCP/IP 的通信连接。所以真实的搜索服务器处理完搜索请求，发送应答响应的时候，就会直接发送回请求的客户端，不会再经过负载均衡服务器，避免负载均衡器网卡带宽成为瓶颈，因此数据链路层的负载均衡效率是相当高的。</p>
+<p><img src="20220208191529.png" alt="Pasted image 20220208191529.png"></p>
+<p>只有请求经过负载均衡器，而服务的响应无须从负载均衡器原路返回的工作模式，整个请求、转发、响应的链路形成一个“三角关系”，所以这种负载均衡模式也常被很形象地称为 <strong>“三角传输模式”（Direct Server Return，DSR）</strong>，也有叫“单臂模式”（Single Legged Mode）或者“直接路由”（Direct Routing）。</p>
+<p>二层负载均衡器直接改写目标 MAC 地址的工作原理决定了它与真实的服务器的通信必须是二层可达的，通俗地说就是必须位于同一个子网当中，无法跨 VLAN。</p>
+<p>数据链路层负载均衡最适合用来做数据中心的第一级均衡设备，用来连接其他的下级负载均衡器。</p>
+<h3 id="网络层负载均衡"><a href="#网络层负载均衡" class="headerlink" title="网络层负载均衡"></a>网络层负载均衡</h3><p>我们可以沿用与二层改写 MAC 地址相似的思路，通过改变数据包里面的 IP 地址来实现数据包的转发。</p>
+<p>有两种常见的修改方式。</p>
+<h4 id="IP-隧道"><a href="#IP-隧道" class="headerlink" title="IP 隧道"></a>IP 隧道</h4><p>保持原来的数据包不变，新创建一个数据包，把原来数据包的 Headers 和 Payload 整体作为另一个新的数据包的 Payload，在这个新数据包的 Headers 中写入真实服务器的 IP 作为目标地址，然后把它发送出去。</p>
+<p>设计者给这种“套娃式”的传输起名叫做“<a href="https://en.wikipedia.org/wiki/IP_tunnel" target="_blank" rel="noopener">IP 隧道</a>”（IP Tunnel）传输。</p>
+<p>IP 隧道的转发模式仍然具备三角传输的特性，即负载均衡器转发来的请求，可以由真实服务器去直接应答，无须在经过均衡器原路返回。</p>
+<p>IP 隧道工作在网络层，所以可以跨越 VLAN，因此摆脱了直接路由模式中网络侧的约束。</p>
+<p><img src="20220208185001.png" alt="Pasted image 20220208185001.png"><br>IP 隧道的缺点：</p>
+<ol>
+<li>要求真实服务器必须支持“<a href="https://en.wikipedia.org/wiki/Encapsulation_(networking" target="_blank" rel="noopener">IP 隧道协议</a>)”（IP Encapsulation），就是它得学会自己拆包扔掉一层 Headers（现在几乎所有的 Linux 系统都支持 IP 隧道协议）。</li>
+<li>这种模式仍必须通过专门的配置，必须保证所有的真实服务器与均衡器有着相同的虚拟 IP 地址，因为回复该数据包时，需要使用这个虚拟 IP 作为响应数据包的源地址，这样客户端收到这个数据包时才能正确解析。</li>
+</ol>
+<h4 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h4><p>NAT（Network Address Translation） 模式通过改变目标数据包：直接把数据包 Headers 中的目标地址改掉，修改后原本由用户发给均衡器的数据包，也会被三层交换机转发送到真实服务器的网卡上。</p>
+<p>NAT 模式需要让应答流量先回到负载均衡，由负载均衡把应答包的源 IP 改回自己的 IP，再发给客户端，这样才能保证客户端与真实服务器之间的正常通信。在流量压力比较大的时候，NAT 模式的负载均衡会带来较大的性能损失，比起直接路由和 IP 隧道模式，甚至会出现数量级上的下降，此时整个系统的瓶颈很容易就出现在负载均衡器上。</p>
+<p><img src="20220208185159.png" alt="Pasted image 20220208185159.png"></p>
+<h2 id="七层负载均衡"><a href="#七层负载均衡" class="headerlink" title="七层负载均衡"></a>七层负载均衡</h2><h3 id="应用层负载均衡"><a href="#应用层负载均衡" class="headerlink" title="应用层负载均衡"></a>应用层负载均衡</h3><p>工作在四层之后的负载均衡模式就无法再进行转发了，只能进行代理，此时真实服务器、负载均衡器、客户端三者之间由两条独立的 TCP 通道来维持通信。</p>
+<p><img src="20220208183959.png" alt="Pasted image 20220208183959.png"><br>我们先对代理做个简单介绍，根据“哪一方能感知到”的原则，可以分为“正向代理”、“反向代理”和“透明代理”三类。</p>
+<ul>
+<li>正向代理就是我们通常简称的代理，指在客户端设置的、代表客户端与服务器通信的代理服务，它是客户端可知，而对服务器透明的。</li>
+<li>反向代理是指在设置在服务器这一侧，代表真实服务器来与客户端通信的代理服务，此时它对客户端来说是透明的。</li>
+<li>透明代理是指对双方都透明的，配置在网络中间设备上的代理服务，譬如，架设在路由器上的透明翻墙代理。</li>
+</ul>
+<p><strong>七层负载均衡器它就属于反向代理中的一种。</strong></p>
+<p>言归正传，七层均衡器工作在应用层，可以感知应用层通信的具体内容，往往能够做出更明智的决策，玩出更多的花样来。</p>
+<p>列举了一些七层代理可以实现的功能：</p>
+<ul>
+<li>CDN 可以做的缓存方面的工作，如：静态资源缓存、协议升级、安全防护、访问控制</li>
+<li>智能路由</li>
+<li>抵御安全攻击</li>
+<li>微服务链路治理</li>
+</ul>
+<p>参考：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/Courage129/p/14333019.html" target="_blank" rel="noopener">https://www.cnblogs.com/Courage129/p/14333019.html</a></li>
+<li><a href="http://icyfenix.cn/architect-perspective/general-architecture/diversion-system/load-balancing.html#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1" target="_blank" rel="noopener">http://icyfenix.cn/architect-perspective/general-architecture/diversion-system/load-balancing.html#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1</a></li>
+<li><a href="https://time.geekbang.org/column/article/169545" target="_blank" rel="noopener">https://time.geekbang.org/column/article/169545</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/负载均衡/" rel="tag"># 负载均衡</a>
+              <a href="/tags/网络架构/" rel="tag"># 网络架构</a>
+              <a href="/tags/四层负载均衡/" rel="tag"># 四层负载均衡</a>
+              <a href="/tags/七层负载均衡/" rel="tag"># 七层负载均衡</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/lose-sleep-in-2022/" rel="prev" title="2022年第一次彻夜失眠">
+      <i class="fa fa-chevron-left"></i> 2022年第一次彻夜失眠
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/sublime-replace-multi/" rel="next" title="sublime 实现多处文本替换">
+      sublime 实现多处文本替换 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#四层负载均衡"><span class="nav-number">1.</span> <span class="nav-text">四层负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据链路层负载均衡"><span class="nav-number">1.1.</span> <span class="nav-text">数据链路层负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络层负载均衡"><span class="nav-number">1.2.</span> <span class="nav-text">网络层负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IP-隧道"><span class="nav-number">1.2.1.</span> <span class="nav-text">IP 隧道</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NAT"><span class="nav-number">1.2.2.</span> <span class="nav-text">NAT</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七层负载均衡"><span class="nav-number">2.</span> <span class="nav-text">七层负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用层负载均衡"><span class="nav-number">2.1.</span> <span class="nav-text">应用层负载均衡</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="新公司使用的Java技术栈，我们有部分新业务需要调用 OpenAI 的接口进行交互，之前我找了一个比较轻量的SDK来调用OpenAI的接口，地址是：https://github.com/Lambdua/openai4j ，这个库作为日常使用足够了，但是一些高阶能力无法满足，而这些也是我们未来会用到的，比如：  对接微软 Azure 上部署的 GPT 模型 Function Calling RAG">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决低版本SpringBoot使用langchain4j Azure 冲突问题">
+<meta property="og:url" content="https://jiapan.me/2024/springboot-azure-openai/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="新公司使用的Java技术栈，我们有部分新业务需要调用 OpenAI 的接口进行交互，之前我找了一个比较轻量的SDK来调用OpenAI的接口，地址是：https://github.com/Lambdua/openai4j ，这个库作为日常使用足够了，但是一些高阶能力无法满足，而这些也是我们未来会用到的，比如：  对接微软 Azure 上部署的 GPT 模型 Function Calling RAG">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决低版本SpringBoot使用langchain4j Azure 冲突问题">
+<meta name="twitter:description" content="新公司使用的Java技术栈，我们有部分新业务需要调用 OpenAI 的接口进行交互，之前我找了一个比较轻量的SDK来调用OpenAI的接口，地址是：https://github.com/Lambdua/openai4j ，这个库作为日常使用足够了，但是一些高阶能力无法满足，而这些也是我们未来会用到的，比如：  对接微软 Azure 上部署的 GPT 模型 Function Calling RAG">
+
+<link rel="canonical" href="https://jiapan.me/2024/springboot-azure-openai/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>解决低版本SpringBoot使用langchain4j Azure 冲突问题 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2024/springboot-azure-openai/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          解决低版本SpringBoot使用langchain4j Azure 冲突问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-06-26 18:04:31" itemprop="dateCreated datePublished" datetime="2024-06-26T18:04:31+08:00">2024-06-26</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2024/springboot-azure-openai/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/springboot-azure-openai/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>新公司使用的Java技术栈，我们有部分新业务需要调用 OpenAI 的接口进行交互，之前我找了一个比较轻量的SDK来调用OpenAI的接口，地址是：<a href="https://github.com/Lambdua/openai4j" target="_blank" rel="noopener">https://github.com/Lambdua/openai4j</a> ，这个库作为日常使用足够了，但是一些高阶能力无法满足，而这些也是我们未来会用到的，比如：</p>
+<ul>
+<li>对接微软 Azure 上部署的 GPT 模型</li>
+<li>Function Calling</li>
+<li>RAG</li>
+</ul>
+<p>把第一版功能完成后，这几天工作不是那么多，于是我从Github上找到了这个库<a href="https://github.com/langchain4j/langchain4j" target="_blank" rel="noopener">https://github.com/langchain4j/langchain4j</a> ，从名字就能看出来，这个项目是参考的 Python 的LangChain，Java 库的命名很有意思，很喜欢叫 xxxx4j，4j 的意思是 for Java，比如 log4j。</p>
+<p>我大致看了一下介绍，功能还算完备，给出的demo来看使用方式上可读性也很高，更重要的一点是支持古老的Java8。于是我在项目中进行了引入，将已有代码进行了改造，在跑直接调用 OpenAI 的例子时很顺利，当我切换为 Azure 后问题出现了，报错堆栈如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread <span class="string">"main"</span> java.lang.NoClassDefFoundError: reactor/core/Disposable</span><br><span class="line">	at java.lang.ClassLoader.defineClass1(Native Method)</span><br><span class="line">	at java.lang.ClassLoader.defineClass(ClassLoader.java:<span class="number">756</span>)</span><br><span class="line">	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:<span class="number">142</span>)</span><br><span class="line">	at java.net.URLClassLoader.defineClass(URLClassLoader.java:<span class="number">473</span>)</span><br><span class="line">	at java.net.URLClassLoader.access$<span class="number">100</span>(URLClassLoader.java:<span class="number">74</span>)</span><br><span class="line">	at java.net.URLClassLoader$<span class="number">1</span>.run(URLClassLoader.java:<span class="number">369</span>)</span><br><span class="line">	at java.net.URLClassLoader$<span class="number">1</span>.run(URLClassLoader.java:<span class="number">363</span>)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at java.net.URLClassLoader.findClass(URLClassLoader.java:<span class="number">362</span>)</span><br><span class="line">	at java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">418</span>)</span><br><span class="line">	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:<span class="number">352</span>)</span><br><span class="line">	at java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">351</span>)</span><br><span class="line">	at com.azure.core.http.netty.NettyAsyncHttpClientProvider.createInstance(NettyAsyncHttpClientProvider.java:<span class="number">81</span>)</span><br><span class="line">	at dev.langchain4j.model.azure.InternalAzureOpenAiHelper.setupOpenAIClientBuilder(InternalAzureOpenAiHelper.java:<span class="number">71</span>)</span><br><span class="line">	at dev.langchain4j.model.azure.InternalAzureOpenAiHelper.setupSyncClient(InternalAzureOpenAiHelper.java:<span class="number">51</span>)</span><br><span class="line">	at dev.langchain4j.model.azure.AzureOpenAiChatModel.&lt;init&gt;(AzureOpenAiChatModel.java:<span class="number">123</span>)</span><br><span class="line">	at dev.langchain4j.model.azure.AzureOpenAiChatModel$Builder.build(AzureOpenAiChatModel.java:<span class="number">536</span>)</span><br></pre></td></tr></table></figure>
+<p>我按照堆栈的引导，一步一步去看代码，发现是在创建 HttpClient 对象时挂了，我进到 <code>ConnectionProvider</code> 源码中查看，确实找不到上边说的 <code>Disposable</code> 类，这个类来自 <code>reactor-core</code> 包。通过IDE跳转进的路径看到，目前项目中所使用的 <code>reactor-core</code> 版本是 2.0.8.RELEASE，我找到最新 3.6.7 版本的 <code>reactor-core</code> 源码看了下是有<code>Disposable</code> 这个类的。</p>
+<p>一开始我认为是 langchain4j 的这个项目有问题，去 Github 的 Issue 中搜了下并没有相关的提问，于是我自己开始尝试动手解决，尝试了以下几种方式都不行：</p>
+<ol>
+<li>直接在项目中引入最新版本的 <code>reactor-core</code></li>
+<li>排除（exclusions） <code>langchain4j-azure-open-ai</code> 下的 <code>reactor-core</code> 依赖，保证我自己引入的最新版本生效</li>
+<li>引入 <code>reactor-netty-core</code> 的最新版</li>
+<li>引入全部 <code>langchain4j</code> 的依赖</li>
+<li>重启IDE</li>
+<li>重启电脑</li>
+</ol>
+<p>在做上边的第2步时，启动调试后可以看到，IDE在进入<code>ConnectionProvider</code> 后确实可以正常跳转进<code>Disposable</code> 了，但最终还是报错。通过依赖分析也没有发现和 <code>reactor</code> 的任何冲突，一直搞到晚上下班也没解决。</p>
+<p>今天早上上班后我换了个思路来排查这个项目，创建了一个新项目，只引入 <code>langchain4j</code> 的依赖，可以正常执行，接下来我把我们项目中其他依赖项引进来，发现还是没问题，当我把 parent 引入后问题出现了。虽然 parent 的 pom 文件在远端，但IDEA提供了一个功能，可以修改本地的文件来进行调试，我用二分法删除 parent 中的依赖，最终将问题定位在了：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring.boot.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>parent 中 <code>spring.boot.version</code> 的值是 <code>1.5.7.RELEASE</code> ，我在上上家公司写Java时就有这个版本了，是个非常老的版本，但升级 SpringBoot 关联的问题会更多。我继续深入进去看，在 <code>spring-boot-dependencies</code> 的 pom 文件中 <code>properties</code> 指定了<code>reactor.version</code> 为 <strong>2.0.8.RELEASE</strong>，这下破案了。之前我无法通过依赖分析找到冲突，也是因为依赖是在 parent 指定的，且这个依赖版本无法在后续进行修改。</p>
+<p>有种覆盖 parent 版本号的方式是在自己项目的父 pom 中的<code>dependencyManagement</code> 下进行声明，我尝试在 <code>dependencyManagement</code> 加上如下片段：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.projectreactor<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>reactor-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.6.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此时报了另一个错误：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">java.lang.VerifyError: <span class="class"><span class="keyword">class</span> <span class="title">io</span>.<span class="title">netty</span>.<span class="title">channel</span>.<span class="title">kqueue</span>.<span class="title">AbstractKQueueChannel</span>$<span class="title">AbstractKQueueUnsafe</span> <span class="title">overrides</span> <span class="title">final</span> <span class="title">method</span> <span class="title">close</span>.(<span class="title">Lio</span>/<span class="title">netty</span>/<span class="title">channel</span>/<span class="title">ChannelPromise</span></span>;)V</span><br><span class="line"></span><br><span class="line">	at java.lang.ClassLoader.defineClass1(Native Method)</span><br><span class="line">	at java.lang.ClassLoader.defineClass(ClassLoader.java:<span class="number">756</span>)</span><br><span class="line">	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:<span class="number">142</span>)</span><br><span class="line">	at java.net.URLClassLoader.defineClass(URLClassLoader.java:<span class="number">473</span>)</span><br><span class="line">	at java.net.URLClassLoader.access$<span class="number">100</span>(URLClassLoader.java:<span class="number">74</span>)</span><br><span class="line">	at java.net.URLClassLoader$<span class="number">1</span>.run(URLClassLoader.java:<span class="number">369</span>)</span><br><span class="line">	at java.net.URLClassLoader$<span class="number">1</span>.run(URLClassLoader.java:<span class="number">363</span>)</span><br><span class="line">	at java.security.AccessController.doPrivileged(Native Method)</span><br><span class="line">	at java.net.URLClassLoader.findClass(URLClassLoader.java:<span class="number">362</span>)</span><br><span class="line">	at java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">418</span>)</span><br><span class="line">	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:<span class="number">352</span>)</span><br><span class="line">	at java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">351</span>)</span><br><span class="line">	at reactor.netty.resources.DefaultLoopKQueue.getChannel(DefaultLoopKQueue.java:<span class="number">50</span>)</span><br><span class="line">	at reactor.netty.resources.LoopResources.onChannel(LoopResources.java:<span class="number">243</span>)</span><br><span class="line">	at reactor.netty.tcp.TcpResources.onChannel(TcpResources.java:<span class="number">251</span>)</span><br><span class="line">	at reactor.netty.transport.TransportConfig.lambda$connectionFactory$<span class="number">1</span>(TransportConfig.java:<span class="number">277</span>)</span><br><span class="line">	at reactor.netty.transport.TransportConnector.doInitAndRegister(TransportConnector.java:<span class="number">277</span>)</span><br><span class="line">	at reactor.netty.transport.TransportConnector.connect(TransportConnector.java:<span class="number">164</span>)</span><br><span class="line">	at reactor.netty.transport.TransportConnector.connect(TransportConnector.java:<span class="number">123</span>)</span><br><span class="line">	at reactor.netty.resources.DefaultPooledConnectionProvider$PooledConnectionAllocator.lambda$connectChannel$<span class="number">0</span>(DefaultPooledConnectionProvider.java:<span class="number">519</span>)</span><br><span class="line">	at reactor.core.publisher.MonoCreate.subscribe(MonoCreate.java:<span class="number">61</span>)</span><br><span class="line">	at reactor.core.publisher.Mono.subscribe(Mono.java:<span class="number">4568</span>)</span><br><span class="line">	at reactor.core.publisher.Mono.subscribeWith(Mono.java:<span class="number">4634</span>)</span><br><span class="line">	at reactor.core.publisher.Mono.subscribe(Mono.java:<span class="number">4534</span>)</span><br><span class="line">	at reactor.core.publisher.Mono.subscribe(Mono.java:<span class="number">4470</span>)</span><br><span class="line">	at reactor.netty.internal.shaded.reactor.pool.SimpleDequePool.drainLoop(SimpleDequePool.java:<span class="number">437</span>)</span><br><span class="line">	at reactor.netty.internal.shaded.reactor.pool.SimpleDequePool.pendingOffer(SimpleDequePool.java:<span class="number">600</span>)</span><br><span class="line">	at reactor.netty.internal.shaded.reactor.pool.SimpleDequePool.doAcquire(SimpleDequePool.java:<span class="number">296</span>)</span><br><span class="line">	at reactor.netty.internal.shaded.reactor.pool.AbstractPool$Borrower.request(AbstractPool.java:<span class="number">430</span>)</span><br><span class="line">	at reactor.netty.resources.DefaultPooledConnectionProvider$DisposableAcquire.onSubscribe(DefaultPooledConnectionProvider.java:<span class="number">204</span>)</span><br><span class="line">	at reactor.netty.internal.shaded.reactor.pool.SimpleDequePool$QueueBorrowerMono.subscribe(SimpleDequePool.java:<span class="number">720</span>)</span><br><span class="line">	at reactor.netty.resources.PooledConnectionProvider.lambda$acquire$<span class="number">2</span>(PooledConnectionProvider.java:<span class="number">170</span>)</span><br><span class="line">	at reactor.core.publisher.MonoCreate.subscribe(MonoCreate.java:<span class="number">61</span>)</span><br><span class="line">	at reactor.netty.http.client.HttpClientConnect$MonoHttpConnect.lambda$subscribe$<span class="number">0</span>(HttpClientConnect.java:<span class="number">273</span>)</span><br><span class="line">	at reactor.core.publisher.MonoCreate.subscribe(MonoCreate.java:<span class="number">61</span>)</span><br><span class="line">	at reactor.core.publisher.FluxRetryWhen.subscribe(FluxRetryWhen.java:<span class="number">81</span>)</span><br><span class="line">	at reactor.core.publisher.MonoRetryWhen.subscribeOrReturn(MonoRetryWhen.java:<span class="number">46</span>)</span><br><span class="line">	at reactor.core.publisher.InternalMonoOperator.subscribe(InternalMonoOperator.java:<span class="number">63</span>)</span><br><span class="line">	at reactor.netty.http.client.HttpClientConnect$MonoHttpConnect.subscribe(HttpClientConnect.java:<span class="number">276</span>)</span><br><span class="line">	at reactor.core.publisher.Mono.subscribe(Mono.java:<span class="number">4568</span>)</span><br><span class="line">	at reactor.core.publisher.Mono.block(Mono.java:<span class="number">1778</span>)</span><br><span class="line">	at com.azure.core.http.netty.NettyAsyncHttpClient.sendSync(NettyAsyncHttpClient.java:<span class="number">199</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">51</span>)</span><br><span class="line">	at com.azure.core.http.policy.HttpLoggingPolicy.processSync(HttpLoggingPolicy.java:<span class="number">183</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.implementation.http.policy.InstrumentationPolicy.processSync(InstrumentationPolicy.java:<span class="number">101</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.policy.KeyCredentialPolicy.processSync(KeyCredentialPolicy.java:<span class="number">115</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.policy.CookiePolicy.processSync(CookiePolicy.java:<span class="number">73</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.policy.AddDatePolicy.processSync(AddDatePolicy.java:<span class="number">50</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.policy.RetryPolicy.attemptSync(RetryPolicy.java:<span class="number">211</span>)</span><br><span class="line">	at com.azure.core.http.policy.RetryPolicy.processSync(RetryPolicy.java:<span class="number">161</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.policy.AddHeadersPolicy.processSync(AddHeadersPolicy.java:<span class="number">66</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.policy.AddHeadersFromContextPolicy.processSync(AddHeadersFromContextPolicy.java:<span class="number">67</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.policy.RequestIdPolicy.processSync(RequestIdPolicy.java:<span class="number">77</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.policy.HttpPipelineSyncPolicy.processSync(HttpPipelineSyncPolicy.java:<span class="number">51</span>)</span><br><span class="line">	at com.azure.core.http.policy.UserAgentPolicy.processSync(UserAgentPolicy.java:<span class="number">174</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipelineNextSyncPolicy.processSync(HttpPipelineNextSyncPolicy.java:<span class="number">53</span>)</span><br><span class="line">	at com.azure.core.http.HttpPipeline.sendSync(HttpPipeline.java:<span class="number">138</span>)</span><br><span class="line">	at com.azure.core.implementation.http.rest.SyncRestProxy.send(SyncRestProxy.java:<span class="number">62</span>)</span><br><span class="line">	at com.azure.core.implementation.http.rest.SyncRestProxy.invoke(SyncRestProxy.java:<span class="number">83</span>)</span><br><span class="line">	at com.azure.core.implementation.http.rest.RestProxyBase.invoke(RestProxyBase.java:<span class="number">124</span>)</span><br><span class="line">	at com.azure.core.http.rest.RestProxy.invoke(RestProxy.java:<span class="number">95</span>)</span><br><span class="line">	at com.sun.proxy.$Proxy24.getChatCompletionsSync(Unknown Source)</span><br><span class="line">	at com.azure.ai.openai.implementation.OpenAIClientImpl.getChatCompletionsWithResponse(OpenAIClientImpl.java:<span class="number">1444</span>)</span><br><span class="line">	at com.azure.ai.openai.OpenAIClient.getChatCompletionsWithResponse(OpenAIClient.java:<span class="number">318</span>)</span><br><span class="line">	at com.azure.ai.openai.OpenAIClient.getChatCompletions(OpenAIClient.java:<span class="number">685</span>)</span><br><span class="line">	at dev.langchain4j.model.azure.AzureOpenAiChatModel.generate(AzureOpenAiChatModel.java:<span class="number">257</span>)</span><br><span class="line">	at dev.langchain4j.model.azure.AzureOpenAiChatModel.generate(AzureOpenAiChatModel.java:<span class="number">215</span>)</span><br></pre></td></tr></table></figure>
+<p>回到最开始的问题，报错误的根本原因是，初始化 Azure模型时需要构造一个 HttpClient，默认情况下会使用<code>ConnectionProvider</code> 来构造。看了下 <code>AzureOpenAiChatModel</code> 的 builder 方法，支持自己传入 <code>OpenAIClient</code>，而 <code>OpenAIClient</code> 可以自己构造 <code>HttpClient</code>，通过这个文档看到 <a href="https://learn.microsoft.com/en-us/azure/developer/java/sdk/http-client-pipeline" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/azure/developer/java/sdk/http-client-pipeline</a> HttpClient 有多种实现，其中可以用 OkHttpClient 来实现，于是我进行了以下魔改：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> OpenAIClient <span class="title">setupSyncClient</span><span class="params">(String endpoint, String serviceVersion, Object credential, Duration timeout, Integer maxRetries, ProxyOptions proxyOptions, <span class="keyword">boolean</span> logRequestsAndResponses)</span> </span>&#123;</span><br><span class="line">        OpenAIClientBuilder openAIClientBuilder = setupOpenAIClientBuilder(endpoint, serviceVersion, credential, timeout, maxRetries, proxyOptions, logRequestsAndResponses);</span><br><span class="line">        <span class="keyword">return</span> openAIClientBuilder.buildClient();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> OpenAIClientBuilder <span class="title">setupOpenAIClientBuilder</span><span class="params">(String endpoint, String serviceVersion, Object credential, Duration timeout, Integer maxRetries, ProxyOptions proxyOptions, <span class="keyword">boolean</span> logRequestsAndResponses)</span> </span>&#123;</span><br><span class="line">        timeout = getOrDefault(timeout, ofSeconds(<span class="number">60</span>));</span><br><span class="line">        HttpClientOptions clientOptions = <span class="keyword">new</span> HttpClientOptions();</span><br><span class="line">        clientOptions.setConnectTimeout(timeout);</span><br><span class="line">        clientOptions.setResponseTimeout(timeout);</span><br><span class="line">        clientOptions.setReadTimeout(timeout);</span><br><span class="line">        clientOptions.setWriteTimeout(timeout);</span><br><span class="line">        clientOptions.setProxyOptions(proxyOptions);</span><br><span class="line"></span><br><span class="line">        Header header = <span class="keyword">new</span> Header(<span class="string">"User-Agent"</span>, <span class="string">"langchain4j-azure-openai"</span>);</span><br><span class="line">        clientOptions.setHeaders(Collections.singletonList(header));</span><br><span class="line">        <span class="comment">// HttpClient httpClient = new NettyAsyncHttpClientProvider().createInstance(clientOptions);</span></span><br><span class="line">        HttpClient httpClient = <span class="keyword">new</span> OkHttpAsyncClientProvider().createInstance(clientOptions);</span><br><span class="line"></span><br><span class="line">        HttpLogOptions httpLogOptions = <span class="keyword">new</span> HttpLogOptions();</span><br><span class="line">        <span class="keyword">if</span> (logRequestsAndResponses) &#123;</span><br><span class="line">            httpLogOptions.setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        maxRetries = getOrDefault(maxRetries, <span class="number">3</span>);</span><br><span class="line">        ExponentialBackoffOptions exponentialBackoffOptions = <span class="keyword">new</span> ExponentialBackoffOptions();</span><br><span class="line">        exponentialBackoffOptions.setMaxRetries(maxRetries);</span><br><span class="line">        RetryOptions retryOptions = <span class="keyword">new</span> RetryOptions(exponentialBackoffOptions);</span><br><span class="line"></span><br><span class="line">        OpenAIClientBuilder openAIClientBuilder = <span class="keyword">new</span> OpenAIClientBuilder()</span><br><span class="line">                .endpoint(ensureNotBlank(endpoint, <span class="string">"endpoint"</span>))</span><br><span class="line">                .serviceVersion(getOpenAIServiceVersion(serviceVersion))</span><br><span class="line">                .httpClient(httpClient)</span><br><span class="line">                .clientOptions(clientOptions)</span><br><span class="line">                .httpLogOptions(httpLogOptions)</span><br><span class="line">                .retryOptions(retryOptions);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (credential <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">            openAIClientBuilder.credential(<span class="keyword">new</span> AzureKeyCredential((String) credential));</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (credential <span class="keyword">instanceof</span> KeyCredential) &#123;</span><br><span class="line">            openAIClientBuilder.credential((KeyCredential) credential);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (credential <span class="keyword">instanceof</span> TokenCredential) &#123;</span><br><span class="line">            openAIClientBuilder.credential((TokenCredential) credential);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Unsupported credential type: "</span> + credential.getClass());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> openAIClientBuilder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> OpenAIServiceVersion <span class="title">getOpenAIServiceVersion</span><span class="params">(String serviceVersion)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (OpenAIServiceVersion version : OpenAIServiceVersion.values()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (version.getVersion().equals(serviceVersion)) &#123;</span><br><span class="line">                <span class="keyword">return</span> version;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> OpenAIServiceVersion.getLatest();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>从开源代码中拷贝出  <code>setupSyncClient</code> 和 <code>setupOpenAIClientBuilder</code> 方法，并对<code>setupOpenAIClientBuilder</code> 中的HttpClient httpClient 的创建逻辑进行了调整</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// before</span></span><br><span class="line">HttpClient httpClient = <span class="keyword">new</span> NettyAsyncHttpClientProvider().createInstance(clientOptions);</span><br><span class="line"><span class="comment">// after</span></span><br><span class="line">HttpClient httpClient = <span class="keyword">new</span> OkHttpAsyncClientProvider().createInstance(clientOptions);</span><br></pre></td></tr></table></figure>
+<p>初始化Azure模型时传入我自己的 client：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认生成的client使用NettyAsyncHttpClientProvider和SpringBoot所依赖的版本不兼容，改用OkHttpAsyncClientProvider进行重写</span></span><br><span class="line">OpenAIClient client = setupSyncClient(System.getenv(<span class="string">"AZURE_OPENAI_ENDPOINT"</span>), <span class="string">""</span>,</span><br><span class="line">        System.getenv(<span class="string">"AZURE_OPENAI_API_KEY"</span>), ofSeconds(<span class="number">30</span>), <span class="number">2</span>, <span class="keyword">null</span>, <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">model = AzureOpenAiChatModel.builder()</span><br><span class="line">        .openAIClient(client)</span><br><span class="line">        .deploymentName(modelName)</span><br><span class="line">        .temperature(<span class="number">0.0</span>)</span><br><span class="line">        .build();</span><br></pre></td></tr></table></figure>
+<p>并在工程中引入 <code>azure-core-http-okhttp</code> 的依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.azure<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>azure-core-http-okhttp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.12.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再次执行还是报错了，不过这次的错误变为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java.lang.NoClassDefFoundError: reactor/util/context/ContextView</span><br><span class="line"></span><br><span class="line">	at com.azure.core.http.rest.RestProxy.&lt;init&gt;(RestProxy.java:<span class="number">56</span>)</span><br><span class="line">	at com.azure.core.http.rest.RestProxy.create(RestProxy.java:<span class="number">140</span>)</span><br><span class="line">	at com.azure.ai.openai.implementation.OpenAIClientImpl.&lt;init&gt;(OpenAIClientImpl.java:<span class="number">144</span>)</span><br><span class="line">	at com.azure.ai.openai.OpenAIClientBuilder.buildInnerClient(OpenAIClientBuilder.java:<span class="number">283</span>)</span><br><span class="line">	at com.azure.ai.openai.OpenAIClientBuilder.buildClient(OpenAIClientBuilder.java:<span class="number">351</span>)</span><br></pre></td></tr></table></figure>
+<p>还是 reactor 的问题，但可以看到，现在已经不再使用 <code>reactor.core.Disposable</code> 了，也许升级一下 <code>reactor-core</code> 可以解决，我再次在项目的 parent 的<code>dependencyManagement</code> 下引入</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.projectreactor<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>reactor-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.6.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再次尝试，问题解决。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/Why-not-update-for-a-long-time/" rel="prev" title="为什么好久没更新了">
+      <i class="fa fa-chevron-left"></i> 为什么好久没更新了
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/The-Psychology-of-Money/" rel="next" title="《金钱心理学》摘抄">
+      《金钱心理学》摘抄 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

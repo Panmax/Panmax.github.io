@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="asyncio.ensure_future() 用于调度协程（coroutine）或其他可等待对象（awaitable）的执行。它的核心功能是确保一个可等待对象最终被包装成一个 asyncio.Task 对象，并安排它在事件循环中运行。 asyncio.ensure_future 的主要作用 调度执行：当你有一个协程函数，但不想立即 await 它（因为 await 会阻塞当前任务直到该协程完成）">
+<meta name="keywords" content="Python,asyncio,并发编程,协程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="执行可等待对象：asyncio.ensure_future()">
+<meta property="og:url" content="https://jiapan.me/2025/python-asyncio-ensure_future/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="asyncio.ensure_future() 用于调度协程（coroutine）或其他可等待对象（awaitable）的执行。它的核心功能是确保一个可等待对象最终被包装成一个 asyncio.Task 对象，并安排它在事件循环中运行。 asyncio.ensure_future 的主要作用 调度执行：当你有一个协程函数，但不想立即 await 它（因为 await 会阻塞当前任务直到该协程完成）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="执行可等待对象：asyncio.ensure_future()">
+<meta name="twitter:description" content="asyncio.ensure_future() 用于调度协程（coroutine）或其他可等待对象（awaitable）的执行。它的核心功能是确保一个可等待对象最终被包装成一个 asyncio.Task 对象，并安排它在事件循环中运行。 asyncio.ensure_future 的主要作用 调度执行：当你有一个协程函数，但不想立即 await 它（因为 await 会阻塞当前任务直到该协程完成）">
+
+<link rel="canonical" href="https://jiapan.me/2025/python-asyncio-ensure_future/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>执行可等待对象：asyncio.ensure_future() | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2025/python-asyncio-ensure_future/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          执行可等待对象：asyncio.ensure_future()
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-09-26 15:46:41" itemprop="dateCreated datePublished" datetime="2025-09-26T15:46:41+08:00">2025-09-26</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2025/python-asyncio-ensure_future/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2025/python-asyncio-ensure_future/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><code>asyncio.ensure_future()</code> 用于调度协程（coroutine）或其他可等待对象（awaitable）的执行。它的核心功能是<strong>确保一个可等待对象最终被包装成一个 <code>asyncio.Task</code> 对象</strong>，并安排它在事件循环中运行。</p>
+<h3 id="asyncio-ensure-future-的主要作用"><a href="#asyncio-ensure-future-的主要作用" class="headerlink" title="asyncio.ensure_future 的主要作用"></a><code>asyncio.ensure_future</code> 的主要作用</h3><ol>
+<li><p><strong>调度执行</strong>：当你有一个协程函数，但不想立即 <code>await</code> 它（因为 <code>await</code> 会阻塞当前任务直到该协程完成），你可以使用 <code>asyncio.ensure_future()</code> 来把它提交给事件循环，让它在后台并发执行。</p>
+</li>
+<li><p><strong>统一对象类型</strong>：这个函数非常灵活，它可以接受多种类型的输入：</p>
+<ul>
+<li><strong>如果是协程（coroutine）</strong>：它会调用 <code>loop.create_task()</code> 将协程包装成一个 <code>Task</code> 对象。 这个 <code>Task</code> 会被安排在事件循环中执行。</li>
+<li><strong>如果是 <code>Future</code> 或 <code>Task</code> 对象</strong>：它会直接返回该对象，不做任何改变。 因为 <code>Task</code> 本身就是 <code>Future</code> 的子类。</li>
+<li><strong>如果是其他可等待对象（awaitable）</strong>：它会将其包装在一个 <code>Task</code> 中，该任务会 <code>await</code> 这个对象。</li>
+</ul>
+<p>这个特性使得 <code>ensure_future()</code> 在编写库或API时特别有用，因为你无需关心传入的到底是一个协程还是一个已经存在的 <code>Task</code>，<code>ensure_future()</code> 都能确保你得到一个可以操作的 <code>Future</code> 对象（比如用于取消操作）。</p>
+</li>
+</ol>
+<h3 id="asyncio-ensure-future-vs-asyncio-create-task"><a href="#asyncio-ensure-future-vs-asyncio-create-task" class="headerlink" title="asyncio.ensure_future vs asyncio.create_task"></a><code>asyncio.ensure_future</code> vs <code>asyncio.create_task</code></h3><p>在现代 Python (3.7+) 中，<code>asyncio.create_task()</code> 是创建和调度任务的首选方式。 了解它们之间的区别很重要：</p>
+<ul>
+<li><p><strong><code>asyncio.create_task(coro)</code></strong>：</p>
+<ul>
+<li><strong>目的明确</strong>：专门用于从一个<strong>协程</strong>创建并调度一个 <code>Task</code>。 它是更高级别的API，推荐在应用代码中使用。</li>
+<li><strong>输入限制</strong>：它的参数只能是协程对象。</li>
+<li><strong>可读性好</strong>：函数名清晰地表达了其意图——创建一个任务。</li>
+</ul>
+</li>
+<li><p><strong><code>asyncio.ensure_future(awaitable)</code></strong>：</p>
+<ul>
+<li><strong>功能更广泛</strong>：如上所述，它可以接受协程、<code>Future</code>、<code>Task</code> 或其他可等待对象。</li>
+<li><strong>向后兼容</strong>：<code>create_task()</code> 是在 Python 3.7 中引入的。在之前的版本中，<code>ensure_future()</code> 是创建任务的主要方式。</li>
+<li><strong>适用场景</strong>：当你需要编写一个能同时处理协程和 <code>Future</code> 对象的通用函数时，<code>ensure_future()</code> 更加合适。</li>
+</ul>
+</li>
+</ul>
+<p><strong>总结</strong>：在 Python 3.7 及更高版本中，如果你明确知道要从一个协程创建一个任务，<strong>应该优先使用 <code>asyncio.create_task()</code></strong>。 只有在需要兼容旧版本或处理不确定是协程还是 <code>Future</code> 的输入时，才需要使用 <code>asyncio.ensure_future()</code>。</p>
+<h3 id="如何使用-asyncio-ensure-future"><a href="#如何使用-asyncio-ensure-future" class="headerlink" title="如何使用 asyncio.ensure_future"></a>如何使用 <code>asyncio.ensure_future</code></h3><p>下面是一个代码示例，展示了如何使用 <code>ensure_future()</code> 来并发执行任务。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">my_coroutine</span><span class="params">(name, delay)</span>:</span></span><br><span class="line">    <span class="string">"""一个模拟耗时操作的协程"""</span></span><br><span class="line">    print(<span class="string">f"任务 '<span class="subst">&#123;name&#125;</span>' 开始执行，将休眠 <span class="subst">&#123;delay&#125;</span> 秒"</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(delay)</span><br><span class="line">    print(<span class="string">f"任务 '<span class="subst">&#123;name&#125;</span>' 执行完毕"</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f"结果来自 <span class="subst">&#123;name&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    start_time = time.time()</span><br><span class="line">    print(<span class="string">"主程序开始"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用 ensure_future() 来调度两个协程并发执行</span></span><br><span class="line">    <span class="comment"># 它们会被包装成 Task 并立即开始运行</span></span><br><span class="line">    task1 = asyncio.ensure_future(my_coroutine(<span class="string">"任务A"</span>, <span class="number">2</span>))</span><br><span class="line">    task2 = asyncio.ensure_future(my_coroutine(<span class="string">"任务B"</span>, <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ensure_future 接收一个已存在的 Task 时，会直接返回它</span></span><br><span class="line">    task3 = asyncio.ensure_future(task2)</span><br><span class="line">    print(<span class="string">f"task2 和 task3 是同一个对象吗? <span class="subst">&#123;task2 <span class="keyword">is</span> task3&#125;</span>"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在这里可以做其他事情，而 task1 和 task2 正在后台运行</span></span><br><span class="line">    print(<span class="string">"任务已调度，主程序可以继续执行其他操作"</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">"主程序等待 1 秒后继续..."</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 等待两个任务完成并获取结果</span></span><br><span class="line">    <span class="comment"># 注意：可以直接 await task 对象</span></span><br><span class="line">    result1 = <span class="keyword">await</span> task1</span><br><span class="line">    result2 = <span class="keyword">await</span> task2</span><br><span class="line"></span><br><span class="line">    end_time = time.time()</span><br><span class="line">    print(<span class="string">f"获取到的结果: '<span class="subst">&#123;result1&#125;</span>', '<span class="subst">&#123;result2&#125;</span>'"</span>)</span><br><span class="line">    print(<span class="string">f"主程序结束，总耗时: <span class="subst">&#123;end_time - start_time:<span class="number">.2</span>f&#125;</span> 秒"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    asyncio.run(main())</span><br></pre></td></tr></table></figure>
+<p><strong>运行结果分析：</strong></p>
+<ol>
+<li><code>main</code> 函数开始执行，<code>task1</code> 和 <code>task2</code> 通过 <code>asyncio.ensure_future()</code> 被调度。它们会立即开始并发运行，而不是一个接一个。</li>
+<li>程序打印 “任务已调度…”，并等待1秒。在此期间，<code>task1</code> 和 <code>task2</code> 都在后台执行它们的 <code>asyncio.sleep()</code>。</li>
+<li><code>await task1</code> 和 <code>await task2</code> 会等待各自的任务完成。由于它们是并发执行的，总耗时取决于最长的那个任务（任务B，3秒），而不是两个任务时间的总和（2 + 3 = 5秒）。</li>
+<li>最终的总耗时约等于3秒，证明了并发执行的效率。</li>
+<li>示例也验证了当 <code>ensure_future</code> 的参数已经是 <code>Task</code> 时，它会返回完全相同的对象。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/asyncio/" rel="tag"># asyncio</a>
+              <a href="/tags/并发编程/" rel="tag"># 并发编程</a>
+              <a href="/tags/协程/" rel="tag"># 协程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/python-asyncio-gather/" rel="prev" title="收集多个可等待对象的结果：asyncio.gather()">
+      <i class="fa fa-chevron-left"></i> 收集多个可等待对象的结果：asyncio.gather()
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/python-coroutine-future-task/" rel="next" title="理解 Python 中的协程、Future、任务">
+      理解 Python 中的协程、Future、任务 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#asyncio-ensure-future-的主要作用"><span class="nav-number">1.</span> <span class="nav-text">asyncio.ensure_future 的主要作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#asyncio-ensure-future-vs-asyncio-create-task"><span class="nav-number">2.</span> <span class="nav-text">asyncio.ensure_future vs asyncio.create_task</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用-asyncio-ensure-future"><span class="nav-number">3.</span> <span class="nav-text">如何使用 asyncio.ensure_future</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

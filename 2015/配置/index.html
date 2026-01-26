@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="配置原文地址:https://exploreflask.com/configuration.html 当你正在学习Flask时，配置看起来很简单。你只需要在config.py中定义一些变量所以工作就完成了。当你不得不为了生产环境的应用管理配置时，这简单就开始消失了。你可能需要保护你的密钥或者在不同的环境下使用不同的配置（例如开发和生产环境）。在这一章我们将介绍一些Flask先进的功能来更简单的管理">
+<meta name="keywords" content="Python,配置管理,Web开发,Flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="explore flask 配置">
+<meta property="og:url" content="https://jiapan.me/2015/配置/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="配置原文地址:https://exploreflask.com/configuration.html 当你正在学习Flask时，配置看起来很简单。你只需要在config.py中定义一些变量所以工作就完成了。当你不得不为了生产环境的应用管理配置时，这简单就开始消失了。你可能需要保护你的密钥或者在不同的环境下使用不同的配置（例如开发和生产环境）。在这一章我们将介绍一些Flask先进的功能来更简单的管理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2015/配置/1.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.916Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="explore flask 配置">
+<meta name="twitter:description" content="配置原文地址:https://exploreflask.com/configuration.html 当你正在学习Flask时，配置看起来很简单。你只需要在config.py中定义一些变量所以工作就完成了。当你不得不为了生产环境的应用管理配置时，这简单就开始消失了。你可能需要保护你的密钥或者在不同的环境下使用不同的配置（例如开发和生产环境）。在这一章我们将介绍一些Flask先进的功能来更简单的管理">
+<meta name="twitter:image" content="https://jiapan.me/2015/配置/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2015/配置/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>explore flask 配置 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2015/配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          explore flask 配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2015-10-02 07:56:29" itemprop="dateCreated datePublished" datetime="2015-10-02T07:56:29+08:00">2015-10-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/exploreflask/" itemprop="url" rel="index"><span itemprop="name">exploreflask</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2015/配置/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2015/配置/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>原文地址:<a href="https://exploreflask.com/configuration.html" target="_blank" rel="noopener">https://exploreflask.com/configuration.html</a><br><img src="1.png" alt=""></p>
+<p>当你正在学习Flask时，配置看起来很简单。你只需要在<code>config.py</code>中定义一些变量所以工作就完成了。当你不得不为了生产环境的应用管理配置时，这简单就开始消失了。你可能需要保护你的密钥或者在不同的环境下使用不同的配置（例如开发和生产环境）。在这一章我们将介绍一些Flask先进的功能来更简单的管理配置。</p>
+<a id="more"></a>
+<h3 id="简单的情况"><a href="#简单的情况" class="headerlink" title="简单的情况"></a>简单的情况</h3><p>一个简单的应用可能不需要任何复杂的功能。你可能只需要放置<code>config.py</code>在你代码库的根目录下并且在<code>app.py</code>或者<code>yourapp/__init__.py</code>中加载它。</p>
+<p>这个<code>config.py</code>问卷需要每行包含一个变量赋值。当你的app初始化后，这些在<code>config.py</code>中的变量用于配置Flask并且它们增加通过<code>app.config</code>字典的访问方式。例如<code>app.config[&quot;DEBUG&quot;]</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app.py or app/__init__.py</span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(<span class="string">'config'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在我们能够通过app.config["变量名"]来访问配置变量。</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DEBUG</code></td>
+<td>todo…</td>
+</tr>
+<tr>
+<td><code>SECRET_KEY</code></td>
+<td>todo…</td>
+</tr>
+<tr>
+<td><code>BCRYPT_LEVEL</code></td>
+<td>todo…</td>
+</tr>
+</tbody>
+</table>
+<pre><code>！警告
+请确定在生产环境下`DEBUG`设置为`False`。不然将会允许用户在你的服务器上运行任何Python代码。
+</code></pre><h3 id="实例文件夹"><a href="#实例文件夹" class="headerlink" title="实例文件夹"></a>实例文件夹</h3><p>有时你需要定义包含敏感信息的配置变量。我们想将这些变量从<code>config.py</code>分离出来并且将他们保存在代码库之外。你可能要隐藏保密的东西比如数据库密码和API密钥或者给机器定义详细的变量。为了让这容易，Flask给我们提供了一个叫<strong>实例文件夹</strong>的功能。实例文件夹是代码库根目录的子目录并且为这个应用实例包含了一个特殊的配置文件。我们不想在版本控制中提交它。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">config.py</span><br><span class="line">requirements.txt</span><br><span class="line">run.py</span><br><span class="line">instance/</span><br><span class="line">	config.py</span><br><span class="line">yourapp/</span><br><span class="line">	__init__.py</span><br><span class="line">	models.py</span><br><span class="line">	views.py</span><br><span class="line">	templates/</span><br><span class="line">	static/</span><br></pre></td></tr></table></figure>
+<h4 id="使用实例文件夹"><a href="#使用实例文件夹" class="headerlink" title="使用实例文件夹"></a>使用实例文件夹</h4><p>为了加载来自实例文件夹的配置变量，我们使用<code>app.config.from_pyfile()</code>。当我们创建我们的应用并用<code>Flask()</code>调用时，如果我们设置<code>instance_relative_config=True</code>，<code>app.config.from_pyfile()</code>将会通过<em>instance/directory</em>加载指定的文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app.py or app/__init__.py</span></span><br><span class="line"></span><br><span class="line">app = Flask(__name__, instance_relative_config=<span class="keyword">True</span>)</span><br><span class="line">app.config.from_object(<span class="string">'config'</span>)</span><br><span class="line">app.config.from_pyfile(<span class="string">'config.py'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="密钥"><a href="#密钥" class="headerlink" title="密钥"></a>密钥</h4><p>实例文件夹的私有本质为定义密钥而不想暴露在版本库中提供了很好的候选。这些可能包含你应用的密钥或者第三方API的密钥。如果你的应用是开源的这尤其重要或者也许会在未来某一时刻开源。我们通常想让其他用户或者贡献者使用他们自己的密钥。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># instance/config.py</span></span><br><span class="line"></span><br><span class="line">SECRET_KEY = <span class="string">'Sm9obiBTY2hyb20ga2lja3MgYXNz'</span></span><br><span class="line">STRIPE_API_KEY = <span class="string">'SmFjb2IgS2FwbGFuLU1vc3MgaXMgYSBoZXJv'</span></span><br><span class="line">SQLALCHEMY_DATABASE_URI= \</span><br><span class="line"><span class="string">"postgresql://user:TWljaGHFgiBCYXJ0b3N6a2lld2ljeiEh@localhost/databasename"</span></span><br></pre></td></tr></table></figure>
+<h4 id="较小的环境基础配置"><a href="#较小的环境基础配置" class="headerlink" title="较小的环境基础配置"></a>较小的环境基础配置</h4><p>如果你的生产环境和开发环境之间的不同很小，你可能想使用你的实例文件夹处理配置的改变。定义在<code>instance/config.py</code>文件中的变量能够覆盖<code>config.py</code>中的变量。你只需要在<code>app.config.from_object()</code>之后调用<code>app.config.from_pyfile()</code>。利用这个方法是改变你的应用在不同机器配置的一种方式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.py</span></span><br><span class="line"></span><br><span class="line">DEBUG = <span class="keyword">False</span></span><br><span class="line">SQLALCHEMY_ECHO = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># instance/config.py</span></span><br><span class="line">DEBUG = <span class="keyword">True</span></span><br><span class="line">SQLALCHEMY_ECHO = <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<p>在生产中，我们将离开列表中的值，在<code>instance/config.py</code>之外，并且它将会回落到<code>config.py</code>定义的值。</p>
+<h3 id="配置基于环境变量"><a href="#配置基于环境变量" class="headerlink" title="配置基于环境变量"></a>配置基于环境变量</h3><p>实例文件夹不应该在版本控制中。这意味着你将无法跟踪你实例配置的变化。这可能对于一两个值来说不是问题，但是如果你在不同环境中（生产、升级、开发等）有微调的配置，你不想冒险失去这些。</p>
+<p>Flask给我们基于环境变量的值去选择一个配置文件来加载的能力。这意味着我们能有多个配置文件在我们的代码库中并且总是加载正确的那个。每次我们有几个不同的配置文件，我们能够移动他们到他们自己的<code>config</code>目录中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">requirements.txt</span><br><span class="line">run.py</span><br><span class="line">config/</span><br><span class="line">	__init__.py <span class="comment"># Empty, just here to tell Python that it's a package.</span></span><br><span class="line">	default.py</span><br><span class="line">	production.py</span><br><span class="line">	development.py</span><br><span class="line">	staging.py</span><br><span class="line">instance/</span><br><span class="line">	config.py</span><br><span class="line">yourapp/</span><br><span class="line">	__init__.py</span><br><span class="line">	models.py</span><br><span class="line">	views.py</span><br><span class="line">	static/</span><br><span class="line">	templates/</span><br></pre></td></tr></table></figure>
+<p>在这个列表中我们有少量不同的配置文件。</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config/default.py</code></td>
+<td>…</td>
+</tr>
+<tr>
+<td><code>config/development.py</code></td>
+<td>…</td>
+</tr>
+<tr>
+<td><code>config/production.py</code></td>
+<td>…</td>
+</tr>
+<tr>
+<td><code>config/staging.py</code></td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<p>为了决定加载哪个配置文件，我们将调用<code>app.config.from_envvar()</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yourapp/__init__.py</span></span><br><span class="line"></span><br><span class="line">app = Flask(__name__, instance_relative_config=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the default configuration</span></span><br><span class="line">app.config.from_object(<span class="string">'config.default'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the configuration from the instance folder</span></span><br><span class="line">app.config.from_pyfile(<span class="string">'config.py'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the file specified by the APP_CONFIG_FILE environment variable</span></span><br><span class="line"><span class="comment"># Variables defined here will override those in the default configuration</span></span><br><span class="line">app.config.from_envvar(<span class="string">'APP_CONFIG_FILE'</span>)</span><br></pre></td></tr></table></figure>
+<p>环境变量的值应该是配置文件的绝对路径。</p>
+<p>我们如何设置这个环境变量，取决于我们的应用正在运行的平台。如果我们运行在一个普通的Linux服务器上，我们能够设置一个shell脚本来设置我们的环境变量并且运行<code>run.py</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># start.sh</span></span><br><span class="line"></span><br><span class="line">APP_CONFIG_FILE=/var/www/yourapp/config/production.py</span><br><span class="line">python run.py</span><br></pre></td></tr></table></figure>
+<p><code>start.sh</code>在每个环境中是唯一的，所以它应该离开版本控制。在Herok中，我们想要使用Heroku工具设置环境变量。相同的思路应用于其他PaaS平台上。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>一个简单的应用可能只需要一个配置文件：<code>config.py</code>。</li>
+<li>实例文件夹能够帮助我们隐藏保密的配置值。</li>
+<li>实例文件夹能够用于应用的配置之后为了特定的环境。</li>
+<li>我们应该使用环境变量并且为更复杂的基于环境的配置使用<code>app,config.from_envvar()</code>。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/配置管理/" rel="tag"># 配置管理</a>
+              <a href="/tags/Web开发/" rel="tag"># Web开发</a>
+              <a href="/tags/Flask/" rel="tag"># Flask</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2015/环境/" rel="next" title="explore flask 环境">
+      explore flask 环境 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">1.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的情况"><span class="nav-number">1.1.</span> <span class="nav-text">简单的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例文件夹"><span class="nav-number">1.2.</span> <span class="nav-text">实例文件夹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用实例文件夹"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用实例文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#密钥"><span class="nav-number">1.2.2.</span> <span class="nav-text">密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#较小的环境基础配置"><span class="nav-number">1.2.3.</span> <span class="nav-text">较小的环境基础配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置基于环境变量"><span class="nav-number">1.3.</span> <span class="nav-text">配置基于环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="在本人的前一篇文章《不要把微服务做成小单体》中，现在很多的微服务开发团队在设计和实现微服务的时候觉得只要把原来的单体拆小，就是微服务了。但是这不一定是正确的微服务，可能只是一个拆小的小单体。这篇文章让我们从这个话题继续，先看看为什么拆出来的是小单体。 设计微服务的路径依赖困境在微服务架构诞生之前，几乎所有的软件系统都是采用单体架构来构建的，因此大部分软件开发者喜欢的开发路径就是单体架构模式。在这样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么 DDD 是设计微服务的最佳实践">
+<meta property="og:url" content="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="在本人的前一篇文章《不要把微服务做成小单体》中，现在很多的微服务开发团队在设计和实现微服务的时候觉得只要把原来的单体拆小，就是微服务了。但是这不一定是正确的微服务，可能只是一个拆小的小单体。这篇文章让我们从这个话题继续，先看看为什么拆出来的是小单体。 设计微服务的路径依赖困境在微服务架构诞生之前，几乎所有的软件系统都是采用单体架构来构建的，因此大部分软件开发者喜欢的开发路径就是单体架构模式。在这样">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/1.webp">
+<meta property="og:image" content="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/2.webp">
+<meta property="og:image" content="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/3.webp">
+<meta property="og:image" content="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/4.webp">
+<meta property="og:image" content="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/5.webp">
+<meta property="og:image" content="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/6.webp">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.892Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为什么 DDD 是设计微服务的最佳实践">
+<meta name="twitter:description" content="在本人的前一篇文章《不要把微服务做成小单体》中，现在很多的微服务开发团队在设计和实现微服务的时候觉得只要把原来的单体拆小，就是微服务了。但是这不一定是正确的微服务，可能只是一个拆小的小单体。这篇文章让我们从这个话题继续，先看看为什么拆出来的是小单体。 设计微服务的路径依赖困境在微服务架构诞生之前，几乎所有的软件系统都是采用单体架构来构建的，因此大部分软件开发者喜欢的开发路径就是单体架构模式。在这样">
+<meta name="twitter:image" content="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/1.webp">
+
+<link rel="canonical" href="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>为什么 DDD 是设计微服务的最佳实践 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2019/why-ddd-is-best-practice-desgin-for-micro-service/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为什么 DDD 是设计微服务的最佳实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-08-21 13:05:26" itemprop="dateCreated datePublished" datetime="2019-08-21T13:05:26+08:00">2019-08-21</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/why-ddd-is-best-practice-desgin-for-micro-service/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/why-ddd-is-best-practice-desgin-for-micro-service/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在本人的前一篇文章《不要把微服务做成小单体》中，现在很多的微服务开发团队在设计和实现微服务的时候觉得只要把原来的单体拆小，就是微服务了。但是这不一定是正确的微服务，可能只是一个拆小的小单体。这篇文章让我们从这个话题继续，先看看为什么拆出来的是小单体。</p>
+<h3 id="设计微服务的路径依赖困境"><a href="#设计微服务的路径依赖困境" class="headerlink" title="设计微服务的路径依赖困境"></a>设计微服务的路径依赖困境</h3><p>在微服务架构诞生之前，几乎所有的软件系统都是采用单体架构来构建的，因此大部分软件开发者喜欢的开发路径就是单体架构模式。在这样的背景下，根据经济学和心理学的路径依赖法则，当这些开发者基于新的技术想要把原来的大单体拆分成多个部分时，就必然会习惯性地采用自己最擅长的单体架构来设计每个部分。</p>
+<p><img src="1.webp" alt=""></p>
+<blockquote>
+<p>路径依赖法则：是指人类社会中的技术演进或制度变迁均有类似于物理学中的惯性，即一旦进入某一路径（无论是「好」还是「好」）就可能对这种路径产生依赖。一旦人们做了某种选择，就好比走上了一条不归之路，惯性的力量会使这一选择不断自我强化，并让你轻易走不出去。第一个使「路径依赖」理论声名远播的是道格拉斯・诺斯，由于用「路径依赖」理论成功地阐释了经济制度的演进，道格拉斯・诺斯于 1993 年获得诺贝尔经济学奖。「路径依赖」理论被总结出来之后，人们把它广泛应用在选择和习惯的各个方面。在一定程度上，人们的一切选择都会受到路径依赖的可怕影响，人们过去做出的选择决定了他们现在可能的选择，人们关于习惯的一切理论都可以用「路径依赖」来解释。</p>
+</blockquote>
+<p>在现实中我们经常看到这个法则随处都会发生，微信刚出来的时候很多人说这不就是手机上的 QQ 吗，朋友圈刚出来的时候他们又会说这不就是抄袭微博吗。很多时候当你兴致冲冲给朋友介绍一个新的东西时，朋友一句话就能让你万念俱灰：这不就是 XXX 吗？之所以这样，是因为人类在接触到新知识新概念的时候，都会下意识的使用以前知道的概念进行套用，这样的思维方式是人类从小到大学习新事物的时候使用的模式，它已经固化成我们大脑操作系统的一部分了。</p>
+<p>理解了这个法则，我们就可以很容易的明白，已经在单体架构下开发了多年的软件工程师，当被要求要使用微服务架构来进行设计和开发的时候，本能的反应方式肯定是：这不就是把原来的单体做小了吗？但是这样做出来的「微服务」真的能够给我们带来微服务架构的那些好处吗？真的能提高一个企业的数字化响应力吗？</p>
+<p>不断变化的软件需求和经常被视为效率低下的软件开发一直都是这个行业里最难解决的顽疾，从瀑布到敏捷，都是在尝试找到一个解决这个顽疾的方法，领域驱动设计（Domain Driven Design）也是其中一个药方，而且随着十多年的不断实践，我们发现这个药方有它自己的独特之处，下面我们先来介绍一下这个药方。</p>
+<h3 id="DDD-简史"><a href="#DDD-简史" class="headerlink" title="DDD 简史"></a>DDD 简史</h3><p><img src="2.webp" alt=""></p>
+<p>领域驱动设计这个概念出现在 2003 年，那个时候的软件还处在从 CS 到 BS 转换的时期，敏捷宣言也才发表 2 年。但是 Eric Evans 做为在企业级应用工作多年的技术顾问，敏锐的发现了在软件开发业界内（尤其是企业级应用）开始涌现的一股思潮，他把这股思潮称为领域驱动设计，同时还出版了一本书，在书中分享了自己在设计软件项目时采用的建模方法，并为设计决策者提供了一个框架。</p>
+<p>但是从那以后 DDD 并没有和敏捷一样变得更加流行，如果要问原因，我觉得一方面是这套方法里面有很多的新名词新概念，比如说聚合，限界上下文，值对象等等，要理解这些抽象概念本身就比较困难，所以学习和应用 DDD 的曲线是非常陡峭的。另一方面，做为当时唯一的「官方教材」《领域驱动设计》，阅读这本书是一个非常痛苦的过程，在内容组织上经常会出现跳跃，所以很多人都是刚读了几页就放下了。</p>
+<p>虽然入门门槛有些高，但是对于喜欢智力挑战的软件工程师们来说，这就是一个难度稍为有一点高的玩具，所以在小范围群体内，逐渐有一批人开始能够掌控这个玩具，并且可以用它来指导设计能够控制业务复杂性的软件应用出来了。虽然那时候大部分的软件应用都是单体的，但是使用 DDD 依然可以设计出来容易维护而且快速响应需求变化的单体应用出来。</p>
+<p><img src="3.webp" alt=""></p>
+<p>到了 2013 年，随着各种分布式的基础设施逐渐成熟，而 SOA 架构应用在实践中又不是那么顺利，Martin Fowler 和 James Lewis 把当时出现的一种新型分布式架构风潮总结成微服务架构。然后微服务这股风就呼呼的吹了起来，这时候软件工程师们发现一个问题，就是虽然知道微服务架构的应用具有什么特征，但是如何把原来的大单体拆分成微服务是完全不知道怎么做了。然后熟悉 DDD 方法的工程师发现，由于 DDD 可以有效的从业务视角对软件系统进行拆解，并且 DDD 特别契合微服务的一个特征：围绕业务能力构建。所以用 DDD 拆分出来的微服务是比较合理的而且能够实现高内聚低耦合，这样接着微服务 DDD 迎来了它的第二春。</p>
+<p>下面让我们站在软件工程这个大视角看看 DDD 究竟是在做什么。</p>
+<h3 id="DDD-思辨"><a href="#DDD-思辨" class="headerlink" title="DDD 思辨"></a>DDD 思辨</h3><p>从计算机发明以来，人类用过表达世界变化的词有：电子化，信息化，数字化。这些词里面都有一个「化」字，代表着转变，而这些转变就是人类在逐渐的把原来在物理世界中的一个个概念一个个工作，迁移到虚拟的计算机世界。但是在转变的过程中，由于两个世界的底层逻辑以及底层语言不一致，就必须要有一个翻译和设计的过程。这个翻译过程从软件诞生的第一天起就天然存在，而由于有了这个翻译过程，业务和开发之间才总是想两个对立的阶级一样，觉得对方是难以沟通的。</p>
+<p><img src="4.webp" alt=""></p>
+<p>于是乎有些软件工程界的大牛就开始思考，能不能有一种方式来减轻这个翻译过程呢。然后就发明了面向对象语言，开始尝试让计算机世界有物理世界的对象概念。面向对象还不够，这就有了 DDD，DDD 定义了一些基本概念，然后尝试让业务和开发都能够理解这些概念名词，然后让领域专家使用这些概念名词来描述业务，而由于使用了规定的概念名词，开发就可以很好的理解领域业务，并能够按照领域业务设计的方式进行软件实现。这就是 DDD 的初衷：让业务架构绑定系统架构。</p>
+<p><img src="5.webp" alt=""></p>
+<h3 id="用-DDD-走出设计微服务拆分困境"><a href="#用-DDD-走出设计微服务拆分困境" class="headerlink" title="用 DDD 走出设计微服务拆分困境"></a>用 DDD 走出设计微服务拆分困境</h3><p>上面介绍了使用 DDD 可以做到绑定业务架构和系统架构，这种绑定对于微服务来说有什么关系呢。所谓的微服务拆分困难，其实根本原因是不知道边界在什么地方。而使用 DDD 对业务分析的时候，首先会使用聚合这个概念把关联性强的业务概念划分在一个边界下，并限定聚合和聚合之间只能通过聚合根来访问，这是第一层边界。然后在聚合基础之上根据业务相关性，业务变化频率，组织结构等等约束条件来定义限界上下文，这是第二层边界。有了这两层边界作为约束和限制，微服务的边界也就清晰了，拆分微服务也就不再困难了。</p>
+<p><img src="6.webp" alt=""></p>
+<p>而且基于 DDD 设计的模型中具有边界的最小原子是聚合，聚合和聚合之间由于只通过聚合根进行关联，所以当需要把一个聚合根从一个限界上下文移动到另外一个限界上下文的时候，非常低的移动成本可以很容易地对微服务进行重构，这样我们就不需要再纠结应不应该这样拆分微服务？拆出的微服务太少了以后要再拆分这样的问题了。</p>
+<p>所以，经过理论的严密推理和大量实践项目的验证，ThoughtWorks 认为 DDD 是当前软件工程业界设计微服务的最佳实践。虽然学习和使用 DDD 的成本有点高，但是如果中国的企业想在软件开发这个能力上从冷兵器时代进入热兵器时代，就应该尝试一下 DDD 了解一下先进的软件工程方法。</p>
+<blockquote>
+<p>本文转自：<a href="https://www.jianshu.com/p/e1b32a5ee91c" target="_blank" rel="noopener">https://www.jianshu.com/p/e1b32a5ee91c</a> 并修改了几处错别字</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/install-node-and-npm-on-linux/" rel="prev" title="Linux 安装 node 和 npm">
+      <i class="fa fa-chevron-left"></i> Linux 安装 node 和 npm
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/fix-docker-install-MySQL-python/" rel="next" title="修复 Docker 安装 MySQL-python 失败的问题">
+      修复 Docker 安装 MySQL-python 失败的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计微服务的路径依赖困境"><span class="nav-number">1.</span> <span class="nav-text">设计微服务的路径依赖困境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDD-简史"><span class="nav-number">2.</span> <span class="nav-text">DDD 简史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDD-思辨"><span class="nav-number">3.</span> <span class="nav-text">DDD 思辨</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-DDD-走出设计微服务拆分困境"><span class="nav-number">4.</span> <span class="nav-text">用 DDD 走出设计微服务拆分困境</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

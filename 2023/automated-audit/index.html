@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="作为程序员，我们最擅长的事情就是用程序解决问题，恨不得天天拿着锤子找钉子。 我们公司的服务上线流程是先由服务负责人审批，然后再由团队的 Leader 审批。如果自己就是服务负责人，则只需经过团队的 Leader 审批即可。因此，我们大部分服务负责人设置的是最经常改动上线的那个人。 所以无论如何设置，最终都需要我来审批。每天平均要审批30多个上线单，不论是在医院看病、开车、吃饭、开会，随时都可能有审">
+<meta name="keywords" content="Python,自动化,工作效率,脚本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将重复工作自动化">
+<meta property="og:url" content="https://jiapan.me/2023/automated-audit/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="作为程序员，我们最擅长的事情就是用程序解决问题，恨不得天天拿着锤子找钉子。 我们公司的服务上线流程是先由服务负责人审批，然后再由团队的 Leader 审批。如果自己就是服务负责人，则只需经过团队的 Leader 审批即可。因此，我们大部分服务负责人设置的是最经常改动上线的那个人。 所以无论如何设置，最终都需要我来审批。每天平均要审批30多个上线单，不论是在医院看病、开车、吃饭、开会，随时都可能有审">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2023/automated-audit/0.png">
+<meta property="og:image" content="https://jiapan.me/2023/automated-audit/1.png">
+<meta property="og:image" content="https://jiapan.me/2023/automated-audit/2.png">
+<meta property="og:image" content="https://jiapan.me/2023/automated-audit/3.png">
+<meta property="og:image" content="https://jiapan.me/2023/automated-audit/4.png">
+<meta property="og:image" content="https://jiapan.me/2023/automated-audit/5.png">
+<meta property="og:image" content="https://jiapan.me/2023/automated-audit/6.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.310Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="将重复工作自动化">
+<meta name="twitter:description" content="作为程序员，我们最擅长的事情就是用程序解决问题，恨不得天天拿着锤子找钉子。 我们公司的服务上线流程是先由服务负责人审批，然后再由团队的 Leader 审批。如果自己就是服务负责人，则只需经过团队的 Leader 审批即可。因此，我们大部分服务负责人设置的是最经常改动上线的那个人。 所以无论如何设置，最终都需要我来审批。每天平均要审批30多个上线单，不论是在医院看病、开车、吃饭、开会，随时都可能有审">
+<meta name="twitter:image" content="https://jiapan.me/2023/automated-audit/0.png">
+
+<link rel="canonical" href="https://jiapan.me/2023/automated-audit/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>将重复工作自动化 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2023/automated-audit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          将重复工作自动化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-08-18 12:29:55" itemprop="dateCreated datePublished" datetime="2023-08-18T12:29:55+08:00">2023-08-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/效率/" itemprop="url" rel="index"><span itemprop="name">效率</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2023/automated-audit/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/automated-audit/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>作为程序员，我们最擅长的事情就是用程序解决问题，恨不得天天拿着锤子找钉子。</p>
+<p>我们公司的服务上线流程是先由服务负责人审批，然后再由团队的 Leader 审批。如果自己就是服务负责人，则只需经过团队的 Leader 审批即可。因此，我们大部分服务负责人设置的是最经常改动上线的那个人。</p>
+<p>所以无论如何设置，最终都需要我来审批。每天平均要审批30多个上线单，不论是在医院看病、开车、吃饭、开会，随时都可能有审批。而且基本上都会伴随着一个「钉」，在公司里还好一些，一请假可就要了命了。上一次请假，下午四点之前我没有什么特别重要的事情，四点后准开车出去办点事，但是好巧不巧，四点之后开始不断有上线审批，换着人轮番上线。我一手握着方向盘，另一只手拿着手机审批，幸好我的车是自动挡，否则手动挡的话我真就忙不过来了。那个时候我真的有点火大，决定一定要写一个工具来自动帮我审批。</p>
+<p>第二天上班后，我就让旁边的同事提了个上线单。在审批这个上线单的整个流程中，我进行了抓包，以查看每个步骤的请求内容。最后，我梳理了整个流程发现：将5个接口请求配合起来，就可以实现自动化审批，具体细节这里不展开。</p>
+<blockquote>
+<p>这里不得不再吹一次 Python，从写第一行代码到完成，不到4个小时就实现了完整的功能。</p>
+</blockquote>
+<p>要实现这个自动审批功能，还需要解决两个问题：</p>
+<ol>
+<li>接口鉴权</li>
+<li>消息通知</li>
+</ol>
+<h2 id="接口鉴权"><a href="#接口鉴权" class="headerlink" title="接口鉴权"></a>接口鉴权</h2><p>我们公司的开发平台支持两种认证方式。在内网环境下，可以通过域账户登录；在非内网环境下，可以使用钉钉登录。无论使用哪种方式，最终都是设置后端所需的 Cookies。两种方式本质上并没有太大区别。</p>
+<p>我需要一个稳定的机器来循环执行审批脚本，所以我将这个脚本放在了我的服务器上。为了快速验证第一版程序中的 Cookies 是否有效，我将 Cookies 写死在了代码内，并测试了它们的过期时间。经过验证，Cookies 的过期时间为12小时。因此，每天早上更新一次 Cookies 即可。</p>
+<p>更新 Cookies 需要手动操作。因为登录界面和登录接口有许多校验和加密逻辑，无法通过简单的模拟来完成。每天早上手动登录一次，然后提取 Cookies 即可。这比以前已经方便了许多。</p>
+<h3 id="更新-Cookies"><a href="#更新-Cookies" class="headerlink" title="更新 Cookies"></a>更新 Cookies</h3><p>接下来需要解决每天如何方便更新Cookies的问题。一开始想到的解决方案是自己编写一个API，每天调用该API来更新Cookies。评估后觉得该方案有些太重，而且没有界面的话就不能随时随地更新，只能通过Postman或者Curl命令，不太友好。最后，我采用了一个非常方便的方式。这个方法有界面，足够安全，可用性有保障。</p>
+<p>这个方法会在之后单独用一篇文章来介绍，写完后在这里补充链接（我以后在程序内读取需要更新数据类的需求，大概率都会使用这个方法，敬请期待）。</p>
+<h2 id="消息通知"><a href="#消息通知" class="headerlink" title="消息通知"></a>消息通知</h2><p>既然已经实现了自动审批逻辑，就一定要做好监控和通知，不能盲目审批，否则后果不堪设想。</p>
+<p>最初我使用的是 <a href="https://bark.day.app/#/" target="_blank" rel="noopener">Bark</a>，每次审批后会向我的手机发送一条 Push，但这样不容易查看历史消息，也不方便聚合消息。另外，我认为这些通知并不一定只有我自己可以看到，可以让更多的人看到，比如全组的同学，这样好处是大家的信息更加同步。例如，之前有一个人上线服务时，除了他自己和 Leader，其他人是不知道的。因此，第二版的通知实现是与钉钉机器人对接。为了不干扰正常的组内聊天，我专门建了一个机器人通知群，把涉及到的组内同事拉进来。</p>
+<p><img src="0.png" width="600px" style="margin: 0 auto;"></p>
+<p>我还在通知信息中加上了上线人在上线单中填写的描述，能非常方便的看出哪个服务、上了什么功能。</p>
+<h3 id="顺便做些其他通知"><a href="#顺便做些其他通知" class="headerlink" title="顺便做些其他通知"></a>顺便做些其他通知</h3><p>既然有了这个通知群，那可以再利用它做些其他通知。比如</p>
+<p>订餐通知：</p>
+<p><img src="1.png" width="600px" style="margin: 0 auto;"></p>
+<p>每天随机出一道算法题：</p>
+<p><img src="2.png" width="600px" style="margin: 0 auto;"></p>
+<p>上下班打卡+毒鸡汤：</p>
+<p><em>这里说明一下，我们打卡基本不要求时间，只是为了方便统计考勤</em></p>
+<p><img src="3.png" width="600px" style="margin: 0 auto;"></p>
+<p><img src="4.png" width="600px" style="margin: 0 auto;"></p>
+<p>每周五实验延期提醒和周报提醒：</p>
+<p><img src="5.png" width="600px" style="margin: 0 auto;"></p>
+<p><img src="6.png" width="600px" style="margin: 0 auto;"></p>
+<h2 id="再举两个自动化的例子："><a href="#再举两个自动化的例子：" class="headerlink" title="再举两个自动化的例子："></a>再举两个自动化的例子：</h2><ul>
+<li>我写了个脚本，当发现我的博客收到评论后，会自动给我手机发一条 push</li>
+<li>我的博客是纯静态页，没有管理后台，之前只能用我的一台配好环境的电脑来发布，现在改成了任何电脑都可以发布（这个后边找时间专门写一篇文章来介绍）</li>
+</ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>为什么我这么看重审批，进而想要将其自动化。</p>
+<p>首先，我觉得它是一项重复性的工作，确实没有必要每一次都进行人工操作。每次操作对我来说都是一次打扰。</p>
+<p>其次，更重要的是，我不想因为上线审批不及时而成为团队效率的瓶颈。我一直提倡高效、不加班的工作方式，但是如果一个审批需要十多分钟，就有些大家的浪费时间了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/自动化/" rel="tag"># 自动化</a>
+              <a href="/tags/工作效率/" rel="tag"># 工作效率</a>
+              <a href="/tags/脚本/" rel="tag"># 脚本</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/less-flag/" rel="prev" title="少立 flag">
+      <i class="fa fa-chevron-left"></i> 少立 flag
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/use-gist-manage-config/" rel="next" title="使用 gist 管理动态配置">
+      使用 gist 管理动态配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#接口鉴权"><span class="nav-number">1.</span> <span class="nav-text">接口鉴权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新-Cookies"><span class="nav-number">1.1.</span> <span class="nav-text">更新 Cookies</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息通知"><span class="nav-number">2.</span> <span class="nav-text">消息通知</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顺便做些其他通知"><span class="nav-number">2.1.</span> <span class="nav-text">顺便做些其他通知</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再举两个自动化的例子："><span class="nav-number">3.</span> <span class="nav-text">再举两个自动化的例子：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

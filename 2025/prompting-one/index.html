@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="提示词结构、提示词层级、元/反向元提示，以及带有示例的基础策略。 翻译自：https://docs.lovable.dev/prompting/prompting-one TL;DR有效使用 AI 进行编程的关键在于提示工程 (Prompting)，这是一种需要学习的技能，而不是简单地提问。核心思想是：像对一个非常聪明但没有常识的初级程序员下达指令一样，做到清晰、具体、有条理。 核心原则 (C.L">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【翻译】提示工程 (Prompting) 1.1">
+<meta property="og:url" content="https://jiapan.me/2025/prompting-one/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="提示词结构、提示词层级、元/反向元提示，以及带有示例的基础策略。 翻译自：https://docs.lovable.dev/prompting/prompting-one TL;DR有效使用 AI 进行编程的关键在于提示工程 (Prompting)，这是一种需要学习的技能，而不是简单地提问。核心思想是：像对一个非常聪明但没有常识的初级程序员下达指令一样，做到清晰、具体、有条理。 核心原则 (C.L">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【翻译】提示工程 (Prompting) 1.1">
+<meta name="twitter:description" content="提示词结构、提示词层级、元/反向元提示，以及带有示例的基础策略。 翻译自：https://docs.lovable.dev/prompting/prompting-one TL;DR有效使用 AI 进行编程的关键在于提示工程 (Prompting)，这是一种需要学习的技能，而不是简单地提问。核心思想是：像对一个非常聪明但没有常识的初级程序员下达指令一样，做到清晰、具体、有条理。 核心原则 (C.L">
+
+<link rel="canonical" href="https://jiapan.me/2025/prompting-one/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>【翻译】提示工程 (Prompting) 1.1 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2025/prompting-one/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【翻译】提示工程 (Prompting) 1.1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-10-11 17:40:21" itemprop="dateCreated datePublished" datetime="2025-10-11T17:40:21+08:00">2025-10-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LLM/" itemprop="url" rel="index"><span itemprop="name">LLM</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LLM/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LLM/AI/翻译/" itemprop="url" rel="index"><span itemprop="name">翻译</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2025/prompting-one/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2025/prompting-one/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>提示词结构、提示词层级、元/反向元提示，以及带有示例的基础策略。</p>
+<p>翻译自：<a href="https://docs.lovable.dev/prompting/prompting-one" target="_blank" rel="noopener">https://docs.lovable.dev/prompting/prompting-one</a></p>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>有效使用 AI 进行编程的关键在于<strong>提示工程 (Prompting)</strong>，这是一种需要学习的技能，而不是简单地提问。核心思想是：<strong>像对一个非常聪明但没有常识的初级程序员下达指令一样，做到清晰、具体、有条理。</strong></p>
+<h3 id="核心原则-C-L-E-A-R-框架"><a href="#核心原则-C-L-E-A-R-框架" class="headerlink" title="核心原则 (C.L.E.A.R. 框架)"></a>核心原则 (C.L.E.A.R. 框架)</h3><ul>
+<li><strong>简洁 (Concise):</strong> 直奔主题，不说废话。</li>
+<li><strong>逻辑 (Logical):</strong> 按步骤分解你的请求。</li>
+<li><strong>明确 (Explicit):</strong> 准确说出你想要什么，以及不想要什么。</li>
+<li><strong>适应 (Adaptive):</strong> 第一个结果不完美？迭代优化你的提示词。</li>
+<li><strong>反思 (Reflective):</strong> 总结哪些提示有效，不断改进。</li>
+</ul>
+<h3 id="关键技巧速览"><a href="#关键技巧速览" class="headerlink" title="关键技巧速览"></a>关键技巧速览</h3><ol>
+<li><strong>分步构建：</strong> 不要让 AI 一次性构建整个应用。将大任务分解成“设置数据库”、“创建登录页面”等小步骤，逐步推进。</li>
+<li><strong>提供上下文：</strong> AI 不了解你的项目。在提示中提供背景信息（如技术栈、目标），或使用平台的<strong>知识库</strong>功能来提供持久的上下文。</li>
+<li><strong>结构化你的提示：</strong> 对于复杂任务，使用“<strong>背景、任务、指南、约束</strong>”的结构来组织你的提示，确保所有信息都传达到位。</li>
+<li><strong>提供示例 (Few-Shot Prompting)：</strong> 如果你需要特定的代码风格或输出格式，直接在提示中给出几个例子，AI 会模仿它们。</li>
+<li><strong>精确控制，避免幻觉：</strong><ul>
+<li>要修改代码时，明确指出要改<strong>哪个文件</strong>的<strong>哪部分</strong>，并告诉它<strong>不要碰</strong>其他地方。</li>
+<li>为防止 AI 编造不存在的函数或信息（幻觉），请在提示中提供相关的文档或数据作为依据。</li>
+</ul>
+</li>
+<li><strong>让 AI 帮助你：</strong><ul>
+<li><strong>元提示 (Meta Prompting):</strong> 让 AI 帮你改进你自己的提示词。</li>
+<li><strong>反向元提示 (Reverse Meta Prompting):</strong> 在解决问题后，让 AI 总结解决方案，并为你创建一个未来可复用的提示模板。</li>
+</ul>
+</li>
+</ol>
+<p>正文分界线</p>
+<hr>
+<h2 id="重要提示！"><a href="#重要提示！" class="headerlink" title="重要提示！"></a>重要提示！</h2><p>为了帮助您充分利用 Lovable，我们整理了一系列提示策略和方法。其中一些来自我们团队的经验，另一些则由社区成员分享。由于 Lovable 依赖于大型语言模型 (LLM)，有效的提示策略可以显著提高其效率和准确性。</p>
+<h2 id="什么是提示工程-Prompting-？"><a href="#什么是提示工程-Prompting-？" class="headerlink" title="什么是提示工程 (Prompting)？"></a>什么是提示工程 (Prompting)？</h2><p>提示工程指的是您为执行某项任务而向 AI 系统发出的文本指令。在 Lovable（一个由 AI 驱动的应用构建器）中，提示就是您“告诉”AI 要做什么的方式——从创建用户界面到编写后端逻辑。有效的提示至关重要，因为 Lovable 使用大型语言模型 (LLM)，所以清晰、精心设计的提示可以极大地提高 AI 构建应用时的效率和准确性。简而言之，更好的提示带来更好的结果。</p>
+<h2 id="为什么提示工程很重要"><a href="#为什么提示工程很重要" class="headerlink" title="为什么提示工程很重要"></a>为什么提示工程很重要</h2><p>大多数人认为提示工程只是向 AI 输入一个请求并期待最好的结果——<strong>事实并非如此</strong>。一个平庸的 AI 响应与让 AI 为您构建完整工作流之间的区别，就在于<em>您如何提示</em>。无论您是开发人员还是非技术人员，掌握在 <strong>Lovable</strong> 中的提示工程都可以帮助您：</p>
+<ul>
+<li><strong>自动化重复性任务</strong>，通过精确指示 AI 该做什么。</li>
+<li>借助 AI 生成的见解和解决方案<strong>更快地调试</strong>。</li>
+<li><strong>轻松构建和优化工作流</strong>，在适当引导后让 AI 处理繁重的工作。</li>
+</ul>
+<p>最棒的是，您不需要成为编程专家。使用正确的提示技巧，您就可以释放 Lovable 中 AI 的全部潜力，而无需浪费精力在试错上。本指南将带您从基础概念走到高级提示策略，以便您能有效地与 AI 沟通并更快地构建。</p>
+<h2 id="理解-AI-的思考方式"><a href="#理解-AI-的思考方式" class="headerlink" title="理解 AI 的思考方式"></a>理解 AI 的思考方式</h2><p>与传统编码不同，与 AI 协作的关键在于清晰地<em>沟通</em>您的意图。为 Lovable 提供支持的大型语言模型 (LLM) 并非以人类的方式“理解”——它们根据训练数据中的模式来预测输出。这对您的提示方式有重要影响：为了获得一致的结果，最好将您的提示结构化为清晰的几个部分。一个推荐的格式（如同提示的“<em>辅助轮</em>”）是使用标记的部分来区分<strong>背景 (Context)</strong>、<strong>任务 (Task)</strong>、<strong>指南 (Guidelines)</strong> 和<strong>约束 (Constraints)</strong>：</p>
+<ul>
+<li><strong>提供背景和细节：</strong> AI 模型除了您提供的信息外，没有常识或隐含的背景信息。务必提供相关的背景信息或需求。例如，不要只说“构建一个登录页面”，而要详细说明：“<em>使用 React 创建一个登录页面，包含电子邮件/密码认证和 JWT 处理。</em>” 明确包含任何技术栈或工具（例如，“使用 Supabase 进行身份验证”）。</li>
+<li><strong>明确指示和约束：</strong> 切勿假设 AI 会推断您的目标。如果您有约束条件或偏好，请明确说明。例如，如果输出应使用特定库或保持在某个范围内，<strong>请预先告知模型</strong>。AI 会<strong>严格按照字面意思</strong>遵循您的指示——模糊不清可能导致不想要的结果或 AI“幻觉”（捏造的信息）。</li>
+<li><strong>结构很重要（顺序和重点）：</strong> 得益于 Transformer 架构，模型会特别关注您提示的<em>开头和结尾</em>。利用这一点，将最关键细节或请求放在开头，并在必要时在结尾重申任何绝对要求。同时请记住，模型有一个固定的<strong>上下文窗口 (context window)</strong>——过长的提示或非常长的对话可能会导致 AI 忘记先前的细节。保持提示聚焦，并在必要时刷新上下文（例如，如果会话较长，提醒模型关键点）。</li>
+<li><strong>了解模型的限制：</strong> AI 的知识来源于训练数据。它无法了解近期事件或您未提供的专有信息。即使是在猜测（这会导致幻觉），它也会试图表现得<em>很自信</em>。对于事实性查询，请务必提供参考文本或数据，或者准备好验证其输出。</li>
+</ul>
+<p>将提示工程视为告诉一个非常字面思维的实习生您<em>确切</em>需要什么。您的指导越清晰、越有结构，结果就越好。接下来，我们将深入探讨使提示有效的核心原则。</p>
+<h2 id="核心提示原则：C-L-E-A-R-框架"><a href="#核心提示原则：C-L-E-A-R-框架" class="headerlink" title="核心提示原则：C.L.E.A.R. 框架"></a>核心提示原则：C.L.E.A.R. 框架</h2><p>优秀的提示遵循一套简单的原则。一个便于记忆的方法是 <strong>CLEAR</strong>：<strong>简洁 (Concise)、逻辑 (Logical)、明确 (Explicit)、适应 (Adaptive)、反思 (Reflective)</strong>。在构思指令时，请使用这个清单：</p>
+<ul>
+<li><strong>简洁 (Concise)：</strong> 清晰明了，直奔主题。多余的废话或模糊的语言会使模型困惑。使用直接的语言：例如，<strong>糟糕的示例：</strong>“你能不能写点关于科学主题的东西？” <strong>优秀的示例：</strong>“<strong>撰写一篇 200 词关于气候变化对沿海城市影响的摘要</strong>。” 避免填充词——如果某个细节不具有指导性，那么它就是干扰。在描述您所需内容时力求精确和简洁。</li>
+<li><strong>逻辑 (Logical)：</strong> 以循序渐进或结构良好的方式组织您的提示。将复杂请求分解为有序的步骤或要点，以便 AI 轻松跟随。不要使用一个冗长的连续请求，而是将不同关注点分开。<strong>糟糕的示例：</strong>“给我构建一个用户注册功能，同时显示一些使用统计信息。” <strong>优秀的示例：</strong> <em>“首先，使用 Supabase 实现一个带有电子邮件和密码的用户注册表单。然后，在成功注册后，显示一个包含用户数量统计信息的仪表板。”</em> 逻辑流程确保模型系统地处理您请求的每个部分。</li>
+<li><strong>明确 (Explicit)：</strong> 确切说明您想要什么和不想要什么。如果某些事情很重要，请明确说明。如果可能，提供格式或内容的示例。模型拥有海量知识，但它不会读心术来了解具体细节。<strong>糟糕的示例：</strong>“告诉我关于狗的事情。”（太开放了。）<strong>优秀的示例：</strong>“<strong>以要点形式列出关于金毛寻回犬的 5 个独特事实。</strong>” 同样，如果您有期望的输出风格，请说明（例如，“以 JSON 格式回复”或“使用随意语气”）。像对待初学者一样对待 AI：假设所有事情对它都不显而易见。</li>
+<li><strong>适应 (Adaptive)：</strong> 如果第一个答案不完美，不要满足——提示可以<strong>迭代地</strong>改进。Lovable 的 AI（以及一般的 LLM）的一大优势是您可以进行对话。如果初始输出不符合要求，<em>调整您的方法</em>：在后续提示中澄清指令或指出错误。例如，“你给出的解决方案缺少认证步骤。请在代码中包含用户身份验证。” 通过迭代，您可以引导模型获得更好的结果。您甚至可以询问 AI 如何改进提示本身（这就是<strong>元提示 (Meta Prompting)</strong>，稍后介绍）。</li>
+<li><strong>反思 (Reflective)：</strong> 在每次与 AI 交互后，花时间回顾哪些方法有效，哪些无效。这更多是关于<em>您</em>而不是模型——作为提示工程师，注意哪种提示措辞获得了良好结果，哪种导致了混淆。在复杂的会话之后，您甚至可以要求 AI <strong>总结最终解决方案或推理过程</strong>（我们稍后会讨论<strong>反向元提示 (Reverse Meta Prompting)</strong>）。进行反思有助于您在未来构思更好的提示，在您的 AI 沟通中建立持续改进的循环。</li>
+</ul>
+<p>在构思提示时请牢记这些 CLEAR 原则。接下来，我们将看看从基础到高级的具体提示技巧，包括如何构建提示以及利用 AI 作为协作者。</p>
+<h2 id="提示的四个层级"><a href="#提示的四个层级" class="headerlink" title="提示的四个层级"></a>提示的四个层级</h2><p>有效的提示是一项随着实践而增长的技能。这里我们概述了提示掌握的四个层级，从结构化的“辅助轮”到高级的元技巧。每个层级都有其适用场景——根据需要组合使用：</p>
+<h3 id="1-结构化“辅助轮”提示-Explicit-Format"><a href="#1-结构化“辅助轮”提示-Explicit-Format" class="headerlink" title="1. 结构化“辅助轮”提示 (Explicit Format)"></a>1. 结构化“辅助轮”提示 (Explicit Format)</h3><p>当您刚刚开始或处理非常复杂的任务时，在提示中使用标记结构会很有帮助。这就像是<em>辅助轮</em>，确保您提供所有必要信息。在 Lovable 中一个行之有效的格式是将提示分解为以下几个部分：</p>
+<blockquote>
+<ul>
+<li><strong>背景 (Context)：</strong> 为 AI 设置的背景信息或角色。（例如，“您是一个世界级的 Lovable AI 编码助手。”）</li>
+<li><strong>任务 (Task)：</strong> 您想要实现的具体目标。（例如，“构建一个具有用户登录和实时同步功能的全栈待办事项列表应用。”）</li>
+<li><strong>指南 (Guidelines)：</strong> 首选的方法或风格。（例如，“使用 React 作为前端，Tailwind 进行样式设计，Supabase 用于身份验证和数据库。”）</li>
+<li><strong>约束 (Constraints)：</strong> 严格的限制或禁止事项。（例如，“不要使用任何付费 API。应用应在移动设备和桌面上运行。”）</li>
+</ul>
+</blockquote>
+<p>通过清晰地标记每个部分，您几乎不给误解留下空间。例如，一个提示可能看起来像：</p>
+<blockquote>
+<p><strong>背景：</strong> 您是一位使用 Lovable 的专家全栈开发人员。<br><strong>任务：</strong> 在 React 中使用 Supabase（电子邮件/密码认证）创建一个安全的登录页面。<br><strong>指南：</strong> UI 应极简，并遵循 Tailwind CSS 规范。为每个步骤提供清晰的代码注释。<br><strong>约束：</strong> 仅修改 <code>LoginPage</code> 组件；不要更改其他页面。确保最终输出在 Lovable 编辑器中是一个可工作的页面。</p>
+</blockquote>
+<p>这种详细程度可以逐步指导 AI。<em>辅助轮提示</em>对于新手或复杂的多部分任务非常出色——它迫使您仔细思考您到底需要什么，并通过结构化请求来帮助模型。</p>
+<h3 id="2-对话式提示-No-Training-Wheels"><a href="#2-对话式提示-No-Training-Wheels" class="headerlink" title="2. 对话式提示 (No Training Wheels)"></a>2. 对话式提示 (No Training Wheels)</h3><p>当您感到得心应手时，您并不总是需要如此僵化的结构。<strong>对话式提示</strong>意味着您可以更自然地向 AI 书写，类似于您向同事解释任务的方式，同时仍保持清晰。关键在于<strong>无需</strong>正式标签也能保持清晰和完整。例如：</p>
+<blockquote>
+<p>我们来构建一个上传个人资料图片的功能。它应该包含一个带有图片文件输入和提交按钮的表单。提交时，应将图片存储在 Supabase storage 中并更新用户个人资料。请编写必要的 React 组件和任何所需的后端函数，并确保优雅地处理错误（例如文件过大）。</p>
+</blockquote>
+<p>这是一个更自由形式的提示，但仍然<strong>逻辑有序且明确</strong>地说明了要求。没有辅助轮，但它仍然有效。一旦您相信自己不会遗漏重要细节，对话式提示就能很好地工作。它们使交互更加自然，尤其是在持续聊天中迭代结果时。</p>
+<blockquote>
+<p>即使在对话风格中，您也可以通过将请求的不同方面分成段落或要点来模拟结构。目标是相同的：清晰的沟通。对于较快的任务，或者在 AI 已经被赋予背景信息之后，您可能会使用这种风格。</p>
+</blockquote>
+<h3 id="3-元提示-Meta-Prompting"><a href="#3-元提示-Meta-Prompting" class="headerlink" title="3. 元提示 (Meta Prompting)"></a>3. <strong>元提示 (Meta Prompting)</strong></h3><p>这是一种高级技巧，您直接要求 AI 帮助您改进提示或计划。由于 Lovable 的 AI（如 ChatGPT）能够对语言进行推理，您可以用它来优化您的指令。这在您得到的输出偏离目标时特别有用——这可能表明您的提示不清楚。例如：</p>
+<blockquote>
+<p>审查我上一个提示，找出任何模糊或缺失的信息。我该如何重写它才能更简洁和精确？</p>
+</blockquote>
+<blockquote>
+<p>重写这个提示，使其更具体和详细：“在 React 中使用 Supabase 创建一个安全的登录页面，确保基于角色的身份验证。”</p>
+</blockquote>
+<p>AI 可能会回应一个结构更好或更详细的请求版本。这可以揭示哪些地方不清楚。本质上，您是让 AI 充当<em>提示编辑器</em>。在 Lovable 中，您可以在<strong>聊天模式</strong>下安全地执行此操作（因为聊天模式不会直接编辑您的项目）。元提示将 AI 转变为协作者，帮助您询问真正想要的东西。这是一种引导您提示工程技能的强大方式——AI 可以建议您未曾考虑过的改进。</p>
+<h3 id="4-反向元提示-Reverse-Meta-Prompting"><a href="#4-反向元提示-Reverse-Meta-Prompting" class="headerlink" title="4. 反向元提示 (Reverse Meta Prompting)"></a>4. <strong>反向元提示 (Reverse Meta Prompting)</strong></h3><p>反向元提示是指在<em>任务完成后</em>使用 AI 来总结或记录所发生的事情，以便您以后学习或重用。可以将其视为要求 AI 反思过程并为您下次提供提示或解释。这对于调试和知识捕获非常有用。例如，在您解决了 Lovable 中的一个棘手问题后，您可以提示：</p>
+<blockquote>
+<p>总结我们在设置 JWT 身份验证时遇到的错误，并解释我们是如何解决的。然后，起草一个我将来在设置身份验证时可以使用的提示，以避免这些错误。</p>
+</blockquote>
+<p>AI 可能会生成问题及其解决方案的简要重述，然后是一个模板提示，如 <em>“背景：构建身份验证… 任务：通过执行 Y 操作来避免 X 错误…”</em>。这种反向元方法帮助您构建一个<strong>可重用提示</strong>和经验教训的个人库。在 Lovable 中，这可能是无价之宝：下次您面临类似任务时，您就有一个经过验证的提示可以使用（或者至少有一个清晰的清单可以遵循）。</p>
+<blockquote>
+<p>假设您花了一个小时调试 API 调用失败的原因。一旦修复，要求 AI 记录下这一点。您不仅巩固了自己的理解，还创建了可以输入到知识库或未来项目中的材料，这样 AI 就不会重复同样的错误。</p>
+</blockquote>
+<h2 id="高级提示技巧"><a href="#高级提示技巧" class="headerlink" title="高级提示技巧"></a>高级提示技巧</h2><p>一旦掌握了基础知识，就可以利用更高级的策略来充分发挥 Lovable AI 的潜力。这些技巧有助于处理复杂场景、减少错误（如幻觉），并根据您的需求定制 AI 的输出。</p>
+<h3 id="零样本-Zero-Shot-vs-少样本-Few-Shot-提示"><a href="#零样本-Zero-Shot-vs-少样本-Few-Shot-提示" class="headerlink" title="零样本 (Zero-Shot) vs. 少样本 (Few-Shot) 提示"></a>零样本 (Zero-Shot) vs. 少样本 (Few-Shot) 提示</h3><p><strong>零样本提示 (Zero-Shot Prompting)</strong> 意味着您要求模型执行任务而<em>不提供任何示例</em>。您依赖模型的通用训练来知道该做什么。这是大多数提示的默认方式：您陈述请求，AI 纯粹根据其“已知”信息和对您提示的理解来生成答案。零样本提示效率高，如果任务是常见的或描述清晰，效果很好。例如：<em>“将以下句子翻译成西班牙语：‘我正在学习编程。’”</em> 就是一个零样本提示——直接的命令，AI 使用其知识来回应（不需要示例）。</p>
+<p><strong>少样本提示 (Few-Shot Prompting)</strong> 意味着您在提示中提供几个<strong>示例或演示</strong>，向 AI 展示您想要的准确格式或风格。本质上，您是在提示本身中进行示例教学。这对于特定格式或任务不常见的情况，可以显著提高输出质量。在少样本提示中，您可能会说：</p>
+<blockquote>
+<p>纠正这些句子的语法：\<br><strong>输入：</strong>“the code not working good” → <strong>输出：</strong>“The code is not working well.”</p>
+<p><strong>输入：</strong>“API give error in login” → <strong>输出：</strong>“The API gives an error during login.”</p>
+<p>现在 <strong>输入：</strong>“user not found in database” → <strong>输出：</strong></p>
+</blockquote>
+<p>通过给出两个输入-输出的例子，AI 被引导以类似的模式继续处理第三个。少样本提示在 Lovable 中非常有用，当您需要特定风格的响应时（例如，某种格式的代码注释，或提交消息示例）。它确实会消耗更多的提示 token（因为您包含了那些示例），但通常能产生更一致的结果。</p>
+<p><strong>何时使用哪种：</strong>对于简单的任务或当您信任模型的内置能力时，先尝试零样本提示。如果结果不符合您想要的格式或深度，则通过添加示例切换到少样本提示。例如，如果您请求一个函数而输出没有遵循您偏好的风格，请展示一个您喜欢风格的示例函数，然后再次提示。少样本提示在处理复杂输出（如编写测试用例——提供一个示例测试，然后要求编写更多）时表现出色。总之，<strong>零样本用于快速直接的回答，少样本用于受控风格或复杂指令。</strong></p>
+<h3 id="管理幻觉并确保准确性"><a href="#管理幻觉并确保准确性" class="headerlink" title="管理幻觉并确保准确性"></a>管理幻觉并确保准确性</h3><p>AI“幻觉”是指模型自信地编造不正确信息或代码的时刻。在像 Lovable 这样的编码平台中，幻觉可能意味着 AI 使用了不存在的函数、调用了不存在的 API，或在摘要中捏造细节。虽然我们无法完全消除这种情况（这是 AI 的局限性），但我们<strong>可以通过提示方式来减少幻觉</strong>：</p>
+<ul>
+<li><strong>提供基础数据：</strong> 您提供的<em>可靠上下文</em>越多，AI 需要猜测的内容就越少。在 Lovable 中，始终利用您项目的<strong>知识库</strong>。在项目的上下文中包含您的项目需求文档 (PRD)、用户流程、技术栈等。这样，AI 的答案将“基于”<em>您的</em>应用的具体情况。例如，如果您的应用使用了某个特定库或定义了数据模型，请将其放入知识库，这样 AI 就不会编造不同的内容。</li>
+<li><strong>提示内引用：</strong> 当询问事实性问题或与外部系统交互的代码时，包含相关的文档片段或数据。例如，“<em>使用下面给出的 API 响应格式，解析用户对象……[然后包含一个小的 JSON 示例]。</em>” 通过向 AI 展示真实数据或文档，它编造函数或字段的可能性就会降低。</li>
+<li><strong>要求逐步推理：</strong> 有时您怀疑 AI 可能是在即兴发挥。在这种情况下，提示它展示其推理或验证过程。例如，在<strong>聊天模式</strong>下，您可以说：“<em>在给出最终代码之前，解释您的解决方案思路。如果有任何不确定之处，请说明。</em>” 这种“思维链”提示使 AI 放慢速度并自我检查。它可以在推理过程中发现错误或至少揭示错误，然后您可以进行纠正。</li>
+<li><strong>指示诚实：</strong> 您可以在提示中包含一条指南，例如“<em>如果您不确定某个事实或正确代码，请不要捏造——相反，请解释需要什么或请求澄清。</em>” 高级模型通常会遵循此类指令（它们可能会回应：“我不确定，但我假设 X……”而不是直接给出错误答案）。这并非万无一失，但可以减轻自信地输出错误信息的情况。</li>
+<li><strong>迭代验证：</strong> 在 AI 给出答案后，尤其是对于关键内容（如计算、重要事实或复杂代码），执行一个验证步骤。您可以询问 AI，或使用其他工具来双重检查输出。例如：“<em>确认上述代码符合要求，并解释任何可能不符合规范的部分。</em>” 这个提示让 AI 审查其工作，通常如果它偏离了您的指令，它会发现。</li>
+</ul>
+<p>在 Lovable 中，幻觉也可能意味着 AI 创建了您未要求的文件或组件，或者采取了一些未经授权的创意自由。始终审查 AI 生成的代码以确保合理性。如果某些东西看起来太“神奇”或出乎意料，请质疑它。通过使用这些策略管理幻觉，您可以保持对项目的控制并确保准确性。</p>
+<h3 id="利用模型洞察（了解您的-AI-工具）"><a href="#利用模型洞察（了解您的-AI-工具）" class="headerlink" title="利用模型洞察（了解您的 AI 工具）"></a>利用模型洞察（了解您的 AI 工具）</h3><p>并非所有 AI 模型都是一样的，即使是同一个模型，根据设置的不同，行为也可能不同。为了获得大师级的结果，了解您在 Lovable 中可以使用的工具会有所帮助：</p>
+<ul>
+<li><strong>聊天模式 vs 默认模式：</strong> Lovable 提供（截至本文撰写时）一个<strong>聊天模式</strong>（对话式 AI 助手）和一个默认/编辑器模式（直接应用更改）。请有意识地使用它们。<strong>聊天模式</strong>非常适合头脑风暴、讨论设计决策或调试——AI 可以自由生成想法或进行分析，而无需立即编码。例如，您可以描述一个错误，并在聊天模式中说：“<em>让我们分析这个错误日志，找出问题所在。</em>” AI 然后可以逐步排查潜在原因。另一方面，<strong>默认模式</strong>用于执行更改（编写代码、创建组件）。一个典型的工作流程可能是：在聊天模式下概述或排除故障，一旦有了计划，切换到默认模式，使用直接的提示来实施它（因为默认模式会修改您的项目文件）。知道何时使用每种模式可以保持您的开发流程高效且安全。</li>
+<li><strong>Token 长度和响应：</strong> 注意响应长度。如果您请求一个非常大的输出（比如整个代码模块），如果超过 token 限制，AI 可能会截断或失去连贯性。在这种情况下，将任务分解为更小的提示（例如，一次生成一个函数的代码）。如果输出被截断，Lovable 的聊天或提示 UI 可能会显示警告——这表明您需要请求剩余部分或划分工作。</li>
+<li><strong>格式和代码偏好：</strong> 如果您声明了格式偏好，AI 可以适应。例如，告诉它“以 markdown 格式输出代码”，或者“遵循项目的 ESLint 规则”（如果您有的话）。除非您将其包含在上下文中，否则它不会神奇地知道您的风格指南。如果您偏好某些命名约定或模式，可以在提示中提及（这是“明确”原则的一部分）。随着时间的推移，当 AI 在您的项目中看到一致的风格时，它会模仿——但在提示中给予温和的提醒可以加速这种对齐。</li>
+</ul>
+<p>总之，将 AI 视为一个强大但非常较真的工具。了解您正在交互的模式和模型，并始终构建您的提示以发挥其优势（结构化、详细的输入），同时防范其弱点（健忘、冗长、幻觉）。现在，让我们将这些原则转化为在 Lovable 中有效使用的具体最佳实践。</p>
+<h2 id="其他提示技巧"><a href="#其他提示技巧" class="headerlink" title="其他提示技巧"></a><strong>其他提示技巧</strong></h2><p>最后，我们来介绍在 Lovable 平台中工作时的一些具体技巧和技术。这些最佳实践结合了通用的提示工程概念和 Lovable 的特性，以帮助您获得最佳结果。</p>
+<h3 id="从坚实的知识库开始"><a href="#从坚实的知识库开始" class="headerlink" title="从坚实的知识库开始"></a>从坚实的知识库开始</h3><p>在您甚至编写提示之前，请先设置您项目的知识库（在 Lovable 的项目设置中）。包括<strong>项目需求文档 (PRD)</strong>、用户流程、技术栈详情、UI 设计指南以及任何后端细节。这充当了 AI 始终拥有的持久上下文。例如，如果您的 PRD 明确列出“超出范围：社交登录”，那么 AI 就不太可能随机添加 Google 登录功能。您也可以在开始时明确提示：</p>
+<blockquote>
+<p><em>在编写任何代码之前，请阅读项目知识库并确认您理解应用的目的和约束。</em></p>
+</blockquote>
+<p>这确保了 AI 内化您项目的上下文，并减少不相关的建议或幻觉产生的功能。</p>
+<h3 id="要具体，避免模糊"><a href="#要具体，避免模糊" class="headerlink" title="要具体，避免模糊"></a>要具体，避免模糊</h3><p>模糊的提示导致模糊的结果。始终澄清<em>您想要什么</em>以及<em>如何实现</em>。</p>
+<p><strong>不要这样做：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">让这个应用变得更好。</span><br></pre></td></tr></table></figure>
+<p><strong>另一个例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">创建一个用于用户输入的表单。</span><br></pre></td></tr></table></figure>
+<p><strong>应该这样做：</strong></p>
+<p>后者明确了范围和预期结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">重构应用以清理未使用的组件并提高性能，但不改变 UI 或功能。</span><br></pre></td></tr></table></figure>
+<p><strong>另一个例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">创建一个用户注册表单，包含用户名字段、电子邮件字段和密码字段，并包含一个提交按钮。</span><br></pre></td></tr></table></figure>
+<h3 id="渐进式提示"><a href="#渐进式提示" class="headerlink" title="渐进式提示"></a>渐进式提示</h3><p>抵制在一个提示中要求构建整个复杂应用的冲动。将您的开发过程分解为逻辑步骤，并一次提示一个步骤。</p>
+<p><strong>不要这样做：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">构建一个带有 Supabase、身份验证、Google Sheets 导出和数据增强功能的 CRM 应用。</span><br><span class="line"></span><br><span class="line">构建我的整个电子商务应用，包含身份验证、产品列表和结账功能。</span><br></pre></td></tr></table></figure>
+<p><strong>应该这样做：</strong>这种循序渐进的进程有助于 AI 保持专注和准确，并且您可以及早发现问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">设置一个连接到 Supabase 的 CRM 后端。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">很好！能否请您添加一个带有用户角色的安全身份验证流程？</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">谢谢！下一步是集成 Google Sheets 来导出记录。</span><br></pre></td></tr></table></figure>
+<p><strong>另一个例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为用户信息设置数据库模式。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">请开发一个用于检索用户数据的 API 端点。</span><br></pre></td></tr></table></figure>
+<h3 id="包含约束和要求"><a href="#包含约束和要求" class="headerlink" title="包含约束和要求"></a>包含约束和要求</h3><p>不要回避阐明约束。如果某事<em>必须</em>或<em>绝不能</em>做，请明确说明。</p>
+<p><strong>添加约束</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">创建一个简单的待办事项应用，最多同时显示 3 个任务。</span><br><span class="line">包括添加、编辑和删除任务的功能。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">优化此代码，但确保 UI 和核心功能保持不变。记录您所做的每一项更改。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为此最多使用 3 次 API 调用，并确保不需要外部库。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">页面应一次最多显示 3 个任务。</span><br></pre></td></tr></table></figure>
+<p>这样的限制可以防止 AI 过度设计。添加像最大项目数或性能目标这样的约束可以使 AI 专注于重要的事情。</p>
+<h3 id="避免措辞模糊"><a href="#避免措辞模糊" class="headerlink" title="避免措辞模糊"></a>避免措辞模糊</h3><p>如果一个术语可能有不同的解释，请澄清它。您越清晰，AI 需要猜测的内容就越少。</p>
+<p><strong>不要这样做：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">添加一个个人资料功能</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">支持通知</span><br></pre></td></tr></table></figure>
+<p><strong>应该这样做：</strong></p>
+<p>后者明确了范围和预期结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">添加一个包含 X、Y、Z 字段的用户个人资料页面。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在表单提交时发送电子邮件通知。</span><br></pre></td></tr></table></figure>
+<h3 id="注意语气和礼貌"><a href="#注意语气和礼貌" class="headerlink" title="注意语气和礼貌"></a>注意语气和礼貌</h3><p>虽然这不会改变功能，但礼貌的语气有时会产生更好的结果。像“请”或尊重的请求这样的短语可以添加上下文，并使提示更具描述性，这有助于 AI。例如，</p>
+<blockquote>
+<p><em>请不要修改主页，仅专注于仪表板组件。</em></p>
+</blockquote>
+<p>这读起来很礼貌，并且明确告诉 AI 不要做什么。这与 AI 的感受无关——而是关于融入细节。（另外，保持礼貌总是好的！）</p>
+<h3 id="有意识地使用-Lovable-的模式"><a href="#有意识地使用-Lovable-的模式" class="headerlink" title="有意识地使用 Lovable 的模式"></a>有意识地使用 Lovable 的模式</h3><p>如前所述，利用<strong>聊天模式</strong>进行规划，使用<strong>默认模式</strong>进行构建。例如，当开始一个新功能时，您可以进入聊天模式并讨论组件结构：</p>
+<blockquote>
+<p>我想在我的应用中添加一个博客部分。让我们讨论一下如何构建数据和页面。</p>
+</blockquote>
+<p>AI 可能会回应一个提纲。一旦您满意，可以切换到默认模式并说：</p>
+<blockquote>
+<p>根据上述计划，创建一个 <code>BlogPost</code> 页面和一个用于博客文章的 supabase 表或模式。</p>
+</blockquote>
+<h3 id="利用格式优势"><a href="#利用格式优势" class="headerlink" title="利用格式优势"></a>利用格式优势</h3><p>在适当的时候结构化列表或步骤。如果您希望 AI 输出列表或遵循一个序列，请在提示中枚举它们。通过编号步骤，您暗示 AI 以类似方式回应。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">让我们逐步思考如何建立一个安全的身份验证系统：</span><br><span class="line"></span><br><span class="line">1. 必要的组件有哪些？</span><br><span class="line">2. 它们应该如何交互？</span><br><span class="line">3. 提供实现代码。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em>首先，解释方法。其次，展示代码。第三，给出一个测试示例。</em></p>
+</blockquote>
+<h3 id="利用示例或参考"><a href="#利用示例或参考" class="headerlink" title="利用示例或参考"></a>利用示例或参考</h3><p>如果您有目标设计或代码风格，请提及它或提供一个示例。提供示例（图像或代码片段）给 AI 一个具体的参考来模仿。</p>
+<p><strong>设置背景</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">我们正在构建一个帮助团队跟踪任务的项目管理工具。</span><br><span class="line">这个工具应该具有以下功能：</span><br><span class="line"></span><br><span class="line"> - 用户身份验证</span><br><span class="line"> - 项目创建</span><br><span class="line"> - 任务分配</span><br><span class="line"> - 报告</span><br><span class="line"></span><br><span class="line">现在，作为第一个任务，创建项目创建的 UI。</span><br></pre></td></tr></table></figure>
+<p><strong>另一个例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我需要一个带有 Supabase 集成和安全身份验证流程的 CRM 应用。首先设置后端。</span><br></pre></td></tr></table></figure>
+<p><strong>另一个例子：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我们正在开发一个专注于环保产品的电子商务平台。生成一个带有类别和价格筛选器的产品列表页面。</span><br></pre></td></tr></table></figure>
+<h3 id="使用图片提示"><a href="#使用图片提示" class="headerlink" title="使用图片提示"></a>使用图片提示</h3><p>Lovable 甚至允许在提示中上传图片，因此您可以展示一个设计并说“匹配这种风格”。这里主要有两种方法。第一种是简单的图片上传提示。</p>
+<p><strong>简单的图片上传提示</strong></p>
+<p>您可以上传一张图片，然后添加一个示例提示，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">创建并实现一个与附件图片尽可能相似的 UI。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">此屏幕截图显示了移动设备上的布局问题。调整边距和内边距以使其具有响应性，同时保持相同的设计结构。</span><br></pre></td></tr></table></figure>
+<p>或者，您可以帮助 AI 更好地理解图片内容及其一些附加细节。通过向上传的图片添加具体指令，可以获得出色的效果。虽然一张图片胜过千言万语，但用几句话描述所需的功能会大有帮助——尤其是因为交互可能无法从静态图片中显而易见。</p>
+<p><strong>带有详细说明的图片提示</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">我希望您创建一个与屏幕截图中所示应用尽可能相似的应用。</span><br><span class="line">它本质上是一个看板 (Kanban) 克隆。</span><br><span class="line">它应该能够在每一列中添加新卡片（票证），能够更改单个列中这些票证的顺序，甚至能够在列之间移动这些卡片。</span><br><span class="line">请随意使用 Pangea home dnd npm 包来实现拖放功能。</span><br></pre></td></tr></table></figure>
+<h3 id="反馈整合"><a href="#反馈整合" class="headerlink" title="反馈整合"></a>反馈整合</h3><p>审查 AI 的输出并提供具体反馈以进行改进。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">登录表单看起来不错，但请为电子邮件字段添加验证，以确保它包含有效的电子邮件地址。</span><br></pre></td></tr></table></figure>
+<h3 id="强调可访问性"><a href="#强调可访问性" class="headerlink" title="强调可访问性"></a>强调可访问性</h3><p>鼓励生成符合可访问性标准和现代最佳实践的代码。这确保输出不仅功能正常，而且用户友好并符合可访问性指南。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生成一个遵循可访问性最佳实践的 React 登录表单组件，包括适当的 ARIA 标签和键盘导航支持。</span><br></pre></td></tr></table></figure>
+<h3 id="预定义组件和库"><a href="#预定义组件和库" class="headerlink" title="预定义组件和库"></a>预定义组件和库</h3><p>指定使用某些 UI 库或组件，以保持项目的一致性和效率。这指示 AI 使用特定工具，确保应用程序的兼容性和统一的设计语言。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用 shadcn/ui 库和 Tailwind CSS 样式创建一个响应式导航栏。</span><br></pre></td></tr></table></figure>
+<h3 id="多语言提示"><a href="#多语言提示" class="headerlink" title="多语言提示"></a>多语言提示</h3><p>在多语言环境中工作时，指定代码注释和文档所需的语言。这确保生成的内容对讲不同语言的团队成员可访问，从而增强协作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">生成一个计算斐波那-契数列的 Python 脚本。用法语提供注释和文档。</span><br></pre></td></tr></table></figure>
+<h3 id="定义项目结构和文件管理"><a href="#定义项目结构和文件管理" class="headerlink" title="定义项目结构和文件管理"></a>定义项目结构和文件管理</h3><p>清晰勾勒项目结构，包括文件名和路径，以确保生成有组织且可维护的代码。这明确了新组件在项目中的存放位置，保持了连贯的文件组织。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">创建一个名为 &apos;UserProfile&apos; 的新 React 组件，并将其保存为 &apos;components/user-profile.tsx&apos;。确保它包含个人资料图片、用户名和简介部分。</span><br></pre></td></tr></table></figure>
+<h3 id="提供精确的编辑指令（聚焦-AI）"><a href="#提供精确的编辑指令（聚焦-AI）" class="headerlink" title="提供精确的编辑指令（聚焦 AI）"></a>提供精确的编辑指令（聚焦 AI）</h3><p>默认情况下，当您要求 Lovable AI 更改某些内容时，它可能会重写整个文件或多个文件。为避免意外更改，请非常具体地说明<em>在哪里</em>和<em>更改什么</em>。您可以使用 Lovable 的“选择”功能高亮显示某个组件或文件，然后仅就该选择部分进行提示。或者在您的提示中明确指定文件/组件名称。例如：</p>
+<blockquote>
+<p>在 <code>Header</code> 组件中，将注册按钮的文本改为‘Get Started’，并将其移动到导航栏的左侧。</p>
+</blockquote>
+<p>这样，AI 就知道专注于 <code>Header</code> 组件并仅调整该部分。另一个技巧：<strong>告诉 AI 不要碰什么</strong>。您可以补充说，“不要修改与标题无关的任何其他组件或逻辑。” 这可以防止 AI 偏离主题并可能破坏其他东西。这种实践（有时称为“Diff &amp; Select”方法）确保了最小化、针对性的更改——从而带来更快的响应和更少的回归错误。</p>
+<h3 id="锁定文件（变通方法）"><a href="#锁定文件（变通方法）" class="headerlink" title="锁定文件（变通方法）"></a>锁定文件（变通方法）</h3><p>目前，Lovable 可能没有明确的文件锁定功能，但您可以通过提示措辞来模拟它。如果有 AI 绝不应更改的关键文件（可能是一个运行良好的复杂组件），您可以在每个提示中重复一条指令，例如：</p>
+<blockquote>
+<p><em>不要更改 authentication.js 文件。</em></p>
+</blockquote>
+<p>通过持续告诉 AI 避免修改，您减少了意外编辑的机会。同样，如果您只希望 AI 在项目的一个部分工作，请明确限制它：</p>
+<blockquote>
+<p><em>仅将更改集中在 <code>ProfilePage</code> 组件上；假设应用的所有其他部分保持不变。</em></p>
+</blockquote>
+<p>在提示中预先说明这一点有助于将 AI 限制在范围内。</p>
+<h3 id="设计和-UI-调整"><a href="#设计和-UI-调整" class="headerlink" title="设计和 UI 调整"></a>设计和 UI 调整</h3><p>在 Lovable 中提示 UI 更改时，清晰度至关重要，以免破坏功能：</p>
+<ul>
+<li>如果您想要<strong>纯视觉更改</strong>，请明确说明。<strong>“将登录按钮变为蓝色并放大 20%，但不要改变其任何功能或 onClick 逻辑。”</strong> 这确保了 AI 不会在重新设计样式时意外重命名 ID 或更改逻辑。</li>
+<li>对于<strong>响应性</strong>（使设计适应移动设备），通过计划指导 AI。例如：“<em>优化登陆页面的移动端体验：采用移动优先的方法。首先概述每个部分在较小屏幕上应如何重新排列，然后实现这些 CSS 更改。使用标准的 Tailwind 断点（sm, md, lg）并避免自定义断点。确保功能上没有任何变化，只是布局调整。</em>” 通过提供这种详细的指令，您可以获得对移动设备的彻底适配，而不会破坏桌面布局。</li>
+<li>如果您有设计变更的想法，描述期望的结果和任何约束（如“保持相同的 HTML 结构，只更新 CSS”）将有助于 AI 专注于正确的解决方案。在 AI 进行设计更改后，务必测试应用以确认一切仍按预期工作。</li>
+</ul>
+<h3 id="重构和优化代码"><a href="#重构和优化代码" class="headerlink" title="重构和优化代码"></a>重构和优化代码</h3><p>随着项目的发展，Lovable 的 AI 可能会建议重构以提高性能或可维护性。提示重构是一个高级但很有价值的用例：</p>
+<ul>
+<li>强调<strong>行为不变</strong>：“<strong>重构代码以提高清晰度和效率，但<em>应用的</em>功能和输出必须保持完全相同*。”</strong> 这告诉 AI 重构不应引入错误或功能变更。</li>
+<li>您可以先要求一个<strong>重构计划</strong>：“<strong>扫描 <code>utils/</code> 文件夹，并就代码结构或重复提出改进建议。列出更改但先不要应用。</strong>” AI 可能会给您一份需要改进之处的报告。然后您可以决定提示实施哪些更改。</li>
+<li>对于大规模重构，分阶段进行。一次提示一个模块，测试，然后继续。这与循序渐进的原则相结合。例如：首先重构状态管理逻辑，稍后再重构 API 调用，而不是一次性完成所有工作。</li>
+<li>重构之后，最好提示进行快速<strong>事后检查</strong>：“<strong>现在代码已经重构完毕，快速检查一下：UI 看起来是否相同？所有测试或关键流程是否仍然通过？</strong>” AI 可以进行自我验证或列出需要手动检查的事项。</li>
+</ul>
+<h3 id="借助-AI-辅助调试"><a href="#借助-AI-辅助调试" class="headerlink" title="借助 AI 辅助调试"></a>借助 AI 辅助调试</h3><p>错误是不可避免的。Lovable 有一个“尝试修复”功能用于快速修复，但您也可以通过提示请求 AI 协助：</p>
+<ul>
+<li><p>当错误发生时，将任何<strong>错误日志或消息</strong>复制到提示中（最好在聊天模式下），然后询问：“<em>这是错误和相关代码片段——导致此错误的原因是什么？我们该如何修复？</em>” 详细的错误上下文有助于 AI 精确定位问题。</p>
+</li>
+<li><p>在调试时使用 CLEAR 原则：明确说明代码<em>应该</em>做什么与<em>实际</em>发生了什么。有时，仅仅向 AI 详细解释错误就会引导它找到解决方案。</p>
+</li>
+<li><p>如果 AI 的第一次修复不起作用，使用适应原则：澄清发生了什么变化或提供新的错误，并要求它再试一次或建议替代方法。</p>
+</li>
+<li><p>利用聊天模式讨论错误：“<em>修复无效。状态在运行时仍然是未定义的。还可能是什么问题？让我们思考一下可能的原因。</em>” 您可以进行来回对话，直到找到一个合理的解决方案，然后在默认模式下应用它。</p>
+<p>对于 UI 错误，您甚至可以分享屏幕截图（如果 Lovable 在聊天中支持图片输入）或描述视觉问题。例如，“侧边栏应该在移动设备上隐藏，但它仍然可见。这是 CSS……可能是什么原因导致的？” 如果提供足够的信息，AI 可以推理 CSS 或布局问题。</p>
+</li>
+<li><p>修复后务必测试。如果修复有效，考虑使用反向元提示让 AI 总结根本原因以及未来如何避免，从而丰富您的知识库。</p>
+</li>
+</ul>
+<h3 id="何时（以及何时不）让-AI-参与"><a href="#何时（以及何时不）让-AI-参与" class="headerlink" title="何时（以及何时不）让 AI 参与"></a>何时（以及何时不）让 AI 参与</h3><ul>
+<li>一个大师级的提示工程师知道，有时候根本不需要提示。如果一个更改非常小，或者您已经知道如何快速完成（例如，更改文本标签、调整一个内边距值），直接在代码编辑器中手动操作可能更快。过度依赖 AI 处理琐碎任务可能会减慢您的速度并消耗您的提示配额。在 AI 能增加价值的地方使用它——复杂的逻辑、样板代码生成、多步骤操作或您不确定的事情。对于更简单的问题，您可以：<ul>
+<li>使用您自己的知识或快速搜索（甚至可以在 Lovable 之外询问 ChatGPT）来解决，特别是如果这样可以避免因 AI 可能误解而浪费一个提示。</li>
+<li>利用开发人员工具：打开浏览器开发者工具控制台来检查元素或实时调试 JavaScript 错误。一旦确定了修复方法，您可以直接实施或通过提示确认。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>如果您发现一个按钮颜色错误，直接修复 CSS 类可能比向 AI 描述问题并冒着它更改更多内容的风险要快。另一方面，如果您需要从头开始实施一个新功能，那正是 AI 的完美工作——您描述<em>做什么</em>和<em>为什么</em>，它用代码解决<em>如何做</em>。</p>
+</blockquote>
+<p>请记住，Lovable 的 AI 就像一个助理开发人员。您通过给予清晰的任务和监督来管理它。它可以极大地加速开发，但您仍然是负责审查和指导工作的负责人。</p>
+<h2 id="在不同工具中应用这些策略"><a href="#在不同工具中应用这些策略" class="headerlink" title="在不同工具中应用这些策略"></a>在不同工具中应用这些策略</h2><p>上述提示原则不仅适用于 Lovable 的聊天界面，也适用于您与 AI 或自动化工具交互的任何地方：</p>
+<h3 id="在-Lovable-的构建器中"><a href="#在-Lovable-的构建器中" class="headerlink" title="在 Lovable 的构建器中"></a>在 Lovable 的构建器中</h3><p>您将主要在 Lovable 聊天界面中使用这些提示来构建和完善您的应用。</p>
+<ol>
+<li>从一个广泛的项目提示开始，然后逐个功能地迭代。</li>
+<li>当您需要讨论或调试而不更改代码时，使用仅聊天模式。</li>
+</ol>
+<h3 id="在-make-com-或-n8n（工作流自动化）-中"><a href="#在-make-com-或-n8n（工作流自动化）-中" class="headerlink" title="在 make.com 或 n8n（工作流自动化） 中"></a>在 <a href="http://make.com/" target="_blank" rel="noopener"><strong><em>make.com 或 n8n（工作流自动化）</em></strong></a> 中</h3><p>您可能不会以同样的自然语言方式提示这些平台，但设计自动化<strong>仍然受益于清晰的 AI 指令</strong>。</p>
+<p>例如，您可以让 Lovable 生成集成逻辑：</p>
+<blockquote>
+<p><a href="http://make.com/" target="_blank" rel="noopener"><strong><em>当表单提交时，将数据发送到 Make.com 的 webhook 以发送 Slack 通知。</em></strong></a></p>
+</blockquote>
+<p>事实上，Lovable 可以通过与 webhook 集成来帮助设置自动化。如果您的应用需要移交任务（如发送电子邮件、更新 CRM），您可以提示 Lovable 使用 Make 或 n8n。</p>
+<blockquote>
+<p><a href="http://make.com/" target="_blank" rel="noopener"><strong><em>在应用中的用户注册后，触发一个 Make.com 工作流，在 Salesforce 中创建一条记录。</em></strong></a></p>
+</blockquote>
+<p>Lovable 将编写调用该 webhook 或 API 的代码。保持提示的结构化确保 AI 确切知道如何将 Lovable 与这些外部服务连接。</p>
+<h3 id="边缘案例和外部集成"><a href="#边缘案例和外部集成" class="headerlink" title="边缘案例和外部集成"></a><strong>边缘案例和外部集成</strong></h3><p>Lovable 与许多服务集成（Stripe、GitHub、Supabase 等）。在为此类集成提示时，请将集成细节视为您<strong>背景/约束</strong>的一部分。例如，</p>
+<blockquote>
+<p><em>将表单连接到 Stripe（测试模式）进行支付。成功后，重定向到 /thank-you。</em></p>
+</blockquote>
+<p>明确说明外部服务应该做什么。对于使用 n8n（自托管自动化）也是如此——您可能会写，</p>
+<blockquote>
+<p><em>在表单提交后向 n8n webhook URL 发送 POST 请求，并等待其响应以显示确认消息。</em></p>
+</blockquote>
+<p>此处的清晰度至关重要，以便 AI 产生正确的调用。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>强大的提示在于<strong>清晰度、结构和上下文</strong>。无论您是告诉 Lovable 构建一个功能，还是编排一个 <a href="http://make.com/" target="_blank" rel="noopener">Make.com</a> 场景，目标都是描绘出您想要的画面。</li>
+<li>如果不确定，请从结构化提示开始，随着信心的增强，逐渐发展为更对话式的风格。</li>
+<li>使用元技巧来改进并从每次互动中学习。</li>
+<li>通过练习，您将像指导开发团队的延伸部分一样指导 AI——并且自然地获得您需要的精确输出。</li>
+</ul>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>到目前为止，您应该已经扎实掌握了如何构思清晰、有效且针对 Lovable AI 量身定制的提示。从基础的 CLEAR 原则到少样本示例和元提示等高级策略，这些技巧使您能够从 AI 那里获得您确切需要的东西——不多也不少。您已经学会了如何构建您的请求、提供上下文、避免像幻觉这样的陷阱，并利用 Lovable 的特定功能（知识库、聊天模式等）来简化您的工作流程。</p>
+<p>大师级的提示工程改变游戏规则：它将 AI 从一个小玩意变成了一个可靠的队友。通过练习，您会发现您可以通过简单地<em>提出正确的问题</em>和给予正确的指导来更快地构建应用、减少挫败感地调试，甚至探索创造性的解决方案。关键在于在您的指令中保持<strong>机智、简洁、直接和适应</strong>——就像一位经验丰富的工程师与团队沟通一样。</p>
+<p>最后，始终从每次互动中学习（那种反思的习惯）。每一个提示/回复都是您进一步优化技巧的反馈。随着您在 Lovable 中继续构建，您将培养出一种直觉，知道 AI 需要听到什么才能产生出色的结果。将这一点与您自己的聪明才智结合起来，几乎没有什么目标是无法实现的。</p>
+<p><strong>专注于您的大胆想法</strong>——一旦您清楚地告诉 Lovable 的 AI 该做什么，就让它来处理执行的细节吧。</p>
+<p>祝您提示愉快，构建顺利！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/python-coroutine-future-task/" rel="prev" title="理解 Python 中的协程、Future、任务">
+      <i class="fa fa-chevron-left"></i> 理解 Python 中的协程、Future、任务
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/portola/" rel="next" title="【翻译】Portola 如何赋能领域专家提升 AI 质量">
+      【翻译】Portola 如何赋能领域专家提升 AI 质量 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TL-DR"><span class="nav-number">1.</span> <span class="nav-text">TL;DR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心原则-C-L-E-A-R-框架"><span class="nav-number">1.1.</span> <span class="nav-text">核心原则 (C.L.E.A.R. 框架)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键技巧速览"><span class="nav-number">1.2.</span> <span class="nav-text">关键技巧速览</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重要提示！"><span class="nav-number">2.</span> <span class="nav-text">重要提示！</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是提示工程-Prompting-？"><span class="nav-number">3.</span> <span class="nav-text">什么是提示工程 (Prompting)？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么提示工程很重要"><span class="nav-number">4.</span> <span class="nav-text">为什么提示工程很重要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解-AI-的思考方式"><span class="nav-number">5.</span> <span class="nav-text">理解 AI 的思考方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心提示原则：C-L-E-A-R-框架"><span class="nav-number">6.</span> <span class="nav-text">核心提示原则：C.L.E.A.R. 框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提示的四个层级"><span class="nav-number">7.</span> <span class="nav-text">提示的四个层级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-结构化“辅助轮”提示-Explicit-Format"><span class="nav-number">7.1.</span> <span class="nav-text">1. 结构化“辅助轮”提示 (Explicit Format)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-对话式提示-No-Training-Wheels"><span class="nav-number">7.2.</span> <span class="nav-text">2. 对话式提示 (No Training Wheels)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-元提示-Meta-Prompting"><span class="nav-number">7.3.</span> <span class="nav-text">3. 元提示 (Meta Prompting)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-反向元提示-Reverse-Meta-Prompting"><span class="nav-number">7.4.</span> <span class="nav-text">4. 反向元提示 (Reverse Meta Prompting)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级提示技巧"><span class="nav-number">8.</span> <span class="nav-text">高级提示技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#零样本-Zero-Shot-vs-少样本-Few-Shot-提示"><span class="nav-number">8.1.</span> <span class="nav-text">零样本 (Zero-Shot) vs. 少样本 (Few-Shot) 提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管理幻觉并确保准确性"><span class="nav-number">8.2.</span> <span class="nav-text">管理幻觉并确保准确性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用模型洞察（了解您的-AI-工具）"><span class="nav-number">8.3.</span> <span class="nav-text">利用模型洞察（了解您的 AI 工具）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他提示技巧"><span class="nav-number">9.</span> <span class="nav-text">其他提示技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从坚实的知识库开始"><span class="nav-number">9.1.</span> <span class="nav-text">从坚实的知识库开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#要具体，避免模糊"><span class="nav-number">9.2.</span> <span class="nav-text">要具体，避免模糊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渐进式提示"><span class="nav-number">9.3.</span> <span class="nav-text">渐进式提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含约束和要求"><span class="nav-number">9.4.</span> <span class="nav-text">包含约束和要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免措辞模糊"><span class="nav-number">9.5.</span> <span class="nav-text">避免措辞模糊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意语气和礼貌"><span class="nav-number">9.6.</span> <span class="nav-text">注意语气和礼貌</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有意识地使用-Lovable-的模式"><span class="nav-number">9.7.</span> <span class="nav-text">有意识地使用 Lovable 的模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用格式优势"><span class="nav-number">9.8.</span> <span class="nav-text">利用格式优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用示例或参考"><span class="nav-number">9.9.</span> <span class="nav-text">利用示例或参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用图片提示"><span class="nav-number">9.10.</span> <span class="nav-text">使用图片提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反馈整合"><span class="nav-number">9.11.</span> <span class="nav-text">反馈整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强调可访问性"><span class="nav-number">9.12.</span> <span class="nav-text">强调可访问性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预定义组件和库"><span class="nav-number">9.13.</span> <span class="nav-text">预定义组件和库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多语言提示"><span class="nav-number">9.14.</span> <span class="nav-text">多语言提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义项目结构和文件管理"><span class="nav-number">9.15.</span> <span class="nav-text">定义项目结构和文件管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提供精确的编辑指令（聚焦-AI）"><span class="nav-number">9.16.</span> <span class="nav-text">提供精确的编辑指令（聚焦 AI）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁定文件（变通方法）"><span class="nav-number">9.17.</span> <span class="nav-text">锁定文件（变通方法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计和-UI-调整"><span class="nav-number">9.18.</span> <span class="nav-text">设计和 UI 调整</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重构和优化代码"><span class="nav-number">9.19.</span> <span class="nav-text">重构和优化代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#借助-AI-辅助调试"><span class="nav-number">9.20.</span> <span class="nav-text">借助 AI 辅助调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#何时（以及何时不）让-AI-参与"><span class="nav-number">9.21.</span> <span class="nav-text">何时（以及何时不）让 AI 参与</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在不同工具中应用这些策略"><span class="nav-number">10.</span> <span class="nav-text">在不同工具中应用这些策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Lovable-的构建器中"><span class="nav-number">10.1.</span> <span class="nav-text">在 Lovable 的构建器中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-make-com-或-n8n（工作流自动化）-中"><span class="nav-number">10.2.</span> <span class="nav-text">在 make.com 或 n8n（工作流自动化） 中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘案例和外部集成"><span class="nav-number">10.3.</span> <span class="nav-text">边缘案例和外部集成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">11.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">12.</span> <span class="nav-text">结论</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="「乱哄哄，你方唱罢我登场，反认他乡是故乡。甚荒唐，到头来都是为他人作嫁衣裳。」  这是《红楼梦》中的甄士隐听到跛足道人的「好了歌」后提的注解中的最后一句。表达的是：朝代兴亡就像演戏一样，你唱完了下台，轮到别人来唱。 大到国家，小到公司都是如此。下面说说最近一年多里我在公司中所经历的「你方唱罢我登场」的三件事。 一：与业务线并行，公司成立了一条职能线，由一位公司元老级别的 DBA 主管作为这条线的">
+<meta name="keywords" content="职场感悟,红楼梦,人生思考,世事无常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你方唱罢我登场">
+<meta property="og:url" content="https://jiapan.me/2023/after-you-sing/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="「乱哄哄，你方唱罢我登场，反认他乡是故乡。甚荒唐，到头来都是为他人作嫁衣裳。」  这是《红楼梦》中的甄士隐听到跛足道人的「好了歌」后提的注解中的最后一句。表达的是：朝代兴亡就像演戏一样，你唱完了下台，轮到别人来唱。 大到国家，小到公司都是如此。下面说说最近一年多里我在公司中所经历的「你方唱罢我登场」的三件事。 一：与业务线并行，公司成立了一条职能线，由一位公司元老级别的 DBA 主管作为这条线的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:57.306Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你方唱罢我登场">
+<meta name="twitter:description" content="「乱哄哄，你方唱罢我登场，反认他乡是故乡。甚荒唐，到头来都是为他人作嫁衣裳。」  这是《红楼梦》中的甄士隐听到跛足道人的「好了歌」后提的注解中的最后一句。表达的是：朝代兴亡就像演戏一样，你唱完了下台，轮到别人来唱。 大到国家，小到公司都是如此。下面说说最近一年多里我在公司中所经历的「你方唱罢我登场」的三件事。 一：与业务线并行，公司成立了一条职能线，由一位公司元老级别的 DBA 主管作为这条线的">
+
+<link rel="canonical" href="https://jiapan.me/2023/after-you-sing/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>你方唱罢我登场 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2023/after-you-sing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          你方唱罢我登场
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-08-26 14:45:13" itemprop="dateCreated datePublished" datetime="2023-08-26T14:45:13+08:00">2023-08-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生活/" itemprop="url" rel="index"><span itemprop="name">生活</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2023/after-you-sing/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/after-you-sing/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>「乱哄哄，你方唱罢我登场，反认他乡是故乡。甚荒唐，到头来都是为他人作嫁衣裳。」</p>
+</blockquote>
+<p>这是《红楼梦》中的甄士隐听到跛足道人的「好了歌」后提的注解中的最后一句。表达的是：朝代兴亡就像演戏一样，你唱完了下台，轮到别人来唱。</p>
+<p>大到国家，小到公司都是如此。下面说说最近一年多里我在公司中所经历的「你方唱罢我登场」的三件事。</p>
+<h1 id="一："><a href="#一：" class="headerlink" title="一："></a>一：</h1><p>与业务线并行，公司成立了一条职能线，由一位公司元老级别的 DBA 主管作为这条线的负责人，这位负责人找了另一位技术上比较有威望的同事，也就是我前领导辅助他一起推进职能线的建设。</p>
+<p>前期风风火火，对未来规划的风生水起，各种畅想，计划了很多听起来非常牛逼的大工程和人员培养计划，推行了半年没有什么起色，实际上这半年来大部分工作也是他的副手也就是我的前领导来做的规划和进行的具体推进。</p>
+<p>后来这位负责人因为休陪产假，一段时间内没有推进工作，公司高管对他不满，所以就把他赶下了台，让他的副手上任了。这位负责人在担任这个职位前是 DBA 团队的主管，担任这个工作后公司为 DBA 组补充了新的主管。他从这个位置下来后，只能在 DBA 组内做一名普通的员工了，不到一个月时间他就提了离职。</p>
+<p>他的戏演到头了，为他之前的副手，也就是我的前领导做了「嫁衣裳」，接下来该副手登场了。</p>
+<h1 id="二："><a href="#二：" class="headerlink" title="二："></a>二：</h1><p>我的前领导上任后，也是新官上任三把火，通过安排大量会议而让这条线有存在感，还要考核大家的代码量，安排每人每周进行分享之类的工作。当然，这些也并不是他的本意，具体情况我就不讲了。</p>
+<p>我能看出这也只是强弩之末，光是通过这些手段是做不起来的，但因为交情上的缘故，我还是会配合他做好他安排给我的工作。</p>
+<p>随着下边抱怨的声音越来越大，逐渐降低了会议和分享的频率，再往后就慢慢取消了。这样苟延残喘了一年，也没有任何起色，公司之前给他的饼也没有兑现，刚好外部有不错的机会就提了离职。</p>
+<p>他本来是一位技术方面非常让人信服的技术管理者，但因为想一直往上爬，为了证明自己，最后只能悻悻离场，之前那么高调的人最终却非常低调的离开了公司，很惋惜。但他明知不可为而为之的勇气非常领我佩服，他身上的那种人格魅力是值得我学习的地方。</p>
+<h1 id="三："><a href="#三：" class="headerlink" title="三："></a>三：</h1><p>第三个故事就和前两个没有关系了。我当前所在公司的创始人将公司卖给集团几年后就离开公司二次创业去了，我们公司作为集团的一个事业部独立运营。现在事业部负责人是去年十月底任命的，前两天也听说了他要离开的消息。具体是因为产出不及预期还是他的思路和集团高层有分歧就不得而知了。</p>
+<p>下一个继任者是集团的创始团队之一，不知能把这场戏唱多久。</p>
+<hr>
+<p>三个故事讲完了，最后再读一遍完整的《好了歌注》吧。</p>
+<h1 id="好了歌注"><a href="#好了歌注" class="headerlink" title="好了歌注"></a><strong>好了歌注</strong></h1><p>甄士隐</p>
+<p>陋室空堂，当年笏满床；</p>
+<p>衰草枯杨，曾为歌舞场；</p>
+<p>蛛丝儿结满雕梁，绿纱今又在蓬窗上。</p>
+<p>说甚么脂正浓、粉正香，如何两鬓又成霜？</p>
+<p>昨日黄土陇头埋白骨，今宵红绡帐底卧鸳鸯。</p>
+<p>金满箱，银满箱，转眼乞丐人皆谤。</p>
+<p>正叹他人命不长，那知自己归来丧？</p>
+<p>训有方，保不定日后作强梁。</p>
+<p>择膏梁，谁承望流落在烟花巷！</p>
+<p>因嫌纱帽小，致使锁枷扛；</p>
+<p>昨怜破袄寒，今嫌紫蟒长。</p>
+<p>乱烘烘你方唱罢我登场，反认他乡是故乡。</p>
+<p>甚荒唐，到头来都是为他人作嫁衣裳。</p>
+<p>人到底要走向哪里去，什么是生命的本体。我们追逐的东西是不是生命里面真正想要的、觉得最重要的？我们误认了世俗里面虚拟出来的假象，把它们当成了故乡，努力地飞奔而去。其实那只是「他乡」而已，并不是生命本质的东西。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/职场感悟/" rel="tag"># 职场感悟</a>
+              <a href="/tags/红楼梦/" rel="tag"># 红楼梦</a>
+              <a href="/tags/人生思考/" rel="tag"># 人生思考</a>
+              <a href="/tags/世事无常/" rel="tag"># 世事无常</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/good-things-2023/" rel="prev" title="好物推荐">
+      <i class="fa fa-chevron-left"></i> 好物推荐
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/how-to-make-life-easier/" rel="next" title="如何让生活更轻松">
+      如何让生活更轻松 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一："><span class="nav-number">1.</span> <span class="nav-text">一：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二："><span class="nav-number">2.</span> <span class="nav-text">二：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三："><span class="nav-number">3.</span> <span class="nav-text">三：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#好了歌注"><span class="nav-number">4.</span> <span class="nav-text">好了歌注</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

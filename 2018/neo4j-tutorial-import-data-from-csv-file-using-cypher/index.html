@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 LOAD CSV 语句。  将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。 在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。 要访问本地（在数据库服务器上）文件，使用 file:/// 路径。除此之外，可以使用任何 HT">
+<meta name="keywords" content="Neo4j,Cypher,数据导入,CSV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据">
+<meta property="og:url" content="https://jiapan.me/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 LOAD CSV 语句。  将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。 在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。 要访问本地（在数据库服务器上）文件，使用 file:/// 路径。除此之外，可以使用任何 HT">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/1.png">
+<meta property="og:image" content="https://jiapan.me/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/2.png">
+<meta property="og:image" content="https://jiapan.me/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/3.png">
+<meta property="og:image" content="https://jiapan.me/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/4.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.407Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据">
+<meta name="twitter:description" content="你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 LOAD CSV 语句。  将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。 在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。 要访问本地（在数据库服务器上）文件，使用 file:/// 路径。除此之外，可以使用任何 HT">
+<meta name="twitter:image" content="https://jiapan.me/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Neo4j 入门教程 - 使用 Cypher 导入来自 CSV 文件的数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-26 16:01:49" itemprop="dateCreated datePublished" datetime="2018-02-26T16:01:49+08:00">2018-02-26</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>你可以将 CSV 文件中的数据导入到 Neo4j 数据库中，为此我们来学习下 Cypher 中的 <code>LOAD CSV</code> 语句。</p>
+</blockquote>
+<p>将 CSV 文件导入到 Neo4j 的能力，可以实现从其他类型的数据库来导入数据（比如关系型数据库）。</p>
+<p>在 Neo4j 中，你可以通过本地或远端 URL 来加载 CSV 文件。</p>
+<p>要访问本地（在数据库服务器上）文件，使用 <code>file:///</code> 路径。除此之外，可以使用任何 HTTPS，HTTP 和 FTP 协议。</p>
+<h3 id="读取-CSV-文件"><a href="#读取-CSV-文件" class="headerlink" title="读取 CSV 文件"></a>读取 CSV 文件</h3><p>我们使用 HTTP 协议加载一个名为 <code>genres.csv</code> 的 CSV 文件。它不是一个大文件，这个列表里包含了 115 个音乐流派，所以它将创建 115 个节点（和 230 个属性）。</p>
+<p>这个文件上传到了开放的网络中，所以你可以在你的 Neo4j 浏览器中运行下边的代码，它可以直接导入到你的数据库中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LOAD CSV FROM &apos;https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/genres.csv&apos; AS line</span><br><span class="line">CREATE (:Genre &#123;genreId: line[0], name: line[1]&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>你也可以忽略 CSV 文件中的某些字段，比如，如果你不希望将第一个字段导入到数据库中，可以从上边的代码中省略 <code>genreId: line[0],</code>。</p>
+</blockquote>
+<p>运行上边的 Cypher 语句会产生以下成功消息：</p>
+<p><img src="1.png" alt=""></p>
+<p>你可以通过以下查询来查看刚刚新创建的节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (n:Genre) RETURN n</span><br></pre></td></tr></table></figure>
+<p>下边是通过数据可视化界面看到的节点结果：</p>
+<p><img src="2.png" alt=""></p>
+<h3 id="导入包含标题的-CSV-文件"><a href="#导入包含标题的-CSV-文件" class="headerlink" title="导入包含标题的 CSV 文件"></a>导入包含标题的 CSV 文件</h3><p>之前的 CSV 文件不包含任何标题，如果 CSV 文件包含标题，可以使用 <code>WITH HEADERS</code>。</p>
+<p>使用这个方法还允许你通过它的列名（标题名）来引用每个字段。</p>
+<p>我们有另一个带标题的 CSV 文件，该文件包含专辑曲目列表。</p>
+<p>同样，这个文件不大，列表中包含了 32 个专辑，所以它将创建 32 个节点（和 96 个属性）。</p>
+<p>这个文件也上传到了开放的网络中，所以你可以在你的 Neo4j 浏览器中运行下边的代码，它可以直接导入到你的数据库中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LOAD CSV WITH HEADERS FROM &apos;https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/tracks.csv&apos; AS line</span><br><span class="line">CREATE (:Track &#123; trackId: line.Id, name: line.Track, length: line.Length&#125;)</span><br></pre></td></tr></table></figure>
+<p>这将产生下边的成功消息：</p>
+<p><img src="3.png" alt=""></p>
+<p>下边的查询语句可以查看新创建的节点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MATCH (n:Track) RETURN n</span><br></pre></td></tr></table></figure>
+<p>同样我们通过可视化框架看到的节点的结果。</p>
+<p>点击 <strong>Table</strong> 图标可以看到每个点和它的三个属性值：</p>
+<p><img src="4.png" alt=""></p>
+<h3 id="自定义分隔符"><a href="#自定义分隔符" class="headerlink" title="自定义分隔符"></a>自定义分隔符</h3><p>如果需要的话你可以指定自定义字段分隔符，假如 CSV 文件中的分隔符是分号的话，你可以指定使用分号作为分隔符而不是逗号。</p>
+<p>只需将 <code>FIELDTERMINATOR</code> 子句添加到语句中就可以做到了，像下边这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LOAD CSV WITH HEADERS FROM &apos;https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/tracks.csv&apos; AS line</span><br><span class="line">FIELDTERMINATOR &apos;;&apos;</span><br><span class="line">CREATE (:Track &#123; trackId: line.Id, name: line.Track, length: line.Length&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="导入大文件"><a href="#导入大文件" class="headerlink" title="导入大文件"></a>导入大文件</h3><p>如果你需要导入包含大量数据的文件，可以使用 <code>PERODIC COMMIT</code> 来处理。</p>
+<p>在 Neo4j 中使用定期提交功能可以在导入一定数量的行之后提交一次数据，这减少了事务状态的内存开销。</p>
+<p>默认是 1000 行，所以数据会每 1000 行提交一次。</p>
+<p>要使用定期提交，只需在语句开头插入 <code>USING PERIODIC COMMIT</code> （在 <code>LOAD CSV</code> 之前）。</p>
+<p>下边有个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">USING PERIODIC COMMIT</span><br><span class="line">LOAD CSV WITH HEADERS FROM &apos;https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/tracks.csv&apos; AS line</span><br><span class="line">CREATE (:Track &#123; trackId: line.Id, name: line.Track, length: line.Length&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="设置定期提交频率"><a href="#设置定期提交频率" class="headerlink" title="设置定期提交频率"></a>设置定期提交频率</h3><p>你还可以将 1000 行的默认值更改为另一个数字，只需将数字加在 <code>USING PERIODIC COMMIT</code> 后边就行了，就像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">USING PERIODIC COMMIT 800</span><br><span class="line">LOAD CSV WITH HEADERS FROM &apos;https://jpanj.com/2018/neo4j-tutorial-import-data-from-csv-file-using-cypher/tracks.csv&apos; AS line</span><br><span class="line">CREATE (:Track &#123; trackId: line.Id, name: line.Track, length: line.Length&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="CSV-的格式要求"><a href="#CSV-的格式要求" class="headerlink" title="CSV 的格式要求"></a>CSV 的格式要求</h3><p>以下是使用 <code>LOAD CSV</code> 时应该如何格式化 CSV 文件的一些要求：</p>
+<ul>
+<li>字符编码必须是 UTF-8</li>
+<li>行终止标识和系统有关，例如在 Unix 中是 <code>\n</code>，在 Windows 上是 <code>\r\n</code></li>
+<li>分隔符必须是逗号，除非用通过 <code>FIELDTERMINATOR</code> 特殊指定</li>
+<li>如果字符串是用双引号引起来的，数据读入后会将双引号去掉</li>
+<li>任何需要转义的字符都可以通过反斜线 <code>\</code> 来转义</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Neo4j/" rel="tag"># Neo4j</a>
+              <a href="/tags/Cypher/" rel="tag"># Cypher</a>
+              <a href="/tags/数据导入/" rel="tag"># 数据导入</a>
+              <a href="/tags/CSV/" rel="tag"># CSV</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/jiapan-macbook/" rel="prev" title="贾攀的 Macbook 使用指北">
+      <i class="fa fa-chevron-left"></i> 贾攀的 Macbook 使用指北
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/neo4j-count-relationships-skill/" rel="next" title="Neo4j 统计关系数量时的技巧">
+      Neo4j 统计关系数量时的技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取-CSV-文件"><span class="nav-number">1.</span> <span class="nav-text">读取 CSV 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入包含标题的-CSV-文件"><span class="nav-number">2.</span> <span class="nav-text">导入包含标题的 CSV 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义分隔符"><span class="nav-number">3.</span> <span class="nav-text">自定义分隔符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入大文件"><span class="nav-number">4.</span> <span class="nav-text">导入大文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置定期提交频率"><span class="nav-number">5.</span> <span class="nav-text">设置定期提交频率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSV-的格式要求"><span class="nav-number">6.</span> <span class="nav-text">CSV 的格式要求</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

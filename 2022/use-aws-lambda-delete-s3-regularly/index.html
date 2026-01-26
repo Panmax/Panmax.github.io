@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="背景因为我的 bossku ，需要定期将全量数据库数据进行备份，我之前写过一篇文章分享我是如何将数据库备份到 S3 的：https://jiapan.me/2020/auto-backup-database/ 由于不想为这个存储付费，所以我在 Things 中创建了一个周期性的任务，每周六提醒我来清理前一段时间的过期数据，通常我只保留最近两天的，将其余的删除。 最开始我是登录到 S3 的网站上进行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用 AWS Lambda 定期清理 S3 文件">
+<meta property="og:url" content="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="背景因为我的 bossku ，需要定期将全量数据库数据进行备份，我之前写过一篇文章分享我是如何将数据库备份到 S3 的：https://jiapan.me/2020/auto-backup-database/ 由于不想为这个存储付费，所以我在 Things 中创建了一个周期性的任务，每周六提醒我来清理前一段时间的过期数据，通常我只保留最近两天的，将其余的删除。 最开始我是登录到 S3 的网站上进行">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/1.png">
+<meta property="og:image" content="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/3.png">
+<meta property="og:image" content="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/4.png">
+<meta property="og:image" content="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/5.jpg">
+<meta property="og:image" content="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/6.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.841Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用 AWS Lambda 定期清理 S3 文件">
+<meta name="twitter:description" content="背景因为我的 bossku ，需要定期将全量数据库数据进行备份，我之前写过一篇文章分享我是如何将数据库备份到 S3 的：https://jiapan.me/2020/auto-backup-database/ 由于不想为这个存储付费，所以我在 Things 中创建了一个周期性的任务，每周六提醒我来清理前一段时间的过期数据，通常我只保留最近两天的，将其余的删除。 最开始我是登录到 S3 的网站上进行">
+<meta name="twitter:image" content="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>利用 AWS Lambda 定期清理 S3 文件 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/use-aws-lambda-delete-s3-regularly/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          利用 AWS Lambda 定期清理 S3 文件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-05-28 15:19:43" itemprop="dateCreated datePublished" datetime="2022-05-28T15:19:43+08:00">2022-05-28</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/use-aws-lambda-delete-s3-regularly/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/use-aws-lambda-delete-s3-regularly/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>因为我的 <a href="https://bossku.cn" target="_blank" rel="noopener">bossku</a> ，需要定期将全量数据库数据进行备份，我之前写过一篇文章分享我是如何将数据库备份到 S3 的：<a href="https://jiapan.me/2020/auto-backup-database/">https://jiapan.me/2020/auto-backup-database/</a></p>
+<p>由于不想为这个存储付费，所以我在 Things 中创建了一个周期性的任务，每周六提醒我来清理前一段时间的过期数据，通常我只保留最近两天的，将其余的删除。</p>
+<p>最开始我是登录到 S3 的网站上进行操作，后来嫌麻烦，就将 S3 挂载到了本地（使用的是 QSpace 这个软件），每周六定期在本地进行删除操作。</p>
+<p>本着 DRY（Don’t repeat yourself）原则，能自动化的事就不要自己重复去做，所以我准备写个脚本定期处理。</p>
+<p>S3 提供了很完善的 API 可以让程序方便的进行操作，各个语言也都提供了 S3 API 的 SDK 封装，我要做的就是周期性的调取文件列表，判断如果文件超过 2 天则进行删除。这样的动作使用 Serverless 最合适不过了，这一次我还是选择使用我最熟悉的 <a href="https://aws.amazon.com/lambda/" target="_blank" rel="noopener">AWS Lambda</a> ，使用的语言也是万能、灵活的 Python。</p>
+<h2 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h2><p>首先我们初始化一个 Serverless 项目：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SLS_GEO_LOCATION=en serverless create --template aws-python --path s3-clean</span><br></pre></td></tr></table></figure>
+<p>没有 <code>serverless</code> 的可以先参考<a href="https://www.serverless.com/framework/docs/getting-started" target="_blank" rel="noopener">官方手册</a> 进行安装，这不是本文的重点。</p>
+<p>注意下上边命令最前边的 <code>SLS_GEO_LOCATION=en</code>，这个一定要加，因为 serverless 做了一件有些流氓的事：判断你的所在地是中国的话，会走腾讯的服务，他们是没有 aws 模板的，报错如下：</p>
+<p><img src="1.png" alt="1.png"></p>
+<p>加上 <code>SLS_GEO_LOCATION=en</code> 可以将我们的地区强制指定到国外，这样就会走官方的逻辑（腾讯这个行为太 low 了）。</p>
+<p>进入上边 <code>serverless</code> 为我们创建出来的项目，可以看到生成好了两个文件，我们来编辑 <code>handler.py</code> 文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os  </span><br><span class="line"><span class="keyword">import</span> boto3</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete_expire</span><span class="params">()</span>:</span>  </span><br><span class="line">    <span class="comment"># 初始化 s3 sdk</span></span><br><span class="line">	s3 = boto3.resource(<span class="string">'s3'</span>,</span><br><span class="line">		region_name=os.environ[<span class="string">'S3_REGION'</span>],</span><br><span class="line">		aws_access_key_id=os.environ[<span class="string">'S3_ACCESS_KEY_ID'</span>],</span><br><span class="line">		aws_secret_access_key=os.environ[<span class="string">'S3_SECRET_ACCESS_KEY'</span>])  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 绑定 bucket    bucket = s3.Bucket(os.environ['S3_BUCKET'])  </span></span><br><span class="line">    print(<span class="string">'Objects:'</span>)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 获取bucket中所有文件  </span></span><br><span class="line">    all_file = []  </span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> bucket.objects.all():  </span><br><span class="line">        print(<span class="string">' - '</span>, item.key)  </span><br><span class="line">        all_file.append(item)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 文件超过3个时进行清理工作  </span></span><br><span class="line">    <span class="keyword">if</span> len(all_file) &gt; <span class="number">2</span>:  </span><br><span class="line">        <span class="comment"># 文件按照上次修改时间排序  </span></span><br><span class="line">        all_file.sort(key=<span class="keyword">lambda</span> x: x.last_modified)  </span><br><span class="line">  </span><br><span class="line">        <span class="comment"># 只保留最后两个文件，删除其余文件  </span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> all_file[:<span class="number">-2</span>]:  </span><br><span class="line">            item.delete()  </span><br><span class="line">            print(<span class="string">"%s deleted"</span> % item.key)  </span><br><span class="line">        print(<span class="string">"delete done"</span>)  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span>  </span><br><span class="line">    <span class="keyword">else</span>:  </span><br><span class="line">        print(<span class="string">"less than 3 ignore"</span>)  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span>  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete_backup</span><span class="params">(event, context)</span>:</span>  </span><br><span class="line">    delete_expire()</span><br><span class="line">    <span class="keyword">return</span> &#123;  </span><br><span class="line">        <span class="string">"statusCode"</span>: <span class="number">200</span>,  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>流程比较简单：</p>
+<ol>
+<li>初始化 sdk</li>
+<li>关联 bucket</li>
+<li>取全部文件列表</li>
+<li>对全部文件按照时间正序排（旧的在前）</li>
+<li>删除倒数第二个文件之前的所有文件</li>
+</ol>
+<p>上边代码中一些参数通过环境变量进行获取，稍后我们会在配置文件中介绍这几个参数。</p>
+<p>然后我们编辑 <code>serverless.yml</code> 文件，这个是我们服务的配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">service: bossku-s3-clean  </span><br><span class="line">  </span><br><span class="line">frameworkVersion: &apos;3&apos;  </span><br><span class="line">  </span><br><span class="line">provider:  </span><br><span class="line">  name: aws  </span><br><span class="line">  region: $&#123;env:S3_REGION&#125;  </span><br><span class="line">  runtime: python3.8  </span><br><span class="line">  environment:  </span><br><span class="line">    S3_REGION: $&#123;env:S3_REGION&#125;  </span><br><span class="line">    S3_BUCKET: $&#123;env:S3_BUCKET&#125;  </span><br><span class="line">    S3_ACCESS_KEY_ID: $&#123;env:S3_ACCESS_KEY_ID&#125;  </span><br><span class="line">    S3_SECRET_ACCESS_KEY: $&#123;env:S3_SECRET_ACCESS_KEY&#125;  </span><br><span class="line">  </span><br><span class="line">functions:  </span><br><span class="line">  delete_backup:  </span><br><span class="line">    handler: handler.delete_backup  </span><br><span class="line">    events:  </span><br><span class="line">      - schedule: cron(45 0 * * ? *)  </span><br><span class="line">      - http:  </span><br><span class="line">          path: delete_backup  </span><br><span class="line">          method: get</span><br></pre></td></tr></table></figure>
+<p><code>provider.region</code> 用来指定我们的服务启动在哪个地区，我这里配置了一个 <code>S3_REGION</code> 的占位，用来从我本地环境变量获取，目的是和我们的 S3 在同一个地区，这样理论上连通性会跟好一些。</p>
+<p><code>provider.environment</code> 就是给程序提供运行时环境变量的地方，也就对应我们程序中 <code>os.environ[&#39;xxx&#39;]</code>，每一个我都和本地一个同名的环境变量相关联。</p>
+<ul>
+<li><code>S3_REGION</code> 表示存储文件时使用的 S3 区域，比如：ap-east-1</li>
+<li><code>S3_BUCKET</code> 用来指定程序要读写的 bucket</li>
+<li><code>S3_ACCESS_KEY_ID</code> S3 API 的 ACCESS KEY</li>
+<li><code>S3_SECRET_ACCESS_KEY</code> S3 API 的 SECRET KEY</li>
+</ul>
+<p>再往下的 <code>functions</code> 是用来声明函数的区域，我将我们的 <code>delete_backup</code> 关联了两个事件：</p>
+<ol>
+<li>每天 0 点 45 分（北京时间早上 8 点 45 分）定时启动。</li>
+<li>让 Lambda 提供给我们一个 HTTP 的 GET 请求，用来手动触发便于调试。</li>
+</ol>
+<p>做完这些我们还有一个工作，将程序所依赖的 <code>boto3</code> 安装在项目目录下，这样就会在发布时会一起上传到 Lambda 中，Lambda 本身是不带这个包的，而且不支持 pip 安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install boto3==1.23.8 --target=.</span><br></pre></td></tr></table></figure>
+<p>接下来就可以部署到 Lambda 进行验证了，我们可以先将程序中的 <code>item.delete()</code> 进行注释，观察下日志看看流程是否正常。</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>部署脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export AWS_ACCESS_KEY_ID=YOUR_AWS_ACCESS_KEY_ID</span><br><span class="line">export AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY</span><br><span class="line">export S3_REGION=YOUR_S3_REGION</span><br><span class="line">export S3_BUCKET=YOUR_S3_BUCKET</span><br><span class="line">export S3_ACCESS_KEY_ID=YOUR_S3_ACCESS_KEY_ID</span><br><span class="line">export S3_SECRET_ACCESS_KEY=YOUR_S3_SECRET_ACCESS_KEY</span><br><span class="line"></span><br><span class="line">serverless deploy</span><br></pre></td></tr></table></figure>
+<p><img src="3.png" alt="3.png"></p>
+<p>如图可以看到发布成功了，我们访问 Lambda 提供给我们的 endpoint 来手动触发下这个函数。</p>
+<p><img src="4.png" alt=""></p>
+<p>成功了，我们再到 Lambda 的操作界面看下日志，我通常是在函数的【监控】-【查看 CloudWatch 中的警报】-【日志组】中看日志，应该有我不知道的更方便的方式，后边学会了再做补充吧。</p>
+<p><img src="5.jpg" alt=""></p>
+<p>可以看到整个流程是 ok 的。</p>
+<p>我们将 <code>item.delete()</code>  的注释取消掉再发布一次就可以了。</p>
+<h2 id="通过-Bark-通知我"><a href="#通过-Bark-通知我" class="headerlink" title="通过 Bark 通知我"></a>通过 Bark 通知我</h2><p>为了在每次删除后都能及时的收到通知，我通过 <a href="https://apps.apple.com/cn/app/bark-%E7%BB%99%E4%BD%A0%E7%9A%84%E6%89%8B%E6%9C%BA%E5%8F%91%E6%8E%A8%E9%80%81/id1403753865" target="_blank" rel="noopener">Bark</a> 给我的手机发个通知。我们只需将 <code>delete_backup</code> 函数改成这样就可以了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete_backup</span><span class="params">(event, context)</span>:</span>  </span><br><span class="line">    <span class="keyword">if</span> delete_expire():  </span><br><span class="line">        requests.get(<span class="string">'https://api.day.app/&#123;YOUR_KEY&#125;/Bossku备份清理成功'</span>)  </span><br><span class="line">    <span class="keyword">else</span>:  </span><br><span class="line">        requests.get(<span class="string">'https://api.day.app/&#123;YOUR_KEY&#125;/Bossku备份清理失败'</span>)  </span><br><span class="line">    <span class="keyword">return</span> &#123;  </span><br><span class="line">        <span class="string">"statusCode"</span>: <span class="number">200</span>,  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>别忘了在本地目录安装 <code>requests</code> 包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests==<span class="number">2.27</span><span class="number">.1</span> --target=.</span><br></pre></td></tr></table></figure>
+<p>再次发布，然后我手动触发两次，第一次文件超过 2 个所以可以执行成功，第二次文件不足两个执行失败，符合我们的预期。</p>
+<p><img src="6.png" alt="6.png"></p>
+<p>这样我就不用再在每周六手动清理这些文件了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/what-i-think-other-already-think/" rel="prev" title="我想的事情其他人已经想到了">
+      <i class="fa fa-chevron-left"></i> 我想的事情其他人已经想到了
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/modify-blog-font/" rel="next" title="将博客字体修改为「霞鹜文楷」">
+      将博客字体修改为「霞鹜文楷」 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化项目"><span class="nav-number">2.</span> <span class="nav-text">初始化项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署"><span class="nav-number">3.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-Bark-通知我"><span class="nav-number">4.</span> <span class="nav-text">通过 Bark 通知我</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

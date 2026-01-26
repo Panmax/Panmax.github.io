@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。   update at 2017-04-13  算法具有">
+<meta name="keywords" content="读书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《大话数据结构》阅读笔记">
+<meta property="og:url" content="https://jiapan.me/2017/《大话数据结构》阅读笔记/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。   update at 2017-04-13  算法具有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2017/《大话数据结构》阅读笔记/1.png">
+<meta property="og:image" content="https://jiapan.me/2017/《大话数据结构》阅读笔记/2.png">
+<meta property="og:image" content="https://jiapan.me/2017/《大话数据结构》阅读笔记/3.png">
+<meta property="og:image" content="https://jiapan.me/2017/《大话数据结构》阅读笔记/4.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.896Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《大话数据结构》阅读笔记">
+<meta name="twitter:description" content="update at 2017-04-12  逻辑结构：指数据对象中数据元素之间的相互关系 1. 集合结构 2. 线性结构 3. 树形结构 4. 图形结构 物理结构：指数据的逻辑结构在计算机中的存储形式 1. 顺序存储结构 2. 链式存储结构 逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。   update at 2017-04-13  算法具有">
+<meta name="twitter:image" content="https://jiapan.me/2017/《大话数据结构》阅读笔记/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2017/《大话数据结构》阅读笔记/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>《大话数据结构》阅读笔记 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2017/《大话数据结构》阅读笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《大话数据结构》阅读笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-04-12 00:00:00" itemprop="dateCreated datePublished" datetime="2017-04-12T00:00:00+08:00">2017-04-12</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2017/《大话数据结构》阅读笔记/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/《大话数据结构》阅读笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>update at 2017-04-12</p>
+</blockquote>
+<p>逻辑结构：指数据对象中数据元素之间的相互关系</p>
+<pre><code>1. 集合结构
+2. 线性结构
+3. 树形结构
+4. 图形结构
+</code></pre><p>物理结构：指数据的逻辑结构在计算机中的存储形式</p>
+<pre><code>1. 顺序存储结构
+2. 链式存储结构
+</code></pre><p>逻辑结构是面相问题的，物理结构是面相计算机的，基本目标就是将数据及其逻辑关系存储到计算机的内存中。</p>
+<hr>
+<blockquote>
+<p>update at 2017-04-13</p>
+</blockquote>
+<p>算法具有五个基本特性：输入、输出、有穷性、确定性和可行性</p>
+<p>好的算法应该具有正确性、可读性、健壮性、高效率和低存储量的特征</p>
+<p>判断一个算法的效率时，函数中的常数和其他次要项常常可以忽略，而更应该关注主项（最高阶项）的阶数</p>
+<hr>
+<blockquote>
+<p>update at 2017-04-17</p>
+</blockquote>
+<p>推到大 O 阶：</p>
+<ol>
+<li>用常数 1 取代运行时间中的所有加法常数。</li>
+<li>在修改后的运行次数函数中，只保留最高阶项。</li>
+<li>如果最高阶项存在且不是 1，则去除与这个项相乘的常数。</li>
+</ol>
+<p>得到的结果就是大 O 阶。</p>
+<hr>
+<blockquote>
+<p>update at 2017-04-18</p>
+</blockquote>
+<p><strong>线性表顺序存储结构需要三个属性：</strong></p>
+<ol>
+<li>存储空间的起始位置</li>
+<li>线性表的最大存储容量</li>
+<li>线性表的当前长度</li>
+</ol>
+<p><strong>线性表顺序存储结构的优缺点：</strong></p>
+<p><em>优点：</em></p>
+<ul>
+<li>无需为表示表中元素之间的逻辑关系而增加额外的存储空间</li>
+<li>可以快速地存取表中任一位置的元素</li>
+</ul>
+<p><em>缺点：</em></p>
+<ul>
+<li>插入和删除操作需要移动大量元素</li>
+<li>当线性表长度变化较大时，难以确定存储空间的容量</li>
+<li>造成存储空间的碎片</li>
+</ul>
+<hr>
+<blockquote>
+<p>update at 2017-04-19</p>
+</blockquote>
+<p><strong>链式结构</strong></p>
+<p>为了表示每个数据元素 <code>ai</code> 与其直接后继数据元素 <code>ai+1</code> 之间的逻辑关系，对数据元素 <code>ai</code> 来说，除了存储其本身的信息之外，还需存储一个指示其直接后继的信息（即直接后继的存储位置）</p>
+<p>把存储数据元素信息的域称为数据域，把存储直接后继位置的域成为指针域。指针域中存储的信息称做指针或链。这两部分信息组成数据元素 <code>ai</code> 的存储映像，称为结点（Node）</p>
+<p>链表中第一个节点的存储位置叫做头指针</p>
+<p><strong>头指针</strong></p>
+<ul>
+<li>头指针是指链表指向第一个节点的指针，若链表有头结点，则是指向投结点的指针</li>
+<li>头指针具有标识作用，所以常用头指针冠以链表的名字</li>
+<li>无论链表是否为空，头指针均不为空。头指针是链表的必要元素</li>
+</ul>
+<p><strong>头结点</strong></p>
+<ul>
+<li>头结点是为了操作的统一和方便而设立的，放在第一元素的结点之前，其数据域一般无意义（也可以存放链表的长度）</li>
+<li>有了头结点，对在第一元素结点前插入结点和删除第一节点，其操作与其他节点的操作就统一了</li>
+<li>头结点不一定是链表必须要素</li>
+</ul>
+<hr>
+<blockquote>
+<p>update at 2017-04-20</p>
+</blockquote>
+<h4 id="3-11-顺序结构与单链表结构优缺点"><a href="#3-11-顺序结构与单链表结构优缺点" class="headerlink" title="3.11 顺序结构与单链表结构优缺点"></a>3.11 顺序结构与单链表结构优缺点</h4><p><strong>存储分配方式</strong></p>
+<ul>
+<li>顺序存储结构用一段连续的存储单元依次存储线性表的数据元素</li>
+<li>单链表采用链式存储结构，用一组任意的存储单元存放线性表的元素</li>
+</ul>
+<p><strong>时间性能</strong></p>
+<p><strong>查找</strong></p>
+<ul>
+<li>顺序存储结构O(1)</li>
+<li>单链表O(n)</li>
+</ul>
+<p><strong>插入和删除</strong></p>
+<ul>
+<li>顺序存储结构需要平均移动表长一半的元素，时间为O(n)</li>
+<li>单链表在找出某位置的指针后，插入和删除时间为O(1)</li>
+</ul>
+<p><strong>空间性能</strong></p>
+<ul>
+<li>顺序存储结构需预分配存储空间，分大了浪费，分小了容易发生上溢</li>
+<li>单链表不需要分配存储空间，只要有就可以分配，元素个数也不受限制</li>
+</ul>
+<p><strong>结论</strong></p>
+<ul>
+<li>若线性表需要频繁查找，很少进行插入和删除操作时，宜采用顺序存储结构。若需要频繁插入和删除时，宜采用单链表结构</li>
+<li>当线性表中的元素个数变化较大或者根本不知道有多大时，最好用单链表结构，这样可以不需要考虑存储空间的大小问题。而如果事先知道线性表的大致长度，用顺序存储结构效率会高很多</li>
+</ul>
+<h4 id="3-14-双向链表"><a href="#3-14-双向链表" class="headerlink" title="3.14 双向链表"></a>3.14 双向链表</h4><p><strong>线性表的双向链表存储结构</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef struct DulNode</span><br><span class="line">&#123;</span><br><span class="line">    ElemType data;</span><br><span class="line">    struct DuLNode *prior;</span><br><span class="line">    struct DuLNode *next;</span><br><span class="line">&#125; DulNode, *DuLinkList;</span><br></pre></td></tr></table></figure>
+<p><strong>双向链表插入元素</strong></p>
+<p><img src="1.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s -&gt; prior = p</span><br><span class="line">s -&gt; next = p -&gt; next</span><br><span class="line">p -&gt; next -&gt; prior = s</span><br><span class="line">p -&gt; next = s</span><br></pre></td></tr></table></figure>
+<p><strong>双向链表删除元素</strong></p>
+<p><img src="2.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">p -&gt; prior -&gt; next = p -&gt; next;</span><br><span class="line">p -&gt; next -&gt; prior = p -&gt; prior</span><br><span class="line">free(p);</span><br></pre></td></tr></table></figure>
+<h4 id="3-15-回顾总结"><a href="#3-15-回顾总结" class="headerlink" title="3.15 回顾总结"></a>3.15 回顾总结</h4><p><strong>线性表的两种结构</strong></p>
+<p><img src="3.png" alt=""></p>
+<h4 id="4-2-栈的定义"><a href="#4-2-栈的定义" class="headerlink" title="4.2 栈的定义"></a>4.2 栈的定义</h4><blockquote>
+<p>栈（stack）是限定仅在表尾进行插入和删除操作的线性表。</p>
+</blockquote>
+<p>把允许插入和删除的一端称为栈顶（top），另一端称为栈底（bottom）</p>
+<p>不含任何数据元素的栈称为空栈，栈又称为后进先出（Last In First Out）的线性表，简称 FIFO 结构。</p>
+<p>栈的插入操作叫作进栈，也称压栈、入栈。</p>
+<p>栈的删除操作叫做出栈。</p>
+<h4 id="4-9-栈的应用-–-四则运算表达式求值"><a href="#4-9-栈的应用-–-四则运算表达式求值" class="headerlink" title="4.9 栈的应用 – 四则运算表达式求值"></a>4.9 栈的应用 – 四则运算表达式求值</h4><p>中缀表达式转后缀表达式:</p>
+<p>如：9+(3-1)<em>3+10/2   -&gt;   9 3 1 - 3 </em> + 10 2 / +</p>
+<p>规则：从左到右遍历中缀表达式的每个数字和符号，若是数字就输出，即成为后缀表达式的一部分；若是符号，则判断其与栈顶符号的优先级，是有括号或优先级低于栈顶符号（乘除优先加减）则栈顶元素依次出栈并输出，并将当前符号进栈，一直到最终输出后缀表达式为止。</p>
+<h4 id="4-10-队列的定义"><a href="#4-10-队列的定义" class="headerlink" title="4.10 队列的定义"></a>4.10 队列的定义</h4><blockquote>
+<p>队列（queue）是只允许在一段进行插入操作，而在另一端进行删除操作的线性表。</p>
+</blockquote>
+<p>队列是一种先进先出（First In First Out）的线性表，简称 FIFO。允许插入的一端称为队尾，允许删除的一端称为队头。</p>
+<h4 id="4-12-2-循环队列定义"><a href="#4-12-2-循环队列定义" class="headerlink" title="4.12.2 循环队列定义"></a>4.12.2 循环队列定义</h4><p>循环队列满时没我们有两种办法来判断：</p>
+<ul>
+<li>办法一是设置一个标志变量 flag，当 front == rear，且 flag == 0 时为队列空，当 front == rear，且 flag = 1 时为队列满。</li>
+<li>办法二是当前队列空时，条件就是 front = rear，当队列满时，我们修改其条件，保留一个元素空间。也就是说队列满时，数组中还有一个空闲单元。如图所示，我们就认为此队列已经满了。</li>
+</ul>
+<p><img src="4.png" alt=""></p>
+<p>第二种方法，队列满的条件是 (rear+1) % QueueSize == front</p>
+<p>计算队列长度公式：(rear-front+Queue) % QueueSize</p>
+<h4 id="4-14-总结回顾"><a href="#4-14-总结回顾" class="headerlink" title="4.14 总结回顾"></a>4.14 总结回顾</h4><p>对于栈来说，如果是两个相同数据类型的栈，则可以用数组的两端作栈底的方法来让两个栈共享数据，这就可以最大化地利用数组的空间。</p>
+<p>对于队列来说，为了避免数组插入和删除时需要移动数据，于是就引入了循环队列，使得队头和队尾可以在数组中循环变化。解决了移动数据的时间损耗，使得本来插入和删除时间是 O(n) 的时间复杂度变成了 O(1)。</p>
+<p>他们也都可以通过链式存数结构来实现。</p>
+<h4 id="5-2-串的定义"><a href="#5-2-串的定义" class="headerlink" title="5.2 串的定义"></a>5.2 串的定义</h4><p>串(string)是由零个或多个字符组成的有限序列，又名叫字符串。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书/" rel="tag"># 读书</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/纪念很久没有写代码到深夜-几个提高效率的oh-my-zsh插件/" rel="prev" title="纪念很久没有写代码到深夜 && 几个提高效率的oh-my-zsh插件">
+      <i class="fa fa-chevron-left"></i> 纪念很久没有写代码到深夜 && 几个提高效率的oh-my-zsh插件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/Local-Storage-vs-Session-Storage/" rel="next" title="Local Storage vs Session Storage">
+      Local Storage vs Session Storage <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-11-顺序结构与单链表结构优缺点"><span class="nav-number">1.</span> <span class="nav-text">3.11 顺序结构与单链表结构优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-14-双向链表"><span class="nav-number">2.</span> <span class="nav-text">3.14 双向链表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-15-回顾总结"><span class="nav-number">3.</span> <span class="nav-text">3.15 回顾总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-栈的定义"><span class="nav-number">4.</span> <span class="nav-text">4.2 栈的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-9-栈的应用-–-四则运算表达式求值"><span class="nav-number">5.</span> <span class="nav-text">4.9 栈的应用 – 四则运算表达式求值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-10-队列的定义"><span class="nav-number">6.</span> <span class="nav-text">4.10 队列的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-12-2-循环队列定义"><span class="nav-number">7.</span> <span class="nav-text">4.12.2 循环队列定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-14-总结回顾"><span class="nav-number">8.</span> <span class="nav-text">4.14 总结回顾</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-串的定义"><span class="nav-number">9.</span> <span class="nav-text">5.2 串的定义</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

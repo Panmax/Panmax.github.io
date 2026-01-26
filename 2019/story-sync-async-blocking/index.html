@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。 小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处">
+<meta name="keywords" content="同步,异步,阻塞,非阻塞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大p故事会001：同步、异步、阻塞、非阻塞那些事">
+<meta property="og:url" content="https://jiapan.me/2019/story-sync-async-blocking/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。 小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.759Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大p故事会001：同步、异步、阻塞、非阻塞那些事">
+<meta name="twitter:description" content="高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。 小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处">
+
+<link rel="canonical" href="https://jiapan.me/2019/story-sync-async-blocking/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>大p故事会001：同步、异步、阻塞、非阻塞那些事 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2019/story-sync-async-blocking/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大p故事会001：同步、异步、阻塞、非阻塞那些事
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-13 09:23:37" itemprop="dateCreated datePublished" datetime="2019-03-13T09:23:37+08:00">2019-03-13</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/story-sync-async-blocking/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/story-sync-async-blocking/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>高中生大p就读于一所很一般的学校，大p所在的班里有一个来自s市的女孩小h。</p>
+<p>小h娇小活泼可爱而且很个性，很受同学们的欢迎，小h不知道的是大p也已经关注她很久了，虽然两个人都是寄宿生，但他们两个都偷偷带了手机到学校来，大p从其他同学那里问来了小h的手机号码，大p鼓起勇气拨通了小h的电话，还没等小h接听，大p就退缩了，挂了电话。那时的手机对学生来说还很新鲜，小h 看到这个未接电话，不知道是谁打来的，处于好玩就给这个陌生号码回了过来，但大p 却没有勇气接听，任由手机振动着。当时很流行彩铃，大p 也不例外地设置了彩铃，用的是张震岳的《思念是一种病》，这首歌刚好是当时小h最喜欢的音乐，于是后来小h在想听这首歌的时候就会给这个号码打电话。</p>
+<p>高二那年下了一场暴雪，导致全市所有设施瘫痪，于是学校放假了，刚好那天学校期中考试，也是在这一天大p告诉了小h那个手机号是他的。晚上回家后大p假装很不在乎地发短信问了小h这次考的怎么样，小h很客套的应付了几句，但大p这天异常兴奋，他隐约感受到如果再不做点什么可能就会永远错过了，于是他寻找各种话题和小h聊天，不知不觉从晚上10点聊到了早上5点…</p>
+<p>这之后小h也明白了大p的用意，大p在1个月后向小h表白了，但遭到了小h的拒绝，小h告诉大p学业要紧，等高中毕业后再考虑。</p>
+<p>转眼间高二下学期快要结束了，这一天小h把大p叫到一个没有人的地方，跟大p说：「我答应你之前那件事了，你也答应我，等我回来好吗？」，大p不知道她在说什么，他只听到小h说她同意了，现在的大p 不管什么事情都会答应的，后来大p才知道，小h 是要回s市读高三，然后要在s市参加高考。</p>
+<p>高三，小h去了s市，他们两个每天通过手机短信的方式进行交流（当然是偷偷的），刚开始的时候，大p总是心心念地等着短信回复，每次给小h发过去短信后就茶不思饭不想题也看不进去，只能两眼直勾勾地盯着手机等着短信回来，因为手机是静音所以要想第一时间知道短信到了只能盯着看屏幕有没有亮，这样过了一段时间，大p的成绩一落千丈，因为他有太多的时间花在了等着短信回复上。</p>
+<p>大p认为这样下去也不是办法于是调整了一下自己的心态，每次发完短信后不再一直盯着手机等回复了，而是用这个时间去看书、做题，每过一段时间就查看一下有没有短信过来，虽然大p的成绩慢慢爬了上来，但在这种状态下大p的心里还是需要一直惦记着手机，因为他不知道短信什么时候过来所以要时不时的去看一眼。</p>
+<p>于是大p就想有没有什么办法可以让自己不用频繁去看手机，又能在第一时间知道有短信来了呢，大p想了三天三夜想到了一个主意：用手机的振动功能，打开短信的振动提醒，可以把手机放在裤兜里，每次短信来了可以立刻感受到而且不会被老师发现。大p 像平常一样给小h发了条短信，为了验证这个振动功能的有效性，大p这次还是盯着手机等回复，直到短信回来手机震了，大p确信了方案的可行性。</p>
+<p>此后，大p的学习效率更高了，也可以安心的听课做题了，大p 只需要在手机振动的时候去看短信就行。大p很开心，就这样，高三的时光一闪而过，他们两个约定好要考同一所大学。</p>
+<p>预知后事如何，请听下回分解。</p>
+<h4 id="上边大p用到了4种方案来处理短信这件事："><a href="#上边大p用到了4种方案来处理短信这件事：" class="headerlink" title="上边大p用到了4种方案来处理短信这件事："></a>上边大p用到了4种方案来处理短信这件事：</h4><ul>
+<li>同步阻塞（傻傻的等短信过来）</li>
+<li>同步非阻塞（大p写会作业，检查下手机有没有新短信，这样交替轮询）</li>
+<li>异步阻塞（手机开启振动模式，但大p 还是盯着看。用这种方案的大p很傻，所以大p只尝试了一次）</li>
+<li>异步非阻塞（大p只管学习，手机一震大p就知道短信来了）</li>
+</ul>
+<blockquote>
+<p>阻塞非阻塞都是相对于大p来说的，取决于大p等待短信时的状态。全心投入等短信达到的大p是阻塞的，可以抽出时间来做其他事情的大p是非阻塞的。</p>
+</blockquote>
+<blockquote>
+<p>而同步和异步是对手机来说的，同步需要让大p自己去检查有没有新短信达到，而异步（也就是手机开启振动模式）可以主动告诉大p有短信来了。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/同步/" rel="tag"># 同步</a>
+              <a href="/tags/异步/" rel="tag"># 异步</a>
+              <a href="/tags/阻塞/" rel="tag"># 阻塞</a>
+              <a href="/tags/非阻塞/" rel="tag"># 非阻塞</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/java-8-stringjoiner/" rel="prev" title="Java 8 StringJoiner 示例">
+      <i class="fa fa-chevron-left"></i> Java 8 StringJoiner 示例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/story-https/" rel="next" title="大p故事会002：关于 https 那些事">
+      大p故事会002：关于 https 那些事 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#上边大p用到了4种方案来处理短信这件事："><span class="nav-number">1.</span> <span class="nav-text">上边大p用到了4种方案来处理短信这件事：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

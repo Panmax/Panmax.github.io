@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="一个理想的微服务架构应该是在内部由松散耦合的若干服务组成，这些服务使用异步消息相互通信。REST 等同步协议主要用于服务与外部其他应用程序的通信。 考虑交互方式将有助于你专注于需求，并避免陷人特定进程间通信技术的细节。 交互方式的选择会影响应用程序的可用性，交互方式还可以帮助你选择更合适的集成测试策略。 有多种客户端与服务的交互方式它们可以分为两个维度。 第一个维度关注的是一对一和一对多： 一对一">
+<meta name="keywords" content="读书笔记,微服务架构设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【阅读笔记】微服务架构设计模式—第3章">
+<meta property="og:url" content="https://jiapan.me/2022/read-notes-microservices-patterns-3/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="一个理想的微服务架构应该是在内部由松散耦合的若干服务组成，这些服务使用异步消息相互通信。REST 等同步协议主要用于服务与外部其他应用程序的通信。 考虑交互方式将有助于你专注于需求，并避免陷人特定进程间通信技术的细节。 交互方式的选择会影响应用程序的可用性，交互方式还可以帮助你选择更合适的集成测试策略。 有多种客户端与服务的交互方式它们可以分为两个维度。 第一个维度关注的是一对一和一对多： 一对一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-3/20220906181622.png">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-3/20220907100739.png">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-3/20220907100828.png">
+<meta property="og:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-3/20220908182530.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.565Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【阅读笔记】微服务架构设计模式—第3章">
+<meta name="twitter:description" content="一个理想的微服务架构应该是在内部由松散耦合的若干服务组成，这些服务使用异步消息相互通信。REST 等同步协议主要用于服务与外部其他应用程序的通信。 考虑交互方式将有助于你专注于需求，并避免陷人特定进程间通信技术的细节。 交互方式的选择会影响应用程序的可用性，交互方式还可以帮助你选择更合适的集成测试策略。 有多种客户端与服务的交互方式它们可以分为两个维度。 第一个维度关注的是一对一和一对多： 一对一">
+<meta name="twitter:image" content="https://jiapan.me/2022/read-notes-microservices-patterns-3/20220906181622.png">
+
+<link rel="canonical" href="https://jiapan.me/2022/read-notes-microservices-patterns-3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>【阅读笔记】微服务架构设计模式—第3章 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2022/read-notes-microservices-patterns-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【阅读笔记】微服务架构设计模式—第3章
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-09-08 18:50:04" itemprop="dateCreated datePublished" datetime="2022-09-08T18:50:04+08:00">2022-09-08</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/read-notes-microservices-patterns-3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/read-notes-microservices-patterns-3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>一个理想的微服务架构应该是在内部由松散耦合的若干服务组成，这些服务使用异步消息相互通信。REST 等同步协议主要用于服务与外部其他应用程序的通信。</p>
+<p>考虑交互方式将有助于你专注于需求，并避免陷人特定进程间通信技术的细节。</p>
+<p>交互方式的选择会影响应用程序的可用性，交互方式还可以帮助你选择更合适的集成测试策略。</p>
+<h2 id="有多种客户端与服务的交互方式"><a href="#有多种客户端与服务的交互方式" class="headerlink" title="有多种客户端与服务的交互方式"></a>有多种客户端与服务的交互方式</h2><p>它们可以分为两个维度。</p>
+<h3 id="第一个维度关注的是一对一和一对多："><a href="#第一个维度关注的是一对一和一对多：" class="headerlink" title="第一个维度关注的是一对一和一对多："></a>第一个维度关注的是一对一和一对多：</h3><ul>
+<li>一对一：每个客户端请求由一个服务实例来处理。</li>
+<li>一对多：每个客户端请求由多个服务实例来处理。</li>
+</ul>
+<p>一对一的交互方式有以下几种类型：</p>
+<ul>
+<li><strong>请求/响应</strong>：一个客户端向服务端发起请求，等待响应；客户端期望服务端很快就会发送响应。<ul>
+<li>在一个基于线程的应用中，等待过程可能造成<strong>线程阻塞</strong>。这样的方式会导致服务的<strong>紧耦合</strong>。</li>
+</ul>
+</li>
+<li><strong>异步请求/响应</strong>：客户端发送请求到服务端，服务端异步响应请求。<ul>
+<li>客户端在等待响应时<strong>不会阻塞线程</strong>，因为服务端的响应不会马上就返回。</li>
+</ul>
+</li>
+<li><strong>单向通知</strong>：客户端的请求发送到服务端，但是并不期望服务端做出任何响应。</li>
+</ul>
+<p>一对多的交互方式有以下几种类型：</p>
+<ul>
+<li><strong>发布 / 订阅方式</strong>：客户端发布通知消息，被零个或者多个感兴趣的服务订阅。</li>
+<li><strong>发布 / 异步响应方式</strong>：客户端发布请求消息，然后等待从感兴趣的服务发回的响应。</li>
+</ul>
+<h3 id="第二个维度关注的是同步和异步："><a href="#第二个维度关注的是同步和异步：" class="headerlink" title="第二个维度关注的是同步和异步："></a>第二个维度关注的是同步和异步：</h3><ul>
+<li><strong>同步模式</strong>：客户端请求需要服务端实时响应，客户端等待响应时可能导致堵塞。</li>
+<li><strong>异步模式</strong>：客户端请求不会阻塞进程，服务端的响应可以是非实时的。</li>
+</ul>
+<p><img src="20220906181622.png" alt="20220906181622.png"></p>
+<p>一个设计良好的接口会在暴露有用功能同时隐藏实现的细节。</p>
+<p>„„你应该努力只进行<strong>向后兼容</strong>的更改。向后兼容的更改是对 API 的附加更改或功能增强：</p>
+<ul>
+<li>添加可选属性。</li>
+<li>向响应添加属性。</li>
+<li>添加新操作。</li>
+</ul>
+<p>「严以律己，宽以待人」：服务应该为缺少的请求属性提供默认值；客户端应忽略任何额外的响应属性。</p>
+<hr>
+<p>进程间通信的本质是交换消息。<strong>消息通常包括数据</strong>，因此一个重要的设计决策就是这些数据的格式。消息格式的选择会对进程间通信的效率、API 的可用性和可演化性产生影响。</p>
+<p>消息的格式可以分为两大类：文本和二进制。</p>
+<ul>
+<li>第一类是 JSON 和 XML 这样的基于文本的格式。<ul>
+<li>这类消息格式的好处在于，它们的可读性很高，同时也是自描述的。<ul>
+<li>JSON 消息是命名属性的集合。</li>
+<li>相似地，XML 消息也是命名属性的集合。</li>
+</ul>
+</li>
+<li>使用基于文本格式消息的弊端主要是消息往往过度冗长，特别是 XML。另外一个弊端是解析文本引入的额外开销，尤其是在消息较大的时候。</li>
+</ul>
+</li>
+<li>有几种不同的二进制格式可供选择。常用的包括 <a href="[https://developers.google.com/Protocol-buffers/docs/overview](https://developers.google.com/protocol-buffers">Protocol Buffers</a>) 和 <a href="https:/avro.apache.org" target="_blank" rel="noopener">Avro</a></li>
+<li>Protocol Buffers 使用 tagged fields(带标记的字段)，</li>
+<li>Avro 的消费者在解析消息之前需要知道它的格式。</li>
+<li>因此，实行 API 的版本升级演进， Protocol Buffer 要优于 Avro</li>
+</ul>
+<p>REST 是一种使用 HTTP 协议的进程间通信机制</p>
+<ul>
+<li>REST 中的一个关键概念是资源，它通常表示单个业务对象。</li>
+<li>REST 使用 HTTP 动词来操作资源，使用 URL 引用这些资源。</li>
+</ul>
+<h2 id="REST-成熟度模型"><a href="#REST-成熟度模型" class="headerlink" title="REST 成熟度模型"></a>REST 成熟度模型</h2><ul>
+<li>Level 0：Level 0 层级服务的客户端只是向服务端点发起 HTTP POST 请求，进行服务调用。每个请求都指明了需要执行的操作、这个操作针对的目标（例如，业务对象） 和必要的参数。</li>
+<li>Level 1: Level 1 层级的服务引入了资源的概念。要执行对资源的操作，客户端需要发出指定要执行的操作和包含任何参数的 POST 请求。</li>
+<li>Level 2：Level 2 层级的服务使用 HTTP 动词来执行操作，譬如 GET 表示获取、 POST 表示创建、PUT 表示更新。请求查询参数和主体（如果有的话）指定操作的参数。这让服务能够借助 Web 基础设施服务，例如通过 CDN 来缓存 GET 请求。</li>
+<li>Level 3: Level 3 层级的服务基于 HATEOAS (Hypertext As The Engine Of Application State）原则设计，基本思想是在由 GET 请求返回的资源信息中包含链接，这些链接能够执行该资源允许的操作。例如，客户端通过订单资源中包含的链接取消某一订单，或者发送 GET 请求去获取该订单，等等。HATEOAS 的优点包括无须在客户端代码中写入硬链接的 URL。此外，由于资源信息中包含可允许操作的链接，客户端无须猜测在资源的当前状态下执行何种操作。</li>
+</ul>
+<p>REST 最初没有 IDL。幸运的是，开发者社区重新发现了 RESTful API 的 IDL 价值。最流行的 REST IDL 是 <a href="www.openapis.org">Open API 规范</a> 。</p>
+<hr>
+<h2 id="REST-好处和弊端"><a href="#REST-好处和弊端" class="headerlink" title="REST 好处和弊端"></a>REST 好处和弊端</h2><h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><ul>
+<li>它非常简单，并且大家都很熟悉。</li>
+<li>可以使用浏览器扩展（比如 Postman 插件）或者 curl 之类的命令行（假设使用的是 JSON 或其他文本格式）来测试 HTTP API。</li>
+<li>直接支持请求 /响应方式的通信。</li>
+<li>HTTP 对防火墙友好。</li>
+<li>不需要中间代理，简化了系统架构。</li>
+</ul>
+<h3 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h3><ul>
+<li>它只支持请求 /响应方式的通信。</li>
+<li>可能导致可用性降低。<ul>
+<li>由于客户端和服务直接通信而没有代理来缓冲消息，因此它们必须在 REST API 调用期间都保持在线。</li>
+</ul>
+</li>
+<li>客户端必须知道服务实例的位置（URL)。<ul>
+<li>这是现代应用程序中的一个重要问题。客户端必须使用所谓的服务发现机制来定位服务实例。</li>
+</ul>
+</li>
+<li>在单个请求中获取多个资源具有挑战性。</li>
+<li>有时很难将多个更新操作映射到 HTTP 动词。<ul>
+<li>考虑 gRPC</li>
+</ul>
+</li>
+</ul>
+<p>gRPC API 由一个或多个服务和请求/响应消息定义组成。服务定义类似于 Java 接口，是强类型方法的集合。除了支持简单的请求 /响应 RPC 之外，gRPC 还支持流式 RPC。</p>
+<p>gRPC 使用 Protocol Buffers 作为消息格式。</p>
+<ul>
+<li>Protocol Buffers 是一种高效且紧凑的二进制格式。</li>
+<li>它是一种标记格式：Protocol Buffers 消息的每个字段都有编号，并且有一个类型代码。消息接收方可以提取所需的字段，并跳过它无法识别的字段。因此，gRPC 使 API 能够在保持<strong>向后兼容</strong>的同时进行变更。</li>
+</ul>
+<h2 id="gRPC-好处和弊端"><a href="#gRPC-好处和弊端" class="headerlink" title="gRPC 好处和弊端"></a>gRPC 好处和弊端</h2><h3 id="好处-1"><a href="#好处-1" class="headerlink" title="好处"></a>好处</h3><ul>
+<li>设计具有复杂更新操作的 API 非常简单。</li>
+<li>它具有高效、紧凑的进程间通信机制，尤其是在交换大量消息时。</li>
+<li>支持在远程过程调用和消息传递过程中使用双向流式消息方式。</li>
+<li>它实现了客户端和用各种语言编写的服务端之间的互操作性。</li>
+</ul>
+<h3 id="弊端-1"><a href="#弊端-1" class="headerlink" title="弊端"></a>弊端</h3><ul>
+<li>与基于 REST/JSON 的 API 机制相比，JavaScript 客户端使用基于 gRPC 的 API 需要做更多的工作。</li>
+<li>旧式防火墙可能不支持 HTTP/2。</li>
+</ul>
+<hr>
+<p>服务保护自己的方法包括以下机制的组合：</p>
+<ul>
+<li><strong>网络超时</strong>：在等待针对请求的响应时，一定不要做成无限阻塞，而是要设定一个超时。使用超时可以保证不会一直在无响应的请求上浪费资源。</li>
+<li><strong>限制客户端向服务器发出请求的数量</strong>：把客户端能够向特定服务发起的请求设置一个上限，如果请求达到了这样的上限，很有可能发起更多的请求也无济于事，这时就应该让请求立刻失败。</li>
+<li><strong>断路器模式</strong>：监控客户端发出请求的成功和失败数量，如果失败的比例超过一定的阈值，就启动断路器，让后续的调用立刻失效。<ul>
+<li>如果大量的请求都以失败而告终，这说明被调服务不可用，这样即使发起更多的调用也是无济于事。在经过一定的时间后，客户端应该继续尝试，如果调用成功，则解除断路器。</li>
+<li>断路器是一个远程过程调用的代理，在连续失败次数超过指定阀值后的一段时间内，这个代理会立即拒绝其他调用。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>服务发现在概念上非常简单：其关键组件是服务注册表，它是包含服务实例网络位置信息的一个数据库。</p>
+<p>服务实例启动和停止时，服务发现机制会更新服务注册表。当客户端调用服务时，服务发现机制会查询服务注册表以获取可用服务实例的列表，并将请求路由到其中一个服务实例。</p>
+<p>实现服务发现有以下两种主要方式：</p>
+<ul>
+<li>应用层服务发现模式：服务及其客户直接与服务注册表交互。<ul>
+<li>这种服务发现方法是两种模式的组合：<ul>
+<li>第一种模式是<strong>自注册模式</strong>。<ul>
+<li><strong>自注册</strong>：服务实例向服务注册表注册自己。</li>
+</ul>
+</li>
+<li>第二种模式是<strong>客户端发现模式</strong>。<ul>
+<li><strong>客户端发现</strong>：客户端从服务注册表检索可用服务实例的列表，并在它们之间进行负载平衡。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>好处：<ul>
+<li>可以处理多平台部署的问题</li>
+</ul>
+</li>
+<li>弊端：<ul>
+<li>需要为你使用的每种编程语言（可能还有框架）提供服务发现库</li>
+<li>开发者负责设置和管理服务注册表，这会分散一定的精力</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>平台层服务发现模式：通过部署基础设施来处理服务发现。<ul>
+<li>这种方法是以下两种模式的组合：<ul>
+<li>第三方注册模式：由第三方负责（称为注册服务器，通常是部署平台的一部分）处理注册，而不是服务本身向服务注册表注册自己。<ul>
+<li><strong>第三方注册</strong>：服务实例由第三方自动注册到服务注册表</li>
+</ul>
+</li>
+<li>服务端发现模式：客户端不再需要查询服务注册表，而是向 DNS 名称发出请求，对该 DNS 名称的请求被解析到路由器，路由器查询服务注册表并对请求进行负载均衡。<ul>
+<li><strong>服务端发现</strong>：客户端向路由器发出请求，路由器负责服务发现</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>好处：<ul>
+<li>服务发现的所有方面都完全由部署平台处理</li>
+</ul>
+</li>
+<li>弊端：<ul>
+<li>仅限于支持使用该平台部署的服务</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="服务发现示例图"><a href="#服务发现示例图" class="headerlink" title="服务发现示例图"></a>服务发现示例图</h2><h3 id="应用层服务发现模式"><a href="#应用层服务发现模式" class="headerlink" title="应用层服务发现模式"></a>应用层服务发现模式</h3><p><img src="20220907100739.png" alt="20220907100739.png"></p>
+<h3 id="平台层服务发现模式"><a href="#平台层服务发现模式" class="headerlink" title="平台层服务发现模式"></a>平台层服务发现模式</h3><p><img src="20220907100828.png" alt="20220907100828.png"></p>
+<hr>
+<p>有以下几种不同类型的消息：</p>
+<ul>
+<li>文档：仅包含数据的通用消息。接收者决定如何解释它。<ul>
+<li>对命令式消息的回复是文档消息的一种使用场景。</li>
+</ul>
+</li>
+<li>命令：一条等同于 RPC 请求的消息。它指定要调用的操作及其参数。</li>
+<li>事件：表示发送方这一端发生了重要的事件。<ul>
+<li>事件通常是领域事件，表示领域对象 (如 order 或 customer）的状态更改。</li>
+</ul>
+</li>
+</ul>
+<p>有以下两种类型的消息通道：<strong>点对点</strong>和<strong>发布-订阅</strong>：</p>
+<ul>
+<li><strong>点对点通道</strong>向正在从通道读取的一个消费者传递消息。<ul>
+<li>服务使用点对点通道来实现前面描述的一对一交互方式。例如，命令式消息通常通过点对点通道发送。</li>
+</ul>
+</li>
+<li><strong>发布-订阅</strong>通道将一条消息发给所有订阅的接收方。<ul>
+<li>服务使用发布一订阅通道来实现前面描述的一对多交互方式。例如，事件式消息通常通过发布-订阅通道发送。</li>
+</ul>
+</li>
+</ul>
+<h2 id="无代理消息-vs-基于代理的消息"><a href="#无代理消息-vs-基于代理的消息" class="headerlink" title="无代理消息 vs 基于代理的消息"></a>无代理消息 vs 基于代理的消息</h2><h3 id="无代理消息"><a href="#无代理消息" class="headerlink" title="无代理消息"></a>无代理消息</h3><p>好处：</p>
+<ul>
+<li>允许更轻的网络流量和更低的延迟，因为消息直接从发送方发送到接收方，而不必从发送方到消息代理，再从代理转发到接收方。</li>
+<li>消除了消息代理可能成为性能瓶颈或单点故障的可能性。</li>
+<li>具有较低的操作复杂性，因为不需要设置和维护消息代理。</li>
+</ul>
+<p>弊端：</p>
+<ul>
+<li>服务需要了解彼此的位置，因此必须使用服务发现机制。</li>
+<li>会导致可用性降低，因为在交换消息时，消息的发送方和接收方都必须同时在线。</li>
+<li>在实现例如确保消息能够成功投递这些复杂功能时的挑战性更大。</li>
+</ul>
+<h3 id="基于代理的消息"><a href="#基于代理的消息" class="headerlink" title="基于代理的消息"></a>基于代理的消息</h3><p>消息代理是所有消息的中介节点。</p>
+<p>好处：</p>
+<ul>
+<li>松耦合：客户端发起请求时只要发送给特定的通道即可，客户端完全不需要感知服务实例的情况，客户端不需要使用服务发现机制去获得服务实例的网络位置。</li>
+<li>消息缓存：消息代理可以在消息被处理之前一直缓存消息。<ul>
+<li>像 HTTP 这样的同步请求/ 响应协议，在交换数据时，发送方和接收方必须同时在线。然而，在使用消息机制的情况下，消息会在队列中缓存，直到它们被接收方处理。这就意味着，例如，即使订单处理系统暂时离线或不可用，在线商店仍旧能够接受客户的订单。订单消息将会在队列中缓存（并不会丢失）。</li>
+</ul>
+</li>
+<li>灵活的通信：消息机制支持前面提到的所有交互方式。</li>
+<li>明确的进程间通信：基于 RPC 的机制总是企图让远程服务调用跟本地调用看上去没什么区别（在客户端和服务端同时使用远程调用代理)。然而，因为物理定律（如服务器不可预计的硬件失效）和可能的局部故障，远程和本地调用还是大相径庭的。消息机制让这些差异交得很明确，这样程序员不会陷人一种“太平盛世”的错觉。</li>
+</ul>
+<p>弊端：</p>
+<ul>
+<li>潜在的性能瓶颈：消息代理可能存在性能瓶颈。幸运的是，许多现代消息代理都支持高度的横向扩展。</li>
+<li>潜在的单点故障：消息代理的高可用性至关重要，否则系统整体的可靠性将受到影响。幸运的是，大多数现代消息代理都是高可用的。</li>
+<li>额外的操作复杂性：消息系统是一个必须独立安装、配置和运维的系统组件。</li>
+</ul>
+<p>选择消息代理时，你需要考虑以下各种因素：</p>
+<ul>
+<li><strong>支持的编程语言</strong>：你选择的消息代理应该支持尽可能多的编程语言。</li>
+<li><strong>支持的消息标准</strong>：消息代理是否支持多种消息标淮，比如 AMQP 和 STOMP，还是它仅支持专用的消息标准？</li>
+<li><strong>消息排序</strong>：消息代理是否能够保留消息的排序？</li>
+<li><strong>投递保证</strong>：消息代理提供什么样的消息投递保证？</li>
+<li><strong>持久性</strong>：消息是否持久化保存到磁盘并且能够在代理崩溃时恢复？</li>
+<li><strong>耐久性</strong>：如果接收方重新连接到消息代理，它是否会收到断开连接时发送的消息？</li>
+<li><strong>可扩展性</strong>：消息代理的可扩展性如何？</li>
+<li><strong>延迟</strong>：端到端是否有较大延迟？</li>
+<li><strong>竞争性（并发）接收方</strong>：消息代理是否支持竞争性接收方？</li>
+</ul>
+<hr>
+<p>使用多个线程和服务实例来并发处理消息可以提高应用程序的吞吐量。但同时处理消息的挑战是确保每个消息只被处理一次，并且是按照它们发送的顺序来处理的。</p>
+<p>现代消息代理（如 Apache Kafka 和 AWS Kinesis) 使用的常见解决方案是使用分片（分区）通道。该解决方案分为三个部分。</p>
+<ol>
+<li>分片通道由两个或多个分片组成，每个分片的行为类似于一个通道。</li>
+<li>发送方在消息头部指定分片键，通常是任意字符串或字节序列。消息代理使用分片键将消息分配给特定的分片。例如，它可以通过计算分片键的散列来选择分片。</li>
+<li>消息代理将接收方的多个实例组合在一起，并将它们视为相同的逻辑接收方。例如， Apache Kafka 使用术语消货者组。消<strong>息代理将每个分片分配给单个接收器</strong>。它在接收方启动和关闭时<strong>重新分配</strong>分片。</li>
+</ol>
+<p><img src="20220908182530.png" alt="20220908182530.png"></p>
+<hr>
+<p>处理重复消息有以下两种不同的方法：</p>
+<ul>
+<li>编写幂等消息处理程序。</li>
+<li>跟踪消息并丢弃重复项。</li>
+</ul>
+<p>程序的幂等性，是指即使这个应用被相同输入参数多次重复调用时，也不会产生额外的效果。</p>
+<ul>
+<li>例如，取消一个已经被取消的订单，就是一个幂等性操作。</li>
+</ul>
+<p>跟踪消息并丢弃重复消息方案：</p>
+<ol>
+<li>消息接收方使用 message id 跟踪它已处理的消息并丢弃任何重复项。</li>
+<li>在应用程序表，而不是专用表中记录 message id。</li>
+</ol>
+<hr>
+<p>服务通常需要在更新数据库的事务中发布消息。</p>
+<p>确保消息的可靠发送的机制：</p>
+<ul>
+<li>使用数据库表作为消息队列</li>
+<li>通过轮询模式发布事件</li>
+<li>使用事务日志拖尾模式发布事件</li>
+</ul>
+<hr>
+<p>领域事件是聚合 (业务对象）在创建、更新或删除时触发的事件。服务使用 DomainEventPublisher 接口发布领域事件。</p>
+<p>如果你想最大化一个系统的可用性，就应该设法最小化系统的同步操作量。</p>
+<ul>
+<li>即：应该尽可能选择异步通信机制来处理服务之间的调用。</li>
+</ul>
+<p>消除同步交互的方法：</p>
+<ul>
+<li>使用异步交互模式</li>
+<li>复制数据<ul>
+<li>弊端：<ul>
+<li>有时候被复制的数据量巨大，会导致效率低下</li>
+<li>复制数据并没有从根本上解决服务如何更新其他服务所拥有的数据这个问题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>先返回响应，再完成处理<ol>
+<li>仅使用本地的数据来完成请求的验证。</li>
+<li>更新数据库，包括向 OUTBOX 表插人消息。</li>
+<li>向客户端返回响应。</li>
+</ol>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+              <a href="/tags/微服务架构设计模式/" rel="tag"># 微服务架构设计模式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/system-design-cdn/" rel="prev" title="日拱一卒 - 内容分发网络（CDN）">
+      <i class="fa fa-chevron-left"></i> 日拱一卒 - 内容分发网络（CDN）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/blog-security-diary/" rel="next" title="如何在博客上安全发布私密日记">
+      如何在博客上安全发布私密日记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#有多种客户端与服务的交互方式"><span class="nav-number">1.</span> <span class="nav-text">有多种客户端与服务的交互方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一个维度关注的是一对一和一对多："><span class="nav-number">1.1.</span> <span class="nav-text">第一个维度关注的是一对一和一对多：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二个维度关注的是同步和异步："><span class="nav-number">1.2.</span> <span class="nav-text">第二个维度关注的是同步和异步：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST-成熟度模型"><span class="nav-number">2.</span> <span class="nav-text">REST 成熟度模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST-好处和弊端"><span class="nav-number">3.</span> <span class="nav-text">REST 好处和弊端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#好处"><span class="nav-number">3.1.</span> <span class="nav-text">好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弊端"><span class="nav-number">3.2.</span> <span class="nav-text">弊端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gRPC-好处和弊端"><span class="nav-number">4.</span> <span class="nav-text">gRPC 好处和弊端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#好处-1"><span class="nav-number">4.1.</span> <span class="nav-text">好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弊端-1"><span class="nav-number">4.2.</span> <span class="nav-text">弊端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务发现示例图"><span class="nav-number">5.</span> <span class="nav-text">服务发现示例图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用层服务发现模式"><span class="nav-number">5.1.</span> <span class="nav-text">应用层服务发现模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平台层服务发现模式"><span class="nav-number">5.2.</span> <span class="nav-text">平台层服务发现模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无代理消息-vs-基于代理的消息"><span class="nav-number">6.</span> <span class="nav-text">无代理消息 vs 基于代理的消息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无代理消息"><span class="nav-number">6.1.</span> <span class="nav-text">无代理消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于代理的消息"><span class="nav-number">6.2.</span> <span class="nav-text">基于代理的消息</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

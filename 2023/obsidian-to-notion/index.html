@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="我之前经常给别人吹嘘Obsidian的强大，甚至在公司的内部分享中也给大家推荐过Obsidian。 我现在最常用的是Notion，很早前就放弃了Obsidian。 我放弃Obsidian的几个主要原因是有：  手机端做的很糟糕。Obsidian应该就是直接把电脑端那套东西搬到了手机端，没有做太多适配，导致手机端体验非常不好，插件多一点就会卡顿。 数据同步不及时。我一开始使用的同步方案是基于iClo">
+<meta name="keywords" content="Notion,Obsidian,知识管理,生产力工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Obsidian换成Notion">
+<meta property="og:url" content="https://jiapan.me/2023/obsidian-to-notion/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="我之前经常给别人吹嘘Obsidian的强大，甚至在公司的内部分享中也给大家推荐过Obsidian。 我现在最常用的是Notion，很早前就放弃了Obsidian。 我放弃Obsidian的几个主要原因是有：  手机端做的很糟糕。Obsidian应该就是直接把电脑端那套东西搬到了手机端，没有做太多适配，导致手机端体验非常不好，插件多一点就会卡顿。 数据同步不及时。我一开始使用的同步方案是基于iClo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Obsidian换成Notion">
+<meta name="twitter:description" content="我之前经常给别人吹嘘Obsidian的强大，甚至在公司的内部分享中也给大家推荐过Obsidian。 我现在最常用的是Notion，很早前就放弃了Obsidian。 我放弃Obsidian的几个主要原因是有：  手机端做的很糟糕。Obsidian应该就是直接把电脑端那套东西搬到了手机端，没有做太多适配，导致手机端体验非常不好，插件多一点就会卡顿。 数据同步不及时。我一开始使用的同步方案是基于iClo">
+
+<link rel="canonical" href="https://jiapan.me/2023/obsidian-to-notion/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Obsidian换成Notion | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2023/obsidian-to-notion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Obsidian换成Notion
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-09-03 21:21:44" itemprop="dateCreated datePublished" datetime="2023-09-03T21:21:44+08:00">2023-09-03</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2023/obsidian-to-notion/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/obsidian-to-notion/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我之前经常给别人吹嘘Obsidian的强大，甚至在公司的内部分享中也给大家推荐过Obsidian。</p>
+<p>我现在最常用的是Notion，很早前就放弃了Obsidian。</p>
+<p>我放弃Obsidian的几个主要原因是有：</p>
+<ul>
+<li>手机端做的很糟糕。Obsidian应该就是直接把电脑端那套东西搬到了手机端，没有做太多适配，导致手机端体验非常不好，插件多一点就会卡顿。</li>
+<li>数据同步不及时。我一开始使用的同步方案是基于iCloud，完全是佛系同步。后来改用AWS，但每次使用前后都要自己手动执行同步，不够便利，配置也较为复杂。</li>
+<li>无法开箱即用。需要安装很多插件后才能用起来，配色方案还要自己选了又选，每个配色和风格都有自己不满足的地方。</li>
+<li>复杂的插件系统。插件有两种安装方式，可以通过软件内直接安装，也可以通过源码安装。不同的插件安装后配置的方式也有区别，有的插件是改配置文件，有的可以直接在界面上配置，和前边遇到的问题一样，插件配置的多终端同步也就很不方便。也因为存在插件系统，我永远不知道自己没有用上什么功能，就会沉浸在每天浏览插件的焦虑中。</li>
+</ul>
+<p>这些缺点在Notion上都得到了解决，Notion本身就是基于Web的，数据自始至终都在云端，不存在数据同步问题。我一开始吹嘘Obsidian时用到的一个理由是数据属于我自己，不信任任何第三方，第三方跑路后你的数据就再也找不回来了。现在想想真是既可笑又狂妄，况且Notion支持数据导出，导出后的数据就是纯文本Markdown格式，很容易迁移。</p>
+<p>Notion在手机端做了大量优化，弱网环境下也可以使用离线数据，离线编辑，有网后自动进行同步和合并，界面也极其流畅。</p>
+<p>Notion完全可以开箱即用，你可以使用它的Web端，也可以使用它的客户端，即使一个全新的用户也能很快上手用起来。</p>
+<p>Notion的数据库系统和模板库也很强大，我用数据库系统记录Twitter上感兴趣的推文，还用它来维护我在Github上star的Repo。这两个用到数据库的功能都是使用别人开源的代码实现的。模板系统我用的不多，公司项目有专门的项目管理工具，我的待办事项使用Things。在数据库系统和模板系统方面，我在今后有精力了还需要深入学习一下。</p>
+<p>有一说一，Obsidian由双向链接构成的知识图谱确实非常强大，猛一看也很唬人，但一般用户很难维护起自己的网络结构。Obsidian的插件生态也很好，有各种强大的插件可以使用，但还是有一定的上手难度。</p>
+<p>我觉得Obsidian和Notion这两个阵营很像手机操作系统中的安卓和苹果。</p>
+<p>我在大学使用安卓手机的时候，最喜欢折腾的事情就是刷机、装插件、改主题、改字体等等。后来改用iPhone后一开始也喜欢折腾越狱之类的，后来随着苹果的生态越来越好，加上自己精力有限也就不折腾了。在折腾iPhone越狱期间，我发现我每次改完一个地方，过段时间就会刷回原生操作系统，比如改了个字体、加了个图标，过段时间腻了就又会刷回去，到头来还是觉得自带的顺眼、舒服，自己整的花里胡哨的一点用都没有。</p>
+<p>想想也是，苹果这么大的公司，由那么多专业的设计师设计出来的界面、选择出的字体，一定是符合绝大多数用户的最佳方案。我一个非专业人事居然会认为自己改的风格会超过专业的设计师。</p>
+<blockquote>
+<p>专业人士和业余爱好者的一个差别在于，是否了解极限的存在。</p>
+</blockquote>
+<p>Notion也是一样，Notion内部一定有非常专业的产品经理和设计团队去考虑如何更好的为用户服务，让用户有更好的使用体验。我们作为普通用户，享受他们的服务就可以了，业余的水平再高也是业余的，专业的事就交给专业的人去做就好了。</p>
+<p><em>既然专业的人做专业的事，同理专业的事应该交给专业的工具，所以我不会用 Notion 作为任务管理工具，因为他在这个领域并不专业。</em></p>
+<p>Notion 的产品完整度很高，每个功能都进过了精细的打磨，整个产品用起来有很扎实稳重的感觉，而 Obsidian 给我一种轻飘飘的感觉。</p>
+<p>苹果和Notion虽然一直在听取市场上用户们的需求，但他们的每次改动都是经过深思熟虑的。让用户满意并不等于迎合用户的一切要求。用户不了解所有可能的选择，也经常弄错自己真正想要的东西。</p>
+<p>做一个好产品就像做一个好中医一样，不能头痛医头，脚痛医脚。病人告诉你症状，你必须找出他生病的真正原因，然后针对病因进行治疗。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Notion/" rel="tag"># Notion</a>
+              <a href="/tags/Obsidian/" rel="tag"># Obsidian</a>
+              <a href="/tags/知识管理/" rel="tag"># 知识管理</a>
+              <a href="/tags/生产力工具/" rel="tag"># 生产力工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/learn-pottery/" rel="prev" title="念念在少年宫学陶艺">
+      <i class="fa fa-chevron-left"></i> 念念在少年宫学陶艺
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/success-failure/" rel="next" title="讨论成功与失败">
+      讨论成功与失败 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

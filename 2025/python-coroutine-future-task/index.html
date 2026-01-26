@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="理解这三者的关系是掌握 asyncio 异步编程的关键。我们可以用一个简单的比喻来贯穿整个解释：做饭。  1. 协程 (Coroutine)是什么？协程是 asyncio 异步编程的基石。一个用 async def 关键字定义的函数，其返回值就是一个协程对象。协程是一个可以暂停和恢复执行的特殊函数。 核心特点：  惰性执行：仅仅调用一个协程函数并不会执行其中的代码，它只会返回一个协程对象。 需要驱">
+<meta name="keywords" content="Python,异步编程,asyncio,协程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解 Python 中的协程、Future、任务">
+<meta property="og:url" content="https://jiapan.me/2025/python-coroutine-future-task/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="理解这三者的关系是掌握 asyncio 异步编程的关键。我们可以用一个简单的比喻来贯穿整个解释：做饭。  1. 协程 (Coroutine)是什么？协程是 asyncio 异步编程的基石。一个用 async def 关键字定义的函数，其返回值就是一个协程对象。协程是一个可以暂停和恢复执行的特殊函数。 核心特点：  惰性执行：仅仅调用一个协程函数并不会执行其中的代码，它只会返回一个协程对象。 需要驱">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解 Python 中的协程、Future、任务">
+<meta name="twitter:description" content="理解这三者的关系是掌握 asyncio 异步编程的关键。我们可以用一个简单的比喻来贯穿整个解释：做饭。  1. 协程 (Coroutine)是什么？协程是 asyncio 异步编程的基石。一个用 async def 关键字定义的函数，其返回值就是一个协程对象。协程是一个可以暂停和恢复执行的特殊函数。 核心特点：  惰性执行：仅仅调用一个协程函数并不会执行其中的代码，它只会返回一个协程对象。 需要驱">
+
+<link rel="canonical" href="https://jiapan.me/2025/python-coroutine-future-task/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>理解 Python 中的协程、Future、任务 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2025/python-coroutine-future-task/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          理解 Python 中的协程、Future、任务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-09-26 17:46:41" itemprop="dateCreated datePublished" datetime="2025-09-26T17:46:41+08:00">2025-09-26</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2025/python-coroutine-future-task/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2025/python-coroutine-future-task/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>理解这三者的关系是掌握 <code>asyncio</code> 异步编程的关键。我们可以用一个简单的比喻来贯穿整个解释：<strong>做饭</strong>。</p>
+<hr>
+<h3 id="1-协程-Coroutine"><a href="#1-协程-Coroutine" class="headerlink" title="1. 协程 (Coroutine)"></a>1. 协程 (Coroutine)</h3><p><strong>是什么？</strong><br>协程是 <code>asyncio</code> 异步编程的基石。一个用 <code>async def</code> 关键字定义的函数，其返回值就是一个<strong>协程对象</strong>。协程是一个可以暂停和恢复执行的特殊函数。</p>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>惰性执行</strong>：仅仅调用一个协程函数并不会执行其中的代码，它只会返回一个协程对象。</li>
+<li><strong>需要驱动</strong>：协程必须被驱动才能运行。驱动方式通常有两种：<ol>
+<li>在另一个已经运行的协程中通过 <code>await</code> 关键字来调用。</li>
+<li>通过 <code>asyncio.run()</code> 启动顶层协程，或通过 <code>asyncio.create_task()</code> 将其包装成任务。</li>
+</ol>
+</li>
+<li><strong><code>await</code> 关键字</strong>：<code>await</code> 只能在 <code>async def</code> 函数内部使用。它会暂停当前协程的执行，让事件循环去处理其他任务，直到 <code>await</code> 后面的可等待对象（另一个协程、任务或 Future）完成。</li>
+</ul>
+<p><strong>做饭的比喻：</strong><br>协程就像一个<strong>菜谱 (Recipe)</strong>。菜谱详细描述了做一道菜的所有步骤（代码逻辑），包括需要在哪里“等待”（比如 <code>await asyncio.sleep(10)</code> 就好比菜谱里写着“将食材腌制10分钟”）。光有菜谱本身，菜是不会自己做出来的。</p>
+<p><strong>代码示例：</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">make_salad</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"开始准备沙拉..."</span>)</span><br><span class="line">    <span class="comment"># 这是一个耗时操作，比如洗菜、切菜</span></span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">2</span>)  <span class="comment"># 模拟IO操作，暂停执行，交出控制权</span></span><br><span class="line">    print(<span class="string">"沙拉准备好了！"</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"一份美味的沙拉"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 调用协程函数，得到一个协程对象</span></span><br><span class="line">salad_coro = make_salad()</span><br><span class="line">print(<span class="string">f"调用 make_salad() 得到的是: <span class="subst">&#123;salad_coro&#125;</span>"</span>)</span><br><span class="line">print(<span class="string">"仅仅调用并不会执行任何代码"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 使用 asyncio.run() 来驱动协程，并实际执行它</span></span><br><span class="line"><span class="comment"># asyncio.run() 会创建事件循环，运行协程，然后关闭循环</span></span><br><span class="line">result = asyncio.run(salad_coro)</span><br><span class="line">print(<span class="string">f"最终结果: <span class="subst">&#123;result&#125;</span>"</span>)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="2-Future-对象"><a href="#2-Future-对象" class="headerlink" title="2. Future 对象"></a>2. Future 对象</h3><p><strong>是什么？</strong><br><code>Future</code> 是一个<strong>低层级</strong>的可等待对象，它代表一个异步操作<strong>最终的结果</strong>。可以把它想象成一个“占位符”或“期货”，在未来的某个时刻，这个占位符会被一个真实的值或一个异常所填充。</p>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>状态</strong>：一个 <code>Future</code> 对象有自己的状态（比如 <code>pending</code>, <code>finished</code>, <code>cancelled</code>）。</li>
+<li><strong>不关心如何产生结果</strong>：<code>Future</code> 对象本身不包含任何业务逻辑，它只关心最终的结果。</li>
+<li><strong>由底层库使用</strong>：通常，应用程序开发者不直接创建 <code>Future</code> 对象。它们更多地被底层的库（如网络库）用来与事件循环集成。例如，一个库在等待网络数据时，可以创建一个 <code>Future</code>，当数据到达时，就调用 <code>future.set_result()</code> 来填充结果。</li>
+</ul>
+<p><strong>做饭的比喻：</strong><br><code>Future</code> 就像你在快餐店点餐后拿到的那个<strong>取餐凭证/电子蜂鸣器</strong>。你不知道后厨具体是怎么做的，但你拿着这个凭证，就代表你未来会得到你的餐点。当蜂鸣器响起时（<code>Future</code> 完成了），你就可以凭它去取餐（获取结果）。</p>
+<hr>
+<h3 id="3-任务-Task"><a href="#3-任务-Task" class="headerlink" title="3. 任务 (Task)"></a>3. 任务 (Task)</h3><p><strong>是什么？</strong><br><code>Task</code> 是 <code>Future</code> 的一个子类。它的特定作用是<strong>包装并独立调度一个协程在事件循环中并发执行</strong>。<code>Task</code> 是实现并发的核心工具。</p>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>并发执行</strong>：当你用 <code>asyncio.create_task()</code> 把一个协程包装成一个 <code>Task</code> 时，该协程会立即被提交到事件循环中，并尽快开始执行，而不需要你立即 <code>await</code> 它。这使得多个任务可以“同时”运行。</li>
+<li><strong>可等待</strong>：因为 <code>Task</code> 是 <code>Future</code> 的子类，所以它也是一个可等待对象。你可以随时 <code>await</code> 一个 <code>Task</code> 来获取它的最终结果（如果它还没完成，<code>await</code> 会等待它完成）。</li>
+<li><strong>管理和控制</strong>：<code>Task</code> 对象提供了取消任务 (<code>task.cancel()</code>)、检查状态 (<code>task.done()</code>) 等管理接口。</li>
+</ul>
+<p><strong>做饭的比喻：</strong><br><code>Task</code> 就像是你把<strong>菜谱（协程）</strong>交给了<strong>一位厨师（事件循环）</strong>，并让他开始工作。厨师会立即开始按照菜谱做菜，而你可以去做别的事情（比如摆放餐具）。你手里拿到了<strong>取餐凭证（Task 对象本身）</strong>，可以随时用它来查看菜做得怎么样了，或者在最后等菜上桌 (<code>await task</code>)。</p>
+<p><strong>代码示例：</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">brew_coffee</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"开始煮咖啡..."</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">3</span>)</span><br><span class="line">    print(<span class="string">"咖啡煮好了！"</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"一杯香浓的咖啡"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">toast_bread</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"开始烤面包..."</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">2</span>)</span><br><span class="line">    print(<span class="string">"面包烤好了！"</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"两片烤面包"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    start_time = time.time()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将协程包装成任务，它们会立即开始并发执行</span></span><br><span class="line">    coffee_task = asyncio.create_task(brew_coffee())</span><br><span class="line">    bread_task = asyncio.create_task(toast_bread())</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在等待任务完成的同时，我们可以做点别的事</span></span><br><span class="line">    print(<span class="string">"正在摆放餐具..."</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">"餐具摆放完毕。"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 现在等待任务完成并获取结果</span></span><br><span class="line">    <span class="comment"># 注意：这里我们分别 await，更好的方式是使用 asyncio.gather</span></span><br><span class="line">    coffee_result = <span class="keyword">await</span> coffee_task</span><br><span class="line">    bread_result = <span class="keyword">await</span> bread_task</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 使用 gather 会更简洁</span></span><br><span class="line">    <span class="comment"># results = await asyncio.gather(coffee_task, bread_task)</span></span><br><span class="line"></span><br><span class="line">    end_time = time.time()</span><br><span class="line">    print(<span class="string">f"\n早餐准备完毕: <span class="subst">&#123;coffee_result&#125;</span> 和 <span class="subst">&#123;bread_result&#125;</span>"</span>)</span><br><span class="line">    print(<span class="string">f"总耗时: <span class="subst">&#123;end_time - start_time:<span class="number">.2</span>f&#125;</span> 秒"</span>) <span class="comment"># 结果约为3秒，而不是 3+2=5秒</span></span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br></pre></td></tr></table></figure></p>
+<p>在这个例子中，煮咖啡（3秒）和烤面包（2秒）是并发进行的，所以总耗时取决于最长的那个任务，也就是3秒左右，而不是串行执行的5秒。</p>
+<hr>
+<h3 id="总结：三者关系"><a href="#总结：三者关系" class="headerlink" title="总结：三者关系"></a>总结：三者关系</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">概念</th>
+<th style="text-align:left">核心作用</th>
+<th style="text-align:left">比喻</th>
+<th style="text-align:left">如何创建/使用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>协程 (Coroutine)</strong></td>
+<td style="text-align:left">定义一个可以暂停的异步操作流程。</td>
+<td style="text-align:left"><strong>菜谱</strong></td>
+<td style="text-align:left">通过 <code>async def</code> 定义函数。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Future</strong></td>
+<td style="text-align:left">代表一个异步操作的<strong>最终结果</strong>的占位符。</td>
+<td style="text-align:left"><strong>取餐凭证</strong></td>
+<td style="text-align:left">通常由底层库创建和管理。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>任务 (Task)</strong></td>
+<td style="text-align:left"><strong>调度和执行</strong>一个协程，实现并发。</td>
+<td style="text-align:left"><strong>将菜谱交给厨师去执行</strong></td>
+<td style="text-align:left">通过 <code>asyncio.create_task()</code> 包装一个协程。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>核心关系链：</strong></p>
+<p>你编写一个 <strong>协程 (Coroutine)</strong>（菜谱），然后通过 <code>asyncio.create_task()</code> 将它包装成一个 <strong>任务 (Task)</strong>（把菜谱交给厨师），这个 <strong>任务</strong> 本身就是一个特殊的 <strong>Future</strong>（你拿到的取餐凭证），你可以随时等待（<code>await</code>）它完成并获取结果。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/异步编程/" rel="tag"># 异步编程</a>
+              <a href="/tags/asyncio/" rel="tag"># asyncio</a>
+              <a href="/tags/协程/" rel="tag"># 协程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/python-asyncio-ensure_future/" rel="prev" title="执行可等待对象：asyncio.ensure_future()">
+      <i class="fa fa-chevron-left"></i> 执行可等待对象：asyncio.ensure_future()
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/prompting-one/" rel="next" title="【翻译】提示工程 (Prompting) 1.1">
+      【翻译】提示工程 (Prompting) 1.1 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-协程-Coroutine"><span class="nav-number">1.</span> <span class="nav-text">1. 协程 (Coroutine)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Future-对象"><span class="nav-number">2.</span> <span class="nav-text">2. Future 对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-任务-Task"><span class="nav-number">3.</span> <span class="nav-text">3. 任务 (Task)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结：三者关系"><span class="nav-number">4.</span> <span class="nav-text">总结：三者关系</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

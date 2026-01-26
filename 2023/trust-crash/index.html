@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="这两天有不少信托暴雷相关的新闻，之前听说「信托」过这个词，但不知道具体是什么意思，于是想探索了一下，在这里做个记录。 信托信托（Trust）是指委托人基于对受托人的信任，将其财产权委托给受托人，由受托人按委托人的意愿以自己的名义，为受益人的利益或特定目的，进行管理和处分的行为。受托人有责任确保信托资产的安全和管理。信托可以投资于各种资产，包括股票、债券、不动产等。  信托就像一个保险箱。当一个人有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信托暴雷">
+<meta property="og:url" content="https://jiapan.me/2023/trust-crash/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="这两天有不少信托暴雷相关的新闻，之前听说「信托」过这个词，但不知道具体是什么意思，于是想探索了一下，在这里做个记录。 信托信托（Trust）是指委托人基于对受托人的信任，将其财产权委托给受托人，由受托人按委托人的意愿以自己的名义，为受益人的利益或特定目的，进行管理和处分的行为。受托人有责任确保信托资产的安全和管理。信托可以投资于各种资产，包括股票、债券、不动产等。  信托就像一个保险箱。当一个人有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.841Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="信托暴雷">
+<meta name="twitter:description" content="这两天有不少信托暴雷相关的新闻，之前听说「信托」过这个词，但不知道具体是什么意思，于是想探索了一下，在这里做个记录。 信托信托（Trust）是指委托人基于对受托人的信任，将其财产权委托给受托人，由受托人按委托人的意愿以自己的名义，为受益人的利益或特定目的，进行管理和处分的行为。受托人有责任确保信托资产的安全和管理。信托可以投资于各种资产，包括股票、债券、不动产等。  信托就像一个保险箱。当一个人有">
+
+<link rel="canonical" href="https://jiapan.me/2023/trust-crash/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>信托暴雷 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2023/trust-crash/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          信托暴雷
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-08-15 11:59:00" itemprop="dateCreated datePublished" datetime="2023-08-15T11:59:00+08:00">2023-08-15</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2023/trust-crash/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/trust-crash/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这两天有不少信托暴雷相关的新闻，之前听说「信托」过这个词，但不知道具体是什么意思，于是想探索了一下，在这里做个记录。</p>
+<h2 id="信托"><a href="#信托" class="headerlink" title="信托"></a>信托</h2><p>信托（Trust）是指委托人基于对受托人的信任，将其财产权委托给受托人，由受托人按委托人的意愿以自己的名义，为受益人的利益或特定目的，进行管理和处分的行为。受托人有责任确保信托资产的安全和管理。信托可以投资于各种资产，包括股票、债券、不动产等。</p>
+<blockquote>
+<p>信托就像一个保险箱。当一个人有很多钱或贵重物品时，他们可能不想自己管理它们，所以他们把钱或物品放进了保险箱。信托就是这样一个保险箱，它帮助人们管理和保护他们的财产。</p>
+<p>信托由一个叫做信托公司的专业机构管理。他们会根据人们的要求，把钱或贵重物品放进信托中，并负责管理它们。信托公司的工作就像一个看守人，他们会确保财产安全，并按照人们的指示处理这些财产。比如，当一个人长大后，他们可以告诉信托公司把钱用来支付学费。信托公司也可以帮助人们管理财产直到他们长大。</p>
+<p>信托还有一个好处是可以帮助人们避免纳税问题。当一个人把钱放进信托时，他们可以减少需要支付的税款。这就像一个特殊的规则，可以帮助人们保留更多的钱。</p>
+</blockquote>
+<h1 id="暴雷原因"><a href="#暴雷原因" class="headerlink" title="暴雷原因"></a>暴雷原因</h1><p>在国外信托的主要用途是保障资金安全，比如家族继承、公司避税、企业破产、富豪离婚这类才用得上信托，但是<strong>国内信托成了中高产家庭获取高收益的理财产品</strong>。</p>
+<p>国内的销售人员在销售信托产品时夸大其词，盲目追求业绩，承诺回报率在年化8%-12%。这个操作是不是很眼熟？前几年暴雷的 P2P 也是这个套路，我一直以为 P2P 后再没有这么高的收益，没想到是因为我自己没接触到更高端的圈子才不知道这些信息。</p>
+<p>如果整个池子一直有源源不断的新钱进来，或者市场行情确实不错，用这些钱投资其他产品的回报能获取更高收益，cover 住成本，整个游戏还是可以玩的，但近两年流进来的资金越来越少，其中一个原因是近几年理财产品合规性要求，这些信托产品无法再通过银行渠道销售，损失了很大的销售渠道。</p>
+<p>再加上市场行情低迷，因为信托公司拿到的这些钱后，大多还是投在上市公司中，近一两年的大 A 股行情惨目忍睹，稳定在3000点左右国家都拉不动。</p>
+<p>更糟糕的是还有不少储户要提现退出，出现了挤兑最后形成崩盘暴雷，这么来看本质上还是回归到了庞氏骗局。当然国内信托的初衷一定不是想做成庞氏骗局，只是在过程中产生了变形，由于体量太大最后无法挽回。</p>
+<p>通过这次探索，我也刷新了对中国中高产家庭存款的认知，300万是基操，几千万很常见，最高的能到50亿。</p>
+<h1 id="一些常见的理财产品"><a href="#一些常见的理财产品" class="headerlink" title="一些常见的理财产品"></a>一些常见的理财产品</h1><p>理财是指通过投资来增加财富。理财产品通常包括存款、基金、债券等。理财的风险和收益因产品而异。</p>
+<h2 id="股票"><a href="#股票" class="headerlink" title="股票"></a>股票</h2><p>股票是公司发行的证券之一，代表着公司的一部分所有权。股票的价格在证券市场上波动，投资者可以通过买入和卖出股票来获得利润。</p>
+<blockquote>
+<p>股票就像是你买了一小部分一家公司的东西，比如买了一小块蛋糕。如果这家公司做得好，蛋糕会变大，你会得到更多的蛋糕。</p>
+</blockquote>
+<h2 id="基金"><a href="#基金" class="headerlink" title="基金"></a>基金</h2><p>基金是由一群投资者的资金组成的投资组合，由专业的基金经理进行管理。基金通常投资于股票、债券、商品等各种资产，以实现投资组合的分散化和风险控制。</p>
+<blockquote>
+<p>基金就像是一个大大的钱袋子，里面有很多人的钱。这些钱会被专业的人士拿去买很多的蛋糕，也就是投资不同的东西。赚到的蛋糕会分给里面的每个人。</p>
+</blockquote>
+<h3 id="私募基金"><a href="#私募基金" class="headerlink" title="私募基金"></a>私募基金</h3><p>私募基金是只向特定投资者销售的基金，通常要求投资者有一定的财务资格和投资经验。私募基金通常能够提供更高的收益和更高的风险，因为它们不受公开市场的监管。</p>
+<blockquote>
+<p>私募基金是一种特别的钱袋子，只有一些特别有钱的人才能买。这些人把自己的钱放进去，让专业的人帮他们买更好的蛋糕，帮他们赚更多的钱。</p>
+</blockquote>
+<h3 id="公募基金"><a href="#公募基金" class="headerlink" title="公募基金"></a>公募基金</h3><p>公募基金是向公众开放的基金，任何人都可以购买。公募基金通常受到监管，在投资组合和风险方面有一定的限制。</p>
+<blockquote>
+<p>公募基金是大家都能买的钱袋子。任何人都可以把自己的钱放进去，由专业的人来帮助大家买蛋糕，一起分享赚到的钱。</p>
+</blockquote>
+<h2 id="债券"><a href="#债券" class="headerlink" title="债券"></a>债券</h2><p>债券是企业或政府发行的借款证券，代表着借款人向债权人的债务。债券的价格通常与市场利率相关，投资者可以通过购买债券来获得固定收益。</p>
+<blockquote>
+<p>债权就像是你借给别人的钱，别人会约定在一定的时间还给你。就像你借给小朋友一块糖，他会答应过一会还给你。</p>
+</blockquote>
+<h2 id="保险"><a href="#保险" class="headerlink" title="保险"></a>保险</h2><p>保险是一种金融产品，向投保人提供赔偿保障。保险公司通过收取保费来为投保人提供保障。各种类型的保险产品包括寿险、医疗保险、汽车保险等。</p>
+<blockquote>
+<p>保险就像是一把伞，可以帮助你在出现问题的时候得到帮助。就像下雨时，伞可以遮挡雨水，保护你不被淋湿。</p>
+</blockquote>
+<h1 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h1><p>市场是残酷且真实的，不论你的研究多么到位、预测多么合理，面对整个市场你都是汪洋大海上的一叶扁舟，一个浪头打过来，一切可能瞬间就不复存在。哪怕你真得赢了几次，都可能是在为后面更大的失败埋下伏笔。</p>
+<p><strong>理解市场、尊重市场、敬畏市场，长久地活下去</strong>，才是获得成功的正道。</p>
+<p>作为个人应该多学习理财知识，适当投资一些美股、港股，分散投资做好资产配置。还是那句话：「不要把鸡蛋放在一个篮子里」。</p>
+<p>但话说回来，整个市场是个整体，没有一个人是无辜的，表面上是那些富人损失惨重，但所有人都要承担后果，有没有可能这是多米诺骨牌开始倒塌的开始？网上更惊悚的描述是「中国版雷曼兄弟」。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/prejudice-Eat-Drink-Man-Woman/" rel="prev" title="借《饮食男女》聊偏见">
+      <i class="fa fa-chevron-left"></i> 借《饮食男女》聊偏见
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/integrating-city/" rel="next" title="融入一个城市">
+      融入一个城市 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#信托"><span class="nav-number">1.</span> <span class="nav-text">信托</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#暴雷原因"><span class="nav-number"></span> <span class="nav-text">暴雷原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些常见的理财产品"><span class="nav-number"></span> <span class="nav-text">一些常见的理财产品</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#股票"><span class="nav-number">1.</span> <span class="nav-text">股票</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基金"><span class="nav-number">2.</span> <span class="nav-text">基金</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#私募基金"><span class="nav-number">2.1.</span> <span class="nav-text">私募基金</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#公募基金"><span class="nav-number">2.2.</span> <span class="nav-text">公募基金</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#债券"><span class="nav-number">3.</span> <span class="nav-text">债券</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保险"><span class="nav-number">4.</span> <span class="nav-text">保险</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反思"><span class="nav-number"></span> <span class="nav-text">反思</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

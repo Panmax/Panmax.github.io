@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="云技术已经彻底改变了我们管理应用程序的方式，尽管很多公司早已不再使用物理服务器，但他们仍然从服务器的角度来看待他们的系统。  如果我们试图把服务器的概念忘掉，并开始把基于云的应用程序视为工作流、分布式逻辑和外部管理的数据存储，会是什么情况？ 本文文我们一起探讨下 Serverless。 和其它软件开发趋势一样，Serverless 并没有一个清晰的概念，它可以用在两种不同但又有些相似的领域：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Serverless 入门">
+<meta property="og:url" content="https://jiapan.me/2019/serverless-introduce/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="云技术已经彻底改变了我们管理应用程序的方式，尽管很多公司早已不再使用物理服务器，但他们仍然从服务器的角度来看待他们的系统。  如果我们试图把服务器的概念忘掉，并开始把基于云的应用程序视为工作流、分布式逻辑和外部管理的数据存储，会是什么情况？ 本文文我们一起探讨下 Serverless。 和其它软件开发趋势一样，Serverless 并没有一个清晰的概念，它可以用在两种不同但又有些相似的领域：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://jiapan.me/2019/serverless-introduce/1.png">
+<meta property="og:image" content="https://jiapan.me/2019/serverless-introduce/2.png">
+<meta property="og:updated_time" content="2026-01-26T05:04:58.628Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Serverless 入门">
+<meta name="twitter:description" content="云技术已经彻底改变了我们管理应用程序的方式，尽管很多公司早已不再使用物理服务器，但他们仍然从服务器的角度来看待他们的系统。  如果我们试图把服务器的概念忘掉，并开始把基于云的应用程序视为工作流、分布式逻辑和外部管理的数据存储，会是什么情况？ 本文文我们一起探讨下 Serverless。 和其它软件开发趋势一样，Serverless 并没有一个清晰的概念，它可以用在两种不同但又有些相似的领域：">
+<meta name="twitter:image" content="https://jiapan.me/2019/serverless-introduce/1.png">
+
+<link rel="canonical" href="https://jiapan.me/2019/serverless-introduce/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Serverless 入门 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2019/serverless-introduce/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Serverless 入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-04 09:58:00" itemprop="dateCreated datePublished" datetime="2019-12-04T09:58:00+08:00">2019-12-04</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/serverless-introduce/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/serverless-introduce/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="1.png" alt=""></p>
+<blockquote>
+<p>云技术已经彻底改变了我们管理应用程序的方式，尽管很多公司早已不再使用物理服务器，但他们仍然从服务器的角度来看待他们的系统。</p>
+</blockquote>
+<p>如果我们试图把服务器的概念忘掉，并开始把基于云的应用程序视为工作流、分布式逻辑和外部管理的数据存储，会是什么情况？</p>
+<p>本文文我们一起探讨下 Serverless。</p>
+<p>和其它软件开发趋势一样，Serverless 并没有一个清晰的概念，它可以用在两种不同但又有些相似的领域：</p>
+<ul>
+<li>Serverless 最初是用来描述那些结合第三方、云托管来管理服务器端逻辑和状态的应用。通常是一些「富客户端」应用，比如单页 web 应用或者手机 APP，它们可以使用第三方提供的庞大生态系统来进行云端存储（比如：国内的 LeanCloud，国外的 Parse、Firbase）。这些类型的服务之前被称为「后端即服务」或「BaaS」。</li>
+<li>Serverless 还可以表示另一种情况，开发人员仍然编写服务器端应用代码，但是与传统架构不同，这个应用运行在无状态的容器中，这些容器是事件触发、短暂（可能只调用一次）并且由第三方来管理的。这种做法通常被理解为「函数即服务」或「FaaS」。AWS Lambda 是目前提供「函数即服务」的实现之一。</li>
+</ul>
+<p>尽管有 Serverless 这个名字，但实际并不是在没有服务器的情况下运行代码。之所以使用「无服务器计算（serverless computing）」这个名称，是因为拥有系统的企业或个人不必为运行后端应用而采购、租用、配置服务器或虚拟机。</p>
+<p>Serverless 有以下优势：</p>
+<ul>
+<li>无服务器管理（无需管理任何形式的服务器）</li>
+<li>按执行付费（不为空闲时间买单）</li>
+<li>自动伸缩（根据需求伸缩）</li>
+<li>函数作为应用的逻辑单元</li>
+</ul>
+<p>Serverless 模式鼓励将开发重点放在定义明确的业务逻辑单元上，而无需考虑如何部署、扩容或其它一些过早优化。因此开发的重点也应该是单个功能或模块，而不是一个具有大范围功能的服务。Serverless 将开发人员从部署的麻烦中解放出来，使得他们能够专注于按照逻辑封装应用。</p>
+<p>一个典型的例子是将图片上传到文件存储，此事件调用一个 Serverless 函数，这个函数创建图片的缩略图然后把该缩略图存入文件存储中，并将缩略图位置记录在 NoSQL 数据库中。数据写入 NoSQL 数据库的事件可能还会触发其他函数。这个缩略图创建函数只需按需运行，唯一的成本是调用该函数的次数。</p>
+<p>和其他技术一样，Serverless 并不完美。它的缺点是应用监控和调试将会变得困难，只能依靠于服务产生的日志记录。同时，在有服务间调用事件时，可能会出现供应商锁定。并且现有的 IDE 对 Serverless 函数支持也不够友好。</p>
+<h2 id="简单-HTTP-服务示例"><a href="#简单-HTTP-服务示例" class="headerlink" title="简单 HTTP 服务示例"></a>简单 HTTP 服务示例</h2><blockquote>
+<p>Serverless 框架 —— 可以构建由微服务组成的应用，这些微服务在响应事件时运行，并且可以自动扩容、只在运行期间收费。</p>
+</blockquote>
+<p>下边的例子将演示如何实现一个简单的 HTTP <code>GET</code> 端点，调用它时会返回当前的时间。内部函数名为 <code>currentTime</code>，HTTP 端点为 <code>ping</code>。</p>
+<h3 id="快速上手-Serverless"><a href="#快速上手-Serverless" class="headerlink" title="快速上手 Serverless"></a>快速上手 Serverless</h3><ul>
+<li>通过 npm 安装 serverless 程序</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g serverless</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置安全凭证<ul>
+<li><a href="https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/credentials.md" target="_blank" rel="noopener">https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/credentials.md</a></li>
+<li>或参考我之前的文章：<a href="/2019/telegram-bot-send-taily-message/">不到 40 行代码实现 Telegram 自动发消息机器人</a></li>
+</ul>
+</li>
+<li>创建服务</li>
+</ul>
+<p>我们需要新建 <code>handler.js</code> 和 <code>serverless.yml</code> 文件来描述和部署我们的 severless 函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// handler.js</span><br><span class="line"></span><br><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">module.exports.endpoint = (event, context, callback) =&gt; &#123;</span><br><span class="line">  const response = &#123;</span><br><span class="line">    statusCode: 200,</span><br><span class="line">    body: JSON.stringify(&#123;</span><br><span class="line">      message: `Hello, the current time is $&#123;new Date().toTimeString()&#125;.`,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  callback(null, response);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// serverless.yml</span><br><span class="line"></span><br><span class="line">service: serverless-simple-http-endpoint</span><br><span class="line"></span><br><span class="line">frameworkVersion: &quot;&gt;=1.1.0 &lt;2.0.0&quot;</span><br><span class="line"></span><br><span class="line">provider:</span><br><span class="line">  name: aws</span><br><span class="line">  runtime: nodejs8.10</span><br><span class="line"></span><br><span class="line">functions:</span><br><span class="line">  currentTime:</span><br><span class="line">    handler: handler.endpoint</span><br><span class="line">    events:</span><br><span class="line">      - http:</span><br><span class="line">          path: ping</span><br><span class="line">          method: get</span><br></pre></td></tr></table></figure>
+<h3 id="本地函数调用"><a href="#本地函数调用" class="headerlink" title="本地函数调用"></a>本地函数调用</h3><p>在命令行中执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serverless invoke local --function currentTime</span><br></pre></td></tr></table></figure>
+<p>返回结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;statusCode&quot;: 200,</span><br><span class="line">    &quot;body&quot;: &quot;&#123;\&quot;message\&quot;:\&quot;Hello, the current time is 21:46:18 GMT+0800 (CST).\&quot;&#125;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>部署应用只需执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serverless deploy</span><br></pre></td></tr></table></figure>
+<p>在安全凭证配置正确的情况下会看到类似下边的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Serverless: Packaging service...</span><br><span class="line">Serverless: Excluding development dependencies...</span><br><span class="line">Serverless: Uploading CloudFormation file to S3...</span><br><span class="line">Serverless: Uploading artifacts...</span><br><span class="line">Serverless: Uploading service serverless-simple-http-endpoint.zip file to S3 (331 B)...</span><br><span class="line">Serverless: Validating template...</span><br><span class="line">Serverless: Updating Stack...</span><br><span class="line">Serverless: Checking Stack update progress...</span><br><span class="line">..............................</span><br><span class="line">Serverless: Stack update finished...</span><br><span class="line">Service Information</span><br><span class="line">service: serverless-simple-http-endpoint</span><br><span class="line">stage: dev</span><br><span class="line">region: us-east-1</span><br><span class="line">stack: serverless-simple-http-endpoint-dev</span><br><span class="line">resources: 11</span><br><span class="line">api keys:</span><br><span class="line">  None</span><br><span class="line">endpoints:</span><br><span class="line">  GET - https://qnye7m4dwf.execute-api.us-east-1.amazonaws.com/dev/ping</span><br><span class="line">functions:</span><br><span class="line">  currentTime: serverless-simple-http-endpoint-dev-currentTime</span><br><span class="line">layers:</span><br><span class="line">  None</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>现在，我们可以直接调用 AWS Lambda 服务，并且可以同时获取执行日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">serverless invoke --function currentTime --log</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;statusCode&quot;: 200,</span><br><span class="line">    &quot;body&quot;: &quot;&#123;\&quot;message\&quot;:\&quot;Hello, the current time is 14:03:57 GMT+0000 (UTC).\&quot;&#125;&quot;</span><br><span class="line">&#125;</span><br><span class="line">--------------------------------------------------------------------</span><br><span class="line">START RequestId: 002cbcce-fda6-4d84-98a2-2fb19d325812 Version: $LATEST</span><br><span class="line">END RequestId: 002cbcce-fda6-4d84-98a2-2fb19d325812</span><br><span class="line">REPORT RequestId: 002cbcce-fda6-4d84-98a2-2fb19d325812	Duration: 0.61 ms	Billed Duration: 100 ms	Memory Size: 1024 MB	Max Memory Used: 59 MB</span><br></pre></td></tr></table></figure>
+<p>或者使用如 <code>curl</code> 等工具发送一个 <code>HTTP</code> 请求来查看结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl https://qnye7m4dwf.execute-api.us-east-1.amazonaws.com/dev/ping</span><br><span class="line"></span><br><span class="line">&#123;&quot;message&quot;:&quot;Hello, the current time is 14:03:49 GMT+0000 (UTC).&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>甚至可以直接用浏览器访问：</p>
+<p><img src="2.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/fat-nutrition-and-meal/" rel="prev" title="我对肥胖、营养与三餐的看法">
+      <i class="fa fa-chevron-left"></i> 我对肥胖、营养与三餐的看法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/top-5-spring-annotation/" rel="next" title="Spring 中最常用的 5 个注解">
+      Spring 中最常用的 5 个注解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单-HTTP-服务示例"><span class="nav-number">1.</span> <span class="nav-text">简单 HTTP 服务示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速上手-Serverless"><span class="nav-number">1.1.</span> <span class="nav-text">快速上手 Serverless</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地函数调用"><span class="nav-number">1.2.</span> <span class="nav-text">本地函数调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署"><span class="nav-number">1.3.</span> <span class="nav-text">部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">1.4.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">365</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
