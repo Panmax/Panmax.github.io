@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jiapan.me","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="为什么选择 Ghostty 作为 Claude Code 的终端？如何配置才能发挥最大效率？本文是一份从安装到精通的完整教程。  Mac 键盘符号对照：⌘ Command | ⌥ Option | ⌃ Control | ⇧ Shift  为什么是 GhosttyVSCode 的内置终端在长时间 Claude Code 会话中存在明显问题：  内存泄漏：AI 产生的大量输出会导致终端卡顿甚至崩溃">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ghostty + Claude Code 完全指南">
+<meta property="og:url" content="https://jiapan.me/2026/ghostty-claude-code-guide/index.html">
+<meta property="og:site_name" content="贾攀的流水账">
+<meta property="og:description" content="为什么选择 Ghostty 作为 Claude Code 的终端？如何配置才能发挥最大效率？本文是一份从安装到精通的完整教程。  Mac 键盘符号对照：⌘ Command | ⌥ Option | ⌃ Control | ⇧ Shift  为什么是 GhosttyVSCode 的内置终端在长时间 Claude Code 会话中存在明显问题：  内存泄漏：AI 产生的大量输出会导致终端卡顿甚至崩溃">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2026-06-15T06:12:17.055Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ghostty + Claude Code 完全指南">
+<meta name="twitter:description" content="为什么选择 Ghostty 作为 Claude Code 的终端？如何配置才能发挥最大效率？本文是一份从安装到精通的完整教程。  Mac 键盘符号对照：⌘ Command | ⌥ Option | ⌃ Control | ⇧ Shift  为什么是 GhosttyVSCode 的内置终端在长时间 Claude Code 会话中存在明显问题：  内存泄漏：AI 产生的大量输出会导致终端卡顿甚至崩溃">
+
+<link rel="canonical" href="https://jiapan.me/2026/ghostty-claude-code-guide/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Ghostty + Claude Code 完全指南 | 贾攀的流水账</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.0.0/style.css" />
+  <style>
+    body,div.post-body,h1,h2,h3,h4 {
+      font-family: "LXGW WenKai LITE", sans-serif;
+      font-size: 108%;
+    }
+    div.post-body a {
+      color: #0070c0;
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7771759338768779"
+     crossorigin="anonymous"></script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">贾攀的流水账</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Panmax's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-fa fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-文章列表">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-fa fa-archive"></i>文章列表</a>
+
+  </li>
+        <li class="menu-item menu-item-书单">
+
+    <a href="/book-list/" rel="section"><i class="fa fa-fw fa-fa fa-book"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-浴室沉思">
+
+    <a href="/think/" rel="section"><i class="fa fa-fw fa-fa fa-shower"></i>浴室沉思</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-fa fa-user"></i>关于我</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://jiapan.me/2026/ghostty-claude-code-guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/IMG_7996.JPG">
+      <meta itemprop="name" content="Panmax">
+      <meta itemprop="description" content="这里是贾攀叨逼叨的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="贾攀的流水账">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ghostty + Claude Code 完全指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2026-04-14 14:46:41" itemprop="dateCreated datePublished" datetime="2026-04-14T14:46:41+08:00">2026-04-14</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2026/ghostty-claude-code-guide/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2026/ghostty-claude-code-guide/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>为什么选择 Ghostty 作为 Claude Code 的终端？如何配置才能发挥最大效率？本文是一份从安装到精通的完整教程。</p>
+</blockquote>
+<p><strong>Mac 键盘符号对照</strong>：<code>⌘</code> Command | <code>⌥</code> Option | <code>⌃</code> Control | <code>⇧</code> Shift</p>
+<hr>
+<h2 id="为什么是-Ghostty"><a href="#为什么是-Ghostty" class="headerlink" title="为什么是 Ghostty"></a>为什么是 Ghostty</h2><p>VSCode 的内置终端在长时间 Claude Code 会话中存在明显问题：</p>
+<ul>
+<li><strong>内存泄漏</strong>：AI 产生的大量输出会导致终端卡顿甚至崩溃</li>
+<li><strong>渲染瓶颈</strong>：集成终端的渲染性能不如原生终端</li>
+<li><strong>快捷键冲突</strong>：编辑器快捷键与终端快捷键互相干扰</li>
+</ul>
+<p>Ghostty 是更好的选择：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Ghostty</th>
+<th>iTerm2</th>
+<th>VSCode Terminal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPU 加速渲染</td>
+<td>Metal (macOS) / OpenGL</td>
+<td>Metal (macOS)</td>
+<td>无</td>
+</tr>
+<tr>
+<td>原生 Shift+Enter</td>
+<td>无需配置</td>
+<td>无需配置</td>
+<td>需要配置</td>
+</tr>
+<tr>
+<td>桌面通知</td>
+<td>原生支持</td>
+<td>原生支持</td>
+<td>需要扩展</td>
+</tr>
+<tr>
+<td>滚动缓冲区</td>
+<td>可配置到 25MB+</td>
+<td>无限制</td>
+<td>有限</td>
+</tr>
+<tr>
+<td>长会话稳定性</td>
+<td>极佳</td>
+<td>良好</td>
+<td>容易崩溃</td>
+</tr>
+<tr>
+<td>分屏/标签页</td>
+<td>原生支持</td>
+<td>原生支持</td>
+<td>依赖编辑器布局</td>
+</tr>
+<tr>
+<td>Kitty 键盘协议</td>
+<td>完整支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>配置方式</td>
+<td>纯文本文件，可 Git 管理</td>
+<td>GUI 偏好设置面板</td>
+<td>JSON settings</td>
+</tr>
+<tr>
+<td>资源占用</td>
+<td>极低（Zig 编写）</td>
+<td>中等（Objective-C）</td>
+<td>高（Electron 宿主）</td>
+</tr>
+<tr>
+<td>启动速度</td>
+<td>极快</td>
+<td>较快</td>
+<td>依赖 VSCode 启动</td>
+</tr>
+<tr>
+<td>开源协议</td>
+<td>MIT</td>
+<td>GPLv2</td>
+<td>MIT</td>
+</tr>
+</tbody>
+</table>
+<p>Ghostty 是 Claude Code 官方文档中明确推荐的终端之一，与 iTerm2、WezTerm、Kitty 并列为一等公民。</p>
+<hr>
+<h2 id="Ghostty-基础配置"><a href="#Ghostty-基础配置" class="headerlink" title="Ghostty 基础配置"></a>Ghostty 基础配置</h2><p>配置文件位于 <code>~/.config/ghostty/config</code>，修改后按 <code>⌘+⇧+,</code> 热重载。</p>
+<h3 id="字体与排版"><a href="#字体与排版" class="headerlink" title="字体与排版"></a>字体与排版</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">font-family = &quot;Maple Mono NF CN&quot;</span><br><span class="line">font-size = 14</span><br><span class="line">font-thicken = true</span><br><span class="line">adjust-cell-height = 2</span><br></pre></td></tr></table></figure>
+<p>推荐使用 Nerd Font 系列，确保图标和符号正常显示。<code>adjust-cell-height = 2</code> 增加行间距，长时间阅读 Claude 输出时更舒适。</p>
+<h3 id="主题与外观"><a href="#主题与外观" class="headerlink" title="主题与外观"></a>主题与外观</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">theme = Catppuccin Mocha</span><br><span class="line">background-opacity = 0.95</span><br><span class="line">background-blur-radius = 30</span><br><span class="line">macos-titlebar-style = transparent</span><br><span class="line">window-padding-x = 10</span><br><span class="line">window-padding-y = 8</span><br><span class="line">window-save-state = always</span><br><span class="line">window-theme = auto</span><br></pre></td></tr></table></figure>
+<p>如果你希望跟随系统自动切换亮暗主题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme = light:Catppuccin Latte,dark:Catppuccin Mocha</span><br></pre></td></tr></table></figure>
+<p><code>background-opacity = 0.95</code> 配合 <code>background-blur-radius = 30</code> 提供微透明效果，既美观又能隐约看到后面的参考窗口。<code>window-save-state = always</code> 确保重启 Ghostty 后恢复之前的窗口布局。</p>
+<h3 id="光标与鼠标"><a href="#光标与鼠标" class="headerlink" title="光标与鼠标"></a>光标与鼠标</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cursor-style = bar</span><br><span class="line">cursor-style-blink = true</span><br><span class="line">cursor-opacity = 0.8</span><br><span class="line">mouse-hide-while-typing = true</span><br><span class="line">copy-on-select = clipboard</span><br></pre></td></tr></table></figure>
+<h3 id="Shell-集成"><a href="#Shell-集成" class="headerlink" title="Shell 集成"></a>Shell 集成</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell-integration = detect</span><br></pre></td></tr></table></figure>
+<p>这是一个关键配置。Ghostty 会自动为 bash/zsh/fish 注入 shell 集成脚本，启用以下功能：</p>
+<ul>
+<li><strong>智能窗口关闭</strong>：光标在提示符时关闭不需要确认</li>
+<li><strong>工作目录追踪</strong>：新分屏/标签自动继承当前目录</li>
+<li><strong>提示符导航</strong>：在历史输出之间快速跳转</li>
+<li><strong>命令输出选择</strong>：三击 + ⌘ 选中整段命令输出</li>
+</ul>
+<h3 id="目录继承"><a href="#目录继承" class="headerlink" title="目录继承"></a>目录继承</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window-inherit-working-directory = true</span><br></pre></td></tr></table></figure>
+<p>新建分屏和标签页时自动继承当前工作目录。在 Claude Code 的项目目录中开新分屏时，不需要再 <code>cd</code> 到项目目录。</p>
+<h3 id="Quick-Terminal（Quake-模式）"><a href="#Quick-Terminal（Quake-模式）" class="headerlink" title="Quick Terminal（Quake 模式）"></a>Quick Terminal（Quake 模式）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">quick-terminal-position = top</span><br><span class="line">quick-terminal-screen = mouse</span><br><span class="line">quick-terminal-autohide = true</span><br><span class="line">quick-terminal-animation-duration = 0.15</span><br></pre></td></tr></table></figure>
+<p>全局快捷键 <code>⌃+`</code> 随时呼出/隐藏一个下拉终端。适合快速执行命令后立即收起，不打断当前工作。</p>
+<h3 id="安全与剪贴板"><a href="#安全与剪贴板" class="headerlink" title="安全与剪贴板"></a>安全与剪贴板</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clipboard-paste-protection = true</span><br><span class="line">clipboard-paste-bracketed-safe = true</span><br><span class="line">clipboard-trim-trailing-spaces = true</span><br></pre></td></tr></table></figure>
+<p><code>clipboard-paste-protection</code> 在粘贴可能包含恶意命令的内容时弹出确认。<code>clipboard-trim-trailing-spaces</code> 自动清理复制内容末尾的空格。</p>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrollback-limit = 25000000</span><br></pre></td></tr></table></figure>
+<p>25MB 的滚动缓冲区。Claude Code 长会话可能产生大量输出，这个值确保你不会丢失任何历史内容。Ghostty 对此采用惰性分配，不会在启动时就占用内存。</p>
+<hr>
+<h2 id="SAND-快捷键体系"><a href="#SAND-快捷键体系" class="headerlink" title="SAND 快捷键体系"></a>SAND 快捷键体系</h2><p>来自 @dani_avila7 的助记法，用 <strong>S-A-N-D</strong> 四个字母记住所有窗口管理操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">S = Split    (分屏)</span><br><span class="line">A = Across   (跨标签)</span><br><span class="line">N = Navigate (导航)</span><br><span class="line">D = Destroy  (关闭)</span><br></pre></td></tr></table></figure>
+<h3 id="S-—-Split-分屏"><a href="#S-—-Split-分屏" class="headerlink" title="S — Split 分屏"></a>S — Split 分屏</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⌘+D</code></td>
+<td>向右分屏</td>
+</tr>
+<tr>
+<td><code>⌘+⇧+D</code></td>
+<td>向下分屏</td>
+</tr>
+</tbody>
+</table>
+<h3 id="A-—-Across-标签页"><a href="#A-—-Across-标签页" class="headerlink" title="A — Across 标签页"></a>A — Across 标签页</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⌘+T</code></td>
+<td>新建标签页</td>
+</tr>
+<tr>
+<td><code>⌘+⇧+Left</code></td>
+<td>上一个标签</td>
+</tr>
+<tr>
+<td><code>⌘+⇧+Right</code></td>
+<td>下一个标签</td>
+</tr>
+</tbody>
+</table>
+<h3 id="N-—-Navigate-导航"><a href="#N-—-Navigate-导航" class="headerlink" title="N — Navigate 导航"></a>N — Navigate 导航</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⌘+⌥+Left</code></td>
+<td>跳到左侧分屏</td>
+</tr>
+<tr>
+<td><code>⌘+⌥+Right</code></td>
+<td>跳到右侧分屏</td>
+</tr>
+<tr>
+<td><code>⌘+⌥+Up</code></td>
+<td>跳到上方分屏</td>
+</tr>
+<tr>
+<td><code>⌘+⌥+Down</code></td>
+<td>跳到下方分屏</td>
+</tr>
+<tr>
+<td><code>⌘+⇧+E</code></td>
+<td>均等分配所有分屏</td>
+</tr>
+<tr>
+<td><code>⌘+⇧+F</code></td>
+<td>放大/还原当前分屏</td>
+</tr>
+</tbody>
+</table>
+<h3 id="D-—-Destroy-关闭"><a href="#D-—-Destroy-关闭" class="headerlink" title="D — Destroy 关闭"></a>D — Destroy 关闭</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⌘+W</code></td>
+<td>关闭当前分屏/标签</td>
+</tr>
+</tbody>
+</table>
+<p>对应的 Ghostty 配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># S — Split</span><br><span class="line">keybind = cmd+d=new_split:right</span><br><span class="line">keybind = cmd+shift+d=new_split:down</span><br><span class="line"></span><br><span class="line"># A — Across</span><br><span class="line">keybind = cmd+t=new_tab</span><br><span class="line">keybind = cmd+shift+left=previous_tab</span><br><span class="line">keybind = cmd+shift+right=next_tab</span><br><span class="line"></span><br><span class="line"># N — Navigate</span><br><span class="line">keybind = cmd+alt+left=goto_split:left</span><br><span class="line">keybind = cmd+alt+right=goto_split:right</span><br><span class="line">keybind = cmd+alt+up=goto_split:top</span><br><span class="line">keybind = cmd+alt+down=goto_split:bottom</span><br><span class="line">keybind = cmd+shift+e=equalize_splits</span><br><span class="line">keybind = cmd+shift+f=toggle_split_zoom</span><br><span class="line"></span><br><span class="line"># D — Destroy</span><br><span class="line">keybind = cmd+w=close_surface</span><br><span class="line"></span><br><span class="line"># Extras</span><br><span class="line">keybind = cmd+plus=increase_font_size:1</span><br><span class="line">keybind = cmd+minus=decrease_font_size:1</span><br><span class="line">keybind = cmd+zero=reset_font_size</span><br><span class="line">keybind = global:ctrl+grave_accent=toggle_quick_terminal</span><br><span class="line">keybind = cmd+shift+comma=reload_config</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Tip: 在显示器旁贴一张写着 SAND 的便签，几天后就能形成肌肉记忆。</p>
+</blockquote>
+<hr>
+<h2 id="Claude-Code-核心快捷键"><a href="#Claude-Code-核心快捷键" class="headerlink" title="Claude Code 核心快捷键"></a>Claude Code 核心快捷键</h2><h3 id="会话控制"><a href="#会话控制" class="headerlink" title="会话控制"></a>会话控制</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⌃+C</code></td>
+<td>取消当前输入或停止生成</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>中途停止 Claude 的操作</td>
+</tr>
+<tr>
+<td><code>Esc Esc</code></td>
+<td>打开回退菜单（rewind）</td>
+</tr>
+<tr>
+<td><code>⌃+D</code></td>
+<td>退出 Claude Code</td>
+</tr>
+<tr>
+<td><code>⌃+L</code></td>
+<td>清空输入框</td>
+</tr>
+<tr>
+<td><code>⌃+R</code></td>
+<td>搜索历史命令</td>
+</tr>
+</tbody>
+</table>
+<h3 id="模式切换"><a href="#模式切换" class="headerlink" title="模式切换"></a>模式切换</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⇧+Tab</code></td>
+<td>循环切换权限模式（Plan → Normal → Auto）</td>
+</tr>
+<tr>
+<td><code>⌥+P</code></td>
+<td>切换模型</td>
+</tr>
+<tr>
+<td><code>⌥+T</code></td>
+<td>切换扩展思考</td>
+</tr>
+<tr>
+<td><code>⌥+O</code></td>
+<td>切换 Fast 模式</td>
+</tr>
+</tbody>
+</table>
+<h3 id="输入技巧"><a href="#输入技巧" class="headerlink" title="输入技巧"></a>输入技巧</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⇧+Enter</code></td>
+<td>换行（Ghostty 原生支持，无需配置）</td>
+</tr>
+<tr>
+<td><code>\</code> + <code>Enter</code></td>
+<td>换行（备选方式）</td>
+</tr>
+<tr>
+<td><code>⌃+J</code></td>
+<td>换行（控制序列方式）</td>
+</tr>
+<tr>
+<td><code>⌃+G</code></td>
+<td>在外部编辑器中编写长提示</td>
+</tr>
+<tr>
+<td><code>⌃+V</code> / <code>⌘+V</code></td>
+<td>粘贴图片</td>
+</tr>
+</tbody>
+</table>
+<h3 id="任务管理"><a href="#任务管理" class="headerlink" title="任务管理"></a>任务管理</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⌃+B</code></td>
+<td>将正在运行的命令移到后台</td>
+</tr>
+<tr>
+<td><code>⌃+T</code></td>
+<td>显示/隐藏任务列表</td>
+</tr>
+<tr>
+<td><code>⌃+O</code></td>
+<td>循环切换视图模式（默认 → Verbose → Focus）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="文本编辑（Emacs-风格）"><a href="#文本编辑（Emacs-风格）" class="headerlink" title="文本编辑（Emacs 风格）"></a>文本编辑（Emacs 风格）</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>⌃+K</code></td>
+<td>删除到行尾</td>
+</tr>
+<tr>
+<td><code>⌃+U</code></td>
+<td>删除到行首</td>
+</tr>
+<tr>
+<td><code>⌃+Y</code></td>
+<td>粘贴已删除的文本</td>
+</tr>
+<tr>
+<td><code>⌥+B</code></td>
+<td>后退一个词</td>
+</tr>
+<tr>
+<td><code>⌥+F</code></td>
+<td>前进一个词</td>
+</tr>
+</tbody>
+</table>
+<h3 id="快速命令前缀"><a href="#快速命令前缀" class="headerlink" title="快速命令前缀"></a>快速命令前缀</h3><table>
+<thead>
+<tr>
+<th>前缀</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td>斜杠命令和 Skills</td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td>直接执行 shell 命令</td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td>文件路径自动补全</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="全屏渲染模式"><a href="#全屏渲染模式" class="headerlink" title="全屏渲染模式"></a>全屏渲染模式</h2><p>这是 Claude Code 长会话体验的关键优化。在 <code>~/.zshrc</code> 中添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_NO_FLICKER=1</span><br></pre></td></tr></table></figure>
+<h3 id="它做了什么"><a href="#它做了什么" class="headerlink" title="它做了什么"></a>它做了什么</h3><ul>
+<li>使用终端的备用屏幕缓冲区（类似 vim/htop 的全屏模式）</li>
+<li><strong>内存使用恒定</strong>：无论对话多长，只渲染可见内容</li>
+<li>输入框固定在底部，不会被输出推走</li>
+<li>启用鼠标支持：点击展开工具输出、点击 URL、拖选文字</li>
+</ul>
+<h3 id="全屏模式导航"><a href="#全屏模式导航" class="headerlink" title="全屏模式导航"></a>全屏模式导航</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PgUp</code> / <code>PgDn</code></td>
+<td>翻页（半屏）</td>
+</tr>
+<tr>
+<td><code>⌃+Home</code></td>
+<td>跳到对话开头</td>
+</tr>
+<tr>
+<td><code>⌃+End</code></td>
+<td>跳到最新 + 恢复自动跟随</td>
+</tr>
+<tr>
+<td>鼠标滚轮</td>
+<td>逐行滚动</td>
+</tr>
+</tbody>
+</table>
+<p>Ghostty 天然放大了鼠标滚轮事件，因此滚动速度比较自然，通常不需要额外调节 <code>CLAUDE_CODE_SCROLL_SPEED</code>。</p>
+<h3 id="转录模式（⌃-O）"><a href="#转录模式（⌃-O）" class="headerlink" title="转录模式（⌃+O）"></a>转录模式（⌃+O）</h3><p>按 <code>⌃+O</code> 进入转录模式，提供类 Vim 的浏览体验：</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td>搜索对话内容</td>
+</tr>
+<tr>
+<td><code>n</code> / <code>N</code></td>
+<td>下一个/上一个匹配</td>
+</tr>
+<tr>
+<td><code>j</code> / <code>k</code></td>
+<td>上下滚动</td>
+</tr>
+<tr>
+<td><code>g</code> / <code>G</code></td>
+<td>跳到顶部/底部</td>
+</tr>
+<tr>
+<td><code>[</code></td>
+<td>将对话写入终端滚动缓冲区（可用终端原生搜索）</td>
+</tr>
+<tr>
+<td><code>v</code></td>
+<td>在 <code>$EDITOR</code> 中打开完整对话</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="Status-Line-状态栏"><a href="#Status-Line-状态栏" class="headerlink" title="Status Line 状态栏"></a>Status Line 状态栏</h2><p>Status Line 是 Claude Code 底部的自定义状态栏，实时显示会话数据。对于长会话来说至关重要。</p>
+<h3 id="快速配置"><a href="#快速配置" class="headerlink" title="快速配置"></a>快速配置</h3><p>最简单的方式是在 Claude Code 中直接运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/statusline show model, context percentage with progress bar, git branch, and cost</span><br></pre></td></tr></table></figure>
+<h3 id="手动配置"><a href="#手动配置" class="headerlink" title="手动配置"></a>手动配置</h3><p>在 <code>~/.claude/settings.json</code>（全局用户设置，所有工作区生效）中添加：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"statusLine"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"command"</span>,</span><br><span class="line">    <span class="attr">"command"</span>: <span class="string">"~/.claude/statusline.sh"</span>,</span><br><span class="line">    <span class="attr">"refreshInterval"</span>: <span class="number">10</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后创建脚本 <code>~/.claude/statusline.sh</code>。以下是一份两行式状态栏方案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># [Model] project | branch +staged ~modified | ▓▓▓░░░ 28% 1M | +156/-23 | 12m30s | $0.45 | ⚡high</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Claude Code Status Line - Ghostty optimized</span></span><br><span class="line"></span><br><span class="line">input=$(cat)</span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Single jq call to parse all fields ---</span></span><br><span class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(echo "$input" | jq -r '</span></span></span><br><span class="line"><span class="string"><span class="variable">  def nn(f; d)</span>: (f // d) | tostring;</span></span><br><span class="line"><span class="string">  @sh "</span>MODEL=\(nn(.model.display_name; <span class="string">"?"</span>))<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>DIR=\(nn(.workspace.current_dir; <span class="string">"~"</span>))<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>SESSION_ID=\(nn(.session_id; <span class="string">""</span>))<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>PCT=\(.context_window.used_percentage // 0 | floor)<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>CTX_SIZE=\(.context_window.context_window_size // 0)<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>COST=\(.cost.total_cost_usd // 0)<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>DURATION_MS=\(.cost.total_duration_ms // 0 | floor)<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>LINES_ADD=\(.cost.total_lines_added // 0)<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>LINES_DEL=\(.cost.total_lines_removed // 0)<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>EFFORT=\(nn(.effort.level; <span class="string">""</span>))<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>WORKTREE=\(nn(.worktree.name; <span class="string">""</span>))<span class="string">",</span></span><br><span class="line"><span class="string">  @sh "</span>SESSION_NAME=\(nn(.session_name; <span class="string">""</span>))<span class="string">"</span></span><br><span class="line"><span class="string">')"</span></span><br><span class="line"></span><br><span class="line">DIR_NAME=<span class="string">"<span class="variable">$&#123;DIR##*/&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Colors ---</span></span><br><span class="line">GREEN=<span class="string">'\033[32m'</span></span><br><span class="line">YELLOW=<span class="string">'\033[33m'</span></span><br><span class="line">RED=<span class="string">'\033[31m'</span></span><br><span class="line">BLUE=<span class="string">'\033[34m'</span></span><br><span class="line">MAGENTA=<span class="string">'\033[35m'</span></span><br><span class="line">CYAN=<span class="string">'\033[36m'</span></span><br><span class="line">DIM=<span class="string">'\033[2m'</span></span><br><span class="line">BOLD=<span class="string">'\033[1m'</span></span><br><span class="line">RESET=<span class="string">'\033[0m'</span></span><br><span class="line">SEP=<span class="string">" <span class="variable">$&#123;DIM&#125;</span>|<span class="variable">$&#123;RESET&#125;</span> "</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Helper: progress bar ---</span></span><br><span class="line"><span class="function"><span class="title">make_bar</span></span>() &#123;</span><br><span class="line">  <span class="built_in">local</span> pct=<span class="variable">$1</span> width=<span class="variable">$2</span> color=<span class="variable">$3</span></span><br><span class="line">  <span class="built_in">local</span> filled=$((pct * width / 100))</span><br><span class="line">  <span class="built_in">local</span> empty=$((width - filled))</span><br><span class="line">  <span class="built_in">local</span> bar=<span class="string">""</span></span><br><span class="line">  [ <span class="string">"<span class="variable">$filled</span>"</span> -gt 0 ] &amp;&amp; <span class="built_in">printf</span> -v f <span class="string">"%<span class="variable">$&#123;filled&#125;</span>s"</span> &amp;&amp; bar=<span class="string">"<span class="variable">$&#123;f// /▓&#125;</span>"</span></span><br><span class="line">  [ <span class="string">"<span class="variable">$empty</span>"</span> -gt 0 ] &amp;&amp; <span class="built_in">printf</span> -v e <span class="string">"%<span class="variable">$&#123;empty&#125;</span>s"</span> &amp;&amp; bar=<span class="string">"<span class="variable">$&#123;bar&#125;</span><span class="variable">$&#123;e// /░&#125;</span>"</span></span><br><span class="line">  <span class="built_in">echo</span> -e <span class="string">"<span class="variable">$&#123;color&#125;</span><span class="variable">$&#123;bar&#125;</span> <span class="variable">$&#123;pct&#125;</span>%<span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Helper: color by threshold ---</span></span><br><span class="line"><span class="function"><span class="title">threshold_color</span></span>() &#123;</span><br><span class="line">  <span class="built_in">local</span> val=<span class="variable">$1</span> warn=<span class="variable">$&#123;2:-50&#125;</span> crit=<span class="variable">$&#123;3:-80&#125;</span></span><br><span class="line">  <span class="keyword">if</span> [ <span class="string">"<span class="variable">$val</span>"</span> -ge <span class="string">"<span class="variable">$crit</span>"</span> ]; <span class="keyword">then</span> <span class="built_in">echo</span> <span class="string">"<span class="variable">$RED</span>"</span></span><br><span class="line">  <span class="keyword">elif</span> [ <span class="string">"<span class="variable">$val</span>"</span> -ge <span class="string">"<span class="variable">$warn</span>"</span> ]; <span class="keyword">then</span> <span class="built_in">echo</span> <span class="string">"<span class="variable">$YELLOW</span>"</span></span><br><span class="line">  <span class="keyword">else</span> <span class="built_in">echo</span> <span class="string">"<span class="variable">$GREEN</span>"</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Context bar ---</span></span><br><span class="line">CTX_COLOR=$(threshold_color <span class="string">"<span class="variable">$PCT</span>"</span> 50 80)</span><br><span class="line">CTX_BAR=$(make_bar <span class="string">"<span class="variable">$PCT</span>"</span> 10 <span class="string">"<span class="variable">$CTX_COLOR</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Git info (cached per session to reduce latency) ---</span></span><br><span class="line">GIT_INFO=<span class="string">""</span></span><br><span class="line">CACHE_FILE=<span class="string">"/tmp/claude-statusline-git-<span class="variable">$&#123;SESSION_ID&#125;</span>"</span></span><br><span class="line">GIT_CACHE_TTL=5</span><br><span class="line">USE_CACHE=<span class="literal">false</span></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$SESSION_ID</span>"</span> ] &amp;&amp; [ -f <span class="string">"<span class="variable">$CACHE_FILE</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">  CACHE_AGE=$(( $(date +%s) - $(<span class="built_in">stat</span> -f %m <span class="string">"<span class="variable">$CACHE_FILE</span>"</span> 2&gt;/dev/null || <span class="built_in">echo</span> 0) ))</span><br><span class="line">  [ <span class="string">"<span class="variable">$CACHE_AGE</span>"</span> -lt <span class="string">"<span class="variable">$GIT_CACHE_TTL</span>"</span> ] &amp;&amp; USE_CACHE=<span class="literal">true</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$USE_CACHE</span>"</span> = <span class="literal">true</span> ]; <span class="keyword">then</span></span><br><span class="line">  GIT_INFO=$(cat <span class="string">"<span class="variable">$CACHE_FILE</span>"</span>)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> git -C <span class="string">"<span class="variable">$DIR</span>"</span> rev-parse --git-dir &gt;/dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">    BRANCH=$(git -C <span class="string">"<span class="variable">$DIR</span>"</span> branch --show-current 2&gt;/dev/null)</span><br><span class="line">    STAGED=$(git -C <span class="string">"<span class="variable">$DIR</span>"</span> diff --cached --numstat 2&gt;/dev/null | wc -l | tr -d <span class="string">' '</span>)</span><br><span class="line">    MODIFIED=$(git -C <span class="string">"<span class="variable">$DIR</span>"</span> diff --numstat 2&gt;/dev/null | wc -l | tr -d <span class="string">' '</span>)</span><br><span class="line">    GIT_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;CYAN&#125;</span><span class="variable">$&#123;BRANCH&#125;</span><span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line">    [ <span class="string">"<span class="variable">$STAGED</span>"</span> -gt 0 ] &amp;&amp; GIT_INFO=<span class="string">"<span class="variable">$&#123;GIT_INFO&#125;</span> <span class="variable">$&#123;GREEN&#125;</span>+<span class="variable">$&#123;STAGED&#125;</span><span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line">    [ <span class="string">"<span class="variable">$MODIFIED</span>"</span> -gt 0 ] &amp;&amp; GIT_INFO=<span class="string">"<span class="variable">$&#123;GIT_INFO&#125;</span> <span class="variable">$&#123;YELLOW&#125;</span>~<span class="variable">$&#123;MODIFIED&#125;</span><span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  [ -n <span class="string">"<span class="variable">$SESSION_ID</span>"</span> ] &amp;&amp; <span class="built_in">echo</span> -e <span class="string">"<span class="variable">$GIT_INFO</span>"</span> &gt; <span class="string">"<span class="variable">$CACHE_FILE</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Lines changed ---</span></span><br><span class="line">LINES_INFO=<span class="string">""</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$LINES_ADD</span>"</span> -gt 0 ] || [ <span class="string">"<span class="variable">$LINES_DEL</span>"</span> -gt 0 ]; <span class="keyword">then</span></span><br><span class="line">  LINES_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;GREEN&#125;</span>+<span class="variable">$&#123;LINES_ADD&#125;</span><span class="variable">$&#123;RESET&#125;</span>/<span class="variable">$&#123;RED&#125;</span>-<span class="variable">$&#123;LINES_DEL&#125;</span><span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Duration ---</span></span><br><span class="line">DURATION_INFO=<span class="string">""</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$DURATION_MS</span>"</span> -gt 0 ]; <span class="keyword">then</span></span><br><span class="line">  TOTAL_SEC=$((DURATION_MS / 1000))</span><br><span class="line">  MINS=$((TOTAL_SEC / 60))</span><br><span class="line">  SECS=$((TOTAL_SEC % 60))</span><br><span class="line">  [ <span class="string">"<span class="variable">$MINS</span>"</span> -gt 0 ] &amp;&amp; DURATION_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;DIM&#125;</span><span class="variable">$&#123;MINS&#125;</span>m<span class="variable">$&#123;SECS&#125;</span>s<span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Cost ---</span></span><br><span class="line">COST_STR=$(<span class="built_in">printf</span> <span class="string">'$%.2f'</span> <span class="string">"<span class="variable">$COST</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Effort level ---</span></span><br><span class="line">EFFORT_INFO=<span class="string">""</span></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$EFFORT</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">case</span> <span class="string">"<span class="variable">$EFFORT</span>"</span> <span class="keyword">in</span></span><br><span class="line">    max)   EFFORT_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;RED&#125;</span>⚡max<span class="variable">$&#123;RESET&#125;</span>"</span> ;;</span><br><span class="line">    xhigh) EFFORT_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;MAGENTA&#125;</span>⚡xhigh<span class="variable">$&#123;RESET&#125;</span>"</span> ;;</span><br><span class="line">    high)  EFFORT_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;YELLOW&#125;</span>⚡high<span class="variable">$&#123;RESET&#125;</span>"</span> ;;</span><br><span class="line">    medium) EFFORT_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;DIM&#125;</span>⚡med<span class="variable">$&#123;RESET&#125;</span>"</span> ;;</span><br><span class="line">    low)   EFFORT_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;DIM&#125;</span>⚡low<span class="variable">$&#123;RESET&#125;</span>"</span> ;;</span><br><span class="line">  <span class="keyword">esac</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Worktree / Session name ---</span></span><br><span class="line">NAME_INFO=<span class="string">""</span></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">"<span class="variable">$WORKTREE</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">  NAME_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;MAGENTA&#125;</span>⎇ <span class="variable">$&#123;WORKTREE&#125;</span><span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line"><span class="keyword">elif</span> [ -n <span class="string">"<span class="variable">$SESSION_NAME</span>"</span> ]; <span class="keyword">then</span></span><br><span class="line">  NAME_INFO=<span class="string">"<span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;DIM&#125;</span><span class="variable">$&#123;SESSION_NAME&#125;</span><span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --- Context window size indicator ---</span></span><br><span class="line">CTX_SIZE_TAG=<span class="string">""</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$CTX_SIZE</span>"</span> -ge 1000000 ]; <span class="keyword">then</span></span><br><span class="line">  CTX_SIZE_TAG=<span class="string">"<span class="variable">$&#123;DIM&#125;</span>1M<span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="string">"<span class="variable">$CTX_SIZE</span>"</span> -ge 800000 ]; <span class="keyword">then</span></span><br><span class="line">  CTX_SIZE_TAG=<span class="string">"<span class="variable">$&#123;DIM&#125;</span>800K<span class="variable">$&#123;RESET&#125;</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">[ -n <span class="string">"<span class="variable">$CTX_SIZE_TAG</span>"</span> ] &amp;&amp; CTX_SIZE_TAG=<span class="string">" <span class="variable">$&#123;CTX_SIZE_TAG&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># === Line 1 ===</span></span><br><span class="line">LINE1=<span class="string">"[<span class="variable">$&#123;MODEL&#125;</span>] <span class="variable">$&#123;DIR_NAME&#125;</span><span class="variable">$&#123;NAME_INFO&#125;</span><span class="variable">$&#123;GIT_INFO&#125;</span><span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;CTX_BAR&#125;</span><span class="variable">$&#123;CTX_SIZE_TAG&#125;</span><span class="variable">$&#123;LINES_INFO&#125;</span><span class="variable">$&#123;DURATION_INFO&#125;</span><span class="variable">$&#123;SEP&#125;</span><span class="variable">$&#123;COST_STR&#125;</span><span class="variable">$&#123;EFFORT_INFO&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># === Output ===</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">"<span class="variable">$LINE1</span>"</span></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x ~/.claude/statusline.sh</span><br></pre></td></tr></table></figure>
+<h3 id="可用数据字段"><a href="#可用数据字段" class="headerlink" title="可用数据字段"></a>可用数据字段</h3><p>Status Line 脚本通过 stdin 接收 JSON 数据，常用字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model.display_name</code></td>
+<td>当前模型名</td>
+</tr>
+<tr>
+<td><code>session_id</code></td>
+<td>会话 ID（用于缓存等）</td>
+</tr>
+<tr>
+<td><code>session_name</code></td>
+<td>会话名称</td>
+</tr>
+<tr>
+<td><code>workspace.current_dir</code></td>
+<td>当前工作目录</td>
+</tr>
+<tr>
+<td><code>context_window.used_percentage</code></td>
+<td>上下文使用百分比</td>
+</tr>
+<tr>
+<td><code>context_window.context_window_size</code></td>
+<td>上下文窗口总大小（token 数）</td>
+</tr>
+<tr>
+<td><code>cost.total_cost_usd</code></td>
+<td>累计费用（美元）</td>
+</tr>
+<tr>
+<td><code>cost.total_duration_ms</code></td>
+<td>会话总时长（毫秒）</td>
+</tr>
+<tr>
+<td><code>cost.total_lines_added</code></td>
+<td>本会话累计新增行数</td>
+</tr>
+<tr>
+<td><code>cost.total_lines_removed</code></td>
+<td>本会话累计删除行数</td>
+</tr>
+<tr>
+<td><code>effort.level</code></td>
+<td>思考强度（low / medium / high / xhigh / max）</td>
+</tr>
+<tr>
+<td><code>vim.mode</code></td>
+<td>Vim 模式状态（NORMAL / INSERT）</td>
+</tr>
+<tr>
+<td><code>worktree.name</code></td>
+<td>当前 Git Worktree 名称</td>
+</tr>
+</tbody>
+</table>
+<h3 id="为什么-Status-Line-很重要"><a href="#为什么-Status-Line-很重要" class="headerlink" title="为什么 Status Line 很重要"></a>为什么 Status Line 很重要</h3><p>当 <code>context_window.used_percentage</code> 超过 80% 时，Claude 的输出质量开始下降。状态栏让你始终掌握这个关键指标，在合适的时机执行 <code>/compact</code> 或 <code>/clear</code>。</p>
+<hr>
+<h2 id="分屏工作流"><a href="#分屏工作流" class="headerlink" title="分屏工作流"></a>分屏工作流</h2><h3 id="推荐布局：双栏模式"><a href="#推荐布局：双栏模式" class="headerlink" title="推荐布局：双栏模式"></a>推荐布局：双栏模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">┌──────────────────────────┬─────────────────────┐</span><br><span class="line">│                          │                     │</span><br><span class="line">│     Claude Code          │    Shell / Git      │</span><br><span class="line">│     (主工作区)            │    (辅助操作)        │</span><br><span class="line">│                          │                     │</span><br><span class="line">│  ⌘+D 创建右分屏            │  git diff / test    │</span><br><span class="line">│                          │                     │</span><br><span class="line">└──────────────────────────┴─────────────────────┘</span><br></pre></td></tr></table></figure>
+<p>这是最常用的布局。左侧专注 Claude Code 对话，右侧随时执行辅助命令。</p>
+<p>操作步骤：</p>
+<ol>
+<li>打开 Ghostty，启动 Claude Code</li>
+<li><code>⌘+D</code> 向右分屏</li>
+<li>右侧面板用于 <code>git diff</code>、<code>git log</code>、运行测试、查看文件</li>
+<li><code>⌘+⌥+Left/Right</code> 在两个面板之间跳转</li>
+<li><code>⌘+⇧+F</code> 临时放大某个面板（再按一次恢复）</li>
+</ol>
+<h3 id="进阶布局：三区模式"><a href="#进阶布局：三区模式" class="headerlink" title="进阶布局：三区模式"></a>进阶布局：三区模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">┌──────────────────────────┬─────────────────────┐</span><br><span class="line">│                          │                     │</span><br><span class="line">│     Claude Code          │   Editor (vim/nvim) │</span><br><span class="line">│     (主工作区)            │                     │</span><br><span class="line">│                          │                     │</span><br><span class="line">├──────────────────────────┴─────────────────────┤</span><br><span class="line">│              日志 / 测试 / 服务                   │</span><br><span class="line">└────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<p>操作步骤：</p>
+<ol>
+<li>启动 Claude Code</li>
+<li><code>⌘+D</code> 右分屏 → 打开编辑器</li>
+<li><code>⌘+⌥+Left</code> 回到 Claude Code 面板</li>
+<li><code>⌘+⇧+D</code> 下分屏 → 运行开发服务器或测试</li>
+<li><code>⌘+⇧+E</code> 均等分配空间</li>
+</ol>
+<h3 id="多标签页工作流"><a href="#多标签页工作流" class="headerlink" title="多标签页工作流"></a>多标签页工作流</h3><p>用标签页管理不同项目或不同任务：</p>
+<ul>
+<li><strong>Tab 1</strong>：前端项目 Claude Code</li>
+<li><strong>Tab 2</strong>：后端项目 Claude Code</li>
+<li><strong>Tab 3</strong>：数据库/运维操作</li>
+</ul>
+<p><code>⌘+T</code> 新建标签，<code>⌘+⇧+Left/Right</code> 切换。</p>
+<hr>
+<h2 id="上下文窗口管理"><a href="#上下文窗口管理" class="headerlink" title="上下文窗口管理"></a>上下文窗口管理</h2><p>这是使用 Claude Code 最重要的技能。上下文窗口填满后，性能显著下降。</p>
+<h3 id="上下文消耗来源"><a href="#上下文消耗来源" class="headerlink" title="上下文消耗来源"></a>上下文消耗来源</h3><table>
+<thead>
+<tr>
+<th>来源</th>
+<th>大约 Token 数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>系统提示</td>
+<td>~4,200</td>
+</tr>
+<tr>
+<td>CLAUDE.md</td>
+<td>取决于内容长度</td>
+</tr>
+<tr>
+<td>环境信息</td>
+<td>~280</td>
+</tr>
+<tr>
+<td>MCP 工具</td>
+<td>~120（按需加载）</td>
+</tr>
+<tr>
+<td>每轮对话</td>
+<td>数百到数千</td>
+</tr>
+</tbody>
+</table>
+<h3 id="关键命令"><a href="#关键命令" class="headerlink" title="关键命令"></a>关键命令</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/clear</code></td>
+<td>清空上下文，开始新对话</td>
+</tr>
+<tr>
+<td><code>/compact</code></td>
+<td>压缩上下文，保留关键信息</td>
+</tr>
+<tr>
+<td><code>/compact 保留 API 变更列表</code></td>
+<td>带指令的压缩</td>
+</tr>
+<tr>
+<td><code>/cost</code></td>
+<td>查看当前 token 使用量和费用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p><strong>1. 任务间使用 <code>/clear</code></strong></p>
+<p>不相关的任务不要在同一个会话中完成。每完成一个任务，<code>/clear</code> 一次。</p>
+<p><strong>2. 给 Claude 验证目标</strong></p>
+<p>这是最高杠杆的实践。告诉 Claude 如何验证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修复 auth.ts 中的登录 bug。运行 npm test -- --grep &quot;auth&quot; 验证修复结果。</span><br></pre></td></tr></table></figure>
+<p><strong>3. 先探索，再计划，最后编码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. ⇧+Tab 进入 Plan Mode → 让 Claude 探索代码</span><br><span class="line">2. 要求 Claude 给出实施计划</span><br><span class="line">3. ⇧+Tab 切回 Normal Mode → 执行计划</span><br><span class="line">4. 要求 Claude 提交并创建 PR</span><br></pre></td></tr></table></figure>
+<p><strong>4. 用子代理隔离上下文</strong></p>
+<p>大量的文件读取、日志分析等操作会快速消耗上下文。使用子代理（Agent）可以让这些操作在独立上下文中执行，不污染主会话。</p>
+<p><strong>5. 避免常见陷阱</strong></p>
+<ul>
+<li><strong>厨房水槽式会话</strong>：什么都往一个会话里塞 → 及时 <code>/clear</code></li>
+<li><strong>反复纠正</strong>：两次纠正失败后，<code>/clear</code> 重写更好的提示</li>
+<li><strong>过长的 CLAUDE.md</strong>：太长了 Claude 会忽略一半 → 精简到最关键的内容</li>
+</ul>
+<hr>
+<h2 id="Git-Worktree-并行开发"><a href="#Git-Worktree-并行开发" class="headerlink" title="Git Worktree 并行开发"></a>Git Worktree 并行开发</h2><p>这是进阶技巧：在多个 Ghostty 标签页中同时运行 Claude Code，各自独立工作。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>Git Worktree 允许同一个仓库在不同目录下同时检出不同分支，互不干扰。</p>
+<h3 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方式 1: 使用 Claude Code 内置 worktree 支持</span></span><br><span class="line">claude -w feature-auth      <span class="comment"># 自动创建 worktree 并启动</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式 2: 手动创建</span></span><br><span class="line">git worktree add ../my-project-feature-auth feature-auth</span><br><span class="line"><span class="built_in">cd</span> ../my-project-feature-auth</span><br><span class="line">claude</span><br></pre></td></tr></table></figure>
+<h3 id="Ghostty-中的并行布局"><a href="#Ghostty-中的并行布局" class="headerlink" title="Ghostty 中的并行布局"></a>Ghostty 中的并行布局</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">┌─ Tab 1: feature-auth ──────┐ ┌─ Tab 2: fix-bug-123 ────────┐</span><br><span class="line">│                             │ │                              │</span><br><span class="line">│  Claude Code                │ │  Claude Code                 │</span><br><span class="line">│  (在 worktree-auth 目录)     │ │  (在 worktree-bug 目录)       │</span><br><span class="line">│                             │ │                              │</span><br><span class="line">└─────────────────────────────┘ └──────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<p>每个标签页是完全独立的 Claude Code 会话，有自己的上下文、分支和工作目录。适合同时推进多个 feature 或 bug fix。</p>
+<hr>
+<h2 id="会话管理技巧"><a href="#会话管理技巧" class="headerlink" title="会话管理技巧"></a>会话管理技巧</h2><h3 id="命名会话"><a href="#命名会话" class="headerlink" title="命名会话"></a>命名会话</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">claude -n <span class="string">"oauth-migration"</span>      <span class="comment"># 启动命名会话</span></span><br></pre></td></tr></table></figure>
+<p>命名会话可以在后续恢复，方便长期项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">claude -r <span class="string">"oauth-migration"</span>      <span class="comment"># 恢复命名会话</span></span><br><span class="line">claude -r <span class="string">"oauth-migration"</span> <span class="string">"继续实现 token 刷新逻辑"</span></span><br></pre></td></tr></table></figure>
+<h3 id="恢复上一次会话"><a href="#恢复上一次会话" class="headerlink" title="恢复上一次会话"></a>恢复上一次会话</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">claude --<span class="built_in">continue</span>    <span class="comment"># 恢复最近一次对话</span></span><br><span class="line">claude --resume      <span class="comment"># 从列表中选择</span></span><br></pre></td></tr></table></figure>
+<h3 id="非交互模式"><a href="#非交互模式" class="headerlink" title="非交互模式"></a>非交互模式</h3><p>适合脚本化和批处理：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 单次提问</span></span><br><span class="line">claude -p <span class="string">"解释这个项目的架构"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># JSON 输出</span></span><br><span class="line">claude -p <span class="string">"列出所有 API 端点"</span> --output-format json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 管道输入</span></span><br><span class="line">tail -200 app.log | claude -p <span class="string">"总结错误信息"</span></span><br><span class="line">git diff main --name-only | claude -p <span class="string">"检查安全问题"</span></span><br></pre></td></tr></table></figure>
+<h3 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> $(cat files.txt); <span class="keyword">do</span></span><br><span class="line">  claude -p <span class="string">"将 <span class="variable">$file</span> 从 Class 组件迁移为 Hooks。返回 OK 或 FAIL。"</span> \</span><br><span class="line">    --allowedTools <span class="string">"Edit,Bash(git commit *)"</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="后台命令"><a href="#后台命令" class="headerlink" title="后台命令"></a>后台命令</h3><p>在 Claude Code 内部，当一个 Bash 命令正在执行时，按 <code>⌃+B</code> 将其移到后台。你可以继续对话，命令完成后会收到通知。</p>
+<h3 id="Shell-命令快捷执行"><a href="#Shell-命令快捷执行" class="headerlink" title="Shell 命令快捷执行"></a>Shell 命令快捷执行</h3><p>在 Claude Code 提示符中直接用 <code>!</code> 前缀执行 shell 命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">! npm test</span><br><span class="line">! git status</span><br><span class="line">! cat src/auth.ts | head -50</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Vim-模式"><a href="#Vim-模式" class="headerlink" title="Vim 模式"></a>Vim 模式</h2><p>Claude Code 内置了完整的 Vim 编辑支持。</p>
+<h3 id="启用方式"><a href="#启用方式" class="headerlink" title="启用方式"></a>启用方式</h3><p>在 Claude Code 中运行 <code>/config</code>，选择 Editor mode 设为 Vim。或者手动编辑 <code>~/.claude.json</code>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"editorMode"</span>: <span class="string">"vim"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="支持的操作"><a href="#支持的操作" class="headerlink" title="支持的操作"></a>支持的操作</h3><ul>
+<li><strong>移动</strong>：<code>h/j/k/l</code>、<code>w/e/b</code>、<code>0/$</code>、<code>gg/G</code>、<code>f/F/t/T</code></li>
+<li><strong>编辑</strong>：<code>d/c/y</code> 配合文本对象 (<code>iw</code>, <code>aw</code>, <code>i&quot;</code>, <code>a(</code> 等)</li>
+<li><strong>模式切换</strong>：<code>Esc</code>、<code>i/I</code>、<code>a/A</code>、<code>o/O</code></li>
+</ul>
+<h3 id="在-Status-Line-中显示-Vim-模式"><a href="#在-Status-Line-中显示-Vim-模式" class="headerlink" title="在 Status Line 中显示 Vim 模式"></a>在 Status Line 中显示 Vim 模式</h3><p>启用 Vim 模式后，Status Line 脚本可以读取 <code>vim.mode</code> 字段（值为 <code>NORMAL</code> 或 <code>INSERT</code>），在状态栏中显示当前模式。</p>
+<hr>
+<h2 id="CLAUDE-md-项目记忆"><a href="#CLAUDE-md-项目记忆" class="headerlink" title="CLAUDE.md 项目记忆"></a>CLAUDE.md 项目记忆</h2><p>CLAUDE.md 是 Claude Code 的项目级配置文件，定义项目上下文和工作规范。</p>
+<h3 id="文件优先级"><a href="#文件优先级" class="headerlink" title="文件优先级"></a>文件优先级</h3><table>
+<thead>
+<tr>
+<th>位置</th>
+<th>用途</th>
+<th>是否提交到 Git</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.claude/CLAUDE.md</code></td>
+<td>全局配置，所有项目生效</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>./CLAUDE.md</code></td>
+<td>项目配置，团队共享</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>./CLAUDE.local.md</code></td>
+<td>个人项目配置</td>
+<td>否（gitignore）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="快速生成"><a href="#快速生成" class="headerlink" title="快速生成"></a>快速生成</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/init</span><br></pre></td></tr></table></figure>
+<p>Claude 会分析你的代码库并生成初始 CLAUDE.md。</p>
+<h3 id="引用其他文件"><a href="#引用其他文件" class="headerlink" title="引用其他文件"></a>引用其他文件</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">项目概述见 @README.md</span><br><span class="line">Git 工作流程见 @docs/git-workflow.md</span><br><span class="line">个人偏好见 @~/.claude/my-preferences.md</span><br></pre></td></tr></table></figure>
+<h3 id="编写原则"><a href="#编写原则" class="headerlink" title="编写原则"></a>编写原则</h3><ul>
+<li><strong>只写 Claude 无法从代码中推断的信息</strong></li>
+<li>保持精简，过长的 CLAUDE.md 反而降低效果</li>
+<li>像维护代码一样定期审查和清理</li>
+<li>优先写规范和约束，而不是教程</li>
+</ul>
+<hr>
+<h2 id="tmux-集成"><a href="#tmux-集成" class="headerlink" title="tmux 集成"></a>tmux 集成</h2><p>如果你在 Ghostty 中使用 tmux，需要额外配置以确保 Claude Code 的功能正常工作。</p>
+<h3 id="必要的-tmux-配置"><a href="#必要的-tmux-配置" class="headerlink" title="必要的 tmux 配置"></a>必要的 tmux 配置</h3><p>在 <code>~/.tmux.conf</code> 中添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 允许终端事件穿透 tmux（通知、进度条）</span><br><span class="line">set -g allow-passthrough on</span><br><span class="line"></span><br><span class="line"># 启用鼠标支持（全屏渲染需要）</span><br><span class="line">set -g mouse on</span><br><span class="line"></span><br><span class="line"># 扩展键支持（⇧+Enter 等）</span><br><span class="line">set -s extended-keys on</span><br><span class="line">set -as terminal-features &apos;xterm*:extkeys&apos;</span><br></pre></td></tr></table></figure>
+<p><code>allow-passthrough</code> 让 Claude Code 的桌面通知和进度条能穿透 tmux 到达 Ghostty。</p>
+<hr>
+<h2 id="性能调优与故障排除"><a href="#性能调优与故障排除" class="headerlink" title="性能调优与故障排除"></a>性能调优与故障排除</h2><h3 id="诊断命令"><a href="#诊断命令" class="headerlink" title="诊断命令"></a>诊断命令</h3><p>在 Claude Code 中运行 <code>/doctor</code>，它会检查：安装状态、配置、MCP 服务器、快捷键绑定、上下文警告。</p>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p><strong>闪烁/跳动</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_NO_FLICKER=1  <span class="comment"># 加到 ~/.zshrc</span></span><br></pre></td></tr></table></figure>
+<p><strong>CPU/内存占用高</strong></p>
+<ul>
+<li>定期使用 <code>/compact</code> 压缩上下文</li>
+<li>任务间 <code>/clear</code></li>
+<li>确保构建目录在 <code>.gitignore</code> 中</li>
+</ul>
+<p><strong>搜索性能慢</strong></p>
+<p>安装系统级 ripgrep：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install ripgrep</span><br><span class="line"><span class="built_in">export</span> USE_BUILTIN_RIPGREP=0  <span class="comment"># 加到 ~/.zshrc</span></span><br></pre></td></tr></table></figure>
+<p><strong>大量文本输入</strong></p>
+<p>不要直接粘贴大段内容到 Claude Code。写入文件后让 Claude 读取：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">请读取 /tmp/long-input.txt 并分析其中的错误</span><br></pre></td></tr></table></figure>
+<p><strong>Ghostty 配置热重载</strong></p>
+<p>修改配置后按 <code>⌘+⇧+,</code> 即时生效，无需重启终端。</p>
+<hr>
+<h2 id="完整配置参考"><a href="#完整配置参考" class="headerlink" title="完整配置参考"></a>完整配置参考</h2><h3 id="config-ghostty-config"><a href="#config-ghostty-config" class="headerlink" title="~/.config/ghostty/config"></a>~/.config/ghostty/config</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"># ============================================</span><br><span class="line"># Ghostty Terminal - Claude Code Optimized</span><br><span class="line"># ============================================</span><br><span class="line"># Reload: ⌘+⇧+, (macOS)</span><br><span class="line"></span><br><span class="line"># --- Typography ---</span><br><span class="line">font-family = &quot;Maple Mono NF CN&quot;</span><br><span class="line">font-size = 14</span><br><span class="line">font-thicken = true</span><br><span class="line">adjust-cell-height = 2</span><br><span class="line"></span><br><span class="line"># --- Theme ---</span><br><span class="line">theme = Catppuccin Mocha</span><br><span class="line"></span><br><span class="line"># --- Window ---</span><br><span class="line">background-opacity = 0.95</span><br><span class="line">background-blur-radius = 30</span><br><span class="line">macos-titlebar-style = transparent</span><br><span class="line">window-padding-x = 10</span><br><span class="line">window-padding-y = 8</span><br><span class="line">window-save-state = always</span><br><span class="line">window-theme = auto</span><br><span class="line"></span><br><span class="line"># --- Cursor ---</span><br><span class="line">cursor-style = bar</span><br><span class="line">cursor-style-blink = true</span><br><span class="line">cursor-opacity = 0.8</span><br><span class="line"></span><br><span class="line"># --- Mouse ---</span><br><span class="line">mouse-hide-while-typing = true</span><br><span class="line">copy-on-select = clipboard</span><br><span class="line"></span><br><span class="line"># --- Quick Terminal ---</span><br><span class="line">quick-terminal-position = top</span><br><span class="line">quick-terminal-screen = mouse</span><br><span class="line">quick-terminal-autohide = true</span><br><span class="line">quick-terminal-animation-duration = 0.15</span><br><span class="line"></span><br><span class="line"># --- Security &amp; Clipboard ---</span><br><span class="line">clipboard-paste-protection = true</span><br><span class="line">clipboard-paste-bracketed-safe = true</span><br><span class="line">clipboard-trim-trailing-spaces = true</span><br><span class="line"></span><br><span class="line"># --- Shell Integration ---</span><br><span class="line">shell-integration = detect</span><br><span class="line">window-inherit-working-directory = true</span><br><span class="line"></span><br><span class="line"># --- SAND Keybindings ---</span><br><span class="line"># S = Split</span><br><span class="line">keybind = cmd+d=new_split:right</span><br><span class="line">keybind = cmd+shift+d=new_split:down</span><br><span class="line"># A = Across</span><br><span class="line">keybind = cmd+t=new_tab</span><br><span class="line">keybind = cmd+shift+left=previous_tab</span><br><span class="line">keybind = cmd+shift+right=next_tab</span><br><span class="line"># N = Navigate</span><br><span class="line">keybind = cmd+alt+left=goto_split:left</span><br><span class="line">keybind = cmd+alt+right=goto_split:right</span><br><span class="line">keybind = cmd+alt+up=goto_split:top</span><br><span class="line">keybind = cmd+alt+down=goto_split:bottom</span><br><span class="line">keybind = cmd+shift+e=equalize_splits</span><br><span class="line">keybind = cmd+shift+f=toggle_split_zoom</span><br><span class="line"># D = Destroy</span><br><span class="line">keybind = cmd+w=close_surface</span><br><span class="line"># Extras</span><br><span class="line">keybind = cmd+plus=increase_font_size:1</span><br><span class="line">keybind = cmd+minus=decrease_font_size:1</span><br><span class="line">keybind = cmd+zero=reset_font_size</span><br><span class="line">keybind = global:ctrl+grave_accent=toggle_quick_terminal</span><br><span class="line">keybind = cmd+shift+comma=reload_config</span><br><span class="line"></span><br><span class="line"># --- Performance ---</span><br><span class="line">scrollback-limit = 25000000</span><br></pre></td></tr></table></figure>
+<h3 id="zshrc-中需要添加的环境变量"><a href="#zshrc-中需要添加的环境变量" class="headerlink" title="~/.zshrc 中需要添加的环境变量"></a>~/.zshrc 中需要添加的环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Claude Code: 全屏无闪烁渲染</span></span><br><span class="line"><span class="built_in">export</span> CLAUDE_CODE_NO_FLICKER=1</span><br></pre></td></tr></table></figure>
+<h3 id="快速开始检查清单"><a href="#快速开始检查清单" class="headerlink" title="快速开始检查清单"></a>快速开始检查清单</h3><ol>
+<li>安装 Ghostty 并应用上述配置</li>
+<li>在 <code>~/.zshrc</code> 中添加 <code>export CLAUDE_CODE_NO_FLICKER=1</code></li>
+<li>安装 jq（<code>brew install jq</code>，Status Line 脚本依赖）</li>
+<li>安装 ripgrep（<code>brew install ripgrep</code>，提升搜索性能）</li>
+<li>安装 gh CLI（<code>brew install gh</code>，GitHub 集成）</li>
+<li>在项目中运行 <code>claude</code>，然后 <code>/init</code> 生成 CLAUDE.md</li>
+<li>运行 <code>/statusline</code> 配置状态栏</li>
+<li>练习 SAND 快捷键</li>
+<li>建立分屏工作流习惯</li>
+</ol>
+<hr>
+<blockquote>
+<p>参考来源:</p>
+<ul>
+<li><a href="https://x.com/dani_avila7/status/2023151176758268349" target="_blank" rel="noopener">@dani_avila7 的 SAND Keybindings 方案</a></li>
+<li><a href="https://gist.github.com/davila7/5b07f55a6e65a06c121da9702d10c2e2" target="_blank" rel="noopener">Ghostty Config Gist by davila7</a></li>
+<li><a href="https://code.claude.com/docs/en" target="_blank" rel="noopener">Claude Code 官方文档</a></li>
+<li><a href="https://ghostty.org/docs" target="_blank" rel="noopener">Ghostty 官方文档</a></li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/portola/" rel="prev" title="【翻译】Portola 如何赋能领域专家提升 AI 质量">
+      <i class="fa fa-chevron-left"></i> 【翻译】Portola 如何赋能领域专家提升 AI 质量
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么是-Ghostty"><span class="nav-number">1.</span> <span class="nav-text">为什么是 Ghostty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ghostty-基础配置"><span class="nav-number">2.</span> <span class="nav-text">Ghostty 基础配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字体与排版"><span class="nav-number">2.1.</span> <span class="nav-text">字体与排版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主题与外观"><span class="nav-number">2.2.</span> <span class="nav-text">主题与外观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#光标与鼠标"><span class="nav-number">2.3.</span> <span class="nav-text">光标与鼠标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shell-集成"><span class="nav-number">2.4.</span> <span class="nav-text">Shell 集成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录继承"><span class="nav-number">2.5.</span> <span class="nav-text">目录继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quick-Terminal（Quake-模式）"><span class="nav-number">2.6.</span> <span class="nav-text">Quick Terminal（Quake 模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全与剪贴板"><span class="nav-number">2.7.</span> <span class="nav-text">安全与剪贴板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能"><span class="nav-number">2.8.</span> <span class="nav-text">性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SAND-快捷键体系"><span class="nav-number">3.</span> <span class="nav-text">SAND 快捷键体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#S-—-Split-分屏"><span class="nav-number">3.1.</span> <span class="nav-text">S — Split 分屏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-—-Across-标签页"><span class="nav-number">3.2.</span> <span class="nav-text">A — Across 标签页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#N-—-Navigate-导航"><span class="nav-number">3.3.</span> <span class="nav-text">N — Navigate 导航</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D-—-Destroy-关闭"><span class="nav-number">3.4.</span> <span class="nav-text">D — Destroy 关闭</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Claude-Code-核心快捷键"><span class="nav-number">4.</span> <span class="nav-text">Claude Code 核心快捷键</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#会话控制"><span class="nav-number">4.1.</span> <span class="nav-text">会话控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模式切换"><span class="nav-number">4.2.</span> <span class="nav-text">模式切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入技巧"><span class="nav-number">4.3.</span> <span class="nav-text">输入技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务管理"><span class="nav-number">4.4.</span> <span class="nav-text">任务管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文本编辑（Emacs-风格）"><span class="nav-number">4.5.</span> <span class="nav-text">文本编辑（Emacs 风格）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速命令前缀"><span class="nav-number">4.6.</span> <span class="nav-text">快速命令前缀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全屏渲染模式"><span class="nav-number">5.</span> <span class="nav-text">全屏渲染模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#它做了什么"><span class="nav-number">5.1.</span> <span class="nav-text">它做了什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全屏模式导航"><span class="nav-number">5.2.</span> <span class="nav-text">全屏模式导航</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转录模式（⌃-O）"><span class="nav-number">5.3.</span> <span class="nav-text">转录模式（⌃+O）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Status-Line-状态栏"><span class="nav-number">6.</span> <span class="nav-text">Status Line 状态栏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速配置"><span class="nav-number">6.1.</span> <span class="nav-text">快速配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动配置"><span class="nav-number">6.2.</span> <span class="nav-text">手动配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可用数据字段"><span class="nav-number">6.3.</span> <span class="nav-text">可用数据字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么-Status-Line-很重要"><span class="nav-number">6.4.</span> <span class="nav-text">为什么 Status Line 很重要</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分屏工作流"><span class="nav-number">7.</span> <span class="nav-text">分屏工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#推荐布局：双栏模式"><span class="nav-number">7.1.</span> <span class="nav-text">推荐布局：双栏模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进阶布局：三区模式"><span class="nav-number">7.2.</span> <span class="nav-text">进阶布局：三区模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多标签页工作流"><span class="nav-number">7.3.</span> <span class="nav-text">多标签页工作流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上下文窗口管理"><span class="nav-number">8.</span> <span class="nav-text">上下文窗口管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上下文消耗来源"><span class="nav-number">8.1.</span> <span class="nav-text">上下文消耗来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键命令"><span class="nav-number">8.2.</span> <span class="nav-text">关键命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最佳实践"><span class="nav-number">8.3.</span> <span class="nav-text">最佳实践</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-Worktree-并行开发"><span class="nav-number">9.</span> <span class="nav-text">Git Worktree 并行开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number">9.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作流程"><span class="nav-number">9.2.</span> <span class="nav-text">操作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ghostty-中的并行布局"><span class="nav-number">9.3.</span> <span class="nav-text">Ghostty 中的并行布局</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#会话管理技巧"><span class="nav-number">10.</span> <span class="nav-text">会话管理技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命名会话"><span class="nav-number">10.1.</span> <span class="nav-text">命名会话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#恢复上一次会话"><span class="nav-number">10.2.</span> <span class="nav-text">恢复上一次会话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非交互模式"><span class="nav-number">10.3.</span> <span class="nav-text">非交互模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#批量处理"><span class="nav-number">10.4.</span> <span class="nav-text">批量处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后台命令"><span class="nav-number">10.5.</span> <span class="nav-text">后台命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shell-命令快捷执行"><span class="nav-number">10.6.</span> <span class="nav-text">Shell 命令快捷执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vim-模式"><span class="nav-number">11.</span> <span class="nav-text">Vim 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启用方式"><span class="nav-number">11.1.</span> <span class="nav-text">启用方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持的操作"><span class="nav-number">11.2.</span> <span class="nav-text">支持的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-Status-Line-中显示-Vim-模式"><span class="nav-number">11.3.</span> <span class="nav-text">在 Status Line 中显示 Vim 模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CLAUDE-md-项目记忆"><span class="nav-number">12.</span> <span class="nav-text">CLAUDE.md 项目记忆</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件优先级"><span class="nav-number">12.1.</span> <span class="nav-text">文件优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速生成"><span class="nav-number">12.2.</span> <span class="nav-text">快速生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用其他文件"><span class="nav-number">12.3.</span> <span class="nav-text">引用其他文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写原则"><span class="nav-number">12.4.</span> <span class="nav-text">编写原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tmux-集成"><span class="nav-number">13.</span> <span class="nav-text">tmux 集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#必要的-tmux-配置"><span class="nav-number">13.1.</span> <span class="nav-text">必要的 tmux 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能调优与故障排除"><span class="nav-number">14.</span> <span class="nav-text">性能调优与故障排除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#诊断命令"><span class="nav-number">14.1.</span> <span class="nav-text">诊断命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见问题"><span class="nav-number">14.2.</span> <span class="nav-text">常见问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整配置参考"><span class="nav-number">15.</span> <span class="nav-text">完整配置参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#config-ghostty-config"><span class="nav-number">15.1.</span> <span class="nav-text">~/.config/ghostty/config</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zshrc-中需要添加的环境变量"><span class="nav-number">15.2.</span> <span class="nav-text">~/.zshrc 中需要添加的环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速开始检查清单"><span class="nav-number">15.3.</span> <span class="nav-text">快速开始检查清单</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Panmax"
+      src="/IMG_7996.JPG">
+  <p class="site-author-name" itemprop="name">Panmax</p>
+  <div class="site-description" itemprop="description">这里是贾攀叨逼叨的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">366</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">612</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Panmax" title="GitHub → https://github.com/Panmax" rel="noopener" target="_blank"><i class="fa fa-fw fa-fab fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hi@jiapan.me" title="E-Mail → mailto:hi@jiapan.me"><i class="fa fa-fw fa-fa-solid fa-message"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Panmax</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/valine/1.4.7/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'CMfMXmAsBoMjzg16o7yQ0EHx-MdYXbMMI',
+      appKey     : 'KGEPyyfw70fPsobg9kwOmRgm',
+      placeholder: "我也爱你...",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://cmfmxmas.api.lncldglobal.com'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
